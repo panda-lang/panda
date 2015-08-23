@@ -19,7 +19,7 @@ public class Panda {
 	}
 
 	public void callMethod(String method){
-		for(PandaScript script : panda.getScripts()){
+		for(PandaScript script : getScripts()){
 			script.callMethod(method);
 		}
 	}
@@ -40,9 +40,6 @@ public class Panda {
 		return Panda.class.getProtectionDomain().getCodeSource().getLocation().getPath();
 	}
 
-	public static Panda getInstance(){
-		return panda;
-	}
 
 
 
@@ -51,6 +48,10 @@ public class Panda {
 
 		panda.addScript(PandaLoader.loadSimpleScript(getResource("hello.pp")));
 		panda.callMethod("main");
+	}
+
+	public static Panda getInstance(){
+		return panda;
 	}
 
 }
