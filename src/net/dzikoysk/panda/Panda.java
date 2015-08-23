@@ -15,19 +15,12 @@ public class Panda {
 
 	public Panda(){
 		scripts = new ArrayList<>();
-	}
-
-	public void registerDefault(){
 		Core.registerDefault();
 	}
 
-	public void loadDefault(){
-		scripts.add(PandaLoader.loadSimpleScript(getResource("hello.pp")));
-	}
-
-	public void runDefault(){
-		for(PandaScript script : scripts){
-			script.callMethod("main");
+	public void callMethod(String method){
+		for(PandaScript script : panda.getScripts()){
+			script.callMethod(method);
 		}
 	}
 
@@ -56,9 +49,8 @@ public class Panda {
 	public static void main(String[] args) throws Exception {
 		panda = new Panda();
 
-		panda.registerDefault();
-		panda.loadDefault();
-		panda.runDefault();
+		panda.addScript(PandaLoader.loadSimpleScript(getResource("hello.pp")));
+		panda.callMethod("main");
 	}
 
 }
