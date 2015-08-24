@@ -40,6 +40,7 @@ public class PandaParser {
 			for (i = 0; i < source.length; i++) {
 				String line = source[i];
 
+				// {syntax_indication.recognize}
 				SyntaxIndication indi = recognizer.recognize(line);
 				if (indi == null) {
 					String info = recognizer.getLineIndication(line).toLowerCase();
@@ -52,14 +53,16 @@ public class PandaParser {
 						break;
 					}
 				}
-
+				// {comment.continue}
 				if(indi == SyntaxIndication.COMMENT){
 					continue;
 				}
+				// {section.begin}
 				else if(indi == SyntaxIndication.SECTION){
 					if(characters.size() == 0) currentLine = i;
 					characters.push('{');
 				}
+				// {section.end}
 				else if(indi == SyntaxIndication.CLOSE){
 					if(characters.size() != 0) characters.pop();
 					if(characters.size() == 0) {
@@ -71,7 +74,6 @@ public class PandaParser {
 						Block block = parser.parse(this);
 						latest = block;
 						if(block == null){
-							System.out.println("S: " + sectionSource);
 							System.out.println("[" + i + ":~" + parser.getCurrentLine() + "] Something went wrong...");
 							return null;
 						}
@@ -79,14 +81,16 @@ public class PandaParser {
 						continue;
 					}
 				}
-				else if(indi == SyntaxIndication.VARIABLE && characters.size() == 0 && node.length() != 0){
-					VariableParser parser = new VariableParser(me, node.toString());
+				// {global.variable}
+				else if(indi == SyntaxIndication.VARIABLE && characters.size() == 0){
+					VariableParser parser = new VariableParser(me, line);
 					Variable variable = parser.parse();
-					me.addExecutable(variable);
+					me.addVariable(variable);
 					node.setLength(0);
 					continue;
 				}
 
+				// {default}
 				node.append(line);
 				node.append(System.lineSeparator());
 
@@ -98,6 +102,8 @@ public class PandaParser {
 			e.printStackTrace();
 		}
 
+		// {global.variable.init}
+		me.initVariables();
 		for(Block block : blocks) script.addSection(block);
 		return script.name(null).author(null).version(null);
 	}

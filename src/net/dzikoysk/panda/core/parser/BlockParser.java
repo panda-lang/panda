@@ -39,8 +39,6 @@ public class BlockParser {
 						current = new MethodBlock(mi.getName());
 						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
 						break;
-					case "event":
-						break;
 					case "if":
 						current = new IfThenBlock();
 						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
@@ -80,7 +78,6 @@ public class BlockParser {
 				*/
 
 				if(current == null){
-					System.out.println("l: " + line);
 					System.out.println("[BlockParser] Type not detected");
 					return null;
 				}

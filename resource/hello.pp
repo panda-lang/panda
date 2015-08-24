@@ -1,16 +1,6 @@
-// 0.0.8
-global = "X";
-method main(){
-    testThread = new Thread(global);
-    thread(testThread){
-        while(true){
-            System.print(testThread.getName());
-        }
-    }
-    testThread.start();
+// 0.0.9
+global = "Hello Panda";
 
-    currentThread = Thread.currentThread();
-    while(true){
-        System.print(currentThread.getName());
-    }
+method main(){
+    System.print(global);
 }
