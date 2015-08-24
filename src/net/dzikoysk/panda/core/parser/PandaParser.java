@@ -5,6 +5,7 @@ import net.dzikoysk.panda.core.GlobalVariables;
 import net.dzikoysk.panda.core.parser.util.*;
 import net.dzikoysk.panda.core.parser.util.Error;
 import net.dzikoysk.panda.core.syntax.Block;
+import net.dzikoysk.panda.core.syntax.Variable;
 import net.dzikoysk.panda.core.syntax.block.ScriptBlock;
 
 import java.util.ArrayList;
@@ -77,6 +78,14 @@ public class PandaParser {
 					case SECTION:
 						if(characters.size() == 0) currentLine = i;
 						characters.push('{');
+						break; // <--- d -> i -> err
+					case VARIABLE:
+						if(characters.size() != 0) {
+							VariableParser parser = new VariableParser(me, line);
+							Variable variable = parser.parse();
+							me.addExecutable(variable);
+							break;
+						}
 					default:
 						node.append(line);
 						node.append(System.lineSeparator());
