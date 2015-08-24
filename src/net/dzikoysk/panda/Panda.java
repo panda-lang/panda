@@ -8,7 +8,7 @@ import java.util.Collection;
 
 public class Panda {
 
-	public static final String PANDA_VERSION = "0.0.8";
+	public static final String PANDA_VERSION = "0.0.9";
 	private static Panda panda;
 
 	private Collection<PandaScript> scripts;
