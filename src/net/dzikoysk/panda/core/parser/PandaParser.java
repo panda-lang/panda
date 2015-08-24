@@ -2,7 +2,7 @@ package net.dzikoysk.panda.core.parser;
 
 import net.dzikoysk.panda.PandaScript;
 import net.dzikoysk.panda.core.GlobalVariables;
-import net.dzikoysk.panda.core.parser.util.*;
+import net.dzikoysk.panda.core.parser.util.CodePatcher;
 import net.dzikoysk.panda.core.parser.util.Error;
 import net.dzikoysk.panda.core.syntax.Block;
 import net.dzikoysk.panda.core.syntax.Variable;
@@ -52,45 +52,44 @@ public class PandaParser {
 						break;
 					}
 				}
-				switch (indi) {
-					case COMMENT:
-						continue;
-					case CLOSE:
-						if(characters.size() != 0) characters.pop();
-						if(characters.size() == 0) {
-							String sectionSource = node.toString();
-							node.setLength(0);
-							parser = new BlockParser(script, recognizer, sectionSource);
-							parser.setParent(me);
-							parser.setLatest(latest);
-							Block block = parser.parse(this);
-							latest = block;
-							if(block == null){
-								System.out.println("[" + i + ":~" + parser.getCurrentLine() + "] Something went wrong...");
-								return null;
-							}
-							blocks.add(block);
-							break;
-						}
-						node.append(line);
-						node.append(System.lineSeparator());
-						break;
-					case SECTION:
-						if(characters.size() == 0) currentLine = i;
-						characters.push('{');
-						break; // <--- d -> i -> err
-					case VARIABLE:
-						if(characters.size() != 0) {
-							VariableParser parser = new VariableParser(me, line);
-							Variable variable = parser.parse();
-							me.addExecutable(variable);
-							break;
-						}
-					default:
-						node.append(line);
-						node.append(System.lineSeparator());
-						break;
+
+				if(indi == SyntaxIndication.COMMENT){
+					continue;
 				}
+				else if(indi == SyntaxIndication.SECTION){
+					if(characters.size() == 0) currentLine = i;
+					characters.push('{');
+				}
+				else if(indi == SyntaxIndication.CLOSE){
+					if(characters.size() != 0) characters.pop();
+					if(characters.size() == 0) {
+						String sectionSource = node.toString();
+						node.setLength(0);
+						parser = new BlockParser(script, recognizer, sectionSource);
+						parser.setParent(me);
+						parser.setLatest(latest);
+						Block block = parser.parse(this);
+						latest = block;
+						if(block == null){
+							System.out.println("S: " + sectionSource);
+							System.out.println("[" + i + ":~" + parser.getCurrentLine() + "] Something went wrong...");
+							return null;
+						}
+						blocks.add(block);
+						continue;
+					}
+				}
+				else if(indi == SyntaxIndication.VARIABLE && characters.size() == 0 && node.length() != 0){
+					VariableParser parser = new VariableParser(me, node.toString());
+					Variable variable = parser.parse();
+					me.addExecutable(variable);
+					node.setLength(0);
+					continue;
+				}
+
+				node.append(line);
+				node.append(System.lineSeparator());
+
 			}
 		} catch (Exception e){
 			int l = 0;

@@ -1,6 +1,7 @@
 // 0.0.8
+global = "X";
 method main(){
-    testThread = new Thread("Thread-Test");
+    testThread = new Thread(global);
     thread(testThread){
         while(true){
             System.print(testThread.getName());

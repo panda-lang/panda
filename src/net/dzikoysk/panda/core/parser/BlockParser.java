@@ -29,6 +29,7 @@ public class BlockParser {
 		StringBuilder node = new StringBuilder();
 		for (i = 0; i < source.length; i++) {
 			String line = source[i];
+			if(line.isEmpty()) continue;
 			if(i == 0){
 				String info = recognizer.getLineIndication(line).toLowerCase();
 				BlockInfo mi = BlockParserUtils.getSectionIndication(line);
@@ -79,6 +80,7 @@ public class BlockParser {
 				*/
 
 				if(current == null){
+					System.out.println("l: " + line);
 					System.out.println("[BlockParser] Type not detected");
 					return null;
 				}
@@ -94,7 +96,7 @@ public class BlockParser {
 					indi = SyntaxIndication.SECTION;
 				} else {
 					System.out.println("Error at line " + i);
-					net.dzikoysk.panda.core.parser.util.Error error = new Error("[SyntaxIndication] Not detected: " + line);
+					Error error = new Error("[SyntaxIndication] Not detected: " + line);
 					error.print();
 					break;
 				}
