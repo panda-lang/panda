@@ -78,7 +78,7 @@ public class BlockParser {
 				*/
 
 				if(current == null){
-					System.out.println("[BlockParser] Type not detected");
+					System.out.println("[BlockParser] Type not detected: " + line);
 					return null;
 				}
 				if(add) parent.addExecutable(current);

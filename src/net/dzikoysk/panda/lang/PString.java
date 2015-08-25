@@ -77,6 +77,10 @@ public class PString extends PObject {
 		return new PString(string.replace(from, to));
 	}
 
+	public String stringValue(){
+		return this.string;
+	}
+
 	@Override
 	public String getType(){
 		return "String";

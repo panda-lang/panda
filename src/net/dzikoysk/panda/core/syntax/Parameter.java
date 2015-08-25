@@ -1,5 +1,6 @@
 package net.dzikoysk.panda.core.syntax;
 
+import net.dzikoysk.panda.lang.PNull;
 import net.dzikoysk.panda.lang.PObject;
 
 public class Parameter {
@@ -64,13 +65,17 @@ public class Parameter {
 
 	public <T> T getValue(Class<T> clazz){
 		PObject object = getValue();
+		if(object == null){
+			System.out.println("Cannot cast to " + clazz.getClass().getSimpleName() + "! Object == null");
+			return null;
+		}
 		if(clazz.isInstance(object)) return (T) object;
 		System.out.println("Cannot cast " + object.getClass().getSimpleName() + " to " + clazz.getSimpleName());
 		return null;
 	}
 
 	public PObject getValue(){
-		PObject value = null;
+		PObject value = new PNull();
 		switch (type){
 			case DEFINIED:
 				value = object;

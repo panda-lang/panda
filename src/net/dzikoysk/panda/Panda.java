@@ -1,6 +1,7 @@
 package net.dzikoysk.panda;
 
 import net.dzikoysk.panda.core.Core;
+import net.dzikoysk.panda.core.syntax.Parameter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,9 +19,9 @@ public class Panda {
 		Core.registerDefault();
 	}
 
-	public void callMethod(String method){
+	public void callMethod(String method, Parameter... parameters){
 		for(PandaScript script : getScripts()){
-			script.callMethod(method);
+			script.callMethod(method, parameters);
 		}
 	}
 

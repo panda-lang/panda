@@ -50,6 +50,10 @@ public class Method implements Executable {
 				}
 			}
 		}
+		if(this.runnable == null){
+			System.out.println("[Method error] Runnable is null @" + (instance == null ? "{static}" : instance.getValue().getType()) + "." + method);
+			return null;
+		}
 		return this.runnable.run(instance, parameters);
 	}
 

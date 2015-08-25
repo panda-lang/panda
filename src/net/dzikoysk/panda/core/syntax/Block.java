@@ -26,6 +26,11 @@ public class Block implements Executable {
 
 	@Override
 	public PObject run(Parameter... vars) {
+		if(vars != null){
+			for(Parameter parameter : vars){
+				parameter.getValue();
+			}
+		}
 		for(Executable e : executables) {
 			e.run(vars);
 		}
