@@ -17,6 +17,11 @@ public class MethodBlock extends Block {
 
 	@Override
 	public PObject run(Parameter... vars) {
+		if(vars != null){
+			for(int i = 0; i < vars.length; i++){
+				parameters[i].setValue(vars[i].getValue());
+			}
+		}
 		if(parameters != null && (vars == null || vars.length != parameters.length)){
 			System.out.println("[MethodBlock] " + getName() +": Bad parameters!");
 			return null;

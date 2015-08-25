@@ -39,6 +39,22 @@ public class Parameter {
 		this.block = block;
 	}
 
+	public void setValue(PObject o){
+		switch (type){
+			case DEFINIED:
+				value = o;
+				break;
+			case VARIABLE:
+				block.setVariable(variable, o);
+				value = o;
+				break;
+			default:
+				value = o;
+				break;
+		}
+		if(value != null) dataType = value.getType();
+	}
+
 	public void setDataType(String type){
 		this.dataType = type;
 	}
