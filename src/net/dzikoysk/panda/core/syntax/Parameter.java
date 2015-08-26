@@ -99,9 +99,15 @@ public class Parameter {
 			case VARIABLE:
 				value = block.getVariable(variable);
 				break;
-			default:
+			case RUNTIME:
+				if(runtime == null){
+					System.out.println("Runtime is null. Parameter info: " + this.toString());
+					return null;
+				}
 				value = runtime.run();
 				break;
+			default:
+				System.out.println("Parameter type is not definied. Parameter info: " + this.toString());
 		}
 		this.value = value;
 		if(dataType == null && value != null) dataType = value.getType();
@@ -110,6 +116,11 @@ public class Parameter {
 
 	public Type getType() {
 		return type;
+	}
+
+	@Override
+	public String toString(){
+		return "@Parameter={" + type + "," + object + "," + variable + "," + block + "," + (block != null ? block.getName() : "null") + dataType + "," + runtime + "," + value + "}";
 	}
 
 }

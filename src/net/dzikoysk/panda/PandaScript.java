@@ -3,7 +3,6 @@ package net.dzikoysk.panda;
 import net.dzikoysk.panda.core.syntax.Block;
 import net.dzikoysk.panda.core.syntax.Parameter;
 import net.dzikoysk.panda.lang.PObject;
-import net.dzikoysk.panda.core.syntax.block.MethodBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -43,14 +42,20 @@ public class PandaScript {
 		this.blocks.add(block);
 	}
 
-	public PObject callMethod(String name, Parameter... parameters){
+	public PObject call(Class<? extends Block> blockType, String name, Parameter... parameters){
 		for(Block block : blocks){
-			if(block instanceof MethodBlock){
-				if(block.getName().equals(name)){
-					return block.run(parameters);
-				}
+			if(block.getClass() == blockType && block.getName().equals(name)){
+				return block.run(parameters);
 			}
 		} return null;
+	}
+
+	public void callAll(Class<? extends Block> blockType, String name, Parameter... parameters){
+		for(Block block : blocks){
+			if(block.getClass() == blockType && block.getName().equals(name)){
+				block.run(parameters);
+			}
+		}
 	}
 
 }

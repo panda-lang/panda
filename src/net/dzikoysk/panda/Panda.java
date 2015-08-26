@@ -1,7 +1,9 @@
 package net.dzikoysk.panda;
 
 import net.dzikoysk.panda.core.Core;
+import net.dzikoysk.panda.core.syntax.Block;
 import net.dzikoysk.panda.core.syntax.Parameter;
+import net.dzikoysk.panda.core.syntax.block.MethodBlock;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,20 +15,41 @@ public class Panda {
 	private static Panda panda;
 
 	private Collection<PandaScript> scripts;
+	private Runnable reload;
 
 	public Panda(){
+		panda = this;
 		scripts = new ArrayList<>();
 		Core.registerDefault();
 	}
 
+	public void clear(){
+		this.scripts.clear();;
+	}
+
+	public void reload(){
+		if(reload != null) this.reload.run();
+	}
+
+	@Deprecated
 	public void callMethod(String method, Parameter... parameters){
 		for(PandaScript script : getScripts()){
-			script.callMethod(method, parameters);
+			script.call(MethodBlock.class, method, parameters);
+		}
+	}
+
+	public void call(Class<? extends Block> blockType, String name, Parameter... parameters){
+		for(PandaScript script : getScripts()){
+			script.call(blockType, name, parameters);
 		}
 	}
 
 	public void addScript(PandaScript script){
-		scripts.add(script);
+		this.scripts.add(script);
+	}
+
+	public void enableReload(Runnable reload){
+		this.reload = reload;
 	}
 
 	public Collection<PandaScript> getScripts(){
@@ -48,7 +71,7 @@ public class Panda {
 		panda = new Panda();
 
 		panda.addScript(PandaLoader.loadSimpleScript(getResource("hello.pp")));
-		panda.callMethod("main");
+		panda.call(MethodBlock.class, "main");
 	}
 
 	public static Panda getInstance(){

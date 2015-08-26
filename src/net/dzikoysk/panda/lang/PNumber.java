@@ -57,4 +57,11 @@ public class PNumber extends PObject {
 		return number.toString();
 	}
 
+	public static Number getNumberValue(Parameter parameter){
+		PObject value = parameter.getValue();
+		if(value instanceof PNumber){
+			return ((PNumber) value).getNumber();
+		} return 0;
+	}
+
 }

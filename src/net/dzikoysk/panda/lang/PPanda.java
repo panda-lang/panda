@@ -15,8 +15,16 @@ public class PPanda extends PObject {
 	static {
 		// Register object
 		ObjectScheme os = new ObjectScheme(PPanda.class, "Panda");
+		// Static method: reload
+		os.registerMethod(new MethodScheme("reload", new IExecutable(){
+			@Override
+			public PObject run(Parameter instance, Parameter... parameters) {
+				Panda.getInstance().reload();
+				return null;
+			}
+		}));
 		// Static method: loadSimpleScript
-		os.registerMethod(new MethodScheme("getVersion", new IExecutable(){
+		os.registerMethod(new MethodScheme("loadSimpleScript", new IExecutable(){
 			@Override
 			public PObject run(Parameter instance, Parameter... parameters) {
 				PObject o = parameters[0].getValue();

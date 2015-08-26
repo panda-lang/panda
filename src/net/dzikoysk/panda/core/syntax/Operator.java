@@ -1,17 +1,50 @@
 package net.dzikoysk.panda.core.syntax;
 
-public class Operator {
+public enum Operator {
 
-	public static final String ADDITIVE = "+";
-	public static final String SUBTRACTION = "-";
-	public static final String MULTIPLICATION = "*";
-	public static final String DIVISION = "/";
+	ADDITIVE(0, "+"),
+	SUBTRACTION(1, "-"),
+	MULTIPLICATION(2, "*"),
+	DIVISION(3, "/"),
+	POWER(4, "^"),
 
-	public static final String EQUALS_TO = "==";
-	public static final String NOT_EQUALS_TO = "!=";
-	public static final String GREATER_THAN = ">";
-	public static final String GREATER_THAN_OR_EQUAL_TO = ">=";
-	public static final String LESS_THAN = "<";
-	public static final String LESS_THAN_OR_EQUAL_TO = "<=";
+	EQUALS_TO(10, "=="),
+	NOT_EQUALS_TO(11, "!="),
+	GREATER_THAN(12, ">"),
+	GREATER_THAN_OR_EQUAL_TO(13, ">="),
+	LESS_THAN(14, "<"),
+	LESS_THAN_OR_EQUAL_TO(15, "<=");
+
+	private final int id;
+	private final String operator;
+
+	private Operator(int id, String operator){
+		this.id = id;
+		this.operator = operator;
+	}
+
+	public String getOperator(){
+		return this.operator;
+	}
+
+	public int getPart(){
+		return this.id/10;
+	}
+
+	public int getID(){
+		return this.id;
+	}
+
+	public static Operator getOperator(int id){
+		for(Operator operator : values()){
+			if(operator.getID() == id) return operator;
+		} return null;
+	}
+
+	public static Operator getOperator(String s){
+		for(Operator operator : values()){
+			if(operator.getOperator().equals(s)) return operator;
+		} return null;
+	}
 
 }

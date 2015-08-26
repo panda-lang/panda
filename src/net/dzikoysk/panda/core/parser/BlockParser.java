@@ -1,12 +1,15 @@
 package net.dzikoysk.panda.core.parser;
 
 import net.dzikoysk.panda.PandaScript;
-import net.dzikoysk.panda.core.parser.util.*;
+import net.dzikoysk.panda.core.ElementsBucket;
+import net.dzikoysk.panda.core.parser.util.BlockInfo;
+import net.dzikoysk.panda.core.parser.util.BlockParserUtils;
+import net.dzikoysk.panda.core.parser.util.CodePatcher;
 import net.dzikoysk.panda.core.parser.util.Error;
+import net.dzikoysk.panda.core.scheme.BlockScheme;
 import net.dzikoysk.panda.core.syntax.Block;
 import net.dzikoysk.panda.core.syntax.Method;
 import net.dzikoysk.panda.core.syntax.Variable;
-import net.dzikoysk.panda.core.syntax.block.*;
 
 import java.util.Stack;
 
@@ -32,53 +35,21 @@ public class BlockParser {
 			if(line.isEmpty()) continue;
 			if(i == 0){
 				String info = recognizer.getLineIndication(line).toLowerCase();
-				BlockInfo mi = BlockParserUtils.getSectionIndication(line);
+				BlockInfo blockInfo = BlockParserUtils.getSectionIndication(line);
 				boolean add = true;
-				switch (info){
-					case "method":
-						current = new MethodBlock(mi.getName());
-						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
-						break;
-					case "if":
-						current = new IfThenBlock();
-						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
-						break;
-					case "else":
-						current = new ElseThenBlock();
-						if(latest instanceof IfThenBlock){
-							((IfThenBlock) latest).setElseThenBlock(current);
-							add = false;
-						}
-						break;
-					case "for":
-						current = new ForBlock();
-						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
-						break;
-					case "while":
-						current = new WhileBlock();
-						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
-						break;
-					case "runnable":
-						current = new RunnableBlock();
-						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
-						break;
-					case "thread":
-						current = new ThreadBlock();
-						current.setParameters(new ParameterParser().parse(current, mi.getParametrs()));
-						break;
-				}
-				/*
+
 				for(BlockScheme bs : ElementsBucket.getBlocks()){
-					if(String s : bs.getIndications()){
-						if(s.equals(info)){
-							//TO-DO
+					for(String indi : bs.getIndications()){
+						if(indi.equals(info)){
+							current = bs.getParser().parse(blockInfo, current, latest);
+							add = bs.isConventional();
+							break;
 						}
-					}
+					} if(current != null) break;
 				}
-				*/
 
 				if(current == null){
-					System.out.println("[BlockParser] Type not detected: " + line);
+					System.out.println("[BlockParser] Block type not detected: " + line);
 					return null;
 				}
 				if(add) parent.addExecutable(current);

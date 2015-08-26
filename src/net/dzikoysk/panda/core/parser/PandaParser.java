@@ -6,7 +6,7 @@ import net.dzikoysk.panda.core.parser.util.CodePatcher;
 import net.dzikoysk.panda.core.parser.util.Error;
 import net.dzikoysk.panda.core.syntax.Block;
 import net.dzikoysk.panda.core.syntax.Variable;
-import net.dzikoysk.panda.core.syntax.block.ScriptBlock;
+import net.dzikoysk.panda.core.syntax.block.ClassBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +32,7 @@ public class PandaParser {
 
 	public PandaScript parse(){
 		script = new PandaScript();
-		ScriptBlock me = new ScriptBlock();
+		ClassBlock me = new ClassBlock();
 		me.setVariableMap(GlobalVariables.VARIABLES);
 		try {
 			Stack<Character> characters = new Stack<>();

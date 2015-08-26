@@ -7,8 +7,13 @@ public class Runtime implements Executable {
 	private Parameter instance;
 	private IExecutable executable;
 	private Parameter[] parameters;
+	private Equality equality;
 	private Method method;
 	private Math math;
+
+	public Runtime(Equality equality){
+		this.equality = equality;
+	}
 
 	public Runtime(Method method){
 		this.method = method;
@@ -28,6 +33,7 @@ public class Runtime implements Executable {
 	public PObject run(Parameter... parameters) {
 		if(method != null) return method.run(parameters);
 		else if(math != null) return math.run(null, parameters);
+		else if(equality != null) return equality.run(null, parameters);
 		return executable.run(instance, this.parameters);
 	}
 

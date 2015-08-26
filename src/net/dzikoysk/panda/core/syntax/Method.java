@@ -4,6 +4,7 @@ import net.dzikoysk.panda.PandaScript;
 import net.dzikoysk.panda.core.ElementsBucket;
 import net.dzikoysk.panda.core.scheme.MethodScheme;
 import net.dzikoysk.panda.core.scheme.ObjectScheme;
+import net.dzikoysk.panda.core.syntax.block.MethodBlock;
 import net.dzikoysk.panda.lang.PObject;
 
 public class Method implements Executable {
@@ -33,7 +34,7 @@ public class Method implements Executable {
 	@Override
 	public PObject run(Parameter... vars) {
 		if(runnable == null){
-			if(instance == null) return script.callMethod(method);
+			if(instance == null) return script.call(MethodBlock.class, method);
 			String type = instance.getDataType();
 			if(type == null){
 				instance.getValue();
@@ -51,7 +52,10 @@ public class Method implements Executable {
 			}
 		}
 		if(this.runnable == null){
-			System.out.println("[Method error] Runnable is null @" + (instance == null ? "{static}" : instance.getValue().getType()) + "." + method);
+			System.out.println("[Method error] Runnable is null " +
+					(instance == null ? "{static}" : "(object) " +
+							(instance.getValue() == null ? "Unknown type" : instance.getValue().getType())) +
+					"." + method);
 			return null;
 		}
 		return this.runnable.run(instance, parameters);

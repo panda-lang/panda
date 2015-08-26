@@ -13,7 +13,7 @@ public class Core {
 			"IfThenBlock",
 			"MethodBlock",
 			"RunnableBlock",
-			"ScriptBlock",
+			"ClassBlock",
 			"ThreadBlock",
 			"WhileBlock"
 		});
