@@ -79,7 +79,7 @@ public class ParameterParser {
 	}
 
 	public Parameter parseArray(Block block, String s){
-		ParameterParser parser = new ParameterParser(s.substring(1, s.length() - 1));
+        ParameterParser parser = new ParameterParser(s.substring(1, s.length() - 1));
 		return new Parameter("Array", new PArray(parser.parse(block)));
 	}
 

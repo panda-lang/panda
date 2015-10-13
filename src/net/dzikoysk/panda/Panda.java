@@ -69,9 +69,6 @@ public class Panda {
 
 	public static void main(String[] args) throws Exception {
 		panda = new Panda();
-
-		panda.addScript(PandaLoader.loadSimpleScript(getResource("hello.pp")));
-		panda.call(MethodBlock.class, "main");
 	}
 
 	public static Panda getInstance(){
