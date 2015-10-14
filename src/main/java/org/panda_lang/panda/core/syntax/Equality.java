@@ -27,16 +27,16 @@ public class Equality implements IExecutable {
             int other = PNumber.getNumberValue(equalityBuilder.getOther()).intValue();
 
             switch (equalityBuilder.getOperator()) {
-                case Operator.GREATER_THAN:
+                case GREATER_THAN:
                     flag = one > other;
                     break;
-                case Operator.GREATER_THAN_OR_EQUAL_TO:
+                case GREATER_THAN_OR_EQUAL_TO:
                     flag = one >= other;
                     break;
-                case Operator.LESS_THAN:
+                case LESS_THAN:
                     flag = one < other;
                     break;
-                case Operator.LESS_THAN_OR_EQUAL_TO:
+                case LESS_THAN_OR_EQUAL_TO:
                     flag = one <= other;
                     break;
                 default:

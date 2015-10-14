@@ -3,9 +3,6 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.lang.PNull;
 import org.panda_lang.panda.lang.PObject;
 
-import java.lang.*;
-import java.lang.Runtime;
-
 public class Parameter {
 
     enum Type {
@@ -19,7 +16,7 @@ public class Parameter {
     private String variable;
     private Block block;
     private String dataType;
-    private java.lang.Runtime runtime;
+    private Runtime runtime;
     private PObject value;
 
     public Parameter(String type, PObject object){
@@ -35,7 +32,7 @@ public class Parameter {
         this.dataType = type;
     }
 
-    public Parameter(String type, Block block, java.lang.Runtime runtime){
+    public Parameter(String type, Block block, Runtime runtime){
         this.type = Type.RUNTIME;
         this.dataType = type;
         this.runtime = runtime;
