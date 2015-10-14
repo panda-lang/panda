@@ -1,3 +1,5 @@
 # Panda
 
-Website: http://panda-lang.org/ <br>
+Panda is a new programming language.
+
+Project website: http://panda-lang.org/
