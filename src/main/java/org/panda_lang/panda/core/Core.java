@@ -7,35 +7,33 @@ public class Core {
     private Core(){ }
     
     private void blocks(){
-        ElementsBucket.loadClasses("net.dzikoysk.panda.core.syntax.block", new String[]{
-            "ElseThenBlock",
-            "ForBlock",
-            "IfThenBlock",
-            "MethodBlock",
-            "RunnableBlock",
-            "ClassBlock",
-            "ThreadBlock",
-            "WhileBlock"
-        });
+        ElementsBucket.loadClasses("org.panda_lang.panda.core.syntax.block",
+                "ElseThenBlock",
+                "ForBlock",
+                "IfThenBlock",
+                "MethodBlock",
+                "RunnableBlock",
+                "ClassBlock",
+                "ThreadBlock",
+                "WhileBlock");
     }
     
     private void objects(){
-        ElementsBucket.loadClasses("net.dzikoysk.panda.lang", new String[]{
-            "PArray",
-            "PBoolean",
-            "PCharacter",
-            "PFile",
-            "PList",
-            "PMap",
-            "PNumber",
-            "PObject",
-            "PPanda",
-            "PRunnable",
-            "PStack",
-            "PString",
-            "PSystem",
-            "PThread"
-        });
+        ElementsBucket.loadClasses("org.panda_lang.panda.lang",
+                "PArray",
+                "PBoolean",
+                "PCharacter",
+                "PFile",
+                "PList",
+                "PMap",
+                "PNumber",
+                "PObject",
+                "PPanda",
+                "PRunnable",
+                "PStack",
+                "PString",
+                "PSystem",
+                "PThread");
     }
     
     public static void registerDefault(){
