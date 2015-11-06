@@ -78,7 +78,6 @@ public class PandaConfiguration {
         return 0;
     }
 
-    @SuppressWarnings("unchecked")
     public List<String> getStringList(String path){
         Object co = map.get(path);
         if(co != null) if(co instanceof List) return (List<String>) co;    
