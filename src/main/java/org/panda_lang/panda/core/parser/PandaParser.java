@@ -23,14 +23,14 @@ public class PandaParser {
     private Block latest;
     private int i, currentLine;
 
-    public PandaParser(String source){
+    public PandaParser(String source) {
         this.source = CodePatcher.patch(source);
         this.recognizer = new Recognizer();
         this.blocks = new ArrayList<>();
         currentParser = this;
     }
 
-    public PandaScript parse(){
+    public PandaScript parse() {
         script = new PandaScript();
         ClassBlock me = new ClassBlock();
         me.setVariableMap(GlobalVariables.VARIABLES);
