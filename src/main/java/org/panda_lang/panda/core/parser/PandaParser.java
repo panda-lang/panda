@@ -3,6 +3,8 @@ package org.panda_lang.panda.core.parser;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.GlobalVariables;
 import org.panda_lang.panda.core.parser.util.CodePatcher;
+import org.panda_lang.panda.core.parser.util.Recognizer;
+import org.panda_lang.panda.core.parser.util.SyntaxIndication;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Variable;
 import org.panda_lang.panda.core.syntax.block.ClassBlock;
@@ -45,7 +47,7 @@ public class PandaParser {
                 if (indi == null) {
                     String info = recognizer.getLineIndication(line).toLowerCase();
                     if(info.equals("else")) {
-                        indi = SyntaxIndication.SECTION;
+                        indi = SyntaxIndication.BLOCK;
                     } else {
                         System.out.println("Error at line " + i);
                         org.panda_lang.panda.core.parser.util.Error error = new Error("[SyntaxIndication] Not detected: " + line);
@@ -58,7 +60,7 @@ public class PandaParser {
                     continue;
                 }
                 // {section.begin}
-                else if(indi == SyntaxIndication.SECTION){
+                else if(indi == SyntaxIndication.BLOCK){
                     if(characters.size() == 0) currentLine = i;
                     characters.push('{');
                 }

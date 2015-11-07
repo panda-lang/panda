@@ -44,8 +44,19 @@ public class BlockParserUtils {
 
                 // {part.append}
                 String part = node.toString();
-                if (name == null) name = part;
-                else if(parm) parameters.add(part);
+
+                // {block.type}
+                if (name == null){
+                    name = part;
+                    if(spec) {
+                        parm = true;
+                    }
+                }
+                // {parameters}
+                else if(parm){
+                    parameters.add(part);
+                }
+                // {specifiers}
                 else {
                     if(spec) parm = true;
                     specifiers.add(part);

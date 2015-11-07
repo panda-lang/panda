@@ -24,8 +24,12 @@ public class Panda {
         Core.registerDefault();
     }
 
-    public void exec(String command) {
-        Exec.activate(command);
+    public void exec(String... commands) {
+        if(commands != null) {
+            for(String command : commands) {
+                Exec.activate(command);
+            }
+        }
     }
 
     public void call(Class<? extends Block> blockType, String name, Parameter... parameters) {
@@ -63,6 +67,7 @@ public class Panda {
 
     public static void main(String[] args) throws Exception {
         panda = new Panda();
+        panda.exec(args);
     }
 
     public static Panda getInstance() {

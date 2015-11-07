@@ -1,8 +1,10 @@
 package org.panda_lang.panda.core.syntax.block;
 
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.panda_lang.panda.core.parser.CustomParser;
 import org.panda_lang.panda.core.parser.ParameterParser;
 import org.panda_lang.panda.core.parser.util.BlockInfo;
+import org.panda_lang.panda.core.parser.util.Error;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Executable;
@@ -17,7 +19,8 @@ public class ThreadBlock extends Block {
             @Override
             public Block parse(BlockInfo blockInfo, Block current, Block latest) {
                 current = new ThreadBlock();
-                current.setParameters(new ParameterParser().parse(current, blockInfo.getParameters()));
+                Parameter[] parameters = new ParameterParser().parse(current, blockInfo.getParameters());
+                current.setParameters(parameters);
                 return current;
             }
         });
@@ -47,6 +50,10 @@ public class ThreadBlock extends Block {
 
     @Override
     public PObject run(final Parameter... vars){
+        if(parameters.length == 0) {
+            System.out.println("[" + super.getName() + "] ThreadBlock is not assigned to thread");
+            return null;
+        }
         PObject value = parameters[0].getValue();
         if(value instanceof PThread) {
             pThread = (PThread) value;
