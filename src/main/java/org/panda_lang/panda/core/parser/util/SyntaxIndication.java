@@ -4,7 +4,7 @@ public enum SyntaxIndication {
 
     BLOCK("(){", "{"),
     CLOSE("}", "};"),
-    COMMENT("//"),
+    COMMENT("//", "#"),
     METHOD("();"),
     RUNTIME("()"),
     STATEMENT(";"),

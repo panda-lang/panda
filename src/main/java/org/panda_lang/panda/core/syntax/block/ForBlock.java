@@ -12,7 +12,7 @@ import org.panda_lang.panda.lang.PObject;
 public class ForBlock extends Block {
 
     static {
-        new BlockScheme(ForBlock.class, "for").parser(new CustomParser<Block>() {
+        new BlockScheme(ForBlock.class, "for", "loop").parser(new CustomParser<Block>() {
             @Override
             public Block parse(BlockInfo blockInfo, Block current, Block latest) {
                 current = new ForBlock();
