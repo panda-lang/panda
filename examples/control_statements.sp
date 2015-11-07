@@ -1,12 +1,15 @@
-// The main mathod called when the script starts
+// The main method called when the script starts
 method main(){
     if(true){
         if(false){
-            System.print("x");
+            // It won't be displayed, because condition is not met
+            System.print(":<");
         } else {
-            System.print(":>");
+            // This message will be displayed
+            System.print("Hello Panda :>");
         }
     } else {
-        System.print("y");
+        // It won't be displayed, because condition is met
+        System.print(":<");
     }
 }

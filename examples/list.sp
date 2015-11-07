@@ -1,4 +1,4 @@
-// The main mathod called when the script starts
+// The main method called when the script starts
 method main(){
     // Create new list
     list = new List();
