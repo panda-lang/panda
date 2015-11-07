@@ -1,4 +1,4 @@
-// The main method called when the script starts
+// Main method called when the script starts
 method main() {
     // Create new thread called "Thread-Test"
     testThread = new Thread("Thread-Test");

@@ -34,7 +34,7 @@ public class Method implements Executable {
     @Override
     public PObject run(Parameter... vars) {
         if(runnable == null){
-            if(instance == null) return script.call(MethodBlock.class, method);
+            if(instance == null) return script.call(MethodBlock.class, method, parameters);
             String type = instance.getDataType();
             if(type == null){
                 instance.getValue();
