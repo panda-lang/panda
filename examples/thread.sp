@@ -4,7 +4,7 @@ method main() {
     testThread = new Thread("Thread-Test");
     // Thread block associated with 'testThread', executed when the thread starts
     thread(testThread){
-        // Print thread's name
+        // Print the name of the thread
         System.print(testThread.getName());
     };
     // Start the thread
