@@ -2,30 +2,33 @@ package org.panda_lang.panda.core.parser.util;
 
 public enum SyntaxIndication {
 
-    CLOSE("}"),
+    BLOCK("(){", "{"),
+    CLOSE("}", "};"),
     COMMENT("//"),
-    SECTION("(){"),
     METHOD("();"),
     RUNTIME("()"),
     STATEMENT(";"),
     VARIABLE("=;");
 
-    private final String indication;
+    private final String[] indication;
 
-    private SyntaxIndication(String indication){
+    private SyntaxIndication(String... indication) {
         this.indication = indication;
     }
 
-    public String getIndication(){
+    public String[] getIndication() {
         return this.indication;
     }
 
-    public static SyntaxIndication recognize(String s){
-        for(SyntaxIndication i : values()){
-            if(s.equals(i.getIndication())){
-                return i;
+    public static SyntaxIndication recognize(String s) {
+        for(SyntaxIndication i : values()) {
+            for(String indi : i.getIndication()) {
+                if(s.equals(indi)) {
+                    return i;
+                }
             }
-        } return null;
+        }
+        return null;
     }
 
 }

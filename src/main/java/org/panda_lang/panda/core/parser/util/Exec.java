@@ -23,7 +23,7 @@ public class Exec {
                     fScript.call(MethodBlock.class, "main");
                     break;
                 case "SOURCE":
-                    PandaScript sScript = PandaLoader.loadSimpleScript(new File(parts[1]));
+                    PandaScript sScript = PandaLoader.loadSimpleScript(parts[1]);
                     if(sScript == null) return;
                     sScript.call(MethodBlock.class, "main");
                     break;

@@ -8,6 +8,7 @@ public class Core {
     
     private void blocks(){
         ElementsBucket.loadClasses("org.panda_lang.panda.core.syntax.block",
+                "ClassBlock",
                 "ElseThenBlock",
                 "ForBlock",
                 "IfThenBlock",

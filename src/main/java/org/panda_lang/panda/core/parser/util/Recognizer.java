@@ -4,6 +4,9 @@ import java.util.Stack;
 
 public class Recognizer {
 
+    /*
+        @TODO: Improve
+     */
     public SyntaxIndication recognize(String line){
         StringBuilder node = new StringBuilder();
         Stack<Character> stack = new Stack<>();
