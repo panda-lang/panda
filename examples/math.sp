@@ -1,5 +1,5 @@
 // Main method called when the script starts
-method main(){
+method main() {
     // Math
     var = ((10 + 4)*2)^2;
     // Display result
