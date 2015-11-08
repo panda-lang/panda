@@ -9,7 +9,8 @@ public class IOUtils {
     
     public static String getContent(File file){
         StringBuilder sb = new StringBuilder();
-        try{
+        try {
+            if(file == null) return "";
             if(!file.exists()){
                 file.getParentFile().mkdirs();
                 file.createNewFile();
@@ -26,6 +27,16 @@ public class IOUtils {
             e.printStackTrace();
         }
         return sb.toString();
+    }
+
+    public static void overrideFile(File file, String content) {
+        try {
+            PrintWriter writer = new PrintWriter(file, "UTF-8");
+            writer.print(content);
+            writer.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static String[] getLines(File file){

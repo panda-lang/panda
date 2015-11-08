@@ -1,5 +1,5 @@
 // Main method called when the script starts
-method main(){
+method main() {
     // Create new list
     list = new List();
     // Add a few things
