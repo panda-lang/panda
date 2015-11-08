@@ -4,7 +4,7 @@ method main(){
     while(true){
         // Loop 10 times
         for(10){
-            // Print current milliseconds
+            // Display current milliseconds
             System.print(System.currentTimeMillis());
         }
     }
