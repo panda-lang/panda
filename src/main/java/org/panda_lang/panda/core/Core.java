@@ -35,6 +35,8 @@ public class Core {
                 "PString",
                 "PSystem",
                 "PThread");
+        ElementsBucket.loadClasses("org.panda_lang.panda.lang.ui",
+                "PWindow");
     }
     
     public static void registerDefault(){
