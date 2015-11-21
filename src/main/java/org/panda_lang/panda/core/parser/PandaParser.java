@@ -7,8 +7,8 @@ import org.panda_lang.panda.core.parser.util.Recognizer;
 import org.panda_lang.panda.core.parser.util.SyntaxIndication;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Variable;
-import org.panda_lang.panda.core.syntax.block.ClassBlock;
 import org.panda_lang.panda.core.parser.util.Error;
+import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +34,7 @@ public class PandaParser {
 
     public PandaScript parse() {
         script = new PandaScript();
-        ClassBlock me = new ClassBlock();
+        PandaBlock me = new PandaBlock();
         me.setVariableMap(GlobalVariables.VARIABLES);
         try {
             Stack<Character> characters = new Stack<>();
