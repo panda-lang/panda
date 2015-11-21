@@ -13,7 +13,7 @@ import java.util.Collection;
 public class ClassBlock extends Block {
     
     static {
-        new BlockScheme(ClassBlock.class, "class").parser(new CustomParser<Block>() {
+        new BlockScheme(ClassBlock.class, false, "class").parser(new CustomParser<Block>() {
             @Override
             public Block parse(BlockInfo blockInfo, Block current, Block latest) {
                 current = new ClassBlock();
@@ -21,23 +21,6 @@ public class ClassBlock extends Block {
                 return current;
             }
         });
-    }
-
-    private final Collection<Variable> variables;
-
-    public ClassBlock(){
-        super.setName("ClassBlock");
-        this.variables = new ArrayList<>();
-    }
-
-    public void initVariables(){
-        for(Variable variable : variables){
-            variable.run();
-        }
-    }
-
-    public void addVariable(Variable variable){
-        this.variables.add(variable);
     }
 
 }

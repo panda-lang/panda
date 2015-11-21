@@ -1,10 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.panda_lang.panda.core.parser.CustomParser;
 import org.panda_lang.panda.core.parser.ParameterParser;
 import org.panda_lang.panda.core.parser.util.BlockInfo;
-import org.panda_lang.panda.core.parser.util.Error;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Executable;
