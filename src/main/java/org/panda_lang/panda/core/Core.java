@@ -3,9 +3,14 @@ package org.panda_lang.panda.core;
 public class Core {
 
     private static Core core;
-    
+
     private Core(){ }
-    
+
+    private void parsers(){
+        ElementsBucket.loadClasses("org.panda_lang.panda.core.parser.improved.essential",
+                "VialParser");
+    }
+
     private void blocks(){
         ElementsBucket.loadClasses("org.panda_lang.panda.core.syntax.block",
                 "ClassBlock",
@@ -39,11 +44,13 @@ public class Core {
                 "PWindow");
     }
     
-    public static void registerDefault(){
-        if(core != null) return;
+    public static Core registerDefault(){
+        if(core != null) return core;
         core = new Core();
+        core.parsers();
         core.blocks();
         core.objects();
+        return core;
     }
 
 }

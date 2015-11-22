@@ -21,6 +21,7 @@ public class PandaParser {
     private final SourcesDivider divider;
     private final PatternExtractor extractor;
     private final PandaBlock pandaBlock;
+    private boolean exception;
 
     public PandaParser(String source) {
         this.pandaScript = new PandaScript();
@@ -30,24 +31,33 @@ public class PandaParser {
     }
 
     public PandaScript parse() {
-        while(divider.hasNext()) {
+        while(divider.hasNext() && isHappy()) {
             // {prepare}
             String line = divider.next();
-            String pattern = extractor.pattern(line);
+            String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
             ParserScheme scheme = ElementsBucket.getParserScheme(pattern);
 
             // {parser.not.found}
             if(scheme == null) {
-                Error error = new Error("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition());
-                error.print();
+                throwException(new Error("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
                 return null;
             }
 
             Parser parser = scheme.getParser();
-            Executable executable = parser.parse(this, divider, pandaBlock, pandaBlock);
+            Executable executable = parser.parse(this, divider, extractor, pandaBlock, pandaBlock);
             pandaBlock.addExecutable(executable);
         }
         return pandaScript;
+    }
+
+    public Executable throwException(Error error) {
+        error.print();
+        exception = true;
+        return null;
+    }
+
+    public boolean isHappy() {
+        return !exception;
     }
 
     public PandaBlock getPandaBlock() {

@@ -4,20 +4,20 @@ import org.panda_lang.panda.core.parser.improved.Parser;
 
 public class ParserScheme {
 
+    private final Parser parser;
     private final String[] patterns;
-    private final Parser<?> parser;
 
-    public ParserScheme(String[] patterns, Parser<?> parser) {
-        this.patterns = patterns;
+    public ParserScheme(Parser parser, String... patterns) {
         this.parser = parser;
-    }
-
-    public Parser<?> getParser() {
-        return parser;
+        this.patterns = patterns;
     }
 
     public String[] getPatterns() {
         return patterns;
+    }
+
+    public Parser getParser() {
+        return parser;
     }
 
 }
