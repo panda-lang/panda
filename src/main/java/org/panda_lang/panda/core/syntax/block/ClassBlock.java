@@ -1,22 +1,23 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.parser.depracted.CustomParser;
-import org.panda_lang.panda.core.parser.depracted.ParameterParser;
-import org.panda_lang.panda.core.parser.depracted.util.BlockInfo;
+import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.parser.improved.essential.CustomParser;
+import org.panda_lang.panda.core.parser.improved.essential.ParameterParser;
+import org.panda_lang.panda.core.parser.improved.essential.util.BlockInfo;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 
 public class ClassBlock extends Block {
     
     static {
-        new BlockScheme(ClassBlock.class, false, "class").parser(new CustomParser<Block>() {
+        ElementsBucket.registerBlock(new BlockScheme(ClassBlock.class, false, "class").parser(new CustomParser() {
             @Override
-            public Block parse(BlockInfo blockInfo, Block current, Block latest) {
+            public Block parse(BlockInfo blockInfo, Block parent, Block current, Block previous) {
                 current = new ClassBlock();
                 current.setParameters(new ParameterParser().parse(current, blockInfo.getParameters()));
                 return current;
             }
-        });
+        }));
     }
 
 }

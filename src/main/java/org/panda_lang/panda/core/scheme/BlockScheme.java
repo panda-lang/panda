@@ -1,15 +1,15 @@
 package org.panda_lang.panda.core.scheme;
 
-import org.panda_lang.panda.core.parser.depracted.CustomParser;
-import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.parser.improved.essential.CustomParser;
+import org.panda_lang.panda.core.syntax.Block;
 
 public class BlockScheme {
 
     private final Class<? extends Block> clazz;
     private final String[] indications;
     private final boolean conventional;
-    private CustomParser<? extends Block> parser;
+    private CustomParser parser;
 
     public BlockScheme(Class<? extends Block> clazz, String... indications){
         this(clazz, true, indications);
@@ -22,15 +22,16 @@ public class BlockScheme {
         ElementsBucket.registerBlock(this);
     }
 
-    public void parser(CustomParser<? extends Block> parser){
+    public BlockScheme parser(CustomParser parser){
         this.parser = parser;
+        return this;
     }
 
     public boolean isConventional() {
         return conventional;
     }
 
-    public CustomParser<? extends Block> getParser(){
+    public CustomParser getParser(){
         return parser;
     }
     

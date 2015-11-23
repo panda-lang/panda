@@ -9,6 +9,7 @@ package org.panda_lang.panda.core.parser.improved;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.scheme.ParserScheme;
+import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -29,22 +30,26 @@ public class PandaParser {
 
     public PandaScript parse() {
         while(divider.hasNext() && isHappy()) {
-            // {prepare}
             String line = divider.next();
-            String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
-            ParserScheme scheme = ElementsBucket.getParserScheme(pattern);
-
-            // {parser.not.found}
-            if(scheme == null) {
-                throwException(new PandaException("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
-                return null;
-            }
-
-            Parser parser = scheme.getParser();
-            Executable executable = parser.parse(this, divider, extractor, pandaBlock, pandaBlock);
+            Executable executable = parseLine(line, divider, extractor, pandaBlock, pandaBlock);
             pandaBlock.addExecutable(executable);
         }
         return pandaScript;
+    }
+
+    public Executable parseLine(String line, SourcesDivider divider, PatternExtractor extractor, Block parent, Block previous) {
+        String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
+        ParserScheme scheme = ElementsBucket.getParserScheme(pattern);
+
+        // {parser.not.found}
+        if(scheme == null) {
+            throwException(new PandaException("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
+            return null;
+        }
+
+        Parser parser = scheme.getParser();
+        Executable executable = parser.parse(this, divider, extractor, parent, previous);
+        return executable;
     }
 
     public Executable throwException(PandaException pandaException) {

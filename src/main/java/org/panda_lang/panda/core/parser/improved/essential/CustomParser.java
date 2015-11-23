@@ -1,10 +1,10 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
-import org.panda_lang.panda.core.parser.depracted.util.BlockInfo;
+import org.panda_lang.panda.core.parser.improved.essential.util.BlockInfo;
 import org.panda_lang.panda.core.syntax.Block;
 
-public interface CustomParser<T> {
+public interface CustomParser {
 
-    public <T> T parse(BlockInfo blockInfo, Block current, Block latest);
+    public Block parse(BlockInfo blockInfo, Block parent, Block current, Block previous);
 
 }
