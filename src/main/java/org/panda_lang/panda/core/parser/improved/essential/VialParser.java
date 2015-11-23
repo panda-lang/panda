@@ -10,6 +10,7 @@ import org.panda_lang.panda.core.parser.improved.essential.util.BlockInfo;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.syntax.Executable;
 
 public class VialParser implements Parser {
 
@@ -31,16 +32,30 @@ public class VialParser implements Parser {
         String vialIndication = VialAssistant.extractIndication(vialLine);
         BlockInfo blockInfo = VialAssistant.extractVial(vialLine);
 
+        indication:
         for(BlockScheme blockScheme : ElementsBucket.getBlocks()) {
             for(String indication : blockScheme.getIndications()) {
                 if(vialIndication.equals(indication)) {
-                    //current = blockScheme.getParser().parse(blockInfo, current, parent);
-                    break;
+                    current = blockScheme.getParser().parse(blockInfo, parent, current, previous);
+                    break indication;
                 }
             }
         }
 
-        return null;
+        while(sourcesDivider.hasNext()) {
+            String line = sourcesDivider.next();
+            if(VialAssistant.isPlug(line)) {
+                break;
+            }
+            Executable executable = pandaParser.parseLine(line, sourcesDivider, extractor, current, previous);
+            if(executable instanceof Block) {
+                previous = (Block) executable;
+            } else {
+                current.addExecutable(executable);
+            }
+        }
+
+        return current;
     }
 
     @Override

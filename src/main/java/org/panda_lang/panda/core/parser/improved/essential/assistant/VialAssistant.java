@@ -97,4 +97,8 @@ public class VialAssistant {
         return new BlockInfo(name, specifiers, parameters);
     }
 
+    public static boolean isPlug(String s) {
+        return s.equals("}") || s.equals("};");
+    }
+
 }
