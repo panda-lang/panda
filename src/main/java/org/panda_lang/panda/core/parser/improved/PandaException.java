@@ -1,8 +1,8 @@
-package org.panda_lang.panda.core.parser.improved.util;
+package org.panda_lang.panda.core.parser.improved;
 
 import org.panda_lang.panda.Panda;
 
-public class Error {
+public class PandaException {
 
     private String title;
     private String code;
@@ -10,7 +10,7 @@ public class Error {
     private int caret;
 
 
-    public Error(String title, String code, int line, int caret){
+    public PandaException(String title, String code, int line, int caret){
         this.title = title;
         this.code = code;
         this.line = line;

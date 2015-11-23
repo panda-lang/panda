@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser.util;
+package org.panda_lang.panda.core.parser.depracted.util;
 
 import java.util.Stack;
 

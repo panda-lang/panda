@@ -8,9 +8,6 @@ package org.panda_lang.panda.core.parser.improved;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.util.Error;
-import org.panda_lang.panda.core.parser.improved.util.SourcesDivider;
-import org.panda_lang.panda.core.parser.improved.util.PatternExtractor;
 import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
@@ -39,7 +36,7 @@ public class PandaParser {
 
             // {parser.not.found}
             if(scheme == null) {
-                throwException(new Error("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
+                throwException(new PandaException("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
                 return null;
             }
 
@@ -50,8 +47,8 @@ public class PandaParser {
         return pandaScript;
     }
 
-    public Executable throwException(Error error) {
-        error.print();
+    public Executable throwException(PandaException pandaException) {
+        pandaException.print();
         exception = true;
         return null;
     }

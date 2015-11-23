@@ -1,9 +1,9 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.util.MethodInfo;
-import org.panda_lang.panda.core.parser.util.MethodParserUtils;
+import org.panda_lang.panda.core.parser.depracted.util.MethodInfo;
+import org.panda_lang.panda.core.parser.depracted.util.MethodParserUtils;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Method;

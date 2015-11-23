@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.scheme;
 
-import org.panda_lang.panda.core.parser.CustomParser;
+import org.panda_lang.panda.core.parser.depracted.CustomParser;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.ElementsBucket;
 

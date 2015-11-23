@@ -1,10 +1,13 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.PandaParser;
 import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.parser.improved.util.PatternExtractor;
-import org.panda_lang.panda.core.parser.improved.util.SourcesDivider;
+import org.panda_lang.panda.core.parser.improved.PatternExtractor;
+import org.panda_lang.panda.core.parser.improved.SourcesDivider;
+import org.panda_lang.panda.core.parser.improved.PandaParser;
+import org.panda_lang.panda.core.parser.improved.essential.assistant.VialAssistant;
+import org.panda_lang.panda.core.parser.improved.essential.util.BlockInfo;
+import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Block;
 
@@ -16,10 +19,26 @@ public class VialParser implements Parser {
     }
 
     private Block parent;
+    private Block current;
+    private Block previous;
 
     @Override
     public Block parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
         this.parent = parent;
+        this.previous = previous;
+
+        String vialLine = sourcesDivider.getLine();
+        String vialIndication = VialAssistant.extractIndication(vialLine);
+        BlockInfo blockInfo = VialAssistant.extractVial(vialLine);
+
+        for(BlockScheme blockScheme : ElementsBucket.getBlocks()) {
+            for(String indication : blockScheme.getIndications()) {
+                if(vialIndication.equals(indication)) {
+                    //current = blockScheme.getParser().parse(blockInfo, current, parent);
+                    break;
+                }
+            }
+        }
 
         return null;
     }

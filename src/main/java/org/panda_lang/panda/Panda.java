@@ -1,11 +1,9 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.Core;
-import org.panda_lang.panda.core.parser.util.Exec;
+import org.panda_lang.panda.core.parser.depracted.util.Exec;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
-import org.panda_lang.panda.core.syntax.block.MethodBlock;
-import org.panda_lang.panda.util.Catcher;
 
 import java.util.ArrayList;
 import java.util.Collection;

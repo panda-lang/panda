@@ -1,6 +1,6 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
-import org.panda_lang.panda.core.parser.util.BlockInfo;
+import org.panda_lang.panda.core.parser.depracted.util.BlockInfo;
 import org.panda_lang.panda.core.syntax.Block;
 
 public interface CustomParser<T> {

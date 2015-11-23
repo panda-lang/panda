@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
 import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.scheme.ObjectScheme;

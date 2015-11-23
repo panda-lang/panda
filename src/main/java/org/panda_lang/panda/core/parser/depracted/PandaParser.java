@@ -1,13 +1,13 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.GlobalVariables;
-import org.panda_lang.panda.core.parser.util.CodePatcher;
-import org.panda_lang.panda.core.parser.util.Recognizer;
-import org.panda_lang.panda.core.parser.util.SyntaxIndication;
+import org.panda_lang.panda.core.parser.depracted.util.Recognizer;
+import org.panda_lang.panda.core.parser.depracted.util.CodePatcher;
+import org.panda_lang.panda.core.parser.depracted.util.SyntaxIndication;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Variable;
-import org.panda_lang.panda.core.parser.util.Error;
+import org.panda_lang.panda.core.parser.depracted.util.Error;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
@@ -49,8 +49,8 @@ public class PandaParser {
                     if(info.equals("else")) {
                         indi = SyntaxIndication.BLOCK;
                     } else {
-                        System.out.println("Error at line " + i);
-                        org.panda_lang.panda.core.parser.util.Error error = new Error("[SyntaxIndication] Not detected: " + line);
+                        System.out.println("PandaException at line " + i);
+                        Error error = new Error("[SyntaxIndication] Not detected: " + line);
                         error.print();
                         break;
                     }
@@ -100,7 +100,7 @@ public class PandaParser {
         } catch (Exception e){
             int l = 0;
             if(parser != null) l = parser.getCurrentLine();
-            System.out.println("Error at line " + (i + l));
+            System.out.println("PandaException at line " + (i + l));
             e.printStackTrace();
         }
 

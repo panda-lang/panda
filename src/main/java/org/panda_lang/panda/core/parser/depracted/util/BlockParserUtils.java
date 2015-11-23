@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser.util;
+package org.panda_lang.panda.core.parser.depracted.util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ public class BlockParserUtils {
         StringBuilder node = new StringBuilder();
         boolean string = false;
         boolean spec = false;
-        boolean parm = false;
+        boolean pam = false;
 
         // {parse}
         char[] chars = s.toCharArray();
@@ -49,16 +49,16 @@ public class BlockParserUtils {
                 if (name == null){
                     name = part;
                     if(spec) {
-                        parm = true;
+                        pam = true;
                     }
                 }
                 // {parameters}
-                else if(parm){
+                else if(pam){
                     parameters.add(part);
                 }
                 // {specifiers}
                 else {
-                    if(spec) parm = true;
+                    if(spec) pam = true;
                     specifiers.add(part);
                 }
 
@@ -71,7 +71,7 @@ public class BlockParserUtils {
             node.append(c);
         }
 
-        // build {blockinfo}
+        // {build.block.info}
         return new BlockInfo(name, specifiers, parameters);
     }
 

@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.util.EqualityBuilder;

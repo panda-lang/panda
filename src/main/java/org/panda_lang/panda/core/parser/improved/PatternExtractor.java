@@ -1,10 +1,10 @@
-package org.panda_lang.panda.core.parser.improved.util;
+package org.panda_lang.panda.core.parser.improved;
 
 import java.util.Stack;
 
 public class PatternExtractor {
 
-    /*
+    /* Patterns {DEFAULT}
 
         *{          | class Test {
 
@@ -43,27 +43,34 @@ public class PatternExtractor {
                 continue;
             }
 
+            // {section}
             switch (c) {
+                // {open}
                 case '(':
                     sections.push(c);
                     break;
+                // {close}
                 case ')':
                     sections.pop();
                     break;
+                // {if.section}
                 default:
                     if(sections.size() > 0) {
                         continue;
                     }
                     break;
             }
-
+            // {char.set}
             for(char s : set) {
                 if(s == c) {
+                    // {append.char.set}
                     pattern.append(c);
                     break;
                 }
             }
         }
+
+        // {return.pattern}
         return pattern.toString();
     }
 
