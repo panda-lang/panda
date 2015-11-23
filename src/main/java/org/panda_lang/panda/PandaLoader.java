@@ -1,6 +1,6 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.parser.PandaParser;
+import org.panda_lang.panda.core.parser.depracted.PandaParser;
 import org.panda_lang.panda.util.IOUtils;
 
 import java.io.File;

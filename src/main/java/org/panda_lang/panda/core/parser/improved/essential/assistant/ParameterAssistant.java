@@ -1,10 +1,13 @@
-package org.panda_lang.panda.core.parser.util;
+package org.panda_lang.panda.core.parser.improved.essential.assistant;
+
+import org.panda_lang.panda.core.parser.depracted.util.Recognizer;
+import org.panda_lang.panda.core.parser.depracted.util.SyntaxIndication;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
 
-public class ParameterParserUtils {
+public class ParameterAssistant {
 
     public static String[] split(String source){
         Collection<String> parametrs = new ArrayList<>();

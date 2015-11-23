@@ -1,14 +1,10 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.parser.CustomParser;
-import org.panda_lang.panda.core.parser.ParameterParser;
-import org.panda_lang.panda.core.parser.util.BlockInfo;
+import org.panda_lang.panda.core.parser.depracted.CustomParser;
+import org.panda_lang.panda.core.parser.depracted.ParameterParser;
+import org.panda_lang.panda.core.parser.depracted.util.BlockInfo;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Variable;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class ClassBlock extends Block {
     

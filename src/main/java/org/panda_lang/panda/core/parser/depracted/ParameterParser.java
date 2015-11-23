@@ -1,6 +1,6 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
-import org.panda_lang.panda.core.parser.util.ParameterParserUtils;
+import org.panda_lang.panda.core.parser.depracted.util.ParameterParserUtils;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Runtime;

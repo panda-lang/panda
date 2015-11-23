@@ -1,9 +1,9 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.depracted;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.util.*;
-import org.panda_lang.panda.core.parser.util.Error;
+import org.panda_lang.panda.core.parser.depracted.util.*;
+import org.panda_lang.panda.core.parser.depracted.util.Error;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Method;
@@ -62,8 +62,8 @@ public class BlockParser {
                 if(info.equals("else")) {
                     indi = SyntaxIndication.BLOCK;
                 } else {
-                    System.out.println("Error at line " + i);
-                    Error error = new org.panda_lang.panda.core.parser.util.Error("[SyntaxIndication] Not detected: " + line);
+                    System.out.println("PandaException at line " + i);
+                    Error error = new Error("[SyntaxIndication] Not detected: " + line);
                     error.print();
                     break;
                 }
