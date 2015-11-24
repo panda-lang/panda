@@ -66,4 +66,8 @@ public class PandaParser {
         return pandaBlock;
     }
 
+    public PandaScript getPandaScript() {
+        return pandaScript;
+    }
+
 }
