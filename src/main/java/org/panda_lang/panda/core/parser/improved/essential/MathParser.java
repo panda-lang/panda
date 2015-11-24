@@ -34,7 +34,7 @@ public class MathParser {
                 case '/':
                 case '^':
                     if(operators.size() != 0)
-                        if(MathParserUtils.compare(operators.peek(), c)) {
+                        if(compare(operators.peek(), c)) {
                             mathBuilder.append(operators.pop());
                         }
                     operators.push(c);
@@ -62,6 +62,15 @@ public class MathParser {
         mathBuilder.rewrite();
         Math math = new Math(mathBuilder);
         return new Parameter("Number", block, new Runtime(math));
+    }
+
+    public boolean compare(char prev, char current){
+        return getOrder(prev) >= getOrder(current);
+    }
+
+    public int getOrder(char c){
+        int i = c == '*' || c == '/' || c == '^' ? 2 : 0;
+        return i == 0 && (c == '+' || c == '-') ? 1 : i;
     }
 
 
