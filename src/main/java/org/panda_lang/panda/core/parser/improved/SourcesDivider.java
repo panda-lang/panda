@@ -15,22 +15,25 @@ public class SourcesDivider {
     public String next() {
         boolean end = false;
         boolean string = false;
-        for(; index < source.length; index++) {
+        for (; index < source.length; index++) {
             char c = source[index];
 
-            switch(c) {
-                case '"': string = !string; break;
+            switch (c) {
+                case '"':
+                    string = !string;
+                    break;
                 case '{':
                 case '}':
                 case ';':
                     end = true;
                     break;
                 case '\n':
-                case '\r': continue;
+                case '\r':
+                    continue;
             }
             node.append(c);
 
-            if(end) {
+            if (end) {
                 iLine++;
                 line = node.toString();
                 node.setLength(0);
@@ -54,6 +57,10 @@ public class SourcesDivider {
 
     public int getCaretPosition() {
         return index;
+    }
+
+    public char[] getSource() {
+        return source;
     }
 
 }

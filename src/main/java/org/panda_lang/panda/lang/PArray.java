@@ -31,11 +31,11 @@ public class PArray extends PObject {
 
     private final Parameter[] array;
 
-    public PArray(Parameter... values){
+    public PArray(Parameter... values) {
         this.array = values;
     }
 
-    public Parameter[] getArray(){
+    public Parameter[] getArray() {
         return array;
     }
 

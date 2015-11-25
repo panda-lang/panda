@@ -7,7 +7,7 @@ public class ConstructorScheme {
 
     private final Constructor<? extends PObject> constructor;
 
-    public ConstructorScheme(Constructor<? extends PObject> constructor){
+    public ConstructorScheme(Constructor<? extends PObject> constructor) {
         this.constructor = constructor;
     }
 

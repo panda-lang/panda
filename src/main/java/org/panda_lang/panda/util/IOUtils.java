@@ -6,12 +6,12 @@ import java.nio.file.Files;
 import java.util.List;
 
 public class IOUtils {
-    
-    public static String getContent(File file){
+
+    public static String getContent(File file) {
         StringBuilder sb = new StringBuilder();
         try {
-            if(file == null) return "";
-            if(!file.exists()){
+            if (file == null) return "";
+            if (!file.exists()) {
                 file.getParentFile().mkdirs();
                 file.createNewFile();
             }
@@ -39,15 +39,16 @@ public class IOUtils {
         }
     }
 
-    public static String[] getLines(File file){
-        if(!file.exists()) return new String[0];
+    public static String[] getLines(File file) {
+        if (!file.exists()) return new String[0];
         else try {
             List<String> list = Files.readAllLines(file.toPath(), Charset.forName("UTF-8"));
             String[] result = new String[list.size()];
             return list.toArray(result);
         } catch (IOException e) {
             e.printStackTrace();
-        } return null;
+        }
+        return null;
     }
 
     public static int countLines(String filename) throws IOException {
@@ -71,7 +72,7 @@ public class IOUtils {
         }
     }
 
-    public static String patch(String s){
+    public static String patch(String s) {
         return s.replace("\t", "");
     }
 

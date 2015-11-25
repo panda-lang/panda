@@ -16,7 +16,7 @@ public class Method implements Executable {
     private IExecutable runnable;
     private PandaScript script;
 
-    public Method(Parameter instance, Block block, String method, IExecutable runnable, Parameter[] parameters){
+    public Method(Parameter instance, Block block, String method, IExecutable runnable, Parameter[] parameters) {
         this.instance = instance;
         this.block = block;
         this.method = method;
@@ -24,7 +24,7 @@ public class Method implements Executable {
         this.parameters = parameters;
     }
 
-    public Method(PandaScript script, Block block, String method, Parameter[] parameters){
+    public Method(PandaScript script, Block block, String method, Parameter[] parameters) {
         this.script = script;
         this.block = block;
         this.method = method;
@@ -33,25 +33,25 @@ public class Method implements Executable {
 
     @Override
     public PObject run(Parameter... vars) {
-        if(runnable == null){
-            if(instance == null) return script.call(MethodBlock.class, method, parameters);
+        if (runnable == null) {
+            if (instance == null) return script.call(MethodBlock.class, method, parameters);
             String type = instance.getDataType();
-            if(type == null){
+            if (type == null) {
                 instance.getValue();
                 type = instance.getDataType();
             }
-            if(type != null){
-                for(ObjectScheme os : ElementsBucket.getObjects()){
-                    if(!type.equals(os.getName())) continue;
-                    for(MethodScheme ms : os.getMethods()){
-                        if(!method.equals(ms.getName())) continue;
+            if (type != null) {
+                for (ObjectScheme os : ElementsBucket.getObjects()) {
+                    if (!type.equals(os.getName())) continue;
+                    for (MethodScheme ms : os.getMethods()) {
+                        if (!method.equals(ms.getName())) continue;
                         this.runnable = ms.getExecutable();
                         return this.runnable.run(instance, parameters);
                     }
                 }
             }
         }
-        if(this.runnable == null){
+        if (this.runnable == null) {
             System.out.println("[Method error] Runnable is null " +
                     (instance == null ? "{static}" : "(object) " +
                             (instance.getValue() == null ? "Unknown type" : instance.getValue().getType())) +
@@ -86,7 +86,7 @@ public class Method implements Executable {
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return method;
     }
 

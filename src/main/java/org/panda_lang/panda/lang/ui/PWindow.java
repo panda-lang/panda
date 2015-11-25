@@ -46,4 +46,9 @@ public class PWindow extends PObject {
         return this.frame;
     }
 
+    @Override
+    public String toString() {
+        return frame.toString();
+    }
+
 }

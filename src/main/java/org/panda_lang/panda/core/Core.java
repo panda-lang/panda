@@ -4,14 +4,21 @@ public class Core {
 
     private static Core core;
 
-    private Core(){ }
+    private Core() {
+    }
 
-    private void parsers(){
+    private void parsers() {
         ElementsBucket.loadClasses("org.panda_lang.panda.core.parser.improved.essential",
+                "ConstructorParser",
+                "EqualityParser",
+                "MathParser",
+                "MethodParser",
+                "ParameterParser",
+                "VariableParser",
                 "VialParser");
     }
 
-    private void blocks(){
+    private void blocks() {
         ElementsBucket.loadClasses("org.panda_lang.panda.core.syntax.block",
                 "ClassBlock",
                 "ElseThenBlock",
@@ -23,8 +30,8 @@ public class Core {
                 "ThreadBlock",
                 "WhileBlock");
     }
-    
-    private void objects(){
+
+    private void objects() {
         ElementsBucket.loadClasses("org.panda_lang.panda.lang",
                 "PArray",
                 "PBoolean",
@@ -43,9 +50,9 @@ public class Core {
         ElementsBucket.loadClasses("org.panda_lang.panda.lang.ui",
                 "PWindow");
     }
-    
-    public static Core registerDefault(){
-        if(core != null) return core;
+
+    public static Core registerDefault() {
+        if (core != null) return core;
         core = new Core();
         core.parsers();
         core.blocks();

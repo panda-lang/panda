@@ -11,19 +11,19 @@ public class Runtime implements Executable {
     private Method method;
     private Math math;
 
-    public Runtime(Equality equality){
+    public Runtime(Equality equality) {
         this.equality = equality;
     }
 
-    public Runtime(Method method){
+    public Runtime(Method method) {
         this.method = method;
     }
 
-    public Runtime(Math math){
+    public Runtime(Math math) {
         this.math = math;
     }
 
-    public Runtime(Parameter instance, IExecutable executable, Parameter[] parameters){
+    public Runtime(Parameter instance, IExecutable executable, Parameter[] parameters) {
         this.instance = instance;
         this.executable = executable;
         this.parameters = parameters;
@@ -31,9 +31,9 @@ public class Runtime implements Executable {
 
     @Override
     public PObject run(Parameter... parameters) {
-        if(method != null) return method.run(parameters);
-        else if(math != null) return math.run(null, parameters);
-        else if(equality != null) return equality.run(null, parameters);
+        if (method != null) return method.run(parameters);
+        else if (math != null) return math.run(null, parameters);
+        else if (equality != null) return equality.run(null, parameters);
         return executable.run(instance, this.parameters);
     }
 

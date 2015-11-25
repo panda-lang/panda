@@ -14,45 +14,46 @@ public class PandaScript {
     private String version;
     private Collection<Block> blocks;
 
-    public PandaScript(){
+    public PandaScript() {
         this.blocks = new ArrayList<>();
     }
 
-    public PandaScript name(String name){
+    public PandaScript name(String name) {
         this.name = name;
         return this;
     }
 
-    public PandaScript author(String author){
+    public PandaScript author(String author) {
         this.author = author;
         return this;
     }
 
-    public PandaScript version(String version){
+    public PandaScript version(String version) {
         this.version = version;
         return this;
     }
 
-    public PandaScript sections(Collection<Block> blocks){
+    public PandaScript sections(Collection<Block> blocks) {
         this.blocks = blocks;
         return this;
     }
 
-    public void addSection(Block block){
+    public void addSection(Block block) {
         this.blocks.add(block);
     }
 
-    public PObject call(Class<? extends Block> blockType, String name, Parameter... parameters){
-        for(Block block : blocks){
-            if(block.getClass() == blockType && block.getName().equals(name)){
+    public PObject call(Class<? extends Block> blockType, String name, Parameter... parameters) {
+        for (Block block : blocks) {
+            if (block.getClass() == blockType && block.getName().equals(name)) {
                 return block.run(parameters);
             }
-        } return null;
+        }
+        return null;
     }
 
-    public void callAll(Class<? extends Block> blockType, String name, Parameter... parameters){
-        for(Block block : blocks){
-            if(block.getClass() == blockType && block.getName().equals(name)){
+    public void callAll(Class<? extends Block> blockType, String name, Parameter... parameters) {
+        for (Block block : blocks) {
+            if (block.getClass() == blockType && block.getName().equals(name)) {
                 block.run(parameters);
             }
         }

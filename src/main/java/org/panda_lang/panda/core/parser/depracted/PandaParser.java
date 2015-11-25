@@ -2,12 +2,11 @@ package org.panda_lang.panda.core.parser.depracted;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.GlobalVariables;
-import org.panda_lang.panda.core.parser.depracted.util.Recognizer;
 import org.panda_lang.panda.core.parser.depracted.util.CodePatcher;
+import org.panda_lang.panda.core.parser.depracted.util.Recognizer;
 import org.panda_lang.panda.core.parser.depracted.util.SyntaxIndication;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Variable;
-import org.panda_lang.panda.core.parser.depracted.util.Error;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
@@ -46,7 +45,7 @@ public class PandaParser {
                 SyntaxIndication indi = recognizer.recognize(line);
                 if (indi == null) {
                     String info = recognizer.getLineIndication(line).toLowerCase();
-                    if(info.equals("else")) {
+                    if (info.equals("else")) {
                         indi = SyntaxIndication.BLOCK;
                     } else {
                         System.out.println("PandaException at line " + i);
@@ -56,18 +55,18 @@ public class PandaParser {
                     }
                 }
                 // {comment.continue}
-                if(indi == SyntaxIndication.COMMENT){
+                if (indi == SyntaxIndication.COMMENT) {
                     continue;
                 }
                 // {section.begin}
-                else if(indi == SyntaxIndication.BLOCK){
-                    if(characters.size() == 0) currentLine = i;
+                else if (indi == SyntaxIndication.BLOCK) {
+                    if (characters.size() == 0) currentLine = i;
                     characters.push('{');
                 }
                 // {section.end}
-                else if(indi == SyntaxIndication.CLOSE){
-                    if(characters.size() != 0) characters.pop();
-                    if(characters.size() == 0) {
+                else if (indi == SyntaxIndication.CLOSE) {
+                    if (characters.size() != 0) characters.pop();
+                    if (characters.size() == 0) {
                         String sectionSource = node.toString();
                         node.setLength(0);
                         parser = new BlockParser(script, recognizer, sectionSource);
@@ -75,7 +74,7 @@ public class PandaParser {
                         parser.setLatest(latest);
                         Block block = parser.parse(this);
                         latest = block;
-                        if(block == null){
+                        if (block == null) {
                             System.out.println("[" + i + ":~" + parser.getCurrentLine() + "] Something went wrong...");
                             return null;
                         }
@@ -84,7 +83,7 @@ public class PandaParser {
                     }
                 }
                 // {global.variable}
-                else if(indi == SyntaxIndication.VARIABLE && characters.size() == 0){
+                else if (indi == SyntaxIndication.VARIABLE && characters.size() == 0) {
                     VariableParser parser = new VariableParser(me, line);
                     Variable variable = parser.parse();
                     me.addVariable(variable);
@@ -97,29 +96,29 @@ public class PandaParser {
                 node.append(System.lineSeparator());
 
             }
-        } catch (Exception e){
+        } catch (Exception e) {
             int l = 0;
-            if(parser != null) l = parser.getCurrentLine();
+            if (parser != null) l = parser.getCurrentLine();
             System.out.println("PandaException at line " + (i + l));
             e.printStackTrace();
         }
 
         // {global.variable.init}
         me.initVariables();
-        for(Block block : blocks) script.addSection(block);
+        for (Block block : blocks) script.addSection(block);
         return script.name(null).author(null).version(null);
     }
 
 
-    protected void addSection(Block block){
+    protected void addSection(Block block) {
         this.blocks.add(block);
     }
 
-    protected void setCurrentLine(int i){
+    protected void setCurrentLine(int i) {
         this.currentLine = i;
     }
 
-    public PandaScript getScript(){
+    public PandaScript getScript() {
         return script;
     }
 
@@ -131,7 +130,7 @@ public class PandaParser {
         return source;
     }
 
-    public static PandaParser getCurrentInstance(){
+    public static PandaParser getCurrentInstance() {
         return currentParser;
     }
 

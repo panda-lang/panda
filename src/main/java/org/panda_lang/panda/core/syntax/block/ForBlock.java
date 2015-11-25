@@ -30,11 +30,11 @@ public class ForBlock extends Block {
     @Override
     public PObject run(Parameter... vars) {
         PObject object = parameters[0].getValue();
-        if(object instanceof PNumber) {
+        if (object instanceof PNumber) {
             Number times = ((PNumber) object).getNumber();
-            for(int i = 0; i < times.intValue(); i++) {
+            for (int i = 0; i < times.intValue(); i++) {
                 PObject o = super.run(vars);
-                if(o != null) {
+                if (o != null) {
                     return o;
                 }
             }

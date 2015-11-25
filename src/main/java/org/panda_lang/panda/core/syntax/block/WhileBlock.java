@@ -29,9 +29,9 @@ public class WhileBlock extends Block {
 
     @Override
     public PObject run(Parameter... vars) {
-        while(parameters[0].getValue(PBoolean.class).isTrue()) {
+        while (parameters[0].getValue(PBoolean.class).isTrue()) {
             PObject o = super.run(vars);
-            if(o != null) {
+            if (o != null) {
                 return o;
             }
         }

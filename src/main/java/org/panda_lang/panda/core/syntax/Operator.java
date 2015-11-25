@@ -18,33 +18,39 @@ public enum Operator {
     private final int id;
     private final String operator;
 
-    private Operator(int id, String operator){
+    private Operator(int id, String operator) {
         this.id = id;
         this.operator = operator;
     }
 
-    public String getOperator(){
+    public String getOperator() {
         return this.operator;
     }
 
-    public int getPart(){
-        return this.id/10;
+    public int getPart() {
+        return this.id / 10;
     }
 
-    public int getID(){
+    public int getID() {
         return this.id;
     }
 
-    public static Operator getOperator(int id){
-        for(Operator operator : values()){
-            if(operator.getID() == id) return operator;
-        } return null;
+    public static Operator getOperator(int id) {
+        for (Operator operator : values()) {
+            if (operator.getID() == id) {
+                return operator;
+            }
+        }
+        return null;
     }
 
-    public static Operator getOperator(String s){
-        for(Operator operator : values()){
-            if(operator.getOperator().equals(s)) return operator;
-        } return null;
+    public static Operator getOperator(String s) {
+        for (Operator operator : values()) {
+            if (operator.getOperator().equals(s)) {
+                return operator;
+            }
+        }
+        return null;
     }
 
 }

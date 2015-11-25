@@ -12,7 +12,7 @@ import org.panda_lang.panda.lang.PObject;
 public class MethodBlock extends Block {
 
     static {
-        ElementsBucket.registerBlock(new BlockScheme(MethodBlock.class, "method", "function").parser(new CustomParser(){
+        ElementsBucket.registerBlock(new BlockScheme(MethodBlock.class, "method", "function").parser(new CustomParser() {
             @Override
             public MethodBlock parse(BlockInfo blockInfo, Block parent, Block current, Block previous) {
                 MethodBlock block = new MethodBlock(blockInfo.getSpecifiers().get(0));
@@ -28,7 +28,7 @@ public class MethodBlock extends Block {
 
     @Override
     public PObject run(Parameter... vars) {
-        if(parameters != null && (vars == null || vars.length != parameters.length)) {
+        if (parameters != null && (vars == null || vars.length != parameters.length)) {
             System.out.println("[MethodBlock] " + getName() + ": Bad parameters!");
             return null;
         }

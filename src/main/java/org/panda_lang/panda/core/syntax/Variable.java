@@ -8,7 +8,7 @@ public class Variable implements Executable {
     private final String variable;
     private final Parameter parameter;
 
-    public Variable(Block block, String variable, Parameter parameter){
+    public Variable(Block block, String variable, Parameter parameter) {
         this.block = block;
         this.variable = variable;
         this.parameter = parameter;
@@ -22,7 +22,7 @@ public class Variable implements Executable {
     }
 
     @Override
-    public String getName(){
+    public String getName() {
         return this.variable;
     }
 

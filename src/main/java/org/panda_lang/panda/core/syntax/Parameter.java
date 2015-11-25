@@ -3,10 +3,10 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.lang.PNull;
 import org.panda_lang.panda.lang.PObject;
 
-public class Parameter {
+public class Parameter implements Executable {
 
     enum Type {
-        DEFINIED,
+        DEFINED,
         VARIABLE,
         RUNTIME;
     }
@@ -19,29 +19,34 @@ public class Parameter {
     private Runtime runtime;
     private PObject value;
 
-    public Parameter(String type, PObject object){
-        this.type = Type.DEFINIED;
+    public Parameter(String type, PObject object) {
+        this.type = Type.DEFINED;
         this.object = object;
         this.dataType = type;
     }
 
-    public Parameter(String type, Block block, String variable){
+    public Parameter(String type, Block block, String variable) {
         this.type = Type.VARIABLE;
         this.variable = variable;
         this.block = block;
         this.dataType = type;
     }
 
-    public Parameter(String type, Block block, Runtime runtime){
+    public Parameter(String type, Block block, Runtime runtime) {
         this.type = Type.RUNTIME;
         this.dataType = type;
         this.runtime = runtime;
         this.block = block;
     }
 
-    public void setValue(PObject o){
-        switch (type){
-            case DEFINIED:
+    @Override
+    public PObject run(Parameter... parameters) {
+        return getValue();
+    }
+
+    public void setValue(PObject o) {
+        switch (type) {
+            case DEFINED:
                 value = o;
                 break;
             case VARIABLE:
@@ -52,14 +57,16 @@ public class Parameter {
                 value = o;
                 break;
         }
-        if(value != null) dataType = value.getType();
+        if (value != null) {
+            dataType = value.getType();
+        }
     }
 
-    public void setDataType(String type){
+    public void setDataType(String type) {
         this.dataType = type;
     }
 
-    public PObject getObject(){
+    public PObject getObject() {
         return object;
     }
 
@@ -79,38 +86,42 @@ public class Parameter {
         return dataType;
     }
 
-    public <T> T getValue(Class<T> clazz){
+    public <T> T getValue(Class<T> clazz) {
         PObject object = getValue();
-        if(object == null){
+        if (object == null) {
             System.out.println("Cannot cast to " + clazz.getClass().getSimpleName() + "! Object == null");
             return null;
         }
-        if(clazz.isInstance(object)) return (T) object;
+        if (clazz.isInstance(object)) {
+            return (T) object;
+        }
         System.out.println("Cannot cast " + object.getClass().getSimpleName() + " to " + clazz.getSimpleName());
         return null;
     }
 
-    public PObject getValue(){
+    public PObject getValue() {
         PObject value = new PNull();
-        switch (type){
-            case DEFINIED:
+        switch (type) {
+            case DEFINED:
                 value = object;
                 break;
             case VARIABLE:
                 value = block.getVariable(variable);
                 break;
             case RUNTIME:
-                if(runtime == null){
+                if (runtime == null) {
                     System.out.println("Runtime is null. Parameter info: " + this.toString());
                     return null;
                 }
                 value = runtime.run();
                 break;
             default:
-                System.out.println("Parameter type is not definied. Parameter info: " + this.toString());
+                System.out.println("Parameter type is not defined. Parameter info: " + this.toString());
         }
         this.value = value;
-        if(dataType == null && value != null) dataType = value.getType();
+        if (dataType == null && value != null) {
+            dataType = value.getType();
+        }
         return value;
     }
 
@@ -119,7 +130,12 @@ public class Parameter {
     }
 
     @Override
-    public String toString(){
+    public String getName() {
+        return toString();
+    }
+
+    @Override
+    public String toString() {
         return "@Parameter={" + type + "," + object + "," + variable + "," + block + "," + (block != null ? block.getName() : "null") + dataType + "," + runtime + "," + value + "}";
     }
 

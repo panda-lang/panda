@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core;
 
+import org.panda_lang.panda.core.parser.improved.Pattern;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;
@@ -38,7 +39,7 @@ public class ElementsBucket {
     }
 
     public static void loadClasses(String basePackage, String... classes) {
-        for(String clazz : classes) {
+        for (String clazz : classes) {
             try {
                 Class.forName(basePackage + "." + clazz);
             } catch (Exception e) {
@@ -48,11 +49,10 @@ public class ElementsBucket {
     }
 
     public static ParserScheme getParserScheme(String pattern) {
-        for(ParserScheme scheme : parsers) {
-            for(String schemePattern : scheme.getPatterns()) {
-                if(pattern.equals(schemePattern)) {
-                    return scheme;
-                }
+        for (ParserScheme parserScheme : parsers) {
+            Pattern parserSchemePattern = parserScheme.getPattern();
+            if (parserSchemePattern.match(pattern)) {
+                return parserScheme;
             }
         }
         return null;

@@ -14,11 +14,11 @@ public class ConstructorParser {
 
     private final String source;
 
-    public ConstructorParser(String source){
+    public ConstructorParser(String source) {
         this.source = source.substring(4);
     }
 
-    public Runtime parse(Block block){
+    public Runtime parse(Block block) {
         StringBuilder node = new StringBuilder();
         Stack<Character> stack = new Stack<>();
         String clazz = null;
@@ -26,30 +26,30 @@ public class ConstructorParser {
                 p = false;
 
         char[] chars = source.toCharArray();
-        for(int i = 0; i < source.length(); i++){
+        for (int i = 0; i < source.length(); i++) {
             char c = chars[i];
 
-            if(c == '"'){
+            if (c == '"') {
                 s = !s;
-            } else if(s){
+            } else if (s) {
                 node.append(c);
                 continue;
-            } else if(p){
-                if(c == '('){
+            } else if (p) {
+                if (c == '(') {
                     stack.push(c);
-                } else if(c == ')'){
+                } else if (c == ')') {
                     stack.pop();
-                    if(stack.size() == 0){
+                    if (stack.size() == 0) {
                         break;
                     }
                 }
                 node.append(c);
                 continue;
-            } else if(node.length() == 0 && Character.isWhitespace(c)){
+            } else if (node.length() == 0 && Character.isWhitespace(c)) {
                 continue;
             }
 
-            switch (c){
+            switch (c) {
                 case '(':
                     clazz = node.toString();
                     node.setLength(0);
@@ -70,8 +70,8 @@ public class ConstructorParser {
         ParameterParser parser = new ParameterParser(params);
         Parameter[] parameters = parser.parse(block);
 
-        for(final ObjectScheme os : ElementsBucket.getObjects()){
-            if(os.getName().equals(clazz)){
+        for (final ObjectScheme os : ElementsBucket.getObjects()) {
+            if (os.getName().equals(clazz)) {
                 return new Runtime(null, new IExecutable() {
                     @Override
                     public PObject run(Parameter instance, Parameter... parameters) {

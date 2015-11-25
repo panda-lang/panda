@@ -1,7 +1,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.Core;
-import org.panda_lang.panda.core.parser.depracted.util.Exec;
+import org.panda_lang.panda.core.parser.improved.essential.util.Exec;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
 
@@ -23,15 +23,15 @@ public class Panda {
     }
 
     public void exec(String... commands) {
-        if(commands != null) {
-            for(String command : commands) {
+        if (commands != null) {
+            for (String command : commands) {
                 Exec.activate(command);
             }
         }
     }
 
     public void call(Class<? extends Block> blockType, String name, Parameter... parameters) {
-        for(PandaScript script : getScripts()) {
+        for (PandaScript script : getScripts()) {
             script.call(blockType, name, parameters);
         }
     }
@@ -41,7 +41,7 @@ public class Panda {
     }
 
     public void reload() {
-        if(reload != null) this.reload.run();
+        if (reload != null) this.reload.run();
     }
 
     public void addScript(PandaScript script) {
@@ -52,15 +52,13 @@ public class Panda {
         this.reload = reload;
     }
 
-    public Collection<PandaScript> getScripts()  {
+    public Collection<PandaScript> getScripts() {
         return scripts;
     }
 
     public static String getDirectory() {
         return Panda.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     }
-
-
 
 
     public static void main(String[] args) throws Exception {

@@ -13,15 +13,15 @@ public class ElseThenBlock extends Block {
             @Override
             public Block parse(BlockInfo blockInfo, Block parent, Block current, Block previous) {
                 current = new ElseThenBlock();
-                if(previous instanceof IfThenBlock){
+                if (previous instanceof IfThenBlock) {
                     ((IfThenBlock) previous).setElseThenBlock(current);
                 }
                 return current;
             }
         }));
     }
-    
-    public ElseThenBlock(){
+
+    public ElseThenBlock() {
         super.setName("ElseThenBlock");
     }
 

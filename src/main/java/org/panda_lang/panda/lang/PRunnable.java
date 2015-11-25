@@ -31,16 +31,16 @@ public class PRunnable extends PObject {
 
     private RunnableBlock block;
 
-    public PObject run(Parameter... vars){
+    public PObject run(Parameter... vars) {
         return block != null ? block.run(vars) : null;
     }
 
-    public void setBlock(RunnableBlock block){
+    public void setBlock(RunnableBlock block) {
         this.block = block;
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "Runnable";
     }
 

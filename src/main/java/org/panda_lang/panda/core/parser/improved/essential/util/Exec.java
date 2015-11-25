@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser.depracted.util;
+package org.panda_lang.panda.core.parser.improved.essential.util;
 
 import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.PandaScript;

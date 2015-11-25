@@ -34,7 +34,7 @@ public class MethodInfo {
         return method;
     }
 
-    public String getPseudoclass(){
+    public String getPseudoclass() {
         return pseudoclass;
     }
 
@@ -42,7 +42,7 @@ public class MethodInfo {
         return instance;
     }
 
-    public boolean isStatic(){
+    public boolean isStatic() {
         return pseudoclass != null;
     }
 

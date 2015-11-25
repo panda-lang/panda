@@ -9,7 +9,7 @@ public class Equality implements IExecutable {
 
     private EqualityBuilder equalityBuilder;
 
-    public Equality(EqualityBuilder equalityBuilder){
+    public Equality(EqualityBuilder equalityBuilder) {
         this.equalityBuilder = equalityBuilder;
     }
 
@@ -18,7 +18,7 @@ public class Equality implements IExecutable {
         Operator operator = equalityBuilder.getOperator();
         boolean flag = false;
 
-        if(operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO){
+        if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
             flag = equalityBuilder.getOne().getValue().equals(equalityBuilder.getOther().getValue());
             flag = operator == Operator.EQUALS_TO ? flag : !flag;
 
