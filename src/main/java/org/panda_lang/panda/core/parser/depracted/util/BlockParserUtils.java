@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BlockParserUtils {
 
-    public static BlockInfo getSectionIndication(String s){
+    public static BlockInfo getSectionIndication(String s) {
         String name = null;
         List<String> specifiers = new ArrayList<>();
         List<String> parameters = new ArrayList<>();
@@ -18,7 +18,7 @@ public class BlockParserUtils {
 
         // {parse}
         char[] chars = s.toCharArray();
-        for(int i = 0; i < chars.length; i++) {
+        for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
 
             // {switch.special}
@@ -29,11 +29,11 @@ public class BlockParserUtils {
                     break;
                 case '(':
                     // {parameters.start}
-                    if(!string) spec = true;
+                    if (!string) spec = true;
                 case ')':
                 case ',':
                 case '{':
-                    if(!string) c = ' ';
+                    if (!string) c = ' ';
             }
 
             // {part.end}
@@ -46,19 +46,19 @@ public class BlockParserUtils {
                 String part = node.toString();
 
                 // {block.type}
-                if (name == null){
+                if (name == null) {
                     name = part;
-                    if(spec) {
+                    if (spec) {
                         pam = true;
                     }
                 }
                 // {parameters}
-                else if(pam){
+                else if (pam) {
                     parameters.add(part);
                 }
                 // {specifiers}
                 else {
-                    if(spec) pam = true;
+                    if (spec) pam = true;
                     specifiers.add(part);
                 }
 

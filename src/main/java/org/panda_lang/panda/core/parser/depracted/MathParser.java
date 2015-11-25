@@ -14,27 +14,27 @@ public class MathParser {
 
     private final String source;
 
-    public MathParser(String source){
+    public MathParser(String source) {
         this.source = source;
     }
 
-    public Parameter parse(Block block){
+    public Parameter parse(Block block) {
         MathBuilder mathBuilder = new MathBuilder();
         Stack<Character> operators = new Stack<>();
         StringTokenizer tokenizer = new StringTokenizer(source, "+-*/^()", true);
-        while (tokenizer.hasMoreElements()){
+        while (tokenizer.hasMoreElements()) {
             String token = tokenizer.nextToken();
-            if(token.isEmpty()) continue;
+            if (token.isEmpty()) continue;
 
             char c = token.charAt(0);
-            switch (c){
+            switch (c) {
                 case '+':
                 case '-':
                 case '*':
                 case '/':
                 case '^':
-                    if(operators.size() != 0)
-                        if(MathParserUtils.compare(operators.peek(), c))
+                    if (operators.size() != 0)
+                        if (MathParserUtils.compare(operators.peek(), c))
                             mathBuilder.append(operators.pop());
                     operators.push(c);
                     break;
@@ -42,7 +42,7 @@ public class MathParser {
                     operators.push(c);
                     break;
                 case ')':
-                    while(operators.peek() != '(')
+                    while (operators.peek() != '(')
                         mathBuilder.append(operators.pop());
                     operators.pop();
                     break;
@@ -52,7 +52,8 @@ public class MathParser {
                     break;
             }
 
-        } while (operators.size() != 0) mathBuilder.append(operators.pop());
+        }
+        while (operators.size() != 0) mathBuilder.append(operators.pop());
 
         mathBuilder.rewrite();
         org.panda_lang.panda.core.syntax.Math math = new Math(mathBuilder);

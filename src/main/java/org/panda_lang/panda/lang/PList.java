@@ -35,24 +35,24 @@ public class PList extends PObject {
 
     private final List<PObject> list;
 
-    public PList(){
+    public PList() {
         this.list = new ArrayList<>();
     }
 
-    public List<PObject> getList(){
+    public List<PObject> getList() {
         return list;
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "List";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder node = new StringBuilder();
-        for(PObject o : list){
-            if(node.length() != 0) node.append(", ");
+        for (PObject o : list) {
+            if (node.length() != 0) node.append(", ");
             node.append(o);
         }
         return node.toString();

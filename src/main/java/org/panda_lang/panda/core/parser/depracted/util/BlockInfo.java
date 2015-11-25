@@ -22,7 +22,7 @@ public class BlockInfo {
         return specifiers;
     }
 
-    public String[] getParameters(){
+    public String[] getParameters() {
         String[] params = new String[parameters.size()];
         return parameters.toArray(params);
     }

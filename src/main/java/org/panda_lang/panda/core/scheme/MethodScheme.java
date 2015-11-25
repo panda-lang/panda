@@ -7,7 +7,7 @@ public class MethodScheme {
     private final String name;
     private final IExecutable executable;
 
-    public MethodScheme(String name, IExecutable executable){
+    public MethodScheme(String name, IExecutable executable) {
         this.name = name;
         this.executable = executable;
     }

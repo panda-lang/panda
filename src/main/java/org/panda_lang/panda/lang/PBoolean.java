@@ -16,7 +16,7 @@ public class PBoolean extends PObject {
         os.registerConstructor(new ConstructorScheme(new Constructor<PBoolean>() {
             @Override
             public PBoolean run(Parameter... parameters) {
-                if(parameters == null || parameters.length == 0) return new PBoolean(false);
+                if (parameters == null || parameters.length == 0) return new PBoolean(false);
                 else return parameters[0].getValue(PBoolean.class);
             }
         }));
@@ -32,29 +32,29 @@ public class PBoolean extends PObject {
 
     private final boolean b;
 
-    public PBoolean(boolean b){
+    public PBoolean(boolean b) {
         this.b = b;
     }
 
-    public boolean isTrue(){
+    public boolean isTrue() {
         return b;
     }
 
-    public boolean isFalse(){
+    public boolean isFalse() {
         return !b;
     }
 
-    public boolean getBoolean(){
+    public boolean getBoolean() {
         return b;
     }
 
     @Override
-    public  String getType(){
+    public String getType() {
         return "Boolean";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return Boolean.toString(b);
     }
 

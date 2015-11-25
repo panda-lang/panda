@@ -16,7 +16,7 @@ public class PCharacter extends PObject {
         os.registerConstructor(new ConstructorScheme(new Constructor<PCharacter>() {
             @Override
             public PCharacter run(Parameter... parameters) {
-                if(parameters == null || parameters.length == 0) return new PCharacter('\u0000');
+                if (parameters == null || parameters.length == 0) return new PCharacter('\u0000');
                 else return parameters[0].getValue(PCharacter.class);
             }
         }));

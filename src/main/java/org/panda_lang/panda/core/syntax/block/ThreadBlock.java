@@ -36,7 +36,7 @@ public class ThreadBlock extends Block {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for(Executable e : block.getExecutables()) {
+                for (Executable e : block.getExecutables()) {
                     e.run(vars);
                 }
             }
@@ -49,12 +49,12 @@ public class ThreadBlock extends Block {
 
     @Override
     public PObject run(final Parameter... vars) {
-        if(parameters.length == 0) {
+        if (parameters.length == 0) {
             System.out.println("[" + super.getName() + "] ThreadBlock is not assigned to thread");
             return null;
         }
         PObject value = parameters[0].getValue();
-        if(value instanceof PThread) {
+        if (value instanceof PThread) {
             pThread = (PThread) value;
             pThread.setBlock(this);
         }

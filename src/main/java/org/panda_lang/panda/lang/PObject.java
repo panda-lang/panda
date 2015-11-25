@@ -20,7 +20,7 @@ public class PObject {
             }
         }));
         // Method: toString
-        os.registerMethod(new MethodScheme("toString", new IExecutable(){
+        os.registerMethod(new MethodScheme("toString", new IExecutable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 return new PString(instance.getValue().toString());
@@ -28,16 +28,16 @@ public class PObject {
         }));
     }
 
-    public <T> T getMe(Class<T> clazz){
+    public <T> T getMe(Class<T> clazz) {
         return (T) this;
     }
 
-    public String getType(){
+    public String getType() {
         return "Object";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return super.toString();
     }
 

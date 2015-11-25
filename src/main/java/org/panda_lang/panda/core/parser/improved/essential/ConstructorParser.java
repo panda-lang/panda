@@ -1,6 +1,10 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
 import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.parser.improved.PandaParser;
+import org.panda_lang.panda.core.parser.improved.Parser;
+import org.panda_lang.panda.core.parser.improved.PatternExtractor;
+import org.panda_lang.panda.core.parser.improved.SourcesDivider;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.IExecutable;
@@ -10,15 +14,17 @@ import org.panda_lang.panda.lang.PObject;
 
 import java.util.Stack;
 
-public class ConstructorParser {
+public class ConstructorParser implements Parser {
 
-    private final String source;
+    private Block parent;
 
-    public ConstructorParser(String source) {
-        this.source = source.substring(4);
-    }
+    @Override
+    public Runtime parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
+        this.parent = parent;
 
-    public Runtime parse(Block block) {
+        String source = new String(sourcesDivider.getSource());
+        source = source.substring(4);
+
         StringBuilder node = new StringBuilder();
         Stack<Character> stack = new Stack<>();
         String clazz = null;
@@ -26,26 +32,26 @@ public class ConstructorParser {
                 p = false;
 
         char[] chars = source.toCharArray();
-        for(int i = 0; i < source.length(); i++) {
+        for (int i = 0; i < source.length(); i++) {
             char c = chars[i];
 
-            if(c == '"') {
+            if (c == '"') {
                 s = !s;
-            } else if(s) {
+            } else if (s) {
                 node.append(c);
                 continue;
-            } else if(p) {
-                if(c == '(') {
+            } else if (p) {
+                if (c == '(') {
                     stack.push(c);
-                } else if(c == ')') {
+                } else if (c == ')') {
                     stack.pop();
-                    if(stack.size() == 0) {
+                    if (stack.size() == 0) {
                         break;
                     }
                 }
                 node.append(c);
                 continue;
-            } else if(node.length() == 0 && Character.isWhitespace(c)) {
+            } else if (node.length() == 0 && Character.isWhitespace(c)) {
                 continue;
             }
 
@@ -67,11 +73,11 @@ public class ConstructorParser {
         String params = node.toString();
         node.setLength(0);
 
-        ParameterParser parser = new ParameterParser(params);
-        Parameter[] parameters = parser.parse(block);
+        ParameterParser parser = new ParameterParser(pandaParser, new SourcesDivider(params), extractor, parent, previous);
+        Parameter[] parameters = parser.parseLocal();
 
-        for(final ObjectScheme os : ElementsBucket.getObjects()) {
-            if(os.getName().equals(clazz)) {
+        for (final ObjectScheme os : ElementsBucket.getObjects()) {
+            if (os.getName().equals(clazz)) {
                 return new Runtime(null, new IExecutable() {
                     @Override
                     public PObject run(Parameter instance, Parameter... parameters) {
@@ -82,6 +88,11 @@ public class ConstructorParser {
         }
 
         return null;
+    }
+
+    @Override
+    public Block getParent() {
+        return parent;
     }
 
 }

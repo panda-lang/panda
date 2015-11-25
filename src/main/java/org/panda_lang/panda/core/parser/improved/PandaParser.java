@@ -29,7 +29,7 @@ public class PandaParser {
     }
 
     public PandaScript parse() {
-        while(divider.hasNext() && isHappy()) {
+        while (divider.hasNext() && isHappy()) {
             String line = divider.next();
             Executable executable = parseLine(line, divider, extractor, pandaBlock, pandaBlock);
             pandaBlock.addExecutable(executable);
@@ -42,7 +42,7 @@ public class PandaParser {
         ParserScheme scheme = ElementsBucket.getParserScheme(pattern);
 
         // {parser.not.found}
-        if(scheme == null) {
+        if (scheme == null) {
             throwException(new PandaException("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
             return null;
         }

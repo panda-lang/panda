@@ -8,7 +8,7 @@ import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 
 public class ClassBlock extends Block {
-    
+
     static {
         ElementsBucket.registerBlock(new BlockScheme(ClassBlock.class, false, "class").parser(new CustomParser() {
             @Override

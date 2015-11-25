@@ -12,7 +12,7 @@ public class RunnableBlock extends Block {
     static {
         ElementsBucket.registerBlock(new BlockScheme(RunnableBlock.class, "runnable").parser(new CustomParser() {
             @Override
-            public Block parse(BlockInfo blockInfo, Block parent,  Block current, Block previous) {
+            public Block parse(BlockInfo blockInfo, Block parent, Block current, Block previous) {
                 current = new RunnableBlock();
                 current.setParameters(new ParameterParser().parse(current, blockInfo.getParameters()));
                 return current;

@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class Catcher extends Thread {
 
@@ -21,7 +20,7 @@ public class Catcher extends Thread {
 
     @Override
     public void run() {
-        while(true) {
+        while (true) {
             try {
                 final Socket socket = serverSocket.accept();
                 final DataInputStream input = new DataInputStream(socket.getInputStream());

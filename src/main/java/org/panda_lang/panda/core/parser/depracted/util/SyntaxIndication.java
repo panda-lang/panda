@@ -21,9 +21,9 @@ public enum SyntaxIndication {
     }
 
     public static SyntaxIndication recognize(String s) {
-        for(SyntaxIndication i : values()) {
-            for(String indi : i.getIndication()) {
-                if(s.equals(indi)) {
+        for (SyntaxIndication i : values()) {
+            for (String indi : i.getIndication()) {
+                if (s.equals(indi)) {
                     return i;
                 }
             }

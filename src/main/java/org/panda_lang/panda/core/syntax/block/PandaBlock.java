@@ -18,7 +18,7 @@ public class PandaBlock extends Block {
     }
 
     public void initVariables() {
-        for(Variable variable : variables) {
+        for (Variable variable : variables) {
             variable.run();
         }
     }

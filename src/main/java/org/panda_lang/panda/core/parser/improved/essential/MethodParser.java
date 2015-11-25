@@ -21,18 +21,23 @@ public class MethodParser implements Parser {
         ElementsBucket.registerParser(parserScheme);
     }
 
+    private Block parent;
+
+    @Override
     public Method parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
+        this.parent = parent;
+
         String source = sourcesDivider.getLine();
         MethodInfo mi = MethodAssistant.getMethodIndication(parent, source);
-        if(mi == null) {
+        if (mi == null) {
             System.out.println("[MethodParser] Indication failed");
             return null;
         }
 
-        if(mi.isExternal()) {
-            if(mi.isStatic()) {
+        if (mi.isExternal()) {
+            if (mi.isStatic()) {
                 for (ObjectScheme os : ElementsBucket.getObjects()) {
-                    if(!os.getName().equals(mi.getPseudoclass())) {
+                    if (!os.getName().equals(mi.getPseudoclass())) {
                         continue;
                     }
                     for (MethodScheme ms : os.getMethods()) {
@@ -45,13 +50,13 @@ public class MethodParser implements Parser {
             } else {
                 Parameter instance = mi.getInstance();
                 String type = instance.getDataType();
-                if(type != null) {
-                    for(ObjectScheme os : ElementsBucket.getObjects()) {
-                        if(!type.equals(os.getName())) {
+                if (type != null) {
+                    for (ObjectScheme os : ElementsBucket.getObjects()) {
+                        if (!type.equals(os.getName())) {
                             continue;
                         }
-                        for(MethodScheme ms : os.getMethods()) {
-                            if(!ms.getName().equals(mi.getMethod())) {
+                        for (MethodScheme ms : os.getMethods()) {
+                            if (!ms.getName().equals(mi.getMethod())) {
                                 continue;
                             }
                             return new Method(mi.getInstance(), parent, mi.getMethod(), ms.getExecutable(), mi.getParameters());
@@ -69,7 +74,7 @@ public class MethodParser implements Parser {
 
     @Override
     public Block getParent() {
-        return null;
+        return parent;
     }
 
 }

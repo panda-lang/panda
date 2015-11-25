@@ -16,7 +16,7 @@ public class PNumber extends PObject {
         os.registerConstructor(new ConstructorScheme(new Constructor<PNumber>() {
             @Override
             public PNumber run(Parameter... parameters) {
-                if(parameters == null || parameters.length == 0) return new PNumber(0);
+                if (parameters == null || parameters.length == 0) return new PNumber(0);
                 else return parameters[0].getValue(PNumber.class);
             }
         }));
@@ -39,29 +39,30 @@ public class PNumber extends PObject {
 
     private final Number number;
 
-    public PNumber(Number number){
+    public PNumber(Number number) {
         this.number = number;
     }
 
-    public Number getNumber(){
+    public Number getNumber() {
         return number;
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "Number";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return number.toString();
     }
 
-    public static Number getNumberValue(Parameter parameter){
+    public static Number getNumberValue(Parameter parameter) {
         PObject value = parameter.getValue();
-        if(value instanceof PNumber){
+        if (value instanceof PNumber) {
             return ((PNumber) value).getNumber();
-        } return 0;
+        }
+        return 0;
     }
 
 }

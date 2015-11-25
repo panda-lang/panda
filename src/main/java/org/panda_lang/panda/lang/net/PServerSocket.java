@@ -14,4 +14,9 @@ public class PServerSocket extends PObject {
         return serverSocket;
     }
 
+    @Override
+    public String toString() {
+        return serverSocket.toString();
+    }
+
 }

@@ -49,24 +49,24 @@ public class PStack extends PObject {
 
     private final Stack<PObject> stack;
 
-    public PStack(){
+    public PStack() {
         this.stack = new Stack<>();
     }
 
-    public Stack<PObject> getStack(){
+    public Stack<PObject> getStack() {
         return stack;
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "Stack";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         StringBuilder node = new StringBuilder();
-        for(PObject o : stack){
-            if(node.length() != 0) node.append(", ");
+        for (PObject o : stack) {
+            if (node.length() != 0) node.append(", ");
             node.append(o);
         }
         return node.toString();

@@ -10,7 +10,7 @@ public class Math implements IExecutable {
 
     private final MathBuilder mathBuilder;
 
-    public Math(MathBuilder mathBuilder){
+    public Math(MathBuilder mathBuilder) {
         this.mathBuilder = mathBuilder;
     }
 
@@ -18,13 +18,13 @@ public class Math implements IExecutable {
     public PObject run(Parameter instance, Parameter... parameters) {
         Stack<Double> values = new Stack<>();
 
-        for(int i = 0; i < mathBuilder.size(); i++){
+        for (int i = 0; i < mathBuilder.size(); i++) {
             MathBuilder.Type type = mathBuilder.next();
-            if(type == MathBuilder.Type.OPERATOR){
+            if (type == MathBuilder.Type.OPERATOR) {
                 char operator = mathBuilder.getOperator();
                 double t = values.pop();
                 double d = values.pop();
-                switch (operator){
+                switch (operator) {
                     case '+':
                         values.push(d + t);
                         break;

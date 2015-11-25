@@ -50,32 +50,32 @@ public class PThread extends PObject {
     private ThreadBlock block;
     private Thread thread;
 
-    public PThread(){
+    public PThread() {
     }
 
-    public PThread(String name){
+    public PThread(String name) {
         this.name = name;
     }
 
-    public PThread(Thread thread){
+    public PThread(Thread thread) {
         this.thread = thread;
         this.name = thread.getName();
     }
 
-    public void start(Parameter... vars){
-        if(this.block != null) block.start(vars);
+    public void start(Parameter... vars) {
+        if (this.block != null) block.start(vars);
     }
 
-    public void setBlock(ThreadBlock block){
+    public void setBlock(ThreadBlock block) {
         this.block = block;
     }
 
-    public String getName(){
+    public String getName() {
         return name != null ? name : "ThreadBlock";
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "Thread";
     }
 

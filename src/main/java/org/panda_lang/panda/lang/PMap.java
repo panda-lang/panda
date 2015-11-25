@@ -42,21 +42,21 @@ public class PMap extends PObject {
 
     private final Map<PObject, PObject> map;
 
-    public PMap(){
+    public PMap() {
         this.map = new HashMap<>();
     }
 
-    public Map<PObject, PObject> getMap(){
+    public Map<PObject, PObject> getMap() {
         return map;
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "Map";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return map.toString();
     }
 

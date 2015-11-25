@@ -24,7 +24,9 @@ public class MathParser {
 
         while (tokenizer.hasMoreElements()) {
             String token = tokenizer.nextToken();
-            if(token.isEmpty()) continue;
+            if (token.isEmpty()) {
+                continue;
+            }
 
             char c = token.charAt(0);
             switch (c) {
@@ -33,18 +35,20 @@ public class MathParser {
                 case '*':
                 case '/':
                 case '^':
-                    if(operators.size() != 0)
-                        if(compare(operators.peek(), c)) {
+                    if (operators.size() != 0) {
+                        if (compare(operators.peek(), c)) {
                             mathBuilder.append(operators.pop());
                         }
+                    }
                     operators.push(c);
                     break;
                 case '(':
                     operators.push(c);
                     break;
                 case ')':
-                    while(operators.peek() != '(')
+                    while (operators.peek() != '(') {
                         mathBuilder.append(operators.pop());
+                    }
                     operators.pop();
                     break;
                 default:
@@ -64,11 +68,11 @@ public class MathParser {
         return new Parameter("Number", block, new Runtime(math));
     }
 
-    public boolean compare(char prev, char current){
+    public boolean compare(char prev, char current) {
         return getOrder(prev) >= getOrder(current);
     }
 
-    public int getOrder(char c){
+    public int getOrder(char c) {
         int i = c == '*' || c == '/' || c == '^' ? 2 : 0;
         return i == 0 && (c == '+' || c == '-') ? 1 : i;
     }

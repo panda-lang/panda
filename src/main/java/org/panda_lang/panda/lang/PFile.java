@@ -28,7 +28,7 @@ public class PFile extends PObject {
             public PObject run(Parameter instance, Parameter... parameters) {
                 PFile f = instance.getValue(PFile.class);
                 File file = f.getFile();
-                if(!file.exists()) {
+                if (!file.exists()) {
 
                 }
                 return null;
@@ -54,25 +54,25 @@ public class PFile extends PObject {
 
     private final File file;
 
-    public PFile(String s){
+    public PFile(String s) {
         this.file = new File(s);
     }
 
-    public File getFile(){
+    public File getFile() {
         return file;
     }
 
-    public PString getContent(){
+    public PString getContent() {
         return new PString(IOUtils.getContent(file));
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "File";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return file.getName();
     }
 

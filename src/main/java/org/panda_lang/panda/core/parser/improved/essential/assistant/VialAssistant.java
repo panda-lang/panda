@@ -9,9 +9,9 @@ public class VialAssistant {
 
     public static String extractIndication(String line) {
         StringBuilder node = new StringBuilder();
-        for(char c : line.toCharArray()) {
-            if(Character.isWhitespace(c) || c == '(' || c == '{') {
-                if(node.length() == 0) {
+        for (char c : line.toCharArray()) {
+            if (Character.isWhitespace(c) || c == '(' || c == '{') {
+                if (node.length() == 0) {
                     continue;
                 } else {
                     break;
@@ -34,9 +34,9 @@ public class VialAssistant {
         boolean spec = false;
         boolean pam = false;
 
-        // {parse}
+        // {parseLocal}
         char[] chars = s.toCharArray();
-        for(int i = 0; i < chars.length; i++) {
+        for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
 
             // {switch.special}
@@ -47,13 +47,13 @@ public class VialAssistant {
                     break;
                 case '(':
                     // {parameters.start}
-                    if(!string) {
+                    if (!string) {
                         spec = true;
                     }
                 case ')':
                 case ',':
                 case '{':
-                    if(!string) {
+                    if (!string) {
                         c = ' ';
                     }
             }
@@ -68,19 +68,19 @@ public class VialAssistant {
                 String part = node.toString();
 
                 // {block.type}
-                if (name == null){
+                if (name == null) {
                     name = part;
-                    if(spec) {
+                    if (spec) {
                         pam = true;
                     }
                 }
                 // {parameters}
-                else if(pam){
+                else if (pam) {
                     parameters.add(part);
                 }
                 // {specifiers}
                 else {
-                    if(spec) pam = true;
+                    if (spec) pam = true;
                     specifiers.add(part);
                 }
 

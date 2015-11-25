@@ -33,18 +33,15 @@ public class IfThenBlock extends Block {
     public PObject run(Parameter... vars) {
         PObject object = parameters[0].getValue();
 
-        if(object instanceof PBoolean) {
+        if (object instanceof PBoolean) {
             PBoolean b = (PBoolean) object;
 
-            if(b.isTrue())
-            {
+            if (b.isTrue()) {
                 return super.run(vars);
-            }
-            else if(elseThenBlock != null)
-            {
+            } else if (elseThenBlock != null) {
                 return elseThenBlock.run(vars);
             }
-        } 
+        }
         return null;
     }
 

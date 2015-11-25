@@ -16,4 +16,9 @@ public class PSocket extends PObject {
         return socket;
     }
 
+    @Override
+    public String toString() {
+        return socket.toString();
+    }
+
 }

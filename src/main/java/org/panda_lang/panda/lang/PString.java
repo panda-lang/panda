@@ -63,31 +63,31 @@ public class PString extends PObject {
 
     private final String string;
 
-    public PString(String string){
+    public PString(String string) {
         this.string = string;
     }
 
-    public PBoolean contains(PObject o){
+    public PBoolean contains(PObject o) {
         return new PBoolean(string.contains(o.toString()));
     }
 
-    public PString replace(PObject f, PObject t){
+    public PString replace(PObject f, PObject t) {
         String from = f.toString();
         String to = t.toString();
         return new PString(string.replace(from, to));
     }
 
-    public String stringValue(){
+    public String stringValue() {
         return this.string;
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return "String";
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return this.string;
     }
 

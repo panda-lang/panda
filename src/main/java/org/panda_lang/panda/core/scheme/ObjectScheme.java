@@ -13,18 +13,18 @@ public class ObjectScheme {
     private final Collection<MethodScheme> methods;
     private ConstructorScheme constructor;
 
-    public ObjectScheme(Class<? extends PObject> clazz, String name){
+    public ObjectScheme(Class<? extends PObject> clazz, String name) {
         this.clazz = clazz;
         this.name = name;
         this.methods = new ArrayList<>();
         ElementsBucket.registerObject(this);
     }
 
-    public void registerConstructor(ConstructorScheme constructor){
+    public void registerConstructor(ConstructorScheme constructor) {
         this.constructor = constructor;
     }
 
-    public void registerMethod(MethodScheme method){
+    public void registerMethod(MethodScheme method) {
         this.methods.add(method);
     }
 
@@ -36,11 +36,11 @@ public class ObjectScheme {
         return constructor;
     }
 
-    public Class<? extends PObject> getClazz(){
+    public Class<? extends PObject> getClazz() {
         return clazz;
     }
 
-    public String getName(){
+    public String getName() {
         return name;
     }
 
