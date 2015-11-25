@@ -50,9 +50,11 @@ public class ElementsBucket {
 
     public static ParserScheme getParserScheme(String pattern) {
         for (ParserScheme parserScheme : parsers) {
-            Pattern parserSchemePattern = parserScheme.getPattern();
-            if (parserSchemePattern.match(pattern)) {
-                return parserScheme;
+            Pattern[] parserSchemePatterns = parserScheme.getPatterns();
+            for (Pattern patternVar : parserSchemePatterns) {
+                if (patternVar.match(pattern)) {
+                    return parserScheme;
+                }
             }
         }
         return null;

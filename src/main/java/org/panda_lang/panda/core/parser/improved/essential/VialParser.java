@@ -1,9 +1,8 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.PandaParser;
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.parser.improved.PatternExtractor;
 import org.panda_lang.panda.core.parser.improved.SourcesDivider;
 import org.panda_lang.panda.core.parser.improved.essential.assistant.VialAssistant;
 import org.panda_lang.panda.core.parser.improved.essential.util.BlockInfo;
@@ -19,15 +18,13 @@ public class VialParser implements Parser {
         ElementsBucket.registerParser(scheme);
     }
 
-    private Block parent;
-    private Block current;
-    private Block previous;
+    private Atom atom;
 
     @Override
-    public Block parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
-        this.parent = parent;
-        this.previous = previous;
+    public Block parse(Atom atom) {
+        this.atom = atom;
 
+        SourcesDivider sourcesDivider = atom.getSourcesDivider();
         String vialLine = sourcesDivider.getLine();
         String vialIndication = VialAssistant.extractIndication(vialLine);
         BlockInfo blockInfo = VialAssistant.extractVial(vialLine);
@@ -36,7 +33,8 @@ public class VialParser implements Parser {
         for (BlockScheme blockScheme : ElementsBucket.getBlocks()) {
             for (String indication : blockScheme.getIndications()) {
                 if (vialIndication.equals(indication)) {
-                    current = blockScheme.getParser().parse(blockInfo, parent, current, previous);
+                    atom.setBlockInfo(blockInfo);
+                    atom.setCurrent(blockScheme.getParser().parse(atom));
                     break indication;
                 }
             }
@@ -47,20 +45,20 @@ public class VialParser implements Parser {
             if (VialAssistant.isPlug(line)) {
                 break;
             }
-            Executable executable = pandaParser.parseLine(line, sourcesDivider, extractor, current, previous);
+            Executable executable = atom.getPandaParser().parseLine(line, atom);
             if (executable instanceof Block) {
-                previous = (Block) executable;
+                atom.setPrevious((Block) executable);
             } else {
-                current.addExecutable(executable);
+                atom.getCurrent().addExecutable(executable);
             }
         }
 
-        return current;
+        return atom.getCurrent();
     }
 
     @Override
     public Block getParent() {
-        return parent;
+        return atom.getParent();
     }
 
 }

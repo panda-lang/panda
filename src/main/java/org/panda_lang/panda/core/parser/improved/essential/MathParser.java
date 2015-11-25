@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Math;
 import org.panda_lang.panda.core.syntax.Parameter;
@@ -52,7 +53,10 @@ public class MathParser {
                     operators.pop();
                     break;
                 default:
-                    Parameter parameter = new ParameterParser().parse(block, token);
+                    Atom atom = new Atom();
+                    atom.setParent(block);
+                    atom.setSourceCode(token);
+                    Parameter parameter = new ParameterParser().parse(atom);
                     mathBuilder.append(parameter);
                     break;
             }

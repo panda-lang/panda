@@ -1,8 +1,5 @@
 package org.panda_lang.panda.core.parser.improved.essential.assistant;
 
-import org.panda_lang.panda.core.parser.depracted.util.Recognizer;
-import org.panda_lang.panda.core.parser.depracted.util.SyntaxIndication;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
