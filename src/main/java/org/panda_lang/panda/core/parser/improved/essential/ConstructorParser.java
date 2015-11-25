@@ -1,10 +1,8 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.PandaParser;
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.parser.improved.PatternExtractor;
-import org.panda_lang.panda.core.parser.improved.SourcesDivider;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.IExecutable;
@@ -19,10 +17,10 @@ public class ConstructorParser implements Parser {
     private Block parent;
 
     @Override
-    public Runtime parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
+    public Runtime parse(Atom atom) {
         this.parent = parent;
 
-        String source = new String(sourcesDivider.getSource());
+        String source = atom.getSourceCode();
         source = source.substring(4);
 
         StringBuilder node = new StringBuilder();
@@ -73,8 +71,9 @@ public class ConstructorParser implements Parser {
         String params = node.toString();
         node.setLength(0);
 
-        ParameterParser parser = new ParameterParser(pandaParser, new SourcesDivider(params), extractor, parent, previous);
-        Parameter[] parameters = parser.parseLocal();
+        atom.setSourceCode(params);
+        ParameterParser parser = new ParameterParser();
+        Parameter[] parameters = parser.parseLocal(atom);
 
         for (final ObjectScheme os : ElementsBucket.getObjects()) {
             if (os.getName().equals(clazz)) {

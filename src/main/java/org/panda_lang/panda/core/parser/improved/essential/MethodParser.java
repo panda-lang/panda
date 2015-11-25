@@ -1,10 +1,8 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.PandaParser;
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.parser.improved.PatternExtractor;
-import org.panda_lang.panda.core.parser.improved.SourcesDivider;
 import org.panda_lang.panda.core.parser.improved.essential.assistant.MethodAssistant;
 import org.panda_lang.panda.core.parser.improved.essential.util.MethodInfo;
 import org.panda_lang.panda.core.scheme.MethodScheme;
@@ -24,10 +22,10 @@ public class MethodParser implements Parser {
     private Block parent;
 
     @Override
-    public Method parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
+    public Method parse(Atom atom) {
         this.parent = parent;
 
-        String source = sourcesDivider.getLine();
+        String source = atom.getSourcesDivider().getLine();
         MethodInfo mi = MethodAssistant.getMethodIndication(parent, source);
         if (mi == null) {
             System.out.println("[MethodParser] Indication failed");
@@ -66,7 +64,7 @@ public class MethodParser implements Parser {
                 return new Method(mi.getInstance(), parent, mi.getMethod(), null, mi.getParameters());
             }
         } else {
-            return new Method(pandaParser.getPandaScript(), parent, mi.getMethod(), mi.getParameters());
+            return new Method(atom.getPandaScript(), parent, mi.getMethod(), mi.getParameters());
         }
 
         return null;
