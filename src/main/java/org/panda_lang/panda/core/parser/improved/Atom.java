@@ -28,7 +28,8 @@ public class Atom {
         this.parent = parent;
     }
 
-    public Atom() {}
+    public Atom() {
+    }
 
     public Atom pandaScript(PandaScript pandaScript) {
         this.pandaScript = pandaScript;

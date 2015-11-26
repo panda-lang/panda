@@ -25,7 +25,8 @@ public class SourcesDivider {
                 realLine++;
                 skip = false;
                 continue;
-            } if (node.length() == 0 && Character.isWhitespace(c)) {
+            }
+            if (node.length() == 0 && Character.isWhitespace(c)) {
                 continue;
             } else if (node.length() == 0 && c == '/' && source[index + 1] == '/') {
                 skip = true;
