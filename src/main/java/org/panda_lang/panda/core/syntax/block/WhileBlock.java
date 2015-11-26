@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.essential.CustomParser;
 import org.panda_lang.panda.core.parser.improved.essential.ParameterParser;
-import org.panda_lang.panda.core.parser.improved.essential.util.BlockInfo;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
@@ -15,9 +15,9 @@ public class WhileBlock extends Block {
     static {
         ElementsBucket.registerBlock(new BlockScheme(WhileBlock.class, "while").parser(new CustomParser() {
             @Override
-            public Block parse(BlockInfo blockInfo, Block parent, Block current, Block previous) {
-                current = new WhileBlock();
-                current.setParameters(new ParameterParser().parse(current, blockInfo.getParameters()));
+            public Block parse(Atom atom) {
+                Block current = new WhileBlock();
+                current.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         }));

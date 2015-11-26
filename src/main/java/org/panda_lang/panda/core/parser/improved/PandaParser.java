@@ -44,7 +44,7 @@ public class PandaParser {
 
         // {parser.not.found}
         if (scheme == null) {
-            throwException(new PandaException("ParserNotFoundException", line, divider.getLineNumber(), divider.getCaretPosition()));
+            throwException(new PandaException("ParserNotFoundException", line, divider.getRealLine() + 1, divider.getCaretPosition()));
             return null;
         }
 

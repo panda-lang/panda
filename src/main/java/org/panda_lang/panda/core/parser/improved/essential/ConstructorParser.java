@@ -18,7 +18,7 @@ public class ConstructorParser implements Parser {
 
     @Override
     public Runtime parse(Atom atom) {
-        this.parent = parent;
+        this.parent = atom.getParent();
 
         String source = atom.getSourceCode();
         source = source.substring(4);

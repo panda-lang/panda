@@ -23,10 +23,10 @@ public class MethodParser implements Parser {
 
     @Override
     public Method parse(Atom atom) {
-        this.parent = parent;
+        this.parent = atom.getParent();
 
         String source = atom.getSourcesDivider().getLine();
-        MethodInfo mi = MethodAssistant.getMethodIndication(parent, source);
+        MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
         if (mi == null) {
             System.out.println("[MethodParser] Indication failed");
             return null;
