@@ -11,6 +11,7 @@ public class SourcesDivider {
         source = source.replace(System.lineSeparator(), Character.toString('\n'));
         this.source = source.toCharArray();
         this.node = new StringBuilder();
+        this.index = -1;
     }
 
     public String next() {
@@ -18,6 +19,7 @@ public class SourcesDivider {
         boolean string = false;
         boolean skip = false;
 
+        index++;
         for (; index < source.length; index++) {
             char c = source[index];
 
@@ -32,6 +34,10 @@ public class SourcesDivider {
                 skip = true;
             }
 
+            if (skip) {
+                continue;
+            }
+
             switch (c) {
                 case '"':
                     string = !string;
@@ -41,16 +47,13 @@ public class SourcesDivider {
                 case ';':
                     end = true;
                     break;
-                default:
-                    if (skip) {
-                        continue;
-                    }
             }
 
             node.append(c);
 
             if (end) {
                 iLine++;
+                if (node.toString().equals(line)) return null;
                 line = node.toString();
                 node.setLength(0);
                 System.out.println("line: " + line);

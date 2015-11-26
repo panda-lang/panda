@@ -37,7 +37,7 @@ public class Atom {
     }
 
     public Atom pandaParser(PandaParser pandaParser) {
-        this.pandaScript = pandaScript;
+        this.pandaParser = pandaParser;
         return this;
     }
 

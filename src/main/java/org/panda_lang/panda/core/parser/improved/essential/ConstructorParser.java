@@ -4,7 +4,6 @@ import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.IExecutable;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
@@ -14,12 +13,8 @@ import java.util.Stack;
 
 public class ConstructorParser implements Parser {
 
-    private Block parent;
-
     @Override
     public Runtime parse(Atom atom) {
-        this.parent = atom.getParent();
-
         String source = atom.getSourceCode();
         source = source.substring(4);
 
@@ -87,11 +82,6 @@ public class ConstructorParser implements Parser {
         }
 
         return null;
-    }
-
-    @Override
-    public Block getParent() {
-        return parent;
     }
 
 }

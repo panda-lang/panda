@@ -3,7 +3,6 @@ package org.panda_lang.panda.core.parser.improved.essential;
 import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
 import org.panda_lang.panda.core.parser.improved.essential.assistant.ParameterAssistant;
-import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
@@ -14,11 +13,8 @@ import org.panda_lang.panda.lang.PString;
 
 public class ParameterParser implements Parser {
 
-    private Atom atom;
-
     @Override
     public Parameter parse(Atom atom) {
-        this.atom = atom;
         return parse(atom, atom.getSourceCode());
     }
 
@@ -43,7 +39,7 @@ public class ParameterParser implements Parser {
         // String
         if (c == '"') return parseString(parameter);
             // Array
-        else if (c == '[') return parseArray(atom.getParent(), parameter);
+        else if (c == '[') return parseArray(atom, parameter);
             // Number
         else if (isNumber(parameter)) return parseNumber(parameter);
             // Null
@@ -83,7 +79,7 @@ public class ParameterParser implements Parser {
         return new Parameter(null, atom.getParent(), new ConstructorParser().parse(atom));
     }
 
-    public Parameter parseArray(Block parent, String s) {
+    public Parameter parseArray(Atom atom, String s) {
         String array = s.substring(1, s.length() - 1);
         return new Parameter("Array", new PArray(parse(atom, array)));
     }
@@ -103,11 +99,6 @@ public class ParameterParser implements Parser {
             }
         }
         return true;
-    }
-
-    @Override
-    public Block getParent() {
-        return atom.getParent();
     }
 
 }
