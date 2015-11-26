@@ -60,7 +60,7 @@ public class ParameterAssistant {
     }
 
     public static boolean isMethod(Atom atom, String param) {
-        String pattern = atom.getPatternExtractor().extract(param, new char[] { '(', ')' });
+        String pattern = atom.getPatternExtractor().extract(param, new char[]{'(', ')'});
         return pattern.equals("()");
     }
 
