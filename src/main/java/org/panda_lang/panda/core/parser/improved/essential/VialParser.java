@@ -14,16 +14,12 @@ import org.panda_lang.panda.core.syntax.Executable;
 public class VialParser implements Parser {
 
     static {
-        ParserScheme scheme = new ParserScheme(new VialParser(), "{");
+        ParserScheme scheme = new ParserScheme(new VialParser(), "*{");
         ElementsBucket.registerParser(scheme);
     }
 
-    private Atom atom;
-
     @Override
     public Block parse(Atom atom) {
-        this.atom = atom;
-
         SourcesDivider sourcesDivider = atom.getSourcesDivider();
         String vialLine = sourcesDivider.getLine();
         String vialIndication = VialAssistant.extractIndication(vialLine);
@@ -54,11 +50,6 @@ public class VialParser implements Parser {
         }
 
         return atom.getCurrent();
-    }
-
-    @Override
-    public Block getParent() {
-        return atom.getParent();
     }
 
 }

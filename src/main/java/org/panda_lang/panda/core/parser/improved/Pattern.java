@@ -9,10 +9,12 @@ public class Pattern {
     }
 
     public boolean match(String s) {
+        System.out.println("--------------------------------------");
+        System.out.println(s + " to " + pattern);
         char[] string = s.toCharArray();
         char[] pattern = this.pattern.toCharArray();
         char current = pattern[0];
-        char next = 2 <= pattern.length ? pattern[1] : current;
+        char next = 1 < pattern.length ? pattern[1] : current;
         int p = 0;
         for (int i = 0; i < string.length; i++) {
             char character = string[i];
@@ -20,13 +22,14 @@ public class Pattern {
                 p++;
                 current = p < pattern.length ? pattern[p] : current;
                 next = p + 1 < pattern.length ? pattern[p + 1] : current;
-            } else if (character == '*') {
+            } else if (character == '*' || current == '*') {
                 continue;
             } else {
                 return false;
             }
         }
-        return true;
+        System.out.println("--------------------------------------");
+        return p + 1 >= pattern.length;
     }
 
     public String getPattern() {

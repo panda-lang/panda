@@ -1,23 +1,21 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
+import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Variable;
 
 public class VariableParser implements Parser {
 
     static {
-
+        ParserScheme parserScheme = new ParserScheme(new VariableParser(), "*=*;");
+        ElementsBucket.registerParser(parserScheme);
     }
-
-    private Block parent;
 
     @Override
     public Variable parse(Atom atom) {
-        this.parent = atom.getParent();
-
         String source = atom.getSourcesDivider().getLine();
         String[] ss = splitAndClear(source);
         if (ss == null || ss.length != 2) {
@@ -34,7 +32,7 @@ public class VariableParser implements Parser {
             parameter.setDataType(lss[0]);
         }
 
-        return new Variable(parent, ss[0], parameter);
+        return new Variable(atom.getParent(), ss[0], parameter);
     }
 
     public String[] splitAndClear(String source) {
@@ -68,11 +66,6 @@ public class VariableParser implements Parser {
             }
         }
         return node.toString();
-    }
-
-    @Override
-    public Block getParent() {
-        return parent;
     }
 
 }

@@ -19,11 +19,9 @@ public class MethodParser implements Parser {
         ElementsBucket.registerParser(parserScheme);
     }
 
-    private Block parent;
-
     @Override
     public Method parse(Atom atom) {
-        this.parent = atom.getParent();
+        Block parent = atom.getParent();
 
         String source = atom.getSourcesDivider().getLine();
         MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
@@ -68,11 +66,6 @@ public class MethodParser implements Parser {
         }
 
         return null;
-    }
-
-    @Override
-    public Block getParent() {
-        return parent;
     }
 
 }
