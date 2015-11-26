@@ -7,7 +7,7 @@
 class Test {
 
     // class_field
-    int classTVar = 1;
+    int classVar = 1;
 
     // class_func
     method func() {

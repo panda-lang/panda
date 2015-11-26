@@ -22,12 +22,12 @@ public class ParameterParser implements Parser {
         return parse(atom, atom.getSourceCode());
     }
 
-    protected Parameter parse(Atom atom, String parameter) {
+    public Parameter parse(Atom atom, String parameter) {
         if (ParameterAssistant.isMath(parameter)) {
             // Math
             MathParser parser = new MathParser(parameter);
             return parser.parse(atom.getParent());
-        } else if (ParameterAssistant.isMethod(parameter)) {
+        } else if (ParameterAssistant.isMethod(atom, parameter)) {
             // Constructor
             if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);
             // Method
@@ -59,7 +59,7 @@ public class ParameterParser implements Parser {
 
     }
 
-    protected Parameter[] parse(Atom atom, String[] parametersSources) {
+    public Parameter[] parse(Atom atom, String[] parametersSources) {
         Parameter[] parameters = new Parameter[parametersSources.length];
         for (int i = 0; i < parameters.length; i++) {
             String src = parametersSources[i];
@@ -68,7 +68,7 @@ public class ParameterParser implements Parser {
         return parameters;
     }
 
-    protected Parameter[] parseLocal(Atom atom) {
+    public Parameter[] parseLocal(Atom atom) {
         String[] parametersSources = ParameterAssistant.split(atom.getSourceCode());
         Parameter[] parameters = new Parameter[parametersSources.length];
         for (int i = 0; i < parameters.length; i++) {
@@ -78,7 +78,7 @@ public class ParameterParser implements Parser {
         return parameters;
     }
 
-    protected Parameter parseConstructor(Atom atom, String s) {
+    public Parameter parseConstructor(Atom atom, String s) {
         atom.setSourceCode(s);
         return new Parameter(null, atom.getParent(), new ConstructorParser().parse(atom));
     }

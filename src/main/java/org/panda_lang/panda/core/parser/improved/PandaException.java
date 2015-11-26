@@ -18,8 +18,8 @@ public class PandaException {
     }
 
     public void print() {
-        System.out.println("Oh no, Panda " + Panda.PANDA_VERSION + " is sad! Why? Because she caught an exception: " + title);
-        System.out.println("at " + caret + " -> line " + line + ": " + code);
+        System.out.println("[Panda] !# Oh no, Panda " + Panda.PANDA_VERSION + " is sad! Why? Because she caught an exception: " + title);
+        System.out.println("[Panda] !# at line: " + code + " [" + line + ":" + caret + "]");
     }
 
 }

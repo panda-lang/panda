@@ -1,9 +1,7 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
-import org.panda_lang.panda.core.parser.improved.PandaParser;
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.parser.improved.PatternExtractor;
-import org.panda_lang.panda.core.parser.improved.SourcesDivider;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Variable;
@@ -17,18 +15,19 @@ public class VariableParser implements Parser {
     private Block parent;
 
     @Override
-    public Variable parse(PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor extractor, Block parent, Block previous) {
-        this.parent = parent;
+    public Variable parse(Atom atom) {
+        this.parent = atom.getParent();
 
-        String source = sourcesDivider.getLine();
+        String source = atom.getSourcesDivider().getLine();
         String[] ss = splitAndClear(source);
         if (ss == null || ss.length != 2) {
             System.out.println("[VariableParser] Cannot parseLocal: " + source);
             return null;
         }
 
+        atom.setSourceCode(ss[1]);
         ParameterParser parser = new ParameterParser();
-        Parameter parameter = parser.parse(pandaParser, new SourcesDivider(ss[1]), extractor, parent, previous);
+        Parameter parameter = parser.parse(atom);
 
         if (parameter.getDataType() == null) {
             String[] lss = ss[0].split(" ");

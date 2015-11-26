@@ -1,5 +1,7 @@
 package org.panda_lang.panda.core.parser.improved.essential.assistant;
 
+import org.panda_lang.panda.core.parser.improved.Atom;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
@@ -57,9 +59,9 @@ public class ParameterAssistant {
         return parametrs.toArray(new String[parametrs.size()]);
     }
 
-    public static boolean isMethod(String param) {
-        SyntaxIndication indi = new Recognizer().recognize(param);
-        return indi == SyntaxIndication.RUNTIME;
+    public static boolean isMethod(Atom atom, String param) {
+        String pattern = atom.getPatternExtractor().extract(param, new char[] { '(', ')' });
+        return pattern.equals("()");
     }
 
     public static boolean isMath(String param) {

@@ -9,14 +9,19 @@ public class Pattern {
     }
 
     public boolean match(String s) {
+        char[] string = s.toCharArray();
         char[] pattern = this.pattern.toCharArray();
-        char character = '*';
-        int i = 0;
-        for (char c : s.toCharArray()) {
-            char cc = pattern.length < i ? pattern[i] : character;
-            if (cc == c || cc == '*' || character == '*') {
-                character = cc;
-                i++;
+        char current = pattern[0];
+        char next = 2 <= pattern.length ? pattern[1] : current;
+        int p = 0;
+        for (int i = 0; i < string.length; i++) {
+            char character = string[i];
+            if (character == current || current == '*' && character == next) {
+                p++;
+                current = p < pattern.length ? pattern[p] : current;
+                next = p + 1 < pattern.length ? pattern[p + 1] : current;
+            } else if (character == '*') {
+                continue;
             } else {
                 return false;
             }

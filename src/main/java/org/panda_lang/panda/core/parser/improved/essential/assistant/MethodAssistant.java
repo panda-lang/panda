@@ -1,17 +1,17 @@
 package org.panda_lang.panda.core.parser.improved.essential.assistant;
 
 import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.parser.improved.Atom;
 import org.panda_lang.panda.core.parser.improved.essential.ParameterParser;
 import org.panda_lang.panda.core.parser.improved.essential.util.MethodInfo;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
 
 import java.util.Stack;
 
 public class MethodAssistant {
 
-    public static MethodInfo getMethodIndication(Block block, String string) {
+    public static MethodInfo getMethodIndication(Atom atom, String string) {
         StringBuilder node = new StringBuilder();
         Stack<Character> stack = new Stack<>();
         char[] chars = string.toCharArray();
@@ -64,8 +64,9 @@ public class MethodAssistant {
 
         String params = node.toString();
         node.setLength(0);
-        ParameterParser parser = new ParameterParser(params);
-        Parameter[] parameters = parser.parse(block);
+        atom.setSourceCode(params);
+        ParameterParser parser = new ParameterParser();
+        Parameter[] parameters = parser.parseLocal(atom);
 
         Parameter instance;
         if (object != null) {
@@ -77,7 +78,7 @@ public class MethodAssistant {
                 }
             }
             if (!io) {
-                instance = new ParameterParser().parse(block, object);
+                instance = new ParameterParser().parse(atom, object);
                 return new MethodInfo(instance, method, parameters);
             }
         }
