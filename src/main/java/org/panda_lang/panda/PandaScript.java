@@ -1,7 +1,9 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.block.PandaBlock;
 import org.panda_lang.panda.lang.PObject;
 
 import java.util.ArrayList;
@@ -12,7 +14,7 @@ public class PandaScript {
     private String name;
     private String author;
     private String version;
-    private Collection<Block> blocks;
+    private Collection<PandaBlock> blocks;
 
     public PandaScript() {
         this.blocks = new ArrayList<>();
@@ -33,28 +35,32 @@ public class PandaScript {
         return this;
     }
 
-    public PandaScript sections(Collection<Block> blocks) {
+    public PandaScript sections(Collection<PandaBlock> blocks) {
         this.blocks = blocks;
         return this;
     }
 
-    public void addSection(Block block) {
+    public void addPandaBlock(PandaBlock block) {
         this.blocks.add(block);
     }
 
     public PObject call(Class<? extends Block> blockType, String name, Parameter... parameters) {
-        for (Block block : blocks) {
-            if (block.getClass() == blockType && block.getName().equals(name)) {
-                return block.run(parameters);
+        for (PandaBlock pandaBlock : blocks) {
+            for (Executable executable : pandaBlock.getExecutables()) {
+                if (executable.getClass() == blockType && executable.getName().equals(name)) {
+                    return executable.run(parameters);
+                }
             }
         }
         return null;
     }
 
     public void callAll(Class<? extends Block> blockType, String name, Parameter... parameters) {
-        for (Block block : blocks) {
-            if (block.getClass() == blockType && block.getName().equals(name)) {
-                block.run(parameters);
+        for (PandaBlock pandaBlock : blocks) {
+            for (Executable executable : pandaBlock.getExecutables()) {
+                if (executable.getClass() == blockType && executable.getName().equals(name)) {
+                    executable.run(parameters);
+                }
             }
         }
     }

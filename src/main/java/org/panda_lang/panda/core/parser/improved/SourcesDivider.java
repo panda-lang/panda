@@ -56,7 +56,6 @@ public class SourcesDivider {
                 if (node.toString().equals(line)) return null;
                 line = node.toString();
                 node.setLength(0);
-                System.out.println("line: " + line);
                 return line;
             }
         }

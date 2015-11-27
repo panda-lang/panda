@@ -32,9 +32,13 @@ public class PandaParser {
     public PandaScript parse() {
         while (divider.hasNext() && isHappy()) {
             String line = divider.next();
+            if (line == null || line.isEmpty()) {
+                break;
+            }
             Executable executable = parseLine(line, atom);
             pandaBlock.addExecutable(executable);
         }
+        pandaScript.addPandaBlock(pandaBlock);
         return pandaScript;
     }
 

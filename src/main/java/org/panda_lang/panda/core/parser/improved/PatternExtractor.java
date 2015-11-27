@@ -26,9 +26,11 @@ public class PatternExtractor {
 
      */
 
-    public static final char[] DEFAULT = new char[]{'{', '=', '/', ';', '#', ':', '?', '(', ')'};
+    public static final char[] DEFAULT = new char[]{'{', '}', '=', '/', ';', '#', ':', '?', '(', ')'};
 
     public String extract(String line, char[] set) {
+        if(line == null) return "";
+
         StringBuilder pattern = new StringBuilder();
         Stack<Character> sections = new Stack<>();
         boolean string = false;
