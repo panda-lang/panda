@@ -41,6 +41,7 @@ public class VialParser implements Parser {
             if (VialAssistant.isPlug(line)) {
                 break;
             }
+
             Executable executable = atom.getPandaParser().parseLine(line, atom);
             if (executable instanceof Block) {
                 atom.setPrevious((Block) executable);

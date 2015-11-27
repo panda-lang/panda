@@ -64,7 +64,6 @@ public class MethodParser implements Parser {
         } else {
             return new Method(atom.getPandaScript(), parent, mi.getMethod(), mi.getParameters());
         }
-
         return null;
     }
 

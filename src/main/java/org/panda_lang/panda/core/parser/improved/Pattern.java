@@ -9,8 +9,6 @@ public class Pattern {
     }
 
     public boolean match(String s) {
-        System.out.println("--------------------------------------");
-        System.out.println(s + " to " + pattern);
         char[] string = s.toCharArray();
         char[] pattern = this.pattern.toCharArray();
         char current = pattern[0];
@@ -28,7 +26,6 @@ public class Pattern {
                 return false;
             }
         }
-        System.out.println("--------------------------------------");
         return p + 1 >= pattern.length;
     }
 
