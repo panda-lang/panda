@@ -7,8 +7,6 @@ package org.panda_lang.panda.core.parser.improved;
  */
 
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -44,17 +42,15 @@ public class PandaParser {
 
     public Executable parseLine(String line, Atom atom) {
         String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
-        ParserScheme scheme = ElementsBucket.getParserScheme(pattern);
+        Parser parser = ParserCenter.getParser(pattern);
 
         // {parser.not.found}
-        if (scheme == null) {
+        if (parser == null) {
             throwException(new PandaException("ParserNotFoundException", line, divider.getRealLine() + 1, divider.getCaretPosition()));
             return null;
         }
 
-        Parser parser = scheme.getParser();
-        Executable executable = parser.parse(atom);
-        return executable;
+        return parser.parse(atom);
     }
 
     public Executable throwException(PandaException pandaException) {

@@ -10,7 +10,7 @@ import org.panda_lang.panda.core.syntax.Variable;
 public class VariableParser implements Parser {
 
     static {
-        ParserScheme parserScheme = new ParserScheme(new VariableParser(), "*=*;");
+        ParserScheme parserScheme = new ParserScheme(new VariableParser(), "*=*;", EssentialPriority.VARIABLE.getPriority());
         ElementsBucket.registerParser(parserScheme);
     }
 

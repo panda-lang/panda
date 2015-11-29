@@ -15,16 +15,18 @@ import org.panda_lang.panda.core.syntax.Parameter;
 public class MethodParser implements Parser {
 
     static {
-        ParserScheme parserScheme = new ParserScheme(new MethodParser(), "();");
+        ParserScheme parserScheme = new ParserScheme(new MethodParser(), "*(*);", EssentialPriority.METHOD.getPriority());
         ElementsBucket.registerParser(parserScheme);
     }
 
     @Override
     public Method parse(Atom atom) {
         Block parent = atom.getParent();
-
         String source = atom.getSourcesDivider().getLine();
         MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
+
+        System.out.println("method_parser: " + atom.getSourcesDivider().getLine());
+
         if (mi == null) {
             System.out.println("[MethodParser] Indication failed");
             return null;

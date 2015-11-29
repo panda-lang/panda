@@ -98,7 +98,7 @@ public class VialAssistant {
     }
 
     public static boolean isPlug(String s) {
-        s = s.trim();
+        s = s != null ? s.trim() : "";
         return s.equals("}") || s.equals("};");
     }
 
