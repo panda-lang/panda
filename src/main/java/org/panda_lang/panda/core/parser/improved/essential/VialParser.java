@@ -14,8 +14,8 @@ import org.panda_lang.panda.core.syntax.Executable;
 public class VialParser implements Parser {
 
     static {
-        ParserScheme scheme = new ParserScheme(new VialParser(), "*{");
-        ElementsBucket.registerParser(scheme);
+        ParserScheme parserScheme = new ParserScheme(new VialParser(), "*{", EssentialPriority.VIAL.getPriority());
+        ElementsBucket.registerParser(parserScheme);
     }
 
     @Override
@@ -30,7 +30,7 @@ public class VialParser implements Parser {
             for (String indication : blockScheme.getIndications()) {
                 if (vialIndication.equals(indication)) {
                     atom.setBlockInfo(blockInfo);
-                    atom.setCurrent(blockScheme.getParser().parse(atom));
+                    atom.setCurrent(blockScheme.getParser().initialize(atom));
                     break indication;
                 }
             }
@@ -42,6 +42,7 @@ public class VialParser implements Parser {
                 break;
             }
 
+            System.out.println("vial_: " + line);
             Executable executable = atom.getPandaParser().parseLine(line, atom);
             if (executable instanceof Block) {
                 atom.setPrevious((Block) executable);

@@ -27,8 +27,9 @@ public class ParameterParser implements Parser {
             // Constructor
             if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);
             // Method
+            System.out.println("parameter_parse.method_: " + parameter);
             MethodParser parser = new MethodParser();
-            atom.setSourceCode(parameter);
+            atom.getSourcesDivider().setLine(parameter);
             Method method = parser.parse(atom);
             return new Parameter(null, atom.getParent(), new Runtime(method));
         }
@@ -65,13 +66,9 @@ public class ParameterParser implements Parser {
     }
 
     public Parameter[] parseLocal(Atom atom) {
+        System.out.println("parameter_local_: " + atom.getSourceCode());
         String[] parametersSources = ParameterAssistant.split(atom.getSourceCode());
-        Parameter[] parameters = new Parameter[parametersSources.length];
-        for (int i = 0; i < parameters.length; i++) {
-            String src = parametersSources[i];
-            parameters[i] = parse(atom, src);
-        }
-        return parameters;
+        return parse(atom, parametersSources);
     }
 
     public Parameter parseConstructor(Atom atom, String s) {

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core;
 
-import org.panda_lang.panda.core.parser.improved.Pattern;
+import org.panda_lang.panda.core.parser.improved.ParserCenter;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;
@@ -16,6 +16,7 @@ public class ElementsBucket {
 
     public static void registerParser(ParserScheme scheme) {
         parsers.add(scheme);
+        ParserCenter.registerPatterns(scheme.getPatterns());
     }
 
     public static void registerBlock(BlockScheme scheme) {
@@ -46,18 +47,6 @@ public class ElementsBucket {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static ParserScheme getParserScheme(String pattern) {
-        for (ParserScheme parserScheme : parsers) {
-            Pattern[] parserSchemePatterns = parserScheme.getPatterns();
-            for (Pattern patternVar : parserSchemePatterns) {
-                if (patternVar.match(pattern)) {
-                    return parserScheme;
-                }
-            }
-        }
-        return null;
     }
 
 }

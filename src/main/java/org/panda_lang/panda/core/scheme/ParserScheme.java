@@ -3,21 +3,39 @@ package org.panda_lang.panda.core.scheme;
 import org.panda_lang.panda.core.parser.improved.Parser;
 import org.panda_lang.panda.core.parser.improved.Pattern;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class ParserScheme {
 
     private final Parser parser;
-    private final Pattern[] patterns;
+    private Collection<Pattern> patterns;
 
-    public ParserScheme(Parser parser, String... patterns) {
-        this.parser = parser;
-        this.patterns = new Pattern[patterns.length];
-
-        for (int i = 0; i < patterns.length; i++) {
-            this.patterns[i] = new Pattern(patterns[i]);
-        }
+    public ParserScheme(Parser parser, String pattern) {
+        this(parser, pattern, 0);
     }
 
-    public Pattern[] getPatterns() {
+    public ParserScheme(Parser parser, String pattern, double priority) {
+        this(parser);
+        this.pattern(pattern, priority);
+    }
+
+    public ParserScheme(Parser parser) {
+        this.parser = parser;
+        this.patterns = new ArrayList<>();
+    }
+
+    public ParserScheme pattern(Pattern pattern) {
+        patterns.add(pattern);
+        return this;
+    }
+
+    public ParserScheme pattern(String pattern, double priority) {
+        patterns.add(new Pattern(parser, pattern, priority));
+        return this;
+    }
+
+    public Collection<Pattern> getPatterns() {
         return patterns;
     }
 

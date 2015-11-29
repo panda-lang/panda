@@ -6,7 +6,7 @@ method main() {
     thread(testThread) {
         // Print the name of the thread
         System.print(testThread.getName());
-    };
+    }
     // Start the thread
     testThread.start();
 

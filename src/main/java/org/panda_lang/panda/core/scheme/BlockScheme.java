@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.scheme;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.essential.CustomParser;
+import org.panda_lang.panda.core.parser.improved.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.syntax.Block;
 
 public class BlockScheme {
@@ -9,7 +9,7 @@ public class BlockScheme {
     private final Class<? extends Block> clazz;
     private final String[] indications;
     private final boolean conventional;
-    private CustomParser parser;
+    private BlockInitializer parser;
 
     public BlockScheme(Class<? extends Block> clazz, String... indications) {
         this(clazz, true, indications);
@@ -22,7 +22,7 @@ public class BlockScheme {
         ElementsBucket.registerBlock(this);
     }
 
-    public BlockScheme parser(CustomParser parser) {
+    public BlockScheme parser(BlockInitializer parser) {
         this.parser = parser;
         return this;
     }
@@ -31,7 +31,7 @@ public class BlockScheme {
         return conventional;
     }
 
-    public CustomParser getParser() {
+    public BlockInitializer getParser() {
         return parser;
     }
 
