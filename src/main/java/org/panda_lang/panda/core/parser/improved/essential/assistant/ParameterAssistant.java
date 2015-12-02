@@ -51,9 +51,9 @@ public class ParameterAssistant {
             }
         }
         if (node.length() != 0) {
-            String parametr = node.toString();
+            String parameter = node.toString();
             node.setLength(0);
-            parametrs.add(parametr);
+            parametrs.add(parameter);
         }
 
         return parametrs.toArray(new String[parametrs.size()]);
@@ -73,7 +73,9 @@ public class ParameterAssistant {
             } else if (string) {
                 continue;
             }
-            if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') return true;
+            if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+                return true;
+            }
         }
         return false;
     }

@@ -32,7 +32,7 @@ public class VialAssistant {
         StringBuilder node = new StringBuilder();
         boolean string = false;
         boolean spec = false;
-        boolean pam = false;
+        boolean param = false;
 
         // {parseLocal}
         char[] chars = s.toCharArray();
@@ -48,7 +48,12 @@ public class VialAssistant {
                 case '(':
                     // {parameters.start}
                     if (!string) {
-                        spec = true;
+                        param = true;
+                        if (node.length() == 0) {
+                            spec = false;
+                        } else if (name == null) {
+                            spec = true;
+                        }
                     }
                 case ')':
                 case ',':
@@ -62,7 +67,9 @@ public class VialAssistant {
             if (Character.isWhitespace(c)) {
 
                 // {empty.continue}
-                if (node.length() == 0) continue;
+                if (node.length() == 0) {
+                    continue;
+                }
 
                 // {part.append}
                 String part = node.toString();
@@ -70,18 +77,14 @@ public class VialAssistant {
                 // {block.type}
                 if (name == null) {
                     name = part;
-                    if (spec) {
-                        pam = true;
-                    }
-                }
-                // {parameters}
-                else if (pam) {
-                    parameters.add(part);
-                }
-                // {specifiers}
-                else {
-                    if (spec) pam = true;
+                    spec = !spec;
+                } else if (spec && param) {
+                    spec = false;
                     specifiers.add(part);
+                } else if (spec) {
+                    specifiers.add(part);
+                } else if (param) {
+                    parameters.add(part);
                 }
 
                 // {clear}

@@ -32,17 +32,19 @@ public class ThreadBlock extends Block {
     }
 
     public PObject start(final Parameter... vars) {
-        final Block block = super.getBlock();
+        final Block block = this;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                for (Executable e : block.getExecutables()) {
-                    e.run(vars);
+                for (Executable executable : block.getExecutables()) {
+                    executable.run(vars);
                 }
             }
         });
-        PObject value = parameters[0].getValue();
-        thread.setName(pThread.getName());
+        if (parameters != null && parameters.length > 0) {
+            PObject value = parameters[0].getValue();
+            thread.setName(pThread.getName());
+        }
         thread.start();
         return null;
     }
@@ -50,15 +52,16 @@ public class ThreadBlock extends Block {
     @Override
     public PObject run(final Parameter... vars) {
         if (parameters.length == 0) {
-            System.out.println("[" + super.getName() + "] ThreadBlock is not assigned to thread");
+            start(vars);
             return null;
+        } else {
+            PObject value = parameters[0].getValue();
+            if (value instanceof PThread) {
+                pThread = (PThread) value;
+                pThread.setBlock(this);
+            }
+            return value;
         }
-        PObject value = parameters[0].getValue();
-        if (value instanceof PThread) {
-            pThread = (PThread) value;
-            pThread.setBlock(this);
-        }
-        return null;
     }
 
 }

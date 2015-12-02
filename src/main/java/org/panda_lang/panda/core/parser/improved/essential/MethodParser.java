@@ -25,8 +25,6 @@ public class MethodParser implements Parser {
         String source = atom.getSourcesDivider().getLine();
         MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
 
-        System.out.println("method_parser: " + atom.getSourcesDivider().getLine());
-
         if (mi == null) {
             System.out.println("[MethodParser] Indication failed");
             return null;
