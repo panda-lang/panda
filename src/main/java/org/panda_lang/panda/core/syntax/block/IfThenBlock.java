@@ -26,7 +26,7 @@ public class IfThenBlock extends Block {
     private Block elseThenBlock;
 
     public IfThenBlock() {
-        super.setName("IfThenBlock");
+        super.setName("if-then::" + System.nanoTime());
     }
 
     @Override

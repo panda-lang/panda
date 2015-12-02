@@ -33,6 +33,8 @@ public class PandaParser {
             if (line == null || line.isEmpty()) {
                 break;
             }
+
+            atom.update(pandaBlock, pandaBlock);
             Executable executable = parseLine(line, atom);
             pandaBlock.addExecutable(executable);
         }
@@ -47,6 +49,7 @@ public class PandaParser {
         // {parser.not.found}
         if (parser == null) {
             throwException(new PandaException("ParserNotFoundException", line, divider.getRealLine() + 1, divider.getCaretPosition()));
+            System.out.println(pattern);
             return null;
         }
 

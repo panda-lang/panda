@@ -31,6 +31,11 @@ public class Atom {
     public Atom() {
     }
 
+    public void update(Block current, Block parent) {
+        this.current = current;
+        this.parent = parent;
+    }
+
     public Atom pandaScript(PandaScript pandaScript) {
         this.pandaScript = pandaScript;
         return this;

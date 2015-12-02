@@ -53,13 +53,12 @@ public class SourcesDivider {
 
             if (end) {
                 iLine++;
-                if (node.toString().equals(line)) return null;
                 line = node.toString();
                 node.setLength(0);
                 return line;
             }
         }
-        return null;
+        return node.toString();
     }
 
     public void setLine(String line) {

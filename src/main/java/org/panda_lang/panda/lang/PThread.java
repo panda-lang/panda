@@ -63,7 +63,9 @@ public class PThread extends PObject {
     }
 
     public void start(Parameter... vars) {
-        if (this.block != null) block.start(vars);
+        if (this.block != null) {
+            block.start(vars);
+        }
     }
 
     public void setBlock(ThreadBlock block) {
@@ -72,6 +74,10 @@ public class PThread extends PObject {
 
     public String getName() {
         return name != null ? name : "ThreadBlock";
+    }
+
+    public Thread getThread() {
+        return thread;
     }
 
     @Override
