@@ -34,7 +34,9 @@ public class Method implements Executable {
     @Override
     public PObject run(Parameter... vars) {
         if (runnable == null) {
-            if (instance == null) return script.call(MethodBlock.class, method, parameters);
+            if (instance == null) {
+                return script.call(MethodBlock.class, method, parameters);
+            }
             String type = instance.getDataType();
             if (type == null) {
                 instance.getValue();
@@ -42,9 +44,13 @@ public class Method implements Executable {
             }
             if (type != null) {
                 for (ObjectScheme os : ElementsBucket.getObjects()) {
-                    if (!type.equals(os.getName())) continue;
+                    if (!type.equals(os.getName())) {
+                        continue;
+                    }
                     for (MethodScheme ms : os.getMethods()) {
-                        if (!method.equals(ms.getName())) continue;
+                        if (!method.equals(ms.getName())) {
+                            continue;
+                        }
                         this.runnable = ms.getExecutable();
                         return this.runnable.run(instance, parameters);
                     }

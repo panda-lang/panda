@@ -21,7 +21,7 @@ public class RunnableBlock extends Block {
     }
 
     public RunnableBlock() {
-        super.setName("RunnableBlock");
+        super.setName("runnable::" + System.nanoTime());
     }
 
 }

@@ -28,7 +28,7 @@ public class ThreadBlock extends Block {
     private PThread pThread;
 
     public ThreadBlock() {
-        super.setName("ThreadBlock");
+        super.setName("thread::" + System.nanoTime());
     }
 
     public PObject start(final Parameter... vars) {

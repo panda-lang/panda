@@ -67,6 +67,10 @@ public class Block implements Executable {
         return parent != null;
     }
 
+    public Parameter[] getParameters() {
+        return parameters;
+    }
+
     public PObject getVariable(String var) {
         return variables.get(var);
     }

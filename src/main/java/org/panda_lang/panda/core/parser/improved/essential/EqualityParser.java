@@ -1,24 +1,20 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
-import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.parser.improved.Atom;
+import org.panda_lang.panda.core.parser.improved.Parser;
 import org.panda_lang.panda.core.syntax.Equality;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.util.EqualityBuilder;
 
-public class EqualityParser {
+public class EqualityParser implements Parser {
 
-    private final String source;
-
-    public EqualityParser(String source) {
-        this.source = source;
-    }
-
-    public Parameter parse(Block block) {
+    @Override
+    public Parameter parse(Atom atom) {
         EqualityBuilder equalityBuilder = new EqualityBuilder();
 
         Equality equality = new Equality(null);
-        return new Parameter("Boolean", block, new Runtime(equality));
+        return new Parameter("Boolean", atom.getParent(), new Runtime(equality));
     }
 
 }

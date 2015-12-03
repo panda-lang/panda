@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.improved.essential;
 
 import org.panda_lang.panda.core.parser.improved.Atom;
-import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.parser.improved.Parser;
 import org.panda_lang.panda.core.syntax.Math;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
@@ -10,7 +10,7 @@ import org.panda_lang.panda.util.MathBuilder;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class MathParser {
+public class MathParser implements Parser {
 
     private final String source;
 
@@ -18,7 +18,8 @@ public class MathParser {
         this.source = source;
     }
 
-    public Parameter parse(Block block) {
+    @Override
+    public Parameter parse(Atom atom) {
         MathBuilder mathBuilder = new MathBuilder();
         Stack<Character> operators = new Stack<>();
         StringTokenizer tokenizer = new StringTokenizer(source, "+-*/^()", true);
@@ -53,8 +54,6 @@ public class MathParser {
                     operators.pop();
                     break;
                 default:
-                    Atom atom = new Atom();
-                    atom.setParent(block);
                     atom.setSourceCode(token);
                     Parameter parameter = new ParameterParser().parse(atom);
                     mathBuilder.append(parameter);
@@ -69,7 +68,7 @@ public class MathParser {
 
         mathBuilder.rewrite();
         Math math = new Math(mathBuilder);
-        return new Parameter("Number", block, new Runtime(math));
+        return new Parameter("Number", atom.getParent(), new Runtime(math));
     }
 
     public boolean compare(char prev, char current) {

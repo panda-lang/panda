@@ -17,14 +17,14 @@ public class ForBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new ForBlock();
-                current.setParameters(new ParameterParser().parse(atom));
+                current.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         }));
     }
 
     public ForBlock() {
-        super.setName("ForBlock");
+        super.setName("for::" + System.nanoTime());
     }
 
     @Override

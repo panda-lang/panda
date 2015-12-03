@@ -30,6 +30,8 @@ public class MethodParser implements Parser {
             return null;
         }
 
+        //System.out.println(mi.getMethod() + " | " + mi.getPseudoclass() + " | " + mi.getInstance() + " | " + mi.getParameters().toString());
+
         if (mi.isExternal()) {
             if (mi.isStatic()) {
                 for (ObjectScheme os : ElementsBucket.getObjects()) {
