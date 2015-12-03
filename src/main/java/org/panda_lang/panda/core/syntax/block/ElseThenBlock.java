@@ -22,7 +22,7 @@ public class ElseThenBlock extends Block {
     }
 
     public ElseThenBlock() {
-        super.setName("ElseThenBlock");
+        super.setName("else-then::" + System.nanoTime());
     }
 
 }

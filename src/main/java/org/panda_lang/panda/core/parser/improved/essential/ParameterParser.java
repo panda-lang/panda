@@ -22,7 +22,7 @@ public class ParameterParser implements Parser {
         if (ParameterAssistant.isMath(parameter)) {
             // Math
             MathParser parser = new MathParser(parameter);
-            return parser.parse(atom.getParent());
+            return parser.parse(atom);
         } else if (ParameterAssistant.isMethod(atom, parameter)) {
             // Constructor
             if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);
@@ -59,7 +59,9 @@ public class ParameterParser implements Parser {
         Parameter[] parameters = new Parameter[parametersSources.length];
         for (int i = 0; i < parameters.length; i++) {
             String src = parametersSources[i];
-            if (src == null || src.isEmpty()) continue;
+            if (src == null || src.isEmpty()) {
+                continue;
+            }
             parameters[i] = parse(atom, src);
         }
         return parameters;

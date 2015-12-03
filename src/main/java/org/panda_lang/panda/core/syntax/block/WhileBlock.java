@@ -24,7 +24,7 @@ public class WhileBlock extends Block {
     }
 
     public WhileBlock() {
-        super.setName("WhileBlock");
+        super.setName("while::" + System.nanoTime());
     }
 
     @Override
