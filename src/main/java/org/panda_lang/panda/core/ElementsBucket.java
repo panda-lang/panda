@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core;
 
-import org.panda_lang.panda.core.parser.improved.ParserCenter;
+import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;

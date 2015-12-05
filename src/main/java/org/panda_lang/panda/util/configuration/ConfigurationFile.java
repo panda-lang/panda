@@ -105,8 +105,7 @@ public class ConfigurationFile {
                     List<String> value = (List<String>) o;
                     if (value.isEmpty()) {
                         lines.add(entry.getKey() + ": []");
-                    }
-                    else {
+                    } else {
                         lines.add(entry.getKey() + ":");
                         for (String s : value) {
                             lines.add("- " + s);

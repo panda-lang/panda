@@ -8,7 +8,7 @@ public class Core {
     }
 
     private void parsers() {
-        ElementsBucket.loadClasses("org.panda_lang.panda.core.parser.improved.essential",
+        ElementsBucket.loadClasses("org.panda_lang.panda.core.parser.essential",
                 "ConstructorParser",
                 "EqualityParser",
                 "MathParser",
