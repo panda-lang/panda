@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.scheme;
 
-import org.panda_lang.panda.core.parser.improved.Parser;
-import org.panda_lang.panda.core.parser.improved.Pattern;
+import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.Pattern;
 
 import java.util.ArrayList;
 import java.util.Collection;

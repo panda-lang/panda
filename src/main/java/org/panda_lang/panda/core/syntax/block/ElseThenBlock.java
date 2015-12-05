@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.Atom;
-import org.panda_lang.panda.core.parser.improved.essential.util.BlockInitializer;
+import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 

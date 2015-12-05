@@ -11,7 +11,7 @@ class Test {
 
     // class_func
     method func() {
-        System.print(1);
+        System.print(classVar);
     }
 
 }

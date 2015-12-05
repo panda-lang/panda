@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.scheme;
 
 import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.improved.essential.util.BlockInitializer;
+import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.syntax.Block;
 
 public class BlockScheme {

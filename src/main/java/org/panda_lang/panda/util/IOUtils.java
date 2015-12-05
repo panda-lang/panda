@@ -42,8 +42,7 @@ public class IOUtils {
     public static String[] getLines(File file) {
         if (!file.exists()) {
             return new String[0];
-        }
-        else try {
+        } else try {
             List<String> list = Files.readAllLines(file.toPath(), Charset.forName("UTF-8"));
             String[] result = new String[list.size()];
             return list.toArray(result);

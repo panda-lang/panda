@@ -1,7 +1,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.Core;
-import org.panda_lang.panda.core.parser.improved.essential.util.Exec;
+import org.panda_lang.panda.core.parser.essential.util.Exec;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
 
