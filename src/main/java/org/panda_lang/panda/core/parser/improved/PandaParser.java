@@ -1,12 +1,7 @@
 package org.panda_lang.panda.core.parser.improved;
 
-/*
-
-    Improved version of the Panda Parser.
-
- */
-
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -36,8 +31,12 @@ public class PandaParser {
 
             atom.update(pandaBlock, pandaBlock);
             Executable executable = parseLine(line, atom);
-            pandaBlock.addExecutable(executable);
+            if (!(executable instanceof Block)) {
+                pandaBlock.addExecutable(executable);
+            }
+
         }
+        pandaBlock.initializeGlobalVariables();
         pandaScript.addPandaBlock(pandaBlock);
         return pandaScript;
     }
