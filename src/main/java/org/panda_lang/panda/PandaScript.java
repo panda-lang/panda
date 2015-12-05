@@ -45,12 +45,10 @@ public class PandaScript {
     }
 
     public PObject call(Class<? extends Block> blockType, String name, Parameter... parameters) {
-        System.out.println("------------------ call('" + name + "'): ");
         for (PandaBlock pandaBlock : blocks) {
             for (Executable executable : pandaBlock.getExecutables()) {
-                System.out.println(executable.getName());
                 if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                    System.out.println('\n' + "------------------ console():");
+                    //System.out.println("----------------------- CONSOLE");
                     return executable.run(parameters);
                 }
             }
