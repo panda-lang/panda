@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
+import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.VialCenter;
 
 import java.util.HashMap;
@@ -9,12 +10,13 @@ public class Vial {
 
     private final String vialName;
     private final Map<String, Method> methods;
-    private Method constructor;
+    private Executable constructor;
     private String extension;
 
     public Vial(String vialName) {
-        this.vialName = vialName.intern();
+        this.vialName = vialName;
         this.methods = new HashMap<>();
+        this.extension = "Object";
     }
 
     public Essence call(String name, Essence essence) {
@@ -26,12 +28,25 @@ public class Vial {
         return method.run(essence.getParticle());
     }
 
-    public Essence extractEssence() {
-        return new Essence(this);
+    public Essence initializeInstance(Particle particle) {
+        Essence essence = new Essence(this);
+        if(constructor != null) {
+            constructor.run(particle);
+        }
+        return essence;
+    }
+
+    public Vial constructor(Executable executable) {
+        this.constructor = executable;
+        return this;
     }
 
     public Vial method(Method method) {
-        methods.put(method.getName(), method);
+        if(constructor == null && method.getName().equals(vialName)) {
+            constructor = method;
+        } else {
+            methods.put(method.getName(), method);
+        }
         return this;
     }
 
@@ -42,10 +57,13 @@ public class Vial {
 
     public Method getMethod(String name) {
         Method method = methods.get(name);
-        if (method == null) {
+        if (method == null && extension != null) {
             Vial vial = VialCenter.getVial(extension);
             if (vial != null) {
                 method = vial.getMethod(name);
+                if(method == null) {
+                    extension = null;
+                }
             }
         }
         return method;

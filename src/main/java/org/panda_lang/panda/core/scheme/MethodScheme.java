@@ -1,18 +1,23 @@
 package org.panda_lang.panda.core.scheme;
 
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class MethodScheme {
 
     private final String name;
-    private final IExecutable executable;
+    private final Executable executable;
 
-    public MethodScheme(String name, IExecutable executable) {
+    public MethodScheme(NamedExecutable executable) {
+        this(executable.getName(), executable);
+    }
+
+    public MethodScheme(String name, Executable executable) {
         this.name = name;
         this.executable = executable;
     }
 
-    public IExecutable getExecutable() {
+    public Executable getExecutable() {
         return executable;
     }
 

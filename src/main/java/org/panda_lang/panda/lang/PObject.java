@@ -1,31 +1,38 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.Method;
+import org.panda_lang.panda.core.syntax.Vial;
 
-public class PObject {
+public class PObject extends Essence {
+
+    private final static Vial vial;
 
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PObject.class, "Object");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PObject>() {
+        vial = VialCenter.initializeVial("Object");
+        vial.constructor(new Executable() {
             @Override
-            public PObject run(Parameter... parameters) {
+            public Essence run(Particle particle) {
                 return new PObject();
             }
-        }));
-        // Method: toString
-        os.registerMethod(new MethodScheme("toString", new IExecutable() {
+        });
+        vial.method(new Method("toString", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                return new PString(instance.getValue().toString());
+            public Essence run(Particle particle) {
+                return new PString(particle.getInstance().getValue().toString());
             }
         }));
+    }
+
+    public PObject() {
+        super(vial);
+    }
+
+    public PObject(Vial vial) {
+        super(vial);
     }
 
     public <T> T getMe(Class<T> clazz) {

@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.core.Particle;
 
-public class Variable implements Executable {
+public class Variable implements NamedExecutable {
 
     private final Block block;
     private final String variable;
@@ -15,8 +15,8 @@ public class Variable implements Executable {
     }
 
     @Override
-    public PObject run(Parameter... args) {
-        PObject object = parameter.getValue();
+    public Essence run(Particle particle) {
+        Essence object = parameter.getValue();
         block.setVariable(variable, object);
         return object;
     }

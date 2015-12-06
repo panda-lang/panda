@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.scheme.ConstructorScheme;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
 
@@ -21,7 +21,7 @@ public class PThread extends PObject {
             }
         }));
         // Method: start
-        os.registerMethod(new MethodScheme("start", new IExecutable() {
+        os.registerMethod(new MethodScheme("start", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PThread thread = instance.getValue(PThread.class);
@@ -30,7 +30,7 @@ public class PThread extends PObject {
             }
         }));
         // Method: getName
-        os.registerMethod(new MethodScheme("getName", new IExecutable() {
+        os.registerMethod(new MethodScheme("getName", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PThread pThread = instance.getValue(PThread.class);
@@ -38,7 +38,7 @@ public class PThread extends PObject {
             }
         }));
         // Static method: currentThread
-        os.registerMethod(new MethodScheme("currentThread", new IExecutable() {
+        os.registerMethod(new MethodScheme("currentThread", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 return new PThread(Thread.currentThread());

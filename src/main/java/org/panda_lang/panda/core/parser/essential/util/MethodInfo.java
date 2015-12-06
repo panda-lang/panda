@@ -4,25 +4,25 @@ import org.panda_lang.panda.core.syntax.Parameter;
 
 public class MethodInfo {
 
-    private final String method;
+    private final String methodName;
     private final Parameter[] parameters;
     private Parameter instance;
     private String pseudoclass;
 
-    public MethodInfo(String method, Parameter... parameters) {
-        this.method = method;
+    public MethodInfo(String methodName, Parameter... parameters) {
+        this.methodName = methodName;
         this.parameters = parameters;
     }
 
-    public MethodInfo(Parameter object, String method, Parameter... parameters) {
+    public MethodInfo(Parameter object, String methodName, Parameter... parameters) {
         this.instance = object;
-        this.method = method;
+        this.methodName = methodName;
         this.parameters = parameters;
     }
 
-    public MethodInfo(String object, String method, Parameter... parameters) {
+    public MethodInfo(String object, String methodName, Parameter... parameters) {
         this.pseudoclass = object;
-        this.method = method;
+        this.methodName = methodName;
         this.parameters = parameters;
     }
 
@@ -30,8 +30,8 @@ public class MethodInfo {
         return parameters;
     }
 
-    public String getMethod() {
-        return method;
+    public String getMethodName() {
+        return methodName;
     }
 
     public String getPseudoclass() {

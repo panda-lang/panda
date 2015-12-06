@@ -5,9 +5,9 @@ import org.panda_lang.panda.core.syntax.Essence;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VariableMap<K, V> {
+public class VariableMap {
 
-    private final VariableMap<String, Essence> parent;
+    private final VariableMap parent;
     private final Map<String, Essence> local;
 
     public VariableMap() {
@@ -15,7 +15,7 @@ public class VariableMap<K, V> {
         this.parent = null;
     }
 
-    public VariableMap(VariableMap<String, Essence> parent) {
+    public VariableMap(VariableMap parent) {
         this.local = new HashMap<String, Essence>();
         this.parent = parent;
     }
@@ -52,7 +52,7 @@ public class VariableMap<K, V> {
         return false;
     }
 
-    public VariableMap<String, Essence> getParent() {
+    public VariableMap getParent() {
         return this.parent;
     }
 

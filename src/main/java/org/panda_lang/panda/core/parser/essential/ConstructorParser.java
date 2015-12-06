@@ -1,13 +1,14 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
-import org.panda_lang.panda.lang.PObject;
 
 import java.util.Stack;
 
@@ -68,13 +69,13 @@ public class ConstructorParser implements Parser {
 
         atom.setSourceCode(params);
         ParameterParser parser = new ParameterParser();
-        Parameter[] parameters = parser.parseLocal(atom);
+        final Parameter[] parameters = parser.parseLocal(atom);
 
         for (final ObjectScheme os : ElementsBucket.getObjects()) {
             if (os.getName().equals(clazz)) {
-                return new Runtime(null, new IExecutable() {
+                return new Runtime(null, new Executable() {
                     @Override
-                    public PObject run(Parameter instance, Parameter... parameters) {
+                    public Essence run(Particle particle) {
                         return os.getConstructorScheme().getConstructor().run(parameters);
                     }
                 }, parameters);

@@ -1,11 +1,11 @@
 package org.panda_lang.panda.core.syntax;
 
+import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.lang.PBoolean;
 import org.panda_lang.panda.lang.PNumber;
-import org.panda_lang.panda.lang.PObject;
 import org.panda_lang.panda.util.EqualityBuilder;
 
-public class Equality implements IExecutable {
+public class Equality implements Executable {
 
     private EqualityBuilder equalityBuilder;
 
@@ -14,7 +14,7 @@ public class Equality implements IExecutable {
     }
 
     @Override
-    public PObject run(Parameter instance, Parameter... parameters) {
+    public Essence run(Particle particle) {
         Operator operator = equalityBuilder.getOperator();
         boolean flag = false;
 
@@ -44,7 +44,8 @@ public class Equality implements IExecutable {
             }
         }
 
-        return new PBoolean(flag);
+        new PBoolean(flag);
+        return null;
     }
 
 }

@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.scheme.ConstructorScheme;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public class PMap extends PObject {
             }
         }));
         // Method: put
-        os.registerMethod(new MethodScheme("put", new IExecutable() {
+        os.registerMethod(new MethodScheme("put", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PMap map = instance.getValue(PMap.class);
@@ -31,7 +31,7 @@ public class PMap extends PObject {
             }
         }));
         // Method: get
-        os.registerMethod(new MethodScheme("get", new IExecutable() {
+        os.registerMethod(new MethodScheme("get", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PMap map = instance.getValue(PMap.class);

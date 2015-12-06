@@ -5,7 +5,7 @@ import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 
 import java.io.File;
@@ -16,7 +16,7 @@ public class PPanda extends PObject {
         // Register object
         ObjectScheme os = new ObjectScheme(PPanda.class, "Panda");
         // Static method: reload
-        os.registerMethod(new MethodScheme("reload", new IExecutable() {
+        os.registerMethod(new MethodScheme("reload", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 Panda.getInstance().reload();
@@ -24,7 +24,7 @@ public class PPanda extends PObject {
             }
         }));
         // Static method: loadSimpleScript
-        os.registerMethod(new MethodScheme("loadSimpleScript", new IExecutable() {
+        os.registerMethod(new MethodScheme("loadSimpleScript", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PObject o = parameters[0].getValue();
@@ -40,7 +40,7 @@ public class PPanda extends PObject {
             }
         }));
         // Static method: getVersion
-        os.registerMethod(new MethodScheme("getVersion", new IExecutable() {
+        os.registerMethod(new MethodScheme("getVersion", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 return new PString(Panda.PANDA_VERSION);

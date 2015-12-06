@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.core.GlobalVariables;
 import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.Variable;
 
 public class PandaBlock extends Block {
@@ -13,9 +13,9 @@ public class PandaBlock extends Block {
     }
 
     public void initializeGlobalVariables() {
-        for (Executable executable : getExecutables()) {
+        for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Variable) {
-                executable.run();
+                executable.run(null);
             }
         }
     }

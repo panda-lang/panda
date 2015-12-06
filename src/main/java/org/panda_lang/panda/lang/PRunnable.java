@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.scheme.ConstructorScheme;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.block.RunnableBlock;
 
@@ -21,7 +21,7 @@ public class PRunnable extends PObject {
             }
         }));
         // Method: run
-        os.registerMethod(new MethodScheme("run", new IExecutable() {
+        os.registerMethod(new MethodScheme("run", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 return instance.getValue(PRunnable.class).run(parameters);

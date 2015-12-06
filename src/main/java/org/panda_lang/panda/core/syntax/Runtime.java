@@ -2,10 +2,10 @@ package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
 
-public class Runtime implements Executable {
+public class Runtime implements NamedExecutable {
 
     private Parameter instance;
-    private IExecutable executable;
+    private Executable executable;
     private Parameter[] parameters;
     private Equality equality;
     private Method method;
@@ -23,7 +23,7 @@ public class Runtime implements Executable {
         this.math = math;
     }
 
-    public Runtime(Parameter instance, IExecutable executable, Parameter[] parameters) {
+    public Runtime(Parameter instance, Executable executable, Parameter[] parameters) {
         this.instance = instance;
         this.executable = executable;
         this.parameters = parameters;

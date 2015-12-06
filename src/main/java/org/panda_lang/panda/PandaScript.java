@@ -3,7 +3,7 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -47,7 +47,7 @@ public class PandaScript {
 
     public Essence call(Class<? extends Block> blockType, String name, Parameter... parameters) {
         for (PandaBlock pandaBlock : blocks) {
-            for (Executable executable : pandaBlock.getExecutables()) {
+            for (NamedExecutable executable : pandaBlock.getExecutables()) {
                 if (executable.getClass() == blockType && executable.getName().equals(name)) {
                     //System.out.println("----------------------- CONSOLE");
                     Particle particle = new Particle();
@@ -61,7 +61,7 @@ public class PandaScript {
 
     public void callAll(Class<? extends Block> blockType, String name, Parameter... parameters) {
         for (PandaBlock pandaBlock : blocks) {
-            for (Executable executable : pandaBlock.getExecutables()) {
+            for (NamedExecutable executable : pandaBlock.getExecutables()) {
                 if (executable.getClass() == blockType && executable.getName().equals(name)) {
                     Particle particle = new Particle();
                     particle.setParameters(parameters);

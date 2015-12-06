@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 public class PandaParser {
@@ -30,7 +30,7 @@ public class PandaParser {
             }
 
             atom.update(pandaBlock, pandaBlock);
-            Executable executable = parseLine(line, atom);
+            NamedExecutable executable = parseLine(line, atom);
             if (!(executable instanceof Block)) {
                 pandaBlock.addExecutable(executable);
             }
@@ -41,7 +41,7 @@ public class PandaParser {
         return pandaScript;
     }
 
-    public Executable parseLine(String line, Atom atom) {
+    public NamedExecutable parseLine(String line, Atom atom) {
         String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
         Parser parser = ParserCenter.getParser(pattern);
 
@@ -55,7 +55,7 @@ public class PandaParser {
         return parser.parse(atom);
     }
 
-    public Executable throwException(PandaException pandaException) {
+    public NamedExecutable throwException(PandaException pandaException) {
         pandaException.print();
         exception = true;
         return null;

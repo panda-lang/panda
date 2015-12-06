@@ -6,12 +6,12 @@ import org.panda_lang.panda.util.VariableMap;
 import java.util.Collection;
 import java.util.LinkedList;
 
-public class Block implements Executable {
+public class Block implements NamedExecutable {
 
     private String name;
     private Block parent;
-    private Collection<Executable> executables;
-    private VariableMap<String, Essence> variables;
+    private Collection<NamedExecutable> executables;
+    private VariableMap variables;
     protected Parameter[] parameters;
 
     public Block() {
@@ -20,7 +20,7 @@ public class Block implements Executable {
 
     public Block(Block parent) {
         this.executables = new LinkedList<>();
-        this.variables = new VariableMap<>(parent.getVariables());
+        this.variables = new VariableMap(parent.getVariables());
         this.parent = parent;
     }
 
@@ -31,13 +31,13 @@ public class Block implements Executable {
                 parameters[i].setValue(getParameters()[i].getValue());
             }
         }
-        for (Executable e : executables) {
+        for (NamedExecutable e : executables) {
             e.run(null);
         }
         return null;
     }
 
-    public void addExecutable(Executable e) {
+    public void addExecutable(NamedExecutable e) {
         this.executables.add(e);
     }
 
@@ -47,14 +47,14 @@ public class Block implements Executable {
 
     public void setParent(Block block) {
         this.parent = block;
-        this.variables = new VariableMap<>(parent.getVariables());
+        this.variables = new VariableMap(parent.getVariables());
     }
 
     public void setVariable(String var, Essence value) {
         this.variables.put(var, value);
     }
 
-    public void setVariableMap(VariableMap<String, Essence> variables) {
+    public void setVariableMap(VariableMap variables) {
         this.variables = variables;
     }
 
@@ -74,11 +74,11 @@ public class Block implements Executable {
         return variables.get(var);
     }
 
-    public VariableMap<String, Essence> getVariables() {
+    public VariableMap getVariables() {
         return variables;
     }
 
-    public Collection<Executable> getExecutables() {
+    public Collection<NamedExecutable> getExecutables() {
         return executables;
     }
 
