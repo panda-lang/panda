@@ -15,18 +15,17 @@ public class Core {
                 "MethodParser",
                 "ParameterParser",
                 "VariableParser",
-                "VialParser");
+                "BlockParser");
     }
 
     private void blocks() {
         ElementsBucket.loadClasses("org.panda_lang.panda.core.syntax.block",
-                "ClassBlock",
                 "ElseThenBlock",
                 "ForBlock",
                 "IfThenBlock",
                 "MethodBlock",
                 "RunnableBlock",
-                "ClassBlock",
+                "VialBlock",
                 "ThreadBlock",
                 "WhileBlock");
     }
@@ -47,8 +46,6 @@ public class Core {
                 "PString",
                 "PSystem",
                 "PThread");
-        ElementsBucket.loadClasses("org.panda_lang.panda.lang.ui",
-                "PWindow");
     }
 
     public static Core registerDefault() {

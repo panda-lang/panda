@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.core.Particle;
 
 public class Runtime implements Executable {
 
@@ -30,11 +30,13 @@ public class Runtime implements Executable {
     }
 
     @Override
-    public PObject run(Parameter... parameters) {
-        if (method != null) return method.run(parameters);
-        else if (math != null) return math.run(null, parameters);
-        else if (equality != null) return equality.run(null, parameters);
-        return executable.run(instance, this.parameters);
+    public Essence run(Particle particle) {
+        particle.setInstance(instance);
+        particle.setParameters(parameters);
+        if (method != null) return method.run(particle);
+        else if (math != null) return math.run(particle);
+        else if (equality != null) return equality.run(particle);
+        return executable.run(particle);
     }
 
     @Override

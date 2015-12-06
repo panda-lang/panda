@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VialAssistant {
+public class BlockAssistant {
 
     public static String extractIndication(String line) {
         StringBuilder node = new StringBuilder();

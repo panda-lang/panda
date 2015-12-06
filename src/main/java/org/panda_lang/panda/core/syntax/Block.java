@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.util.VariableMap;
 
 import java.util.Collection;
@@ -11,7 +11,7 @@ public class Block implements Executable {
     private String name;
     private Block parent;
     private Collection<Executable> executables;
-    private VariableMap<String, PObject> variables;
+    private VariableMap<String, Essence> variables;
     protected Parameter[] parameters;
 
     public Block() {
@@ -25,15 +25,14 @@ public class Block implements Executable {
     }
 
     @Override
-    public PObject run(Parameter... vars) {
-        // {vars.init}
-        if (vars != null && parameters != null && vars.length <= parameters.length) {
-            for (int i = 0; i < vars.length; i++) {
-                parameters[i].setValue(vars[i].getValue());
+    public Essence run(Particle particle) {
+        if (particle.getParameters() != null && parameters != null && particle.getParameters().length <= parameters.length) {
+            for (int i = 0; i < particle.getParameters().length; i++) {
+                parameters[i].setValue(getParameters()[i].getValue());
             }
         }
         for (Executable e : executables) {
-            e.run(null); // {vars} -> {null}
+            e.run(null);
         }
         return null;
     }
@@ -51,11 +50,11 @@ public class Block implements Executable {
         this.variables = new VariableMap<>(parent.getVariables());
     }
 
-    public void setVariable(String var, PObject value) {
+    public void setVariable(String var, Essence value) {
         this.variables.put(var, value);
     }
 
-    public void setVariableMap(VariableMap<String, PObject> variables) {
+    public void setVariableMap(VariableMap<String, Essence> variables) {
         this.variables = variables;
     }
 
@@ -71,11 +70,11 @@ public class Block implements Executable {
         return parameters;
     }
 
-    public PObject getVariable(String var) {
+    public Essence getVariable(String var) {
         return variables.get(var);
     }
 
-    public VariableMap<String, PObject> getVariables() {
+    public VariableMap<String, Essence> getVariables() {
         return variables;
     }
 
