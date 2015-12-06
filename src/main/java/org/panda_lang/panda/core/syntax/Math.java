@@ -1,12 +1,12 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.lang.PNumber;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.util.MathBuilder;
 
 import java.util.Stack;
 
-public class Math implements IExecutable {
+public class Math implements Executable {
 
     private final MathBuilder mathBuilder;
 
@@ -15,7 +15,7 @@ public class Math implements IExecutable {
     }
 
     @Override
-    public PObject run(Parameter instance, Parameter... parameters) {
+    public Essence run(Particle particle) {
         Stack<Double> values = new Stack<>();
 
         for (int i = 0; i < mathBuilder.size(); i++) {
@@ -48,7 +48,8 @@ public class Math implements IExecutable {
             }
         }
 
-        return new PNumber(values.pop());
+        values.pop();
+        return VialCenter.getVial("Number").initializeInstance(null);
     }
 
 }

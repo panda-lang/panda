@@ -1,38 +1,29 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.Vial;
 
 public class PBoolean extends PObject {
 
+    private final static Vial vial;
+
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PBoolean.class, "Boolean");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PBoolean>() {
+        vial = VialCenter.initializeVial("Boolean");
+        vial.constructor(new Executable() {
             @Override
-            public PBoolean run(Parameter... parameters) {
-                if (parameters == null || parameters.length == 0) return new PBoolean(false);
-                else return parameters[0].getValue(PBoolean.class);
+            public Essence run(Particle particle) {
+                return particle.get(0).getValue();
             }
-        }));
-        // Method: toString
-        os.registerMethod(new MethodScheme("toString", new IExecutable() {
-            @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PBoolean b = instance.getValue(PBoolean.class);
-                return new PString(b.toString());
-            }
-        }));
+        });
     }
 
     private final boolean b;
 
     public PBoolean(boolean b) {
+        super(vial);
         this.b = b;
     }
 

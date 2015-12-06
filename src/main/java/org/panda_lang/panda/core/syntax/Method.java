@@ -1,22 +1,46 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.block.MethodBlock;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.core.Particle;
 
-public class Method implements Executable {
+public class Method implements NamedExecutable {
 
+    /*
     private final Block block;
     private final String method;
     private final Parameter[] parameters;
     private Parameter instance;
-    private IExecutable runnable;
+    private Executable runnable;
     private PandaScript script;
+*/
 
-    public Method(Parameter instance, Block block, String method, IExecutable runnable, Parameter[] parameters) {
+    private final String methodName;
+    private final Executable executable;
+
+    public Method(NamedExecutable executable) {
+        this(executable.getName(), executable);
+    }
+
+    public Method(String methodName, Executable executable) {
+        this.methodName = methodName;
+        this.executable = executable;
+    }
+
+    @Override
+    public Essence run(Particle particle) {
+        if(executable != null) {
+            executable.run(particle);
+        }
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return methodName;
+    }
+
+
+    /*
+    public Method(Parameter instance, Block block, String method, Executable runnable, Parameter[] parameters) {
         this.instance = instance;
         this.block = block;
         this.method = method;
@@ -32,7 +56,9 @@ public class Method implements Executable {
     }
 
     @Override
-    public PObject run(Parameter... vars) {
+    public Essence run(Particle particle) {
+        particle.setInstance(instance);
+        particle.setParameters(parameters);
         if (runnable == null) {
             if (isStatic()) {
                 return script.call(MethodBlock.class, method, parameters);
@@ -52,7 +78,7 @@ public class Method implements Executable {
                             continue;
                         }
                         this.runnable = ms.getExecutable();
-                        return this.runnable.run(instance, parameters);
+                        return this.runnable.run(particle);
                     }
                 }
             }
@@ -64,7 +90,7 @@ public class Method implements Executable {
                     "." + method);
             return null;
         }
-        return this.runnable.run(instance, parameters);
+        return this.runnable.run(particle);
     }
 
     public boolean isStatic() {
@@ -75,7 +101,7 @@ public class Method implements Executable {
         return block;
     }
 
-    public IExecutable getRunnable() {
+    public Executable getRunnable() {
         return runnable;
     }
 
@@ -94,10 +120,6 @@ public class Method implements Executable {
     public String getMethod() {
         return method;
     }
-
-    @Override
-    public String getName() {
-        return method;
-    }
+    */
 
 }

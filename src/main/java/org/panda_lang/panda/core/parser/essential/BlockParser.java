@@ -9,7 +9,7 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class BlockParser implements Parser {
 
@@ -53,7 +53,7 @@ public class BlockParser implements Parser {
 
             atom.update(current, current);
 
-            Executable executable = atom.getPandaParser().parseLine(line, atom);
+            NamedExecutable executable = atom.getPandaParser().parseLine(line, atom);
             if (executable instanceof Block) {
                 atom.setPrevious((Block) executable);
                 atom.getPrevious().setParent(current);

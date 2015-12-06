@@ -1,8 +1,9 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.util.VariableMap;
 
-public class Parameter implements Executable {
+public class Parameter implements NamedExecutable {
 
     enum Type {
         DEFINED,
@@ -11,10 +12,10 @@ public class Parameter implements Executable {
     }
 
     private final Type type;
+    private String dataType;
     private Essence object;
     private String variable;
-    private Block block;
-    private String dataType;
+    private VariableMap map;
     private Runtime runtime;
     private Essence value;
 
@@ -24,18 +25,18 @@ public class Parameter implements Executable {
         this.dataType = type;
     }
 
-    public Parameter(String type, Block block, String variable) {
+    public Parameter(String type, VariableMap map, String variable) {
         this.type = Type.VARIABLE;
-        this.variable = variable;
-        this.block = block;
         this.dataType = type;
+        this.map = map;
+        this.variable = variable;
     }
 
-    public Parameter(String type, Block block, Runtime runtime) {
+    public Parameter(String type, VariableMap map, Runtime runtime) {
         this.type = Type.RUNTIME;
         this.dataType = type;
+        this.map = map;
         this.runtime = runtime;
-        this.block = block;
     }
 
     @Override
@@ -49,7 +50,7 @@ public class Parameter implements Executable {
                 value = o;
                 break;
             case VARIABLE:
-                block.setVariable(variable, o);
+                map.put(variable, o);
                 value = o;
                 break;
             default:
@@ -71,10 +72,6 @@ public class Parameter implements Executable {
 
     public Runtime getRuntime() {
         return runtime;
-    }
-
-    public Block getBlock() {
-        return block;
     }
 
     public String getVariable() {
@@ -105,14 +102,14 @@ public class Parameter implements Executable {
                 value = object;
                 break;
             case VARIABLE:
-                value = block.getVariable(variable);
+                value = map.get(variable);
                 break;
             case RUNTIME:
                 if (runtime == null) {
                     System.out.println("Runtime is null. Parameter info: " + this.toString());
                     return null;
                 }
-                value = runtime.run();
+                value = runtime.run(new Particle());
                 break;
             default:
                 System.out.println("Parameter type is not defined. Parameter info: " + this.toString());
@@ -136,7 +133,7 @@ public class Parameter implements Executable {
 
     @Override
     public String toString() {
-        return "@Parameter={" + type + "," + object + "," + variable + "," + block + "," + (block != null ? block.getName() : "null") + "," + dataType + "," + runtime + "," + value + "}";
+        return "@Parameter={" + type + "," + object + "," + variable + "," + dataType + "," + runtime + "," + value + "}";
     }
 
 }

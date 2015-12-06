@@ -1,30 +1,32 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.IExecutable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.*;
 
-public class PArray extends PObject {
+public class PArray extends Essence {
+
+    private final static Vial vial;
 
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PArray.class, "Array");
-        // Method: get
-        os.registerMethod(new MethodScheme("get", new IExecutable() {
+        vial = VialCenter.initializeVial("Array");
+        vial.constructor(new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PArray a = instance.getValue(PArray.class);
-                PNumber n = parameters[0].getValue(PNumber.class);
-                return a.getArray()[n.getNumber().intValue()].getValue();
+            public Essence run(Particle particle) {
+                return new PArray(particle.getParameters());
+            }
+        });
+        vial.method(new Method("size", new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                PArray array = particle.getInstance().getValue(PArray.class);
+                return new PNumber(array.getArray().length);
             }
         }));
-        // Method: size
-        os.registerMethod(new MethodScheme("size", new IExecutable() {
+        vial.method(new Method("get", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PArray a = instance.getValue(PArray.class);
-                return new PNumber(a.getArray().length);
+            public Essence run(Particle particle) {
+                return null;
             }
         }));
     }
@@ -32,16 +34,16 @@ public class PArray extends PObject {
     private final Parameter[] array;
 
     public PArray(Parameter... values) {
+        super(vial);
         this.array = values;
+    }
+
+    public Essence get(int i) {
+        return i < array.length ? array[i].getValue() : new PNull();
     }
 
     public Parameter[] getArray() {
         return array;
-    }
-
-    @Override
-    public String getType() {
-        return "Array";
     }
 
     @Override

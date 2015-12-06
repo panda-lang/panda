@@ -9,12 +9,23 @@ public class Particle {
     private Parameter instance;
     private Parameter[] parameters;
 
+    public Particle() { }
+
+    public Particle(Parameter... parameters) {
+        this.parameters = parameters;
+    }
+
     public Parameter get(int i) {
         return i < parameters.length ? parameters[i] : null;
     }
 
     public <T> T get(int i, Class<T> clazz) {
         Essence essence = i < parameters.length ? parameters[i].getValue() : new PNull();
+        return essence.cast(clazz);
+    }
+
+    public <T> T getInstance(Class<T> clazz) {
+        Essence essence = instance.getValue();
         return essence.cast(clazz);
     }
 

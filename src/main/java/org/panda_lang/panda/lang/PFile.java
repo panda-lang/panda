@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.scheme.ConstructorScheme;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.util.IOUtils;
 
@@ -23,7 +23,7 @@ public class PFile extends PObject {
             }
         }));
         // Method: create
-        os.registerMethod(new MethodScheme("create", new IExecutable() {
+        os.registerMethod(new MethodScheme("create", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PFile f = instance.getValue(PFile.class);
@@ -35,7 +35,7 @@ public class PFile extends PObject {
             }
         }));
         // Method: isDirectory
-        os.registerMethod(new MethodScheme("isDirectory", new IExecutable() {
+        os.registerMethod(new MethodScheme("isDirectory", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PFile f = instance.getValue(PFile.class);
@@ -43,7 +43,7 @@ public class PFile extends PObject {
             }
         }));
         // Method: getContent
-        os.registerMethod(new MethodScheme("getContent", new IExecutable() {
+        os.registerMethod(new MethodScheme("getContent", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PFile f = instance.getValue(PFile.class);

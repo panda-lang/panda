@@ -1,37 +1,31 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.*;
 
-public class PNumber extends PObject {
+public class PNumber extends Essence {
+
+    private final static Vial vial;
 
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PNumber.class, "Number");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PNumber>() {
+        vial = VialCenter.initializeVial("Number");
+        vial.constructor(new Executable() {
             @Override
-            public PNumber run(Parameter... parameters) {
-                if (parameters == null || parameters.length == 0) return new PNumber(0);
-                else return parameters[0].getValue(PNumber.class);
+            public Essence run(Particle particle) {
+                return null;
+            }
+        });
+        vial.method(new Method("valueOf", new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                return null;
             }
         }));
-        // Static method: valueOf
-        os.registerMethod(new MethodScheme("valueOf", new IExecutable() {
+        vial.method(new Method("toString", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                return new PNumber(Long.valueOf(parameters[0].getValue(PString.class).toString()));
-            }
-        }));
-        // Method: toString
-        os.registerMethod(new MethodScheme("toString", new IExecutable() {
-            @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PNumber number = instance.getValue(PNumber.class);
+            public Essence run(Particle particle) {
+                PNumber number = particle.getInstance().getValue(PNumber.class);
                 return new PString(number.toString());
             }
         }));
@@ -40,6 +34,7 @@ public class PNumber extends PObject {
     private final Number number;
 
     public PNumber(Number number) {
+        super(vial);
         this.number = number;
     }
 
@@ -58,7 +53,7 @@ public class PNumber extends PObject {
     }
 
     public static Number getNumberValue(Parameter parameter) {
-        PObject value = parameter.getValue();
+        Essence value = parameter.getValue();
         if (value instanceof PNumber) {
             return ((PNumber) value).getNumber();
         }

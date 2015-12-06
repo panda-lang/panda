@@ -32,11 +32,11 @@ public class VialBlock extends Block {
     }
 
     @Override
-    public void addExecutable(Executable executable) {
+    public void addExecutable(NamedExecutable executable) {
         if (executable instanceof Variable) {
 
         } else if (executable instanceof Method) {
-
+            vial.method(new Method(executable));
         } else {
             System.out.println("Cannot add " + executable.getName() + " (" + executable.getClass().getSimpleName() + ") to vial (class)");
         }

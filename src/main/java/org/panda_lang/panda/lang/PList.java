@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.scheme.ConstructorScheme;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 
 import java.util.ArrayList;
@@ -23,7 +23,7 @@ public class PList extends PObject {
             }
         }));
         // Method: add
-        os.registerMethod(new MethodScheme("add", new IExecutable() {
+        os.registerMethod(new MethodScheme("add", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PList b = instance.getValue(PList.class);

@@ -14,7 +14,7 @@ public class EqualityParser implements Parser {
         EqualityBuilder equalityBuilder = new EqualityBuilder();
 
         Equality equality = new Equality(null);
-        return new Parameter("Boolean", atom.getParent(), new Runtime(equality));
+        return new Parameter("Boolean", atom.getParent().getVariables(), new Runtime(equality));
     }
 
 }

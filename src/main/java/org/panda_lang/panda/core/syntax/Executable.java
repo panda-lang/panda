@@ -6,6 +6,4 @@ public interface Executable {
 
     public Essence run(Particle particle);
 
-    public String getName();
-
 }

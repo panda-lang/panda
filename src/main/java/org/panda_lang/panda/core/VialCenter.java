@@ -9,6 +9,11 @@ public class VialCenter {
 
     private static final Map<String, Vial> vials = new HashMap<>();
 
+    public static Vial initializeVial(String vialName) {
+        Vial vial = new Vial(vialName);
+        return vials.put(vialName, vial);
+    }
+
     public static void registerVial(Vial vial) {
         vials.put(vial.getName(), vial);
     }

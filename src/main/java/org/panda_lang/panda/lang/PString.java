@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.scheme.ConstructorScheme;
 import org.panda_lang.panda.core.scheme.MethodScheme;
 import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.IExecutable;
+import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Parameter;
 
 public class PString extends PObject {
@@ -20,7 +20,7 @@ public class PString extends PObject {
             }
         }));
         // Method: contains;
-        os.registerMethod(new MethodScheme("contains", new IExecutable() {
+        os.registerMethod(new MethodScheme("contains", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PString me = instance.getValue(PString.class);
@@ -28,7 +28,7 @@ public class PString extends PObject {
             }
         }));
         // Method: replace;
-        os.registerMethod(new MethodScheme("replace", new IExecutable() {
+        os.registerMethod(new MethodScheme("replace", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PString me = instance.getValue(PString.class);
@@ -36,7 +36,7 @@ public class PString extends PObject {
             }
         }));
         // Method: equals
-        os.registerMethod(new MethodScheme("equals", new IExecutable() {
+        os.registerMethod(new MethodScheme("equals", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PString me = instance.getValue(PString.class);
@@ -44,7 +44,7 @@ public class PString extends PObject {
             }
         }));
         // Method: equalsIgnoreCase
-        os.registerMethod(new MethodScheme("equalsIgnoreCase", new IExecutable() {
+        os.registerMethod(new MethodScheme("equalsIgnoreCase", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PString me = instance.getValue(PString.class);
@@ -52,7 +52,7 @@ public class PString extends PObject {
             }
         }));
         // Method: length
-        os.registerMethod(new MethodScheme("length", new IExecutable() {
+        os.registerMethod(new MethodScheme("length", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PString me = instance.getValue(PString.class);
