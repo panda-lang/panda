@@ -34,7 +34,7 @@ public class Method implements Executable {
     @Override
     public PObject run(Parameter... vars) {
         if (runnable == null) {
-            if (instance == null) {
+            if (isStatic()) {
                 return script.call(MethodBlock.class, method, parameters);
             }
             String type = instance.getDataType();
@@ -65,6 +65,10 @@ public class Method implements Executable {
             return null;
         }
         return this.runnable.run(instance, parameters);
+    }
+
+    public boolean isStatic() {
+        return instance == null;
     }
 
     public Block getBlock() {

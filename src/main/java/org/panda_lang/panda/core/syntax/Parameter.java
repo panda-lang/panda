@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.lang.PNull;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.core.Particle;
 
 public class Parameter implements Executable {
 
@@ -12,14 +11,14 @@ public class Parameter implements Executable {
     }
 
     private final Type type;
-    private PObject object;
+    private Essence object;
     private String variable;
     private Block block;
     private String dataType;
     private Runtime runtime;
-    private PObject value;
+    private Essence value;
 
-    public Parameter(String type, PObject object) {
+    public Parameter(String type, Essence object) {
         this.type = Type.DEFINED;
         this.object = object;
         this.dataType = type;
@@ -40,11 +39,11 @@ public class Parameter implements Executable {
     }
 
     @Override
-    public PObject run(Parameter... parameters) {
+    public Essence run(Particle particle) {
         return getValue();
     }
 
-    public void setValue(PObject o) {
+    public void setValue(Essence o) {
         switch (type) {
             case DEFINED:
                 value = o;
@@ -66,7 +65,7 @@ public class Parameter implements Executable {
         this.dataType = type;
     }
 
-    public PObject getObject() {
+    public Essence getObject() {
         return object;
     }
 
@@ -87,7 +86,7 @@ public class Parameter implements Executable {
     }
 
     public <T> T getValue(Class<T> clazz) {
-        PObject object = getValue();
+        Essence object = getValue();
         if (object == null) {
             System.out.println("Cannot cast to " + clazz.getClass().getSimpleName() + "! Object == null");
             return null;
@@ -99,8 +98,8 @@ public class Parameter implements Executable {
         return null;
     }
 
-    public PObject getValue() {
-        PObject value = new PNull();
+    public Essence getValue() {
+        Essence value = null;
         switch (type) {
             case DEFINED:
                 value = object;

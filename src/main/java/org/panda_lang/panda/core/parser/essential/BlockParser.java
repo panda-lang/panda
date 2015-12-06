@@ -4,17 +4,17 @@ import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.SourcesDivider;
-import org.panda_lang.panda.core.parser.essential.assistant.VialAssistant;
+import org.panda_lang.panda.core.parser.essential.assistant.BlockAssistant;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Executable;
 
-public class VialParser implements Parser {
+public class BlockParser implements Parser {
 
     static {
-        ParserScheme parserScheme = new ParserScheme(new VialParser(), "*{", EssentialPriority.VIAL.getPriority());
+        ParserScheme parserScheme = new ParserScheme(new BlockParser(), "*{", EssentialPriority.VIAL.getPriority());
         ElementsBucket.registerParser(parserScheme);
     }
 
@@ -22,8 +22,8 @@ public class VialParser implements Parser {
     public Block parse(Atom atom) {
         SourcesDivider sourcesDivider = atom.getSourcesDivider();
         String vialLine = sourcesDivider.getLine();
-        String vialIndication = VialAssistant.extractIndication(vialLine);
-        BlockInfo blockInfo = VialAssistant.extractVial(vialLine);
+        String vialIndication = BlockAssistant.extractIndication(vialLine);
+        BlockInfo blockInfo = BlockAssistant.extractVial(vialLine);
         Block current = null;
 
         indication:
@@ -47,7 +47,7 @@ public class VialParser implements Parser {
 
             //System.out.println("vial_" + current.getName() + ": " + line);
 
-            if (VialAssistant.isPlug(line)) {
+            if (BlockAssistant.isPlug(line)) {
                 break;
             }
 
