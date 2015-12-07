@@ -1,16 +1,12 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
 
 public class PThread extends PObject {
 
     static {
+        /*
         // Register object
         ObjectScheme os = new ObjectScheme(PThread.class, "Thread");
         // Constructor
@@ -44,6 +40,7 @@ public class PThread extends PObject {
                 return new PThread(Thread.currentThread());
             }
         }));
+        */
     }
 
     private String name;
@@ -62,9 +59,9 @@ public class PThread extends PObject {
         this.name = thread.getName();
     }
 
-    public void start(Parameter... vars) {
+    public void start(Particle particle) {
         if (this.block != null) {
-            block.start(vars);
+            block.start(particle);
         }
     }
 

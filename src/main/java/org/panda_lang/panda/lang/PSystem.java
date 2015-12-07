@@ -1,13 +1,26 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Method;
+import org.panda_lang.panda.core.syntax.Vial;
 
 public class PSystem extends PObject {
 
+    private static final Vial vial;
+
     static {
+        vial = VialCenter.initializeVial("System");
+        vial.method(new Method("print", new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                System.out.println(particle.get(0));
+                return null;
+            }
+        }));
+        /*
         // Register object
         ObjectScheme os = new ObjectScheme(PSystem.class, "System");
         // Static method: print
@@ -40,6 +53,8 @@ public class PSystem extends PObject {
                 return new PNumber(System.nanoTime());
             }
         }));
+        */
+
     }
 
 }

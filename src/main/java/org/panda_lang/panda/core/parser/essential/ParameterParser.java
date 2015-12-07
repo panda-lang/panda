@@ -3,7 +3,6 @@ package org.panda_lang.panda.core.parser.essential;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.ParameterAssistant;
-import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.lang.PArray;
@@ -29,8 +28,8 @@ public class ParameterParser implements Parser {
             // Method
             MethodParser parser = new MethodParser();
             atom.getSourcesDivider().setLine(parameter);
-            Method method = parser.parse(atom);
-            return new Parameter(null, atom.getParent(), new Runtime(method));
+            Runtime methodRuntime = parser.parse(atom);
+            return new Parameter(null, atom.getParent().getVariables(), methodRuntime);
         }
 
         char[] chars = parameter.toCharArray();
@@ -50,7 +49,7 @@ public class ParameterParser implements Parser {
         else if (parameter.equals("false")) return new Parameter("Boolean", new PBoolean(false));
         else {
             // Variable
-            return new Parameter(null, atom.getParent(), parameter);
+            return new Parameter(null, atom.getParent().getVariables(), parameter);
         }
 
     }
@@ -74,7 +73,7 @@ public class ParameterParser implements Parser {
 
     public Parameter parseConstructor(Atom atom, String s) {
         atom.setSourceCode(s);
-        return new Parameter(null, atom.getParent(), new ConstructorParser().parse(atom));
+        return new Parameter(null, atom.getParent().getVariables(), new ConstructorParser().parse(atom));
     }
 
     public Parameter parseArray(Atom atom, String s) {

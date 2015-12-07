@@ -1,17 +1,7 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaLoader;
-import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
-
-import java.io.File;
-
 public class PPanda extends PObject {
-
+/*
     static {
         // Register object
         ObjectScheme os = new ObjectScheme(PPanda.class, "Panda");
@@ -47,5 +37,5 @@ public class PPanda extends PObject {
             }
         }));
     }
-
+*/
 }

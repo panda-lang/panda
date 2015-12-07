@@ -1,14 +1,7 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
-
 public class PCharacter extends PObject {
-
+/*
     static {
         // Register object
         ObjectScheme os = new ObjectScheme(PCharacter.class, "Character");
@@ -40,5 +33,5 @@ public class PCharacter extends PObject {
     public String toString() {
         return Character.toString(c);
     }
-
+*/
 }
