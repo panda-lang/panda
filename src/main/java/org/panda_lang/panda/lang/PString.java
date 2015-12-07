@@ -1,15 +1,26 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Vial;
 
 public class PString extends PObject {
 
+    private final static Vial vial;
+
     static {
+
+        vial = VialCenter.initializeVial("String");
+        vial.constructor(new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                return new PString(particle.get(0).getValue().toString());
+            }
+        });
+
+        /*
         // Register object
         ObjectScheme os = new ObjectScheme(PString.class, "String");
         // Constructor
@@ -59,11 +70,13 @@ public class PString extends PObject {
                 return new PNumber(me.toString().length());
             }
         }));
+        */
     }
 
     private final String string;
 
     public PString(String string) {
+        super(vial);
         this.string = string;
     }
 

@@ -1,17 +1,7 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.scheme.ConstructorScheme;
-import org.panda_lang.panda.core.scheme.MethodScheme;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
-import org.panda_lang.panda.util.IOUtils;
-
-import java.io.File;
-
 public class PFile extends PObject {
-
+    /*
     static {
         // Register object
         ObjectScheme os = new ObjectScheme(PFile.class, "File");
@@ -75,5 +65,5 @@ public class PFile extends PObject {
     public String toString() {
         return file.getName();
     }
-
+*/
 }
