@@ -29,16 +29,16 @@ public class MethodParser implements Parser {
             return null;
         }
 
-        if(mi.isStatic()) {
+        if (mi.isStatic()) {
 
         } else {
             Parameter instance = mi.getInstance();
             String instanceOf = instance.getDataType();
-            if(instanceOf != null) {
+            if (instanceOf != null) {
                 Vial vial = VialCenter.getVial(instanceOf);
                 final Method method = vial.getMethod(mi.getMethodName());
 
-                if(method != null) {
+                if (method != null) {
                     return new Runtime(instance, new Executable() {
                         @Override
                         public Essence run(Particle particle) {

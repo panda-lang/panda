@@ -11,7 +11,8 @@ public class VialCenter {
 
     public static Vial initializeVial(String vialName) {
         Vial vial = new Vial(vialName);
-        return vials.put(vialName, vial);
+        vials.put(vialName, vial);
+        return vial;
     }
 
     public static void registerVial(Vial vial) {
