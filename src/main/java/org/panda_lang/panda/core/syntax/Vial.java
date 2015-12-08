@@ -30,7 +30,7 @@ public class Vial {
 
     public Essence initializeInstance(Particle particle) {
         Essence essence = new Essence(this);
-        if(constructor != null) {
+        if (constructor != null) {
             constructor.run(particle);
         }
         return essence;
@@ -42,7 +42,7 @@ public class Vial {
     }
 
     public Vial method(Method method) {
-        if(constructor == null && method.getName().equals(vialName)) {
+        if (constructor == null && method.getName().equals(vialName)) {
             constructor = method;
         } else {
             methods.put(method.getName(), method);
@@ -61,7 +61,7 @@ public class Vial {
             Vial vial = VialCenter.getVial(extension);
             if (vial != null) {
                 method = vial.getMethod(name);
-                if(method == null) {
+                if (method == null) {
                     extension = null;
                 }
             }

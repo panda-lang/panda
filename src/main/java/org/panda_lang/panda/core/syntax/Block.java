@@ -32,7 +32,9 @@ public class Block implements NamedExecutable {
             }
         }
         for (NamedExecutable e : executables) {
-            e.run(null);
+            if (e != null) {
+                e.run(null);
+            }
         }
         return null;
     }

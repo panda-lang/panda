@@ -9,7 +9,8 @@ public class Particle {
     private Parameter instance;
     private Parameter[] parameters;
 
-    public Particle() { }
+    public Particle() {
+    }
 
     public Particle(Parameter... parameters) {
         this.parameters = parameters;
