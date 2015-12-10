@@ -30,11 +30,14 @@ public class MethodParser implements Parser {
         }
 
         if (mi.isStatic()) {
-
+            System.out.println("Oh, I'm static");
+            return null;
         } else {
             Parameter instance = mi.getInstance();
             String instanceOf = instance.getDataType();
             if (instanceOf != null) {
+                System.out.println("Oh, I'm instance -> method");
+
                 Vial vial = VialCenter.getVial(instanceOf);
                 final Method method = vial.getMethod(mi.getMethodName());
 
@@ -46,6 +49,8 @@ public class MethodParser implements Parser {
                         }
                     }, mi.getParameters());
                 }
+            } else {
+                System.out.println("Oh no..., I don't have instance");
             }
 
         }

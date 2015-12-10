@@ -32,14 +32,13 @@ public class Block implements NamedExecutable {
             }
         }
         for (NamedExecutable e : executables) {
-            if (e != null) {
-                e.run(null);
-            }
+            e.run(null);
         }
         return null;
     }
 
     public void addExecutable(NamedExecutable e) {
+        System.out.println("add: " + e);
         this.executables.add(e);
     }
 
@@ -95,6 +94,11 @@ public class Block implements NamedExecutable {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }
