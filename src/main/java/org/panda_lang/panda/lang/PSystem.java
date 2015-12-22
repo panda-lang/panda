@@ -16,10 +16,11 @@ public class PSystem extends PObject {
         vial.method(new Method("print", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                System.out.println(particle.get(0));
+                System.out.println(particle.getValue(0));
                 return null;
             }
         }));
+
         /*
         // Register object
         ObjectScheme os = new ObjectScheme(PSystem.class, "System");

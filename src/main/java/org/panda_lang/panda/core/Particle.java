@@ -25,6 +25,11 @@ public class Particle {
         return essence.cast(clazz);
     }
 
+    public Essence getValue(int i) {
+        Parameter parameter = get(i);
+        return parameter != null ? parameter.getValue() : new PNull();
+    }
+
     public <T> T getInstance(Class<T> clazz) {
         Essence essence = instance.getValue();
         return essence.cast(clazz);
