@@ -7,7 +7,12 @@
 class Test {
 
     // class_field
-    int classVar = 1;
+    Integer classVar = 1;
+
+    // class_constructor
+    constructor Test() {
+        classVar = 2;
+    }
 
     // class_func
     method func() {

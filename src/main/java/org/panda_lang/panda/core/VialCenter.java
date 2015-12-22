@@ -2,6 +2,7 @@ package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.core.syntax.Vial;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +22,10 @@ public class VialCenter {
 
     public static Vial getVial(String vialName) {
         return vials.get(vialName);
+    }
+
+    public static Collection<Vial> getVials() {
+        return vials.values();
     }
 
 }

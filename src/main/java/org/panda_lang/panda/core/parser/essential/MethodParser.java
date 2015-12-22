@@ -29,10 +29,22 @@ public class MethodParser implements Parser {
             return null;
         }
 
+        System.out.println("Source: " + source);
+        System.out.println("Info: " + mi.isStatic() + ", " + mi.isExternal() + ", " + mi.getVial() + ", " + mi.getMethodName());
+
         if (mi.isStatic()) {
             System.out.println("Oh, I'm static");
-            return null;
-        } else {
+            final Vial vial = mi.getVial();
+            Method method = new Method(mi.getMethodName(), new Executable() {
+                @Override
+                public Essence run(Particle particle) {
+                    particle = new Particle(mi.getParameters());
+                    return vial.getMethod(mi.getMethodName()).run(particle);
+                }
+            });
+            return new Runtime(method);
+
+        } else if (mi.isExternal()) {
             Parameter instance = mi.getInstance();
             String instanceOf = instance.getDataType();
             if (instanceOf != null) {
@@ -52,17 +64,18 @@ public class MethodParser implements Parser {
             } else {
                 System.out.println("Oh no..., I don't have instance");
             }
+        } else {
 
         }
 
         return null;
 
-        //System.out.println(mi.getMethod() + " | " + mi.getPseudoclass() + " | " + mi.getInstance() + " | " + mi.getParameters().toString());
+        //System.out.println(mi.getMethod() + " | " + mi.getClassName() + " | " + mi.getInstance() + " | " + mi.getParameters().toString());
         /*
         if (mi.isExternal()) {
             if (mi.isStatic()) {
                 for (ObjectScheme os : ElementsBucket.getObjects()) {
-                    if (!os.getName().equals(mi.getPseudoclass())) {
+                    if (!os.getName().equals(mi.getClassName())) {
                         continue;
                     }
                     for (MethodScheme ms : os.getMethods()) {

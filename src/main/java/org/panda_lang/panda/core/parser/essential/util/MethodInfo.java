@@ -1,27 +1,28 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
 import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Vial;
 
 public class MethodInfo {
 
     private final String methodName;
     private final Parameter[] parameters;
     private Parameter instance;
-    private String pseudoclass;
+    private Vial vial;
 
     public MethodInfo(String methodName, Parameter... parameters) {
         this.methodName = methodName;
         this.parameters = parameters;
     }
 
-    public MethodInfo(Parameter object, String methodName, Parameter... parameters) {
-        this.instance = object;
+    public MethodInfo(Parameter instance, String methodName, Parameter... parameters) {
+        this.instance = instance;
         this.methodName = methodName;
         this.parameters = parameters;
     }
 
-    public MethodInfo(String object, String methodName, Parameter... parameters) {
-        this.pseudoclass = object;
+    public MethodInfo(Vial vial, String methodName, Parameter... parameters) {
+        this.vial = vial;
         this.methodName = methodName;
         this.parameters = parameters;
     }
@@ -34,8 +35,8 @@ public class MethodInfo {
         return methodName;
     }
 
-    public String getPseudoclass() {
-        return pseudoclass;
+    public Vial getVial() {
+        return vial;
     }
 
     public Parameter getInstance() {
@@ -43,11 +44,11 @@ public class MethodInfo {
     }
 
     public boolean isStatic() {
-        return pseudoclass != null;
+        return vial != null;
     }
 
     public boolean isExternal() {
-        return instance != null || pseudoclass != null;
+        return instance != null || vial != null;
     }
 
 }

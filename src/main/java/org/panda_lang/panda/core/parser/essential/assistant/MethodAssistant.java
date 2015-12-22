@@ -1,11 +1,11 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
-import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.ParameterParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
 import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Vial;
 
 import java.util.Stack;
 
@@ -68,19 +68,16 @@ public class MethodAssistant {
         ParameterParser parser = new ParameterParser();
         Parameter[] parameters = parser.parseLocal(atom);
 
+        System.out.println("MA: " + object + "," + method + ",(" + params + ")");
+
         Parameter instance;
         if (object != null) {
-            boolean io = false;
-            for (ObjectScheme os : ElementsBucket.getObjects()) {
-                if (object.equals(os.getName())) {
-                    io = true;
-                    return new MethodInfo(object, method, parameters);
-                }
+            Vial vial = VialCenter.getVial(object);
+            if (vial != null) {
+                return new MethodInfo(vial, method, parameters);
             }
-            if (!io) {
-                instance = new ParameterParser().parse(atom, object);
-                return new MethodInfo(instance, method, parameters);
-            }
+            instance = new ParameterParser().parse(atom, object);
+            return new MethodInfo(instance, method, parameters);
         }
         return new MethodInfo(method, parameters);
     }

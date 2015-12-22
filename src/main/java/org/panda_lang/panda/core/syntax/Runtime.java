@@ -31,6 +31,9 @@ public class Runtime implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
+        if (particle == null) {
+            particle = new Particle();
+        }
         particle.setInstance(instance);
         particle.setParameters(parameters);
         if (method != null) return method.run(particle);
