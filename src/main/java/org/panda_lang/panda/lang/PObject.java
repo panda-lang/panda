@@ -13,6 +13,7 @@ public class PObject extends Essence {
 
     static {
         vial = VialCenter.initializeVial("Object");
+        vial.extension(null);
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {

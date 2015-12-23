@@ -2,6 +2,8 @@ package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
 
+import java.util.Arrays;
+
 public class Runtime implements NamedExecutable {
 
     private Parameter instance;
@@ -45,6 +47,19 @@ public class Runtime implements NamedExecutable {
     @Override
     public String getName() {
         return "Runtime";
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("Runtime{");
+        sb.append("instance=").append(instance);
+        sb.append(", executable=").append(executable);
+        sb.append(", parameters=").append(Arrays.toString(parameters));
+        sb.append(", equality=").append(equality);
+        sb.append(", method=").append(method);
+        sb.append(", math=").append(math);
+        sb.append('}');
+        return sb.toString();
     }
 
 }

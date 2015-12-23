@@ -4,6 +4,7 @@ import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.MethodAssistant;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
@@ -29,85 +30,67 @@ public class MethodParser implements Parser {
             return null;
         }
 
-        System.out.println("Source: " + source);
-        System.out.println("Info: " + mi.isStatic() + ", " + mi.isExternal() + ", " + mi.getVial() + ", " + mi.getMethodName());
+         // {method.external}
+        if (mi.isExternal()) {
 
-        if (mi.isStatic()) {
-            System.out.println("Oh, I'm static");
-            final Vial vial = mi.getVial();
-            Method method = new Method(mi.getMethodName(), new Executable() {
-                @Override
-                public Essence run(Particle particle) {
-                    particle = new Particle(mi.getParameters());
-                    return vial.getMethod(mi.getMethodName()).run(particle);
+            // {method.static}
+            if (mi.isStatic()) {
+                final Vial vial = mi.getVial();
+                Method method = new Method(mi.getMethodName(), new Executable() {
+                    @Override
+                    public Essence run(Particle particle) {
+                        particle = new Particle(mi.getParameters());
+                        return vial.getMethod(mi.getMethodName()).run(particle);
+                    }
+                });
+                return new Runtime(method);
+
+            // {instance.method}
+            } else {
+                final Parameter instance = mi.getInstance();
+
+                if (instance == null) {
+                    PandaException exception = new PandaException("MethodParserException: Instance not found", atom.getSourcesDivider());
+                    atom.getPandaParser().throwException(exception);
+                    return null;
                 }
-            });
-            return new Runtime(method);
 
-        } else if (mi.isExternal()) {
-            Parameter instance = mi.getInstance();
-            String instanceOf = instance.getDataType();
-            if (instanceOf != null) {
-                System.out.println("Oh, I'm instance -> method");
+                String instanceOf = instance.getDataType();
 
-                Vial vial = VialCenter.getVial(instanceOf);
-                final Method method = vial.getMethod(mi.getMethodName());
+                // {instance.type.defined}
+                if (instanceOf != null) {
+                    Vial vial = VialCenter.getVial(instanceOf);
+                    final Method method = vial.getMethod(mi.getMethodName());
 
-                if (method != null) {
+                    if (method == null) {
+                        PandaException exception = new PandaException("MethodParserException: Method not found", atom.getSourcesDivider());
+                        atom.getPandaParser().throwException(exception);
+                        return null;
+                    }
+
                     return new Runtime(instance, new Executable() {
                         @Override
                         public Essence run(Particle particle) {
+                            particle.setInstance(instance);
                             return method.run(particle);
                         }
                     }, mi.getParameters());
                 }
-            } else {
-                System.out.println("Oh no..., I don't have instance");
-            }
-        } else {
 
+                // {instance.type.undefined}
+                return new Runtime(instance, new Executable() {
+                    @Override
+                    public Essence run(Particle particle) {
+                        particle.setInstance(instance);
+                        return instance.getValue().call(mi.getMethodName(), particle);
+                    }
+                }, mi.getParameters());
+            }
         }
 
         return null;
-
-        //System.out.println(mi.getMethod() + " | " + mi.getClassName() + " | " + mi.getInstance() + " | " + mi.getParameters().toString());
-        /*
-        if (mi.isExternal()) {
-            if (mi.isStatic()) {
-                for (ObjectScheme os : ElementsBucket.getObjects()) {
-                    if (!os.getName().equals(mi.getClassName())) {
-                        continue;
-                    }
-                    for (MethodScheme ms : os.getMethods()) {
-                        if (!ms.getName().equals(mi.getMethod())) {
-                            continue;
-                        }
-                        return new Method(null, parent, mi.getMethod(), ms.getExecutable(), mi.getParameters());
-                    }
-                }
-            } else {
-                Parameter instance = mi.getInstance();
-                String type = instance.getDataType();
-                if (type != null) {
-                    for (ObjectScheme os : ElementsBucket.getObjects()) {
-                        if (!type.equals(os.getName())) {
-                            continue;
-                        }
-                        for (MethodScheme ms : os.getMethods()) {
-                            if (!ms.getName().equals(mi.getMethod())) {
-                                continue;
-                            }
-                            return new Method(mi.getInstance(), parent, mi.getMethod(), ms.getExecutable(), mi.getParameters());
-                        }
-                    }
-                }
-                return new Method(mi.getInstance(), parent, mi.getMethod(), null, mi.getParameters());
-            }
-        } else {
-            return new Method(atom.getPandaScript(), parent, mi.getMethod(), mi.getParameters());
-        }
-        return null;
-        */
     }
+
+
 
 }

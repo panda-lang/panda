@@ -1,10 +1,13 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.ParameterAssistant;
+import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Runtime;
+import org.panda_lang.panda.core.syntax.block.VialBlock;
 import org.panda_lang.panda.lang.PArray;
 import org.panda_lang.panda.lang.PBoolean;
 import org.panda_lang.panda.lang.PNumber;
@@ -37,11 +40,13 @@ public class ParameterParser implements Parser {
 
         // String
         if (c == '"') return parseString(parameter);
-            // Array
+        // Array
         else if (c == '[') return parseArray(atom, parameter);
-            // Number
+        // Number
         else if (isNumber(parameter)) return parseNumber(parameter);
-            // Null
+        // This
+        else if (parameter.equals("this")) return parseThisOperator(atom);
+        // Null
         else if (parameter.equals("null")) return new Parameter("null", null);
             // Boolean
         else if (parameter.equals("true")) return new Parameter("Boolean", new PBoolean(true));
@@ -74,6 +79,19 @@ public class ParameterParser implements Parser {
     public Parameter parseConstructor(Atom atom, String s) {
         atom.setSourceCode(s);
         return new Parameter(null, atom.getParent().getVariables(), new ConstructorParser().parse(atom));
+    }
+
+    public Parameter parseThisOperator(Atom atom) {
+        Block block = atom.getCurrent();
+        while(block.hasParent()) {
+            if (block instanceof VialBlock) {
+                return new Parameter(block.getName(), null);
+            }
+            block = block.getParent();
+        }
+        PandaException exception = new PandaException("ParameterParserException: Cannot use 'this' here", atom.getSourcesDivider());
+        atom.getPandaParser().throwException(exception);
+        return null;
     }
 
     public Parameter parseArray(Atom atom, String s) {

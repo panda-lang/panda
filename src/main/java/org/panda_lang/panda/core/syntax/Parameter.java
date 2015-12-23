@@ -106,13 +106,13 @@ public class Parameter implements NamedExecutable {
                 break;
             case RUNTIME:
                 if (runtime == null) {
-                    System.out.println("Runtime is null. Parameter info: " + this.toString());
+                    System.out.println("Runtime is null. Parameter info: " + this);
                     return null;
                 }
                 value = runtime.run(new Particle());
                 break;
             default:
-                System.out.println("Parameter type is not defined. Parameter info: " + this.toString());
+                System.out.println("Parameter type is not defined. Parameter info: " + this);
                 break;
         }
         this.value = value;
@@ -133,7 +133,16 @@ public class Parameter implements NamedExecutable {
 
     @Override
     public String toString() {
-        return "@Parameter={" + type + "," + object + "," + variable + "," + dataType + "," + runtime + "," + value + "}";
+        final StringBuilder sb = new StringBuilder("Parameter{");
+        sb.append("type=").append(type);
+        sb.append(", dataType='").append(dataType).append('\'');
+        sb.append(", object=").append(object);
+        sb.append(", variable='").append(variable).append('\'');
+        sb.append(", map=").append(map);
+        sb.append(", runtime=").append(runtime);
+        sb.append(", value=").append(value);
+        sb.append('}');
+        return sb.toString();
     }
 
 }

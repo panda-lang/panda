@@ -10,7 +10,7 @@ public class PArray extends Essence {
 
     static {
         vial = VialCenter.initializeVial("Array");
-        vial.constructor(new Executable() {
+        vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
                 return new PArray(particle.getParameters());

@@ -17,6 +17,13 @@ public class PandaException {
         this.caret = caret;
     }
 
+    public PandaException(String title, SourcesDivider sourcesDivider) {
+        this.title = title;
+        this.code = sourcesDivider.getLine();
+        this.line = sourcesDivider.getRealLine();
+        this.caret = sourcesDivider.getCaretPosition();
+    }
+
     public void print() {
         System.out.println("[Panda] !# Oh no, Panda " + Panda.PANDA_VERSION + " is sad! Why? Because she caught an exception: " + title);
         System.out.println("[Panda] !# at line: " + code + " [" + line + ":" + caret + "]");
