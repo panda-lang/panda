@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.scheme;
 
 import org.panda_lang.panda.core.ElementsBucket;
+import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.lang.PObject;
 
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class ObjectScheme {
     private final String name;
     private final Class<? extends PObject> clazz;
     private final Collection<MethodScheme> methods;
-    private ConstructorScheme constructor;
+    private Constructor constructor;
 
     public ObjectScheme(Class<? extends PObject> clazz, String name) {
         this.clazz = clazz;
@@ -20,7 +21,7 @@ public class ObjectScheme {
         ElementsBucket.registerObject(this);
     }
 
-    public void registerConstructor(ConstructorScheme constructor) {
+    public void registerConstructor(Constructor constructor) {
         this.constructor = constructor;
     }
 
@@ -30,10 +31,6 @@ public class ObjectScheme {
 
     public Collection<MethodScheme> getMethods() {
         return methods;
-    }
-
-    public ConstructorScheme getConstructorScheme() {
-        return constructor;
     }
 
     public Class<? extends PObject> getClazz() {

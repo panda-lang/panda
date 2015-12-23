@@ -1,13 +1,11 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
-import org.panda_lang.panda.core.scheme.ObjectScheme;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.Runtime;
 
 import java.util.Stack;
@@ -71,18 +69,19 @@ public class ConstructorParser implements Parser {
         ParameterParser parser = new ParameterParser();
         final Parameter[] parameters = parser.parseLocal(atom);
 
-        for (final ObjectScheme os : ElementsBucket.getObjects()) {
-            if (os.getName().equals(clazz)) {
-                return new Runtime(null, new Executable() {
-                    @Override
-                    public Essence run(Particle particle) {
-                        return os.getConstructorScheme().getConstructor().run(parameters);
-                    }
-                }, parameters);
-            }
+        final Vial vial = VialCenter.getVial(clazz);
+        if (vial == null) {
+            PandaException exception = new PandaException("ConstructorParser: Vial '" + clazz + "' not found", atom.getSourcesDivider());
+            atom.getPandaParser().throwException(exception);
+            return null;
         }
 
-        return null;
+        return new Runtime(null, new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                return vial.initializeInstance(particle);
+            }
+        }, parameters);
     }
 
 }

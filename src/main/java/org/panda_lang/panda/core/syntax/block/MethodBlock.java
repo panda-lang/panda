@@ -6,9 +6,7 @@ import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.ParameterParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.scheme.BlockScheme;
-import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.*;
 
 public class MethodBlock extends Block {
 
@@ -35,6 +33,21 @@ public class MethodBlock extends Block {
             return null;
         }
         return super.run(particle);
+    }
+
+    public Method toMethod() {
+        final MethodBlock methodBlock = this;
+        return new Method(new NamedExecutable() {
+            @Override
+            public String getName() {
+                return methodBlock.getName();
+            }
+
+            @Override
+            public Essence run(Particle particle) {
+                return methodBlock.run(particle);
+            }
+        });
     }
 
 }

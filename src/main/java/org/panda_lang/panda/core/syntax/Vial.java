@@ -19,19 +19,22 @@ public class Vial {
         this.extension = "Object";
     }
 
-    public Essence call(String name, Essence essence) {
+    public Essence call(String name, Particle particle) {
         Method method = getMethod(name);
         if (method == null) {
             System.out.println("Method '" + name + "' not found in instance of " + vialName);
             return null;
         }
-        return method.run(essence.getParticle());
+        return method.run(particle);
     }
 
     public Essence initializeInstance(Particle particle) {
         Essence essence = new Essence(this);
-        if (constructor != null) {
-            constructor.run(particle);
+        if(constructor != null) {
+            Essence ce = constructor.run(particle);
+            if (ce != null) {
+                essence = ce;
+            }
         }
         return essence;
     }
@@ -41,9 +44,15 @@ public class Vial {
         return this;
     }
 
-    public Vial method(Method method) {
+    public Vial method(final Method method) {
         if (constructor == null && method.getName().equals(vialName)) {
-            constructor = method;
+           this.constructor(new Constructor() {
+               @Override
+               public Essence run(Particle particle) {
+                   method.run(particle);
+                   return null;
+               }
+           });
         } else {
             methods.put(method.getName(), method);
         }

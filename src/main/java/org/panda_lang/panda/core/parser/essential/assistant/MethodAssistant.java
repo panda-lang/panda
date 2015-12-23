@@ -68,8 +68,6 @@ public class MethodAssistant {
         ParameterParser parser = new ParameterParser();
         Parameter[] parameters = parser.parseLocal(atom);
 
-        System.out.println("MA: " + object + "," + method + ",(" + params + ")");
-
         Parameter instance;
         if (object != null) {
             Vial vial = VialCenter.getVial(object);

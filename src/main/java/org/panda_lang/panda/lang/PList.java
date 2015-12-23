@@ -1,35 +1,45 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class PList extends PObject {
-/*
+
+    private static final Vial vial;
+
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PList.class, "List");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PList>() {
+        vial = VialCenter.initializeVial("List");
+        vial.constructor(new Constructor() {
             @Override
-            public PList run(Parameter... parameters) {
+            public Essence run(Particle particle) {
                 return new PList();
             }
-        }));
-        // Method: add
-        os.registerMethod(new MethodScheme("add", new Executable() {
+        });
+        vial.method(new Method("add", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PList b = instance.getValue(PList.class);
-                b.getList().add(parameters[0].getValue());
+            public Essence run(Particle particle) {
+                PList list = particle
+                        .getInstance()
+                        .getValue()
+                        .cast(PList.class);
+                list.getList().add(particle.getValue(0));
                 return null;
             }
         }));
     }
 
-    private final List<PObject> list;
+    private final List<Essence> list;
 
     public PList() {
+        super(vial);
         this.list = new ArrayList<>();
     }
 
-    public List<PObject> getList() {
+    public List<Essence> getList() {
         return list;
     }
 
@@ -41,11 +51,13 @@ public class PList extends PObject {
     @Override
     public String toString() {
         StringBuilder node = new StringBuilder();
-        for (PObject o : list) {
-            if (node.length() != 0) node.append(", ");
+        for (Essence o : list) {
+            if (node.length() != 0) {
+                node.append(", ");
+            }
             node.append(o);
         }
         return node.toString();
     }
-*/
+
 }

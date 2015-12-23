@@ -5,11 +5,18 @@ import org.panda_lang.panda.core.Particle;
 public class Essence {
 
     private final Vial vial;
-    private Particle particle;
 
     public Essence(Vial vial) {
         this.vial = vial;
-        this.particle = new Particle();
+    }
+
+    public Essence call(String methodName, Particle particle) {
+        particle.setInstance(new Parameter(getType(), this));
+        return vial.call(methodName, particle);
+    }
+
+    public Essence call(String methodName, Parameter... parameters) {
+        return vial.call(methodName, new Particle(new Parameter(getType(), this), parameters));
     }
 
     public <T> T cast(Class<T> clazz) {
@@ -19,14 +26,6 @@ public class Essence {
             System.out.println("Cannot cast " + vial.getName() + " to " + clazz.getSimpleName());
             return null;
         }
-    }
-
-    public void setParticle(Particle particle) {
-        this.particle = particle;
-    }
-
-    public Particle getParticle() {
-        return particle;
     }
 
     public String getType() {
