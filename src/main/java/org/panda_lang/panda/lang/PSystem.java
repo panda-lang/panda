@@ -20,42 +20,25 @@ public class PSystem extends PObject {
                 return null;
             }
         }));
-
-        /*
-        // Register object
-        ObjectScheme os = new ObjectScheme(PSystem.class, "System");
-        // Static method: print
-        os.registerMethod(new MethodScheme("print", new Executable() {
+        vial.method(new Method("currentTimeMillis", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                System.out.println(parameters[0].getValue());
-                return null;
-            }
-        }));
-        // Static method: exit
-        os.registerMethod(new MethodScheme("exit", new Executable() {
-            @Override
-            public PObject run(Parameter instance, Parameter... args) {
-                System.exit(-1);
-                return null;
-            }
-        }));
-        // Static method: currentTimeMillis
-        os.registerMethod(new MethodScheme("currentTimeMillis", new Executable() {
-            @Override
-            public PObject run(Parameter instance, Parameter... args) {
+            public Essence run(Particle particle) {
                 return new PNumber(System.currentTimeMillis());
             }
         }));
-        // Static method: nanoTime
-        os.registerMethod(new MethodScheme("nanoTime", new Executable() {
+        vial.method(new Method("nanoTime", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... args) {
+            public Essence run(Particle particle) {
                 return new PNumber(System.nanoTime());
             }
         }));
-        */
-
+        vial.method(new Method("exit", new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                System.exit(-1);
+                return new PNumber(-1);
+            }
+        }));
     }
 
 }

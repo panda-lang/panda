@@ -49,7 +49,6 @@ public class PandaScript {
         for (PandaBlock pandaBlock : blocks) {
             for (NamedExecutable executable : pandaBlock.getExecutables()) {
                 if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                    //System.out.println("----------------------- CONSOLE");
                     Particle particle = new Particle();
                     particle.setParameters(parameters);
                     return executable.run(particle);
@@ -69,6 +68,22 @@ public class PandaScript {
                 }
             }
         }
+    }
+
+    public Collection<PandaBlock> getBlocks() {
+        return blocks;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getVersion() {
+        return version;
     }
 
 }

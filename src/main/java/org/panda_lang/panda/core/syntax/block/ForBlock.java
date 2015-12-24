@@ -8,6 +8,7 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.lang.PNumber;
 
 public class ForBlock extends Block {
 
@@ -28,18 +29,13 @@ public class ForBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        /*
-        PObject object = parameters[0].getValue();
-        if (object instanceof PNumber) {
-            Number times = ((PNumber) object).getNumber();
-            for (int i = 0; i < times.intValue(); i++) {
-                PObject o = super.run(vars);
-                if (o != null) {
-                    return o;
-                }
+        PNumber times = parameters[0].getValue().cast(PNumber.class);
+        for (int i = 0; i < times.getNumber().intValue(); i++) {
+            Essence o = super.run(particle);
+            if (o != null) {
+                return o;
             }
         }
-        */
         return null;
     }
 

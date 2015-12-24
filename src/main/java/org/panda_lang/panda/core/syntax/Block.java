@@ -26,13 +26,13 @@ public class Block implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
-        if (particle.getParameters() != null && parameters != null && particle.getParameters().length <= parameters.length) {
-            for (int i = 0; i < particle.getParameters().length; i++) {
-                parameters[i].setValue(getParameters()[i].getValue());
+        if (particle.getParameters() != null) {
+            for (int i = 0; i < particle.getParameters().length && i < parameters.length; i++) {
+                variables.put(parameters[i].getVariable(), particle.getParameters()[i].getValue());
             }
         }
         for (NamedExecutable e : executables) {
-            e.run(null);
+            e.run(particle);
         }
         return null;
     }

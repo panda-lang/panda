@@ -11,6 +11,7 @@ import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
 import org.panda_lang.panda.core.scheme.ParserScheme;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.Runtime;
+import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
 public class MethodParser implements Parser {
 
@@ -20,7 +21,7 @@ public class MethodParser implements Parser {
     }
 
     @Override
-    public Runtime parse(Atom atom) {
+    public Runtime parse(final Atom atom) {
         final Block parent = atom.getParent();
         final String source = atom.getSourcesDivider().getLine();
         final MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
@@ -36,14 +37,14 @@ public class MethodParser implements Parser {
             // {method.static}
             if (mi.isStatic()) {
                 final Vial vial = mi.getVial();
-                Method method = new Method(mi.getMethodName(), new Executable() {
+                final Method method = vial.getMethod(mi.getMethodName());
+                return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
                     public Essence run(Particle particle) {
                         particle = new Particle(mi.getParameters());
-                        return vial.getMethod(mi.getMethodName()).run(particle);
+                        return method != null ? method.run(particle) : vial.getMethod(mi.getMethodName()).run(particle);
                     }
-                });
-                return new Runtime(method);
+                }));
 
             // {instance.method}
             } else {
@@ -86,11 +87,16 @@ public class MethodParser implements Parser {
                     }
                 }, mi.getParameters());
             }
+
+        // {local}
+        } else {
+            return new Runtime(new Method(mi.getMethodName(), new Executable() {
+                @Override
+                public Essence run(Particle particle) {
+                    return atom.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getParameters());
+                }
+            }));
         }
-
-        return null;
     }
-
-
 
 }
