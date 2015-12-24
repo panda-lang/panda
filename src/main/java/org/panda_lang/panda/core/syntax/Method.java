@@ -19,7 +19,7 @@ public class Method implements NamedExecutable {
     @Override
     public Essence run(Particle particle) {
         if (executable != null) {
-            executable.run(particle);
+            return executable.run(particle);
         }
         return null;
     }

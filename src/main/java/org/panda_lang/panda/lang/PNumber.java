@@ -13,7 +13,7 @@ public class PNumber extends Essence {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return null;
+                return new PNumber(particle.get(0, PNumber.class));
             }
         });
         vial.method(new Method("valueOf", new Executable() {
@@ -36,6 +36,10 @@ public class PNumber extends Essence {
     public PNumber(Number number) {
         super(vial);
         this.number = number;
+    }
+
+    public PNumber(PNumber number) {
+        this(number.getNumber());
     }
 
     public Number getNumber() {
