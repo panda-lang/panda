@@ -52,9 +52,7 @@ public class PandaParser {
             return null;
         }
 
-        NamedExecutable namedExecutable = parser.parse(atom);
-        System.out.println(pattern + " -> " + parser.getClass().getSimpleName() + " parsed: " + namedExecutable);
-        return namedExecutable;
+        return parser.parse(atom);
     }
 
     public NamedExecutable throwException(PandaException pandaException) {

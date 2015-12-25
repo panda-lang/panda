@@ -29,6 +29,10 @@ public class Particle {
         this.instance = instance;
     }
 
+    public boolean hasParameters() {
+        return parameters != null && parameters.length > 0;
+    }
+
     public Parameter get(int i) {
         return i < parameters.length ? parameters[i] : null;
     }

@@ -38,7 +38,6 @@ public class Block implements NamedExecutable {
     }
 
     public void addExecutable(NamedExecutable e) {
-        System.out.println("add: " + e);
         this.executables.add(e);
     }
 

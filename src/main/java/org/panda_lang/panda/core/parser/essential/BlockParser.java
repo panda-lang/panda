@@ -45,8 +45,6 @@ public class BlockParser implements Parser {
         while (sourcesDivider.hasNext() && atom.getPandaParser().isHappy()) {
             String line = sourcesDivider.next();
 
-            //System.out.println("vial_" + current.getName() + ": " + line);
-
             if (BlockAssistant.isPlug(line)) {
                 break;
             }

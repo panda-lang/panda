@@ -1,46 +1,43 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
 
 public class PThread extends PObject {
 
+    private static final Vial vial;
+
     static {
-        /*
-        // Register object
-        ObjectScheme os = new ObjectScheme(PThread.class, "Thread");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PThread>() {
+        vial = VialCenter.initializeVial("Thread");
+        vial.constructor(new Constructor() {
             @Override
-            public PThread run(Parameter... parameters) {
-                return parameters != null && parameters.length != 0 ? new PThread(parameters[0].getValue().toString()) : new PThread();
+            public Essence run(Particle particle) {
+                return particle.hasParameters() ? new PThread(particle.getValue(0).toString()) : new PThread();
+            }
+        });
+        vial.method(new Method("start", new Executable() {
+            @Override
+            public Essence run(Particle particle) {
+                PThread thread = particle.getInstance(PThread.class);
+                thread.start(particle);
+                return thread;
             }
         }));
-        // Method: start
-        os.registerMethod(new MethodScheme("start", new Executable() {
+        vial.method(new Method("getName", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PThread thread = instance.getValue(PThread.class);
-                thread.start(parameters);
-                return null;
+            public Essence run(Particle particle) {
+                PThread thread = particle.getInstance(PThread.class);
+                return new PString(thread.getName());
             }
         }));
-        // Method: getName
-        os.registerMethod(new MethodScheme("getName", new Executable() {
+        vial.method(new Method("currentThread", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PThread pThread = instance.getValue(PThread.class);
-                return new PString(pThread.getName());
-            }
-        }));
-        // Static method: currentThread
-        os.registerMethod(new MethodScheme("currentThread", new Executable() {
-            @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public Essence run(Particle particle) {
                 return new PThread(Thread.currentThread());
             }
         }));
-        */
     }
 
     private String name;
@@ -48,15 +45,17 @@ public class PThread extends PObject {
     private Thread thread;
 
     public PThread() {
+        super(vial);
     }
 
     public PThread(String name) {
+        this();
         this.name = name;
     }
 
     public PThread(Thread thread) {
+        this(thread.getName());
         this.thread = thread;
-        this.name = thread.getName();
     }
 
     public void start(Particle particle) {
@@ -80,6 +79,11 @@ public class PThread extends PObject {
     @Override
     public String getType() {
         return "Thread";
+    }
+
+    @Override
+    public String toString() {
+        return thread != null ? thread.getName() : name;
     }
 
 }
