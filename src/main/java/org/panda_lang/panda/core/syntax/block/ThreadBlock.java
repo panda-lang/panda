@@ -56,14 +56,9 @@ public class ThreadBlock extends Block {
             start(particle);
             return null;
         } else {
-            Essence value = parameters[0].getValue();
-            /*
-            if (value instanceof PThread) {
-                pThread = (PThread) value;
-                pThread.setBlock(this);
-            }
-            */
-            return value;
+            pThread = parameters[0].getValue(PThread.class);
+            pThread.setBlock(this);
+            return pThread;
         }
     }
 

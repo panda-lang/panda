@@ -8,6 +8,7 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.scheme.BlockScheme;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.lang.PBoolean;
 
 public class IfThenBlock extends Block {
 
@@ -30,19 +31,12 @@ public class IfThenBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        Essence object = particle.get(0).getValue();
-
-        /*
-        if (object instanceof PBoolean) {
-            PBoolean b = (PBoolean) object;
-
-            if (b.isTrue()) {
-                return super.run(vars);
-            } else if (elseThenBlock != null) {
-                return elseThenBlock.run(vars);
-            }
+        PBoolean flag = parameters[0].getValue().cast(PBoolean.class);
+        if (flag != null && flag.isTrue()) {
+            return super.run(particle);
+        } else if (elseThenBlock != null) {
+            return elseThenBlock.run(particle);
         }
-        */
         return null;
     }
 

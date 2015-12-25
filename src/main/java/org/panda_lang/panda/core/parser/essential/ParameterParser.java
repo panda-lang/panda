@@ -40,13 +40,13 @@ public class ParameterParser implements Parser {
 
         // String
         if (c == '"') return parseString(parameter);
-        // Array
+            // Array
         else if (c == '[') return parseArray(atom, parameter);
-        // Number
+            // Number
         else if (isNumber(parameter)) return parseNumber(parameter);
-        // This
+            // This
         else if (parameter.equals("this")) return parseThisOperator(atom);
-        // Null
+            // Null
         else if (parameter.equals("null")) return new Parameter("null", null);
             // Boolean
         else if (parameter.equals("true")) return new Parameter("Boolean", new PBoolean(true));
@@ -83,7 +83,7 @@ public class ParameterParser implements Parser {
 
     public Parameter parseThisOperator(Atom atom) {
         Block block = atom.getCurrent();
-        while(block.hasParent()) {
+        while (block.hasParent()) {
             if (block instanceof VialBlock) {
                 return new Parameter(block.getName(), null);
             }

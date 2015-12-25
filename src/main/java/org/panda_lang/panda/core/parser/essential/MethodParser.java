@@ -22,7 +22,6 @@ public class MethodParser implements Parser {
 
     @Override
     public Runtime parse(final Atom atom) {
-        final Block parent = atom.getParent();
         final String source = atom.getSourcesDivider().getLine();
         final MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
 
@@ -31,7 +30,7 @@ public class MethodParser implements Parser {
             return null;
         }
 
-         // {method.external}
+        // {method.external}
         if (mi.isExternal()) {
 
             // {method.static}
@@ -46,7 +45,7 @@ public class MethodParser implements Parser {
                     }
                 }));
 
-            // {instance.method}
+                // {instance.method}
             } else {
                 final Parameter instance = mi.getInstance();
 
@@ -88,7 +87,7 @@ public class MethodParser implements Parser {
                 }, mi.getParameters());
             }
 
-        // {local}
+            // {local}
         } else {
             return new Runtime(new Method(mi.getMethodName(), new Executable() {
                 @Override

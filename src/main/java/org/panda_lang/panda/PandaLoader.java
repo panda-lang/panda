@@ -15,9 +15,8 @@ public class PandaLoader {
     }
 
     public static PandaScript loadSimpleScript(String source) {
-        PandaParser parser = new PandaParser(source);
-        PandaScript script = parser.parse();
-        return script;
+        final PandaParser parser = new PandaParser(source);
+        return parser.parse();
     }
 
 }

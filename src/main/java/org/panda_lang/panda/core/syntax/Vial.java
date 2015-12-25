@@ -30,7 +30,7 @@ public class Vial {
 
     public Essence initializeInstance(Particle particle) {
         Essence essence = new Essence(this);
-        if(constructor != null) {
+        if (constructor != null) {
             Essence ce = constructor.run(particle);
             if (ce != null) {
                 essence = ce;
@@ -46,13 +46,13 @@ public class Vial {
 
     public Vial method(final Method method) {
         if (constructor == null && method.getName().equals(vialName)) {
-           this.constructor(new Constructor() {
-               @Override
-               public Essence run(Particle particle) {
-                   method.run(particle);
-                   return null;
-               }
-           });
+            this.constructor(new Constructor() {
+                @Override
+                public Essence run(Particle particle) {
+                    method.run(particle);
+                    return null;
+                }
+            });
         } else {
             methods.put(method.getName(), method);
         }

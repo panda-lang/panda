@@ -13,7 +13,7 @@ public class Panda {
     public static final String PANDA_VERSION = "1.0.0-SNAPSHOT";
     private static Panda panda;
 
-    private Collection<PandaScript> scripts;
+    private final Collection<PandaScript> scripts;
     private Runnable reload;
 
     public Panda() {
@@ -61,6 +61,8 @@ public class Panda {
     public static String getDirectory() {
         return Panda.class.getProtectionDomain().getCodeSource().getLocation().getPath();
     }
+
+
 
 
     public static void main(String[] args) throws Exception {

@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.lang.PNumber;
 import org.panda_lang.panda.util.MathBuilder;
 
 import java.util.Stack;
@@ -48,8 +48,7 @@ public class Math implements Executable {
             }
         }
 
-        values.pop();
-        return VialCenter.getVial("Number").initializeInstance(null);
+        return new PNumber(values.pop());
     }
 
 }
