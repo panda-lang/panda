@@ -14,14 +14,12 @@ public class ConfigurationFile {
     private final File file;
     private final PandaConfiguration panda;
 
-    public ConfigurationFile(File file, PandaConfiguration panda) {
+    protected ConfigurationFile(File file, PandaConfiguration panda) {
         this.file = file;
         this.panda = panda;
-
     }
 
-    @SuppressWarnings("unchecked")
-    public void save() {
+    protected void save() {
         try {
             LinkedList<String> lines = new LinkedList<>();
             Stack<String> keys = new Stack<>();
@@ -134,4 +132,5 @@ public class ConfigurationFile {
         }
         return sb.toString();
     }
+
 }

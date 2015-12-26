@@ -9,6 +9,10 @@ public class ParserCenter {
 
     private static final List<Pattern> patterns = new ArrayList<>();
 
+    public static void registerParser(ParserLayout parserLayout) {
+        registerPatterns(parserLayout.getPatterns());
+    }
+
     public static void registerPatterns(Collection<Pattern> patternCollection) {
         patterns.addAll(patternCollection);
         Collections.sort(patterns);

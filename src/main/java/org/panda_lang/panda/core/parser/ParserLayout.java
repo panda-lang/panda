@@ -1,36 +1,33 @@
-package org.panda_lang.panda.core.scheme;
-
-import org.panda_lang.panda.core.parser.Parser;
-import org.panda_lang.panda.core.parser.Pattern;
+package org.panda_lang.panda.core.parser;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ParserScheme {
+public class ParserLayout {
 
     private final Parser parser;
     private Collection<Pattern> patterns;
 
-    public ParserScheme(Parser parser, String pattern) {
+    public ParserLayout(Parser parser, String pattern) {
         this(parser, pattern, 0);
     }
 
-    public ParserScheme(Parser parser, String pattern, double priority) {
+    public ParserLayout(Parser parser, String pattern, double priority) {
         this(parser);
         this.pattern(pattern, priority);
     }
 
-    public ParserScheme(Parser parser) {
+    public ParserLayout(Parser parser) {
         this.parser = parser;
         this.patterns = new ArrayList<>();
     }
 
-    public ParserScheme pattern(Pattern pattern) {
+    public ParserLayout pattern(Pattern pattern) {
         patterns.add(pattern);
         return this;
     }
 
-    public ParserScheme pattern(String pattern, double priority) {
+    public ParserLayout pattern(String pattern, double priority) {
         patterns.add(new Pattern(parser, pattern, priority));
         return this;
     }

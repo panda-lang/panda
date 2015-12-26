@@ -1,41 +1,45 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaLoader;
+import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.Method;
+import org.panda_lang.panda.core.syntax.Vial;
+
 public class PPanda extends PObject {
-/*
+
+    private final static Vial vial;
+
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PPanda.class, "Panda");
-        // Static method: reload
-        os.registerMethod(new MethodScheme("reload", new Executable() {
+        vial = VialCenter.initializeVial("Panda");
+        vial.method(new Method("reload", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public Essence run(Particle particle) {
                 Panda.getInstance().reload();
                 return null;
             }
         }));
-        // Static method: loadSimpleScript
-        os.registerMethod(new MethodScheme("loadSimpleScript", new Executable() {
+        vial.method(new Method("loadSimpleScript", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
-                PObject o = parameters[0].getValue();
-                if (o instanceof PString) {
-                    PandaScript si = PandaLoader.loadSimpleScript(o.toString());
-                    Panda.getInstance().addScript(si);
-                } else if (o instanceof PFile) {
-                    File file = ((PFile) o).getFile();
-                    PandaScript si = PandaLoader.loadSimpleScript(file);
-                    Panda.getInstance().addScript(si);
+            public Essence run(Particle particle) {
+                Essence essence = particle.getValue(0);
+                if (essence instanceof PString) {
+                    PandaScript pandaScript = PandaLoader.loadSimpleScript(essence.toString());
+                    Panda.getInstance().addScript(pandaScript);
                 }
                 return null;
             }
         }));
-        // Static method: getVersion
-        os.registerMethod(new MethodScheme("getVersion", new Executable() {
+        vial.method(new Method("getVersion", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public Essence run(Particle particle) {
                 return new PString(Panda.PANDA_VERSION);
             }
         }));
     }
-*/
+
 }

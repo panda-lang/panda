@@ -153,8 +153,4 @@ public class Atom {
         this.parent = parent;
     }
 
-    public Atom copy() {
-        return new Atom(pandaScript, pandaParser, sourcesDivider, patternExtractor, blockInfo, sourceCode, previous, current, parent);
-    }
-
 }

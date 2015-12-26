@@ -1,28 +1,27 @@
-package org.panda_lang.panda.core.scheme;
+package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.ElementsBucket;
-import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
+import org.panda_lang.panda.core.ElementsPuller;
 import org.panda_lang.panda.core.syntax.Block;
 
-public class BlockScheme {
+public class BlockLayout {
 
     private final Class<? extends Block> clazz;
     private final String[] indications;
     private final boolean conventional;
     private BlockInitializer parser;
 
-    public BlockScheme(Class<? extends Block> clazz, String... indications) {
+    public BlockLayout(Class<? extends Block> clazz, String... indications) {
         this(clazz, true, indications);
     }
 
-    public BlockScheme(Class<? extends Block> clazz, boolean conventional, String... indications) {
+    public BlockLayout(Class<? extends Block> clazz, boolean conventional, String... indications) {
         this.clazz = clazz;
         this.indications = indications;
         this.conventional = conventional;
-        ElementsBucket.registerBlock(this);
+        ElementsPuller.registerBlock(this);
     }
 
-    public BlockScheme parser(BlockInitializer parser) {
+    public BlockLayout parser(BlockInitializer parser) {
         this.parser = parser;
         return this;
     }

@@ -18,7 +18,7 @@ public enum Operator {
     private final int id;
     private final String operator;
 
-    private Operator(int id, String operator) {
+    Operator(int id, String operator) {
         this.id = id;
         this.operator = operator;
     }

@@ -47,7 +47,6 @@ public class Math implements Executable {
                 values.push(value);
             }
         }
-
         return new PNumber(values.pop());
     }
 

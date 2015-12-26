@@ -10,6 +10,7 @@ public class Vial {
 
     private final String vialName;
     private final Map<String, Method> methods;
+    private Namespace namespace;
     private Executable constructor;
     private String extension;
 
