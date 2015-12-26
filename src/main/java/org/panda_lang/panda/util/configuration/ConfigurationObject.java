@@ -6,34 +6,35 @@ public class ConfigurationObject {
     private Object object;
     private int position;
 
-    public ConfigurationObject(ConfigurationType type) {
+    protected ConfigurationObject(ConfigurationType type) {
         this.type = type;
     }
 
-    public void setObject(Object o) {
+    protected void setObject(Object o) {
         this.object = o;
     }
 
-    public void setPosition(int i) {
+    protected void setPosition(int i) {
         this.position = i;
     }
 
-    public String getString() {
+    protected String getString() {
         if (type == ConfigurationType.STRING) {
             return (String) object;
         }
         return null;
     }
 
-    public int getPosition() {
+    protected int getPosition() {
         return this.position;
     }
 
-    public Object getObject() {
+    protected Object getObject() {
         return this.object;
     }
 
-    public ConfigurationType getType() {
+    protected ConfigurationType getType() {
         return this.type;
     }
+
 }

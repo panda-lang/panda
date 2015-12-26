@@ -18,7 +18,7 @@ public class PandaConfiguration {
 
     public PandaConfiguration(File file) {
         this.configuration = file;
-        this.code = IOUtils.getLines(file);
+        this.code = IOUtils.getContentAsLines(file);
         this.map = new ConfigurationParser(code).getMap();
     }
 
@@ -76,7 +76,11 @@ public class PandaConfiguration {
 
     public List<String> getStringList(String path) {
         Object co = map.get(path);
-        if (co != null) if (co instanceof List) return (List<String>) co;
+        if (co != null) {
+            if (co instanceof List) {
+                return (List<String>) co;
+            }
+        }
         return null;
     }
 

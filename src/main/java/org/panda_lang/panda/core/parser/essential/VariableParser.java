@@ -1,10 +1,11 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.parser.essential.assistant.VariableAssistant;
-import org.panda_lang.panda.core.scheme.ParserScheme;
+import org.panda_lang.panda.core.parser.ParserLayout;
+import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.core.syntax.Variable;
 import org.panda_lang.panda.lang.PNull;
@@ -12,9 +13,9 @@ import org.panda_lang.panda.lang.PNull;
 public class VariableParser implements Parser {
 
     static {
-        ParserScheme parserScheme = new ParserScheme(new VariableParser(), "*=*;", EssentialPriority.VARIABLE.getPriority());
-        parserScheme.pattern(";", EssentialPriority.VARIABLE.getPriority() + 1);
-        ElementsBucket.registerParser(parserScheme);
+        ParserLayout parserLayout = new ParserLayout(new VariableParser(), "*=*;", EssentialPriority.VARIABLE.getPriority());
+        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() + 1);
+        ParserCenter.registerParser(parserLayout);
     }
 
     @Override

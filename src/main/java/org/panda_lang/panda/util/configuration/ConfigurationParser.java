@@ -10,12 +10,12 @@ public class ConfigurationParser {
     private final String[] code;
     private Map<String, ConfigurationObject> map = new HashMap<>();
 
-    public ConfigurationParser(String[] code) {
+    protected ConfigurationParser(String[] code) {
         this.code = code;
         this.run();
     }
 
-    public void run() {
+    protected void run() {
         Stack<String> keys = new Stack<>();
         Stack<Character> operators = new Stack<>();
         StringBuilder chars = new StringBuilder();
@@ -223,7 +223,7 @@ public class ConfigurationParser {
         }
     }
 
-    public void print() {
+    protected void print() {
         for (Entry<String, ConfigurationObject> entry : this.map.entrySet()) {
             if (entry.getValue().getType() == ConfigurationType.STRING) {
                 String s = (String) entry.getValue().getObject();
@@ -237,7 +237,7 @@ public class ConfigurationParser {
         }
     }
 
-    public Map<String, Object> getMap() {
+    protected Map<String, Object> getMap() {
         Map<String, Object> map = new HashMap<>();
         for (Entry<String, ConfigurationObject> entry : this.map.entrySet()) {
             if (entry.getKey() == null) continue;

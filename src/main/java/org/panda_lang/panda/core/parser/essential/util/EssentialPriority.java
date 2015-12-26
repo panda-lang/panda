@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser.essential;
+package org.panda_lang.panda.core.parser.essential.util;
 
 public enum EssentialPriority {
 
@@ -8,7 +8,7 @@ public enum EssentialPriority {
 
     private final double priority;
 
-    private EssentialPriority(double priority) {
+    EssentialPriority(double priority) {
         this.priority = priority;
     }
 

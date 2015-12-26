@@ -1,14 +1,15 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.ElementsBucket;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.parser.essential.assistant.MethodAssistant;
+import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.scheme.ParserScheme;
+import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.MethodBlock;
@@ -16,8 +17,8 @@ import org.panda_lang.panda.core.syntax.block.MethodBlock;
 public class MethodParser implements Parser {
 
     static {
-        ParserScheme parserScheme = new ParserScheme(new MethodParser(), "*(*);", EssentialPriority.METHOD.getPriority());
-        ElementsBucket.registerParser(parserScheme);
+        ParserLayout parserLayout = new ParserLayout(new MethodParser(), "*(*);", EssentialPriority.METHOD.getPriority());
+        ParserCenter.registerParser(parserLayout);
     }
 
     @Override

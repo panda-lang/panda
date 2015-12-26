@@ -32,12 +32,12 @@ public class PFile extends PObject {
                 return new PBoolean(f.getFile().isDirectory());
             }
         }));
-        // Method: getContent
-        os.registerMethod(new MethodScheme("getContent", new Executable() {
+        // Method: getContentOfFile
+        os.registerMethod(new MethodScheme("getContentOfFile", new Executable() {
             @Override
             public PObject run(Parameter instance, Parameter... parameters) {
                 PFile f = instance.getValue(PFile.class);
-                return f.getContent();
+                return f.getContentOfFile();
             }
         }));
     }
@@ -52,8 +52,8 @@ public class PFile extends PObject {
         return file;
     }
 
-    public PString getContent() {
-        return new PString(IOUtils.getContent(file));
+    public PString getContentOfFile() {
+        return new PString(IOUtils.getContentOfFile(file));
     }
 
     @Override

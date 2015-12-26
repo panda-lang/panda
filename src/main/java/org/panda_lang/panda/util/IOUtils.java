@@ -7,7 +7,7 @@ import java.util.List;
 
 public class IOUtils {
 
-    public static String getContent(File file) {
+    public static String getContentOfFile(File file) {
         StringBuilder sb = new StringBuilder();
         try {
             if (file == null) return "";
@@ -39,7 +39,7 @@ public class IOUtils {
         }
     }
 
-    public static String[] getLines(File file) {
+    public static String[] getContentAsLines(File file) {
         if (!file.exists()) {
             return new String[0];
         } else try {
@@ -71,10 +71,6 @@ public class IOUtils {
         } finally {
             is.close();
         }
-    }
-
-    public static String patch(String s) {
-        return s.replace("\t", "");
     }
 
     public static String convertStreamToString(java.io.InputStream is) {
