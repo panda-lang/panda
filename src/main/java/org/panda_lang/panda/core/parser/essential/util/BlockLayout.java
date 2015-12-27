@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.ElementsPuller;
+import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.syntax.Block;
 
 public class BlockLayout {
@@ -8,7 +8,7 @@ public class BlockLayout {
     private final Class<? extends Block> clazz;
     private final String[] indications;
     private final boolean conventional;
-    private BlockInitializer parser;
+    private BlockInitializer initializer;
 
     public BlockLayout(Class<? extends Block> clazz, String... indications) {
         this(clazz, true, indications);
@@ -18,11 +18,11 @@ public class BlockLayout {
         this.clazz = clazz;
         this.indications = indications;
         this.conventional = conventional;
-        ElementsPuller.registerBlock(this);
+        BlockCenter.registerBlock(this);
     }
 
-    public BlockLayout parser(BlockInitializer parser) {
-        this.parser = parser;
+    public BlockLayout initializer(BlockInitializer initializer) {
+        this.initializer = initializer;
         return this;
     }
 
@@ -30,8 +30,8 @@ public class BlockLayout {
         return conventional;
     }
 
-    public BlockInitializer getParser() {
-        return parser;
+    public BlockInitializer getInitializer() {
+        return initializer;
     }
 
     public String[] getIndications() {

@@ -1,6 +1,5 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.ElementsPuller;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserCenter;
@@ -33,7 +32,7 @@ public class BlockParser implements Parser {
             for (String indication : blockLayout.getIndications()) {
                 if (vialIndication.equals(indication)) {
                     atom.setBlockInfo(blockInfo);
-                    current = blockLayout.getParser().initialize(atom);
+                    current = blockLayout.getInitializer().initialize(atom);
                     current.setParent(atom.getParent());
                     atom.setCurrent(current);
                     if (blockLayout.isConventional()) {

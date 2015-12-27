@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.ElementsPuller;
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
@@ -9,7 +9,7 @@ import org.panda_lang.panda.core.syntax.Block;
 public class ElseThenBlock extends Block {
 
     static {
-        ElementsPuller.registerBlock(new BlockLayout(ElseThenBlock.class, false, "else").parser(new BlockInitializer() {
+        BlockCenter.registerBlock(new BlockLayout(ElseThenBlock.class, false, "else").initializer(new BlockInitializer() {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new ElseThenBlock();
