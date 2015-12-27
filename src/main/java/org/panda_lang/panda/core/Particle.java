@@ -64,7 +64,7 @@ public class Particle {
         return parameters;
     }
 
-    public void setParameters(Parameter[] parameters) {
+    public void setParameters(Parameter... parameters) {
         this.parameters = parameters;
     }
 

@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.ElementsPuller;
 import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.*;
@@ -12,7 +12,7 @@ import java.util.List;
 public class VialBlock extends Block {
 
     static {
-        ElementsPuller.registerBlock(new BlockLayout(VialBlock.class, false, "vial", "class").parser(new BlockInitializer() {
+        BlockCenter.registerBlock(new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
             @Override
             public Block initialize(Atom atom) {
                 return new VialBlock(atom.getBlockInfo().getSpecifiers());

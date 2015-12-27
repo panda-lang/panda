@@ -45,7 +45,7 @@ public class PandaParser {
         String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
         Parser parser = ParserCenter.getParser(pattern);
 
-        // {parser.not.found}
+        // {initializer.not.found}
         if (parser == null) {
             return throwException(new PandaException("ParserNotFoundException", line, divider.getRealLine() + 1, divider.getCaretPosition()));
         }

@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.ElementsPuller;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.ParameterParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -13,7 +13,7 @@ import org.panda_lang.panda.lang.PBoolean;
 public class WhileBlock extends Block {
 
     static {
-        ElementsPuller.registerBlock(new BlockLayout(WhileBlock.class, "while").parser(new BlockInitializer() {
+        BlockCenter.registerBlock(new BlockLayout(WhileBlock.class, "while").initializer(new BlockInitializer() {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new WhileBlock();
