@@ -40,20 +40,20 @@ public class ParameterParser implements Parser {
 
         // String
         if (c == '"') return parseString(parameter);
-        // Array
+            // Array
         else if (c == '[') return parseArray(atom, parameter);
-        // Number
+            // Number
         else if (isNumber(parameter)) return parseNumber(parameter);
-        // This
+            // This
         else if (parameter.equals("this")) return parseThisOperator(atom);
-        // Null
+            // Null
         else if (parameter.equals("null")) return new Parameter("null", null);
-        // Boolean
+            // Boolean
         else if (parameter.equals("true")) return new Parameter("Boolean", new PBoolean(true));
-        // Boolean
+            // Boolean
         else if (parameter.equals("false")) return new Parameter("Boolean", new PBoolean(false));
         else {
-        // Variable
+            // Variable
             return new Parameter(null, atom.getParent().getVariables(), parameter);
         }
 

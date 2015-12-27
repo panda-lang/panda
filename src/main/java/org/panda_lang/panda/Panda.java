@@ -86,8 +86,6 @@ public class Panda {
     }
 
 
-
-
     public static void main(String[] args) throws Exception {
         panda = new Panda();
         panda.exec(args);

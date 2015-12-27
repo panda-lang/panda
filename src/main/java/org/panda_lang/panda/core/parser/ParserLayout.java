@@ -24,12 +24,22 @@ public class ParserLayout {
 
     public ParserLayout pattern(Pattern pattern) {
         patterns.add(pattern);
+        if (pattern.getParser() == null) {
+            pattern.parser(parser);
+        }
         return this;
     }
 
-    public ParserLayout pattern(String pattern, double priority) {
-        patterns.add(new Pattern(parser, pattern, priority));
-        return this;
+    public Pattern pattern(String pattern, double priority) {
+        Pattern p = new Pattern(parser, pattern, priority);
+        patterns.add(p);
+        return p;
+    }
+
+    public Pattern pattern(String pattern, double priority, int id) {
+        Pattern p = pattern(pattern, priority);
+        p.setID(id);
+        return p;
     }
 
     public Collection<Pattern> getPatterns() {
