@@ -22,9 +22,10 @@ public class ParserCenter {
         return patterns;
     }
 
-    public static Parser getParser(String s) {
+    public static Parser getParser(Atom atom, String s) {
         for (Pattern pattern : getPatterns()) {
             if (pattern.match(s)) {
+                atom.setVariant(pattern);
                 return pattern.getParser();
             }
         }

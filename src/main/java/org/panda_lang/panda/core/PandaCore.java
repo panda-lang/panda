@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.core.parser.ParserCenter;
+import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
-import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.syntax.Vial;
 
 public class PandaCore {
@@ -28,13 +28,15 @@ public class PandaCore {
 
     protected void parsers() {
         ElementsPuller.loadClasses("org.panda_lang.panda.core.parser.essential",
+                "BlockParser",
                 "ConstructorParser",
                 "EqualityParser",
+                "ImportParser",
                 "MathParser",
                 "MethodParser",
+                "NamespaceParser",
                 "ParameterParser",
-                "VariableParser",
-                "BlockParser");
+                "VariableParser");
     }
 
     protected void blocks() {
@@ -44,8 +46,8 @@ public class PandaCore {
                 "IfThenBlock",
                 "MethodBlock",
                 "RunnableBlock",
-                "VialBlock",
                 "ThreadBlock",
+                "VialBlock",
                 "WhileBlock");
     }
 

@@ -2,14 +2,10 @@ package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.VialCenter;
-import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.PandaException;
-import org.panda_lang.panda.core.parser.Parser;
-import org.panda_lang.panda.core.parser.ParserCenter;
+import org.panda_lang.panda.core.parser.*;
 import org.panda_lang.panda.core.parser.essential.assistant.MethodAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.MethodBlock;
