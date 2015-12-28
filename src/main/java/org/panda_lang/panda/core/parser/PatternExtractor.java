@@ -4,32 +4,15 @@ import java.util.Stack;
 
 public class PatternExtractor {
 
-    /* Patterns {DEFAULT}
-
-        *{          | class Test {
-
-        *=*;        | int classTVar = 1;
-
-        //*         | // xyz
-
-        *{          | method func() {
-
-        *;          | System.print(1);
-
-        *{          | } else {
-
-        *;          | System.print("Hello Panda :>");
-
-        *=*;        | list = new List();
-
-        *{          | thread(testThread) {
-
-     */
 
     public static final char[] DEFAULT = new char[]{'{', '}', '=', '/', ';', '#', ':', '?', '(', ')'};
+    public static final char[] FULL = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+
 
     public String extract(String line, char[] set) {
-        if (line == null) return "";
+        if (line == null) {
+            return "";
+        }
 
         StringBuilder pattern = new StringBuilder();
         Stack<Character> sections = new Stack<>();

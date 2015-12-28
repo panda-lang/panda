@@ -1,18 +1,16 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.Parser;
-import org.panda_lang.panda.core.parser.ParserCenter;
-import org.panda_lang.panda.core.parser.ParserLayout;
+import org.panda_lang.panda.core.parser.*;
+import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
+import org.panda_lang.panda.core.syntax.Group;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
-import org.panda_lang.panda.core.syntax.Namespace;
 
-public class NamespaceParser implements Parser {
+public class GroupParser implements Parser {
 
     static {
-        NamespaceParser namespaceParser = new NamespaceParser();
-        ParserLayout parserLayout = new ParserLayout(namespaceParser);
-        parserLayout.pattern(">*;", 1.0D, 40);
+        GroupParser groupParser = new GroupParser();
+        ParserLayout parserLayout = new ParserLayout(groupParser);
+        parserLayout.pattern("group *;", 1.0D, EssentialPriority.GROUP.getPriority() * 10, PatternExtractor.FULL);
         ParserCenter.registerParser(parserLayout);
     }
 
@@ -34,8 +32,8 @@ public class NamespaceParser implements Parser {
             }
         }
 
-        Namespace namespace = new Namespace(ns.toString());
-        return namespace;
+        Group group = new Group(ns.toString());
+        return group;
     }
 
 }

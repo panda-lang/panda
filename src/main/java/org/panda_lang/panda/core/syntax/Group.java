@@ -4,15 +4,15 @@ import org.panda_lang.panda.core.Particle;
 
 import java.util.Arrays;
 
-public class Namespace implements NamedExecutable {
+public class Group implements NamedExecutable {
 
     private final String[] namespace;
 
-    public Namespace(String namespace) {
+    public Group(String namespace) {
         this.namespace = namespace.split(".");
     }
 
-    public Namespace(String... namespace) {
+    public Group(String... namespace) {
         this.namespace = namespace;
     }
 
@@ -29,8 +29,8 @@ public class Namespace implements NamedExecutable {
         return namespace[namespace.length - 1].equals("*");
     }
 
-    public Namespace getParent() {
-        return new Namespace(Arrays.copyOf(namespace, namespace.length - 1));
+    public Group getParent() {
+        return new Group(Arrays.copyOf(namespace, namespace.length - 1));
     }
 
     @Override
