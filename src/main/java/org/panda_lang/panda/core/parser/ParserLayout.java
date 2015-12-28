@@ -42,6 +42,12 @@ public class ParserLayout {
         return p;
     }
 
+    public Pattern pattern(String pattern, double priority, int id, char[] charset) {
+        Pattern p = pattern(pattern, priority, id);
+        p.setCharset(charset);
+        return p;
+    }
+
     public Collection<Pattern> getPatterns() {
         return patterns;
     }

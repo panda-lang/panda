@@ -42,8 +42,7 @@ public class PandaParser {
     }
 
     public NamedExecutable parseLine(String line, Atom atom) {
-        String pattern = extractor.extract(line, PatternExtractor.DEFAULT);
-        Parser parser = ParserCenter.getParser(atom, pattern);
+        Parser parser = ParserCenter.getParser(atom, line);
 
         // {initializer.not.found}
         if (parser == null) {

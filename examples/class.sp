@@ -1,16 +1,15 @@
-// @TODO
-// It is a test script
-// Classes have not yet been added
+// Group
+group diorite.connection;
 
-> namespace 'org.panda';
-
-@import './protocol/Types.sp';
-@import 'm$.windows.Thread' as PandaThread;
-@import 'x.y.z.*';
-@import 'diorite.is.Awesome';
+// import( Group )
+import diorite.entity;
+// import( Specific )
+import diorite.material.Box;
+// import( File )
+import './protocol/TestOut.sp';
 
 // class_name
-class Test {
+class TestCon extends Connection {
 
     // class_field
     Integer classVar = 1;

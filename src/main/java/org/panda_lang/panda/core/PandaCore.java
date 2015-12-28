@@ -34,7 +34,7 @@ public class PandaCore {
                 "ImportParser",
                 "MathParser",
                 "MethodParser",
-                "NamespaceParser",
+                "GroupParser",
                 "ParameterParser",
                 "VariableParser");
     }

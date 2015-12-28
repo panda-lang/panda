@@ -7,6 +7,7 @@ public class Pattern implements Comparable<Pattern> {
     private final String pattern;
     private final double priority;
     private Parser parser;
+    private char[] charset;
     private int id;
 
     public Pattern(Parser parser, String pattern) {
@@ -16,6 +17,11 @@ public class Pattern implements Comparable<Pattern> {
     public Pattern(String pattern, double priority, int id) {
         this(null, pattern, priority);
         this.id = id;
+    }
+
+    public Pattern(String pattern, double priority, int id, char[] charset) {
+        this(pattern, priority, id);
+        this.charset = charset;
     }
 
     public Pattern(Parser parser, String pattern, double priority) {
@@ -66,6 +72,10 @@ public class Pattern implements Comparable<Pattern> {
         this.id = id;
     }
 
+    public void setCharset(char[] charset) {
+        this.charset = charset;
+    }
+
     public char getNext(char[] array, int current) {
         return current + 1 < array.length ? array[current + 1] : array[current];
     }
@@ -80,6 +90,10 @@ public class Pattern implements Comparable<Pattern> {
 
     public Parser getParser() {
         return parser;
+    }
+
+    public char[] getCharset() {
+        return charset;
     }
 
     public int getID() {
