@@ -4,7 +4,7 @@ group diorite.connection;
 // import( Group )
 import diorite.entity;
 // import( Specific )
-import diorite.material.Box;
+import diorite.material > Box;
 // import( File )
 import './protocol/TestOut.sp';
 
