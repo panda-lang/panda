@@ -2,6 +2,7 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.PandaCore;
 import org.panda_lang.panda.core.parser.ParserLayout;
+import org.panda_lang.panda.core.parser.analyzer.Analyzer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Parameter;
@@ -36,6 +37,10 @@ public class Panda {
 
     public void registerParser(ParserLayout parserLayout) {
         pandaCore.registerParser(parserLayout);
+    }
+
+    public void registerAnalyzer(Analyzer analyzer) {
+        pandaCore.registerAnalyzer(analyzer);
     }
 
     public void registerBlock(BlockLayout blockLayout) {

@@ -10,7 +10,7 @@ import java.util.Collection;
 
 public class PandaScript {
 
-    private Collection<PandaBlock> blocks;
+    private final Collection<PandaBlock> blocks;
 
     public PandaScript() {
         this.blocks = new ArrayList<>();

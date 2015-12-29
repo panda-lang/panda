@@ -21,6 +21,10 @@ public class Group implements NamedExecutable {
         return null;
     }
 
+    public Collection<PandaBlock> getElements() {
+        return elements;
+    }
+
     @Override
     public String getName() {
         return group;

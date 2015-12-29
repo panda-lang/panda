@@ -14,14 +14,15 @@ public class Block implements NamedExecutable {
     private VariableMap variables;
     protected Parameter[] parameters;
 
-    public Block() {
-        this.executables = new LinkedList<>();
-    }
-
     public Block(Block parent) {
         this.executables = new LinkedList<>();
         this.variables = new VariableMap(parent.getVariables());
         this.parent = parent;
+    }
+
+    public Block() {
+        this.executables = new LinkedList<>();
+        this.variables = new VariableMap();
     }
 
     @Override

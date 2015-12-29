@@ -11,7 +11,8 @@ public class PandaLoader {
         if (file.isDirectory()) {
             return null;
         }
-        return loadSimpleScript(IOUtils.getContentOfFile(file));
+        final String contentOfFile = IOUtils.getContentOfFile(file);
+        return loadSimpleScript(contentOfFile);
     }
 
     public static PandaScript loadSimpleScript(String source) {

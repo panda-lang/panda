@@ -30,7 +30,8 @@ public class GroupParser implements Parser {
             }
         }
 
-        Group group = new Group(groupBuilder.toString());
+        String groupName = groupBuilder.toString();
+        Group group = GroupCenter.getGroup(groupName);
         atom.getPandaParser().getPandaBlock().setGroup(group);
         return group;
     }

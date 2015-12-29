@@ -20,6 +20,7 @@ public class ImportParser implements Parser {
 
         int stage = 0;
         Import importElement = null;
+        String operator = null;
 
         for (char c : source.toCharArray()) {
             if (Character.isWhitespace(c) || c == ';') {
@@ -33,12 +34,23 @@ public class ImportParser implements Parser {
                         stage = 2;
                         break;
                     case 2:
-                        String operator = importBuilder.toString();
+                        operator = importBuilder.toString();
+                        importBuilder.setLength(0);
+                        stage = 3;
+                        break;
+                    case 3:
                         if (operator.equals(">")) {
-
+                            String specific = importBuilder.toString();
+                            importElement.setSpecific(specific);
                         } else if (operator.equals("as")) {
-
+                            String as = importBuilder.toString();
+                            importElement.setAs(as);
                         }
+                        importBuilder.setLength(0);
+                        stage = 2;
+                        break;
+                    default:
+                        break;
                 }
             } else if (stage == 1) {
                 importBuilder.append(c);

@@ -13,8 +13,9 @@ import org.panda_lang.panda.lang.PNull;
 public class VariableParser implements Parser {
 
     static {
-        ParserLayout parserLayout = new ParserLayout(new VariableParser(), "*=*;", EssentialPriority.VARIABLE.getPriority());
-        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() + 1);
+        ParserLayout parserLayout = new ParserLayout(new VariableParser());
+        parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
+        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
         ParserCenter.registerParser(parserLayout);
     }
 
