@@ -28,6 +28,10 @@ public class Essence {
         }
     }
 
+    public Object getJavaValue() {
+        return null;
+    }
+
     public String getType() {
         return vial.getName();
     }

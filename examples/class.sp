@@ -12,10 +12,10 @@ import './protocol/TestOut.sp';
 class TestCon extends Connection {
 
     // class_field
-    Integer classVar = 1;
+    Number classVar = 1;
 
     // class_constructor
-    constructor Test() {
+    constructor TestCon() {
         classVar = 2;
     }
 
@@ -24,4 +24,9 @@ class TestCon extends Connection {
         System.print(classVar);
     }
 
+}
+
+method main() {
+    TestCon var = new TestCon();
+    var.func();
 }

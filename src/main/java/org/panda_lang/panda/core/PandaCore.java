@@ -2,6 +2,8 @@ package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.parser.ParserLayout;
+import org.panda_lang.panda.core.parser.analyzer.Analyzer;
+import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -16,6 +18,10 @@ public class PandaCore {
 
     public void registerParser(ParserLayout parser) {
         ParserCenter.registerPatterns(parser.getPatterns());
+    }
+
+    public void registerAnalyzer(Analyzer analyzer) {
+        AnalyzerCenter.registerAnalyzer(analyzer);
     }
 
     public void registerBlock(BlockLayout blockLayout) {

@@ -11,12 +11,17 @@ public class VariableMap {
     private final Map<String, Essence> local;
 
     public VariableMap() {
-        this.local = new HashMap<String, Essence>();
+        this.local = new HashMap<>();
         this.parent = null;
     }
 
     public VariableMap(VariableMap parent) {
-        this.local = new HashMap<String, Essence>();
+        this.local = new HashMap<>();
+        this.parent = parent;
+    }
+
+    private VariableMap(VariableMap parent, Map<String, Essence> local) {
+        this.local = local;
         this.parent = parent;
     }
 
@@ -34,6 +39,10 @@ public class VariableMap {
             o = parent.get(name);
         }
         return o;
+    }
+
+    public VariableMap copy() {
+        return new VariableMap(parent, new HashMap<>(local));
     }
 
     public boolean containsKey(String name) {

@@ -5,6 +5,7 @@ import org.panda_lang.panda.core.Particle;
 public class Import implements NamedExecutable {
 
     private final String declaredImport;
+    private String specific;
     private String as;
 
     public Import(String declaredImport) {
@@ -35,6 +36,22 @@ public class Import implements NamedExecutable {
 
     public boolean containsCustomName() {
         return as != null;
+    }
+
+    public void setSpecific(String specific) {
+        this.specific = specific;
+    }
+
+    public void setAs(String as) {
+        this.as = as;
+    }
+
+    public String getSpecific() {
+        return specific;
+    }
+
+    public String getAs() {
+        return as;
     }
 
     @Override

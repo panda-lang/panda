@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.syntax.block;
 
+import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
@@ -24,12 +25,22 @@ public class VialBlock extends Block {
 
     public VialBlock(List<String> specifiers) {
         this.vial = VialCenter.initializeVial(specifiers.get(0));
+        this.vial.setVialBlock(this);
 
         if (specifiers.size() > 2 && specifiers.get(1).equals("extends")) {
             vial.extension(specifiers.get(2));
         }
 
         super.setName(vial.getName());
+    }
+
+    public void initializeFields() {
+        Particle particle = new Particle();
+        for (NamedExecutable executable : getExecutables()) {
+            if (executable instanceof Variable) {
+                executable.run(particle);
+            }
+        }
     }
 
     @Override
