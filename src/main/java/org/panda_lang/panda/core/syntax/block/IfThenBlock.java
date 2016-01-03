@@ -17,7 +17,7 @@ public class IfThenBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new IfThenBlock();
-                current.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
+                current.setFactors(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         }));
@@ -31,7 +31,7 @@ public class IfThenBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        PBoolean flag = parameters[0].getValue().cast(PBoolean.class);
+        PBoolean flag = factors[0].getValue().cast(PBoolean.class);
         if (flag != null && flag.isTrue()) {
             return super.run(particle);
         } else if (elseThenBlock != null) {

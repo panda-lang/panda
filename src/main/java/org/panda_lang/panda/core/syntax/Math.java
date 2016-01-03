@@ -42,8 +42,8 @@ public class Math implements Executable {
                         break;
                 }
             } else {
-                Parameter parameter = mathBuilder.getParametr();
-                Double value = Double.valueOf(parameter.getValue().toString());
+                Factor factor = mathBuilder.getParametr();
+                Double value = Double.valueOf(factor.getValue().toString());
                 values.push(value);
             }
         }

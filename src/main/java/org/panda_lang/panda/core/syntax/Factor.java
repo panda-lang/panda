@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.util.VariableMap;
 
-public class Parameter implements NamedExecutable {
+public class Factor implements NamedExecutable {
 
     enum Type {
         DEFINED,
@@ -19,20 +19,20 @@ public class Parameter implements NamedExecutable {
     private Runtime runtime;
     private Essence value;
 
-    public Parameter(String type, Essence object) {
+    public Factor(String type, Essence object) {
         this.type = Type.DEFINED;
         this.object = object;
         this.dataType = type;
     }
 
-    public Parameter(String type, VariableMap map, String variable) {
+    public Factor(String type, VariableMap map, String variable) {
         this.type = Type.VARIABLE;
         this.dataType = type;
         this.map = map;
         this.variable = variable;
     }
 
-    public Parameter(String type, VariableMap map, Runtime runtime) {
+    public Factor(String type, VariableMap map, Runtime runtime) {
         this.type = Type.RUNTIME;
         this.dataType = type;
         this.map = map;
@@ -106,13 +106,13 @@ public class Parameter implements NamedExecutable {
                 break;
             case RUNTIME:
                 if (runtime == null) {
-                    System.out.println("Runtime is null. Parameter info: " + this);
+                    System.out.println("Runtime is null. Factor info: " + this);
                     return null;
                 }
                 value = runtime.run(new Particle());
                 break;
             default:
-                System.out.println("Parameter type is not defined. Parameter info: " + this);
+                System.out.println("Factor type is not defined. Factor info: " + this);
                 break;
         }
         this.value = value;
@@ -133,7 +133,7 @@ public class Parameter implements NamedExecutable {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Parameter{");
+        final StringBuilder sb = new StringBuilder("Factor{");
         sb.append("type=").append(type);
         sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", object=").append(object);

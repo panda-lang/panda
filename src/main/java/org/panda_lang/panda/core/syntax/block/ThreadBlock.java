@@ -8,8 +8,8 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
-import org.panda_lang.panda.core.syntax.Parameter;
 import org.panda_lang.panda.lang.PThread;
 
 public class ThreadBlock extends Block {
@@ -19,8 +19,8 @@ public class ThreadBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new ThreadBlock();
-                Parameter[] parameters = new ParameterParser().parse(atom, atom.getBlockInfo().getParameters());
-                current.setParameters(parameters);
+                Factor[] factors = new ParameterParser().parse(atom, atom.getBlockInfo().getParameters());
+                current.setFactors(factors);
                 return current;
             }
         }));
@@ -42,8 +42,8 @@ public class ThreadBlock extends Block {
                 }
             }
         });
-        if (parameters != null && parameters.length > 0) {
-            Essence value = parameters[0].getValue();
+        if (factors != null && factors.length > 0) {
+            Essence value = factors[0].getValue();
             thread.setName(pThread.getName());
         }
         thread.start();
@@ -52,11 +52,11 @@ public class ThreadBlock extends Block {
 
     @Override
     public Essence run(final Particle particle) {
-        if (parameters.length == 0) {
+        if (factors.length == 0) {
             start(particle);
             return null;
         } else {
-            pThread = parameters[0].getValue(PThread.class);
+            pThread = factors[0].getValue(PThread.class);
             pThread.setBlock(this);
             return pThread;
         }

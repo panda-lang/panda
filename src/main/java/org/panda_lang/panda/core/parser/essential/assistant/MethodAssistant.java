@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.ParameterParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Vial;
 
 import java.util.Stack;
@@ -66,18 +66,18 @@ public class MethodAssistant {
         node.setLength(0);
         atom.setSourceCode(params);
         ParameterParser parser = new ParameterParser();
-        Parameter[] parameters = parser.parseLocal(atom);
+        Factor[] factors = parser.parseLocal(atom);
 
-        Parameter instance;
+        Factor instance;
         if (object != null) {
             Vial vial = VialCenter.getVial(object);
             if (vial != null) {
-                return new MethodInfo(vial, method, parameters);
+                return new MethodInfo(vial, method, factors);
             }
             instance = new ParameterParser().parse(atom, object);
-            return new MethodInfo(instance, method, parameters);
+            return new MethodInfo(instance, method, factors);
         }
-        return new MethodInfo(method, parameters);
+        return new MethodInfo(method, factors);
     }
 
 

@@ -28,11 +28,11 @@ public class PandaBlock extends Block {
         }
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, Parameter... parameters) {
+    public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (NamedExecutable executable : super.getExecutables()) {
             if (executable.getClass() == blockType && executable.getName().equals(name)) {
                 Particle particle = new Particle();
-                particle.setParameters(parameters);
+                particle.setFactors(factors);
                 return executable.run(particle);
             }
         }

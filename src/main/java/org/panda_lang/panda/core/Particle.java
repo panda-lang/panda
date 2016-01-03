@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.lang.PNull;
 
 import java.util.Arrays;
@@ -9,42 +9,42 @@ import java.util.Arrays;
 public class Particle {
 
     private Essence essence;
-    private Parameter instance;
-    private Parameter[] parameters;
+    private Factor instance;
+    private Factor[] factors;
 
     public Particle() {
     }
 
-    public Particle(Parameter... parameters) {
-        this.parameters = parameters;
+    public Particle(Factor... factors) {
+        this.factors = factors;
     }
 
-    public Particle(Essence essence, Parameter... parameters) {
-        this(parameters);
+    public Particle(Essence essence, Factor... factors) {
+        this(factors);
         this.essence = essence;
     }
 
-    public Particle(Parameter instance, Parameter... parameters) {
-        this(parameters);
+    public Particle(Factor instance, Factor... factors) {
+        this(factors);
         this.instance = instance;
     }
 
     public boolean hasParameters() {
-        return parameters != null && parameters.length > 0;
+        return factors != null && factors.length > 0;
     }
 
-    public Parameter get(int i) {
-        return i < parameters.length ? parameters[i] : null;
+    public Factor get(int i) {
+        return i < factors.length ? factors[i] : null;
     }
 
     public <T> T get(int i, Class<T> clazz) {
-        Essence essence = i < parameters.length ? parameters[i].getValue() : new PNull();
+        Essence essence = i < factors.length ? factors[i].getValue() : new PNull();
         return essence.cast(clazz);
     }
 
     public Essence getValue(int i) {
-        Parameter parameter = get(i);
-        return parameter != null ? parameter.getValue() : new PNull();
+        Factor factor = get(i);
+        return factor != null ? factor.getValue() : new PNull();
     }
 
     public <T> T getInstance(Class<T> clazz) {
@@ -52,20 +52,20 @@ public class Particle {
         return essence.cast(clazz);
     }
 
-    public Parameter getInstance() {
+    public Factor getInstance() {
         return instance;
     }
 
-    public void setInstance(Parameter instance) {
+    public void setInstance(Factor instance) {
         this.instance = instance;
     }
 
-    public Parameter[] getParameters() {
-        return parameters;
+    public Factor[] getFactors() {
+        return factors;
     }
 
-    public void setParameters(Parameter... parameters) {
-        this.parameters = parameters;
+    public void setFactors(Factor... factors) {
+        this.factors = factors;
     }
 
     public Essence getEssence() {
@@ -76,7 +76,7 @@ public class Particle {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Particle{");
         sb.append("instance=").append(instance);
-        sb.append(", parameters=").append(Arrays.toString(parameters));
+        sb.append(", factors=").append(Arrays.toString(factors));
         sb.append('}');
         return sb.toString();
     }

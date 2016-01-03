@@ -14,7 +14,7 @@ public class RunnableBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new RunnableBlock();
-                current.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
+                current.setFactors(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         }));

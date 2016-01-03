@@ -15,8 +15,8 @@ public class Field implements NamedExecutable {
         return null;
     }
 
-    public Variable toVariable(Block block, Parameter parameter) {
-        return new Variable(block, fieldName, parameter);
+    public Variable toVariable(Block block, Factor factor) {
+        return new Variable(block, fieldName, factor);
     }
 
     @Override

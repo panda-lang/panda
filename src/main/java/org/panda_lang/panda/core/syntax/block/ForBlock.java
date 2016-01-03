@@ -17,7 +17,7 @@ public class ForBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new ForBlock();
-                current.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
+                current.setFactors(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         }));
@@ -29,7 +29,7 @@ public class ForBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        PNumber times = parameters[0].getValue().cast(PNumber.class);
+        PNumber times = factors[0].getValue().cast(PNumber.class);
         for (int i = 0; i < times.getNumber().intValue(); i++) {
             Essence o = super.run(particle);
             if (o != null) {

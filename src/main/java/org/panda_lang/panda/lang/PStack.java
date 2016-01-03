@@ -8,22 +8,22 @@ public class PStack extends PObject {
         // Constructor
         os.registerConstructor(new ConstructorScheme(new Constructor<PStack>() {
             @Override
-            public PStack run(Parameter... parameters) {
+            public PStack run(Factor... factors) {
                 return new PStack();
             }
         }));
         // Method: push
         os.registerMethod(new MethodScheme("push", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public PObject run(Factor instance, Factor... factors) {
                 PStack s = instance.getValue(PStack.class);
-                return s.getStack().push(parameters[0].getValue());
+                return s.getStack().push(factors[0].getValue());
             }
         }));
         // Method: peek
         os.registerMethod(new MethodScheme("peek", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public PObject run(Factor instance, Factor... factors) {
                 PStack s = instance.getValue(PStack.class);
                 return s.getStack().peek();
             }
@@ -31,7 +31,7 @@ public class PStack extends PObject {
         // Method: pop
         os.registerMethod(new MethodScheme("pop", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public PObject run(Factor instance, Factor... factors) {
                 PStack s = instance.getValue(PStack.class);
                 return s.getStack().pop();
             }

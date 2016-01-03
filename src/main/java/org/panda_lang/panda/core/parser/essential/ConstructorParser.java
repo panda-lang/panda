@@ -67,7 +67,7 @@ public class ConstructorParser implements Parser {
 
         atom.setSourceCode(params);
         ParameterParser parser = new ParameterParser();
-        final Parameter[] parameters = parser.parseLocal(atom);
+        final Factor[] factors = parser.parseLocal(atom);
 
         final Vial vial = VialCenter.getVial(clazz);
         if (vial == null) {
@@ -81,7 +81,7 @@ public class ConstructorParser implements Parser {
             public Essence run(Particle particle) {
                 return vial.initializeInstance(particle);
             }
-        }, parameters);
+        }, factors);
     }
 
 }

@@ -6,17 +6,17 @@ public class Variable implements NamedExecutable {
 
     private final Block block;
     private final String variable;
-    private final Parameter parameter;
+    private final Factor factor;
 
-    public Variable(Block block, String variable, Parameter parameter) {
+    public Variable(Block block, String variable, Factor factor) {
         this.block = block;
         this.variable = variable;
-        this.parameter = parameter;
+        this.factor = factor;
     }
 
     @Override
     public Essence run(Particle particle) {
-        Essence object = parameter.getValue();
+        Essence object = factor.getValue();
         block.setVariable(variable, object);
         return object;
     }

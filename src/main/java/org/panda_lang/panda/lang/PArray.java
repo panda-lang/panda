@@ -13,7 +13,7 @@ public class PArray extends Essence {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return new PArray(particle.getParameters());
+                return new PArray(particle.getFactors());
             }
         });
         vial.method(new Method("size", new Executable() {
@@ -32,9 +32,9 @@ public class PArray extends Essence {
         }));
     }
 
-    private final Parameter[] array;
+    private final Factor[] array;
 
-    public PArray(Parameter... values) {
+    public PArray(Factor... values) {
         super(vial);
         this.array = values;
     }
@@ -43,7 +43,12 @@ public class PArray extends Essence {
         return i < array.length ? array[i].getValue() : new PNull();
     }
 
-    public Parameter[] getArray() {
+    public Factor[] getArray() {
+        return array;
+    }
+
+    @Override
+    public Object getJavaValue() {
         return array;
     }
 

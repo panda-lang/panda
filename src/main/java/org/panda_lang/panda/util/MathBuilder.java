@@ -1,6 +1,6 @@
 package org.panda_lang.panda.util;
 
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 
 import java.util.Stack;
 
@@ -24,8 +24,8 @@ public class MathBuilder {
         this.stack.push(new SimpleEntry<Type, Object>(Type.OPERATOR, c));
     }
 
-    public void append(Parameter parameter) {
-        this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETR, parameter));
+    public void append(Factor factor) {
+        this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETR, factor));
     }
 
     public void rewrite() {
@@ -41,8 +41,8 @@ public class MathBuilder {
         return (char) values[i].getValue();
     }
 
-    public Parameter getParametr() {
-        return (Parameter) values[i].getValue();
+    public Factor getParametr() {
+        return (Factor) values[i].getValue();
     }
 
     public int size() {
@@ -54,7 +54,7 @@ public class MathBuilder {
         StringBuilder node = new StringBuilder();
         for (SimpleEntry<Type, Object> entry : values) {
             node.append("[" + entry.getKey() + ": ");
-            node.append((entry.getKey() == Type.OPERATOR ? entry.getValue() : ((Parameter) entry.getValue()).getValue()) + "]");
+            node.append((entry.getKey() == Type.OPERATOR ? entry.getValue() : ((Factor) entry.getValue()).getValue()) + "]");
         }
         return node.toString();
     }

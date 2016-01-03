@@ -26,6 +26,11 @@ public class PNull extends Essence {
     }
 
     @Override
+    public Object getJavaValue() {
+        return null;
+    }
+
+    @Override
     public String toString() {
         return "null";
     }

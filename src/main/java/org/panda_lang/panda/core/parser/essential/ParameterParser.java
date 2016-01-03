@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.ParameterAssistant;
 import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.VialBlock;
 import org.panda_lang.panda.lang.PArray;
@@ -16,11 +16,11 @@ import org.panda_lang.panda.lang.PString;
 public class ParameterParser implements Parser {
 
     @Override
-    public Parameter parse(Atom atom) {
+    public Factor parse(Atom atom) {
         return parse(atom, atom.getSourceCode());
     }
 
-    public Parameter parse(Atom atom, String parameter) {
+    public Factor parse(Atom atom, String parameter) {
         if (ParameterAssistant.isMath(parameter)) {
             // Math
             MathParser parser = new MathParser(parameter);
@@ -32,7 +32,7 @@ public class ParameterParser implements Parser {
             MethodParser parser = new MethodParser();
             atom.getSourcesDivider().setLine(parameter);
             Runtime methodRuntime = parser.parse(atom);
-            return new Parameter(null, atom.getParent().getVariables(), methodRuntime);
+            return new Factor(null, atom.getParent().getVariables(), methodRuntime);
         }
 
         char[] chars = parameter.toCharArray();
@@ -47,45 +47,45 @@ public class ParameterParser implements Parser {
             // This
         else if (parameter.equals("this")) return parseThisOperator(atom);
             // Null
-        else if (parameter.equals("null")) return new Parameter("null", null);
+        else if (parameter.equals("null")) return new Factor("null", null);
             // Boolean
-        else if (parameter.equals("true")) return new Parameter("Boolean", new PBoolean(true));
+        else if (parameter.equals("true")) return new Factor("Boolean", new PBoolean(true));
             // Boolean
-        else if (parameter.equals("false")) return new Parameter("Boolean", new PBoolean(false));
+        else if (parameter.equals("false")) return new Factor("Boolean", new PBoolean(false));
         else {
             // Variable
-            return new Parameter(null, atom.getParent().getVariables(), parameter);
+            return new Factor(null, atom.getParent().getVariables(), parameter);
         }
 
     }
 
-    public Parameter[] parse(Atom atom, String[] parametersSources) {
-        Parameter[] parameters = new Parameter[parametersSources.length];
-        for (int i = 0; i < parameters.length; i++) {
+    public Factor[] parse(Atom atom, String[] parametersSources) {
+        Factor[] factors = new Factor[parametersSources.length];
+        for (int i = 0; i < factors.length; i++) {
             String src = parametersSources[i];
             if (src == null || src.isEmpty()) {
                 continue;
             }
-            parameters[i] = parse(atom, src);
+            factors[i] = parse(atom, src);
         }
-        return parameters;
+        return factors;
     }
 
-    public Parameter[] parseLocal(Atom atom) {
+    public Factor[] parseLocal(Atom atom) {
         String[] parametersSources = ParameterAssistant.split(atom.getSourceCode());
         return parse(atom, parametersSources);
     }
 
-    public Parameter parseConstructor(Atom atom, String s) {
+    public Factor parseConstructor(Atom atom, String s) {
         atom.setSourceCode(s);
-        return new Parameter(null, atom.getParent().getVariables(), new ConstructorParser().parse(atom));
+        return new Factor(null, atom.getParent().getVariables(), new ConstructorParser().parse(atom));
     }
 
-    public Parameter parseThisOperator(Atom atom) {
+    public Factor parseThisOperator(Atom atom) {
         Block block = atom.getCurrent();
         while (block.hasParent()) {
             if (block instanceof VialBlock) {
-                return new Parameter(block.getName(), null);
+                return new Factor(block.getName(), null);
             }
             block = block.getParent();
         }
@@ -94,17 +94,17 @@ public class ParameterParser implements Parser {
         return null;
     }
 
-    public Parameter parseArray(Atom atom, String s) {
+    public Factor parseArray(Atom atom, String s) {
         String array = s.substring(1, s.length() - 1);
-        return new Parameter("Array", new PArray(parse(atom, array)));
+        return new Factor("Array", new PArray(parse(atom, array)));
     }
 
-    public Parameter parseString(String s) {
-        return new Parameter("String", new PString(s.substring(1, s.length() - 1)));
+    public Factor parseString(String s) {
+        return new Factor("String", new PString(s.substring(1, s.length() - 1)));
     }
 
-    public Parameter parseNumber(String s) {
-        return new Parameter("Number", new PNumber(Integer.valueOf(s)));
+    public Factor parseNumber(String s) {
+        return new Factor("Number", new PNumber(Integer.valueOf(s)));
     }
 
     public boolean isNumber(String s) {

@@ -17,7 +17,7 @@ public class WhileBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new WhileBlock();
-                current.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
+                current.setFactors(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         }));
@@ -29,7 +29,7 @@ public class WhileBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        while (parameters[0].getValue(PBoolean.class).isTrue()) {
+        while (factors[0].getValue(PBoolean.class).isTrue()) {
             Essence o = super.run(particle);
             if (o != null) {
                 return o;

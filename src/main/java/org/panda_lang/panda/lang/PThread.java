@@ -82,6 +82,11 @@ public class PThread extends PObject {
     }
 
     @Override
+    public Object getJavaValue() {
+        return thread;
+    }
+
+    @Override
     public String toString() {
         return thread != null ? thread.getName() : name;
     }
