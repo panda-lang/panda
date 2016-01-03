@@ -8,14 +8,14 @@ public class PFile extends PObject {
         // Constructor
         os.registerConstructor(new ConstructorScheme(new Constructor<PFile>() {
             @Override
-            public PFile run(Parameter... parameters) {
-                return new PFile(parameters[0].getValue().toString());
+            public PFile run(Factor... factors) {
+                return new PFile(factors[0].getValue().toString());
             }
         }));
         // Method: create
         os.registerMethod(new MethodScheme("create", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public PObject run(Factor instance, Factor... factors) {
                 PFile f = instance.getValue(PFile.class);
                 File file = f.getFile();
                 if (!file.exists()) {
@@ -27,7 +27,7 @@ public class PFile extends PObject {
         // Method: isDirectory
         os.registerMethod(new MethodScheme("isDirectory", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public PObject run(Factor instance, Factor... factors) {
                 PFile f = instance.getValue(PFile.class);
                 return new PBoolean(f.getFile().isDirectory());
             }
@@ -35,7 +35,7 @@ public class PFile extends PObject {
         // Method: getContentOfFile
         os.registerMethod(new MethodScheme("getContentOfFile", new Executable() {
             @Override
-            public PObject run(Parameter instance, Parameter... parameters) {
+            public PObject run(Factor instance, Factor... factors) {
                 PFile f = instance.getValue(PFile.class);
                 return f.getContentOfFile();
             }

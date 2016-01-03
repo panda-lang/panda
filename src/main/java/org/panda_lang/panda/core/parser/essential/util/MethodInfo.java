@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Vial;
 
 import java.util.Arrays;
@@ -8,29 +8,29 @@ import java.util.Arrays;
 public class MethodInfo {
 
     private final String methodName;
-    private final Parameter[] parameters;
-    private Parameter instance;
+    private final Factor[] factors;
+    private Factor instance;
     private Vial vial;
 
-    public MethodInfo(String methodName, Parameter... parameters) {
+    public MethodInfo(String methodName, Factor... factors) {
         this.methodName = methodName;
-        this.parameters = parameters;
+        this.factors = factors;
     }
 
-    public MethodInfo(Parameter instance, String methodName, Parameter... parameters) {
+    public MethodInfo(Factor instance, String methodName, Factor... factors) {
         this.instance = instance;
         this.methodName = methodName;
-        this.parameters = parameters;
+        this.factors = factors;
     }
 
-    public MethodInfo(Vial vial, String methodName, Parameter... parameters) {
+    public MethodInfo(Vial vial, String methodName, Factor... factors) {
         this.vial = vial;
         this.methodName = methodName;
-        this.parameters = parameters;
+        this.factors = factors;
     }
 
-    public Parameter[] getParameters() {
-        return parameters;
+    public Factor[] getFactors() {
+        return factors;
     }
 
     public String getMethodName() {
@@ -41,7 +41,7 @@ public class MethodInfo {
         return vial;
     }
 
-    public Parameter getInstance() {
+    public Factor getInstance() {
         return instance;
     }
 
@@ -57,7 +57,7 @@ public class MethodInfo {
     public String toString() {
         final StringBuilder sb = new StringBuilder("MethodInfo{");
         sb.append("methodName='").append(methodName).append('\'');
-        sb.append(", parameters=").append(Arrays.toString(parameters));
+        sb.append(", factors=").append(Arrays.toString(factors));
         sb.append(", instance=").append(instance);
         sb.append(", vial=").append(vial);
         sb.append('}');

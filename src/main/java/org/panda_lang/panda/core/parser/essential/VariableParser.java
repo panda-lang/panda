@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.assistant.VariableAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Variable;
 import org.panda_lang.panda.lang.PNull;
 
@@ -28,21 +28,21 @@ public class VariableParser implements Parser {
             return null;
         }
 
-        Parameter parameter = new Parameter("null", new PNull());
+        Factor factor = new Factor("null", new PNull());
         if (ss.length > 1) {
             atom.setSourceCode(ss[1]);
             ParameterParser parser = new ParameterParser();
-            parameter = parser.parse(atom);
+            factor = parser.parse(atom);
         }
 
         String[] lss = ss[0].split(" ");
         String variable = lss.length > 1 ? lss[1] : lss[0];
 
-        if (parameter.getDataType() == null && lss.length > 1) {
-            parameter.setDataType(lss[0]);
+        if (factor.getDataType() == null && lss.length > 1) {
+            factor.setDataType(lss[0]);
         }
 
-        return new Variable(atom.getParent(), variable, parameter);
+        return new Variable(atom.getParent(), variable, factor);
     }
 
 }

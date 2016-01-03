@@ -15,7 +15,7 @@ public class MethodBlock extends Block {
             @Override
             public MethodBlock initialize(Atom atom) {
                 MethodBlock block = new MethodBlock(atom.getBlockInfo().getSpecifiers().get(0));
-                block.setParameters(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
+                block.setFactors(new ParameterParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return block;
             }
         }));
@@ -27,9 +27,9 @@ public class MethodBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        Parameter[] vars = particle.getParameters();
-        if (parameters != null && (vars == null || vars.length != parameters.length)) {
-            System.out.println("[MethodBlock] " + getName() + ": Bad parameters!");
+        Factor[] vars = particle.getFactors();
+        if (factors != null && (vars == null || vars.length != factors.length)) {
+            System.out.println("[MethodBlock] " + getName() + ": Bad factors!");
             return null;
         }
         return super.run(particle);

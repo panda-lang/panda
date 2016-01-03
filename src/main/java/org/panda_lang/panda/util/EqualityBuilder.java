@@ -1,18 +1,18 @@
 package org.panda_lang.panda.util;
 
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Operator;
-import org.panda_lang.panda.core.syntax.Parameter;
 
 public class EqualityBuilder {
 
-    private Parameter one, other;
+    private Factor one, other;
     private Operator operator;
 
-    public void setOne(Parameter one) {
+    public void setOne(Factor one) {
         this.one = one;
     }
 
-    public void setOther(Parameter other) {
+    public void setOther(Factor other) {
         this.other = other;
     }
 
@@ -28,11 +28,11 @@ public class EqualityBuilder {
         return operator;
     }
 
-    public Parameter getOther() {
+    public Factor getOther() {
         return other;
     }
 
-    public Parameter getOne() {
+    public Factor getOne() {
         return one;
     }
 

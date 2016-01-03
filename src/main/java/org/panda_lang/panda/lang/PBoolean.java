@@ -54,6 +54,11 @@ public class PBoolean extends PObject {
     }
 
     @Override
+    public Object getJavaValue() {
+        return b;
+    }
+
+    @Override
     public String toString() {
         return Boolean.toString(b);
     }

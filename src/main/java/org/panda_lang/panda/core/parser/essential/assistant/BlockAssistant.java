@@ -46,7 +46,7 @@ public class BlockAssistant {
                     string = !string;
                     break;
                 case '(':
-                    // {parameters.start}
+                    // {factors.start}
                     if (!string) {
                         param = true;
                         if (node.length() == 0) {

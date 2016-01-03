@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.analyzer.Analyzer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Vial;
 import org.panda_lang.panda.util.Exec;
 
@@ -29,9 +29,9 @@ public class Panda {
         scripts = new ArrayList<>();
     }
 
-    public void callAll(Class<? extends Block> blockType, String name, Parameter... parameters) {
+    public void callAll(Class<? extends Block> blockType, String name, Factor... factors) {
         for (PandaScript script : getScripts()) {
-            script.call(blockType, name, parameters);
+            script.call(blockType, name, factors);
         }
     }
 

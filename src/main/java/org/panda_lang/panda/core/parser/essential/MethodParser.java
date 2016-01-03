@@ -37,14 +37,14 @@ public class MethodParser implements Parser {
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
                     public Essence run(Particle particle) {
-                        particle = new Particle(mi.getParameters());
+                        particle = new Particle(mi.getFactors());
                         return method != null ? method.run(particle) : vial.getMethod(mi.getMethodName()).run(particle);
                     }
                 }));
 
                 // {instance.method}
             } else {
-                final Parameter instance = mi.getInstance();
+                final Factor instance = mi.getInstance();
 
                 if (instance == null) {
                     PandaException exception = new PandaException("MethodParserException: Instance not found", atom.getSourcesDivider());
@@ -71,7 +71,7 @@ public class MethodParser implements Parser {
                             particle.setInstance(instance);
                             return method.run(particle);
                         }
-                    }, mi.getParameters());
+                    }, mi.getFactors());
                 }
 
                 // {instance.type.undefined}
@@ -81,7 +81,7 @@ public class MethodParser implements Parser {
                         particle.setInstance(instance);
                         return instance.getValue().call(mi.getMethodName(), particle);
                     }
-                }, mi.getParameters());
+                }, mi.getFactors());
             }
 
             // {local}
@@ -89,7 +89,7 @@ public class MethodParser implements Parser {
             return new Runtime(new Method(mi.getMethodName(), new Executable() {
                 @Override
                 public Essence run(Particle particle) {
-                    return atom.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getParameters());
+                    return atom.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getFactors());
                 }
             }));
         }

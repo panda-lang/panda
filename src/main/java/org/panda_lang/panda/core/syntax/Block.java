@@ -12,7 +12,7 @@ public class Block implements NamedExecutable {
     private Block parent;
     private Collection<NamedExecutable> executables;
     private VariableMap variables;
-    protected Parameter[] parameters;
+    protected Factor[] factors;
 
     public Block(Block parent) {
         this.executables = new LinkedList<>();
@@ -27,9 +27,9 @@ public class Block implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
-        if (particle.getParameters() != null) {
-            for (int i = 0; i < particle.getParameters().length && i < parameters.length; i++) {
-                variables.put(parameters[i].getVariable(), particle.getParameters()[i].getValue());
+        if (particle.getFactors() != null) {
+            for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
+                variables.put(factors[i].getVariable(), particle.getFactors()[i].getValue());
             }
         }
         for (NamedExecutable e : executables) {
@@ -59,16 +59,16 @@ public class Block implements NamedExecutable {
         this.variables = variables;
     }
 
-    public void setParameters(Parameter... parameters) {
-        this.parameters = parameters;
+    public void setFactors(Factor... factors) {
+        this.factors = factors;
     }
 
     public boolean hasParent() {
         return parent != null;
     }
 
-    public Parameter[] getParameters() {
-        return parameters;
+    public Factor[] getFactors() {
+        return factors;
     }
 
     public Essence getVariable(String var) {

@@ -52,12 +52,17 @@ public class PNumber extends Essence {
     }
 
     @Override
+    public Object getJavaValue() {
+        return number;
+    }
+
+    @Override
     public String toString() {
         return number.toString();
     }
 
-    public static Number getNumberValue(Parameter parameter) {
-        Essence value = parameter.getValue();
+    public static Number getNumberValue(Factor factor) {
+        Essence value = factor.getValue();
         if (value instanceof PNumber) {
             return ((PNumber) value).getNumber();
         }

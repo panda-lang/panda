@@ -2,7 +2,7 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Parameter;
+import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
@@ -20,9 +20,9 @@ public class PandaScript {
         this.blocks.add(block);
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, Parameter... parameters) {
+    public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (PandaBlock pandaBlock : blocks) {
-            Essence essence = pandaBlock.call(blockType, name, parameters);
+            Essence essence = pandaBlock.call(blockType, name, factors);
             if (essence != null) {
                 return essence;
             }
