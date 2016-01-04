@@ -12,6 +12,7 @@ public class PString extends PObject {
 
     static {
         vial = VialCenter.initializeVial("String");
+        vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {

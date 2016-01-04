@@ -13,6 +13,7 @@ public class PNull extends Essence {
 
     static {
         vial = VialCenter.initializeVial("null");
+        vial.group("panda.lang");
         vial.method(new Method("toString", new Executable() {
             @Override
             public Essence run(Particle particle) {

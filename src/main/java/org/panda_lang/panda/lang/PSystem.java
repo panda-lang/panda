@@ -13,6 +13,7 @@ public class PSystem extends PObject {
 
     static {
         vial = VialCenter.initializeVial("System");
+        vial.group("panda.lang");
         vial.method(new Method("print", new Executable() {
             @Override
             public Essence run(Particle particle) {

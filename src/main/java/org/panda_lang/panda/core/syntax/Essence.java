@@ -11,12 +11,12 @@ public class Essence {
     }
 
     public Essence call(String methodName, Particle particle) {
-        particle.setInstance(new Factor(getType(), this));
+        particle.setInstance(new Factor(this));
         return vial.call(methodName, particle);
     }
 
     public Essence call(String methodName, Factor... factors) {
-        return vial.call(methodName, new Particle(new Factor(getType(), this), factors));
+        return vial.call(methodName, new Particle(new Factor(this), factors));
     }
 
     public <T> T cast(Class<T> clazz) {

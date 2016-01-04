@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.util.VariableMap;
 
 public class Factor implements NamedExecutable {
 
@@ -12,27 +11,23 @@ public class Factor implements NamedExecutable {
     }
 
     private final Type type;
-    private String dataType;
     private Essence object;
     private String variable;
     private Runtime runtime;
     private Essence value;
 
-    public Factor(String type, Essence object) {
+    public Factor(Essence object) {
         this.type = Type.DEFINED;
         this.object = object;
-        this.dataType = type;
     }
 
-    public Factor(String type, String variable) {
+    public Factor(String variable) {
         this.type = Type.VARIABLE;
-        this.dataType = type;
         this.variable = variable;
     }
 
-    public Factor(String type, Runtime runtime) {
+    public Factor(Runtime runtime) {
         this.type = Type.RUNTIME;
-        this.dataType = type;
         this.runtime = runtime;
     }
 
@@ -61,7 +56,7 @@ public class Factor implements NamedExecutable {
                 value = object;
                 break;
             case VARIABLE:
-                value = map.get(variable);
+                //value = map.get(variable);
                 break;
             case RUNTIME:
                 if (runtime == null) {
@@ -70,23 +65,13 @@ public class Factor implements NamedExecutable {
                 }
                 value = runtime.run(new Particle());
                 break;
-            default:
-                System.out.println("Factor type is not defined. Factor info: " + this);
-                break;
         }
         this.value = value;
-        if (dataType == null && value != null) {
-            dataType = value.getType();
-        }
-        return value;
+        return this.value;
     }
 
     public Type getType() {
         return type;
-    }
-
-    public void setDataType(String type) {
-        this.dataType = type;
     }
 
     public Essence getObject() {
@@ -101,10 +86,6 @@ public class Factor implements NamedExecutable {
         return variable;
     }
 
-    public String getDataType() {
-        return dataType;
-    }
-
     @Override
     public String getName() {
         return toString();
@@ -114,10 +95,8 @@ public class Factor implements NamedExecutable {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Factor{");
         sb.append("type=").append(type);
-        sb.append(", dataType='").append(dataType).append('\'');
         sb.append(", object=").append(object);
         sb.append(", variable='").append(variable).append('\'');
-        sb.append(", map=").append(map);
         sb.append(", runtime=").append(runtime);
         sb.append(", value=").append(value);
         sb.append('}');

@@ -10,6 +10,7 @@ public class PArray extends Essence {
 
     static {
         vial = VialCenter.initializeVial("Array");
+        vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {

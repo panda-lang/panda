@@ -11,6 +11,7 @@ public class PThread extends PObject {
 
     static {
         vial = VialCenter.initializeVial("Thread");
+        vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {

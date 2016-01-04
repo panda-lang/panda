@@ -13,6 +13,7 @@ public class PList extends PObject {
 
     static {
         vial = VialCenter.initializeVial("List");
+        vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {

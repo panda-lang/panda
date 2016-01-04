@@ -68,7 +68,7 @@ public class MathParser implements Parser {
 
         mathBuilder.rewrite();
         Math math = new Math(mathBuilder);
-        return new Factor("Number", atom.getParent().getVariables(), new Runtime(math));
+        return new Factor(new Runtime(math));
     }
 
     public boolean compare(char prev, char current) {

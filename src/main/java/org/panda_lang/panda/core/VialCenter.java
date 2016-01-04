@@ -5,6 +5,7 @@ import org.panda_lang.panda.core.syntax.Vial;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.lang.String;
 
 public class VialCenter {
 

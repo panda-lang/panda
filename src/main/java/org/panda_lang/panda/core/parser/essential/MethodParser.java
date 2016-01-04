@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.*;
 import org.panda_lang.panda.core.parser.essential.assistant.MethodAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
@@ -52,6 +51,9 @@ public class MethodParser implements Parser {
                     return null;
                 }
 
+                /*
+
+                #TODO: type from field
                 String instanceOf = instance.getDataType();
 
                 // {instance.type.defined}
@@ -73,6 +75,7 @@ public class MethodParser implements Parser {
                         }
                     }, mi.getFactors());
                 }
+                */
 
                 // {instance.type.undefined}
                 return new Runtime(instance, new Executable() {

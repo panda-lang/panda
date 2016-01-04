@@ -16,6 +16,7 @@ public class PPanda extends PObject {
 
     static {
         vial = VialCenter.initializeVial("Panda");
+        vial.group("panda.lang");
         vial.method(new Method("reload", new Executable() {
             @Override
             public Essence run(Particle particle) {
