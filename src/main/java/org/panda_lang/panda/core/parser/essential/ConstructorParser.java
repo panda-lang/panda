@@ -66,7 +66,7 @@ public class ConstructorParser implements Parser {
         node.setLength(0);
 
         atom.setSourceCode(params);
-        ParameterParser parser = new ParameterParser();
+        FactorParser parser = new FactorParser();
         final Factor[] factors = parser.parseLocal(atom);
 
         final Vial vial = VialCenter.getVial(clazz);

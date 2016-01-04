@@ -43,4 +43,15 @@ public class PandaBlock extends Block {
         this.group = group;
     }
 
+    public Collection<Vial> extractVials() {
+        Collection<Vial> vials = new ArrayList<>(1);
+        for (NamedExecutable executable : super.getExecutables()) {
+            if (executable instanceof VialBlock) {
+                Vial vial = ((VialBlock) executable).getVial();
+                vials.add(vial);
+            }
+        }
+        return vials;
+    }
+
 }

@@ -55,7 +55,7 @@ public class MathParser implements Parser {
                     break;
                 default:
                     atom.setSourceCode(token);
-                    Factor factor = new ParameterParser().parse(atom);
+                    Factor factor = new FactorParser().parse(atom);
                     mathBuilder.append(factor);
                     break;
             }

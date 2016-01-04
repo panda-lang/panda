@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
-public class VariableAssistant {
+public class FieldAssistant {
 
     public static String[] splitAndClear(String source) {
         String[] ss = source.split("=", 2);

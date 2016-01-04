@@ -15,7 +15,6 @@ public class Factor implements NamedExecutable {
     private String dataType;
     private Essence object;
     private String variable;
-    private VariableMap map;
     private Runtime runtime;
     private Essence value;
 
@@ -25,61 +24,21 @@ public class Factor implements NamedExecutable {
         this.dataType = type;
     }
 
-    public Factor(String type, VariableMap map, String variable) {
+    public Factor(String type, String variable) {
         this.type = Type.VARIABLE;
         this.dataType = type;
-        this.map = map;
         this.variable = variable;
     }
 
-    public Factor(String type, VariableMap map, Runtime runtime) {
+    public Factor(String type, Runtime runtime) {
         this.type = Type.RUNTIME;
         this.dataType = type;
-        this.map = map;
         this.runtime = runtime;
     }
 
     @Override
     public Essence run(Particle particle) {
         return getValue();
-    }
-
-    public void setValue(Essence o) {
-        switch (type) {
-            case DEFINED:
-                value = o;
-                break;
-            case VARIABLE:
-                map.put(variable, o);
-                value = o;
-                break;
-            default:
-                value = o;
-                break;
-        }
-        if (value != null) {
-            dataType = value.getType();
-        }
-    }
-
-    public void setDataType(String type) {
-        this.dataType = type;
-    }
-
-    public Essence getObject() {
-        return object;
-    }
-
-    public Runtime getRuntime() {
-        return runtime;
-    }
-
-    public String getVariable() {
-        return variable;
-    }
-
-    public String getDataType() {
-        return dataType;
     }
 
     public <T> T getValue(Class<T> clazz) {
@@ -124,6 +83,26 @@ public class Factor implements NamedExecutable {
 
     public Type getType() {
         return type;
+    }
+
+    public void setDataType(String type) {
+        this.dataType = type;
+    }
+
+    public Essence getObject() {
+        return object;
+    }
+
+    public Runtime getRuntime() {
+        return runtime;
+    }
+
+    public String getVariable() {
+        return variable;
+    }
+
+    public String getDataType() {
+        return dataType;
     }
 
     @Override

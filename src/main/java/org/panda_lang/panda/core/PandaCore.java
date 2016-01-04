@@ -41,8 +41,8 @@ public class PandaCore {
                 "MathParser",
                 "MethodParser",
                 "GroupParser",
-                "ParameterParser",
-                "VariableParser");
+                "FactorParser",
+                "FieldParser");
     }
 
     protected void blocks() {
