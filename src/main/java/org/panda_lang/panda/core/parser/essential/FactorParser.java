@@ -8,10 +8,7 @@ import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.VialBlock;
-import org.panda_lang.panda.lang.PArray;
-import org.panda_lang.panda.lang.PBoolean;
-import org.panda_lang.panda.lang.PNumber;
-import org.panda_lang.panda.lang.PString;
+import org.panda_lang.panda.lang.*;
 
 public class FactorParser implements Parser {
 
@@ -32,7 +29,7 @@ public class FactorParser implements Parser {
             MethodParser parser = new MethodParser();
             atom.getSourcesDivider().setLine(parameter);
             Runtime methodRuntime = parser.parse(atom);
-            return new Factor(null, atom.getParent().getVariables(), methodRuntime);
+            return new Factor(methodRuntime);
         }
 
         char[] chars = parameter.toCharArray();
@@ -47,14 +44,14 @@ public class FactorParser implements Parser {
             // This
         else if (parameter.equals("this")) return parseThisOperator(atom);
             // Null
-        else if (parameter.equals("null")) return new Factor("null", null);
+        else if (parameter.equals("null")) return new Factor(new PNull());
             // Boolean
-        else if (parameter.equals("true")) return new Factor("Boolean", new PBoolean(true));
+        else if (parameter.equals("true")) return new Factor(new PBoolean(true));
             // Boolean
-        else if (parameter.equals("false")) return new Factor("Boolean", new PBoolean(false));
+        else if (parameter.equals("false")) return new Factor(new PBoolean(false));
         else {
             // Variable
-            return new Factor(null, atom.getParent().getVariables(), parameter);
+            return new Factor(parameter);
         }
 
     }
@@ -78,14 +75,15 @@ public class FactorParser implements Parser {
 
     public Factor parseConstructor(Atom atom, String s) {
         atom.setSourceCode(s);
-        return new Factor(null, atom.getParent().getVariables(), new ConstructorParser().parse(atom));
+        return new Factor(new ConstructorParser().parse(atom));
     }
 
     public Factor parseThisOperator(Atom atom) {
         Block block = atom.getCurrent();
         while (block.hasParent()) {
             if (block instanceof VialBlock) {
-                return new Factor(block.getName(), null);
+                //#TODO: because I have no idea what it does...
+                return new Factor(block.getName());
             }
             block = block.getParent();
         }
@@ -96,15 +94,15 @@ public class FactorParser implements Parser {
 
     public Factor parseArray(Atom atom, String s) {
         String array = s.substring(1, s.length() - 1);
-        return new Factor("Array", new PArray(parse(atom, array)));
+        return new Factor(new PArray(parse(atom, array)));
     }
 
     public Factor parseString(String s) {
-        return new Factor("String", new PString(s.substring(1, s.length() - 1)));
+        return new Factor(new PString(s.substring(1, s.length() - 1)));
     }
 
     public Factor parseNumber(String s) {
-        return new Factor("Number", new PNumber(Integer.valueOf(s)));
+        return new Factor(new PNumber(Integer.valueOf(s)));
     }
 
     public boolean isNumber(String s) {

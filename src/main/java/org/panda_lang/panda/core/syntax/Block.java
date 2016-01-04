@@ -3,6 +3,7 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.util.VariableMap;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -11,17 +12,18 @@ public class Block implements NamedExecutable {
     private String name;
     private Block parent;
     private Collection<NamedExecutable> executables;
+    private Collection<Field> fields;
     //private VariableMap variables;
     protected Factor[] factors;
 
     public Block(Block parent) {
-        this.executables = new LinkedList<>();
-        //this.variables = new VariableMap(parent.getVariables());
+        this();
         this.parent = parent;
     }
 
     public Block() {
         this.executables = new LinkedList<>();
+        this.fields = new ArrayList<>();
         //this.variables = new VariableMap();
     }
 
@@ -40,6 +42,9 @@ public class Block implements NamedExecutable {
 
     public void addExecutable(NamedExecutable e) {
         this.executables.add(e);
+        if (e instanceof Field) {
+            fields.add((Field) e);
+        }
     }
 
     public void setName(String name) {

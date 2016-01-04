@@ -28,7 +28,7 @@ public class FieldParser implements Parser {
             return null;
         }
 
-        Factor factor = new Factor("null", new PNull());
+        Factor factor = new Factor(new PNull());
         if (ss.length > 1) {
             atom.setSourceCode(ss[1]);
             FactorParser parser = new FactorParser();
@@ -40,9 +40,8 @@ public class FieldParser implements Parser {
 
         Field field = new Field(fieldName, factor);
 
-        if (factor.getDataType() == null && lss.length > 1) {
+        if (lss.length > 1) {
             field.setDataType(lss[0]);
-            factor.setDataType(lss[0]);
         }
 
         return field;

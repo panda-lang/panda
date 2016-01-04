@@ -10,6 +10,7 @@ public class PNumber extends Essence {
 
     static {
         vial = VialCenter.initializeVial("Number");
+        vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {

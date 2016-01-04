@@ -19,6 +19,10 @@ class TestCon extends Connection {
         classVar = 2;
     }
 
+    method cnt() {
+        classVar = 10;
+    }
+
     // class_func
     method func() {
         System.print(classVar);
@@ -28,5 +32,7 @@ class TestCon extends Connection {
 
 method main() {
     TestCon var = new TestCon();
+    TestCon var2 = new TestCon();
+    var2.cnt();
     var.func();
 }
