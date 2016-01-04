@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.parser.essential.assistant;
 
 import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.essential.ParameterParser;
+import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -65,7 +65,7 @@ public class MethodAssistant {
         String params = node.toString();
         node.setLength(0);
         atom.setSourceCode(params);
-        ParameterParser parser = new ParameterParser();
+        FactorParser parser = new FactorParser();
         Factor[] factors = parser.parseLocal(atom);
 
         Factor instance;
@@ -74,7 +74,7 @@ public class MethodAssistant {
             if (vial != null) {
                 return new MethodInfo(vial, method, factors);
             }
-            instance = new ParameterParser().parse(atom, object);
+            instance = new FactorParser().parse(atom, object);
             return new MethodInfo(instance, method, factors);
         }
         return new MethodInfo(method, factors);

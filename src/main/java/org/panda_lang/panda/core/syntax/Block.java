@@ -11,25 +11,25 @@ public class Block implements NamedExecutable {
     private String name;
     private Block parent;
     private Collection<NamedExecutable> executables;
-    private VariableMap variables;
+    //private VariableMap variables;
     protected Factor[] factors;
 
     public Block(Block parent) {
         this.executables = new LinkedList<>();
-        this.variables = new VariableMap(parent.getVariables());
+        //this.variables = new VariableMap(parent.getVariables());
         this.parent = parent;
     }
 
     public Block() {
         this.executables = new LinkedList<>();
-        this.variables = new VariableMap();
+        //this.variables = new VariableMap();
     }
 
     @Override
     public Essence run(Particle particle) {
         if (particle.getFactors() != null) {
             for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
-                variables.put(factors[i].getVariable(), particle.getFactors()[i].getValue());
+                //variables.put(factors[i].getVariable(), particle.getFactors()[i].getValue());
             }
         }
         for (NamedExecutable e : executables) {
@@ -48,15 +48,15 @@ public class Block implements NamedExecutable {
 
     public void setParent(Block block) {
         this.parent = block;
-        this.variables = new VariableMap(parent.getVariables());
+        //this.variables = new VariableMap(parent.getVariables());
     }
 
     public void setVariable(String var, Essence value) {
-        this.variables.put(var, value);
+        //this.variables.put(var, value);
     }
 
     public void setVariableMap(VariableMap variables) {
-        this.variables = variables;
+        //this.variables = variables;
     }
 
     public void setFactors(Factor... factors) {
@@ -72,11 +72,13 @@ public class Block implements NamedExecutable {
     }
 
     public Essence getVariable(String var) {
-        return variables.get(var);
+        //return variables.get(var);
+        return null;
     }
 
     public VariableMap getVariables() {
-        return variables;
+        //return variables;
+        return null;
     }
 
     public Collection<NamedExecutable> getExecutables() {

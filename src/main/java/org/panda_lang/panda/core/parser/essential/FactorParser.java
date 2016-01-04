@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.parser.essential;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
-import org.panda_lang.panda.core.parser.essential.assistant.ParameterAssistant;
+import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Runtime;
@@ -13,7 +13,7 @@ import org.panda_lang.panda.lang.PBoolean;
 import org.panda_lang.panda.lang.PNumber;
 import org.panda_lang.panda.lang.PString;
 
-public class ParameterParser implements Parser {
+public class FactorParser implements Parser {
 
     @Override
     public Factor parse(Atom atom) {
@@ -21,11 +21,11 @@ public class ParameterParser implements Parser {
     }
 
     public Factor parse(Atom atom, String parameter) {
-        if (ParameterAssistant.isMath(parameter)) {
+        if (FactorAssistant.isMath(parameter)) {
             // Math
             MathParser parser = new MathParser(parameter);
             return parser.parse(atom);
-        } else if (ParameterAssistant.isMethod(atom, parameter)) {
+        } else if (FactorAssistant.isMethod(atom, parameter)) {
             // Constructor
             if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);
             // Method
@@ -72,7 +72,7 @@ public class ParameterParser implements Parser {
     }
 
     public Factor[] parseLocal(Atom atom) {
-        String[] parametersSources = ParameterAssistant.split(atom.getSourceCode());
+        String[] parametersSources = FactorAssistant.split(atom.getSourceCode());
         return parse(atom, parametersSources);
     }
 

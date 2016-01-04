@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
 
-public class ParameterAssistant {
+public class FactorAssistant {
 
     public static String[] split(String source) {
         Collection<String> parametrs = new ArrayList<>();

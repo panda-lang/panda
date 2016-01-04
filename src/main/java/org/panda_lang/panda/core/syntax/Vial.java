@@ -12,6 +12,7 @@ public class Vial {
 
     private final String vialName;
     private final Map<String, Method> methods;
+    private final Map<String, Field> fields;
     private Executable constructor;
     private VialBlock vialBlock;
     private String extension;
@@ -20,6 +21,7 @@ public class Vial {
     public Vial(String vialName) {
         this.vialName = vialName;
         this.methods = new HashMap<>();
+        this.fields = new HashMap<>();
         this.extension = "Object";
     }
 

@@ -54,4 +54,8 @@ public class VialBlock extends Block {
         }
     }
 
+    public Vial getVial() {
+        return vial;
+    }
+
 }
