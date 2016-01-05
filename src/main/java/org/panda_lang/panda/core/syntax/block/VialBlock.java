@@ -36,8 +36,9 @@ public class VialBlock extends Block {
 
     public void initializeFields() {
         Particle particle = new Particle();
+        particle.setMemory(super.createBranch());
         for (NamedExecutable executable : getExecutables()) {
-            if (executable instanceof Variable) {
+            if (executable instanceof Field) {
                 executable.run(particle);
             }
         }
@@ -45,8 +46,8 @@ public class VialBlock extends Block {
 
     @Override
     public void addExecutable(NamedExecutable executable) {
-        if (executable instanceof Variable) {
-
+        if (executable instanceof Field) {
+            vial.getFields().put(executable.getName(), (Field) executable);
         } else if (executable instanceof MethodBlock) {
             vial.method(new Method(executable));
         } else {

@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.memory.Memory;
 
 public class Factor implements NamedExecutable {
 
@@ -15,6 +16,7 @@ public class Factor implements NamedExecutable {
     private String variable;
     private Runtime runtime;
     private Essence value;
+    private Memory memory;
 
     public Factor(Essence object) {
         this.type = Type.DEFINED;
@@ -23,6 +25,7 @@ public class Factor implements NamedExecutable {
 
     public Factor(String variable) {
         this.type = Type.VARIABLE;
+        this.memory = memory;
         this.variable = variable;
     }
 
@@ -36,17 +39,12 @@ public class Factor implements NamedExecutable {
         return getValue();
     }
 
+    public Essence getSoftValue() {
+        return value != null ? value : getValue();
+    }
+
     public <T> T getValue(Class<T> clazz) {
-        Essence object = getValue();
-        if (object == null) {
-            System.out.println("Cannot cast to " + clazz.getClass().getSimpleName() + "! Object == null");
-            return null;
-        }
-        if (clazz.isInstance(object)) {
-            return (T) object;
-        }
-        System.out.println("Cannot cast " + object.getClass().getSimpleName() + " to " + clazz.getSimpleName());
-        return null;
+        return (T) getValue();
     }
 
     public Essence getValue() {
@@ -56,14 +54,27 @@ public class Factor implements NamedExecutable {
                 value = object;
                 break;
             case VARIABLE:
-                //value = map.get(variable);
+                //value = GlobalVariables.VARIABLES.get(variable);
                 break;
             case RUNTIME:
-                if (runtime == null) {
-                    System.out.println("Runtime is null. Factor info: " + this);
-                    return null;
-                }
                 value = runtime.run(new Particle());
+                break;
+        }
+        this.value = value;
+        return this.value;
+    }
+
+    public Essence getValue(Memory memory) {
+        Essence value = null;
+        switch (type) {
+            case DEFINED:
+                value = object;
+                break;
+            case VARIABLE:
+                value = memory.get(variable);
+                break;
+            case RUNTIME:
+                value = runtime.run(new Particle(memory));
                 break;
         }
         this.value = value;
@@ -89,18 +100,6 @@ public class Factor implements NamedExecutable {
     @Override
     public String getName() {
         return toString();
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Factor{");
-        sb.append("type=").append(type);
-        sb.append(", object=").append(object);
-        sb.append(", variable='").append(variable).append('\'');
-        sb.append(", runtime=").append(runtime);
-        sb.append(", value=").append(value);
-        sb.append('}');
-        return sb.toString();
     }
 
 }

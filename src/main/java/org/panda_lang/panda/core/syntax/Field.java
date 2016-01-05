@@ -7,6 +7,7 @@ public class Field implements NamedExecutable {
     private final String fieldName;
     private String dataType;
     private Factor factor;
+    private Essence value;
 
     public Field(String fieldName) {
         this.fieldName = fieldName;
@@ -25,11 +26,9 @@ public class Field implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
-        return factor != null ? factor.getValue() : null;
-    }
-
-    public Variable toVariable(Block block, Factor factor) {
-        return new Variable(block, fieldName, factor);
+        this.value = factor != null ? factor.getValue() : null;
+        particle.getMemory().put(fieldName, value);
+        return value;
     }
 
     public void setDataType(String dataType) {

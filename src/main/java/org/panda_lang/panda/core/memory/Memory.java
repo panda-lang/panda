@@ -1,26 +1,26 @@
-package org.panda_lang.panda.util;
+package org.panda_lang.panda.core.memory;
 
 import org.panda_lang.panda.core.syntax.Essence;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class VariableMap {
+public class Memory {
 
-    private final VariableMap parent;
+    private final Memory parent;
     private final Map<String, Essence> local;
 
-    public VariableMap() {
+    public Memory() {
         this.local = new HashMap<>();
         this.parent = null;
     }
 
-    public VariableMap(VariableMap parent) {
+    public Memory(Memory parent) {
         this.local = new HashMap<>();
         this.parent = parent;
     }
 
-    private VariableMap(VariableMap parent, Map<String, Essence> local) {
+    private Memory(Memory parent, Map<String, Essence> local) {
         this.local = local;
         this.parent = parent;
     }
@@ -41,8 +41,8 @@ public class VariableMap {
         return o;
     }
 
-    public VariableMap copy() {
-        return new VariableMap(parent, new HashMap<>(local));
+    public Memory copy() {
+        return new Memory(parent, new HashMap<>(local));
     }
 
     public boolean containsKey(String name) {
@@ -61,7 +61,7 @@ public class VariableMap {
         return false;
     }
 
-    public VariableMap getParent() {
+    public Memory getParent() {
         return this.parent;
     }
 

@@ -1,18 +1,22 @@
 package org.panda_lang.panda.core;
 
+import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.lang.PNull;
-
-import java.util.Arrays;
 
 public class Particle {
 
     private Essence essence;
     private Factor instance;
     private Factor[] factors;
+    private Memory memory;
 
     public Particle() {
+    }
+
+    public Particle(Memory memory) {
+        this.memory = memory;
     }
 
     public Particle(Factor... factors) {
@@ -52,33 +56,36 @@ public class Particle {
         return essence.cast(clazz);
     }
 
-    public Factor getInstance() {
-        return instance;
+    public void setEssence(Essence essence) {
+        this.essence = essence;
     }
 
     public void setInstance(Factor instance) {
         this.instance = instance;
     }
 
-    public Factor[] getFactors() {
-        return factors;
-    }
-
     public void setFactors(Factor... factors) {
         this.factors = factors;
+    }
+
+    public void setMemory(Memory memory) {
+        this.memory = memory;
     }
 
     public Essence getEssence() {
         return essence;
     }
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Particle{");
-        sb.append("instance=").append(instance);
-        sb.append(", factors=").append(Arrays.toString(factors));
-        sb.append('}');
-        return sb.toString();
+    public Factor getInstance() {
+        return instance;
+    }
+
+    public Factor[] getFactors() {
+        return factors;
+    }
+
+    public Memory getMemory() {
+        return memory;
     }
 
 }

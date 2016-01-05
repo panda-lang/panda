@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core;
 
-import org.panda_lang.panda.util.VariableMap;
+import org.panda_lang.panda.core.memory.Memory;
 
 public class GlobalVariables {
 
-    public static final VariableMap VARIABLES = new VariableMap();
+    public static final Memory VARIABLES = new Memory();
 
 }

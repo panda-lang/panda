@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.util.VariableMap;
+import org.panda_lang.panda.core.memory.Memory;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,7 +13,7 @@ public class Block implements NamedExecutable {
     private Block parent;
     private Collection<NamedExecutable> executables;
     private Collection<Field> fields;
-    //private VariableMap variables;
+    private Memory variables;
     protected Factor[] factors;
 
     public Block(Block parent) {
@@ -24,20 +24,24 @@ public class Block implements NamedExecutable {
     public Block() {
         this.executables = new LinkedList<>();
         this.fields = new ArrayList<>();
-        //this.variables = new VariableMap();
+        this.variables = new Memory();
     }
 
     @Override
     public Essence run(Particle particle) {
         if (particle.getFactors() != null) {
             for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
-                //variables.put(factors[i].getVariable(), particle.getFactors()[i].getValue());
+                variables.put(factors[i].getVariable(), particle.getFactors()[i].getValue());
             }
         }
         for (NamedExecutable e : executables) {
             e.run(particle);
         }
         return null;
+    }
+
+    public Memory createBranch() {
+        return new Memory(variables.getParent());
     }
 
     public void addExecutable(NamedExecutable e) {
@@ -53,15 +57,15 @@ public class Block implements NamedExecutable {
 
     public void setParent(Block block) {
         this.parent = block;
-        //this.variables = new VariableMap(parent.getVariables());
+        this.variables = new Memory(parent.getVariables());
     }
 
     public void setVariable(String var, Essence value) {
-        //this.variables.put(var, value);
+        this.variables.put(var, value);
     }
 
-    public void setVariableMap(VariableMap variables) {
-        //this.variables = variables;
+    public void setVariableMap(Memory variables) {
+        this.variables = variables;
     }
 
     public void setFactors(Factor... factors) {
@@ -76,14 +80,8 @@ public class Block implements NamedExecutable {
         return factors;
     }
 
-    public Essence getVariable(String var) {
-        //return variables.get(var);
-        return null;
-    }
-
-    public VariableMap getVariables() {
-        //return variables;
-        return null;
+    public Memory getVariables() {
+        return variables;
     }
 
     public Collection<NamedExecutable> getExecutables() {
