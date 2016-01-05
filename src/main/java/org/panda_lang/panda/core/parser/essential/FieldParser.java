@@ -45,7 +45,6 @@ public class FieldParser implements Parser {
         }
 
         return field;
-        //return new Variable(atom.getParent(), variable, factor);
     }
 
 }

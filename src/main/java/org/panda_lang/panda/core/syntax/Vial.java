@@ -63,13 +63,8 @@ public class Vial {
         return method.run(particle);
     }
 
-    //#TODO: copy(executables {methods, constructor});
     public Essence initializeInstance(Particle particle) {
-        Essence essence = new Essence(this);
-        // {temp}
-        if (vialBlock != null) {
-            vialBlock.initializeFields();
-        }
+        Essence essence = vialBlock != null ? new Essence(vialBlock) : new Essence(this);
         if (constructor != null) {
             Essence ce = constructor.run(particle);
             if (ce != null) {
@@ -95,6 +90,10 @@ public class Vial {
             }
         }
         return method;
+    }
+
+    public Map<String, Field> getFields() {
+        return fields;
     }
 
     public Map<String, Method> getMethods() {
