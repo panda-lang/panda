@@ -23,7 +23,7 @@ public class Factor implements NamedExecutable {
         this.object = object;
     }
 
-    public Factor(String variable) {
+    public Factor(Memory memeory, String variable) {
         this.type = Type.VARIABLE;
         this.memory = memory;
         this.variable = variable;
@@ -36,11 +36,15 @@ public class Factor implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
-        return getValue();
+        return getValue(particle);
     }
 
     public Essence getSoftValue() {
         return value != null ? value : getValue();
+    }
+
+    public Essence getValue(Particle particle) {
+        return getValue(memory);
     }
 
     public <T> T getValue(Class<T> clazz) {
@@ -54,7 +58,7 @@ public class Factor implements NamedExecutable {
                 value = object;
                 break;
             case VARIABLE:
-                //value = GlobalVariables.VARIABLES.get(variable);
+                value = memory.get(variable);
                 break;
             case RUNTIME:
                 value = runtime.run(new Particle());
@@ -87,10 +91,6 @@ public class Factor implements NamedExecutable {
 
     public Essence getObject() {
         return object;
-    }
-
-    public Runtime getRuntime() {
-        return runtime;
     }
 
     public String getVariable() {

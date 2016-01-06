@@ -19,7 +19,9 @@ public class Equality implements Executable {
         boolean flag = false;
 
         if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
+            /* TODO
             flag = equalityBuilder.getOne().getValue().equals(equalityBuilder.getOther().getValue());
+            */
             flag = (operator == Operator.EQUALS_TO) == flag;
 
         } else {

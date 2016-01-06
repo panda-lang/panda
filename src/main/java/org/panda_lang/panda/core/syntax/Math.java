@@ -43,8 +43,10 @@ public class Math implements Executable {
                 }
             } else {
                 Factor factor = mathBuilder.getParametr();
+                /* TODO
                 Double value = Double.valueOf(factor.getValue().toString());
-                values.push(value);
+                */
+                values.push(null); // val
             }
         }
         return new PNumber(values.pop());

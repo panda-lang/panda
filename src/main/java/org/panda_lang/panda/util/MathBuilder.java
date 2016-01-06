@@ -49,14 +49,4 @@ public class MathBuilder {
         return values.length;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder node = new StringBuilder();
-        for (SimpleEntry<Type, Object> entry : values) {
-            node.append("[" + entry.getKey() + ": ");
-            node.append((entry.getKey() == Type.OPERATOR ? entry.getValue() : ((Factor) entry.getValue()).getValue()) + "]");
-        }
-        return node.toString();
-    }
-
 }
