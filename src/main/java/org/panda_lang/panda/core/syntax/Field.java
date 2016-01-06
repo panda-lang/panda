@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.memory.Memory;
 
 public class Field implements NamedExecutable {
 
@@ -26,8 +27,9 @@ public class Field implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
-        this.value = factor != null ? factor.getValue() : null;
-        particle.getMemory().put(fieldName, value);
+        Memory memory = particle.getMemory();
+        value = factor != null ? factor.getValue(memory) : null;
+        memory.put(fieldName, value);
         return value;
     }
 

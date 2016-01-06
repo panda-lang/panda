@@ -34,7 +34,7 @@ public class VialBlock extends Block {
         super.setName(vial.getName());
     }
 
-    public void initializeFields() {
+    public Particle initializeFields() {
         Particle particle = new Particle();
         particle.setMemory(super.createBranch());
         for (NamedExecutable executable : getExecutables()) {
@@ -42,6 +42,7 @@ public class VialBlock extends Block {
                 executable.run(particle);
             }
         }
+        return particle;
     }
 
     @Override

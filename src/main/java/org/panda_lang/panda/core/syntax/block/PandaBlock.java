@@ -1,7 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.GlobalVariables;
+import org.panda_lang.panda.core.Global;
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 
 import java.util.ArrayList;
@@ -10,19 +11,19 @@ import java.util.Collection;
 public class PandaBlock extends Block {
 
     private final Collection<Import> imports;
+    private final Memory memory;
     private Group group;
 
     public PandaBlock() {
         super.setName("Panda Block");
-        super.setVariableMap(GlobalVariables.VARIABLES);
-
+        this.memory = new Memory(Global.COMMON_MEMORY);
         this.imports = new ArrayList<>();
     }
 
     public void initializeGlobalVariables() {
         Particle particle = new Particle();
         for (NamedExecutable executable : getExecutables()) {
-            if (executable instanceof Variable) {
+            if (executable instanceof Field) {
                 executable.run(particle);
             }
         }

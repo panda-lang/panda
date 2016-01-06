@@ -2,8 +2,8 @@ package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.core.memory.Memory;
 
-public class GlobalVariables {
+public class Global {
 
-    public static final Memory VARIABLES = new Memory();
+    public static final Memory COMMON_MEMORY = new Memory();
 
 }

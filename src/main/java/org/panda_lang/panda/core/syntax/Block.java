@@ -9,11 +9,10 @@ import java.util.LinkedList;
 
 public class Block implements NamedExecutable {
 
+    private final Collection<NamedExecutable> executables;
+    private final Collection<Field> fields;
     private String name;
     private Block parent;
-    private Collection<NamedExecutable> executables;
-    private Collection<Field> fields;
-    private Memory variables;
     protected Factor[] factors;
 
     public Block(Block parent) {
@@ -24,24 +23,24 @@ public class Block implements NamedExecutable {
     public Block() {
         this.executables = new LinkedList<>();
         this.fields = new ArrayList<>();
-        this.variables = new Memory();
     }
 
     @Override
     public Essence run(Particle particle) {
         if (particle.getFactors() != null) {
             for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
-                variables.put(factors[i].getVariable(), particle.getFactors()[i].getValue());
+                particle.getMemory().put(factors[i].getVariable(), particle.getFactors()[i].getValue(particle));
             }
         }
         for (NamedExecutable e : executables) {
-            e.run(particle);
+            if (e instanceof Block) {
+                Memory memory = new Memory(particle.getMemory());
+                e.run(new Particle(particle, memory));
+            } else {
+                e.run(particle);
+            }
         }
         return null;
-    }
-
-    public Memory createBranch() {
-        return new Memory(variables.getParent());
     }
 
     public void addExecutable(NamedExecutable e) {
@@ -57,15 +56,6 @@ public class Block implements NamedExecutable {
 
     public void setParent(Block block) {
         this.parent = block;
-        this.variables = new Memory(parent.getVariables());
-    }
-
-    public void setVariable(String var, Essence value) {
-        this.variables.put(var, value);
-    }
-
-    public void setVariableMap(Memory variables) {
-        this.variables = variables;
     }
 
     public void setFactors(Factor... factors) {
@@ -78,10 +68,6 @@ public class Block implements NamedExecutable {
 
     public Factor[] getFactors() {
         return factors;
-    }
-
-    public Memory getVariables() {
-        return variables;
     }
 
     public Collection<NamedExecutable> getExecutables() {
