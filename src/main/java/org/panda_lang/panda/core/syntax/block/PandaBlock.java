@@ -32,7 +32,7 @@ public class PandaBlock extends Block {
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (NamedExecutable executable : super.getExecutables()) {
             if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                Particle particle = new Particle();
+                Particle particle = new Particle(memory);
                 particle.setFactors(factors);
                 return executable.run(particle);
             }

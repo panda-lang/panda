@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.memory.Memory;
 
 import java.util.Arrays;
 
@@ -34,7 +35,7 @@ public class Runtime implements NamedExecutable {
     @Override
     public Essence run(Particle particle) {
         if (particle == null) {
-            particle = new Particle();
+            particle = new Particle(new Memory());
         }
         particle.setInstance(instance);
         particle.setFactors(factors);

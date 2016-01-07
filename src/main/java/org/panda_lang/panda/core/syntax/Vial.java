@@ -64,7 +64,8 @@ public class Vial {
     }
 
     public Essence initializeInstance(Particle particle) {
-        Essence essence = vialBlock != null ? new Essence(vialBlock) : new Essence(this);
+        Essence essence = new Essence(this);
+        essence.initializeParticle(particle);
         if (constructor != null) {
             Essence ce = constructor.run(particle);
             if (ce != null) {

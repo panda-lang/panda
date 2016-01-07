@@ -23,15 +23,20 @@ public class Factor implements NamedExecutable {
         this.object = object;
     }
 
-    public Factor(Memory memeory, String variable) {
-        this.type = Type.VARIABLE;
-        this.memory = memory;
-        this.variable = variable;
-    }
-
     public Factor(Runtime runtime) {
         this.type = Type.RUNTIME;
         this.runtime = runtime;
+    }
+
+    public Factor(String variable) {
+        this.type = Type.VARIABLE;
+        this.variable = variable;
+    }
+
+    public Factor(Memory memory, String variable) {
+        this.type = Type.VARIABLE;
+        this.memory = memory;
+        this.variable = variable;
     }
 
     @Override
@@ -52,36 +57,32 @@ public class Factor implements NamedExecutable {
     }
 
     public Essence getValue() {
-        Essence value = null;
         switch (type) {
             case DEFINED:
-                value = object;
+                this.value = object;
                 break;
             case VARIABLE:
-                value = memory.get(variable);
+                this.value = memory.get(variable);
                 break;
             case RUNTIME:
-                value = runtime.run(new Particle());
+                this.value = runtime.run(new Particle());
                 break;
         }
-        this.value = value;
         return this.value;
     }
 
     public Essence getValue(Memory memory) {
-        Essence value = null;
         switch (type) {
             case DEFINED:
-                value = object;
+                this.value = object;
                 break;
             case VARIABLE:
-                value = memory.get(variable);
+                this.value = memory.get(variable);
                 break;
             case RUNTIME:
-                value = runtime.run(new Particle(memory));
+                this.value = runtime.run(new Particle(memory));
                 break;
         }
-        this.value = value;
         return this.value;
     }
 

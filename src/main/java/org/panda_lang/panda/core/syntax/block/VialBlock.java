@@ -34,9 +34,9 @@ public class VialBlock extends Block {
         super.setName(vial.getName());
     }
 
-    public Particle initializeFields() {
+    public Particle initializeFields(Essence essence) {
         Particle particle = new Particle();
-        particle.setMemory(super.createBranch());
+        particle.setMemory(essence.getMemory());
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.run(particle);
