@@ -6,37 +6,34 @@ import org.panda_lang.panda.core.syntax.block.VialBlock;
 
 public class Essence {
 
-    private final Vial vial;
-    private final int instanceID;
+    private int instanceID;
+    private Vial vial;
     private VialBlock vialBlock;
     private Memory memory;
 
     public Essence(Vial vial) {
+        this(0);
         this.vial = vial;
-        this.instanceID = 0;
     }
 
     public Essence(Vial vial, int instanceID) {
+        this(instanceID);
         this.vial = vial;
-        this.instanceID = instanceID;
     }
 
-    public Essence(VialBlock vialBlock) {
-        this.vial = vialBlock.getVial();
-        this.instanceID = 0;
-        this.vialBlock = vialBlock;
-        this.memory = vialBlock.createBranch();
-
-        vialBlock.initializeFields();
+    public Essence(int instanceID) {
+        this.instanceID = instanceID;
+        this.memory = new Memory();
     }
 
     public Essence call(String methodName, Particle particle) {
         particle.setInstance(new Factor(this));
+        particle.setMemory(memory);
         return vial.call(methodName, particle);
     }
 
     public Essence call(String methodName, Factor... factors) {
-        return vial.call(methodName, new Particle(new Factor(this), factors));
+        return vial.call(methodName, new Particle(memory, this, new Factor(this), factors));
     }
 
     public <T> T cast(Class<T> clazz) {
@@ -46,6 +43,14 @@ public class Essence {
             System.out.println("Cannot cast " + vial.getName() + " to " + clazz.getSimpleName());
             return null;
         }
+    }
+
+    public void initializeParticle(Particle particle) {
+        this.memory = new Memory(particle.getMemory());
+    }
+
+    public Memory getMemory() {
+        return memory;
     }
 
     public Object getJavaValue() {
