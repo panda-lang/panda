@@ -27,8 +27,7 @@ public class Essence {
     }
 
     public Essence call(String methodName, Particle particle) {
-        particle.setInstance(new Factor(this));
-        particle.setMemory(memory);
+        particle = new Particle(memory, this, new Factor(this), particle.getFactors());
         return vial.call(methodName, particle);
     }
 
