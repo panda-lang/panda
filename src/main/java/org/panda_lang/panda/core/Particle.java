@@ -31,6 +31,10 @@ public class Particle {
         this(null, null, instance, factors);
     }
 
+    public Particle(Particle particle, Factor... factors) {
+        this(particle.getMemory(), particle.getEssence(), particle.getInstance(), factors);
+    }
+
     public Particle(Particle particle, Memory memory) {
         this(memory, particle.getEssence(), particle.getInstance(), particle.getFactors());
     }

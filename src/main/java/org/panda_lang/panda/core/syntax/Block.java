@@ -33,6 +33,7 @@ public class Block implements NamedExecutable {
             }
         }
         for (NamedExecutable e : executables) {
+            System.out.println(particle.getMemory());
             if (e instanceof Block) {
                 Memory memory = new Memory(particle.getMemory());
                 e.run(new Particle(particle, memory));
