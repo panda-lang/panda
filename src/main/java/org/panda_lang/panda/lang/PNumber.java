@@ -14,7 +14,7 @@ public class PNumber extends Essence {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PNumber(particle.get(0, PNumber.class));
+                return new PNumber((PNumber) particle.getValueOfFactor(0));
             }
         });
         vial.method(new Method("valueOf", new Executable() {
@@ -26,7 +26,7 @@ public class PNumber extends Essence {
         vial.method(new Method("toString", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PNumber number = particle.getInstance().getValue(PNumber.class);
+                PNumber number = particle.getInstance().getValue(particle);
                 return new PString(number.toString());
             }
         }));
@@ -41,6 +41,10 @@ public class PNumber extends Essence {
 
     public PNumber(PNumber number) {
         this(number.getNumber());
+    }
+
+    public int intValue() {
+        return number.intValue();
     }
 
     public Number getNumber() {

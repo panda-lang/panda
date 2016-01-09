@@ -20,15 +20,16 @@ public class PArray extends Essence {
         vial.method(new Method("size", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PArray array = particle.getInstance(PArray.class);
+                PArray array = particle.getValueOfInstance();
                 return new PNumber(array.getArray().length);
             }
         }));
         vial.method(new Method("get", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                int i = particle.get(0, PNumber.class).getNumber().intValue();
-                return particle.getInstance(PArray.class).get(i);
+                PNumber number = particle.getValueOfFactor(0);
+                PArray instance = particle.getValueOfInstance();
+                return instance.get(number.intValue());
             }
         }));
     }

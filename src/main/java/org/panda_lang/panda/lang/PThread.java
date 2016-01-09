@@ -15,13 +15,13 @@ public class PThread extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return particle.hasParameters() ? new PThread(particle.getValue(0).toString()) : new PThread();
+                return particle.hasParameters() ? new PThread(particle.getValueOfFactor(0).toString()) : new PThread();
             }
         });
         vial.method(new Method("start", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PThread thread = particle.getInstance(PThread.class);
+                PThread thread = particle.getValueOfInstance();
                 thread.start(particle);
                 return thread;
             }
@@ -29,7 +29,7 @@ public class PThread extends PObject {
         vial.method(new Method("getName", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PThread thread = particle.getInstance(PThread.class);
+                PThread thread = particle.getValueOfInstance();
                 return new PString(thread.getName());
             }
         }));

@@ -27,7 +27,7 @@ public class PPanda extends PObject {
         vial.method(new Method("loadSimpleScript", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                Essence essence = particle.getValue(0);
+                Essence essence = particle.getValueOfFactor(0);
                 if (essence instanceof PString) {
                     PandaScript pandaScript = PandaLoader.loadSimpleScript(essence.toString());
                     Panda.getInstance().addScript(pandaScript);

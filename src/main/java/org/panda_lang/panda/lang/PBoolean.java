@@ -16,7 +16,7 @@ public class PBoolean extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                Essence essence = particle.get(0).getValue();
+                Essence essence = particle.getValueOfFactor(0);
                 if (essence instanceof PNull) {
                     return new PBoolean(false);
                 } else if (essence instanceof PBoolean) {

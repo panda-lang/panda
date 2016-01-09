@@ -44,34 +44,16 @@ public class Factor implements NamedExecutable {
         return getValue(particle);
     }
 
-    public Essence getSoftValue() {
-        return value != null ? value : getValue();
-    }
-
-    public Essence getValue(Particle particle) {
+    public <T extends Essence> T getValue() {
         return getValue(memory);
     }
 
-    public <T> T getValue(Class<T> clazz) {
-        return (T) getValue();
+    public <T extends Essence> T getValue(Particle particle) {
+        return getValue(particle.getMemory());
     }
 
-    public Essence getValue() {
-        switch (type) {
-            case DEFINED:
-                this.value = object;
-                break;
-            case VARIABLE:
-                this.value = memory.get(variable);
-                break;
-            case RUNTIME:
-                this.value = runtime.run(new Particle());
-                break;
-        }
-        return this.value;
-    }
-
-    public Essence getValue(Memory memory) {
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getValue(Memory memory) {
         switch (type) {
             case DEFINED:
                 this.value = object;
@@ -83,7 +65,7 @@ public class Factor implements NamedExecutable {
                 this.value = runtime.run(new Particle(memory));
                 break;
         }
-        return this.value;
+        return (T) this.value;
     }
 
     public Type getType() {

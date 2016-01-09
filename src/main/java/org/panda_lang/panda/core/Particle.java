@@ -3,7 +3,6 @@ package org.panda_lang.panda.core;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.lang.PNull;
 
 public class Particle {
 
@@ -46,27 +45,13 @@ public class Particle {
         this.factors = factors;
     }
 
+    public Particle memory(Memory memory) {
+        this.memory = memory;
+        return this;
+    }
+
     public boolean hasParameters() {
         return factors != null && factors.length > 0;
-    }
-
-    public Factor get(int i) {
-        return i < factors.length ? factors[i] : null;
-    }
-
-    public <T> T get(int i, Class<T> clazz) {
-        Essence essence = i < factors.length ? factors[i].getValue(memory) : new PNull();
-        return essence.cast(clazz);
-    }
-
-    public Essence getValue(int i) {
-        Factor factor = get(i);
-        return factor != null ? factor.getValue(memory) : new PNull();
-    }
-
-    public <T> T getInstance(Class<T> clazz) {
-        Essence essence = instance.getValue(memory);
-        return essence.cast(clazz);
     }
 
     public void setEssence(Essence essence) {
@@ -83,6 +68,20 @@ public class Particle {
 
     public void setMemory(Memory memory) {
         this.memory = memory;
+    }
+
+    public Factor getFactor(int i) {
+        return i < factors.length ? factors[i] : null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getValueOfFactor(int i) {
+        return (T) getFactor(i).getValue(memory);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getValueOfInstance() {
+        return (T) instance.getValue(memory);
     }
 
     public Essence getEssence() {
