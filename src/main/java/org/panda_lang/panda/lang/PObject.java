@@ -37,7 +37,8 @@ public class PObject extends Essence {
         super(vial);
     }
 
-    public <T> T getMe(Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getMe() {
         return (T) this;
     }
 

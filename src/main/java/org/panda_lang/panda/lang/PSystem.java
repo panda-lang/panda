@@ -17,7 +17,7 @@ public class PSystem extends PObject {
         vial.method(new Method("print", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                System.out.println(particle.getValue(0));
+                System.out.println(particle.getValueOfFactor(0));
                 return null;
             }
         }));

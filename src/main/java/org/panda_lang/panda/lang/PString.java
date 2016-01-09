@@ -16,7 +16,7 @@ public class PString extends PObject {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PString(particle.get(0).getValue().toString());
+                return new PString(particle.getValueOfFactor(0).toString());
             }
         });
     }

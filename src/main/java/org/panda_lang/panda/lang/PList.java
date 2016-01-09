@@ -23,11 +23,8 @@ public class PList extends PObject {
         vial.method(new Method("add", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PList list = particle
-                        .getInstance()
-                        .getValue()
-                        .cast(PList.class);
-                list.getList().add(particle.getValue(0));
+                PList list = particle.getValueOfInstance();
+                list.getList().add(particle.getValueOfFactor(0));
                 return null;
             }
         }));

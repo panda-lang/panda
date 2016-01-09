@@ -20,7 +20,7 @@ public class PServerSocket extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                PNumber port = particle.get(0, PNumber.class);
+                PNumber port = particle.getValueOfFactor(0);
                 try {
                     return new PServerSocket(port.getNumber().intValue());
                 } catch (IOException e) {
@@ -32,7 +32,7 @@ public class PServerSocket extends PObject {
         vial.method(new Method("accept", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PServerSocket serverSocket = particle.getInstance(PServerSocket.class);
+                PServerSocket serverSocket = particle.getValueOfInstance();
                 try {
                     return new PSocket(serverSocket.getServerSocket().accept());
                 } catch (IOException e) {
