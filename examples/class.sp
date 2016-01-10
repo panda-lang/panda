@@ -1,38 +1,37 @@
 // Group
-group diorite.connection;
+group examples;
 
-// import( Group )
-import diorite.entity;
-// import( Specific )
-import diorite.material > Box;
-// import( File )
-import './protocol/TestOut.sp';
+// Class name
+class Test {
 
-// class_name
-class TestCon extends Connection {
-
-    // class_field
+    // Field
     Number classVar = 1;
 
-    // class_constructor
-    constructor TestCon() {
+    // Constructor
+    constructor Test() {
         classVar = 2;
     }
 
-    method cnt() {
+    // A method that modifies variable 'classVar'
+    method modify() {
         classVar = 10;
     }
 
-    // class_func
-    method func() {
+    // A method that displays variable 'classVar'
+    method hello() {
         System.print(classVar);
     }
 
 }
 
+// Main method called when the script starts
 method main() {
-    TestCon var = new TestCon();
-    TestCon var2 = new TestCon();
-    var2.cnt();
-    var.func();
+    // Creates 2 instances
+    Test foo = new Test();
+    Test bar = new Test();
+    // Modifies 'foo'
+    foo.modify();
+    // Displays the contents of both instances.
+    bar.hello();
+    foo.hello();
 }

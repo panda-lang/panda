@@ -42,13 +42,13 @@ public class PList extends PObject {
     }
 
     @Override
-    public String getType() {
-        return "List";
+    public Object getJavaValue() {
+        return list;
     }
 
     @Override
-    public Object getJavaValue() {
-        return list;
+    public String getType() {
+        return "List";
     }
 
     @Override

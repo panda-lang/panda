@@ -29,7 +29,7 @@ public class ThreadBlock extends Block {
     private PThread pThread;
 
     public ThreadBlock() {
-        super.setName("thread::" + System.nanoTime());
+        super.setName("thread::" + atomicInteger.intValue());
     }
 
     public Essence start(final Particle particle) {
@@ -43,7 +43,7 @@ public class ThreadBlock extends Block {
             }
         });
         if (factors != null && factors.length > 0) {
-            Essence value = factors[0].getValue();
+            Essence value = factors[0].getValue(particle);
             thread.setName(pThread.getName());
         }
         thread.start();
@@ -58,6 +58,7 @@ public class ThreadBlock extends Block {
         } else {
             pThread = factors[0].getValue(particle);
             pThread.setBlock(this);
+            pThread.setMemory(particle.getMemory());
             return pThread;
         }
     }

@@ -16,7 +16,7 @@ public class GroupParser implements Parser {
 
     @Override
     public NamedExecutable parse(Atom atom) {
-        final String source = atom.getSourceCode();
+        final String source = atom.getSourcesDivider().getLine();
         final StringBuilder groupBuilder = new StringBuilder();
         boolean nsFlag = false;
 

@@ -20,7 +20,7 @@ public class PandaException {
     public PandaException(String title, SourcesDivider sourcesDivider) {
         this.title = title;
         this.code = sourcesDivider.getLine();
-        this.line = sourcesDivider.getRealLine();
+        this.line = sourcesDivider.getRealLine() + 1;
         this.caret = sourcesDivider.getCaretPosition();
     }
 

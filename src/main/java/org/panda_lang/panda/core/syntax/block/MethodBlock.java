@@ -11,7 +11,7 @@ import org.panda_lang.panda.core.syntax.*;
 public class MethodBlock extends Block {
 
     static {
-        BlockCenter.registerBlock(new BlockLayout(MethodBlock.class, "method", "function", "constructor").initializer(new BlockInitializer() {
+        BlockCenter.registerBlock(new BlockLayout(MethodBlock.class, "method", "function", "constructor", "public").initializer(new BlockInitializer() {
             @Override
             public MethodBlock initialize(Atom atom) {
                 MethodBlock block = new MethodBlock(atom.getBlockInfo().getSpecifiers().get(0));

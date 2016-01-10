@@ -24,7 +24,7 @@ public class PPanda extends PObject {
                 return null;
             }
         }));
-        vial.method(new Method("loadSimpleScript", new Executable() {
+        vial.method(new Method("loadSinglePandaFile", new Executable() {
             @Override
             public Essence run(Particle particle) {
                 Essence essence = particle.getValueOfFactor(0);

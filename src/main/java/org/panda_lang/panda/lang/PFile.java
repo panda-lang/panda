@@ -1,6 +1,11 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.util.IOUtils;
+
+import java.io.File;
+
 public class PFile extends PObject {
+
     /*
     static {
         // Register object
@@ -41,6 +46,7 @@ public class PFile extends PObject {
             }
         }));
     }
+    */
 
     private final File file;
 
@@ -65,5 +71,5 @@ public class PFile extends PObject {
     public String toString() {
         return file.getName();
     }
-*/
+
 }

@@ -21,7 +21,7 @@ public class PandaBlock extends Block {
     }
 
     public void initializeGlobalVariables() {
-        Particle particle = new Particle();
+        Particle particle = new Particle(memory);
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.run(particle);
