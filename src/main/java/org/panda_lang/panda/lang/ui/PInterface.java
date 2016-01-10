@@ -9,6 +9,7 @@ public class PInterface {
 
     static {
         vial = VialCenter.initializeVial("Interface");
+        vial.group("panda.lang.ui");
     }
 
 }

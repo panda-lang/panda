@@ -1,7 +1,10 @@
 package org.panda_lang.panda.lang;
 
+import java.util.Stack;
+
 public class PStack extends PObject {
-/*
+
+    /*
     static {
         // Register object
         ObjectScheme os = new ObjectScheme(PStack.class, "Stack");
@@ -37,6 +40,7 @@ public class PStack extends PObject {
             }
         }));
     }
+    */
 
     private final Stack<PObject> stack;
 
@@ -57,10 +61,12 @@ public class PStack extends PObject {
     public String toString() {
         StringBuilder node = new StringBuilder();
         for (PObject o : stack) {
-            if (node.length() != 0) node.append(", ");
+            if (node.length() != 0) {
+                node.append(", ");
+            }
             node.append(o);
         }
         return node.toString();
     }
-*/
+
 }

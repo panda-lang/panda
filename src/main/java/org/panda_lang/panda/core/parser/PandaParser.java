@@ -46,7 +46,7 @@ public class PandaParser {
 
         // {initializer.not.found}
         if (parser == null) {
-            return throwException(new PandaException("ParserNotFoundException", line, divider.getRealLine() + 1, divider.getCaretPosition()));
+            return throwException(new PandaException("ParserNotFoundException", divider));
         }
 
         return parser.parse(atom);

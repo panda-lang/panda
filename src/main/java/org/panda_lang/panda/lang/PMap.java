@@ -1,7 +1,13 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.core.syntax.Essence;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class PMap extends PObject {
-/*
+
+    /*
     static {
         // Register object
         ObjectScheme os = new ObjectScheme(PMap.class, "Map");
@@ -29,14 +35,15 @@ public class PMap extends PObject {
             }
         }));
     }
+    */
 
-    private final Map<PObject, PObject> map;
+    private final Map<Essence, Essence> map;
 
     public PMap() {
         this.map = new HashMap<>();
     }
 
-    public Map<PObject, PObject> getMap() {
+    public Map<Essence, Essence> getMap() {
         return map;
     }
 
@@ -49,5 +56,5 @@ public class PMap extends PObject {
     public String toString() {
         return map.toString();
     }
-*/
+
 }

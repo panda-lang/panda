@@ -83,7 +83,8 @@ public class MethodParser implements Parser {
                     public Essence run(Particle particle) {
                         particle.setInstance(instance);
                         Essence essence = instance.getValue(particle.getMemory());
-                        return essence.call(mi.getMethodName(), particle);
+                        String methodName = mi.getMethodName();
+                        return essence.call(methodName, particle);
                     }
                 }, mi.getFactors());
             }

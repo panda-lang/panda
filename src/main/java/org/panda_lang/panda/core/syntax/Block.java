@@ -6,14 +6,17 @@ import org.panda_lang.panda.core.memory.Memory;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Block implements NamedExecutable {
 
+    protected static final AtomicInteger atomicInteger = new AtomicInteger();
+
     private final Collection<NamedExecutable> executables;
     private final Collection<Field> fields;
+    protected Factor[] factors;
     private String name;
     private Block parent;
-    protected Factor[] factors;
 
     public Block(Block parent) {
         this();
@@ -33,7 +36,6 @@ public class Block implements NamedExecutable {
             }
         }
         for (NamedExecutable e : executables) {
-            System.out.println(particle.getMemory());
             if (e instanceof Block) {
                 Memory memory = new Memory(particle.getMemory());
                 e.run(new Particle(particle, memory));
@@ -69,6 +71,10 @@ public class Block implements NamedExecutable {
 
     public Factor[] getFactors() {
         return factors;
+    }
+
+    public Collection<Field> getFields() {
+        return fields;
     }
 
     public Collection<NamedExecutable> getExecutables() {

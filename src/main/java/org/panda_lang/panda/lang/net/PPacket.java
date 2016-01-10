@@ -10,6 +10,7 @@ public class PPacket extends PObject {
 
     static {
         vial = VialCenter.initializeVial("Packet");
+        vial.group("panda.lang.network");
     }
 
     public PPacket() {

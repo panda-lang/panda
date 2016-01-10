@@ -1,26 +1,27 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.VialCenter;
+import org.panda_lang.panda.core.syntax.Constructor;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Vial;
+
 public class PCharacter extends PObject {
-/*
+
+    private static final Vial vial;
+
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PCharacter.class, "Character");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PCharacter>() {
+        vial = VialCenter.initializeVial("Character");
+        vial.group("panda.lang");
+        vial.constructor(new Constructor() {
             @Override
-            public PCharacter run(Factor... factors) {
-                if (factors == null || factors.length == 0) return new PCharacter('\u0000');
-                else return factors[0].getValue(PCharacter.class);
+            public Essence run(Particle particle) {
+                if (particle.hasFactors()) {
+                    return particle.getValueOfFactor(0);
+                }
+                return new PCharacter('\u0000');
             }
-        }));
-        // Method: toString
-        os.registerMethod(new MethodScheme("toString", new Executable() {
-            @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PCharacter b = instance.getValue(PCharacter.class);
-                return new PString(b.toString());
-            }
-        }));
+        });
     }
 
     private final char c;
@@ -30,8 +31,13 @@ public class PCharacter extends PObject {
     }
 
     @Override
+    public String getType() {
+        return "Character";
+    }
+
+    @Override
     public String toString() {
         return Character.toString(c);
     }
-*/
+
 }

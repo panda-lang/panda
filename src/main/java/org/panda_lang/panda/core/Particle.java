@@ -50,7 +50,7 @@ public class Particle {
         return this;
     }
 
-    public boolean hasParameters() {
+    public boolean hasFactors() {
         return factors != null && factors.length > 0;
     }
 
@@ -80,7 +80,17 @@ public class Particle {
     }
 
     @SuppressWarnings("unchecked")
+    public <T extends Essence> T getValueOfFactor(int i, Class<T> clazz) {
+        return (T) getFactor(i).getValue(memory);
+    }
+
+    @SuppressWarnings("unchecked")
     public <T extends Essence> T getValueOfInstance() {
+        return (T) instance.getValue(memory);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getValueOfInstance(Class<T> clazz) {
         return (T) instance.getValue(memory);
     }
 

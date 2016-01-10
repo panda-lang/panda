@@ -15,7 +15,7 @@ public class ImportParser implements Parser {
 
     @Override
     public NamedExecutable parse(Atom atom) {
-        final String source = atom.getSourceCode();
+        final String source = atom.getSourcesDivider().getLine();
         final StringBuilder importBuilder = new StringBuilder();
 
         int stage = 0;
@@ -52,7 +52,7 @@ public class ImportParser implements Parser {
                     default:
                         break;
                 }
-            } else if (stage == 1) {
+            } else if (stage != 0) {
                 importBuilder.append(c);
             }
         }
