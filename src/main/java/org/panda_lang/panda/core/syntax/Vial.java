@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 import org.panda_lang.panda.core.syntax.block.VialBlock;
 
@@ -27,6 +26,7 @@ public class Vial {
 
     public Vial group(String groupName) {
         this.group = GroupCenter.getGroup(groupName);
+        this.group.registerVial(this);
         return this;
     }
 
@@ -82,6 +82,7 @@ public class Vial {
     public Method getMethod(String name) {
         Method method = methods.get(name);
         if (method == null && extension != null) {
+            /* TODO: extension
             Vial vial = VialCenter.getVial(extension);
             if (vial != null) {
                 method = vial.getMethod(name);
@@ -89,6 +90,7 @@ public class Vial {
                     extension = null;
                 }
             }
+            */
         }
         return method;
     }

@@ -4,7 +4,6 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
@@ -15,7 +14,7 @@ public class PPanda extends PObject {
     private final static Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("Panda");
+        vial = new Vial("Panda");
         vial.group("panda.lang");
         vial.method(new Method("reload", new Executable() {
             @Override

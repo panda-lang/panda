@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
@@ -11,7 +10,7 @@ public class PThread extends PObject {
     private static final Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("Thread");
+        vial = new Vial("Thread");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override

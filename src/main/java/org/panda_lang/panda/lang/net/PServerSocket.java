@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang.net;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.lang.PNull;
 import org.panda_lang.panda.lang.PNumber;
@@ -15,7 +14,7 @@ public class PServerSocket extends PObject {
     private static final Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("ServerSocket");
+        vial = new Vial("ServerSocket");
         vial.group("panda.lang.network");
         vial.constructor(new Constructor() {
             @Override
@@ -46,6 +45,7 @@ public class PServerSocket extends PObject {
     private final ServerSocket serverSocket;
 
     public PServerSocket(int port) throws IOException {
+        super(vial);
         this.serverSocket = new ServerSocket(port);
 
     }

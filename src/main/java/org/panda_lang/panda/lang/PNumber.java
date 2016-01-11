@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.*;
 
 public class PNumber extends Essence {
@@ -9,7 +8,7 @@ public class PNumber extends Essence {
     private final static Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("Number");
+        vial = new Vial("Number");
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override

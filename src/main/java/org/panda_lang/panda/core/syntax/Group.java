@@ -1,19 +1,18 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Group implements NamedExecutable {
 
     private final String group;
-    private final Collection<PandaBlock> elements;
+    private final Map<String, Vial> vials;
 
     public Group(String group) {
         this.group = group;
-        this.elements = new ArrayList<>();
+        this.vials = new HashMap<>();
     }
 
     @Override
@@ -21,8 +20,12 @@ public class Group implements NamedExecutable {
         return null;
     }
 
-    public Collection<PandaBlock> getElements() {
-        return elements;
+    public void registerVial(Vial vial) {
+        vials.put(vial.getName(), vial);
+    }
+
+    public Vial getVial(String vialName) {
+        return vials.get(vialName);
     }
 
     @Override

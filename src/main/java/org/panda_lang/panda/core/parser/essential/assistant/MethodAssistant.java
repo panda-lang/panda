@@ -1,6 +1,5 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;

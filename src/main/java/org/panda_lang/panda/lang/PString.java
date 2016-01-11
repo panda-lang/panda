@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -11,7 +10,7 @@ public class PString extends PObject {
     private final static Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("String");
+        vial = new Vial("String");
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override

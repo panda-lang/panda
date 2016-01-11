@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
@@ -12,7 +11,7 @@ public class PObject extends Essence {
     private final static Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("Object");
+        vial = new Vial("Object");
         vial.group("panda.lang");
         vial.extension(null);
         vial.constructor(new Executable() {
