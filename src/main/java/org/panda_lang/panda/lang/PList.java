@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.*;
 
 import java.util.ArrayList;
@@ -12,7 +11,7 @@ public class PList extends PObject {
     private static final Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("List");
+        vial = new Vial("List");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override

@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
@@ -69,7 +68,8 @@ public class ConstructorParser implements Parser {
         FactorParser parser = new FactorParser();
         final Factor[] factors = parser.parseLocal(atom);
 
-        final Vial vial = VialCenter.getVial(clazz);
+        //TODO
+        final Vial vial = null; //VialCenter.getVial(clazz)
         if (vial == null) {
             PandaException exception = new PandaException("ConstructorParser: Vial '" + clazz + "' not found", atom.getSourcesDivider());
             atom.getPandaParser().throwException(exception);

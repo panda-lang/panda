@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.VialCenter;
 import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -11,7 +10,7 @@ public class PCharacter extends PObject {
     private static final Vial vial;
 
     static {
-        vial = VialCenter.initializeVial("Character");
+        vial = new Vial("Character");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
