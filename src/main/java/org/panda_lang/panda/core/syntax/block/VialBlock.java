@@ -23,7 +23,7 @@ public class VialBlock extends Block {
     private final Vial vial;
 
     public VialBlock(List<String> specifiers) {
-        this.vial = VialCenter.initializeVial(specifiers.get(0));
+        this.vial = new Vial(specifiers.get(0));
         this.vial.setVialBlock(this);
 
         if (specifiers.size() > 2 && specifiers.get(1).equals("extends")) {

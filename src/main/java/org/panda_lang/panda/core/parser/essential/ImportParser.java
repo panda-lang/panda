@@ -57,6 +57,7 @@ public class ImportParser implements Parser {
             }
         }
 
+        atom.getPandaParser().getDependencies().importElement(importElement);
         return importElement;
     }
 
