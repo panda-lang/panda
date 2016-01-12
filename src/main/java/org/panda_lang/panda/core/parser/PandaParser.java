@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.parser.essential.util.Dependencies;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
@@ -11,6 +12,7 @@ public class PandaParser {
     private final PandaScript pandaScript;
     private final SourcesDivider divider;
     private final PatternExtractor extractor;
+    private final Dependencies dependencies;
     private final PandaBlock pandaBlock;
     private boolean exception;
 
@@ -18,6 +20,7 @@ public class PandaParser {
         this.pandaScript = new PandaScript();
         this.divider = new SourcesDivider(source);
         this.extractor = new PatternExtractor();
+        this.dependencies = new Dependencies();
         this.pandaBlock = new PandaBlock();
         this.atom = new Atom(pandaScript, this, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
@@ -68,6 +71,10 @@ public class PandaParser {
 
     public PatternExtractor getExtractor() {
         return extractor;
+    }
+
+    public Dependencies getDependencies() {
+        return dependencies;
     }
 
     public PandaBlock getPandaBlock() {
