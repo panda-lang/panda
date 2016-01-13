@@ -40,10 +40,6 @@ public class PandaBlock extends Block {
         return null;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
     public Collection<Vial> extractVials() {
         Collection<Vial> vials = new ArrayList<>(1);
         for (NamedExecutable executable : super.getExecutables()) {
@@ -53,6 +49,14 @@ public class PandaBlock extends Block {
             }
         }
         return vials;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
+    public Group getGroup() {
+        return group;
     }
 
 }

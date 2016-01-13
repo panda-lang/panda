@@ -2,6 +2,7 @@ package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
+import org.panda_lang.panda.core.parser.essential.util.Dependencies;
 import org.panda_lang.panda.core.syntax.Block;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class Atom {
     private final Map<String, Object> map;
     private PandaScript pandaScript;
     private PandaParser pandaParser;
+    private Dependencies dependencies;
     private SourcesDivider sourcesDivider;
     private PatternExtractor patternExtractor;
     private BlockInfo blockInfo;
@@ -21,10 +23,11 @@ public class Atom {
     private Block current;
     private Block parent;
 
-    public Atom(PandaScript pandaScript, PandaParser pandaParser, SourcesDivider sourcesDivider, PatternExtractor patternExtractor, BlockInfo blockInfo, String sourceCode, Block previous, Block current, Block parent) {
+    public Atom(PandaScript pandaScript, PandaParser pandaParser, Dependencies dependencies, SourcesDivider sourcesDivider, PatternExtractor patternExtractor, BlockInfo blockInfo, String sourceCode, Block previous, Block current, Block parent) {
         this();
         this.pandaScript = pandaScript;
         this.pandaParser = pandaParser;
+        this.dependencies = dependencies;
         this.sourcesDivider = sourcesDivider;
         this.patternExtractor = patternExtractor;
         this.blockInfo = blockInfo;
@@ -110,6 +113,10 @@ public class Atom {
 
     public PandaParser getPandaParser() {
         return pandaParser;
+    }
+
+    public Dependencies getDependencies() {
+        return dependencies;
     }
 
     public SourcesDivider getSourcesDivider() {

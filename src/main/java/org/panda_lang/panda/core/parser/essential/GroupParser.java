@@ -3,6 +3,7 @@ package org.panda_lang.panda.core.parser.essential;
 import org.panda_lang.panda.core.parser.*;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.syntax.Group;
+import org.panda_lang.panda.core.syntax.Import;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class GroupParser implements Parser {
@@ -32,7 +33,9 @@ public class GroupParser implements Parser {
 
         String groupName = groupBuilder.toString();
         Group group = GroupCenter.getGroup(groupName);
+        Import anImport = new Import(group);
         atom.getPandaParser().getPandaBlock().setGroup(group);
+        atom.getPandaParser().getDependencies().importElement(anImport);
         return group;
     }
 
