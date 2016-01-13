@@ -22,7 +22,7 @@ public class PandaParser {
         this.extractor = new PatternExtractor();
         this.dependencies = new Dependencies();
         this.pandaBlock = new PandaBlock();
-        this.atom = new Atom(pandaScript, this, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
+        this.atom = new Atom(pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
     public PandaScript parse() {

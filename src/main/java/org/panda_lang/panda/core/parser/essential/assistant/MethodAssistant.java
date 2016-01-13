@@ -69,8 +69,7 @@ public class MethodAssistant {
 
         Factor instance;
         if (object != null) {
-            //TODO
-            Vial vial = null; // VialCenter.getVial(object);
+            Vial vial = atom.getDependencies().getVial(object);
             if (vial != null) {
                 return new MethodInfo(vial, method, factors);
             }

@@ -3,6 +3,7 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
+import org.panda_lang.panda.core.syntax.Vial;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
@@ -28,6 +29,14 @@ public class PandaScript {
             }
         }
         return null;
+    }
+
+    public Collection<Vial> extractVials() {
+        Collection<Vial> vials = new ArrayList<>(1);
+        for (PandaBlock pandaBlock : blocks) {
+            vials.addAll(pandaBlock.extractVials());
+        }
+        return vials;
     }
 
 }

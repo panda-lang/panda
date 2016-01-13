@@ -1,19 +1,36 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.GroupCenter;
+
+import java.io.File;
 
 public class Import implements NamedExecutable {
 
     private final String declaredImport;
+    private final Group group;
     private String specific;
     private String as;
 
     public Import(String declaredImport) {
-        this(declaredImport, null);
+        this(declaredImport, null, null);
     }
 
-    public Import(String declaredImport, String as) {
+    public Import(Group group) {
+        this.declaredImport = group.getName();
+        this.group = group;
+    }
+
+    public Import(Group group, Vial vial) {
+        this.declaredImport = group.getName();
+        this.group = group;
+        this.specific = vial.getName();
+    }
+
+    public Import(String declaredImport, String specific, String as) {
         this.declaredImport = declaredImport;
+        this.group = !isDefinedFile() ? GroupCenter.getGroup(declaredImport) : null;
+        this.specific = specific;
         this.as = as;
     }
 
@@ -22,20 +39,20 @@ public class Import implements NamedExecutable {
         return null;
     }
 
+    public boolean containsCustomName() {
+        return as != null;
+    }
+
     public boolean isDefinedGroup() {
         return !isDefinedScript();
     }
 
     public boolean isDefinedScript() {
-        return declaredImport.contains(">");
+        return specific != null;
     }
 
     public boolean isDefinedFile() {
         return declaredImport.charAt(0) == '\'';
-    }
-
-    public boolean containsCustomName() {
-        return as != null;
     }
 
     public void setSpecific(String specific) {
@@ -46,12 +63,24 @@ public class Import implements NamedExecutable {
         this.as = as;
     }
 
+    public String getAs() {
+        return as;
+    }
+
+    public File getFile() {
+        return new File(declaredImport.substring(1, declaredImport.length() - 1));
+    }
+
     public String getSpecific() {
         return specific;
     }
 
-    public String getAs() {
-        return as;
+    public Group getGroup() {
+        return group;
+    }
+
+    public String getDeclaredImport() {
+        return declaredImport;
     }
 
     @Override

@@ -22,10 +22,15 @@ public class Vial {
         this.methods = new HashMap<>();
         this.fields = new HashMap<>();
         this.extension = "Object";
+        this.group("default");
     }
 
     public Vial group(String groupName) {
-        this.group = GroupCenter.getGroup(groupName);
+        return group(GroupCenter.getGroup(groupName));
+    }
+
+    public Vial group(Group group) {
+        this.group = group;
         this.group.registerVial(this);
         return this;
     }

@@ -6,7 +6,6 @@ import org.panda_lang.panda.core.parser.analyzer.Analyzer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Vial;
 import org.panda_lang.panda.util.Exec;
 
 import java.util.ArrayList;
@@ -45,10 +44,6 @@ public class Panda {
 
     public void registerBlock(BlockLayout blockLayout) {
         pandaCore.registerBlock(blockLayout);
-    }
-
-    public void registerVial(Vial vial) {
-        pandaCore.registerVial(vial);
     }
 
     public void registerExtension(PandaExtension pandaExtension) {

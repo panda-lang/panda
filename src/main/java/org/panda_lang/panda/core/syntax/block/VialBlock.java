@@ -15,15 +15,17 @@ public class VialBlock extends Block {
         BlockCenter.registerBlock(new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
             @Override
             public Block initialize(Atom atom) {
-                return new VialBlock(atom.getBlockInfo().getSpecifiers());
+                Group group = atom.getPandaParser().getPandaBlock().getGroup();
+                return new VialBlock(group, atom.getBlockInfo().getSpecifiers());
             }
         }));
     }
 
     private final Vial vial;
 
-    public VialBlock(List<String> specifiers) {
+    public VialBlock(Group group, List<String> specifiers) {
         this.vial = new Vial(specifiers.get(0));
+        this.vial.group(group);
         this.vial.setVialBlock(this);
 
         if (specifiers.size() > 2 && specifiers.get(1).equals("extends")) {

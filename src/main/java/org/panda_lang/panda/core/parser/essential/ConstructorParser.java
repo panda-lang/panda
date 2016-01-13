@@ -68,8 +68,7 @@ public class ConstructorParser implements Parser {
         FactorParser parser = new FactorParser();
         final Factor[] factors = parser.parseLocal(atom);
 
-        //TODO
-        final Vial vial = null; //VialCenter.getVial(clazz)
+        final Vial vial = atom.getDependencies().getVial(clazz);
         if (vial == null) {
             PandaException exception = new PandaException("ConstructorParser: Vial '" + clazz + "' not found", atom.getSourcesDivider());
             atom.getPandaParser().throwException(exception);

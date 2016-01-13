@@ -6,7 +6,6 @@ import org.panda_lang.panda.core.parser.analyzer.Analyzer;
 import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
-import org.panda_lang.panda.core.syntax.Vial;
 
 public class PandaCore {
 
@@ -26,10 +25,6 @@ public class PandaCore {
 
     public void registerBlock(BlockLayout blockLayout) {
         BlockCenter.registerBlock(blockLayout);
-    }
-
-    public void registerVial(Vial vial) {
-        VialCenter.registerVial(vial);
     }
 
     protected void parsers() {
