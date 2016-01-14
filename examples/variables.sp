@@ -1,5 +1,5 @@
 // Global variable
-global = "Hello Panda";
+String global = "Hello Panda";
 
 // Main method called when the script starts
 method main() {

@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.essential.util.Dependencies;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
@@ -14,6 +15,7 @@ public class PandaParser {
     private final PatternExtractor extractor;
     private final Dependencies dependencies;
     private final PandaBlock pandaBlock;
+    private final SemanticAnalyzer semanticAnalyzer;
     private boolean exception;
 
     public PandaParser(String source) {
@@ -22,6 +24,7 @@ public class PandaParser {
         this.extractor = new PatternExtractor();
         this.dependencies = new Dependencies();
         this.pandaBlock = new PandaBlock();
+        this.semanticAnalyzer = new SemanticAnalyzer();
         this.atom = new Atom(pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
