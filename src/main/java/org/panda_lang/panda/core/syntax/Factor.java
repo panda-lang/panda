@@ -62,6 +62,9 @@ public class Factor implements NamedExecutable {
                 this.value = memory.get(variable);
                 break;
             case RUNTIME:
+                if (runtime == null) {
+                    return null;
+                }
                 this.value = runtime.run(new Particle(memory));
                 break;
         }

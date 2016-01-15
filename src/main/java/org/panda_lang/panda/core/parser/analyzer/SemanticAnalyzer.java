@@ -9,4 +9,8 @@ public class SemanticAnalyzer implements Analyzer {
 
     }
 
+    public void addVialController() {
+
+    }
+
 }
