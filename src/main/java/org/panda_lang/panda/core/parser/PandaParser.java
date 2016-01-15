@@ -22,9 +22,9 @@ public class PandaParser {
         this.pandaScript = new PandaScript();
         this.divider = new SourcesDivider(source);
         this.extractor = new PatternExtractor();
+        this.semanticAnalyzer = new SemanticAnalyzer();
         this.dependencies = new Dependencies();
         this.pandaBlock = new PandaBlock();
-        this.semanticAnalyzer = new SemanticAnalyzer();
         this.atom = new Atom(pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
