@@ -1,5 +1,5 @@
 # Panda
 
-Panda is a new programming language.
+Panda is a lightweight and powerful programming language written in Java
 
 Project website: http://panda-lang.org/ 
