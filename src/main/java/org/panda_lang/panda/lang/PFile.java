@@ -1,57 +1,34 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.syntax.Constructor;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Vial;
 import org.panda_lang.panda.util.IOUtils;
 
 import java.io.File;
 
 public class PFile extends PObject {
 
-    /*
-    static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PFile.class, "File");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PFile>() {
-            @Override
-            public PFile run(Factor... factors) {
-                return new PFile(factors[0].getValue().toString());
-            }
-        }));
-        // Method: create
-        os.registerMethod(new MethodScheme("create", new Executable() {
-            @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PFile f = instance.getValue(PFile.class);
-                File file = f.getFile();
-                if (!file.exists()) {
+    private static final Vial vial;
 
-                }
-                return null;
-            }
-        }));
-        // Method: isDirectory
-        os.registerMethod(new MethodScheme("isDirectory", new Executable() {
+    static {
+        vial = new Vial("File");
+        vial.group("panda.lang");
+        vial.constructor(new Constructor() {
             @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PFile f = instance.getValue(PFile.class);
-                return new PBoolean(f.getFile().isDirectory());
+            public Essence run(Particle particle) {
+                PString file = particle.getValueOfFactor(0);
+                return new PFile(file.toString());
             }
-        }));
-        // Method: getContentOfFile
-        os.registerMethod(new MethodScheme("getContentOfFile", new Executable() {
-            @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PFile f = instance.getValue(PFile.class);
-                return f.getContentOfFile();
-            }
-        }));
+        });
     }
-    */
 
     private final File file;
 
-    public PFile(String s) {
-        this.file = new File(s);
+    public PFile(String file) {
+        super(vial);
+        this.file = new File(file);
     }
 
     public File getFile() {
