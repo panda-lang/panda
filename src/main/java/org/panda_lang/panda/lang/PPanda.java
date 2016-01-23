@@ -9,6 +9,8 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
+import java.io.File;
+
 public class PPanda extends PObject {
 
     private final static Vial vial;
@@ -29,6 +31,10 @@ public class PPanda extends PObject {
                 Essence essence = particle.getValueOfFactor(0);
                 if (essence instanceof PString) {
                     PandaScript pandaScript = PandaLoader.loadSimpleScript(essence.toString());
+                    Panda.getInstance().addScript(pandaScript);
+                } else if (essence instanceof PFile) {
+                    File file = ((PFile) essence).getFile();
+                    PandaScript pandaScript = PandaLoader.loadSingleScript(file);
                     Panda.getInstance().addScript(pandaScript);
                 }
                 return null;

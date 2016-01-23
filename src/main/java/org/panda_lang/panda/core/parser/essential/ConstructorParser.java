@@ -12,7 +12,7 @@ import java.util.Stack;
 public class ConstructorParser implements Parser {
 
     @Override
-    public Runtime parse(Atom atom) {
+    public Runtime parse(final Atom atom) {
         String source = atom.getSourceCode();
         source = source.substring(4);
 
@@ -63,16 +63,35 @@ public class ConstructorParser implements Parser {
 
         String params = node.toString();
         node.setLength(0);
-
         atom.setSourceCode(params);
+
         FactorParser parser = new FactorParser();
         final Factor[] factors = parser.parseLocal(atom);
-
         final Vial vial = atom.getDependencies().getVial(clazz);
+
         if (vial == null) {
-            PandaException exception = new PandaException("ConstructorParser: Vial '" + clazz + "' not found", atom.getSourcesDivider());
-            atom.getPandaParser().throwException(exception);
-            return null;
+            final Runtime runtime = new Runtime();
+            final String vialName = clazz;
+
+            atom.getPandaParser().addPostProcess(new Runnable() {
+                @Override
+                public void run() {
+                    final Vial vial = atom.getPandaParser().getDependencies().getVial(vialName);
+                    if (vial == null) {
+                        PandaException exception = new PandaException("ConstructorParser: Vial '" + vialName + "' not found", atom.getSourcesDivider());
+                        atom.getPandaParser().throwException(exception);
+                        return;
+                    }
+                    runtime.setExecutable(new Executable() {
+                        @Override
+                        public Essence run(Particle particle) {
+                            return vial.initializeInstance(particle);
+                        }
+                    });
+                }
+            });
+
+            return runtime;
         }
 
         return new Runtime(null, new Executable() {

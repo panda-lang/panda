@@ -15,7 +15,7 @@ public class PServerSocket extends PObject {
 
     static {
         vial = new Vial("ServerSocket");
-        vial.group("panda.lang.network");
+        vial.group("panda.network");
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {

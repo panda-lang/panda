@@ -4,11 +4,15 @@ public class FieldAssistant {
 
     public static String[] splitAndClear(String source) {
         String[] ss = source.split("=", 2);
-        if (ss.length != 2) {
-            return null;
+        switch (ss.length) {
+            case 1:
+                ss[0] = clear(ss[0], 1);
+                break;
+            case 2:
+                ss[0] = clear(ss[0], 1);
+                ss[1] = clear(ss[1], 0);
+                break;
         }
-        ss[0] = clear(ss[0], 1);
-        ss[1] = clear(ss[1], 0);
         return ss;
     }
 

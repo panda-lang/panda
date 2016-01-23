@@ -6,11 +6,9 @@ public class SemanticAnalyzer implements Analyzer {
 
     @Override
     public void analyze(PandaScript pandaScript) {
-
-    }
-
-    public void addVialController() {
-
+        for (Analyzer analyzer : AnalyzerCenter.getAnalyzers()) {
+            analyzer.analyze(pandaScript);
+        }
     }
 
 }

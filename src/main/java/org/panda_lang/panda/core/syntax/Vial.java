@@ -22,7 +22,6 @@ public class Vial {
         this.methods = new HashMap<>();
         this.fields = new HashMap<>();
         this.extension = "Object";
-        this.group("default");
     }
 
     public Vial group(String groupName) {
@@ -72,9 +71,9 @@ public class Vial {
         Essence essence = new Essence(this);
         essence.initializeParticle(particle);
         if (constructor != null) {
-            Essence ce = constructor.run(particle);
-            if (ce != null) {
-                essence = ce;
+            Essence instance = constructor.run(particle);
+            if (instance != null) {
+                essence = instance;
             }
         }
         return essence;

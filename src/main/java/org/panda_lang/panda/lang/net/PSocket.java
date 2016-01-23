@@ -11,7 +11,7 @@ public class PSocket extends PObject {
 
     static {
         vial = new Vial("Socket");
-        vial.group("panda.lang.network");
+        vial.group("panda.network");
     }
 
     private final Socket socket;

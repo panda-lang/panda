@@ -12,6 +12,7 @@ import java.util.Collection;
 public class PandaScript {
 
     private final Collection<PandaBlock> blocks;
+    private String workingDirectory;
 
     public PandaScript() {
         this.blocks = new ArrayList<>();
@@ -37,6 +38,14 @@ public class PandaScript {
             vials.addAll(pandaBlock.extractVials());
         }
         return vials;
+    }
+
+    public void setWorkingDirectory(String workingDirectory) {
+        this.workingDirectory = workingDirectory;
+    }
+
+    public String getWorkingDirectory() {
+        return workingDirectory;
     }
 
 }

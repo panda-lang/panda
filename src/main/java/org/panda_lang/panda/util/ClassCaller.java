@@ -1,6 +1,6 @@
-package org.panda_lang.panda.core;
+package org.panda_lang.panda.util;
 
-public class ElementsPuller {
+public class ClassCaller {
 
     public static void loadClasses(String basePackage, String... classes) {
         for (String clazz : classes) {

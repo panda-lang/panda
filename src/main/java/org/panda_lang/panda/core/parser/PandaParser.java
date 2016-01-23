@@ -7,24 +7,30 @@ import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class PandaParser {
 
     private final Atom atom;
     private final PandaScript pandaScript;
-    private final SourcesDivider divider;
-    private final PatternExtractor extractor;
     private final Dependencies dependencies;
     private final PandaBlock pandaBlock;
+
+    private final SourcesDivider divider;
+    private final PatternExtractor extractor;
     private final SemanticAnalyzer semanticAnalyzer;
+    private final Collection<Runnable> postProcesses;
     private boolean exception;
 
     public PandaParser(String source) {
         this.pandaScript = new PandaScript();
+        this.dependencies = new Dependencies(pandaScript);
+        this.pandaBlock = new PandaBlock();
         this.divider = new SourcesDivider(source);
         this.extractor = new PatternExtractor();
         this.semanticAnalyzer = new SemanticAnalyzer();
-        this.dependencies = new Dependencies();
-        this.pandaBlock = new PandaBlock();
+        this.postProcesses = new ArrayList<>();
         this.atom = new Atom(pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
@@ -40,10 +46,16 @@ public class PandaParser {
             if (!(executable instanceof Block)) {
                 pandaBlock.addExecutable(executable);
             }
-
         }
+
+        for (Runnable process : postProcesses) {
+            process.run();
+        }
+
         pandaBlock.initializeGlobalVariables();
         pandaScript.addPandaBlock(pandaBlock);
+
+        semanticAnalyzer.analyze(pandaScript);
         return pandaScript;
     }
 
@@ -62,6 +74,10 @@ public class PandaParser {
         pandaException.print();
         exception = true;
         return null;
+    }
+
+    public void addPostProcess(Runnable process) {
+        postProcesses.add(process);
     }
 
     public boolean isHappy() {
