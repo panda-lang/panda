@@ -3,8 +3,6 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 
-import java.io.File;
-
 public class Import implements NamedExecutable {
 
     private final String declaredImport;
@@ -44,7 +42,7 @@ public class Import implements NamedExecutable {
     }
 
     public boolean isDefinedGroup() {
-        return !isDefinedScript();
+        return !isDefinedScript() && !isDefinedFile();
     }
 
     public boolean isDefinedScript() {
@@ -67,8 +65,8 @@ public class Import implements NamedExecutable {
         return as;
     }
 
-    public File getFile() {
-        return new File(declaredImport.substring(1, declaredImport.length() - 1));
+    public String getFile() {
+        return declaredImport.substring(1, declaredImport.length() - 1);
     }
 
     public String getSpecific() {

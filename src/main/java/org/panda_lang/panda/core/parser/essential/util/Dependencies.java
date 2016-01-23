@@ -7,6 +7,7 @@ import org.panda_lang.panda.core.syntax.Group;
 import org.panda_lang.panda.core.syntax.Import;
 import org.panda_lang.panda.core.syntax.Vial;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,11 +15,13 @@ import java.util.Map;
 
 public class Dependencies {
 
+    private final PandaScript pandaScript;
     private final Collection<Group> groups;
     private final Map<String, Import> specificMap;
     private final Map<String, Import> asMap;
 
-    public Dependencies() {
+    public Dependencies(PandaScript pandaScript) {
+        this.pandaScript = pandaScript;
         this.groups = new ArrayList<>();
         this.specificMap = new HashMap<>();
         this.asMap = new HashMap<>();
@@ -39,8 +42,11 @@ public class Dependencies {
             groups.add(importElement.getGroup());
         } else if (importElement.isDefinedFile()) {
             // File
-            PandaScript pandaScript = PandaLoader.loadSimpleScript(importElement.getFile());
-            if (pandaScript != null) {
+            String definedFile = importElement.getFile();
+            File file = new File(pandaScript.getWorkingDirectory() + File.separator + definedFile);
+            Collection<PandaScript> scripts = PandaLoader.loadDirectory(file);
+
+            for (PandaScript pandaScript : scripts) {
                 Collection<Vial> vials = pandaScript.extractVials();
                 for (Vial vial : vials) {
                     Import anImport = new Import(vial.getGroup(), vial);

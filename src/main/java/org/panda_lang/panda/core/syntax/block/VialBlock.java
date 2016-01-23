@@ -25,8 +25,13 @@ public class VialBlock extends Block {
 
     public VialBlock(Group group, List<String> specifiers) {
         this.vial = new Vial(specifiers.get(0));
-        this.vial.group(group);
         this.vial.setVialBlock(this);
+
+        if (group != null) {
+            this.vial.group(group);
+        } else {
+            this.vial.group("default");
+        }
 
         if (specifiers.size() > 2 && specifiers.get(1).equals("extends")) {
             vial.extension(specifiers.get(2));

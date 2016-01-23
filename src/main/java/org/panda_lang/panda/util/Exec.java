@@ -18,7 +18,7 @@ public class Exec {
 
             switch (command) {
                 case "-FILE":
-                    PandaScript fScript = PandaLoader.loadSimpleScript(new File(parts[1]));
+                    PandaScript fScript = PandaLoader.loadSingleScript(new File(parts[1]));
                     if (fScript == null) return;
                     fScript.call(MethodBlock.class, "main");
                     break;

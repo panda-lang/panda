@@ -27,11 +27,6 @@ public class MethodBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        Factor[] vars = particle.getFactors();
-        if (factors != null && (vars == null || vars.length != factors.length)) {
-            System.out.println("[MethodBlock] " + getName() + ": Bad factors!");
-            return null;
-        }
         return super.run(particle);
     }
 

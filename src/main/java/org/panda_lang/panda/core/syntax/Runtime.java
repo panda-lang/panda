@@ -3,8 +3,6 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.memory.Memory;
 
-import java.util.Arrays;
-
 public class Runtime implements NamedExecutable {
 
     private Factor instance;
@@ -13,6 +11,9 @@ public class Runtime implements NamedExecutable {
     private Equality equality;
     private Method method;
     private Math math;
+
+    public Runtime() {
+    }
 
     public Runtime(Equality equality) {
         this.equality = equality;
@@ -45,22 +46,33 @@ public class Runtime implements NamedExecutable {
         return executable.run(particle);
     }
 
-    @Override
-    public String getName() {
-        return "Runtime";
+    public void setInstance(Factor instance) {
+        this.instance = instance;
+    }
+
+    public void setExecutable(Executable executable) {
+        this.executable = executable;
+    }
+
+    public void setFactors(Factor[] factors) {
+        this.factors = factors;
+    }
+
+    public void setEquality(Equality equality) {
+        this.equality = equality;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
+    }
+
+    public void setMath(Math math) {
+        this.math = math;
     }
 
     @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Runtime{");
-        sb.append("instance=").append(instance);
-        sb.append(", executable=").append(executable);
-        sb.append(", factors=").append(Arrays.toString(factors));
-        sb.append(", equality=").append(equality);
-        sb.append(", method=").append(method);
-        sb.append(", math=").append(math);
-        sb.append('}');
-        return sb.toString();
+    public String getName() {
+        return "Runtime";
     }
 
 }
