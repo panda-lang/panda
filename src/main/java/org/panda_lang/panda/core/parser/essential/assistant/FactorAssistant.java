@@ -1,6 +1,9 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
 import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.Pattern;
+import org.panda_lang.panda.core.parser.PatternExtractor;
+import org.panda_lang.panda.core.syntax.Operator;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -8,8 +11,40 @@ import java.util.Stack;
 
 public class FactorAssistant {
 
+    public static boolean isMethod(Atom atom, String parameter) {
+        String pattern = atom.getPatternExtractor().extract(parameter, new char[]{'(', ')'});
+        return pattern.equals("()");
+    }
+
+    public static boolean isMath(String parameter) {
+        boolean string = false;
+        for (char c : parameter.toCharArray()) {
+            if (c == '"') {
+                string = !string;
+                continue;
+            } else if (string) {
+                continue;
+            }
+            if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isEquality(Atom atom, String parameter) {
+        String extract = atom.getPatternExtractor().extract(parameter, PatternExtractor.DEFAULT);
+        for (Operator operator : Operator.getOperators(1)) {
+            Pattern pattern = new Pattern(operator.getOperator());
+            if (pattern.match(extract)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static String[] split(String source) {
-        Collection<String> parametrs = new ArrayList<>();
+        Collection<String> parameters = new ArrayList<>();
         StringBuilder node = new StringBuilder();
         Stack<Character> characters = new Stack<>();
         char[] chars = source.toCharArray();
@@ -35,14 +70,16 @@ public class FactorAssistant {
                     node.append(c);
                     break;
                 case ')':
-                    if (characters.size() != 0) characters.pop();
+                    if (characters.size() != 0) {
+                        characters.pop();
+                    }
                     node.append(c);
                     break;
                 case ',':
                     if (characters.size() == 0) {
-                        String parametr = node.toString();
+                        String parameter = node.toString();
                         node.setLength(0);
-                        parametrs.add(parametr);
+                        parameters.add(parameter);
                         break;
                     }
                 default:
@@ -53,32 +90,10 @@ public class FactorAssistant {
         if (node.length() != 0) {
             String parameter = node.toString();
             node.setLength(0);
-            parametrs.add(parameter);
+            parameters.add(parameter);
         }
 
-        return parametrs.toArray(new String[parametrs.size()]);
+        return parameters.toArray(new String[parameters.size()]);
     }
-
-    public static boolean isMethod(Atom atom, String param) {
-        String pattern = atom.getPatternExtractor().extract(param, new char[]{'(', ')'});
-        return pattern.equals("()");
-    }
-
-    public static boolean isMath(String param) {
-        boolean string = false;
-        for (char c : param.toCharArray()) {
-            if (c == '"') {
-                string = !string;
-                continue;
-            } else if (string) {
-                continue;
-            }
-            if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
-                return true;
-            }
-        }
-        return false;
-    }
-
 
 }

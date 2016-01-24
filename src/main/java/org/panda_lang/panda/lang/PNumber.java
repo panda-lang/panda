@@ -61,6 +61,14 @@ public class PNumber extends Essence {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PNumber) {
+            return number.equals(((PNumber) obj).getNumber());
+        }
+        return number.equals(obj);
+    }
+
+    @Override
     public String toString() {
         return number.toString();
     }
