@@ -8,10 +8,8 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PSystem extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("System");
+        Vial vial = new Vial("System");
         vial.group("panda.lang");
         vial.method(new Method("print", new Executable() {
             @Override

@@ -16,10 +16,8 @@ import java.nio.channels.SocketChannel;
 
 public class PServerSocketChannel extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("ServerSocketChannel");
+        Vial vial = new Vial("ServerSocketChannel");
         vial.group("panda.network");
         vial.constructor(new Executable() {
             @Override

@@ -8,10 +8,8 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PNull extends Essence {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("null");
+        Vial vial = new Vial("null");
         vial.group("panda.lang");
         vial.method(new Method("toString", new Executable() {
             @Override
@@ -22,7 +20,6 @@ public class PNull extends Essence {
     }
 
     public PNull() {
-        super(vial);
     }
 
     @Override

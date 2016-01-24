@@ -7,17 +7,14 @@ import java.net.Socket;
 
 public class PSocket extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Socket");
+        Vial vial = new Vial("Socket");
         vial.group("panda.network");
     }
 
     private final Socket socket;
 
     public PSocket(Socket socket) {
-        super(vial);
         this.socket = socket;
     }
 

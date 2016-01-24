@@ -7,10 +7,8 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PBoolean extends PObject {
 
-    private final static Vial vial;
-
     static {
-        vial = new Vial("Boolean");
+        Vial vial = new Vial("Boolean");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -32,7 +30,6 @@ public class PBoolean extends PObject {
     private final boolean b;
 
     public PBoolean(boolean b) {
-        super(vial);
         this.b = b;
     }
 
