@@ -5,8 +5,8 @@ import java.util.Stack;
 public class PatternExtractor {
 
 
-    public static final char[] DEFAULT = "?/{}()#;:=".toCharArray();
-    public static final char[] FULL = "abcdefghijklmnopqrstuvwxyz?/{}()#;:=".toCharArray();
+    public static final char[] DEFAULT = "!?/{}()<>#;:=".toCharArray();
+    public static final char[] FULL = "abcdefghijklmnopqrstuvwxyz!?/{}()<>#;:=".toCharArray();
 
 
     public String extract(String line, char[] set) {

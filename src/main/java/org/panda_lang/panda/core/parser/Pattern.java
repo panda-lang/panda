@@ -10,6 +10,10 @@ public class Pattern implements Comparable<Pattern> {
     private char[] charset;
     private int id;
 
+    public Pattern(String pattern) {
+        this(pattern, 0, 0);
+    }
+
     public Pattern(Parser parser, String pattern) {
         this(parser, pattern, 0);
     }
@@ -33,6 +37,10 @@ public class Pattern implements Comparable<Pattern> {
     public boolean match(String s) {
         char[] string = s.toCharArray();
         int i = 0;
+
+        if (string.length == 0) {
+            return false;
+        }
 
         CharArrayDistributor distributor = new CharArrayDistributor(getPattern().toCharArray());
         while (distributor.hasNext() && i < string.length) {

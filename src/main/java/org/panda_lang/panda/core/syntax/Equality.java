@@ -16,17 +16,20 @@ public class Equality implements Executable {
     @Override
     public Essence run(Particle particle) {
         Operator operator = equalityBuilder.getOperator();
+        Factor oneFactor = equalityBuilder.getOne();
+        Factor otherFactor = equalityBuilder.getOther();
         boolean flag = false;
 
         if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
-            /* TODO
-            flag = equalityBuilder.getOne().getValue().equals(equalityBuilder.getOther().getValue());
-            */
+            flag = oneFactor.getValue(particle).equals(otherFactor.getValue(particle));
             flag = (operator == Operator.EQUALS_TO) == flag;
 
         } else {
-            int one = PNumber.getNumberValue(equalityBuilder.getOne()).intValue();
-            int other = PNumber.getNumberValue(equalityBuilder.getOther()).intValue();
+            PNumber oneNumber = oneFactor.getValue(particle);
+            PNumber otherNumber = otherFactor.getValue(particle);
+
+            float one = oneNumber.getNumber().floatValue();
+            float other = otherNumber.getNumber().floatValue();
 
             switch (equalityBuilder.getOperator()) {
                 case GREATER_THAN:
@@ -46,8 +49,7 @@ public class Equality implements Executable {
             }
         }
 
-        new PBoolean(flag);
-        return null;
+        return new PBoolean(flag);
     }
 
 }

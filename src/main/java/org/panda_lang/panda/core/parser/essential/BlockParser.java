@@ -20,7 +20,7 @@ public class BlockParser implements Parser {
         SourcesDivider sourcesDivider = atom.getSourcesDivider();
         String vialLine = sourcesDivider.getLine();
         String vialIndication = BlockAssistant.extractIndication(vialLine);
-        BlockInfo blockInfo = BlockAssistant.extractVial(vialLine);
+        BlockInfo blockInfo = BlockAssistant.extractBlock(vialLine);
         Block current = null;
 
         indication:

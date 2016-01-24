@@ -8,7 +8,7 @@ public class MathBuilder {
 
     public enum Type {
         OPERATOR,
-        PARAMETR;
+        PARAMETER;
     }
 
     private Stack<SimpleEntry<Type, Object>> stack;
@@ -25,7 +25,7 @@ public class MathBuilder {
     }
 
     public void append(Factor factor) {
-        this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETR, factor));
+        this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETER, factor));
     }
 
     public void rewrite() {
@@ -41,7 +41,7 @@ public class MathBuilder {
         return (char) values[i].getValue();
     }
 
-    public Factor getParametr() {
+    public Factor getParameter() {
         return (Factor) values[i].getValue();
     }
 

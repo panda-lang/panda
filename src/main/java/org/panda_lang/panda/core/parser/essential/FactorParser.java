@@ -20,8 +20,12 @@ public class FactorParser implements Parser {
     public Factor parse(Atom atom, String parameter) {
         if (FactorAssistant.isMath(parameter)) {
             // Math
-            MathParser parser = new MathParser(parameter);
-            return parser.parse(atom);
+            atom.getSourcesDivider().setLine(parameter);
+            return new MathParser().parse(atom);
+        } else if (FactorAssistant.isEquality(atom, parameter)) {
+            // Equality
+            atom.getSourcesDivider().setLine(parameter);
+            return new EqualityParser().parse(atom);
         } else if (FactorAssistant.isMethod(atom, parameter)) {
             // Constructor
             if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);

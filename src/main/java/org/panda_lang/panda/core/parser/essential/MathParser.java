@@ -12,17 +12,11 @@ import java.util.StringTokenizer;
 
 public class MathParser implements Parser {
 
-    private final String source;
-
-    public MathParser(String source) {
-        this.source = source;
-    }
-
     @Override
     public Factor parse(Atom atom) {
         MathBuilder mathBuilder = new MathBuilder();
         Stack<Character> operators = new Stack<>();
-        StringTokenizer tokenizer = new StringTokenizer(source, "+-*/^()", true);
+        StringTokenizer tokenizer = new StringTokenizer(atom.getSourcesDivider().getLine(), "+-*/^()", true);
 
         while (tokenizer.hasMoreElements()) {
             String token = tokenizer.nextToken();

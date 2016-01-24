@@ -23,7 +23,7 @@ public class BlockAssistant {
         return node.toString();
     }
 
-    public static BlockInfo extractVial(String s) {
+    public static BlockInfo extractBlock(String s) {
         String name = null;
         List<String> specifiers = new ArrayList<>();
         List<String> parameters = new ArrayList<>();
@@ -44,7 +44,7 @@ public class BlockAssistant {
                 case '"':
                     // {string.skip}
                     string = !string;
-                    break;
+                    continue;
                 case '(':
                     // {factors.start}
                     if (!string) {
@@ -54,17 +54,24 @@ public class BlockAssistant {
                         } else if (name == null) {
                             spec = true;
                         }
+                        continue;
                     }
+                    break;
                 case ')':
                 case ',':
                 case '{':
                     if (!string) {
-                        c = ' ';
+                        c = ';';
+                    }
+                    break;
+                case ' ':
+                    if (!string && !param) {
+                        c = ';';
                     }
             }
 
             // {part.end}
-            if (Character.isWhitespace(c)) {
+            if (c == ';') {
 
                 // {empty.continue}
                 if (node.length() == 0) {

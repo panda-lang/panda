@@ -42,7 +42,7 @@ public class Math implements Executable {
                         break;
                 }
             } else {
-                Factor factor = mathBuilder.getParametr();
+                Factor factor = mathBuilder.getParameter();
                 Double value = Double.valueOf(factor.getValue(particle.getMemory()).toString());
                 values.push(value);
             }
