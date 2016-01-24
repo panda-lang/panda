@@ -30,6 +30,10 @@ public class PRunnable extends PObject {
     private RunnableBlock block;
     private Memory memory;
 
+    public PRunnable() {
+        super(vial);
+    }
+
     public Essence run(Particle particle) {
         if (memory != null) {
             Memory threadMemory = new Memory(memory);
@@ -47,8 +51,8 @@ public class PRunnable extends PObject {
     }
 
     @Override
-    public String getType() {
-        return "Runnable";
+    public Object getJavaValue() {
+        return block;
     }
 
 }

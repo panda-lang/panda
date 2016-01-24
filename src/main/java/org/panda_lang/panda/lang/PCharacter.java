@@ -35,6 +35,11 @@ public class PCharacter extends PObject {
     }
 
     @Override
+    public Object getJavaValue() {
+        return c;
+    }
+
+    @Override
     public String toString() {
         return Character.toString(c);
     }

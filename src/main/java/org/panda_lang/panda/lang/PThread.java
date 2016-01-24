@@ -84,15 +84,6 @@ public class PThread extends PObject {
         return name != null ? name : "ThreadBlock";
     }
 
-    public Thread getThread() {
-        return thread;
-    }
-
-    @Override
-    public String getType() {
-        return "Thread";
-    }
-
     @Override
     public Object getJavaValue() {
         return thread;

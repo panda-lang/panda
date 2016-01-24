@@ -46,11 +46,6 @@ public class PList extends PObject {
     }
 
     @Override
-    public String getType() {
-        return "List";
-    }
-
-    @Override
     public String toString() {
         StringBuilder node = new StringBuilder();
         for (Essence o : list) {

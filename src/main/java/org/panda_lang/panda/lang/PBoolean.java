@@ -49,11 +49,6 @@ public class PBoolean extends PObject {
     }
 
     @Override
-    public String getType() {
-        return "Boolean";
-    }
-
-    @Override
     public Object getJavaValue() {
         return b;
     }

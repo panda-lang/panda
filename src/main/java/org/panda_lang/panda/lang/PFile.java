@@ -40,8 +40,8 @@ public class PFile extends PObject {
     }
 
     @Override
-    public String getType() {
-        return "File";
+    public Object getJavaValue() {
+        return file;
     }
 
     @Override
