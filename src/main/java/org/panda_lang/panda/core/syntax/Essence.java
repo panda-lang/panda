@@ -6,10 +6,14 @@ import org.panda_lang.panda.core.syntax.block.VialBlock;
 
 public class Essence {
 
-    private int instanceID;
+    private final int instanceID;
     private Vial vial;
     private VialBlock vialBlock;
     private Memory memory;
+
+    public Essence() {
+        this(0);
+    }
 
     public Essence(Vial vial) {
         this(0);
@@ -46,6 +50,10 @@ public class Essence {
 
     public void initializeParticle(Particle particle) {
         this.memory = new Memory(particle.getMemory());
+    }
+
+    public void setVial(Vial vial) {
+        this.vial = vial;
     }
 
     public Memory getMemory() {

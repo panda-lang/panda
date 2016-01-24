@@ -4,10 +4,9 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PByte extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Byte");
+        Vial vial = new Vial("Byte");
+        vial.group("panda.lang");
     }
 
     private final byte b;

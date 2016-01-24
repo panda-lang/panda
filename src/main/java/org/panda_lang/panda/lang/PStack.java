@@ -7,10 +7,8 @@ import java.util.Stack;
 
 public class PStack extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Stack");
+        Vial vial = new Vial("Stack");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -41,7 +39,6 @@ public class PStack extends PObject {
     private final Stack<Essence> stack;
 
     public PStack() {
-        super(vial);
         this.stack = new Stack<>();
     }
 

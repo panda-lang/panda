@@ -59,7 +59,7 @@ public class PandaCore {
                 "PArray",
                 "PBoolean",
                 "PByte",
-                "PCharacter",
+                "PChar",
                 "PFile",
                 "PList",
                 "PMap",

@@ -13,10 +13,8 @@ import java.io.File;
 
 public class PPanda extends PObject {
 
-    private final static Vial vial;
-
     static {
-        vial = new Vial("Panda");
+        Vial vial = new Vial("Panda");
         vial.group("panda.lang");
         vial.method(new Method("reload", new Executable() {
             @Override

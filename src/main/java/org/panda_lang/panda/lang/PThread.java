@@ -7,10 +7,8 @@ import org.panda_lang.panda.core.syntax.block.ThreadBlock;
 
 public class PThread extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Thread");
+        Vial vial = new Vial("Thread");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -47,7 +45,6 @@ public class PThread extends PObject {
     private Memory memory;
 
     public PThread() {
-        super(vial);
     }
 
     public PThread(String name) {

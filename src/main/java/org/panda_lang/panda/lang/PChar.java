@@ -5,12 +5,10 @@ import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PCharacter extends PObject {
-
-    private static final Vial vial;
+public class PChar extends PObject {
 
     static {
-        vial = new Vial("Character");
+        Vial vial = new Vial("Char");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -18,14 +16,14 @@ public class PCharacter extends PObject {
                 if (particle.hasFactors()) {
                     return particle.getValueOfFactor(0);
                 }
-                return new PCharacter('\u0000');
+                return new PChar('\u0000');
             }
         });
     }
 
     private final char c;
 
-    public PCharacter(char c) {
+    public PChar(char c) {
         this.c = c;
     }
 

@@ -74,6 +74,7 @@ public class Vial {
             Essence instance = constructor.run(particle);
             if (instance != null) {
                 essence = instance;
+                instance.setVial(this);
             }
         }
         return essence;

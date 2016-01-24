@@ -7,10 +7,8 @@ import org.panda_lang.panda.core.syntax.block.RunnableBlock;
 
 public class PRunnable extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Runnable");
+        Vial vial = new Vial("Runnable");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -31,7 +29,6 @@ public class PRunnable extends PObject {
     private Memory memory;
 
     public PRunnable() {
-        super(vial);
     }
 
     public Essence run(Particle particle) {

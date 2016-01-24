@@ -7,10 +7,8 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PString extends PObject {
 
-    private final static Vial vial;
-
     static {
-        vial = new Vial("String");
+        Vial vial = new Vial("String");
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
@@ -23,7 +21,6 @@ public class PString extends PObject {
     private final String string;
 
     public PString(String string) {
-        super(vial);
         this.string = string;
     }
 

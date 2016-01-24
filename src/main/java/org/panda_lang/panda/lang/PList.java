@@ -8,10 +8,8 @@ import java.util.List;
 
 public class PList extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("List");
+        Vial vial = new Vial("List");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -32,7 +30,6 @@ public class PList extends PObject {
     private final List<Essence> list;
 
     public PList() {
-        super(vial);
         this.list = new ArrayList<>();
     }
 

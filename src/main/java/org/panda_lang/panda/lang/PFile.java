@@ -10,10 +10,8 @@ import java.io.File;
 
 public class PFile extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("File");
+        Vial vial = new Vial("File");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -27,7 +25,6 @@ public class PFile extends PObject {
     private final File file;
 
     public PFile(String file) {
-        super(vial);
         this.file = new File(file);
     }
 

@@ -11,10 +11,8 @@ import java.net.ServerSocket;
 
 public class PServerSocket extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("ServerSocket");
+        Vial vial = new Vial("ServerSocket");
         vial.group("panda.network");
         vial.constructor(new Constructor() {
             @Override
@@ -45,7 +43,6 @@ public class PServerSocket extends PObject {
     private final ServerSocket serverSocket;
 
     public PServerSocket(int port) throws IOException {
-        super(vial);
         this.serverSocket = new ServerSocket(port);
 
     }

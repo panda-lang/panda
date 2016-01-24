@@ -8,10 +8,8 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PObject extends Essence {
 
-    private final static Vial vial;
-
     static {
-        vial = new Vial("Object");
+        Vial vial = new Vial("Object");
         vial.group("panda.lang");
         vial.extension(null);
         vial.constructor(new Executable() {
@@ -30,13 +28,11 @@ public class PObject extends Essence {
 
     private Object object;
 
-    public PObject(Object object) {
-        this();
-        this.object = object;
+    public PObject() {
     }
 
-    public PObject() {
-        super(vial);
+    public PObject(Object object) {
+        this.object = object;
     }
 
     public PObject(Vial vial) {

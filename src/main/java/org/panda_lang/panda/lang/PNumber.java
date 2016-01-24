@@ -8,10 +8,8 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 public class PNumber extends Essence {
 
-    private final static Vial vial;
-
     static {
-        vial = new Vial("Number");
+        Vial vial = new Vial("Number");
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
@@ -37,7 +35,6 @@ public class PNumber extends Essence {
     private final Number number;
 
     public PNumber(Number number) {
-        super(vial);
         this.number = number;
     }
 

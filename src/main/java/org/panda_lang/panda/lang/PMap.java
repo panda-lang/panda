@@ -8,10 +8,8 @@ import java.util.Map;
 
 public class PMap extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Map");
+        Vial vial = new Vial("Map");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -38,7 +36,6 @@ public class PMap extends PObject {
     private final Map<Essence, Essence> map;
 
     public PMap() {
-        super(vial);
         this.map = new HashMap<>();
     }
 

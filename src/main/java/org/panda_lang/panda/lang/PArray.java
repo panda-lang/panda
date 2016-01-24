@@ -5,10 +5,8 @@ import org.panda_lang.panda.core.syntax.*;
 
 public class PArray extends Essence {
 
-    private final static Vial vial;
-
     static {
-        vial = new Vial("Array");
+        Vial vial = new Vial("Array");
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
@@ -36,7 +34,6 @@ public class PArray extends Essence {
     private final Factor[] array;
 
     public PArray(Factor... values) {
-        super(vial);
         this.array = values;
     }
 

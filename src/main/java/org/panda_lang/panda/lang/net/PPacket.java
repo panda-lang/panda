@@ -8,21 +8,18 @@ import org.panda_lang.panda.lang.PObject;
 
 public class PPacket extends PObject {
 
-    private static final Vial vial;
-
     static {
-        vial = new Vial("Packet");
+        Vial vial = new Vial("Packet");
         vial.group("panda.network");
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return null;
+                return new PPacket();
             }
         });
     }
 
     public PPacket() {
-        super(vial);
     }
 
     @Override
