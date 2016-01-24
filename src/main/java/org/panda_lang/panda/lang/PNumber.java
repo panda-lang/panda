@@ -1,7 +1,10 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.syntax.*;
+import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.syntax.Executable;
+import org.panda_lang.panda.core.syntax.Method;
+import org.panda_lang.panda.core.syntax.Vial;
 
 public class PNumber extends Essence {
 
@@ -51,34 +54,13 @@ public class PNumber extends Essence {
     }
 
     @Override
-    public String getType() {
-        return "Number";
-    }
-
-    @Override
     public Object getJavaValue() {
         return number;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof PNumber) {
-            return number.equals(((PNumber) obj).getNumber());
-        }
-        return number.equals(obj);
-    }
-
-    @Override
     public String toString() {
         return number.toString();
-    }
-
-    public static Number getNumberValue(Factor factor) {
-        Essence value = factor.getValue();
-        if (value instanceof PNumber) {
-            return ((PNumber) value).getNumber();
-        }
-        return 0;
     }
 
 }

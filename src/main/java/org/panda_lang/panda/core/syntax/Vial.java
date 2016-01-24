@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Vial {
 
-    private final String vialName;
+    private final String name;
     private final Map<String, Method> methods;
     private final Map<String, Field> fields;
     private Executable constructor;
@@ -18,7 +18,7 @@ public class Vial {
     private Group group;
 
     public Vial(String vialName) {
-        this.vialName = vialName;
+        this.name = vialName;
         this.methods = new HashMap<>();
         this.fields = new HashMap<>();
         this.extension = "Object";
@@ -40,7 +40,7 @@ public class Vial {
     }
 
     public Vial method(final Method method) {
-        if (constructor == null && method.getName().equals(vialName)) {
+        if (constructor == null && method.getName().equals(name)) {
             this.constructor(new Constructor() {
                 @Override
                 public Essence run(Particle particle) {
@@ -61,7 +61,7 @@ public class Vial {
     public Essence call(String name, Particle particle) {
         Method method = getMethod(name);
         if (method == null) {
-            System.out.println("Method '" + name + "' not found in instance of " + vialName);
+            System.out.println("Method '" + name + "' not found in instance of " + name);
             return null;
         }
         return method.run(particle);
@@ -83,18 +83,14 @@ public class Vial {
         this.vialBlock = vialBlock;
     }
 
+    public boolean isVeritableVial() {
+        return vialBlock != null;
+    }
+
     public Method getMethod(String name) {
         Method method = methods.get(name);
         if (method == null && extension != null) {
-            /* TODO: extension
-            Vial vial = VialCenter.getVial(extension);
-            if (vial != null) {
-                method = vial.getMethod(name);
-                if (method == null) {
-                    extension = null;
-                }
-            }
-            */
+            //TODO: extension
         }
         return method;
     }
@@ -116,7 +112,7 @@ public class Vial {
     }
 
     public String getName() {
-        return vialName;
+        return name;
     }
 
 }

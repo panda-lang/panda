@@ -58,6 +58,7 @@ public class PandaCore {
         ClassCaller.loadClasses("org.panda_lang.panda.lang",
                 "PArray",
                 "PBoolean",
+                "PByte",
                 "PCharacter",
                 "PFile",
                 "PList",
@@ -75,7 +76,8 @@ public class PandaCore {
                 "PPacket",
                 "PServerSocket",
                 "PServerSocketChannel",
-                "PSocket");
+                "PSocket",
+                "PSocketChannel");
     }
 
 }

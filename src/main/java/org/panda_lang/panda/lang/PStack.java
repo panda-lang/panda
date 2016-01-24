@@ -1,70 +1,67 @@
 package org.panda_lang.panda.lang;
 
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.syntax.*;
+
 import java.util.Stack;
 
 public class PStack extends PObject {
 
-    /*
+    private static final Vial vial;
+
     static {
-        // Register object
-        ObjectScheme os = new ObjectScheme(PStack.class, "Stack");
-        // Constructor
-        os.registerConstructor(new ConstructorScheme(new Constructor<PStack>() {
+        vial = new Vial("Stack");
+        vial.group("panda.lang");
+        vial.constructor(new Constructor() {
             @Override
-            public PStack run(Factor... factors) {
+            public Essence run(Particle particle) {
                 return new PStack();
             }
-        }));
-        // Method: push
-        os.registerMethod(new MethodScheme("push", new Executable() {
+        });
+        vial.method(new Method("push", new Executable() {
             @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PStack s = instance.getValue(PStack.class);
-                return s.getStack().push(factors[0].getValue());
+            public Essence run(Particle particle) {
+                return particle.<PStack>getValueOfInstance().getStack().push(particle.getValueOfFactor(0));
             }
         }));
-        // Method: peek
-        os.registerMethod(new MethodScheme("peek", new Executable() {
+        vial.method(new Method("peek", new Executable() {
             @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PStack s = instance.getValue(PStack.class);
-                return s.getStack().peek();
+            public Essence run(Particle particle) {
+                return particle.<PStack>getValueOfInstance().getStack().peek();
             }
         }));
-        // Method: pop
-        os.registerMethod(new MethodScheme("pop", new Executable() {
+        vial.method(new Method("pop", new Executable() {
             @Override
-            public PObject run(Factor instance, Factor... factors) {
-                PStack s = instance.getValue(PStack.class);
-                return s.getStack().pop();
+            public Essence run(Particle particle) {
+                return particle.<PStack>getValueOfInstance().getStack().pop();
             }
         }));
     }
-    */
 
-    private final Stack<PObject> stack;
+    private final Stack<Essence> stack;
 
     public PStack() {
+        super(vial);
         this.stack = new Stack<>();
     }
 
-    public Stack<PObject> getStack() {
+    public Stack<Essence> getStack() {
         return stack;
     }
 
     @Override
-    public String getType() {
-        return "Stack";
+    public Object getJavaValue() {
+        return stack;
     }
 
     @Override
     public String toString() {
         StringBuilder node = new StringBuilder();
-        for (PObject o : stack) {
+        for (Essence essence : stack) {
             if (node.length() != 0) {
                 node.append(", ");
             }
-            node.append(o);
+            node.append(essence);
         }
         return node.toString();
     }

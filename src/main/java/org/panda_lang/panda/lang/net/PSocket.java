@@ -26,6 +26,11 @@ public class PSocket extends PObject {
     }
 
     @Override
+    public Object getJavaValue() {
+        return getSocket();
+    }
+
+    @Override
     public String toString() {
         return socket.toString();
     }

@@ -68,4 +68,27 @@ public class Essence {
         return vial;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Essence) {
+            Essence compared = (Essence) obj;
+
+            Vial currentVial = getVial();
+            Vial comparedVial = compared.getVial();
+
+            if (currentVial.isVeritableVial() || comparedVial.isVeritableVial()) {
+
+            }
+
+            Object currentJavaValue = getJavaValue();
+            Object comparedJavaValue = compared.getJavaValue();
+
+            if (currentJavaValue != null || comparedJavaValue != null) {
+                return currentJavaValue != null ? currentJavaValue.equals(comparedJavaValue) : comparedJavaValue.equals(currentJavaValue);
+            }
+
+        }
+        return false;
+    }
+
 }

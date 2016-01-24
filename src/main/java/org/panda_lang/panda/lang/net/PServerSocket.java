@@ -55,6 +55,11 @@ public class PServerSocket extends PObject {
     }
 
     @Override
+    public Object getJavaValue() {
+        return getServerSocket();
+    }
+
+    @Override
     public String toString() {
         return serverSocket.toString();
     }

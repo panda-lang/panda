@@ -17,7 +17,7 @@ public class PObject extends Essence {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PObject();
+                return particle.hasFactors() ? new PObject(particle.getFactor(0)) : new PObject();
             }
         });
         vial.method(new Method("toString", new Executable() {
@@ -26,6 +26,13 @@ public class PObject extends Essence {
                 return new PString(particle.getInstance().getValue().toString());
             }
         }));
+    }
+
+    private Object object;
+
+    public PObject(Object object) {
+        this();
+        this.object = object;
     }
 
     public PObject() {
@@ -41,8 +48,9 @@ public class PObject extends Essence {
         return (T) this;
     }
 
-    public String getType() {
-        return "Object";
+    @Override
+    public Object getJavaValue() {
+        return object;
     }
 
     @Override

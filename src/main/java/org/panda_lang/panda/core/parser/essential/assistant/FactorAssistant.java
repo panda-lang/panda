@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
 import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.Pattern;
 import org.panda_lang.panda.core.parser.PatternExtractor;
 import org.panda_lang.panda.core.syntax.Operator;
 
@@ -12,8 +11,18 @@ import java.util.Stack;
 public class FactorAssistant {
 
     public static boolean isMethod(Atom atom, String parameter) {
-        String pattern = atom.getPatternExtractor().extract(parameter, new char[]{'(', ')'});
+        String pattern = atom.getPatternExtractor().extract(parameter, PatternExtractor.METHOD);
         return pattern.equals("()");
+    }
+
+    public static boolean isEquality(Atom atom, String parameter) {
+        String extract = atom.getPatternExtractor().extract(parameter, PatternExtractor.EQUALITY);
+        for (Operator operator : Operator.getOperators(1)) {
+            if (extract.equals(operator.getOperator())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean isMath(String parameter) {
@@ -25,18 +34,7 @@ public class FactorAssistant {
             } else if (string) {
                 continue;
             }
-            if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^') {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static boolean isEquality(Atom atom, String parameter) {
-        String extract = atom.getPatternExtractor().extract(parameter, PatternExtractor.DEFAULT);
-        for (Operator operator : Operator.getOperators(1)) {
-            Pattern pattern = new Pattern(operator.getOperator());
-            if (pattern.match(extract)) {
+            if (c == '+' || c == '-' || c == '*' || c == '/' || c == '^' || c == '%') {
                 return true;
             }
         }

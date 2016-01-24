@@ -47,8 +47,8 @@ public class PMap extends PObject {
     }
 
     @Override
-    public String getType() {
-        return "Map";
+    public Object getJavaValue() {
+        return map;
     }
 
     @Override
