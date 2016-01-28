@@ -23,5 +23,5 @@ public class PInteger extends PObject {
     public Object getJavaValue() {
         return getInteger();
     }
-    
+
 }

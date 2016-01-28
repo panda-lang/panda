@@ -7,22 +7,26 @@ import java.util.Map;
 
 public class Memory {
 
+    private final Cache cache;
     private final Memory parent;
     private final Map<String, Essence> local;
 
-    public Memory() {
-        this.local = new HashMap<>();
-        this.parent = null;
+    private Memory(Memory parent, Map<String, Essence> local) {
+        this.parent = parent;
+        this.local = local;
+        this.cache = new Cache();
     }
 
     public Memory(Memory parent) {
-        this.local = new HashMap<>();
         this.parent = parent;
+        this.local = new HashMap<>();
+        this.cache = new Cache();
     }
 
-    private Memory(Memory parent, Map<String, Essence> local) {
-        this.local = local;
-        this.parent = parent;
+    public Memory() {
+        this.parent = null;
+        this.local = new HashMap<>();
+        this.cache = new Cache();
     }
 
     public void put(String key, Essence o) {
@@ -55,10 +59,7 @@ public class Memory {
     }
 
     public boolean parentContainsKey(String name) {
-        if (parent != null && parent.containsKey(name)) {
-            return true;
-        }
-        return false;
+        return parent != null && parent.containsKey(name);
     }
 
     public Memory getParent() {
@@ -67,6 +68,10 @@ public class Memory {
 
     public Map<String, Essence> getLocal() {
         return this.local;
+    }
+
+    public Cache getCache() {
+        return cache;
     }
 
 }
