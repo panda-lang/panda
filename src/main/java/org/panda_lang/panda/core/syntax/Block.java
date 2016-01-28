@@ -30,19 +30,33 @@ public class Block implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
+        Memory memory = particle.getMemory();
+
         if (particle.getFactors() != null) {
             for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
-                particle.getMemory().put(factors[i].getVariable(), particle.getFactors()[i].getValue(particle));
+                memory.put(factors[i].getVariable(), particle.getFactors()[i].getValue(particle));
             }
         }
-        for (NamedExecutable e : executables) {
-            if (e instanceof Block) {
-                Memory memory = new Memory(particle.getMemory());
-                e.run(new Particle(particle, memory));
+
+        for (NamedExecutable executable : executables) {
+            Essence result;
+
+            if (executable instanceof Block) {
+                Memory blockMemory = new Memory(memory);
+                Particle blockParticle = new Particle(particle, blockMemory);
+                blockMemory.getCache().proceed(true);
+                result = executable.run(blockParticle);
+            } else if (executable instanceof Return) {
+                return executable.run(particle);
             } else {
-                e.run(particle);
+                result = executable.run(particle);
+            }
+
+            if (result != null && !memory.getCache().isProceed()) {
+                return result;
             }
         }
+
         return null;
     }
 
