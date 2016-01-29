@@ -25,7 +25,7 @@ public class WhileBlock extends Block {
     }
 
     public WhileBlock() {
-        super.setName("while::" + System.nanoTime());
+        super.setName("while::" + atomicInteger.incrementAndGet());
     }
 
     @Override

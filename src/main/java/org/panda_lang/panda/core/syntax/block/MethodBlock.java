@@ -33,6 +33,11 @@ public class MethodBlock extends Block {
         return super.run(particle);
     }
 
+    @Override
+    public boolean isReturned() {
+        return true;
+    }
+
     public Method toMethod() {
         final MethodBlock methodBlock = this;
         return new Method(new NamedExecutable() {

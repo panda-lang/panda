@@ -24,7 +24,7 @@ public class ForBlock extends Block {
     }
 
     public ForBlock() {
-        super.setName("for::" + System.nanoTime());
+        super.setName("for::" + atomicInteger.incrementAndGet());
     }
 
     @Override

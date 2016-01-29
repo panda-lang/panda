@@ -29,7 +29,7 @@ public class ThreadBlock extends Block {
     private PThread pThread;
 
     public ThreadBlock() {
-        super.setName("thread::" + atomicInteger.intValue());
+        super.setName("thread::" + atomicInteger.incrementAndGet());
     }
 
     public Essence start(final Particle particle) {

@@ -23,7 +23,7 @@ public class RunnableBlock extends Block {
     }
 
     public RunnableBlock() {
-        super.setName("runnable::" + System.nanoTime());
+        super.setName("runnable::" + atomicInteger.incrementAndGet());
     }
 
     @Override
