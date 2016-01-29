@@ -51,6 +51,11 @@ public class PandaBlock extends Block {
         return vials;
     }
 
+    @Override
+    public boolean isReturned() {
+        return true;
+    }
+
     public void setGroup(Group group) {
         this.group = group;
     }

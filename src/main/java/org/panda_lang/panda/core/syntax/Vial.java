@@ -39,6 +39,11 @@ public class Vial {
         return this;
     }
 
+    public Vial field(Field field) {
+        this.fields.put(field.getName(), field);
+        return this;
+    }
+
     public Vial method(final Method method) {
         if (constructor == null && method.getName().equals(name)) {
             this.constructor(new Constructor() {
@@ -114,6 +119,11 @@ public class Vial {
 
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 
 }

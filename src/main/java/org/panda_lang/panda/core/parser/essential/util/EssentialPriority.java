@@ -6,7 +6,9 @@ public enum EssentialPriority {
     VARIABLE(2),
     METHOD(3),
     GROUP(4),
-    IMPORT(5);
+    IMPORT(5),
+    RETURN(6),
+    CONTINUE(7);
 
     private final int priority;
 

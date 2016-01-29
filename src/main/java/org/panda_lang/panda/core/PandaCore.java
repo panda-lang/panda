@@ -32,13 +32,15 @@ public class PandaCore {
         ClassCaller.loadClasses("org.panda_lang.panda.core.parser.essential",
                 "BlockParser",
                 "ConstructorParser",
+                "ContinueParser",
                 "EqualityParser",
+                "FactorParser",
+                "FieldParser",
+                "GroupParser",
                 "ImportParser",
                 "MathParser",
                 "MethodParser",
-                "GroupParser",
-                "FactorParser",
-                "FieldParser");
+                "ReturnParser");
     }
 
     protected void blocks() {
@@ -78,6 +80,9 @@ public class PandaCore {
                 "PServerSocketChannel",
                 "PSocket",
                 "PSocketChannel");
+        // UI
+        ClassCaller.loadClasses("org.panda_lang.panda.lang.ui",
+                "PInterface");
     }
 
 }

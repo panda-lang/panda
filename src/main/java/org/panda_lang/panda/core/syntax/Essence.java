@@ -2,31 +2,25 @@ package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.memory.Memory;
-import org.panda_lang.panda.core.syntax.block.VialBlock;
+
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Essence {
 
+    protected static final AtomicInteger instanceIDAssigner = new AtomicInteger();
+
     private final int instanceID;
     private Vial vial;
-    private VialBlock vialBlock;
     private Memory memory;
 
-    public Essence() {
-        this(0);
-    }
-
     public Essence(Vial vial) {
-        this(0);
+        this();
         this.vial = vial;
     }
 
-    public Essence(Vial vial, int instanceID) {
-        this(instanceID);
-        this.vial = vial;
-    }
-
-    public Essence(int instanceID) {
-        this.instanceID = instanceID;
+    public Essence() {
+        this.instanceID = instanceIDAssigner.incrementAndGet();
         this.memory = new Memory();
     }
 
@@ -39,6 +33,7 @@ public class Essence {
         return vial.call(methodName, new Particle(memory, this, new Factor(this), factors));
     }
 
+    @SuppressWarnings("unchecked")
     public <T> T cast(Class<T> clazz) {
         try {
             return (T) this;
@@ -76,27 +71,54 @@ public class Essence {
         return vial;
     }
 
+    public String getName() {
+        return vial.getName();
+    }
+
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Essence) {
+        if (obj != null && obj instanceof Essence) {
             Essence compared = (Essence) obj;
 
             Vial currentVial = getVial();
             Vial comparedVial = compared.getVial();
 
             if (currentVial.isVeritableVial() || comparedVial.isVeritableVial()) {
+                if (!currentVial.equals(comparedVial)) {
+                    return false;
+                }
 
+                for (Map.Entry<String, Field> entry : currentVial.getFields().entrySet()) {
+                    Essence currentEssence = memory.get(entry.getKey());
+                    Essence comparedEssence = compared.getMemory().get(entry.getKey());
+
+                    if (currentEssence != null || comparedEssence != null) {
+                        if (currentEssence != null && currentEssence.equals(comparedEssence)) {
+                            continue;
+                        }
+                    }
+
+                    break;
+                }
+
+                return false;
             }
 
             Object currentJavaValue = getJavaValue();
             Object comparedJavaValue = compared.getJavaValue();
 
             if (currentJavaValue != null || comparedJavaValue != null) {
-                return currentJavaValue != null ? currentJavaValue.equals(comparedJavaValue) : comparedJavaValue.equals(currentJavaValue);
+                return currentJavaValue != null && currentJavaValue.equals(comparedJavaValue);
             }
 
         }
+
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "{" + getName() + "@" + getInstanceID() + "}";
     }
 
 }

@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.memory.Cache;
 import org.panda_lang.panda.core.memory.Memory;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class Block implements NamedExecutable {
     @Override
     public Essence run(Particle particle) {
         Memory memory = particle.getMemory();
+        Cache cache = memory.getCache();
 
         if (particle.getFactors() != null) {
             for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
@@ -44,15 +46,19 @@ public class Block implements NamedExecutable {
             if (executable instanceof Block) {
                 Memory blockMemory = new Memory(memory);
                 Particle blockParticle = new Particle(particle, blockMemory);
-                blockMemory.getCache().proceed(true);
+                blockMemory.setBlock((Block) executable);
                 result = executable.run(blockParticle);
             } else if (executable instanceof Return) {
-                return executable.run(particle);
+                result = executable.run(particle);
+                cache.proceed(false);
             } else {
                 result = executable.run(particle);
             }
 
-            if (result != null && !memory.getCache().isProceed()) {
+            if (!cache.isProceed()) {
+                if (!isReturned() && hasParent()) {
+                    memory.getParent().getCache().proceed(false);
+                }
                 return result;
             }
         }
@@ -65,6 +71,10 @@ public class Block implements NamedExecutable {
         if (e instanceof Field) {
             fields.add((Field) e);
         }
+    }
+
+    public boolean isReturned() {
+        return false;
     }
 
     public void setName(String name) {

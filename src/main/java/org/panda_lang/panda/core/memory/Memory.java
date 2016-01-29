@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.memory;
 
+import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 
 import java.util.HashMap;
@@ -10,6 +11,7 @@ public class Memory {
     private final Cache cache;
     private final Memory parent;
     private final Map<String, Essence> local;
+    private Block block;
 
     private Memory(Memory parent, Map<String, Essence> local) {
         this.parent = parent;
@@ -60,6 +62,14 @@ public class Memory {
 
     public boolean parentContainsKey(String name) {
         return parent != null && parent.containsKey(name);
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
+    }
+
+    public Block getBlock() {
+        return block;
     }
 
     public Memory getParent() {
