@@ -1,6 +1,4 @@
-package org.panda_lang.panda.core;
-
-import org.panda_lang.panda.core.memory.Memory;
+package org.panda_lang.panda.core.memory;
 
 public class Global {
 

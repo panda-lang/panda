@@ -2,10 +2,10 @@ package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Math;
 import org.panda_lang.panda.core.syntax.Runtime;
-import org.panda_lang.panda.util.MathBuilder;
 
 import java.util.Stack;
 import java.util.StringTokenizer;

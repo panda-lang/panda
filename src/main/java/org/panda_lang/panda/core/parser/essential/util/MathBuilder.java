@@ -1,6 +1,7 @@
-package org.panda_lang.panda.util;
+package org.panda_lang.panda.core.parser.essential.util;
 
 import org.panda_lang.panda.core.syntax.Factor;
+import org.panda_lang.panda.util.SimpleEntry;
 
 import java.util.Stack;
 
@@ -8,7 +9,7 @@ public class MathBuilder {
 
     public enum Type {
         OPERATOR,
-        PARAMETER;
+        PARAMETER
     }
 
     private Stack<SimpleEntry<Type, Object>> stack;
