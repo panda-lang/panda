@@ -3,11 +3,11 @@ package org.panda_lang.panda.core.parser.essential;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FieldAssistant;
+import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
 import org.panda_lang.panda.core.syntax.Equality;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Operator;
 import org.panda_lang.panda.core.syntax.Runtime;
-import org.panda_lang.panda.util.EqualityBuilder;
 
 import java.util.Collection;
 

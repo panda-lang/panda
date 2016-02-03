@@ -43,7 +43,8 @@ public class Runtime implements NamedExecutable {
         if (method != null) return method.run(particle);
         else if (math != null) return math.run(particle);
         else if (equality != null) return equality.run(particle);
-        return executable.run(particle);
+        else if (executable != null) return executable.run(particle);
+        return null;
     }
 
     public void setInstance(Factor instance) {

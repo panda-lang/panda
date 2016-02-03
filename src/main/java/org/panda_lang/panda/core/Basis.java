@@ -1,34 +1,17 @@
 package org.panda_lang.panda.core;
 
-import org.panda_lang.panda.core.parser.ParserCenter;
-import org.panda_lang.panda.core.parser.ParserLayout;
-import org.panda_lang.panda.core.parser.analyzer.Analyzer;
-import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
-import org.panda_lang.panda.core.parser.essential.BlockCenter;
-import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
+import org.panda_lang.panda.PandaCore;
 import org.panda_lang.panda.util.ClassCaller;
 
-public class PandaCore {
+public class Basis {
 
-    public PandaCore() {
-        parsers();
-        blocks();
-        objects();
+    private final PandaCore pandaCore;
+
+    public Basis(PandaCore pandaCore) {
+        this.pandaCore = pandaCore;
     }
 
-    public void registerParser(ParserLayout parser) {
-        ParserCenter.registerPatterns(parser.getPatterns());
-    }
-
-    public void registerAnalyzer(Analyzer analyzer) {
-        AnalyzerCenter.registerAnalyzer(analyzer);
-    }
-
-    public void registerBlock(BlockLayout blockLayout) {
-        BlockCenter.registerBlock(blockLayout);
-    }
-
-    protected void parsers() {
+    public void loadParsers() {
         ClassCaller.loadClasses("org.panda_lang.panda.core.parser.essential",
                 "BlockParser",
                 "ConstructorParser",
@@ -43,7 +26,7 @@ public class PandaCore {
                 "ReturnParser");
     }
 
-    protected void blocks() {
+    public void loadBlocks() {
         ClassCaller.loadClasses("org.panda_lang.panda.core.syntax.block",
                 "ElseThenBlock",
                 "ForBlock",
@@ -55,7 +38,7 @@ public class PandaCore {
                 "WhileBlock");
     }
 
-    protected void objects() {
+    public void loadObjects() {
         // Default
         ClassCaller.loadClasses("org.panda_lang.panda.lang",
                 "PArray",
@@ -83,6 +66,10 @@ public class PandaCore {
         // UI
         ClassCaller.loadClasses("org.panda_lang.panda.lang.ui",
                 "PInterface");
+    }
+
+    public PandaCore getPandaCore() {
+        return pandaCore;
     }
 
 }

@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
 import org.panda_lang.panda.lang.PNumber;
-import org.panda_lang.panda.util.MathBuilder;
 
 import java.util.Stack;
 

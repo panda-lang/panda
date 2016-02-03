@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
-import org.panda_lang.panda.core.Global;
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.memory.Global;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 

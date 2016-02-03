@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser;
 
-import org.panda_lang.panda.util.CharArrayDistributor;
+import org.panda_lang.panda.core.parser.essential.util.CharArrayDistributor;
 
 public class Pattern implements Comparable<Pattern> {
 

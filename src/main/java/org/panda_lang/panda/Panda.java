@@ -1,6 +1,5 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.PandaCore;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.analyzer.Analyzer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -17,6 +16,7 @@ public class Panda {
     private static Panda panda;
 
     private final PandaCore pandaCore;
+    private final PandaLoader pandaLoader;
     private final Collection<PandaExtension> extensions;
     private final Collection<PandaScript> scripts;
     private Runnable reload;
@@ -24,6 +24,7 @@ public class Panda {
     public Panda() {
         panda = this;
         pandaCore = new PandaCore();
+        pandaLoader = new PandaLoader();
         extensions = new ArrayList<>();
         scripts = new ArrayList<>();
     }
@@ -81,6 +82,10 @@ public class Panda {
         return extensions;
     }
 
+    public PandaLoader getPandaLoader() {
+        return pandaLoader;
+    }
+
     public PandaCore getPandaCore() {
         return pandaCore;
     }
@@ -96,7 +101,7 @@ public class Panda {
     }
 
     public static Panda getInstance() {
-        return panda;
+        return panda != null ? panda : new Panda();
     }
 
 }
