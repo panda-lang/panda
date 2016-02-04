@@ -4,32 +4,32 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PFloat extends Numeric {
+public class PInt extends Numeric {
 
     static {
-        Vial vial = new Vial("Float");
+        Vial vial = new Vial("Int");
         vial.group("panda.lang");
     }
 
-    private final float f;
+    private final int i;
 
-    public PFloat(float f) {
-        this.f = f;
+    public PInt(int i) {
+        this.i = i;
     }
 
     @Override
     public NumberType getNumberType() {
-        return NumberType.FLOAT;
+        return NumberType.INT;
     }
 
     @Override
-    public float getFloat() {
-        return f;
+    public int getInt() {
+        return i;
     }
 
     @Override
     public Object getJavaValue() {
-        return getFloat();
+        return getInt();
     }
 
 }
