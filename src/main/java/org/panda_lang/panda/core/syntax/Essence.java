@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.memory.Memory;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Essence {
+public class Essence implements NamedExecutable {
 
     protected static final AtomicInteger instanceIDAssigner = new AtomicInteger();
 
@@ -31,6 +31,11 @@ public class Essence {
 
     public Essence call(String methodName, Factor... factors) {
         return vial.call(methodName, new Particle(memory, this, new Factor(this), factors));
+    }
+
+    @Override
+    public Essence run(Particle particle) {
+        return this;
     }
 
     @SuppressWarnings("unchecked")
@@ -71,6 +76,7 @@ public class Essence {
         return vial;
     }
 
+    @Override
     public String getName() {
         return vial.getName();
     }

@@ -2,6 +2,7 @@ package org.panda_lang.panda.core.parser.essential.assistant;
 
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PatternExtractor;
+import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.syntax.Operator;
 
 import java.util.ArrayList;
@@ -39,6 +40,18 @@ public class FactorAssistant {
             }
         }
         return false;
+    }
+
+    public static boolean isNumber(String s) {
+        for (char c : s.toUpperCase().toCharArray()) {
+            if (!Character.isDigit(c)) {
+                if (NumberType.isUnit(c)) {
+                    continue;
+                }
+                return false;
+            }
+        }
+        return true;
     }
 
     public static String[] split(String source) {

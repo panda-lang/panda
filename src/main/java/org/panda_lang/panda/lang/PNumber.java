@@ -1,6 +1,8 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.util.NumberType;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
@@ -14,7 +16,7 @@ public class PNumber extends Essence {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PNumber((PNumber) particle.getValueOfFactor(0));
+                return null;
             }
         });
         vial.method(new Method("valueOf", new Executable() {
@@ -32,22 +34,14 @@ public class PNumber extends Essence {
         }));
     }
 
-    private final Number number;
+    private Numeric number;
 
-    public PNumber(Number number) {
+    protected PNumber(Numeric number) {
         this.number = number;
     }
 
-    public PNumber(PNumber number) {
-        this(number.getNumber());
-    }
-
-    public int intValue() {
-        return number.intValue();
-    }
-
-    public Number getNumber() {
-        return number;
+    public NumberType getNumberType() {
+        return number.getNumberType();
     }
 
     @Override
