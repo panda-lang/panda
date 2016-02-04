@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PByte extends PObject implements Numeric {
+public class PByte extends Numeric {
 
     static {
         Vial vial = new Vial("Byte");
@@ -18,25 +18,6 @@ public class PByte extends PObject implements Numeric {
     }
 
     @Override
-    public Numeric add(Numeric numeric) {
-        return new PByte((byte) (b + (byte) numeric.getNumber()));
-    }
-
-    @Override
-    public Numeric subtract(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric multiply(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric divide(Numeric numeric) {
-        return null;
-    }
-
     public byte getByte() {
         return b;
     }
@@ -44,11 +25,6 @@ public class PByte extends PObject implements Numeric {
     @Override
     public NumberType getNumberType() {
         return NumberType.BYTE;
-    }
-
-    @Override
-    public Object getNumber() {
-        return getByte();
     }
 
     @Override

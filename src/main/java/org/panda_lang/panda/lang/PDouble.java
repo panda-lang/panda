@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PDouble extends PObject implements Numeric {
+public class PDouble extends Numeric {
 
     static {
         Vial vial = new Vial("Double");
@@ -18,35 +18,11 @@ public class PDouble extends PObject implements Numeric {
     }
 
     @Override
-    public Numeric add(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric subtract(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric multiply(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric divide(Numeric numeric) {
-        return null;
-    }
-
-    @Override
     public NumberType getNumberType() {
-        return null;
+        return NumberType.DOUBLE;
     }
 
     @Override
-    public Object getNumber() {
-        return null;
-    }
-
     public double getDouble() {
         return d;
     }

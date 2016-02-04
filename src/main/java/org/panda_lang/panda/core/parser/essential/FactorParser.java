@@ -109,7 +109,7 @@ public class FactorParser implements Parser {
     public Factor parseNumber(String s) {
         char unit = s.toUpperCase().charAt(s.length());
         if (Character.isDigit(unit)) {
-            return new Factor(new PInteger(Integer.parseInt(s)));
+            return new Factor(new PInt(Integer.parseInt(s)));
         }
 
         NumberType numberType = NumberType.valueOf(unit);
@@ -120,7 +120,7 @@ public class FactorParser implements Parser {
             case SHORT:
                 return new Factor(new PShort(Short.parseShort(numberValue)));
             case INT:
-                return new Factor(new PInteger(Integer.parseInt(numberValue)));
+                return new Factor(new PInt(Integer.parseInt(numberValue)));
             case LONG:
                 return new Factor(new PLong(Long.parseLong(numberValue)));
             case FLOAT:
@@ -131,7 +131,7 @@ public class FactorParser implements Parser {
                 return null;
             default:
                 System.out.print("Unknown number type " + s);
-                return new Factor(new PInteger(0));
+                return new Factor(new PInt(0));
         }
     }
 

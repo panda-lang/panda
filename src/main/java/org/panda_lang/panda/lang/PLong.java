@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PLong extends PObject implements Numeric {
+public class PLong extends Numeric {
 
     static {
         Vial vial = new Vial("Long");
@@ -18,30 +18,11 @@ public class PLong extends PObject implements Numeric {
     }
 
     @Override
-    public Numeric add(Numeric numeric)  {
-        return null;
-    }
-
-    @Override
-    public Numeric subtract(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric multiply(Numeric numeric) {
-        return null;
-    }
-
-    @Override
-    public Numeric divide(Numeric numeric) {
-        return null;
-    }
-
-    @Override
     public NumberType getNumberType() {
-        return null;
+        return NumberType.LONG;
     }
 
+    @Override
     public long getLong() {
         return l;
     }
