@@ -4,6 +4,7 @@ import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
+import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Runtime;
@@ -44,7 +45,7 @@ public class FactorParser implements Parser {
             // Array
         else if (c == '[') return parseArray(atom, parameter);
             // Number
-        else if (isNumber(parameter)) return parseNumber(parameter);
+        else if (FactorAssistant.isNumber(parameter)) return parseNumber(parameter);
             // This
         else if (parameter.equals("this")) return parseThisOperator(atom);
             // Null
@@ -82,6 +83,15 @@ public class FactorParser implements Parser {
         return new Factor(new ConstructorParser().parse(atom));
     }
 
+    public Factor parseArray(Atom atom, String s) {
+        String array = s.substring(1, s.length() - 1);
+        return new Factor(new PArray(parse(atom, array)));
+    }
+
+    public Factor parseString(String s) {
+        return new Factor(new PString(s.substring(1, s.length() - 1)));
+    }
+
     public Factor parseThisOperator(Atom atom) {
         Block block = atom.getCurrent();
         while (block.hasParent()) {
@@ -96,26 +106,33 @@ public class FactorParser implements Parser {
         return null;
     }
 
-    public Factor parseArray(Atom atom, String s) {
-        String array = s.substring(1, s.length() - 1);
-        return new Factor(new PArray(parse(atom, array)));
-    }
-
-    public Factor parseString(String s) {
-        return new Factor(new PString(s.substring(1, s.length() - 1)));
-    }
-
     public Factor parseNumber(String s) {
-        return new Factor(new PNumber(Integer.valueOf(s)));
-    }
-
-    public boolean isNumber(String s) {
-        for (char c : s.toCharArray()) {
-            if (!Character.isDigit(c)) {
-                return false;
-            }
+        char unit = s.toUpperCase().charAt(s.length());
+        if (Character.isDigit(unit)) {
+            return new Factor(new PInteger(Integer.parseInt(s)));
         }
-        return true;
+
+        NumberType numberType = NumberType.valueOf(unit);
+        String numberValue = s.substring(0, s.length() - 1);
+        switch (numberType) {
+            case BYTE:
+                return new Factor(new PByte(Byte.parseByte(numberValue)));
+            case SHORT:
+                return new Factor(new PShort(Short.parseShort(numberValue)));
+            case INT:
+                return new Factor(new PInteger(Integer.parseInt(numberValue)));
+            case LONG:
+                return new Factor(new PLong(Long.parseLong(numberValue)));
+            case FLOAT:
+                return new Factor(new PFloat(Float.parseFloat(numberValue)));
+            case DOUBLE:
+                return new Factor(new PDouble(Double.parseDouble(numberValue)));
+            case FAT_PANDA:
+                return null;
+            default:
+                System.out.print("Unknown number type " + s);
+                return new Factor(new PInteger(0));
+        }
     }
 
 }
