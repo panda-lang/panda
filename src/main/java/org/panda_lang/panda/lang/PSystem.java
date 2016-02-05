@@ -21,20 +21,20 @@ public class PSystem extends PObject {
         vial.method(new Method("currentTimeMillis", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PNumber(System.currentTimeMillis());
+                return new PLong(System.currentTimeMillis());
             }
         }));
         vial.method(new Method("nanoTime", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PNumber(System.nanoTime());
+                return new PLong(System.nanoTime());
             }
         }));
         vial.method(new Method("exit", new Executable() {
             @Override
             public Essence run(Particle particle) {
                 System.exit(-1);
-                return new PNumber(-1);
+                return new PInt(-1);
             }
         }));
     }

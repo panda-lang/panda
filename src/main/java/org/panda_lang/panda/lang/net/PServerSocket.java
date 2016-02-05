@@ -1,9 +1,9 @@
 package org.panda_lang.panda.lang.net;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.lang.PNull;
-import org.panda_lang.panda.lang.PNumber;
 import org.panda_lang.panda.lang.PObject;
 
 import java.io.IOException;
@@ -17,9 +17,9 @@ public class PServerSocket extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                PNumber port = particle.getValueOfFactor(0);
+                Numeric port = particle.getValueOfFactor(0);
                 try {
-                    return new PServerSocket(port.getNumber().intValue());
+                    return new PServerSocket(port.getInt());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

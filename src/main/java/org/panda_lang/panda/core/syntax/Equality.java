@@ -2,8 +2,8 @@ package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.lang.PBoolean;
-import org.panda_lang.panda.lang.PNumber;
 
 public class Equality implements Executable {
 
@@ -25,11 +25,13 @@ public class Equality implements Executable {
             flag = (operator == Operator.EQUALS_TO) == flag;
 
         } else {
-            PNumber oneNumber = oneFactor.getValue(particle);
-            PNumber otherNumber = otherFactor.getValue(particle);
+            //TODO
 
-            float one = oneNumber.getNumber().floatValue();
-            float other = otherNumber.getNumber().floatValue();
+            Numeric oneNumber = oneFactor.getValue(particle);
+            Numeric otherNumber = otherFactor.getValue(particle);
+
+            float one = oneNumber.getFloat();
+            float other = otherNumber.getFloat();
 
             switch (equalityBuilder.getOperator()) {
                 case GREATER_THAN:

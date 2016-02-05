@@ -10,10 +10,8 @@ public class IOUtils {
     public static String getContentOfFile(File file) {
         StringBuilder sb = new StringBuilder();
         try {
-            if (file == null) return "";
-            if (!file.exists()) {
-                file.getParentFile().mkdirs();
-                file.createNewFile();
+            if (file == null || !file.exists()) {
+                return null;
             }
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine();

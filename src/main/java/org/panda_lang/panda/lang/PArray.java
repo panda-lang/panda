@@ -1,6 +1,7 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.*;
 
 public class PArray extends Essence {
@@ -18,15 +19,15 @@ public class PArray extends Essence {
             @Override
             public Essence run(Particle particle) {
                 PArray array = particle.getValueOfInstance();
-                return new PNumber(array.getArray().length);
+                return new PInt(array.getArray().length);
             }
         }));
         vial.method(new Method("get", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PNumber number = particle.getValueOfFactor(0);
+                Numeric numeric = particle.getValueOfFactor(0);
                 PArray instance = particle.getValueOfInstance();
-                return instance.get(number.intValue());
+                return instance.get(numeric.getInt());
             }
         }));
     }

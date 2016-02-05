@@ -6,9 +6,9 @@ import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.lang.PNumber;
 
 public class ForBlock extends Block {
 
@@ -29,8 +29,8 @@ public class ForBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        PNumber times = factors[0].getValue().cast(PNumber.class);
-        for (int i = 0; i < times.getNumber().intValue(); i++) {
+        Numeric times = factors[0].getValue();
+        for (int i = 0; i < times.getInt(); i++) {
             Essence o = super.run(particle);
             if (o != null) {
                 return o;

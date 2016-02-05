@@ -47,6 +47,10 @@ public class Dependencies {
             Collection<PandaScript> scripts = PandaLoader.loadDirectory(file);
 
             for (PandaScript pandaScript : scripts) {
+                if (pandaScript == null) {
+                    continue;
+                }
+
                 Collection<Vial> vials = pandaScript.extractVials();
                 for (Vial vial : vials) {
                     Import anImport = new Import(vial.getGroup(), vial);

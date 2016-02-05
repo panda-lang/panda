@@ -1,6 +1,7 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -18,9 +19,9 @@ public class PBoolean extends PObject {
                     return new PBoolean(false);
                 } else if (essence instanceof PBoolean) {
                     return new PBoolean(((PBoolean) essence).getBoolean());
-                } else if (essence instanceof PNumber) {
-                    Number number = ((PNumber) essence).getNumber();
-                    return new PBoolean(number.intValue() != 0);
+                } else if (essence instanceof Numeric) {
+                    byte value = ((Numeric) essence).getByte();
+                    return new PBoolean(value != 0);
                 }
                 return new PBoolean(false);
             }
