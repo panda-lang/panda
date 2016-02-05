@@ -107,7 +107,7 @@ public class FactorParser implements Parser {
     }
 
     public Factor parseNumber(String s) {
-        char unit = s.toUpperCase().charAt(s.length());
+        char unit = s.toUpperCase().charAt(s.length() - 1);
         if (Character.isDigit(unit)) {
             return new Factor(new PInt(Integer.parseInt(s)));
         }

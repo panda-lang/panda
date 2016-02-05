@@ -35,10 +35,6 @@ public class PObject extends Essence {
         this.object = object;
     }
 
-    public PObject(Vial vial) {
-        super(vial);
-    }
-
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getMe() {
         return (T) this;

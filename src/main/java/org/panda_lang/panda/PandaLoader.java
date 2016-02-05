@@ -35,7 +35,14 @@ public class PandaLoader {
         if (file.isDirectory()) {
             return null;
         }
+
         final String contentOfFile = IOUtils.getContentOfFile(file);
+
+        if (contentOfFile == null) {
+            System.out.println("File '" + file.getName() + "' doesn't exist.");
+            return null;
+        }
+
         return loadSingleScript(contentOfFile, file.getParent());
     }
 

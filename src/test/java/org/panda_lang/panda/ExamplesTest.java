@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.syntax.block.MethodBlock;
 import java.io.File;
 import java.util.Collection;
 
-public class PandaTest {
+public class ExamplesTest {
 
     private static final File EXAMPLES = new File("examples");
 

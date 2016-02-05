@@ -1,12 +1,12 @@
 package org.panda_lang.panda.lang.net;
 
 import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 import org.panda_lang.panda.lang.PBoolean;
-import org.panda_lang.panda.lang.PNumber;
 import org.panda_lang.panda.lang.PObject;
 
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class PServerSocketChannel extends PObject {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                int port = particle.<PNumber>getValueOfFactor(0).intValue();
+                int port = particle.<Numeric>getValueOfFactor(0).getInt();
                 try {
                     return new PServerSocketChannel(port);
                 } catch (IOException e) {

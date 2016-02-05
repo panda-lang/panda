@@ -2,7 +2,8 @@ package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
-import org.panda_lang.panda.lang.PNumber;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
+import org.panda_lang.panda.lang.PDouble;
 
 import java.util.Stack;
 
@@ -16,38 +17,42 @@ public class Math implements Executable {
 
     @Override
     public Essence run(Particle particle) {
-        Stack<Double> values = new Stack<>();
+        Stack<Numeric> values = new Stack<>();
 
         for (int i = 0; i < mathBuilder.size(); i++) {
             MathBuilder.Type type = mathBuilder.next();
             if (type == MathBuilder.Type.OPERATOR) {
                 char operator = mathBuilder.getOperator();
-                double t = values.pop();
-                double d = values.pop();
+                Numeric a = values.pop();
+                Numeric b = values.pop();
+                Numeric c;
                 switch (operator) {
                     case '+':
-                        values.push(d + t);
+                        c = a.add(b);
                         break;
                     case '-':
-                        values.push(d - t);
+                        c = a.subtract(b);
                         break;
                     case '*':
-                        values.push(d * t);
+                        c = a.multiply(b);
                         break;
                     case '/':
-                        values.push(d / t);
+                        c = a.divide(b);
                         break;
                     case '^':
-                        values.push(java.lang.Math.pow(d, t));
+                        c = new PDouble(java.lang.Math.pow(a.getDouble(), b.getDouble()));
                         break;
+                    default:
+                        c = null;
                 }
+                values.push(c);
             } else {
                 Factor factor = mathBuilder.getParameter();
-                Double value = Double.valueOf(factor.getValue(particle.getMemory()).toString());
+                Numeric value = factor.getValue(particle.getMemory());
                 values.push(value);
             }
         }
-        return new PNumber(values.pop());
+        return values.pop();
     }
 
 }
