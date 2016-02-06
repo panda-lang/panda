@@ -11,16 +11,20 @@ import org.panda_lang.panda.core.syntax.Runtime;
 
 import java.util.Collection;
 
-public class EqualityParser implements Parser {
+public class EqualityParser implements Parser
+{
 
     @Override
-    public Factor parse(Atom atom) {
+    public Factor parse(Atom atom)
+    {
         EqualityBuilder equalityBuilder = new EqualityBuilder();
         String source = atom.getSourcesDivider().getLine();
 
         Collection<Operator> operators = Operator.getOperators(1);
-        for (Operator operator : operators) {
-            if (source.contains(operator.getOperator())) {
+        for (Operator operator : operators)
+        {
+            if (source.contains(operator.getOperator()))
+            {
                 String[] sides = source.split(operator.getOperator());
                 sides[0] = FieldAssistant.clear(sides[0], 0);
                 sides[1] = FieldAssistant.clear(sides[1], 0);

@@ -1,12 +1,17 @@
 package org.panda_lang.panda.util;
 
-public class ClassCaller {
+public class ClassCaller
+{
 
-    public static void loadClasses(String basePackage, String... classes) {
-        for (String clazz : classes) {
-            try {
+    public static void loadClasses(String basePackage, String... classes)
+    {
+        for (String clazz : classes)
+        {
+            try
+            {
                 Class.forName(basePackage + "." + clazz);
-            } catch (Exception e) {
+            } catch (Exception e)
+            {
                 e.printStackTrace();
             }
         }

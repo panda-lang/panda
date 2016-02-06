@@ -14,43 +14,57 @@ import java.net.InetSocketAddress;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 
-public class PServerSocketChannel extends PObject {
+public class PServerSocketChannel extends PObject
+{
 
-    static {
+    static
+    {
         Vial vial = new Vial("ServerSocketChannel");
         vial.group("panda.network");
-        vial.constructor(new Executable() {
+        vial.constructor(new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 int port = particle.<Numeric>getValueOfFactor(0).getInt();
-                try {
+                try
+                {
                     return new PServerSocketChannel(port);
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
                 return null;
             }
         });
-        vial.method(new Method("accept", new Executable() {
+        vial.method(new Method("accept", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 SocketChannel socketChannel = null;
-                try {
+                try
+                {
                     socketChannel = particle.<PServerSocketChannel>getValueOfInstance().getServerSocketChannel().accept();
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
                 return new PSocketChannel(socketChannel);
             }
         }));
-        vial.method(new Method("configureBlocking", new Executable() {
+        vial.method(new Method("configureBlocking", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PServerSocketChannel serverSocketChannel = particle.getValueOfInstance();
                 PBoolean flag = particle.getValueOfFactor(0);
-                try {
+                try
+                {
                     serverSocketChannel.getServerSocketChannel().configureBlocking(flag.getBoolean());
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
                 return null;
@@ -60,17 +74,20 @@ public class PServerSocketChannel extends PObject {
 
     private final ServerSocketChannel serverSocketChannel;
 
-    public PServerSocketChannel(int port) throws IOException {
+    public PServerSocketChannel(int port) throws IOException
+    {
         this.serverSocketChannel = ServerSocketChannel.open();
         this.serverSocketChannel.bind(new InetSocketAddress(port));
     }
 
-    public ServerSocketChannel getServerSocketChannel() {
+    public ServerSocketChannel getServerSocketChannel()
+    {
         return serverSocketChannel;
     }
 
     @Override
-    public Object getJavaValue() {
+    public Object getJavaValue()
+    {
         return getServerSocketChannel();
     }
 

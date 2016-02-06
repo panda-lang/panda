@@ -8,14 +8,18 @@ import org.panda_lang.panda.util.IOUtils;
 
 import java.io.File;
 
-public class PFile extends PObject {
+public class PFile extends PObject
+{
 
-    static {
+    static
+    {
         Vial vial = new Vial("File");
         vial.group("panda.lang");
-        vial.constructor(new Constructor() {
+        vial.constructor(new Constructor()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PString file = particle.getValueOfFactor(0);
                 return new PFile(file.toString());
             }
@@ -24,25 +28,30 @@ public class PFile extends PObject {
 
     private final File file;
 
-    public PFile(String file) {
+    public PFile(String file)
+    {
         this.file = new File(file);
     }
 
-    public File getFile() {
+    public File getFile()
+    {
         return file;
     }
 
-    public PString getContentOfFile() {
+    public PString getContentOfFile()
+    {
         return new PString(IOUtils.getContentOfFile(file));
     }
 
     @Override
-    public Object getJavaValue() {
+    public Object getJavaValue()
+    {
         return file;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return file.getName();
     }
 

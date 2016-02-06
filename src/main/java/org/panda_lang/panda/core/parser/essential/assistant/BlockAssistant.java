@@ -5,25 +5,33 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BlockAssistant {
+public class BlockAssistant
+{
 
-    public static String extractIndication(String line) {
+    public static String extractIndication(String line)
+    {
         StringBuilder node = new StringBuilder();
-        for (char c : line.toCharArray()) {
-            if (Character.isWhitespace(c) || c == '(' || c == '{') {
-                if (node.length() == 0) {
+        for (char c : line.toCharArray())
+        {
+            if (Character.isWhitespace(c) || c == '(' || c == '{')
+            {
+                if (node.length() == 0)
+                {
                     continue;
-                } else {
+                } else
+                {
                     break;
                 }
-            } else {
+            } else
+            {
                 node.append(c);
             }
         }
         return node.toString();
     }
 
-    public static BlockInfo extractBlock(String s) {
+    public static BlockInfo extractBlock(String s)
+    {
         String name = null;
         List<String> specifiers = new ArrayList<>();
         List<String> parameters = new ArrayList<>();
@@ -36,22 +44,27 @@ public class BlockAssistant {
 
         // {parseLocal}
         char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
+        for (int i = 0; i < chars.length; i++)
+        {
             char c = chars[i];
 
             // {switch.special}
-            switch (c) {
+            switch (c)
+            {
                 case '"':
                     // {string.skip}
                     string = !string;
                     continue;
                 case '(':
                     // {factors.start}
-                    if (!string) {
+                    if (!string)
+                    {
                         param = true;
-                        if (node.length() == 0) {
+                        if (node.length() == 0)
+                        {
                             spec = false;
-                        } else if (name == null) {
+                        } else if (name == null)
+                        {
                             spec = true;
                         }
                         continue;
@@ -60,21 +73,25 @@ public class BlockAssistant {
                 case ')':
                 case ',':
                 case '{':
-                    if (!string) {
+                    if (!string)
+                    {
                         c = ';';
                     }
                     break;
                 case ' ':
-                    if (!string && !param) {
+                    if (!string && !param)
+                    {
                         c = ';';
                     }
             }
 
             // {part.end}
-            if (c == ';') {
+            if (c == ';')
+            {
 
                 // {empty.continue}
-                if (node.length() == 0) {
+                if (node.length() == 0)
+                {
                     continue;
                 }
 
@@ -82,15 +99,19 @@ public class BlockAssistant {
                 String part = node.toString();
 
                 // {block.type}
-                if (name == null) {
+                if (name == null)
+                {
                     name = part;
                     spec = !spec;
-                } else if (spec && param) {
+                } else if (spec && param)
+                {
                     spec = false;
                     specifiers.add(part);
-                } else if (spec) {
+                } else if (spec)
+                {
                     specifiers.add(part);
-                } else if (param) {
+                } else if (param)
+                {
                     parameters.add(part);
                 }
 
@@ -107,7 +128,8 @@ public class BlockAssistant {
         return new BlockInfo(name, specifiers, parameters);
     }
 
-    public static boolean isPlug(String s) {
+    public static boolean isPlug(String s)
+    {
         s = s != null ? s.trim() : "";
         return s.equals("}") || s.equals("};");
     }

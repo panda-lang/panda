@@ -5,35 +5,45 @@ import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
 
-public class PThread extends PObject {
+public class PThread extends PObject
+{
 
-    static {
+    static
+    {
         Vial vial = new Vial("Thread");
         vial.group("panda.lang");
-        vial.constructor(new Constructor() {
+        vial.constructor(new Constructor()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 return particle.hasFactors() ? new PThread(particle.getValueOfFactor(0).toString()) : new PThread();
             }
         });
-        vial.method(new Method("start", new Executable() {
+        vial.method(new Method("start", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PThread thread = particle.getValueOfInstance();
                 thread.start(particle);
                 return thread;
             }
         }));
-        vial.method(new Method("getName", new Executable() {
+        vial.method(new Method("getName", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PThread thread = particle.getValueOfInstance();
                 return new PString(thread.getName());
             }
         }));
-        vial.method(new Method("currentThread", new Executable() {
+        vial.method(new Method("currentThread", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 return new PThread(Thread.currentThread());
             }
         }));
@@ -44,50 +54,62 @@ public class PThread extends PObject {
     private Thread thread;
     private Memory memory;
 
-    public PThread() {
+    public PThread()
+    {
     }
 
-    public PThread(String name) {
+    public PThread(String name)
+    {
         this();
         this.name = name;
     }
 
-    public PThread(Thread thread) {
+    public PThread(Thread thread)
+    {
         this(thread.getName());
         this.thread = thread;
     }
 
-    public void start(Particle particle) {
-        if (memory != null) {
+    public void start(Particle particle)
+    {
+        if (memory != null)
+        {
             Memory threadMemory = new Memory(memory);
             particle.setMemory(threadMemory);
         }
-        if (this.block != null) {
+        if (this.block != null)
+        {
             block.start(particle);
-        } else if (thread != null) {
+        } else if (thread != null)
+        {
             thread.start();
         }
     }
 
-    public void setBlock(ThreadBlock block) {
+    public void setBlock(ThreadBlock block)
+    {
         this.block = block;
     }
 
-    public void setMemory(Memory memory) {
+    public void setMemory(Memory memory)
+    {
         this.memory = memory;
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name != null ? name : "ThreadBlock";
     }
 
     @Override
-    public Object getJavaValue() {
+    public Object getJavaValue()
+    {
         return thread;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return thread != null ? thread.getName() : name;
     }
 

@@ -8,9 +8,11 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 import java.util.Stack;
 
-public class MethodAssistant {
+public class MethodAssistant
+{
 
-    public static MethodInfo getMethodIndication(Atom atom, String string) {
+    public static MethodInfo getMethodIndication(Atom atom, String string)
+    {
         StringBuilder node = new StringBuilder();
         Stack<Character> stack = new Stack<>();
         char[] chars = string.toCharArray();
@@ -19,30 +21,39 @@ public class MethodAssistant {
         String object = null,
                 method = null;
 
-        for (int i = 0; i < string.length(); i++) {
+        for (int i = 0; i < string.length(); i++)
+        {
             char c = chars[i];
 
-            if (c == '"') {
+            if (c == '"')
+            {
                 s = !s;
-            } else if (s) {
+            } else if (s)
+            {
                 node.append(c);
                 continue;
-            } else if (p) {
-                if (c == '(') {
+            } else if (p)
+            {
+                if (c == '(')
+                {
                     stack.push(c);
-                } else if (c == ')') {
+                } else if (c == ')')
+                {
                     stack.pop();
-                    if (stack.size() == 0) {
+                    if (stack.size() == 0)
+                    {
                         break;
                     }
                 }
                 node.append(c);
                 continue;
-            } else if (Character.isWhitespace(c)) {
+            } else if (Character.isWhitespace(c))
+            {
                 continue;
             }
 
-            switch (c) {
+            switch (c)
+            {
                 case '(':
                     method = node.toString();
                     node.setLength(0);
@@ -68,9 +79,11 @@ public class MethodAssistant {
         Factor[] factors = parser.parseLocal(atom);
 
         Factor instance;
-        if (object != null) {
+        if (object != null)
+        {
             Vial vial = atom.getDependencies().getVial(object);
-            if (vial != null) {
+            if (vial != null)
+            {
                 return new MethodInfo(vial, method, factors);
             }
             instance = new FactorParser().parse(atom, object);

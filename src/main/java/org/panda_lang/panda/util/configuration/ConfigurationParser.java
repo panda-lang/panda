@@ -5,17 +5,20 @@ import org.panda_lang.panda.util.SimpleEntry;
 import java.util.*;
 import java.util.Map.Entry;
 
-public class ConfigurationParser {
+public class ConfigurationParser
+{
 
     private final String[] code;
     private Map<String, ConfigurationObject> map = new HashMap<>();
 
-    protected ConfigurationParser(String[] code) {
+    protected ConfigurationParser(String[] code)
+    {
         this.code = code;
         this.run();
     }
 
-    protected void run() {
+    protected void run()
+    {
         Stack<String> keys = new Stack<>();
         Stack<Character> operators = new Stack<>();
         StringBuilder chars = new StringBuilder();
@@ -24,7 +27,8 @@ public class ConfigurationParser {
         int lastPosition = 0;
         entry.setValue(new ArrayList<String>());
 
-        for (String line : code) {
+        for (String line : code)
+        {
             if (line == null || line.isEmpty()) continue;
             String rx = line.replaceAll("\\s", "");
             if (rx.equals("")) continue;
@@ -38,20 +42,26 @@ public class ConfigurationParser {
             boolean abeen = false;
             boolean skip = false;
 
-            for (char c : line.toCharArray()) {
+            for (char c : line.toCharArray())
+            {
                 charpos++;
-                switch (c) {
+                switch (c)
+                {
                     case ' ':
-                        if (!apostrophe && chars.length() == 0) {
+                        if (!apostrophe && chars.length() == 0)
+                        {
                             whitespace++;
                             continue;
-                        } else {
+                        } else
+                        {
                             chars.append(c);
                             break;
                         }
                     case '\'':
-                        if (chars.length() == 0) {
-                            if (apostrophe) {
+                        if (chars.length() == 0)
+                        {
+                            if (apostrophe)
+                            {
                                 abeen = true;
                                 skip = true;
                                 break;
@@ -59,7 +69,8 @@ public class ConfigurationParser {
                             apostrophe = true;
                             continue;
                         }
-                        if (line.length() == charpos) {
+                        if (line.length() == charpos)
+                        {
                             apostrophe = false;
                             abeen = true;
                             continue;
@@ -67,9 +78,11 @@ public class ConfigurationParser {
                         chars.append(c);
                         break;
                     case ':':
-                        if (!separator) {
+                        if (!separator)
+                        {
                             if (!operators.isEmpty())
-                                if (operators.peek() == '-') {
+                                if (operators.peek() == '-')
+                                {
                                     chars.append(c);
                                     break;
                                 }
@@ -80,31 +93,38 @@ public class ConfigurationParser {
                             chars.setLength(0);
                             separator = true;
                             break;
-                        } else {
+                        } else
+                        {
                             chars.append(c);
                             break;
                         }
                     case '-':
-                        if (chars.length() == 0) {
+                        if (chars.length() == 0)
+                        {
                             operators.push(c);
                             break;
-                        } else {
+                        } else
+                        {
                             chars.append(c);
                             break;
                         }
                     case '[':
-                        if (chars.length() == 0) {
+                        if (chars.length() == 0)
+                        {
                             operators.push(c);
                             break;
-                        } else {
+                        } else
+                        {
                             chars.append(c);
                             break;
                         }
                     case ']':
-                        if (chars.length() == 0) {
+                        if (chars.length() == 0)
+                        {
                             operators.push(c);
                             break;
-                        } else {
+                        } else
+                        {
                             chars.append(c);
                             break;
                         }
@@ -118,17 +138,22 @@ public class ConfigurationParser {
             String string = chars.toString();
             chars.setLength(0);
 
-            if (operators.isEmpty()) {
+            if (operators.isEmpty())
+            {
                 lastPosition = position;
                 continue;
             }
 
-            if (keys.isEmpty()) {
-                if (!string.isEmpty()) {
+            if (keys.isEmpty())
+            {
+                if (!string.isEmpty())
+                {
                     char c = operators.pop();
-                    switch (c) {
+                    switch (c)
+                    {
                         case '-':
-                            if (entry.getKey() == null) {
+                            if (entry.getKey() == null)
+                            {
                                 entry.setKey(ConfigurationUtils.getPath(keys));
                             }
                             if (entry.getValue() == null) entry.setValue(new ArrayList<String>());
@@ -142,9 +167,11 @@ public class ConfigurationParser {
                 continue;
             }
 
-            if (!abeen && string.isEmpty()) {
+            if (!abeen && string.isEmpty())
+            {
                 char c = operators.pop();
-                switch (c) {
+                switch (c)
+                {
                     case ']':
                         if (operators.peek() != '[') break;
                         operators.pop();
@@ -154,7 +181,8 @@ public class ConfigurationParser {
                         keys.pop();
                         break;
                     case ':':
-                        if (!entry.getValue().isEmpty()) {
+                        if (!entry.getValue().isEmpty())
+                        {
                             ConfigurationObject lo = new ConfigurationObject(ConfigurationType.LIST);
                             lo.setObject(entry.getValue());
                             lo.setPosition(position);
@@ -170,9 +198,11 @@ public class ConfigurationParser {
                 lastPosition = position;
                 continue;
             }
-            switch (operators.pop()) {
+            switch (operators.pop())
+            {
                 case '-':
-                    if (entry.getKey() == null) {
+                    if (entry.getKey() == null)
+                    {
                         entry.setKey(ConfigurationUtils.getPath(keys));
                         keys.pop();
                     }
@@ -182,7 +212,8 @@ public class ConfigurationParser {
                 case ':':
                     String key = keys.pop();
                     patchPosition(position, lastPosition, keys);
-                    if (!entry.getValue().isEmpty()) {
+                    if (!entry.getValue().isEmpty())
+                    {
                         ConfigurationObject lo = new ConfigurationObject(ConfigurationType.LIST);
                         lo.setObject(entry.getValue());
                         lo.setPosition(position);
@@ -201,45 +232,58 @@ public class ConfigurationParser {
             }
             lastPosition = position;
         }
-        if (!entry.getValue().isEmpty()) {
+        if (!entry.getValue().isEmpty())
+        {
             ConfigurationObject lo = new ConfigurationObject(ConfigurationType.LIST);
             lo.setObject(entry.getValue());
             this.addEntry(entry.getKey(), lo);
         }
     }
 
-    private void addEntry(String s, ConfigurationObject co) {
+    private void addEntry(String s, ConfigurationObject co)
+    {
         map.put(s, co);
     }
 
-    private void patchPosition(int position, int lastPosition, Stack<String> keys) {
-        if (lastPosition != position) {
-            if (lastPosition > position) {
+    private void patchPosition(int position, int lastPosition, Stack<String> keys)
+    {
+        if (lastPosition != position)
+        {
+            if (lastPosition > position)
+            {
                 int backspace = lastPosition - position;
-                if (keys.size() >= backspace) {
+                if (keys.size() >= backspace)
+                {
                     for (int i = 0; i < backspace; i++) keys.pop();
                 }
             }
         }
     }
 
-    protected void print() {
-        for (Entry<String, ConfigurationObject> entry : this.map.entrySet()) {
-            if (entry.getValue().getType() == ConfigurationType.STRING) {
+    protected void print()
+    {
+        for (Entry<String, ConfigurationObject> entry : this.map.entrySet())
+        {
+            if (entry.getValue().getType() == ConfigurationType.STRING)
+            {
                 String s = (String) entry.getValue().getObject();
                 System.out.println(entry.getKey() + ": " + s);
-            } else {
+            } else
+            {
                 System.out.println(entry.getKey() + ": ");
-                for (String s : (List<String>) entry.getValue().getObject()) {
+                for (String s : (List<String>) entry.getValue().getObject())
+                {
                     System.out.println("- " + s);
                 }
             }
         }
     }
 
-    protected Map<String, Object> getMap() {
+    protected Map<String, Object> getMap()
+    {
         Map<String, Object> map = new HashMap<>();
-        for (Entry<String, ConfigurationObject> entry : this.map.entrySet()) {
+        for (Entry<String, ConfigurationObject> entry : this.map.entrySet())
+        {
             if (entry.getKey() == null) continue;
             map.put(entry.getKey(), entry.getValue().getObject());
         }

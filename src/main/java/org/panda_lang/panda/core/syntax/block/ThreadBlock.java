@@ -12,12 +12,16 @@ import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.lang.PThread;
 
-public class ThreadBlock extends Block {
+public class ThreadBlock extends Block
+{
 
-    static {
-        BlockCenter.registerBlock(new BlockLayout(ThreadBlock.class, "thread").initializer(new BlockInitializer() {
+    static
+    {
+        BlockCenter.registerBlock(new BlockLayout(ThreadBlock.class, "thread").initializer(new BlockInitializer()
+        {
             @Override
-            public Block initialize(Atom atom) {
+            public Block initialize(Atom atom)
+            {
                 Block current = new ThreadBlock();
                 Factor[] factors = new FactorParser().parse(atom, atom.getBlockInfo().getParameters());
                 current.setFactors(factors);
@@ -28,21 +32,27 @@ public class ThreadBlock extends Block {
 
     private PThread pThread;
 
-    public ThreadBlock() {
+    public ThreadBlock()
+    {
         super.setName("thread::" + atomicInteger.incrementAndGet());
     }
 
-    public Essence start(final Particle particle) {
+    public Essence start(final Particle particle)
+    {
         final Block block = this;
-        Thread thread = new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-                for (NamedExecutable executable : block.getExecutables()) {
+            public void run()
+            {
+                for (NamedExecutable executable : block.getExecutables())
+                {
                     executable.run(particle);
                 }
             }
         });
-        if (factors != null && factors.length > 0) {
+        if (factors != null && factors.length > 0)
+        {
             Essence value = factors[0].getValue(particle);
             thread.setName(pThread.getName());
         }
@@ -51,11 +61,14 @@ public class ThreadBlock extends Block {
     }
 
     @Override
-    public Essence run(final Particle particle) {
-        if (factors.length == 0) {
+    public Essence run(final Particle particle)
+    {
+        if (factors.length == 0)
+        {
             start(particle);
             return null;
-        } else {
+        } else
+        {
             pThread = factors[0].getValue(particle);
             pThread.setBlock(this);
             pThread.setMemory(particle.getMemory());

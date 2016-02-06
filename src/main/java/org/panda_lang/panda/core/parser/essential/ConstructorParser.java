@@ -9,10 +9,12 @@ import org.panda_lang.panda.core.syntax.Runtime;
 
 import java.util.Stack;
 
-public class ConstructorParser implements Parser {
+public class ConstructorParser implements Parser
+{
 
     @Override
-    public Runtime parse(final Atom atom) {
+    public Runtime parse(final Atom atom)
+    {
         String source = atom.getSourceCode();
         source = source.substring(4);
 
@@ -23,30 +25,39 @@ public class ConstructorParser implements Parser {
                 p = false;
 
         char[] chars = source.toCharArray();
-        for (int i = 0; i < source.length(); i++) {
+        for (int i = 0; i < source.length(); i++)
+        {
             char c = chars[i];
 
-            if (c == '"') {
+            if (c == '"')
+            {
                 s = !s;
-            } else if (s) {
+            } else if (s)
+            {
                 node.append(c);
                 continue;
-            } else if (p) {
-                if (c == '(') {
+            } else if (p)
+            {
+                if (c == '(')
+                {
                     stack.push(c);
-                } else if (c == ')') {
+                } else if (c == ')')
+                {
                     stack.pop();
-                    if (stack.size() == 0) {
+                    if (stack.size() == 0)
+                    {
                         break;
                     }
                 }
                 node.append(c);
                 continue;
-            } else if (node.length() == 0 && Character.isWhitespace(c)) {
+            } else if (node.length() == 0 && Character.isWhitespace(c))
+            {
                 continue;
             }
 
-            switch (c) {
+            switch (c)
+            {
                 case '(':
                     clazz = node.toString();
                     node.setLength(0);
@@ -69,22 +80,28 @@ public class ConstructorParser implements Parser {
         final Factor[] factors = parser.parseLocal(atom);
         final Vial vial = atom.getDependencies().getVial(clazz);
 
-        if (vial == null) {
+        if (vial == null)
+        {
             final Runtime runtime = new Runtime();
             final String vialName = clazz;
 
-            atom.getPandaParser().addPostProcess(new Runnable() {
+            atom.getPandaParser().addPostProcess(new Runnable()
+            {
                 @Override
-                public void run() {
+                public void run()
+                {
                     final Vial vial = atom.getPandaParser().getDependencies().getVial(vialName);
-                    if (vial == null) {
+                    if (vial == null)
+                    {
                         PandaException exception = new PandaException("ConstructorParser: Vial '" + vialName + "' not found", atom.getSourcesDivider());
                         atom.getPandaParser().throwException(exception);
                         return;
                     }
-                    runtime.setExecutable(new Executable() {
+                    runtime.setExecutable(new Executable()
+                    {
                         @Override
-                        public Essence run(Particle particle) {
+                        public Essence run(Particle particle)
+                        {
                             return vial.initializeInstance(particle);
                         }
                     });
@@ -94,9 +111,11 @@ public class ConstructorParser implements Parser {
             return runtime;
         }
 
-        return new Runtime(null, new Executable() {
+        return new Runtime(null, new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 return vial.initializeInstance(particle);
             }
         }, factors);

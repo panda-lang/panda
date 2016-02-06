@@ -3,7 +3,8 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.memory.Memory;
 
-public class Runtime implements NamedExecutable {
+public class Runtime implements NamedExecutable
+{
 
     private Factor instance;
     private Executable executable;
@@ -12,30 +13,37 @@ public class Runtime implements NamedExecutable {
     private Method method;
     private Math math;
 
-    public Runtime() {
+    public Runtime()
+    {
     }
 
-    public Runtime(Equality equality) {
+    public Runtime(Equality equality)
+    {
         this.equality = equality;
     }
 
-    public Runtime(Method method) {
+    public Runtime(Method method)
+    {
         this.method = method;
     }
 
-    public Runtime(Math math) {
+    public Runtime(Math math)
+    {
         this.math = math;
     }
 
-    public Runtime(Factor instance, Executable executable, Factor[] factors) {
+    public Runtime(Factor instance, Executable executable, Factor[] factors)
+    {
         this.instance = instance;
         this.executable = executable;
         this.factors = factors;
     }
 
     @Override
-    public Essence run(Particle particle) {
-        if (particle == null) {
+    public Essence run(Particle particle)
+    {
+        if (particle == null)
+        {
             particle = new Particle(new Memory());
         }
         particle.setInstance(instance);
@@ -47,32 +55,39 @@ public class Runtime implements NamedExecutable {
         return null;
     }
 
-    public void setInstance(Factor instance) {
+    public void setInstance(Factor instance)
+    {
         this.instance = instance;
     }
 
-    public void setExecutable(Executable executable) {
+    public void setExecutable(Executable executable)
+    {
         this.executable = executable;
     }
 
-    public void setFactors(Factor[] factors) {
+    public void setFactors(Factor[] factors)
+    {
         this.factors = factors;
     }
 
-    public void setEquality(Equality equality) {
+    public void setEquality(Equality equality)
+    {
         this.equality = equality;
     }
 
-    public void setMethod(Method method) {
+    public void setMethod(Method method)
+    {
         this.method = method;
     }
 
-    public void setMath(Math math) {
+    public void setMath(Math math)
+    {
         this.math = math;
     }
 
     @Override
-    public String getName() {
+    public String getName()
+    {
         return "Runtime";
     }
 

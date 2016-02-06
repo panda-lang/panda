@@ -11,32 +11,42 @@ import org.panda_lang.panda.lang.io.PByteBuffer;
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
-public class PSocketChannel extends PObject {
+public class PSocketChannel extends PObject
+{
 
-    static {
+    static
+    {
         Vial vial = new Vial("SocketChannel");
         vial.group("panda.network");
-        vial.method(new Method("write", new Executable() {
+        vial.method(new Method("write", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PSocketChannel socketChannel = particle.getValueOfInstance();
                 PByteBuffer byteBuffer = particle.getValueOfFactor(0);
-                try {
+                try
+                {
                     socketChannel.getSocketChannel().write(byteBuffer.getByteBuffer());
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
                 return null;
             }
         }));
-        vial.method(new Method("read", new Executable() {
+        vial.method(new Method("read", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PSocketChannel socketChannel = particle.getValueOfInstance();
                 PByteBuffer pByteBuffer = new PByteBuffer();
-                try {
+                try
+                {
                     socketChannel.getSocketChannel().read(pByteBuffer.getByteBuffer());
-                } catch (IOException e) {
+                } catch (IOException e)
+                {
                     e.printStackTrace();
                 }
                 return pByteBuffer;
@@ -46,16 +56,19 @@ public class PSocketChannel extends PObject {
 
     private final SocketChannel socketChannel;
 
-    public PSocketChannel(SocketChannel socketChannel) {
+    public PSocketChannel(SocketChannel socketChannel)
+    {
         this.socketChannel = socketChannel;
     }
 
-    public SocketChannel getSocketChannel() {
+    public SocketChannel getSocketChannel()
+    {
         return socketChannel;
     }
 
     @Override
-    public Object getJavaValue() {
+    public Object getJavaValue()
+    {
         return getSocketChannel();
     }
 

@@ -2,7 +2,8 @@ package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.Panda;
 
-public class PandaException {
+public class PandaException
+{
 
     private String title;
     private String code;
@@ -10,21 +11,24 @@ public class PandaException {
     private int caret;
 
 
-    public PandaException(String title, String code, int line, int caret) {
+    public PandaException(String title, String code, int line, int caret)
+    {
         this.title = title;
         this.code = code;
         this.line = line;
         this.caret = caret;
     }
 
-    public PandaException(String title, SourcesDivider sourcesDivider) {
+    public PandaException(String title, SourcesDivider sourcesDivider)
+    {
         this.title = title;
         this.code = sourcesDivider.getLine();
         this.line = sourcesDivider.getRealLine() + 1;
         this.caret = sourcesDivider.getCaretPosition();
     }
 
-    public void print() {
+    public void print()
+    {
         System.out.println("[Panda] !# Oh no, Panda " + Panda.PANDA_VERSION + " is sad! Why? Because she caught an exception >> " + title);
         System.out.println("[Panda] !# at line: " + code + " [" + line + ":" + caret + "]");
     }
