@@ -5,4 +5,7 @@ method main() {
     Long l = 100L;
     Float f = 10F;
     Double d = 10D;
+
+    Short result = b + s;
+    System.print(result);
 }

@@ -2,52 +2,67 @@ package org.panda_lang.panda.core.parser.essential.util;
 
 import org.panda_lang.panda.lang.PObject;
 
-public abstract class Numeric extends PObject {
+public abstract class Numeric extends PObject
+{
 
-    public Numeric add(Numeric numeric) {
+    public abstract Number getNumber();
+
+    public abstract NumberType getNumberType();
+
+    public Numeric add(Numeric numeric)
+    {
         return NumericUtils.add(this, numeric);
     }
 
-    public Numeric subtract(Numeric numeric) {
+    public Numeric subtract(Numeric numeric)
+    {
         return null;
     }
 
-    public Numeric multiply(Numeric numeric) {
+    public Numeric multiply(Numeric numeric)
+    {
         return null;
     }
 
-    public Numeric divide(Numeric numeric) {
+    public Numeric divide(Numeric numeric)
+    {
         return null;
     }
 
-    public byte getByte() {
-        return (byte) getNumber();
+    public byte getByte()
+    {
+        return getNumber().byteValue();
     }
 
-    public short getShort() {
-        return (short) getNumber();
+    public short getShort()
+    {
+        return getNumber().shortValue();
     }
 
-    public int getInt() {
-        return (int) getNumber();
+    public int getInt()
+    {
+        return getNumber().intValue();
     }
 
-    public long getLong() {
-        return (long) getNumber();
+    public long getLong()
+    {
+        return getNumber().longValue();
     }
 
-    public float getFloat() {
-        return (float) getNumber();
+    public float getFloat()
+    {
+        return getNumber().floatValue();
     }
 
-    public double getDouble() {
-        return (double) getNumber();
+    public double getDouble()
+    {
+        return getNumber().doubleValue();
     }
 
-    public Object getNumber() {
-        return getJavaValue();
+    @Override
+    public String toString()
+    {
+        return getJavaValue().toString();
     }
-
-    public abstract NumberType getNumberType();
 
 }

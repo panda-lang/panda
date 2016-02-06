@@ -11,12 +11,16 @@ import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 
-public class MethodBlock extends Block {
+public class MethodBlock extends Block
+{
 
-    static {
-        BlockCenter.registerBlock(new BlockLayout(MethodBlock.class, "method", "function", "constructor", "public").initializer(new BlockInitializer() {
+    static
+    {
+        BlockCenter.registerBlock(new BlockLayout(MethodBlock.class, "method", "function", "constructor", "public").initializer(new BlockInitializer()
+        {
             @Override
-            public MethodBlock initialize(Atom atom) {
+            public MethodBlock initialize(Atom atom)
+            {
                 MethodBlock block = new MethodBlock(atom.getBlockInfo().getSpecifiers().get(0));
                 block.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return block;
@@ -24,30 +28,37 @@ public class MethodBlock extends Block {
         }));
     }
 
-    public MethodBlock(String name) {
+    public MethodBlock(String name)
+    {
         super.setName(name);
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Particle particle)
+    {
         return super.run(particle);
     }
 
     @Override
-    public boolean isReturned() {
+    public boolean isReturned()
+    {
         return true;
     }
 
-    public Method toMethod() {
+    public Method toMethod()
+    {
         final MethodBlock methodBlock = this;
-        return new Method(new NamedExecutable() {
+        return new Method(new NamedExecutable()
+        {
             @Override
-            public String getName() {
+            public String getName()
+            {
                 return methodBlock.getName();
             }
 
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 return methodBlock.run(particle);
             }
         });

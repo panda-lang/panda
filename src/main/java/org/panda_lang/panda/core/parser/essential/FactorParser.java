@@ -11,23 +11,29 @@ import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.VialBlock;
 import org.panda_lang.panda.lang.*;
 
-public class FactorParser implements Parser {
+public class FactorParser implements Parser
+{
 
     @Override
-    public Factor parse(Atom atom) {
+    public Factor parse(Atom atom)
+    {
         return parse(atom, atom.getSourceCode());
     }
 
-    public Factor parse(Atom atom, String parameter) {
-        if (FactorAssistant.isMath(parameter)) {
+    public Factor parse(Atom atom, String parameter)
+    {
+        if (FactorAssistant.isMath(parameter))
+        {
             // Math
             atom.getSourcesDivider().setLine(parameter);
             return new MathParser().parse(atom);
-        } else if (FactorAssistant.isEquality(atom, parameter)) {
+        } else if (FactorAssistant.isEquality(atom, parameter))
+        {
             // Equality
             atom.getSourcesDivider().setLine(parameter);
             return new EqualityParser().parse(atom);
-        } else if (FactorAssistant.isMethod(atom, parameter)) {
+        } else if (FactorAssistant.isMethod(atom, parameter))
+        {
             // Constructor
             if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);
             // Method
@@ -54,18 +60,22 @@ public class FactorParser implements Parser {
         else if (parameter.equals("true")) return new Factor(new PBoolean(true));
             // Boolean
         else if (parameter.equals("false")) return new Factor(new PBoolean(false));
-        else {
+        else
+        {
             // Variable
             return new Factor(parameter);
         }
 
     }
 
-    public Factor[] parse(Atom atom, String[] parametersSources) {
+    public Factor[] parse(Atom atom, String[] parametersSources)
+    {
         Factor[] factors = new Factor[parametersSources.length];
-        for (int i = 0; i < factors.length; i++) {
+        for (int i = 0; i < factors.length; i++)
+        {
             String src = parametersSources[i];
-            if (src == null || src.isEmpty()) {
+            if (src == null || src.isEmpty())
+            {
                 continue;
             }
             factors[i] = parse(atom, src);
@@ -73,29 +83,36 @@ public class FactorParser implements Parser {
         return factors;
     }
 
-    public Factor[] parseLocal(Atom atom) {
+    public Factor[] parseLocal(Atom atom)
+    {
         String[] parametersSources = FactorAssistant.split(atom.getSourceCode());
         return parse(atom, parametersSources);
     }
 
-    public Factor parseConstructor(Atom atom, String s) {
+    public Factor parseConstructor(Atom atom, String s)
+    {
         atom.setSourceCode(s);
         return new Factor(new ConstructorParser().parse(atom));
     }
 
-    public Factor parseArray(Atom atom, String s) {
+    public Factor parseArray(Atom atom, String s)
+    {
         String array = s.substring(1, s.length() - 1);
         return new Factor(new PArray(parse(atom, array)));
     }
 
-    public Factor parseString(String s) {
+    public Factor parseString(String s)
+    {
         return new Factor(new PString(s.substring(1, s.length() - 1)));
     }
 
-    public Factor parseThisOperator(Atom atom) {
+    public Factor parseThisOperator(Atom atom)
+    {
         Block block = atom.getCurrent();
-        while (block.hasParent()) {
-            if (block instanceof VialBlock) {
+        while (block.hasParent())
+        {
+            if (block instanceof VialBlock)
+            {
                 //#TODO: because I have no idea what it does...
                 return new Factor(block.getName());
             }
@@ -106,15 +123,18 @@ public class FactorParser implements Parser {
         return null;
     }
 
-    public Factor parseNumber(String s) {
+    public Factor parseNumber(String s)
+    {
         char unit = s.toUpperCase().charAt(s.length() - 1);
-        if (Character.isDigit(unit)) {
+        if (Character.isDigit(unit))
+        {
             return new Factor(new PInt(Integer.parseInt(s)));
         }
 
         NumberType numberType = NumberType.valueOf(unit);
         String numberValue = s.substring(0, s.length() - 1);
-        switch (numberType) {
+        switch (numberType)
+        {
             case BYTE:
                 return new Factor(new PByte(Byte.parseByte(numberValue)));
             case SHORT:

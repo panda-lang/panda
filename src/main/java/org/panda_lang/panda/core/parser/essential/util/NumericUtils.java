@@ -1,44 +1,30 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-public class NumericUtils {
+import org.panda_lang.panda.lang.*;
 
-    public static Numeric add(Numeric a, Numeric b) {
-        switch (a.getNumberType()) {
-            case BYTE:
-                break;
-            case SHORT:
-                break;
-            case INT:
-                break;
-            case LONG:
-                break;
-            case FLOAT:
-                break;
-            case DOUBLE:
-                break;
-            case FAT_PANDA:
-                break;
-        }
-        return null;
-    }
+public class NumericUtils
+{
 
-    public static Numeric add(Numeric a, Numeric b, boolean invert) {
-        if (a.getNumberType().hasGreaterRangeThan(b)) {
-            return add(b, a, true);
+    public static Numeric add(Numeric a, Numeric b)
+    {
+        if (a.getNumberType().hasGreaterRangeThan(b))
+        {
+            return add(b, a);
         }
-        switch (a.getNumberType()) {
+        switch (a.getNumberType())
+        {
             case BYTE:
-                break;
+                return new PByte((byte) (a.getByte() + b.getByte()));
             case SHORT:
-                break;
+                return new PShort((short) (a.getShort() + b.getShort()));
             case INT:
-                break;
+                return new PInt(a.getInt() + b.getInt());
             case LONG:
-                break;
+                return new PLong(a.getLong() + b.getLong());
             case FLOAT:
-                break;
+                return new PFloat(a.getFloat() + b.getFloat());
             case DOUBLE:
-                break;
+                return new PDouble(a.getDouble() + b.getDouble());
             case FAT_PANDA:
                 break;
         }

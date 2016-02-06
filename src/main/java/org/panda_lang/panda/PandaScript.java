@@ -9,42 +9,52 @@ import org.panda_lang.panda.core.syntax.block.PandaBlock;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaScript {
+public class PandaScript
+{
 
     private final Collection<PandaBlock> blocks;
     private String workingDirectory;
 
-    public PandaScript() {
+    public PandaScript()
+    {
         this.blocks = new ArrayList<>();
     }
 
-    public void addPandaBlock(PandaBlock block) {
+    public void addPandaBlock(PandaBlock block)
+    {
         this.blocks.add(block);
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
-        for (PandaBlock pandaBlock : blocks) {
+    public Essence call(Class<? extends Block> blockType, String name, Factor... factors)
+    {
+        for (PandaBlock pandaBlock : blocks)
+        {
             Essence essence = pandaBlock.call(blockType, name, factors);
-            if (essence != null) {
+            if (essence != null)
+            {
                 return essence;
             }
         }
         return null;
     }
 
-    public Collection<Vial> extractVials() {
+    public Collection<Vial> extractVials()
+    {
         Collection<Vial> vials = new ArrayList<>(1);
-        for (PandaBlock pandaBlock : blocks) {
+        for (PandaBlock pandaBlock : blocks)
+        {
             vials.addAll(pandaBlock.extractVials());
         }
         return vials;
     }
 
-    public void setWorkingDirectory(String workingDirectory) {
+    public void setWorkingDirectory(String workingDirectory)
+    {
         this.workingDirectory = workingDirectory;
     }
 
-    public String getWorkingDirectory() {
+    public String getWorkingDirectory()
+    {
         return workingDirectory;
     }
 

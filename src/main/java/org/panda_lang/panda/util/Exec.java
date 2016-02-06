@@ -6,17 +6,21 @@ import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
 import java.io.File;
 
-public class Exec {
+public class Exec
+{
 
-    public static void activate(String source) {
-        try {
+    public static void activate(String source)
+    {
+        try
+        {
             if (source == null || source.isEmpty()) return;
             String[] parts = source.split("=", 2);
 
             if (parts.length < 1 || parts[0] == null) return;
             String command = parts[0].toUpperCase();
 
-            switch (command) {
+            switch (command)
+            {
                 case "-FILE":
                     PandaScript fScript = PandaLoader.loadSingleScript(new File(parts[1]));
                     if (fScript == null) return;
@@ -31,7 +35,8 @@ public class Exec {
                     break;
             }
 
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }

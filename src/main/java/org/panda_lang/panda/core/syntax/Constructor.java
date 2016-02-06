@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-public interface Constructor extends Executable {
+public interface Constructor extends Executable
+{
 
 }

@@ -9,29 +9,36 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
-public class ConfigurationFile {
+public class ConfigurationFile
+{
 
     private final File file;
     private final PandaConfiguration panda;
 
-    protected ConfigurationFile(File file, PandaConfiguration panda) {
+    protected ConfigurationFile(File file, PandaConfiguration panda)
+    {
         this.file = file;
         this.panda = panda;
     }
 
-    protected void save() {
-        try {
+    protected void save()
+    {
+        try
+        {
             LinkedList<String> lines = new LinkedList<>();
             Stack<String> keys = new Stack<>();
             StringBuilder chars = new StringBuilder();
             Map<String, Object> map = panda.getMap();
 
-            for (String line : panda.getCode()) {
-                if (line == null) {
+            for (String line : panda.getCode())
+            {
+                if (line == null)
+                {
                     continue;
                 }
                 String rx = line.replaceAll("\\s", "");
-                if (rx.equals("") || rx.startsWith("#")) {
+                if (rx.equals("") || rx.startsWith("#"))
+                {
                     lines.add(line);
                     break;
                 }
@@ -42,34 +49,45 @@ public class ConfigurationFile {
                 boolean skip = false;
                 int whitespace = 0;
 
-                for (char c : line.toCharArray()) {
-                    switch (c) {
+                for (char c : line.toCharArray())
+                {
+                    switch (c)
+                    {
                         case ' ':
-                            if (chars.length() == 0) {
+                            if (chars.length() == 0)
+                            {
                                 whitespace++;
                                 continue;
-                            } else {
+                            } else
+                            {
                                 chars.append(c);
                                 break;
                             }
                         case ':':
-                            if (!separator) {
+                            if (!separator)
+                            {
                                 keys.push(chars.toString());
                                 chars.setLength(0);
-                                if (map.containsKey(keys.peek())) {
+                                if (map.containsKey(keys.peek()))
+                                {
                                     String key = keys.pop();
                                     Object o = map.get(key);
                                     map.remove(key);
-                                    if (o == null) {
+                                    if (o == null)
+                                    {
                                         skip = true;
                                         break;
-                                    } else if (o instanceof List) {
+                                    } else if (o instanceof List)
+                                    {
                                         List<String> value = (List<String>) o;
-                                        if (value.isEmpty()) {
+                                        if (value.isEmpty())
+                                        {
                                             lines.add(getSpace(whitespace) + key + ": []");
-                                        } else {
+                                        } else
+                                        {
                                             lines.add(getSpace(whitespace) + key + ":");
-                                            for (String s : value) {
+                                            for (String s : value)
+                                            {
                                                 lines.add(getSpace(whitespace) + "- " + s);
                                             }
                                         }
@@ -82,52 +100,65 @@ public class ConfigurationFile {
                                 break;
                             }
                         case '-':
-                            if (chars.length() == 0) {
+                            if (chars.length() == 0)
+                            {
                                 skip = true;
                                 break;
                             }
                         default:
                             chars.append(c);
                     }
-                    if (skip) {
+                    if (skip)
+                    {
                         skip = false;
                         break;
                     }
                 }
             }
-            for (Entry<String, Object> entry : map.entrySet()) {
+            for (Entry<String, Object> entry : map.entrySet())
+            {
                 Object o = entry.getValue();
-                if (o == null) {
+                if (o == null)
+                {
                     continue;
-                } else if (o instanceof List) {
+                } else if (o instanceof List)
+                {
                     List<String> value = (List<String>) o;
-                    if (value.isEmpty()) {
+                    if (value.isEmpty())
+                    {
                         lines.add(entry.getKey() + ": []");
-                    } else {
+                    } else
+                    {
                         lines.add(entry.getKey() + ":");
-                        for (String s : value) {
+                        for (String s : value)
+                        {
                             lines.add("- " + s);
                         }
                     }
-                } else {
+                } else
+                {
                     lines.add(entry.getKey() + ": " + o.toString());
                 }
             }
             file.delete();
             BufferedWriter out = new BufferedWriter(new FileWriter(file));
-            for (String line : lines) {
+            for (String line : lines)
+            {
                 out.write(line);
                 out.newLine();
             }
             out.close();
-        } catch (Exception e) {
+        } catch (Exception e)
+        {
             e.printStackTrace();
         }
     }
 
-    private String getSpace(int s) {
+    private String getSpace(int s)
+    {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s; i++) {
+        for (int i = 0; i < s; i++)
+        {
             sb.append(" ");
         }
         return sb.toString();

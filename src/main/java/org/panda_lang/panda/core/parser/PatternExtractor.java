@@ -2,7 +2,8 @@ package org.panda_lang.panda.core.parser;
 
 import java.util.Stack;
 
-public class PatternExtractor {
+public class PatternExtractor
+{
 
 
     public static final char[] DEFAULT = "!?/{}()<>#;:=".toCharArray();
@@ -11,8 +12,10 @@ public class PatternExtractor {
     public static final char[] METHOD = "()".toCharArray();
 
 
-    public String extract(String line, char[] set) {
-        if (line == null) {
+    public String extract(String line, char[] set)
+    {
+        if (line == null)
+        {
             return "";
         }
 
@@ -20,18 +23,22 @@ public class PatternExtractor {
         Stack<Character> sections = new Stack<>();
         boolean string = false;
 
-        for (char c : line.toCharArray()) {
+        for (char c : line.toCharArray())
+        {
 
             // {string}
-            if (c == '"') {
+            if (c == '"')
+            {
                 string = !string;
                 continue;
-            } else if (string) {
+            } else if (string)
+            {
                 continue;
             }
 
             // {section}
-            switch (c) {
+            switch (c)
+            {
                 // {open}
                 case '(':
                     sections.push(c);
@@ -42,14 +49,17 @@ public class PatternExtractor {
                     break;
                 // {if.section}
                 default:
-                    if (sections.size() > 0) {
+                    if (sections.size() > 0)
+                    {
                         continue;
                     }
                     break;
             }
             // {char.set}
-            for (char s : set) {
-                if (s == c) {
+            for (char s : set)
+            {
+                if (s == c)
+                {
                     // {append.char.set}
                     pattern.append(c);
                     break;

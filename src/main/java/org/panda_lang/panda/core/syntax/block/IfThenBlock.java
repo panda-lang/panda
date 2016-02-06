@@ -10,12 +10,16 @@ import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.lang.PBoolean;
 
-public class IfThenBlock extends Block {
+public class IfThenBlock extends Block
+{
 
-    static {
-        BlockCenter.registerBlock(new BlockLayout(IfThenBlock.class, "if").initializer(new BlockInitializer() {
+    static
+    {
+        BlockCenter.registerBlock(new BlockLayout(IfThenBlock.class, "if").initializer(new BlockInitializer()
+        {
             @Override
-            public Block initialize(Atom atom) {
+            public Block initialize(Atom atom)
+            {
                 Block current = new IfThenBlock();
                 current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
@@ -25,22 +29,27 @@ public class IfThenBlock extends Block {
 
     private Block elseThenBlock;
 
-    public IfThenBlock() {
+    public IfThenBlock()
+    {
         super.setName("if-then::" + atomicInteger.incrementAndGet());
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Particle particle)
+    {
         PBoolean flag = factors[0].getValue().cast(PBoolean.class);
-        if (flag != null && flag.isTrue()) {
+        if (flag != null && flag.isTrue())
+        {
             return super.run(particle);
-        } else if (elseThenBlock != null) {
+        } else if (elseThenBlock != null)
+        {
             return elseThenBlock.run(particle);
         }
         return null;
     }
 
-    public void setElseThenBlock(Block block) {
+    public void setElseThenBlock(Block block)
+    {
         this.elseThenBlock = block;
     }
 

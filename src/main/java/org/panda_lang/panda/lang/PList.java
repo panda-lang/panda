@@ -6,20 +6,26 @@ import org.panda_lang.panda.core.syntax.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PList extends PObject {
+public class PList extends PObject
+{
 
-    static {
+    static
+    {
         Vial vial = new Vial("List");
         vial.group("panda.lang");
-        vial.constructor(new Constructor() {
+        vial.constructor(new Constructor()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 return new PList();
             }
         });
-        vial.method(new Method("add", new Executable() {
+        vial.method(new Method("add", new Executable()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 PList list = particle.getValueOfInstance();
                 list.getList().add(particle.getValueOfFactor(0));
                 return null;
@@ -29,24 +35,30 @@ public class PList extends PObject {
 
     private final List<Essence> list;
 
-    public PList() {
+    public PList()
+    {
         this.list = new ArrayList<>();
     }
 
-    public List<Essence> getList() {
+    public List<Essence> getList()
+    {
         return list;
     }
 
     @Override
-    public Object getJavaValue() {
+    public Object getJavaValue()
+    {
         return list;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         StringBuilder node = new StringBuilder();
-        for (Essence o : list) {
-            if (node.length() != 0) {
+        for (Essence o : list)
+        {
+            if (node.length() != 0)
+            {
                 node.append(", ");
             }
             node.append(o);

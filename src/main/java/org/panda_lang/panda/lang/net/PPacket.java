@@ -6,24 +6,30 @@ import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
 import org.panda_lang.panda.lang.PObject;
 
-public class PPacket extends PObject {
+public class PPacket extends PObject
+{
 
-    static {
+    static
+    {
         Vial vial = new Vial("Packet");
         vial.group("panda.network");
-        vial.constructor(new Constructor() {
+        vial.constructor(new Constructor()
+        {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Particle particle)
+            {
                 return new PPacket();
             }
         });
     }
 
-    public PPacket() {
+    public PPacket()
+    {
     }
 
     @Override
-    public Object getJavaValue() {
+    public Object getJavaValue()
+    {
         return this;
     }
 
