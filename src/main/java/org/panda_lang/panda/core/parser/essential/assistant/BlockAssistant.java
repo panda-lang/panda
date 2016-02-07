@@ -18,11 +18,13 @@ public class BlockAssistant
                 if (node.length() == 0)
                 {
                     continue;
-                } else
+                }
+                else
                 {
                     break;
                 }
-            } else
+            }
+            else
             {
                 node.append(c);
             }
@@ -63,7 +65,8 @@ public class BlockAssistant
                         if (node.length() == 0)
                         {
                             spec = false;
-                        } else if (name == null)
+                        }
+                        else if (name == null)
                         {
                             spec = true;
                         }
@@ -103,14 +106,17 @@ public class BlockAssistant
                 {
                     name = part;
                     spec = !spec;
-                } else if (spec && param)
+                }
+                else if (spec && param)
                 {
                     spec = false;
                     specifiers.add(part);
-                } else if (spec)
+                }
+                else if (spec)
                 {
                     specifiers.add(part);
-                } else if (param)
+                }
+                else if (param)
                 {
                     parameters.add(part);
                 }

@@ -32,7 +32,8 @@ public class CharArrayDistributor
         {
             i++;
             return array[i];
-        } else
+        }
+        else
         {
             return array[array.length - 1];
         }
@@ -43,7 +44,8 @@ public class CharArrayDistributor
         if (i + 1 < array.length)
         {
             return array[i + 1];
-        } else
+        }
+        else
         {
             return array[array.length - 1];
         }

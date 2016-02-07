@@ -32,16 +32,19 @@ public class ConstructorParser implements Parser
             if (c == '"')
             {
                 s = !s;
-            } else if (s)
+            }
+            else if (s)
             {
                 node.append(c);
                 continue;
-            } else if (p)
+            }
+            else if (p)
             {
                 if (c == '(')
                 {
                     stack.push(c);
-                } else if (c == ')')
+                }
+                else if (c == ')')
                 {
                     stack.pop();
                     if (stack.size() == 0)
@@ -51,7 +54,8 @@ public class ConstructorParser implements Parser
                 }
                 node.append(c);
                 continue;
-            } else if (node.length() == 0 && Character.isWhitespace(c))
+            }
+            else if (node.length() == 0 && Character.isWhitespace(c))
             {
                 continue;
             }

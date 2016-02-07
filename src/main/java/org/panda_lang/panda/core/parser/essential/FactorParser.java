@@ -27,15 +27,20 @@ public class FactorParser implements Parser
             // Math
             atom.getSourcesDivider().setLine(parameter);
             return new MathParser().parse(atom);
-        } else if (FactorAssistant.isEquality(atom, parameter))
+        }
+        else if (FactorAssistant.isEquality(atom, parameter))
         {
             // Equality
             atom.getSourcesDivider().setLine(parameter);
             return new EqualityParser().parse(atom);
-        } else if (FactorAssistant.isMethod(atom, parameter))
+        }
+        else if (FactorAssistant.isMethod(atom, parameter))
         {
             // Constructor
-            if (parameter.startsWith("new") && parameter.charAt(3) == ' ') return parseConstructor(atom, parameter);
+            if (parameter.startsWith("new") && parameter.charAt(3) == ' ')
+            {
+                return parseConstructor(atom, parameter);
+            }
             // Method
             MethodParser parser = new MethodParser();
             atom.getSourcesDivider().setLine(parameter);
@@ -47,19 +52,40 @@ public class FactorParser implements Parser
         char c = chars[0];
 
         // String
-        if (c == '"') return parseString(parameter);
-            // Array
-        else if (c == '[') return parseArray(atom, parameter);
-            // Number
-        else if (FactorAssistant.isNumber(parameter)) return parseNumber(parameter);
-            // This
-        else if (parameter.equals("this")) return parseThisOperator(atom);
-            // Null
-        else if (parameter.equals("null")) return new Factor(new PNull());
-            // Boolean
-        else if (parameter.equals("true")) return new Factor(new PBoolean(true));
-            // Boolean
-        else if (parameter.equals("false")) return new Factor(new PBoolean(false));
+        if (c == '"')
+        {
+            return parseString(parameter);
+        }
+        // Array
+        else if (c == '[')
+        {
+            return parseArray(atom, parameter);
+        }
+        // Number
+        else if (FactorAssistant.isNumber(parameter))
+        {
+            return parseNumber(parameter);
+        }
+        // This
+        else if (parameter.equals("this"))
+        {
+            return parseThisOperator(atom);
+        }
+        // Null
+        else if (parameter.equals("null"))
+        {
+            return new Factor(new PNull());
+        }
+        // Boolean
+        else if (parameter.equals("true"))
+        {
+            return new Factor(new PBoolean(true));
+        }
+        // Boolean
+        else if (parameter.equals("false"))
+        {
+            return new Factor(new PBoolean(false));
+        }
         else
         {
             // Variable

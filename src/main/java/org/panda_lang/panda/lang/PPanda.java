@@ -37,7 +37,8 @@ public class PPanda extends PObject
                 {
                     PandaScript pandaScript = PandaLoader.loadSimpleScript(essence.toString());
                     Panda.getInstance().addScript(pandaScript);
-                } else if (essence instanceof PFile)
+                }
+                else if (essence instanceof PFile)
                 {
                     File file = ((PFile) essence).getFile();
                     PandaScript pandaScript = PandaLoader.loadSingleScript(file);

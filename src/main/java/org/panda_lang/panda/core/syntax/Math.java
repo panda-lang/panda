@@ -52,7 +52,8 @@ public class Math implements Executable
                         c = null;
                 }
                 values.push(c);
-            } else
+            }
+            else
             {
                 Factor factor = mathBuilder.getParameter();
                 Numeric value = factor.getValue(particle.getMemory());

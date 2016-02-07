@@ -67,7 +67,8 @@ public class ThreadBlock extends Block
         {
             start(particle);
             return null;
-        } else
+        }
+        else
         {
             pThread = factors[0].getValue(particle);
             pThread.setBlock(this);

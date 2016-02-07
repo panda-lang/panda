@@ -42,11 +42,13 @@ public class Dependencies
         {
             // Specific
             specificMap.put(importElement.getSpecific(), importElement);
-        } else if (importElement.isDefinedGroup())
+        }
+        else if (importElement.isDefinedGroup())
         {
             // Group
             groups.add(importElement.getGroup());
-        } else if (importElement.isDefinedFile())
+        }
+        else if (importElement.isDefinedFile())
         {
             // File
             String definedFile = importElement.getFile();

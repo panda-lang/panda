@@ -35,7 +35,8 @@ public class VialBlock extends Block
         if (group != null)
         {
             this.vial.group(group);
-        } else
+        }
+        else
         {
             this.vial.group("default");
         }
@@ -68,10 +69,12 @@ public class VialBlock extends Block
         if (executable instanceof Field)
         {
             vial.getFields().put(executable.getName(), (Field) executable);
-        } else if (executable instanceof MethodBlock)
+        }
+        else if (executable instanceof MethodBlock)
         {
             vial.method(new Method(executable));
-        } else
+        }
+        else
         {
             System.out.println("Cannot add " + executable.getName() + " (" + executable.getClass().getSimpleName() + ") to vial (class)");
         }

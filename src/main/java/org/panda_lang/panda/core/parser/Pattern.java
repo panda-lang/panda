@@ -58,7 +58,8 @@ public class Pattern implements Comparable<Pattern>
             {
                 distributor.next();
                 i++;
-            } else if (current == '*')
+            }
+            else if (current == '*')
             {
                 if (distributor.further() == string[i])
                 {
@@ -66,7 +67,8 @@ public class Pattern implements Comparable<Pattern>
                     distributor.next();
                 }
                 i++;
-            } else
+            }
+            else
             {
                 break;
             }
@@ -143,7 +145,8 @@ public class Pattern implements Comparable<Pattern>
         {
             priority = count(getPattern(), '*');
             priorityTo = count(pattern.getPattern(), '*');
-        } else if (priorityTo == priority)
+        }
+        else if (priorityTo == priority)
         {
             return 0;
         }
@@ -156,7 +159,8 @@ public class Pattern implements Comparable<Pattern>
         if (priorityTo < priority)
         {
             return 1;
-        } else if (priorityTo > priority)
+        }
+        else if (priorityTo > priority)
         {
             return -1;
         }

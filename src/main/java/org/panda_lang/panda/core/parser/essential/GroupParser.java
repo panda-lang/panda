@@ -29,10 +29,12 @@ public class GroupParser implements Parser
             if (Character.isWhitespace(c))
             {
                 nsFlag = true;
-            } else if (c == ';')
+            }
+            else if (c == ';')
             {
                 break;
-            } else if (nsFlag)
+            }
+            else if (nsFlag)
             {
                 groupBuilder.append(c);
             }

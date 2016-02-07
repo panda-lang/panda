@@ -31,12 +31,14 @@ public class FieldAssistant
                 if (node.toString().equals("new"))
                 {
                     node.append(c);
-                } else if (accruedSpaces < space)
+                }
+                else if (accruedSpaces < space)
                 {
                     node.append(c);
                     accruedSpaces++;
                 }
-            } else if (string || c != ';')
+            }
+            else if (string || c != ';')
             {
                 if (c == '"')
                 {

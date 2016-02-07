@@ -24,14 +24,16 @@ public class PandaLoader
                     {
                         Collection<PandaScript> otherScripts = loadDirectory(file);
                         scripts.addAll(otherScripts);
-                    } else
+                    }
+                    else
                     {
                         PandaScript pandaScript = loadSingleScript(file);
                         scripts.add(pandaScript);
                     }
                 }
             }
-        } else
+        }
+        else
         {
             PandaScript pandaScript = loadSingleScript(directory);
             scripts.add(pandaScript);

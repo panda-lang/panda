@@ -36,7 +36,8 @@ public class SourcesDivider
             if (node.length() == 0 && Character.isWhitespace(c))
             {
                 continue;
-            } else if (node.length() == 0 && c == '/' && source[index + 1] == '/')
+            }
+            else if (node.length() == 0 && c == '/' && source[index + 1] == '/')
             {
                 skip = true;
             }

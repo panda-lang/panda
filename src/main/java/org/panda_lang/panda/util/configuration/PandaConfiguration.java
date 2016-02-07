@@ -27,7 +27,10 @@ public class PandaConfiguration
 
     public void save()
     {
-        if (configuration == null) return;
+        if (configuration == null)
+        {
+            return;
+        }
         new ConfigurationFile(configuration, this).save();
     }
 
@@ -55,35 +58,65 @@ public class PandaConfiguration
     public String getString(String path)
     {
         Object co = map.get(path);
-        if (co != null) if (co instanceof String) return (String) co;
+        if (co != null)
+        {
+            if (co instanceof String)
+            {
+                return (String) co;
+            }
+        }
         return null;
     }
 
     public boolean getBoolean(String path)
     {
         Object co = map.get(path);
-        if (co != null) if (co instanceof String) return Boolean.valueOf((String) co);
+        if (co != null)
+        {
+            if (co instanceof String)
+            {
+                return Boolean.valueOf((String) co);
+            }
+        }
         return false;
     }
 
     public int getInt(String path)
     {
         Object co = map.get(path);
-        if (co != null) if (co instanceof String) return Integer.valueOf((String) co);
+        if (co != null)
+        {
+            if (co instanceof String)
+            {
+                return Integer.valueOf((String) co);
+            }
+        }
         return 0;
     }
 
     public long getLong(String path)
     {
         Object co = map.get(path);
-        if (co != null) if (co instanceof String) return Long.valueOf((String) co);
+        if (co != null)
+        {
+            if (co instanceof String)
+            {
+                return Long.valueOf((String) co);
+            }
+        }
         return 0;
     }
 
     public double getDouble(String path)
     {
         Object co = map.get(path);
-        if (co != null) if (co instanceof String) return Double.valueOf((String) co);
+        if (co != null)
+        {
+            if (co instanceof String)
+            {
+                return Double.valueOf((String) co);
+            }
+        }
         return 0;
     }
 
@@ -105,7 +138,10 @@ public class PandaConfiguration
         Collection<String> list = new ArrayList<>();
         path = path + ".";
         for (String key : map.keySet())
-            if (key.startsWith(path)) list.add(key.substring(path.length()));
+            if (key.startsWith(path))
+            {
+                list.add(key.substring(path.length()));
+            }
         return list;
     }
 

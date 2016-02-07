@@ -70,7 +70,10 @@ public class Panda
 
     public void reload()
     {
-        if (reload != null) this.reload.run();
+        if (reload != null)
+        {
+            this.reload.run();
+        }
     }
 
     public void clear()
