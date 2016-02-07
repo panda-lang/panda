@@ -28,7 +28,8 @@ public class Equality implements Executable
             flag = oneFactor.getValue(particle).equals(otherFactor.getValue(particle));
             flag = (operator == Operator.EQUALS_TO) == flag;
 
-        } else
+        }
+        else
         {
             //TODO
 

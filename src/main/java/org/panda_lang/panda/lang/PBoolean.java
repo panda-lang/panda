@@ -22,10 +22,12 @@ public class PBoolean extends PObject
                 if (essence instanceof PNull)
                 {
                     return new PBoolean(false);
-                } else if (essence instanceof PBoolean)
+                }
+                else if (essence instanceof PBoolean)
                 {
                     return new PBoolean(((PBoolean) essence).getBoolean());
-                } else if (essence instanceof Numeric)
+                }
+                else if (essence instanceof Numeric)
                 {
                     byte value = ((Numeric) essence).getByte();
                     return new PBoolean(value != 0);

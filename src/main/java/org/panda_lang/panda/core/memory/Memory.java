@@ -40,7 +40,8 @@ public class Memory
         if (this.parent != null && this.parent.parentContainsKey(key))
         {
             this.parent.put(key, o);
-        } else
+        }
+        else
         {
             this.local.put(key, o);
         }
@@ -66,7 +67,8 @@ public class Memory
         if (local.containsKey(name))
         {
             return true;
-        } else if (parent != null && parent.containsKey(name))
+        }
+        else if (parent != null && parent.containsKey(name))
         {
             return true;
         }

@@ -75,7 +75,8 @@ public class Vial
                     return method.run(particle);
                 }
             });
-        } else
+        }
+        else
         {
             methods.put(method.getName(), method);
         }

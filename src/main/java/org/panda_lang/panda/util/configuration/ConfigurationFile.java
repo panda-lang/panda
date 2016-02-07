@@ -58,7 +58,8 @@ public class ConfigurationFile
                             {
                                 whitespace++;
                                 continue;
-                            } else
+                            }
+                            else
                             {
                                 chars.append(c);
                                 break;
@@ -77,13 +78,15 @@ public class ConfigurationFile
                                     {
                                         skip = true;
                                         break;
-                                    } else if (o instanceof List)
+                                    }
+                                    else if (o instanceof List)
                                     {
                                         List<String> value = (List<String>) o;
                                         if (value.isEmpty())
                                         {
                                             lines.add(getSpace(whitespace) + key + ": []");
-                                        } else
+                                        }
+                                        else
                                         {
                                             lines.add(getSpace(whitespace) + key + ":");
                                             for (String s : value)
@@ -121,13 +124,15 @@ public class ConfigurationFile
                 if (o == null)
                 {
                     continue;
-                } else if (o instanceof List)
+                }
+                else if (o instanceof List)
                 {
                     List<String> value = (List<String>) o;
                     if (value.isEmpty())
                     {
                         lines.add(entry.getKey() + ": []");
-                    } else
+                    }
+                    else
                     {
                         lines.add(entry.getKey() + ":");
                         for (String s : value)
@@ -135,7 +140,8 @@ public class ConfigurationFile
                             lines.add("- " + s);
                         }
                     }
-                } else
+                }
+                else
                 {
                     lines.add(entry.getKey() + ": " + o.toString());
                 }

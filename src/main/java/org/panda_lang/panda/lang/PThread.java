@@ -80,7 +80,8 @@ public class PThread extends PObject
         if (this.block != null)
         {
             block.start(particle);
-        } else if (thread != null)
+        }
+        else if (thread != null)
         {
             thread.start();
         }

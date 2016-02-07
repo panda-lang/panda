@@ -51,14 +51,18 @@ public class IOUtils
         if (!file.exists())
         {
             return new String[0];
-        } else try
+        }
+        else
         {
-            List<String> list = Files.readAllLines(file.toPath(), Charset.forName("UTF-8"));
-            String[] result = new String[list.size()];
-            return list.toArray(result);
-        } catch (IOException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                List<String> list = Files.readAllLines(file.toPath(), Charset.forName("UTF-8"));
+                String[] result = new String[list.size()];
+                return list.toArray(result);
+            } catch (IOException e)
+            {
+                e.printStackTrace();
+            }
         }
         return null;
     }

@@ -49,7 +49,8 @@ public class ImportParser implements Parser
                         {
                             String specific = importBuilder.toString();
                             importElement.setSpecific(specific);
-                        } else if (operator.equals("as"))
+                        }
+                        else if (operator.equals("as"))
                         {
                             String as = importBuilder.toString();
                             importElement.setAs(as);
@@ -60,7 +61,8 @@ public class ImportParser implements Parser
                     default:
                         break;
                 }
-            } else if (stage != 0)
+            }
+            else if (stage != 0)
             {
                 importBuilder.append(c);
             }

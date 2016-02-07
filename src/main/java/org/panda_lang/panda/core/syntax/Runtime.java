@@ -48,10 +48,22 @@ public class Runtime implements NamedExecutable
         }
         particle.setInstance(instance);
         particle.setFactors(factors);
-        if (method != null) return method.run(particle);
-        else if (math != null) return math.run(particle);
-        else if (equality != null) return equality.run(particle);
-        else if (executable != null) return executable.run(particle);
+        if (method != null)
+        {
+            return method.run(particle);
+        }
+        else if (math != null)
+        {
+            return math.run(particle);
+        }
+        else if (equality != null)
+        {
+            return equality.run(particle);
+        }
+        else if (executable != null)
+        {
+            return executable.run(particle);
+        }
         return null;
     }
 

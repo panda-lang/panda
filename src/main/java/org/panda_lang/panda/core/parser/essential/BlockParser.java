@@ -62,7 +62,8 @@ public class BlockParser implements Parser
             {
                 atom.setPrevious((Block) executable);
                 atom.getPrevious().setParent(current);
-            } else
+            }
+            else
             {
                 atom.getCurrent().addExecutable(executable);
             }

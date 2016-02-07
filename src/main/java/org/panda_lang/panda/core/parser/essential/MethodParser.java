@@ -50,7 +50,8 @@ public class MethodParser implements Parser
                 }));
 
                 // {instance.method}
-            } else
+            }
+            else
             {
                 final Factor instance = mi.getInstance();
 
@@ -102,7 +103,8 @@ public class MethodParser implements Parser
             }
 
             // {local}
-        } else
+        }
+        else
         {
             return new Runtime(new Method(mi.getMethodName(), new Executable()
             {

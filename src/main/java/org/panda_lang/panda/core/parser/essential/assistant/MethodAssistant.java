@@ -28,16 +28,19 @@ public class MethodAssistant
             if (c == '"')
             {
                 s = !s;
-            } else if (s)
+            }
+            else if (s)
             {
                 node.append(c);
                 continue;
-            } else if (p)
+            }
+            else if (p)
             {
                 if (c == '(')
                 {
                     stack.push(c);
-                } else if (c == ')')
+                }
+                else if (c == ')')
                 {
                     stack.pop();
                     if (stack.size() == 0)
@@ -47,7 +50,8 @@ public class MethodAssistant
                 }
                 node.append(c);
                 continue;
-            } else if (Character.isWhitespace(c))
+            }
+            else if (Character.isWhitespace(c))
             {
                 continue;
             }

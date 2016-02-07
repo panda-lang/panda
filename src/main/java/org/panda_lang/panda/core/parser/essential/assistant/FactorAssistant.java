@@ -40,7 +40,8 @@ public class FactorAssistant
             {
                 string = !string;
                 continue;
-            } else if (string)
+            }
+            else if (string)
             {
                 continue;
             }
@@ -87,11 +88,13 @@ public class FactorAssistant
                 string = !string;
                 node.append(c);
                 continue;
-            } else if (string)
+            }
+            else if (string)
             {
                 node.append(c);
                 continue;
-            } else if (node.length() == 0 && Character.isWhitespace(c))
+            }
+            else if (node.length() == 0 && Character.isWhitespace(c))
             {
                 continue;
             }

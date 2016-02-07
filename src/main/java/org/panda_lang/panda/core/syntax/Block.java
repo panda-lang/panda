@@ -56,11 +56,13 @@ public class Block implements NamedExecutable
                 Particle blockParticle = new Particle(particle, blockMemory);
                 blockMemory.setBlock((Block) executable);
                 result = executable.run(blockParticle);
-            } else if (executable instanceof Return)
+            }
+            else if (executable instanceof Return)
             {
                 result = executable.run(particle);
                 cache.proceed(false);
-            } else
+            }
+            else
             {
                 result = executable.run(particle);
             }

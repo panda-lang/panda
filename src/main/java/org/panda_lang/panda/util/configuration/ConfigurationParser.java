@@ -29,10 +29,19 @@ public class ConfigurationParser
 
         for (String line : code)
         {
-            if (line == null || line.isEmpty()) continue;
+            if (line == null || line.isEmpty())
+            {
+                continue;
+            }
             String rx = line.replaceAll("\\s", "");
-            if (rx.equals("")) continue;
-            if (rx.startsWith("#")) continue;
+            if (rx.equals(""))
+            {
+                continue;
+            }
+            if (rx.startsWith("#"))
+            {
+                continue;
+            }
 
             int charpos = 0;
             chars.setLength(0);
@@ -52,7 +61,8 @@ public class ConfigurationParser
                         {
                             whitespace++;
                             continue;
-                        } else
+                        }
+                        else
                         {
                             chars.append(c);
                             break;
@@ -81,11 +91,13 @@ public class ConfigurationParser
                         if (!separator)
                         {
                             if (!operators.isEmpty())
+                            {
                                 if (operators.peek() == '-')
                                 {
                                     chars.append(c);
                                     break;
                                 }
+                            }
                             int position = whitespace / 2;
                             patchPosition(position, lastPosition, keys);
                             keys.push(chars.toString());
@@ -93,7 +105,8 @@ public class ConfigurationParser
                             chars.setLength(0);
                             separator = true;
                             break;
-                        } else
+                        }
+                        else
                         {
                             chars.append(c);
                             break;
@@ -103,7 +116,8 @@ public class ConfigurationParser
                         {
                             operators.push(c);
                             break;
-                        } else
+                        }
+                        else
                         {
                             chars.append(c);
                             break;
@@ -113,7 +127,8 @@ public class ConfigurationParser
                         {
                             operators.push(c);
                             break;
-                        } else
+                        }
+                        else
                         {
                             chars.append(c);
                             break;
@@ -123,7 +138,8 @@ public class ConfigurationParser
                         {
                             operators.push(c);
                             break;
-                        } else
+                        }
+                        else
                         {
                             chars.append(c);
                             break;
@@ -131,7 +147,10 @@ public class ConfigurationParser
                     default:
                         chars.append(c);
                 }
-                if (skip) break;
+                if (skip)
+                {
+                    break;
+                }
             }
 
             int position = whitespace / 2;
@@ -156,7 +175,10 @@ public class ConfigurationParser
                             {
                                 entry.setKey(ConfigurationUtils.getPath(keys));
                             }
-                            if (entry.getValue() == null) entry.setValue(new ArrayList<String>());
+                            if (entry.getValue() == null)
+                            {
+                                entry.setValue(new ArrayList<String>());
+                            }
                             entry.getValue().add(string);
                             break;
                         default:
@@ -173,7 +195,10 @@ public class ConfigurationParser
                 switch (c)
                 {
                     case ']':
-                        if (operators.peek() != '[') break;
+                        if (operators.peek() != '[')
+                        {
+                            break;
+                        }
                         operators.pop();
                         ConfigurationObject co = new ConfigurationObject(ConfigurationType.LIST);
                         co.setObject(new ArrayList<String>());
@@ -206,7 +231,10 @@ public class ConfigurationParser
                         entry.setKey(ConfigurationUtils.getPath(keys));
                         keys.pop();
                     }
-                    if (entry.getValue() == null) entry.setValue(new ArrayList<String>());
+                    if (entry.getValue() == null)
+                    {
+                        entry.setValue(new ArrayList<String>());
+                    }
                     entry.getValue().add(string);
                     break;
                 case ':':
@@ -218,7 +246,10 @@ public class ConfigurationParser
                         lo.setObject(entry.getValue());
                         lo.setPosition(position);
                         this.addEntry(entry.getKey(), lo);
-                        if (keys.size() != 0) keys.pop();
+                        if (keys.size() != 0)
+                        {
+                            keys.pop();
+                        }
                         entry = new SimpleEntry<>();
                         entry.setValue(new ArrayList<String>());
                     }
@@ -268,7 +299,8 @@ public class ConfigurationParser
             {
                 String s = (String) entry.getValue().getObject();
                 System.out.println(entry.getKey() + ": " + s);
-            } else
+            }
+            else
             {
                 System.out.println(entry.getKey() + ": ");
                 for (String s : (List<String>) entry.getValue().getObject())
@@ -284,7 +316,10 @@ public class ConfigurationParser
         Map<String, Object> map = new HashMap<>();
         for (Entry<String, ConfigurationObject> entry : this.map.entrySet())
         {
-            if (entry.getKey() == null) continue;
+            if (entry.getKey() == null)
+            {
+                continue;
+            }
             map.put(entry.getKey(), entry.getValue().getObject());
         }
         return map;

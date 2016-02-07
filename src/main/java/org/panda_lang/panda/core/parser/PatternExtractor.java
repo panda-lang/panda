@@ -31,7 +31,8 @@ public class PatternExtractor
             {
                 string = !string;
                 continue;
-            } else if (string)
+            }
+            else if (string)
             {
                 continue;
             }

@@ -41,7 +41,8 @@ public class IfThenBlock extends Block
         if (flag != null && flag.isTrue())
         {
             return super.run(particle);
-        } else if (elseThenBlock != null)
+        }
+        else if (elseThenBlock != null)
         {
             return elseThenBlock.run(particle);
         }
