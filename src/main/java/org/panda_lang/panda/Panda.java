@@ -1,5 +1,6 @@
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.core.Basis;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.analyzer.Analyzer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -13,7 +14,6 @@ import java.util.Collection;
 public class Panda {
 
     public static final String PANDA_VERSION = "1.0.0-SNAPSHOT";
-    private static Panda panda;
 
     private final PandaCore pandaCore;
     private final PandaLoader pandaLoader;
@@ -22,17 +22,10 @@ public class Panda {
     private Runnable reload;
 
     public Panda() {
-        panda = this;
-        pandaCore = new PandaCore();
-        pandaLoader = new PandaLoader();
+        pandaCore = new PandaCore(this);
+        pandaLoader = new PandaLoader(this);
         extensions = new ArrayList<>();
         scripts = new ArrayList<>();
-    }
-
-    public void callAll(Class<? extends Block> blockType, String name, Factor... factors) {
-        for (PandaScript script : getScripts()) {
-            script.call(blockType, name, factors);
-        }
     }
 
     public void registerParser(ParserLayout parserLayout) {
@@ -52,9 +45,22 @@ public class Panda {
         this.extensions.add(pandaExtension);
     }
 
+    public void initializeDefaultElements() {
+        Basis basis = getBasis();
+        basis.loadParsers();
+        basis.loadBlocks();
+        basis.loadObjects();
+    }
+
+    public void callAll(Class<? extends Block> blockType, String name, Factor... factors) {
+        for (PandaScript script : getScripts()) {
+            script.call(blockType, name, factors);
+        }
+    }
+
     public void exec(String... commands) {
         for (String command : commands) {
-            Exec.activate(command);
+            Exec.activate(this, command);
         }
     }
 
@@ -76,6 +82,10 @@ public class Panda {
         this.scripts.add(script);
     }
 
+    public Basis getBasis() {
+        return new Basis(pandaCore);
+    }
+
     public Collection<PandaScript> getScripts() {
         return scripts;
     }
@@ -94,12 +104,9 @@ public class Panda {
 
 
     public static void main(String[] args) throws Exception {
-        panda = new Panda();
+        Panda panda = new Panda();
+        panda.initializeDefaultElements();
         panda.exec(args);
-    }
-
-    public static Panda getInstance() {
-        return panda != null ? panda : new Panda();
     }
 
 }

@@ -1,5 +1,7 @@
 package org.panda_lang.panda.core.parser;
 
+import org.panda_lang.panda.Panda;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -46,6 +48,10 @@ public class ParserLayout {
         Pattern p = pattern(pattern, priority, id);
         p.setCharset(charset);
         return p;
+    }
+
+    public void register(Panda panda) {
+        panda.registerParser(this);
     }
 
     public Collection<Pattern> getPatterns() {

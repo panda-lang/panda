@@ -25,12 +25,8 @@ public class Essence implements NamedExecutable {
     }
 
     public Essence call(String methodName, Particle particle) {
-        particle = new Particle(memory, this, new Factor(this), particle.getFactors());
+        particle = new Particle(particle.getPanda(), memory, this, new Factor(this), particle.getFactors());
         return vial.call(methodName, particle);
-    }
-
-    public Essence call(String methodName, Factor... factors) {
-        return vial.call(methodName, new Particle(memory, this, new Factor(this), factors));
     }
 
     @Override

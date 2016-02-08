@@ -1,7 +1,11 @@
 package org.panda_lang.panda.core.parser.essential;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.parser.*;
+import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.PandaException;
+import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.assistant.MethodAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
@@ -10,11 +14,6 @@ import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
 public class MethodParser implements Parser {
-
-    static {
-        ParserLayout parserLayout = new ParserLayout(new MethodParser(), "*(*);", EssentialPriority.METHOD.getPriority());
-        ParserCenter.registerParser(parserLayout);
-    }
 
     @Override
     public Runtime parse(final Atom atom) {
@@ -36,7 +35,7 @@ public class MethodParser implements Parser {
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
                     public Essence run(Particle particle) {
-                        particle = new Particle(particle, mi.getFactors());
+                        particle = new Particle(atom.getPanda(), particle, mi.getFactors());
                         return method != null ? method.run(particle) : vial.getMethod(mi.getMethodName()).run(particle);
                     }
                 }));
@@ -100,6 +99,12 @@ public class MethodParser implements Parser {
                 }
             }));
         }
+    }
+
+    public static void initialize(Panda panda) {
+        MethodParser methodParser = new MethodParser();
+        ParserLayout parserLayout = new ParserLayout(methodParser, "*(*);", EssentialPriority.METHOD.getPriority());
+        panda.registerParser(parserLayout);
     }
 
 }

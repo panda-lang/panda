@@ -11,19 +11,21 @@ import java.util.Collection;
 
 public class PandaScript {
 
-    private final Collection<PandaBlock> blocks;
+    private final Panda panda;
+    private final Collection<PandaBlock> elements;
     private String workingDirectory;
 
-    public PandaScript() {
-        this.blocks = new ArrayList<>();
+    public PandaScript(Panda panda) {
+        this.panda = panda;
+        this.elements = new ArrayList<>();
     }
 
     public void addPandaBlock(PandaBlock block) {
-        this.blocks.add(block);
+        this.elements.add(block);
     }
 
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
-        for (PandaBlock pandaBlock : blocks) {
+        for (PandaBlock pandaBlock : elements) {
             Essence essence = pandaBlock.call(blockType, name, factors);
             if (essence != null) {
                 return essence;
@@ -34,7 +36,7 @@ public class PandaScript {
 
     public Collection<Vial> extractVials() {
         Collection<Vial> vials = new ArrayList<>(1);
-        for (PandaBlock pandaBlock : blocks) {
+        for (PandaBlock pandaBlock : elements) {
             vials.addAll(pandaBlock.extractVials());
         }
         return vials;
@@ -46,6 +48,10 @@ public class PandaScript {
 
     public String getWorkingDirectory() {
         return workingDirectory;
+    }
+
+    public Panda getPanda() {
+        return panda;
     }
 
 }

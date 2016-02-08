@@ -7,22 +7,18 @@ import java.util.List;
 
 public class ParserCenter {
 
-    private static final List<Pattern> patterns = new ArrayList<>();
+    private final List<Pattern> patterns = new ArrayList<>();
 
-    public static void registerParser(ParserLayout parserLayout) {
+    public void registerParser(ParserLayout parserLayout) {
         registerPatterns(parserLayout.getPatterns());
     }
 
-    public static void registerPatterns(Collection<Pattern> patternCollection) {
+    public void registerPatterns(Collection<Pattern> patternCollection) {
         patterns.addAll(patternCollection);
         Collections.sort(patterns);
     }
 
-    public static List<Pattern> getPatterns() {
-        return patterns;
-    }
-
-    public static Parser getParser(Atom atom, String s) {
+    public Parser getParser(Atom atom, String s) {
         final String defaultPattern = atom.getPatternExtractor().extract(s, PatternExtractor.DEFAULT);
         for (Pattern pattern : getPatterns()) {
             String matchedPattern = pattern.getCharset() != null ? atom.getPatternExtractor().extract(s, pattern.getCharset()) : defaultPattern;
@@ -32,6 +28,10 @@ public class ParserCenter {
             }
         }
         return null;
+    }
+
+    public List<Pattern> getPatterns() {
+        return patterns;
     }
 
 }

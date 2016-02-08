@@ -8,7 +8,7 @@ public class Factor implements NamedExecutable {
     enum Type {
         DEFINED,
         VARIABLE,
-        RUNTIME;
+        RUNTIME
     }
 
     private final Type type;
@@ -65,14 +65,10 @@ public class Factor implements NamedExecutable {
                 if (runtime == null) {
                     return null;
                 }
-                this.value = runtime.run(new Particle(memory));
+                this.value = runtime.run(new Particle(null, memory));
                 break;
         }
         return (T) this.value;
-    }
-
-    public Type getType() {
-        return type;
     }
 
     public Essence getObject() {

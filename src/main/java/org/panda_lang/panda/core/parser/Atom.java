@@ -1,6 +1,10 @@
 package org.panda_lang.panda.core.parser;
 
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaCore;
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
+import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import org.panda_lang.panda.core.parser.essential.util.Dependencies;
 import org.panda_lang.panda.core.syntax.Block;
@@ -11,6 +15,8 @@ import java.util.Map;
 public class Atom {
 
     private final Map<String, Object> map;
+
+    private Panda panda;
     private PandaScript pandaScript;
     private PandaParser pandaParser;
     private Dependencies dependencies;
@@ -23,8 +29,9 @@ public class Atom {
     private Block current;
     private Block parent;
 
-    public Atom(PandaScript pandaScript, PandaParser pandaParser, Dependencies dependencies, SourcesDivider sourcesDivider, PatternExtractor patternExtractor, BlockInfo blockInfo, String sourceCode, Block previous, Block current, Block parent) {
+    public Atom(Panda panda, PandaScript pandaScript, PandaParser pandaParser, Dependencies dependencies, SourcesDivider sourcesDivider, PatternExtractor patternExtractor, BlockInfo blockInfo, String sourceCode, Block previous, Block current, Block parent) {
         this();
+        this.panda = panda;
         this.pandaScript = pandaScript;
         this.pandaParser = pandaParser;
         this.dependencies = dependencies;
@@ -38,7 +45,7 @@ public class Atom {
     }
 
     public Atom() {
-        this.map = new HashMap<>(10);
+        this.map = new HashMap<>(0);
     }
 
     public void set(String key, Object value) {
@@ -103,6 +110,22 @@ public class Atom {
         return sourceCode == null && sourcesDivider != null ? new String(sourcesDivider.getSource()) : sourceCode;
     }
 
+    public BlockCenter getBlockCenter() {
+        return getPandaCore().getBlockCenter();
+    }
+
+    public AnalyzerCenter getAnalyzerCenter() {
+        return getPandaCore().getAnalyzerCenter();
+    }
+
+    public ParserCenter getParserCenter() {
+        return getPandaCore().getParserCenter();
+    }
+
+    public PandaCore getPandaCore() {
+        return panda.getPandaCore();
+    }
+
     public Map<String, Object> getMap() {
         return map;
     }
@@ -145,6 +168,10 @@ public class Atom {
 
     public Pattern getVariant() {
         return variant;
+    }
+
+    public Panda getPanda() {
+        return panda;
     }
 
 }

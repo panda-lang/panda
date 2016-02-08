@@ -1,6 +1,6 @@
 package org.panda_lang.panda.util;
 
-import org.panda_lang.panda.PandaLoader;
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
@@ -8,7 +8,7 @@ import java.io.File;
 
 public class Exec {
 
-    public static void activate(String source) {
+    public static void activate(Panda panda, String source) {
         try {
             if (source == null || source.isEmpty()) {
                 return;
@@ -22,14 +22,14 @@ public class Exec {
 
             switch (command) {
                 case "-FILE":
-                    PandaScript fScript = PandaLoader.loadSingleScript(new File(parts[1]));
+                    PandaScript fScript = panda.getPandaLoader().loadSingleScript(new File(parts[1]));
                     if (fScript == null) {
                         return;
                     }
                     fScript.call(MethodBlock.class, "main");
                     break;
                 case "-SOURCE":
-                    PandaScript sScript = PandaLoader.loadSimpleScript(parts[1]);
+                    PandaScript sScript = panda.getPandaLoader().loadSimpleScript(parts[1]);
                     if (sScript == null) {
                         return;
                     }

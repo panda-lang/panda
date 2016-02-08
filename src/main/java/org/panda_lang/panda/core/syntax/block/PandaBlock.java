@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.syntax.block;
 
+import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.memory.Global;
 import org.panda_lang.panda.core.memory.Memory;
@@ -10,18 +11,22 @@ import java.util.Collection;
 
 public class PandaBlock extends Block {
 
+    private final PandaScript pandaScript;
+    private final Collection<Library> libraries;
     private final Collection<Import> imports;
     private final Memory memory;
     private Group group;
 
-    public PandaBlock() {
-        super.setName("Panda Block");
+    public PandaBlock(PandaScript pandaScript) {
+        this.pandaScript = pandaScript;
         this.memory = new Memory(Global.COMMON_MEMORY);
+        this.libraries = new ArrayList<>(0);
         this.imports = new ArrayList<>();
+        super.setName("Panda Block");
     }
 
     public void initializeGlobalVariables() {
-        Particle particle = new Particle(memory);
+        Particle particle = new Particle(pandaScript.getPanda(), memory);
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.run(particle);
@@ -32,7 +37,7 @@ public class PandaBlock extends Block {
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (NamedExecutable executable : super.getExecutables()) {
             if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                Particle particle = new Particle(memory);
+                Particle particle = new Particle(pandaScript.getPanda(), memory);
                 particle.setFactors(factors);
                 return executable.run(particle);
             }

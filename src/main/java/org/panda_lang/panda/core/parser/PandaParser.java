@@ -1,5 +1,6 @@
 package org.panda_lang.panda.core.parser;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.essential.util.Dependencies;
@@ -13,6 +14,7 @@ import java.util.Collection;
 public class PandaParser {
 
     private final Atom atom;
+    private final Panda panda;
     private final PandaScript pandaScript;
     private final Dependencies dependencies;
     private final PandaBlock pandaBlock;
@@ -23,15 +25,16 @@ public class PandaParser {
     private final Collection<Runnable> postProcesses;
     private boolean exception;
 
-    public PandaParser(String source) {
-        this.pandaScript = new PandaScript();
+    public PandaParser(Panda panda, String source) {
+        this.panda = panda;
+        this.pandaScript = new PandaScript(panda);
         this.dependencies = new Dependencies(pandaScript);
-        this.pandaBlock = new PandaBlock();
+        this.pandaBlock = new PandaBlock(pandaScript);
         this.divider = new SourcesDivider(source);
         this.extractor = new PatternExtractor();
         this.semanticAnalyzer = new SemanticAnalyzer();
         this.postProcesses = new ArrayList<>();
-        this.atom = new Atom(pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
+        this.atom = new Atom(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
     public PandaScript parse() {
@@ -60,7 +63,7 @@ public class PandaParser {
     }
 
     public NamedExecutable parseLine(String line, Atom atom) {
-        Parser parser = ParserCenter.getParser(atom, line);
+        Parser parser = atom.getParserCenter().getParser(atom, line);
 
         // {initializer.not.found}
         if (parser == null) {

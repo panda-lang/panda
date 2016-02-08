@@ -1,19 +1,16 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.parser.*;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserLayout;
+import org.panda_lang.panda.core.parser.PatternExtractor;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.syntax.Group;
 import org.panda_lang.panda.core.syntax.Import;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class GroupParser implements Parser {
-
-    static {
-        GroupParser groupParser = new GroupParser();
-        ParserLayout parserLayout = new ParserLayout(groupParser);
-        parserLayout.pattern("group *;", EssentialPriority.GROUP.getPriority(), EssentialPriority.GROUP.getPriority() * 10, PatternExtractor.FULL);
-        ParserCenter.registerParser(parserLayout);
-    }
 
     @Override
     public NamedExecutable parse(Atom atom) {
@@ -39,6 +36,13 @@ public class GroupParser implements Parser {
         atom.getPandaParser().getPandaBlock().setGroup(group);
         atom.getPandaParser().getDependencies().importElement(anImport);
         return group;
+    }
+
+    public static void initialize(Panda panda) {
+        GroupParser groupParser = new GroupParser();
+        ParserLayout parserLayout = new ParserLayout(groupParser);
+        parserLayout.pattern("group *;", EssentialPriority.GROUP.getPriority(), EssentialPriority.GROUP.getPriority() * 10, PatternExtractor.FULL);
+        panda.registerParser(parserLayout);
     }
 
 }

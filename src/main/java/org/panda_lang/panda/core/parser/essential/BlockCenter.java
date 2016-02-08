@@ -7,13 +7,13 @@ import java.util.Collection;
 
 public class BlockCenter {
 
-    private final static Collection<BlockLayout> blocks = new ArrayList<>();
+    private final Collection<BlockLayout> blocks = new ArrayList<>();
 
-    public static void registerBlock(BlockLayout scheme) {
+    public void registerBlock(BlockLayout scheme) {
         blocks.add(scheme);
     }
 
-    public static Collection<BlockLayout> getBlocks() {
+    public Collection<BlockLayout> getBlocks() {
         return blocks;
     }
 
