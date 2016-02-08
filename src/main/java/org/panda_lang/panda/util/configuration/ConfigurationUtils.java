@@ -1,6 +1,5 @@
 package org.panda_lang.panda.util.configuration;
 
-import java.util.Iterator;
 import java.util.Stack;
 
 public class ConfigurationUtils {
@@ -10,9 +9,7 @@ public class ConfigurationUtils {
         if (stack == null || stack.isEmpty()) {
             return null;
         }
-        Iterator<String> it = stack.iterator();
-        while (it.hasNext()) {
-            String key = it.next();
+        for (String key : stack) {
             if (key == null || key.isEmpty()) {
                 continue;
             }

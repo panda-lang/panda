@@ -45,7 +45,7 @@ public class Block implements NamedExecutable {
 
             if (executable instanceof Block) {
                 Memory blockMemory = new Memory(memory);
-                Particle blockParticle = new Particle(particle, blockMemory);
+                Particle blockParticle = new Particle(particle.getPanda(), particle, blockMemory);
                 blockMemory.setBlock((Block) executable);
                 result = executable.run(blockParticle);
             }

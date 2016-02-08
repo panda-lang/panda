@@ -247,6 +247,7 @@ public class ConfigurationParser {
         }
     }
 
+    @SuppressWarnings("unchecked")
     protected void print() {
         for (Entry<String, ConfigurationObject> entry : this.map.entrySet()) {
             if (entry.getValue().getType() == ConfigurationType.STRING) {

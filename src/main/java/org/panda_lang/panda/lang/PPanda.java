@@ -1,7 +1,6 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.syntax.Essence;
@@ -19,7 +18,7 @@ public class PPanda extends PObject {
         vial.method(new Method("reload", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                Panda.getInstance().reload();
+                particle.getPanda().reload();
                 return null;
             }
         }));
@@ -28,13 +27,13 @@ public class PPanda extends PObject {
             public Essence run(Particle particle) {
                 Essence essence = particle.getValueOfFactor(0);
                 if (essence instanceof PString) {
-                    PandaScript pandaScript = PandaLoader.loadSimpleScript(essence.toString());
-                    Panda.getInstance().addScript(pandaScript);
+                    PandaScript pandaScript = particle.getPanda().getPandaLoader().loadSimpleScript(essence.toString());
+                    particle.getPanda().addScript(pandaScript);
                 }
                 else if (essence instanceof PFile) {
                     File file = ((PFile) essence).getFile();
-                    PandaScript pandaScript = PandaLoader.loadSingleScript(file);
-                    Panda.getInstance().addScript(pandaScript);
+                    PandaScript pandaScript = particle.getPanda().getPandaLoader().loadSingleScript(file);
+                    particle.getPanda().addScript(pandaScript);
                 }
                 return null;
             }

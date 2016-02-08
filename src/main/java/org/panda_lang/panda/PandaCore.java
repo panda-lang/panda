@@ -1,6 +1,5 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.Basis;
 import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.analyzer.Analyzer;
@@ -10,26 +9,44 @@ import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 
 public class PandaCore {
 
-    private final Basis basis;
+    private final Panda panda;
+    private final ParserCenter parserCenter;
+    private final BlockCenter blockCenter;
+    private final AnalyzerCenter analyzerCenter;
 
-    protected PandaCore() {
-        this.basis = new Basis(this);
-
-        this.basis.loadParsers();
-        this.basis.loadBlocks();
-        this.basis.loadObjects();
+    protected PandaCore(Panda panda) {
+        this.panda = panda;
+        this.parserCenter = new ParserCenter();
+        this.blockCenter = new BlockCenter();
+        this.analyzerCenter = new AnalyzerCenter();
     }
 
     public void registerParser(ParserLayout parser) {
-        ParserCenter.registerPatterns(parser.getPatterns());
+        parserCenter.registerPatterns(parser.getPatterns());
     }
 
     public void registerAnalyzer(Analyzer analyzer) {
-        AnalyzerCenter.registerAnalyzer(analyzer);
+        analyzerCenter.registerAnalyzer(analyzer);
     }
 
     public void registerBlock(BlockLayout blockLayout) {
-        BlockCenter.registerBlock(blockLayout);
+        blockCenter.registerBlock(blockLayout);
+    }
+
+    public BlockCenter getBlockCenter() {
+        return blockCenter;
+    }
+
+    public AnalyzerCenter getAnalyzerCenter() {
+        return analyzerCenter;
+    }
+
+    public ParserCenter getParserCenter() {
+        return parserCenter;
+    }
+
+    public Panda getPanda() {
+        return panda;
     }
 
 }

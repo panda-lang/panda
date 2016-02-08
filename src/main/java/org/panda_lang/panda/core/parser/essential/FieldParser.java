@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.parser.essential;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
-import org.panda_lang.panda.core.parser.ParserCenter;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.assistant.FieldAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
@@ -11,13 +11,6 @@ import org.panda_lang.panda.core.syntax.Field;
 import org.panda_lang.panda.lang.PNull;
 
 public class FieldParser implements Parser {
-
-    static {
-        ParserLayout parserLayout = new ParserLayout(new FieldParser());
-        parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
-        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
-        ParserCenter.registerParser(parserLayout);
-    }
 
     @Override
     public Field parse(Atom atom) {
@@ -45,6 +38,13 @@ public class FieldParser implements Parser {
         }
 
         return field;
+    }
+
+    public static void initialize(Panda panda) {
+        ParserLayout parserLayout = new ParserLayout(new FieldParser());
+        parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
+        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
+        panda.registerParser(parserLayout);
     }
 
 }

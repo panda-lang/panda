@@ -19,9 +19,10 @@ public class ConfigurationFile {
         this.panda = panda;
     }
 
+    @SuppressWarnings("unchecked")
     protected void save() {
         try {
-            LinkedList<String> lines = new LinkedList<>();
+            List<String> lines = new LinkedList<>();
             Stack<String> keys = new Stack<>();
             StringBuilder chars = new StringBuilder();
             Map<String, Object> map = panda.getMap();
@@ -103,7 +104,7 @@ public class ConfigurationFile {
                 if (o == null) {
                     continue;
                 }
-                else if (o instanceof List) {
+                if (o instanceof List) {
                     List<String> value = (List<String>) o;
                     if (value.isEmpty()) {
                         lines.add(entry.getKey() + ": []");

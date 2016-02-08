@@ -1,17 +1,15 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.parser.*;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserLayout;
+import org.panda_lang.panda.core.parser.PatternExtractor;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.syntax.Import;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class ImportParser implements Parser {
-
-    static {
-        ParserLayout parserLayout = new ParserLayout(new ImportParser());
-        parserLayout.pattern("import *;", EssentialPriority.IMPORT.getPriority(), EssentialPriority.IMPORT.getPriority() * 10, PatternExtractor.FULL);
-        ParserCenter.registerParser(parserLayout);
-    }
 
     @Override
     public NamedExecutable parse(Atom atom) {
@@ -61,6 +59,12 @@ public class ImportParser implements Parser {
 
         atom.getPandaParser().getDependencies().importElement(importElement);
         return importElement;
+    }
+
+    public static void initialize(Panda panda) {
+        ParserLayout parserLayout = new ParserLayout(new ImportParser());
+        parserLayout.pattern("import *;", EssentialPriority.IMPORT.getPriority(), EssentialPriority.IMPORT.getPriority() * 10, PatternExtractor.FULL);
+        panda.registerParser(parserLayout);
     }
 
 }

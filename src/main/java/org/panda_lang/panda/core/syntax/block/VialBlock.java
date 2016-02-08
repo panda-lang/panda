@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.*;
@@ -11,19 +11,11 @@ import java.util.List;
 
 public class VialBlock extends Block {
 
-    static {
-        BlockCenter.registerBlock(new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
-            @Override
-            public Block initialize(Atom atom) {
-                Group group = atom.getPandaParser().getPandaBlock().getGroup();
-                return new VialBlock(group, atom.getBlockInfo().getSpecifiers());
-            }
-        }));
-    }
-
+    private final Panda panda;
     private final Vial vial;
 
-    public VialBlock(Group group, List<String> specifiers) {
+    public VialBlock(Panda panda, Group group, List<String> specifiers) {
+        this.panda = panda;
         this.vial = new Vial(specifiers.get(0));
         this.vial.setVialBlock(this);
 
@@ -42,7 +34,7 @@ public class VialBlock extends Block {
     }
 
     public Particle initializeFields(Essence essence) {
-        Particle particle = new Particle();
+        Particle particle = new Particle(panda);
         particle.setMemory(essence.getMemory());
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
@@ -67,6 +59,17 @@ public class VialBlock extends Block {
 
     public Vial getVial() {
         return vial;
+    }
+
+    public static void initialize(Panda panda) {
+        BlockLayout blockLayout = new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
+            @Override
+            public Block initialize(Atom atom) {
+                Group group = atom.getPandaParser().getPandaBlock().getGroup();
+                return new VialBlock(atom.getPanda(), group, atom.getBlockInfo().getSpecifiers());
+            }
+        });
+        panda.registerBlock(blockLayout);
     }
 
 }

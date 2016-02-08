@@ -1,45 +1,43 @@
 package org.panda_lang.panda.core;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaCore;
+import org.panda_lang.panda.core.parser.essential.*;
+import org.panda_lang.panda.core.syntax.block.*;
 import org.panda_lang.panda.util.ClassCaller;
 
 public class Basis {
 
+    private final Panda panda;
     private final PandaCore pandaCore;
 
     public Basis(PandaCore pandaCore) {
+        this.panda = pandaCore.getPanda();
         this.pandaCore = pandaCore;
     }
 
     public void loadParsers() {
-        ClassCaller.loadClasses("org.panda_lang.panda.core.parser.essential",
-                "BlockParser",
-                "ConstructorParser",
-                "ContinueParser",
-                "EqualityParser",
-                "FactorParser",
-                "FieldParser",
-                "GroupParser",
-                "ImportParser",
-                "MathParser",
-                "MethodParser",
-                "ReturnParser");
+        BlockParser.initialize(panda);
+        ContinueParser.initialize(panda);
+        FieldParser.initialize(panda);
+        GroupParser.initialize(panda);
+        ImportParser.initialize(panda);
+        MethodParser.initialize(panda);
+        ReturnParser.initialize(panda);
     }
 
     public void loadBlocks() {
-        ClassCaller.loadClasses("org.panda_lang.panda.core.syntax.block",
-                "ElseThenBlock",
-                "ForBlock",
-                "IfThenBlock",
-                "MethodBlock",
-                "RunnableBlock",
-                "ThreadBlock",
-                "VialBlock",
-                "WhileBlock");
+        ElseThenBlock.initialize(panda);
+        ForBlock.initialize(panda);
+        IfThenBlock.initialize(panda);
+        MethodBlock.initialize(panda);
+        RunnableBlock.initialize(panda);
+        ThreadBlock.initialize(panda);
+        VialBlock.initialize(panda);
+        WhileBlock.initialize(panda);
     }
 
     public void loadObjects() {
-        // Default
         ClassCaller.loadClasses("org.panda_lang.panda.lang",
                 "PArray",
                 "PBoolean",
@@ -56,14 +54,14 @@ public class Basis {
                 "PString",
                 "PSystem",
                 "PThread");
-        // Network
+
         ClassCaller.loadClasses("org.panda_lang.panda.lang.net",
                 "PPacket",
                 "PServerSocket",
                 "PServerSocketChannel",
                 "PSocket",
                 "PSocketChannel");
-        // UI
+
         ClassCaller.loadClasses("org.panda_lang.panda.lang.ui",
                 "PInterface");
     }

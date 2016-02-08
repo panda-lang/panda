@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.syntax.block;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -11,17 +11,6 @@ import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.lang.PBoolean;
 
 public class IfThenBlock extends Block {
-
-    static {
-        BlockCenter.registerBlock(new BlockLayout(IfThenBlock.class, "if").initializer(new BlockInitializer() {
-            @Override
-            public Block initialize(Atom atom) {
-                Block current = new IfThenBlock();
-                current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
-                return current;
-            }
-        }));
-    }
 
     private Block elseThenBlock;
 
@@ -43,6 +32,18 @@ public class IfThenBlock extends Block {
 
     public void setElseThenBlock(Block block) {
         this.elseThenBlock = block;
+    }
+
+    public static void initialize(Panda panda) {
+        BlockLayout blockLayout = new BlockLayout(IfThenBlock.class, "if").initializer(new BlockInitializer() {
+            @Override
+            public Block initialize(Atom atom) {
+                Block current = new IfThenBlock();
+                current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
+                return current;
+            }
+        });
+        panda.registerBlock(blockLayout);
     }
 
 }
