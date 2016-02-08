@@ -10,16 +10,12 @@ import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 
-public class ForBlock extends Block
-{
+public class ForBlock extends Block {
 
-    static
-    {
-        BlockCenter.registerBlock(new BlockLayout(ForBlock.class, "for", "loop").initializer(new BlockInitializer()
-        {
+    static {
+        BlockCenter.registerBlock(new BlockLayout(ForBlock.class, "for", "loop").initializer(new BlockInitializer() {
             @Override
-            public Block initialize(Atom atom)
-            {
+            public Block initialize(Atom atom) {
                 Block current = new ForBlock();
                 current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
@@ -27,20 +23,16 @@ public class ForBlock extends Block
         }));
     }
 
-    public ForBlock()
-    {
+    public ForBlock() {
         super.setName("for::" + atomicInteger.incrementAndGet());
     }
 
     @Override
-    public Essence run(Particle particle)
-    {
+    public Essence run(Particle particle) {
         Numeric times = factors[0].getValue();
-        for (int i = 0; i < times.getInt(); i++)
-        {
+        for (int i = 0; i < times.getInt(); i++) {
             Essence o = super.run(particle);
-            if (o != null)
-            {
+            if (o != null) {
                 return o;
             }
         }

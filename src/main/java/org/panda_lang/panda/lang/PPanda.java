@@ -11,35 +11,27 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 import java.io.File;
 
-public class PPanda extends PObject
-{
+public class PPanda extends PObject {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Panda");
         vial.group("panda.lang");
-        vial.method(new Method("reload", new Executable()
-        {
+        vial.method(new Method("reload", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 Panda.getInstance().reload();
                 return null;
             }
         }));
-        vial.method(new Method("loadSinglePandaFile", new Executable()
-        {
+        vial.method(new Method("loadSinglePandaFile", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 Essence essence = particle.getValueOfFactor(0);
-                if (essence instanceof PString)
-                {
+                if (essence instanceof PString) {
                     PandaScript pandaScript = PandaLoader.loadSimpleScript(essence.toString());
                     Panda.getInstance().addScript(pandaScript);
                 }
-                else if (essence instanceof PFile)
-                {
+                else if (essence instanceof PFile) {
                     File file = ((PFile) essence).getFile();
                     PandaScript pandaScript = PandaLoader.loadSingleScript(file);
                     Panda.getInstance().addScript(pandaScript);
@@ -47,11 +39,9 @@ public class PPanda extends PObject
                 return null;
             }
         }));
-        vial.method(new Method("getVersion", new Executable()
-        {
+        vial.method(new Method("getVersion", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return new PString(Panda.PANDA_VERSION);
             }
         }));

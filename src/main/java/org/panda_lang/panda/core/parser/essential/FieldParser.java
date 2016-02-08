@@ -10,11 +10,9 @@ import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.Field;
 import org.panda_lang.panda.lang.PNull;
 
-public class FieldParser implements Parser
-{
+public class FieldParser implements Parser {
 
-    static
-    {
+    static {
         ParserLayout parserLayout = new ParserLayout(new FieldParser());
         parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
         parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
@@ -22,19 +20,16 @@ public class FieldParser implements Parser
     }
 
     @Override
-    public Field parse(Atom atom)
-    {
+    public Field parse(Atom atom) {
         String source = atom.getSourcesDivider().getLine();
         String[] ss = FieldAssistant.splitAndClear(source);
-        if (ss == null || ss.length < 1)
-        {
+        if (ss == null || ss.length < 1) {
             System.out.println("[FieldParser] Cannot parseLocal: " + source);
             return null;
         }
 
         Factor factor = new Factor(new PNull());
-        if (ss.length > 1)
-        {
+        if (ss.length > 1) {
             atom.setSourceCode(ss[1]);
             FactorParser parser = new FactorParser();
             factor = parser.parse(atom);
@@ -45,8 +40,7 @@ public class FieldParser implements Parser
 
         Field field = new Field(fieldName, factor);
 
-        if (lss.length > 1)
-        {
+        if (lss.length > 1) {
             field.setDataType(lss[0]);
         }
 

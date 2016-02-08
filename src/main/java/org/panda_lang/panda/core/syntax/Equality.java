@@ -5,32 +5,27 @@ import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.lang.PBoolean;
 
-public class Equality implements Executable
-{
+public class Equality implements Executable {
 
     private EqualityBuilder equalityBuilder;
 
-    public Equality(EqualityBuilder equalityBuilder)
-    {
+    public Equality(EqualityBuilder equalityBuilder) {
         this.equalityBuilder = equalityBuilder;
     }
 
     @Override
-    public Essence run(Particle particle)
-    {
+    public Essence run(Particle particle) {
         Operator operator = equalityBuilder.getOperator();
         Factor oneFactor = equalityBuilder.getOne();
         Factor otherFactor = equalityBuilder.getOther();
         boolean flag = false;
 
-        if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO)
-        {
+        if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
             flag = oneFactor.getValue(particle).equals(otherFactor.getValue(particle));
             flag = (operator == Operator.EQUALS_TO) == flag;
 
         }
-        else
-        {
+        else {
             //TODO
 
             Numeric oneNumber = oneFactor.getValue(particle);
@@ -39,8 +34,7 @@ public class Equality implements Executable
             float one = oneNumber.getFloat();
             float other = otherNumber.getFloat();
 
-            switch (equalityBuilder.getOperator())
-            {
+            switch (equalityBuilder.getOperator()) {
                 case GREATER_THAN:
                     flag = one > other;
                     break;

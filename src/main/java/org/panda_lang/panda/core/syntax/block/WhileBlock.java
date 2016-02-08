@@ -11,16 +11,12 @@ import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.lang.PBoolean;
 
-public class WhileBlock extends Block
-{
+public class WhileBlock extends Block {
 
-    static
-    {
-        BlockCenter.registerBlock(new BlockLayout(WhileBlock.class, "while").initializer(new BlockInitializer()
-        {
+    static {
+        BlockCenter.registerBlock(new BlockLayout(WhileBlock.class, "while").initializer(new BlockInitializer() {
             @Override
-            public Block initialize(Atom atom)
-            {
+            public Block initialize(Atom atom) {
                 Block current = new WhileBlock();
                 current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
@@ -28,21 +24,17 @@ public class WhileBlock extends Block
         }));
     }
 
-    public WhileBlock()
-    {
+    public WhileBlock() {
         super.setName("while::" + atomicInteger.incrementAndGet());
     }
 
     @Override
-    public Essence run(Particle particle)
-    {
+    public Essence run(Particle particle) {
         Factor factor = factors[0];
         PBoolean flag;
-        while ((flag = factor.getValue()).isTrue())
-        {
+        while ((flag = factor.getValue()).isTrue()) {
             Essence o = super.run(particle);
-            if (o != null)
-            {
+            if (o != null) {
                 return o;
             }
         }

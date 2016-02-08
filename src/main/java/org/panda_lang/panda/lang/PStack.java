@@ -5,42 +5,32 @@ import org.panda_lang.panda.core.syntax.*;
 
 import java.util.Stack;
 
-public class PStack extends PObject
-{
+public class PStack extends PObject {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Stack");
         vial.group("panda.lang");
-        vial.constructor(new Constructor()
-        {
+        vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return new PStack();
             }
         });
-        vial.method(new Method("push", new Executable()
-        {
+        vial.method(new Method("push", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return particle.<PStack>getValueOfInstance().getStack().push(particle.getValueOfFactor(0));
             }
         }));
-        vial.method(new Method("peek", new Executable()
-        {
+        vial.method(new Method("peek", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return particle.<PStack>getValueOfInstance().getStack().peek();
             }
         }));
-        vial.method(new Method("pop", new Executable()
-        {
+        vial.method(new Method("pop", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return particle.<PStack>getValueOfInstance().getStack().pop();
             }
         }));
@@ -48,30 +38,24 @@ public class PStack extends PObject
 
     private final Stack<Essence> stack;
 
-    public PStack()
-    {
+    public PStack() {
         this.stack = new Stack<>();
     }
 
-    public Stack<Essence> getStack()
-    {
+    public Stack<Essence> getStack() {
         return stack;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return stack;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder node = new StringBuilder();
-        for (Essence essence : stack)
-        {
-            if (node.length() != 0)
-            {
+        for (Essence essence : stack) {
+            if (node.length() != 0) {
                 node.append(", ");
             }
             node.append(essence);

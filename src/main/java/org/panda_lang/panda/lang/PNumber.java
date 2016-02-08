@@ -8,34 +8,26 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PNumber extends Essence
-{
+public class PNumber extends Essence {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Number");
         vial.group("panda.lang");
-        vial.constructor(new Executable()
-        {
+        vial.constructor(new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return null;
             }
         });
-        vial.method(new Method("valueOf", new Executable()
-        {
+        vial.method(new Method("valueOf", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return null;
             }
         }));
-        vial.method(new Method("toString", new Executable()
-        {
+        vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 PNumber number = particle.getInstance().getValue(particle);
                 return new PString(number.toString());
             }
@@ -44,25 +36,21 @@ public class PNumber extends Essence
 
     private Numeric number;
 
-    protected PNumber(Numeric number)
-    {
+    protected PNumber(Numeric number) {
         this.number = number;
     }
 
-    public NumberType getNumberType()
-    {
+    public NumberType getNumberType() {
         return number.getNumberType();
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return number;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return number.toString();
     }
 

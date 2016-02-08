@@ -7,32 +7,26 @@ import org.panda_lang.panda.lang.PDouble;
 
 import java.util.Stack;
 
-public class Math implements Executable
-{
+public class Math implements Executable {
 
     private final MathBuilder mathBuilder;
 
-    public Math(MathBuilder mathBuilder)
-    {
+    public Math(MathBuilder mathBuilder) {
         this.mathBuilder = mathBuilder;
     }
 
     @Override
-    public Essence run(Particle particle)
-    {
+    public Essence run(Particle particle) {
         Stack<Numeric> values = new Stack<>();
 
-        for (int i = 0; i < mathBuilder.size(); i++)
-        {
+        for (int i = 0; i < mathBuilder.size(); i++) {
             MathBuilder.Type type = mathBuilder.next();
-            if (type == MathBuilder.Type.OPERATOR)
-            {
+            if (type == MathBuilder.Type.OPERATOR) {
                 char operator = mathBuilder.getOperator();
                 Numeric a = values.pop();
                 Numeric b = values.pop();
                 Numeric c;
-                switch (operator)
-                {
+                switch (operator) {
                     case '+':
                         c = a.add(b);
                         break;
@@ -53,8 +47,7 @@ public class Math implements Executable
                 }
                 values.push(c);
             }
-            else
-            {
+            else {
                 Factor factor = mathBuilder.getParameter();
                 Numeric value = factor.getValue(particle.getMemory());
                 values.push(value);

@@ -6,27 +6,21 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PObject extends Essence
-{
+public class PObject extends Essence {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Object");
         vial.group("panda.lang");
         vial.extension(null);
-        vial.constructor(new Executable()
-        {
+        vial.constructor(new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return particle.hasFactors() ? new PObject(particle.getFactor(0)) : new PObject();
             }
         });
-        vial.method(new Method("toString", new Executable()
-        {
+        vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 return new PString(particle.getInstance().getValue().toString());
             }
         }));
@@ -34,30 +28,25 @@ public class PObject extends Essence
 
     private Object object;
 
-    public PObject()
-    {
+    public PObject() {
     }
 
-    public PObject(Object object)
-    {
+    public PObject(Object object) {
         this.object = object;
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getMe()
-    {
+    public <T extends Essence> T getMe() {
         return (T) this;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return object;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return super.toString();
     }
 

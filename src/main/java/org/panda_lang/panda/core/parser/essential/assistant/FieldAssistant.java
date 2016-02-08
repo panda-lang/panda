@@ -1,13 +1,10 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
-public class FieldAssistant
-{
+public class FieldAssistant {
 
-    public static String[] splitAndClear(String source)
-    {
+    public static String[] splitAndClear(String source) {
         String[] ss = source.split("=", 2);
-        switch (ss.length)
-        {
+        switch (ss.length) {
             case 1:
                 ss[0] = clear(ss[0], 1);
                 break;
@@ -19,29 +16,22 @@ public class FieldAssistant
         return ss;
     }
 
-    public static String clear(String s, int space)
-    {
+    public static String clear(String s, int space) {
         StringBuilder node = new StringBuilder();
         boolean string = false;
         int accruedSpaces = 0;
-        for (char c : s.toCharArray())
-        {
-            if (!string && Character.isWhitespace(c))
-            {
-                if (node.toString().equals("new"))
-                {
+        for (char c : s.toCharArray()) {
+            if (!string && Character.isWhitespace(c)) {
+                if (node.toString().equals("new")) {
                     node.append(c);
                 }
-                else if (accruedSpaces < space)
-                {
+                else if (accruedSpaces < space) {
                     node.append(c);
                     accruedSpaces++;
                 }
             }
-            else if (string || c != ';')
-            {
-                if (c == '"')
-                {
+            else if (string || c != ';') {
+                if (c == '"') {
                     string = !string;
                 }
                 node.append(c);

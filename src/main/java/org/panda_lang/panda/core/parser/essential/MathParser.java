@@ -10,36 +10,29 @@ import org.panda_lang.panda.core.syntax.Runtime;
 import java.util.Stack;
 import java.util.StringTokenizer;
 
-public class MathParser implements Parser
-{
+public class MathParser implements Parser {
 
     @Override
-    public Factor parse(Atom atom)
-    {
+    public Factor parse(Atom atom) {
         MathBuilder mathBuilder = new MathBuilder();
         Stack<Character> operators = new Stack<>();
         StringTokenizer tokenizer = new StringTokenizer(atom.getSourcesDivider().getLine(), "+-*/^()", true);
 
-        while (tokenizer.hasMoreElements())
-        {
+        while (tokenizer.hasMoreElements()) {
             String token = tokenizer.nextToken();
-            if (token.isEmpty())
-            {
+            if (token.isEmpty()) {
                 continue;
             }
 
             char c = token.charAt(0);
-            switch (c)
-            {
+            switch (c) {
                 case '+':
                 case '-':
                 case '*':
                 case '/':
                 case '^':
-                    if (operators.size() != 0)
-                    {
-                        if (compare(operators.peek(), c))
-                        {
+                    if (operators.size() != 0) {
+                        if (compare(operators.peek(), c)) {
                             mathBuilder.append(operators.pop());
                         }
                     }
@@ -49,8 +42,7 @@ public class MathParser implements Parser
                     operators.push(c);
                     break;
                 case ')':
-                    while (operators.peek() != '(')
-                    {
+                    while (operators.peek() != '(') {
                         mathBuilder.append(operators.pop());
                     }
                     operators.pop();
@@ -64,8 +56,7 @@ public class MathParser implements Parser
 
         }
 
-        while (operators.size() != 0)
-        {
+        while (operators.size() != 0) {
             mathBuilder.append(operators.pop());
         }
 
@@ -74,13 +65,11 @@ public class MathParser implements Parser
         return new Factor(new Runtime(math));
     }
 
-    public boolean compare(char prev, char current)
-    {
+    public boolean compare(char prev, char current) {
         return getOrder(prev) >= getOrder(current);
     }
 
-    public int getOrder(char c)
-    {
+    public int getOrder(char c) {
         int i = c == '*' || c == '/' || c == '^' ? 2 : 0;
         return i == 0 && (c == '+' || c == '-') ? 1 : i;
     }

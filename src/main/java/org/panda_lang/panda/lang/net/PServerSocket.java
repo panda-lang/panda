@@ -9,40 +9,30 @@ import org.panda_lang.panda.lang.PObject;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class PServerSocket extends PObject
-{
+public class PServerSocket extends PObject {
 
-    static
-    {
+    static {
         Vial vial = new Vial("ServerSocket");
         vial.group("panda.network");
-        vial.constructor(new Constructor()
-        {
+        vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 Numeric port = particle.getValueOfFactor(0);
-                try
-                {
+                try {
                     return new PServerSocket(port.getInt());
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return new PNull();
             }
         });
-        vial.method(new Method("accept", new Executable()
-        {
+        vial.method(new Method("accept", new Executable() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 PServerSocket serverSocket = particle.getValueOfInstance();
-                try
-                {
+                try {
                     return new PSocket(serverSocket.getServerSocket().accept());
-                } catch (IOException e)
-                {
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return new PNull();
@@ -52,26 +42,22 @@ public class PServerSocket extends PObject
 
     private final ServerSocket serverSocket;
 
-    public PServerSocket(int port) throws IOException
-    {
+    public PServerSocket(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
 
     }
 
-    public ServerSocket getServerSocket()
-    {
+    public ServerSocket getServerSocket() {
         return serverSocket;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return getServerSocket();
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return serverSocket.toString();
     }
 

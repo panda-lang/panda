@@ -13,16 +13,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Dependencies
-{
+public class Dependencies {
 
     private final PandaScript pandaScript;
     private final Collection<Group> groups;
     private final Map<String, Import> specificMap;
     private final Map<String, Import> asMap;
 
-    public Dependencies(PandaScript pandaScript)
-    {
+    public Dependencies(PandaScript pandaScript) {
         this.pandaScript = pandaScript;
         this.groups = new ArrayList<>();
         this.specificMap = new HashMap<>();
@@ -30,72 +28,58 @@ public class Dependencies
         this.initializeDefault();
     }
 
-    private void initializeDefault()
-    {
+    private void initializeDefault() {
         this.groups.add(GroupCenter.getGroup("panda.lang"));
         this.groups.add(GroupCenter.getGroup("default"));
     }
 
-    public void importElement(Import importElement)
-    {
-        if (importElement.isDefinedScript())
-        {
+    public void importElement(Import importElement) {
+        if (importElement.isDefinedScript()) {
             // Specific
             specificMap.put(importElement.getSpecific(), importElement);
         }
-        else if (importElement.isDefinedGroup())
-        {
+        else if (importElement.isDefinedGroup()) {
             // Group
             groups.add(importElement.getGroup());
         }
-        else if (importElement.isDefinedFile())
-        {
+        else if (importElement.isDefinedFile()) {
             // File
             String definedFile = importElement.getFile();
             File file = new File(pandaScript.getWorkingDirectory() + File.separator + definedFile);
             Collection<PandaScript> scripts = PandaLoader.loadDirectory(file);
 
-            for (PandaScript pandaScript : scripts)
-            {
-                if (pandaScript == null)
-                {
+            for (PandaScript pandaScript : scripts) {
+                if (pandaScript == null) {
                     continue;
                 }
 
                 Collection<Vial> vials = pandaScript.extractVials();
-                for (Vial vial : vials)
-                {
+                for (Vial vial : vials) {
                     Import anImport = new Import(vial.getGroup(), vial);
                     specificMap.put(anImport.getName(), anImport);
                 }
             }
         }
-        if (importElement.containsCustomName())
-        {
+        if (importElement.containsCustomName()) {
             // As
             asMap.put(importElement.getAs(), importElement);
         }
     }
 
-    public Vial getVial(String vialName)
-    {
+    public Vial getVial(String vialName) {
         Import anImport = asMap.get(vialName);
-        if (anImport == null)
-        {
+        if (anImport == null) {
             anImport = specificMap.get(vialName);
         }
 
-        if (anImport != null)
-        {
+        if (anImport != null) {
             Group group = anImport.getGroup();
             return group.getVial(vialName);
         }
 
-        for (Group group : groups)
-        {
+        for (Group group : groups) {
             Vial vial = group.getVial(vialName);
-            if (vial != null)
-            {
+            if (vial != null) {
                 return vial;
             }
         }

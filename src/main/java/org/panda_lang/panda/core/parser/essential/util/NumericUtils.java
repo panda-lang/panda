@@ -2,17 +2,13 @@ package org.panda_lang.panda.core.parser.essential.util;
 
 import org.panda_lang.panda.lang.*;
 
-public class NumericUtils
-{
+public class NumericUtils {
 
-    public static Numeric add(Numeric a, Numeric b)
-    {
-        if (a.getNumberType().hasGreaterRangeThan(b))
-        {
+    public static Numeric add(Numeric a, Numeric b) {
+        if (a.getNumberType().hasGreaterRangeThan(b)) {
             return add(b, a);
         }
-        switch (a.getNumberType())
-        {
+        switch (a.getNumberType()) {
             case BYTE:
                 return new PByte((byte) (a.getByte() + b.getByte()));
             case SHORT:

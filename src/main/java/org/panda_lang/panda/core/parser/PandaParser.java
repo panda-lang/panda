@@ -10,8 +10,7 @@ import org.panda_lang.panda.core.syntax.block.PandaBlock;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaParser
-{
+public class PandaParser {
 
     private final Atom atom;
     private final PandaScript pandaScript;
@@ -24,8 +23,7 @@ public class PandaParser
     private final Collection<Runnable> postProcesses;
     private boolean exception;
 
-    public PandaParser(String source)
-    {
+    public PandaParser(String source) {
         this.pandaScript = new PandaScript();
         this.dependencies = new Dependencies(pandaScript);
         this.pandaBlock = new PandaBlock();
@@ -36,26 +34,21 @@ public class PandaParser
         this.atom = new Atom(pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
-    public PandaScript parse()
-    {
-        while (divider.hasNext() && isHappy())
-        {
+    public PandaScript parse() {
+        while (divider.hasNext() && isHappy()) {
             String line = divider.next();
-            if (line == null || line.isEmpty())
-            {
+            if (line == null || line.isEmpty()) {
                 break;
             }
 
             atom.update(pandaBlock, pandaBlock);
             NamedExecutable executable = parseLine(line, atom);
-            if (!(executable instanceof Block))
-            {
+            if (!(executable instanceof Block)) {
                 pandaBlock.addExecutable(executable);
             }
         }
 
-        for (Runnable process : postProcesses)
-        {
+        for (Runnable process : postProcesses) {
             process.run();
         }
 
@@ -66,63 +59,52 @@ public class PandaParser
         return pandaScript;
     }
 
-    public NamedExecutable parseLine(String line, Atom atom)
-    {
+    public NamedExecutable parseLine(String line, Atom atom) {
         Parser parser = ParserCenter.getParser(atom, line);
 
         // {initializer.not.found}
-        if (parser == null)
-        {
+        if (parser == null) {
             return throwException(new PandaException("ParserNotFoundException", divider));
         }
 
         return parser.parse(atom);
     }
 
-    public NamedExecutable throwException(PandaException pandaException)
-    {
+    public NamedExecutable throwException(PandaException pandaException) {
         pandaException.print();
         exception = true;
         return null;
     }
 
-    public void addPostProcess(Runnable process)
-    {
+    public void addPostProcess(Runnable process) {
         postProcesses.add(process);
     }
 
-    public boolean isHappy()
-    {
+    public boolean isHappy() {
         return !exception;
     }
 
-    public SourcesDivider getDivider()
-    {
+    public SourcesDivider getDivider() {
         return divider;
     }
 
-    public PatternExtractor getExtractor()
-    {
+    public PatternExtractor getExtractor() {
         return extractor;
     }
 
-    public Dependencies getDependencies()
-    {
+    public Dependencies getDependencies() {
         return dependencies;
     }
 
-    public PandaBlock getPandaBlock()
-    {
+    public PandaBlock getPandaBlock() {
         return pandaBlock;
     }
 
-    public PandaScript getPandaScript()
-    {
+    public PandaScript getPandaScript() {
         return pandaScript;
     }
 
-    public Atom getAtom()
-    {
+    public Atom getAtom() {
         return atom;
     }
 
