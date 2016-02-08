@@ -7,8 +7,7 @@ import org.panda_lang.panda.core.syntax.block.VialBlock;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Vial
-{
+public class Vial {
 
     private final String name;
     private final Map<String, Method> methods;
@@ -19,13 +18,11 @@ public class Vial
     private Class clazz;
     private Group group;
 
-    public Vial(String vialName)
-    {
+    public Vial(String vialName) {
         this(vialName, null);
     }
 
-    public Vial(String vialName, Class clazz)
-    {
+    public Vial(String vialName, Class clazz) {
         this.name = vialName;
         this.methods = new HashMap<>();
         this.fields = new HashMap<>();
@@ -33,82 +30,66 @@ public class Vial
         this.clazz = null;
     }
 
-    public Vial clazz(Class clazz)
-    {
+    public Vial clazz(Class clazz) {
         this.clazz = clazz;
         return this;
     }
 
-    public Vial group(String groupName)
-    {
+    public Vial group(String groupName) {
         return group(GroupCenter.getGroup(groupName));
     }
 
-    public Vial group(Group group)
-    {
+    public Vial group(Group group) {
         this.group = group;
         this.group.registerVial(this);
         return this;
     }
 
-    public Vial constructor(Executable executable)
-    {
+    public Vial constructor(Executable executable) {
         this.constructor = executable;
         return this;
     }
 
-    public Vial field(Field field)
-    {
+    public Vial field(Field field) {
         this.fields.put(field.getName(), field);
         return this;
     }
 
-    public Vial method(final Method method)
-    {
-        if (constructor == null && method.getName().equals(name))
-        {
-            this.constructor(new Constructor()
-            {
+    public Vial method(final Method method) {
+        if (constructor == null && method.getName().equals(name)) {
+            this.constructor(new Constructor() {
                 @Override
-                public Essence run(Particle particle)
-                {
+                public Essence run(Particle particle) {
                     return method.run(particle);
                 }
             });
         }
-        else
-        {
+        else {
             methods.put(method.getName(), method);
         }
         return this;
     }
 
-    public Vial extension(String s)
-    {
+    public Vial extension(String s) {
         this.extension = s;
         return this;
     }
 
-    public Essence call(String name, Particle particle)
-    {
+    public Essence call(String name, Particle particle) {
         Method method = getMethod(name);
-        if (method == null)
-        {
+        if (method == null) {
             System.out.println("Method '" + name + "' not found in instance of " + name);
             return null;
         }
         return method.run(particle);
     }
 
-    public Essence initializeInstance(Particle particle)
-    {
+    public Essence initializeInstance(Particle particle) {
         Essence essence = new Essence(this);
         essence.initializeParticle(particle);
-        if (constructor != null)
-        {
+        if (constructor != null) {
             Essence instance = constructor.run(particle);
-            if (instance != null)
-            {
+            if (instance != null) {
                 essence = instance;
                 instance.setVial(this);
             }
@@ -116,59 +97,48 @@ public class Vial
         return essence;
     }
 
-    public void setVialBlock(VialBlock vialBlock)
-    {
+    public void setVialBlock(VialBlock vialBlock) {
         this.vialBlock = vialBlock;
     }
 
-    public boolean isVeritableVial()
-    {
+    public boolean isVeritableVial() {
         return vialBlock != null;
     }
 
-    public Method getMethod(String name)
-    {
+    public Method getMethod(String name) {
         Method method = methods.get(name);
-        if (method == null && extension != null)
-        {
+        if (method == null && extension != null) {
             //TODO: extension
         }
         return method;
     }
 
-    public Map<String, Field> getFields()
-    {
+    public Map<String, Field> getFields() {
         return fields;
     }
 
-    public Map<String, Method> getMethods()
-    {
+    public Map<String, Method> getMethods() {
         return methods;
     }
 
-    public VialBlock getVialBlock()
-    {
+    public VialBlock getVialBlock() {
         return vialBlock;
     }
 
-    public Group getGroup()
-    {
+    public Group getGroup() {
         return group;
     }
 
-    public Class getClazz()
-    {
+    public Class getClazz() {
         return clazz;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getName();
     }
 

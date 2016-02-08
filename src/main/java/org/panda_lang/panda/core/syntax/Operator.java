@@ -3,8 +3,7 @@ package org.panda_lang.panda.core.syntax;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public enum Operator
-{
+public enum Operator {
 
     ADDITIVE(0, "+"),
     SUBTRACTION(1, "-"),
@@ -33,58 +32,45 @@ public enum Operator
     private final int id;
     private final String operator;
 
-    Operator(int id, String operator)
-    {
+    Operator(int id, String operator) {
         this.id = id;
         this.operator = operator;
     }
 
-    public String getOperator()
-    {
+    public String getOperator() {
         return this.operator;
     }
 
-    public int getPart()
-    {
+    public int getPart() {
         return this.id / 10;
     }
 
-    public int getID()
-    {
+    public int getID() {
         return this.id;
     }
 
-    public static Collection<Operator> getOperators(int part)
-    {
+    public static Collection<Operator> getOperators(int part) {
         Collection<Operator> operators = new ArrayList<>();
-        for (Operator operator : values())
-        {
-            if (operator.getPart() == part)
-            {
+        for (Operator operator : values()) {
+            if (operator.getPart() == part) {
                 operators.add(operator);
             }
         }
         return operators;
     }
 
-    public static Operator getOperator(int id)
-    {
-        for (Operator operator : values())
-        {
-            if (operator.getID() == id)
-            {
+    public static Operator getOperator(int id) {
+        for (Operator operator : values()) {
+            if (operator.getID() == id) {
                 return operator;
             }
         }
         return null;
     }
 
-    public static Operator getOperator(String s)
-    {
-        for (Operator operator : values())
-        {
-            if (operator.getOperator().equals(s))
-            {
+    public static Operator getOperator(String s) {
+        for (Operator operator : values()) {
+            if (operator.getOperator().equals(s)) {
                 return operator;
             }
         }

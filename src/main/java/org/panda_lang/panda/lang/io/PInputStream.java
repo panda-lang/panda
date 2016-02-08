@@ -5,19 +5,16 @@ import org.panda_lang.panda.lang.PObject;
 
 import java.io.InputStream;
 
-public class PInputStream extends PObject
-{
+public class PInputStream extends PObject {
 
-    static
-    {
+    static {
         Vial vial = new Vial("InputStream");
         vial.group("panda.io");
     }
 
     private InputStream inputStream;
 
-    public PInputStream()
-    {
+    public PInputStream() {
     }
 
 }

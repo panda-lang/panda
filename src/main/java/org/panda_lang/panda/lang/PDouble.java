@@ -4,43 +4,36 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PDouble extends Numeric
-{
+public class PDouble extends Numeric {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Double");
         vial.group("panda.lang");
     }
 
     private final double d;
 
-    public PDouble(double d)
-    {
+    public PDouble(double d) {
         this.d = d;
     }
 
     @Override
-    public double getDouble()
-    {
+    public double getDouble() {
         return d;
     }
 
     @Override
-    public Number getNumber()
-    {
+    public Number getNumber() {
         return getDouble();
     }
 
     @Override
-    public NumberType getNumberType()
-    {
+    public NumberType getNumberType() {
         return NumberType.DOUBLE;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return getDouble();
     }
 

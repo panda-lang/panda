@@ -5,19 +5,16 @@ import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.syntax.Import;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 
-public class ImportParser implements Parser
-{
+public class ImportParser implements Parser {
 
-    static
-    {
+    static {
         ParserLayout parserLayout = new ParserLayout(new ImportParser());
         parserLayout.pattern("import *;", EssentialPriority.IMPORT.getPriority(), EssentialPriority.IMPORT.getPriority() * 10, PatternExtractor.FULL);
         ParserCenter.registerParser(parserLayout);
     }
 
     @Override
-    public NamedExecutable parse(Atom atom)
-    {
+    public NamedExecutable parse(Atom atom) {
         final String source = atom.getSourcesDivider().getLine();
         final StringBuilder importBuilder = new StringBuilder();
 
@@ -25,12 +22,9 @@ public class ImportParser implements Parser
         Import importElement = null;
         String operator = null;
 
-        for (char c : source.toCharArray())
-        {
-            if (Character.isWhitespace(c) || c == ';')
-            {
-                switch (stage)
-                {
+        for (char c : source.toCharArray()) {
+            if (Character.isWhitespace(c) || c == ';') {
+                switch (stage) {
                     case 0:
                         stage = 1;
                         break;
@@ -45,13 +39,11 @@ public class ImportParser implements Parser
                         stage = 3;
                         break;
                     case 3:
-                        if (operator.equals(">"))
-                        {
+                        if (operator.equals(">")) {
                             String specific = importBuilder.toString();
                             importElement.setSpecific(specific);
                         }
-                        else if (operator.equals("as"))
-                        {
+                        else if (operator.equals("as")) {
                             String as = importBuilder.toString();
                             importElement.setAs(as);
                         }
@@ -62,8 +54,7 @@ public class ImportParser implements Parser
                         break;
                 }
             }
-            else if (stage != 0)
-            {
+            else if (stage != 0) {
                 importBuilder.append(c);
             }
         }

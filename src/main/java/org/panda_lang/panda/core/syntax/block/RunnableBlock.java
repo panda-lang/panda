@@ -9,16 +9,12 @@ import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 
-public class RunnableBlock extends Block
-{
+public class RunnableBlock extends Block {
 
-    static
-    {
-        BlockCenter.registerBlock(new BlockLayout(RunnableBlock.class, "runnable").initializer(new BlockInitializer()
-        {
+    static {
+        BlockCenter.registerBlock(new BlockLayout(RunnableBlock.class, "runnable").initializer(new BlockInitializer() {
             @Override
-            public Block initialize(Atom atom)
-            {
+            public Block initialize(Atom atom) {
                 Block current = new RunnableBlock();
                 current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
@@ -26,14 +22,12 @@ public class RunnableBlock extends Block
         }));
     }
 
-    public RunnableBlock()
-    {
+    public RunnableBlock() {
         super.setName("runnable::" + atomicInteger.incrementAndGet());
     }
 
     @Override
-    public Essence run(Particle particle)
-    {
+    public Essence run(Particle particle) {
         return super.run(particle);
     }
 }

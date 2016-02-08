@@ -6,29 +6,22 @@ import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PBoolean extends PObject
-{
+public class PBoolean extends PObject {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Boolean");
         vial.group("panda.lang");
-        vial.constructor(new Constructor()
-        {
+        vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle)
-            {
+            public Essence run(Particle particle) {
                 Essence essence = particle.getValueOfFactor(0);
-                if (essence instanceof PNull)
-                {
+                if (essence instanceof PNull) {
                     return new PBoolean(false);
                 }
-                else if (essence instanceof PBoolean)
-                {
+                else if (essence instanceof PBoolean) {
                     return new PBoolean(((PBoolean) essence).getBoolean());
                 }
-                else if (essence instanceof Numeric)
-                {
+                else if (essence instanceof Numeric) {
                     byte value = ((Numeric) essence).getByte();
                     return new PBoolean(value != 0);
                 }
@@ -39,35 +32,29 @@ public class PBoolean extends PObject
 
     private final boolean b;
 
-    public PBoolean(boolean b)
-    {
+    public PBoolean(boolean b) {
         this.b = b;
     }
 
-    public boolean isTrue()
-    {
+    public boolean isTrue() {
         return b;
     }
 
-    public boolean isFalse()
-    {
+    public boolean isFalse() {
         return !b;
     }
 
-    public boolean getBoolean()
-    {
+    public boolean getBoolean() {
         return b;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return b;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return Boolean.toString(b);
     }
 

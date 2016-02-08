@@ -9,8 +9,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Block implements NamedExecutable
-{
+public class Block implements NamedExecutable {
 
     protected static final AtomicInteger atomicInteger = new AtomicInteger();
 
@@ -20,57 +19,46 @@ public class Block implements NamedExecutable
     private String name;
     private Block parent;
 
-    public Block(Block parent)
-    {
+    public Block(Block parent) {
         this();
         this.parent = parent;
     }
 
-    public Block()
-    {
+    public Block() {
         this.executables = new LinkedList<>();
         this.fields = new ArrayList<>();
     }
 
     @Override
-    public Essence run(Particle particle)
-    {
+    public Essence run(Particle particle) {
         Memory memory = particle.getMemory();
         Cache cache = memory.getCache();
 
-        if (particle.getFactors() != null)
-        {
-            for (int i = 0; i < particle.getFactors().length && i < factors.length; i++)
-            {
+        if (particle.getFactors() != null) {
+            for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
                 memory.put(factors[i].getVariable(), particle.getFactors()[i].getValue(particle));
             }
         }
 
-        for (NamedExecutable executable : executables)
-        {
+        for (NamedExecutable executable : executables) {
             Essence result;
 
-            if (executable instanceof Block)
-            {
+            if (executable instanceof Block) {
                 Memory blockMemory = new Memory(memory);
                 Particle blockParticle = new Particle(particle, blockMemory);
                 blockMemory.setBlock((Block) executable);
                 result = executable.run(blockParticle);
             }
-            else if (executable instanceof Return)
-            {
+            else if (executable instanceof Return) {
                 result = executable.run(particle);
                 cache.proceed(false);
             }
-            else
-            {
+            else {
                 result = executable.run(particle);
             }
 
-            if (!cache.isProceed())
-            {
-                if (!isReturned() && hasParent())
-                {
+            if (!cache.isProceed()) {
+                if (!isReturned() && hasParent()) {
                     memory.getParent().getCache().proceed(false);
                 }
                 return result;
@@ -80,74 +68,60 @@ public class Block implements NamedExecutable
         return null;
     }
 
-    public void addExecutable(NamedExecutable e)
-    {
+    public void addExecutable(NamedExecutable e) {
         this.executables.add(e);
-        if (e instanceof Field)
-        {
+        if (e instanceof Field) {
             fields.add((Field) e);
         }
     }
 
-    public boolean isReturned()
-    {
+    public boolean isReturned() {
         return false;
     }
 
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
-    public void setParent(Block block)
-    {
+    public void setParent(Block block) {
         this.parent = block;
     }
 
-    public void setFactors(Factor... factors)
-    {
+    public void setFactors(Factor... factors) {
         this.factors = factors;
     }
 
-    public boolean hasParent()
-    {
+    public boolean hasParent() {
         return parent != null;
     }
 
-    public Factor[] getFactors()
-    {
+    public Factor[] getFactors() {
         return factors;
     }
 
-    public Collection<Field> getFields()
-    {
+    public Collection<Field> getFields() {
         return fields;
     }
 
-    public Collection<NamedExecutable> getExecutables()
-    {
+    public Collection<NamedExecutable> getExecutables() {
         return executables;
     }
 
-    public Block getParent()
-    {
+    public Block getParent() {
         return parent;
     }
 
-    public Block getBlock()
-    {
+    public Block getBlock() {
         return this;
     }
 
     @Override
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return getName();
     }
 

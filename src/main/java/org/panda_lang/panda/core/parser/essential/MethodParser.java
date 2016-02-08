@@ -9,41 +9,33 @@ import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.Runtime;
 import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
-public class MethodParser implements Parser
-{
+public class MethodParser implements Parser {
 
-    static
-    {
+    static {
         ParserLayout parserLayout = new ParserLayout(new MethodParser(), "*(*);", EssentialPriority.METHOD.getPriority());
         ParserCenter.registerParser(parserLayout);
     }
 
     @Override
-    public Runtime parse(final Atom atom)
-    {
+    public Runtime parse(final Atom atom) {
         final String source = atom.getSourcesDivider().getLine();
         final MethodInfo mi = MethodAssistant.getMethodIndication(atom, source);
 
-        if (mi == null)
-        {
+        if (mi == null) {
             System.out.println("[MethodParser] Indication failed");
             return null;
         }
 
         // {method.external}
-        if (mi.isExternal())
-        {
+        if (mi.isExternal()) {
 
             // {method.static}
-            if (mi.isStatic())
-            {
+            if (mi.isStatic()) {
                 final Vial vial = mi.getVial();
                 final Method method = vial.getMethod(mi.getMethodName());
-                return new Runtime(new Method(mi.getMethodName(), new Executable()
-                {
+                return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
-                    public Essence run(Particle particle)
-                    {
+                    public Essence run(Particle particle) {
                         particle = new Particle(particle, mi.getFactors());
                         return method != null ? method.run(particle) : vial.getMethod(mi.getMethodName()).run(particle);
                     }
@@ -51,12 +43,10 @@ public class MethodParser implements Parser
 
                 // {instance.method}
             }
-            else
-            {
+            else {
                 final Factor instance = mi.getInstance();
 
-                if (instance == null)
-                {
+                if (instance == null) {
                     PandaException exception = new PandaException("MethodParserException: Instance not found", atom.getSourcesDivider());
                     atom.getPandaParser().throwException(exception);
                     return null;
@@ -89,11 +79,9 @@ public class MethodParser implements Parser
                 */
 
                 // {instance.type.undefined}
-                return new Runtime(instance, new Executable()
-                {
+                return new Runtime(instance, new Executable() {
                     @Override
-                    public Essence run(Particle particle)
-                    {
+                    public Essence run(Particle particle) {
                         particle.setInstance(instance);
                         Essence essence = instance.getValue(particle.getMemory());
                         String methodName = mi.getMethodName();
@@ -104,13 +92,10 @@ public class MethodParser implements Parser
 
             // {local}
         }
-        else
-        {
-            return new Runtime(new Method(mi.getMethodName(), new Executable()
-            {
+        else {
+            return new Runtime(new Method(mi.getMethodName(), new Executable() {
                 @Override
-                public Essence run(Particle particle)
-                {
+                public Essence run(Particle particle) {
                     return atom.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getFactors());
                 }
             }));

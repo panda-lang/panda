@@ -1,25 +1,20 @@
 package org.panda_lang.panda.util.metrics;
 
-public class Metrics
-{
+public class Metrics {
 
-    public Metrics()
-    {
+    public Metrics() {
 
     }
 
-    public void initialize()
-    {
+    public void initialize() {
 
     }
 
-    public void refresh()
-    {
+    public void refresh() {
 
     }
 
-    public void start()
-    {
+    public void start() {
 
     }
 

@@ -5,11 +5,9 @@ import org.panda_lang.panda.util.SimpleEntry;
 
 import java.util.Stack;
 
-public class MathBuilder
-{
+public class MathBuilder {
 
-    public enum Type
-    {
+    public enum Type {
         OPERATOR,
         PARAMETER
     }
@@ -18,45 +16,37 @@ public class MathBuilder
     private SimpleEntry<Type, Object>[] values;
     private int i;
 
-    public MathBuilder()
-    {
+    public MathBuilder() {
         this.stack = new Stack<>();
         this.i = -1;
     }
 
-    public void append(char c)
-    {
+    public void append(char c) {
         this.stack.push(new SimpleEntry<Type, Object>(Type.OPERATOR, c));
     }
 
-    public void append(Factor factor)
-    {
+    public void append(Factor factor) {
         this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETER, factor));
     }
 
-    public void rewrite()
-    {
+    public void rewrite() {
         this.values = stack.toArray(new SimpleEntry[stack.size()]);
     }
 
-    public Type next()
-    {
+    public Type next() {
         i++;
         return i > values.length ? null : values[i].getKey();
     }
 
-    public char getOperator()
-    {
+    public char getOperator() {
         return (char) values[i].getValue();
     }
 
-    public Factor getParameter()
-    {
+    public Factor getParameter() {
         return (Factor) values[i].getValue();
     }
 
-    public int size()
-    {
+    public int size() {
         return values.length;
     }
 

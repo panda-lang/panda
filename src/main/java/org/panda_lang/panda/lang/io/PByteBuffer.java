@@ -5,35 +5,29 @@ import org.panda_lang.panda.lang.PObject;
 
 import java.nio.ByteBuffer;
 
-public class PByteBuffer extends PObject
-{
+public class PByteBuffer extends PObject {
 
-    static
-    {
+    static {
         Vial vial = new Vial("ByteBuffer");
         vial.group("panda.io");
     }
 
     private ByteBuffer byteBuffer;
 
-    public PByteBuffer()
-    {
+    public PByteBuffer() {
         this.byteBuffer = ByteBuffer.allocate(0);
     }
 
-    public PByteBuffer(ByteBuffer byteBuffer)
-    {
+    public PByteBuffer(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 
-    public ByteBuffer getByteBuffer()
-    {
+    public ByteBuffer getByteBuffer() {
         return byteBuffer;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return getByteBuffer();
     }
 

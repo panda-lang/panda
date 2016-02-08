@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-public enum NumberType
-{
+public enum NumberType {
 
     BYTE(0, 'B'),
     SHORT(1, 'S'),
@@ -14,50 +13,39 @@ public enum NumberType
     private final int id;
     private final char unit;
 
-    NumberType(int id, char unit)
-    {
+    NumberType(int id, char unit) {
         this.id = id;
         this.unit = unit;
     }
 
-    public char getUnit()
-    {
+    public char getUnit() {
         return unit;
     }
 
-    public int getID()
-    {
+    public int getID() {
         return id;
     }
 
-    public boolean hasGreaterRangeThan(Numeric numeric)
-    {
+    public boolean hasGreaterRangeThan(Numeric numeric) {
         return hasGreaterRangeThan(numeric.getNumberType());
     }
 
-    public boolean hasGreaterRangeThan(NumberType numberType)
-    {
+    public boolean hasGreaterRangeThan(NumberType numberType) {
         return getID() < numberType.getID();
     }
 
-    public static boolean isUnit(char c)
-    {
-        for (NumberType numberType : values())
-        {
-            if (numberType.getUnit() == c)
-            {
+    public static boolean isUnit(char c) {
+        for (NumberType numberType : values()) {
+            if (numberType.getUnit() == c) {
                 return true;
             }
         }
         return false;
     }
 
-    public static NumberType valueOf(char unit)
-    {
-        for (NumberType numberType : values())
-        {
-            if (numberType.getUnit() == unit)
-            {
+    public static NumberType valueOf(char unit) {
+        for (NumberType numberType : values()) {
+            if (numberType.getUnit() == unit) {
                 return numberType;
             }
         }

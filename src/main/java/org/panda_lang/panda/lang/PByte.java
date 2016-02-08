@@ -4,43 +4,36 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PByte extends Numeric
-{
+public class PByte extends Numeric {
 
-    static
-    {
+    static {
         Vial vial = new Vial("Byte");
         vial.group("panda.lang");
     }
 
     private final byte b;
 
-    public PByte(byte b)
-    {
+    public PByte(byte b) {
         this.b = b;
     }
 
     @Override
-    public byte getByte()
-    {
+    public byte getByte() {
         return b;
     }
 
     @Override
-    public Number getNumber()
-    {
+    public Number getNumber() {
         return getByte();
     }
 
     @Override
-    public NumberType getNumberType()
-    {
+    public NumberType getNumberType() {
         return NumberType.BYTE;
     }
 
     @Override
-    public Object getJavaValue()
-    {
+    public Object getJavaValue() {
         return getByte();
     }
 

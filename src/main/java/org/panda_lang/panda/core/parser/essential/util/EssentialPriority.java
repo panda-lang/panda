@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-public enum EssentialPriority
-{
+public enum EssentialPriority {
 
     VIAL(1),
     VARIABLE(2),
@@ -13,13 +12,11 @@ public enum EssentialPriority
 
     private final int priority;
 
-    EssentialPriority(int priority)
-    {
+    EssentialPriority(int priority) {
         this.priority = priority;
     }
 
-    public int getPriority()
-    {
+    public int getPriority() {
         return priority;
     }
 

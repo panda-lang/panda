@@ -8,13 +8,11 @@ import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 
-public class PandaCore
-{
+public class PandaCore {
 
     private final Basis basis;
 
-    protected PandaCore()
-    {
+    protected PandaCore() {
         this.basis = new Basis(this);
 
         this.basis.loadParsers();
@@ -22,18 +20,15 @@ public class PandaCore
         this.basis.loadObjects();
     }
 
-    public void registerParser(ParserLayout parser)
-    {
+    public void registerParser(ParserLayout parser) {
         ParserCenter.registerPatterns(parser.getPatterns());
     }
 
-    public void registerAnalyzer(Analyzer analyzer)
-    {
+    public void registerAnalyzer(Analyzer analyzer) {
         AnalyzerCenter.registerAnalyzer(analyzer);
     }
 
-    public void registerBlock(BlockLayout blockLayout)
-    {
+    public void registerBlock(BlockLayout blockLayout) {
         BlockCenter.registerBlock(blockLayout);
     }
 

@@ -3,18 +3,15 @@ package org.panda_lang.panda.core;
 import org.panda_lang.panda.PandaCore;
 import org.panda_lang.panda.util.ClassCaller;
 
-public class Basis
-{
+public class Basis {
 
     private final PandaCore pandaCore;
 
-    public Basis(PandaCore pandaCore)
-    {
+    public Basis(PandaCore pandaCore) {
         this.pandaCore = pandaCore;
     }
 
-    public void loadParsers()
-    {
+    public void loadParsers() {
         ClassCaller.loadClasses("org.panda_lang.panda.core.parser.essential",
                 "BlockParser",
                 "ConstructorParser",
@@ -29,8 +26,7 @@ public class Basis
                 "ReturnParser");
     }
 
-    public void loadBlocks()
-    {
+    public void loadBlocks() {
         ClassCaller.loadClasses("org.panda_lang.panda.core.syntax.block",
                 "ElseThenBlock",
                 "ForBlock",
@@ -42,8 +38,7 @@ public class Basis
                 "WhileBlock");
     }
 
-    public void loadObjects()
-    {
+    public void loadObjects() {
         // Default
         ClassCaller.loadClasses("org.panda_lang.panda.lang",
                 "PArray",
@@ -73,8 +68,7 @@ public class Basis
                 "PInterface");
     }
 
-    public PandaCore getPandaCore()
-    {
+    public PandaCore getPandaCore() {
         return pandaCore;
     }
 

@@ -4,11 +4,9 @@ import org.panda_lang.panda.core.parser.*;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.syntax.Continue;
 
-public class ContinueParser implements Parser
-{
+public class ContinueParser implements Parser {
 
-    static
-    {
+    static {
         ContinueParser continueParser = new ContinueParser();
         ParserLayout parserLayout = new ParserLayout(continueParser);
         parserLayout.pattern("continue;", EssentialPriority.CONTINUE.getPriority(), EssentialPriority.CONTINUE.getPriority() * 10, PatternExtractor.FULL);
@@ -16,8 +14,7 @@ public class ContinueParser implements Parser
     }
 
     @Override
-    public Continue parse(Atom atom)
-    {
+    public Continue parse(Atom atom) {
         return new Continue();
     }
 
