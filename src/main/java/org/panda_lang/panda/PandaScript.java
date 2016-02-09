@@ -1,15 +1,13 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaScript {
+public class PandaScript implements Executable {
 
     private final Panda panda;
     private final Collection<PandaBlock> elements;
@@ -22,6 +20,17 @@ public class PandaScript {
 
     public void addPandaBlock(PandaBlock block) {
         this.elements.add(block);
+    }
+
+    @Override
+    public Essence run(Particle particle) {
+        for (PandaBlock pandaBlock : elements) {
+            Essence result = pandaBlock.run(particle);
+            if (result != null) {
+                return result;
+            }
+        }
+        return null;
     }
 
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {

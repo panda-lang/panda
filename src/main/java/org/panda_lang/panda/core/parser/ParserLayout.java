@@ -8,7 +8,7 @@ import java.util.Collection;
 public class ParserLayout {
 
     private final Parser parser;
-    private Collection<Pattern> patterns;
+    private Collection<ParserPattern> patterns;
 
     public ParserLayout(Parser parser, String pattern) {
         this(parser, pattern, 0);
@@ -24,7 +24,7 @@ public class ParserLayout {
         this.patterns = new ArrayList<>();
     }
 
-    public ParserLayout pattern(Pattern pattern) {
+    public ParserLayout pattern(ParserPattern pattern) {
         patterns.add(pattern);
         if (pattern.getParser() == null) {
             pattern.parser(parser);
@@ -32,29 +32,29 @@ public class ParserLayout {
         return this;
     }
 
-    public Pattern pattern(String pattern, double priority) {
-        Pattern p = new Pattern(parser, pattern, priority);
+    public ParserPattern pattern(String pattern, double priority) {
+        ParserPattern p = new ParserPattern(parser, pattern, priority);
         patterns.add(p);
         return p;
     }
 
-    public Pattern pattern(String pattern, double priority, int id) {
-        Pattern p = pattern(pattern, priority);
+    public ParserPattern pattern(String pattern, double priority, int id) {
+        ParserPattern p = pattern(pattern, priority);
         p.setID(id);
         return p;
     }
 
-    public Pattern pattern(String pattern, double priority, int id, char[] charset) {
-        Pattern p = pattern(pattern, priority, id);
+    public ParserPattern pattern(String pattern, double priority, int id, char[] charset) {
+        ParserPattern p = pattern(pattern, priority, id);
         p.setCharset(charset);
         return p;
     }
 
     public void register(Panda panda) {
-        panda.registerParser(this);
+        panda.getPandaCore().registerParser(this);
     }
 
-    public Collection<Pattern> getPatterns() {
+    public Collection<ParserPattern> getPatterns() {
         return patterns;
     }
 

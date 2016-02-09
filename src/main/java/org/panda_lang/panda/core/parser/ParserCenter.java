@@ -7,20 +7,20 @@ import java.util.List;
 
 public class ParserCenter {
 
-    private final List<Pattern> patterns = new ArrayList<>();
+    private final List<ParserPattern> patterns = new ArrayList<>();
 
     public void registerParser(ParserLayout parserLayout) {
         registerPatterns(parserLayout.getPatterns());
     }
 
-    public void registerPatterns(Collection<Pattern> patternCollection) {
+    public void registerPatterns(Collection<ParserPattern> patternCollection) {
         patterns.addAll(patternCollection);
         Collections.sort(patterns);
     }
 
     public Parser getParser(Atom atom, String s) {
         final String defaultPattern = atom.getPatternExtractor().extract(s, PatternExtractor.DEFAULT);
-        for (Pattern pattern : getPatterns()) {
+        for (ParserPattern pattern : getPatterns()) {
             String matchedPattern = pattern.getCharset() != null ? atom.getPatternExtractor().extract(s, pattern.getCharset()) : defaultPattern;
             if (pattern.match(matchedPattern)) {
                 atom.setVariant(pattern);
@@ -30,7 +30,7 @@ public class ParserCenter {
         return null;
     }
 
-    public List<Pattern> getPatterns() {
+    public List<ParserPattern> getPatterns() {
         return patterns;
     }
 

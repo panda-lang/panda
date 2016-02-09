@@ -44,7 +44,7 @@ public class FieldParser implements Parser {
         ParserLayout parserLayout = new ParserLayout(new FieldParser());
         parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
         parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
-        panda.registerParser(parserLayout);
+        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

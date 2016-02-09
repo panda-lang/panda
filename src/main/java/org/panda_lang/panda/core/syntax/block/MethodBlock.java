@@ -51,7 +51,7 @@ public class MethodBlock extends Block {
                 return block;
             }
         });
-        panda.registerBlock(blockLayout);
+        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

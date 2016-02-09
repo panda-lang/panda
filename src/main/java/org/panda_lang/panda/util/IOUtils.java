@@ -54,11 +54,10 @@ public class IOUtils {
     }
 
     public static int countLines(String filename) throws IOException {
-        InputStream is = new BufferedInputStream(new FileInputStream(filename));
-        try {
+        try (InputStream is = new BufferedInputStream(new FileInputStream(filename))) {
             byte[] c = new byte[1024];
             int count = 0;
-            int readChars = 0;
+            int readChars;
             boolean empty = true;
             while ((readChars = is.read(c)) != -1) {
                 empty = false;
@@ -69,12 +68,10 @@ public class IOUtils {
                 }
             }
             return (count == 0 && !empty) ? 1 : count;
-        } finally {
-            is.close();
         }
     }
 
-    public static String convertStreamToString(java.io.InputStream is) {
+    public static String convertStreamToString(InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
     }

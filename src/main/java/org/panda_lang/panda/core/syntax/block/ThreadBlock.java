@@ -62,7 +62,7 @@ public class ThreadBlock extends Block {
                 return current;
             }
         });
-        panda.registerBlock(blockLayout);
+        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

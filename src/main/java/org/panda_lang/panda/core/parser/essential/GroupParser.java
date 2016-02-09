@@ -42,7 +42,7 @@ public class GroupParser implements Parser {
         GroupParser groupParser = new GroupParser();
         ParserLayout parserLayout = new ParserLayout(groupParser);
         parserLayout.pattern("group *;", EssentialPriority.GROUP.getPriority(), EssentialPriority.GROUP.getPriority() * 10, PatternExtractor.FULL);
-        panda.registerParser(parserLayout);
+        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

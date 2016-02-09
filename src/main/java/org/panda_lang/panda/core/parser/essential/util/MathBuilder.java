@@ -29,6 +29,7 @@ public class MathBuilder {
         this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETER, factor));
     }
 
+    @SuppressWarnings("unchecked")
     public void rewrite() {
         this.values = stack.toArray(new SimpleEntry[stack.size()]);
     }

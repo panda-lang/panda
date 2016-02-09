@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.parser;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
-import org.panda_lang.panda.core.parser.essential.util.Dependencies;
+import org.panda_lang.panda.core.parser.util.Dependencies;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;

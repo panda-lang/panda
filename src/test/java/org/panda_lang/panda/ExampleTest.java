@@ -10,8 +10,10 @@ public class ExampleTest {
     private static final File DIRECTORY = new File("examples");
 
     public static void main(String[] args) {
-        Panda.getInstance();
-        PandaScript pandaScript = PandaLoader.loadSingleScript(new File(DIRECTORY + File.separator + SCRIPT));
+        Panda panda = new Panda();
+        panda.initializeDefaultElements();
+
+        PandaScript pandaScript = panda.getPandaLoader().loadSingleScript(new File(DIRECTORY + File.separator + SCRIPT));
         pandaScript.setWorkingDirectory("/");
         pandaScript.call(MethodBlock.class, "main");
     }

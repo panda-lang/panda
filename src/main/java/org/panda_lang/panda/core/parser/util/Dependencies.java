@@ -1,6 +1,5 @@
-package org.panda_lang.panda.core.parser.essential.util;
+package org.panda_lang.panda.core.parser.util;
 
-import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 import org.panda_lang.panda.core.syntax.Group;
@@ -46,7 +45,7 @@ public class Dependencies {
             // File
             String definedFile = importElement.getFile();
             File file = new File(pandaScript.getWorkingDirectory() + File.separator + definedFile);
-            Collection<PandaScript> scripts = PandaLoader.loadDirectory(file);
+            Collection<PandaScript> scripts = pandaScript.getPanda().getPandaLoader().loadDirectory(file);
 
             for (PandaScript pandaScript : scripts) {
                 if (pandaScript == null) {

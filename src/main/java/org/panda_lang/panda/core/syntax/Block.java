@@ -53,8 +53,11 @@ public class Block implements NamedExecutable {
                 result = executable.run(particle);
                 cache.proceed(false);
             }
-            else {
+            else if (executable != null) {
                 result = executable.run(particle);
+            }
+            else {
+                result = null;
             }
 
             if (!cache.isProceed()) {

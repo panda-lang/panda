@@ -1,6 +1,5 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.syntax.Block;
 
 public class BlockLayout {
@@ -18,7 +17,6 @@ public class BlockLayout {
         this.clazz = clazz;
         this.indications = indications;
         this.conventional = conventional;
-        BlockCenter.registerBlock(this);
     }
 
     public BlockLayout initializer(BlockInitializer initializer) {
