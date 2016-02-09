@@ -69,7 +69,7 @@ public class VialBlock extends Block {
                 return new VialBlock(atom.getPanda(), group, atom.getBlockInfo().getSpecifiers());
             }
         });
-        panda.registerBlock(blockLayout);
+        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

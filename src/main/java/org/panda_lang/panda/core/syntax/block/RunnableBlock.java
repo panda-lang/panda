@@ -29,7 +29,7 @@ public class RunnableBlock extends Block {
                 return current;
             }
         });
-        panda.registerBlock(blockLayout);
+        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

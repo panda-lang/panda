@@ -6,7 +6,7 @@ public class SemanticAnalyzer implements Analyzer {
 
     @Override
     public void analyze(PandaScript pandaScript) {
-        for (Analyzer analyzer : AnalyzerCenter.getAnalyzers()) {
+        for (Analyzer analyzer : pandaScript.getPanda().getPandaCore().getAnalyzerCenter().getAnalyzers()) {
             analyzer.analyze(pandaScript);
         }
     }

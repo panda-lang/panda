@@ -1,8 +1,9 @@
 package org.panda_lang.panda.core.parser;
 
-import org.panda_lang.panda.core.parser.essential.util.CharArrayDistributor;
+import org.panda_lang.panda.core.parser.util.CharArrayDistributor;
+import org.panda_lang.panda.core.parser.util.Matcher;
 
-public class Pattern implements Comparable<Pattern> {
+public class ParserPattern implements Matcher, Comparable<ParserPattern> {
 
     private final String pattern;
     private final double priority;
@@ -10,30 +11,31 @@ public class Pattern implements Comparable<Pattern> {
     private char[] charset;
     private int id;
 
-    public Pattern(String pattern) {
+    public ParserPattern(String pattern) {
         this(pattern, 0, 0);
     }
 
-    public Pattern(Parser parser, String pattern) {
+    public ParserPattern(Parser parser, String pattern) {
         this(parser, pattern, 0);
     }
 
-    public Pattern(String pattern, double priority, int id) {
+    public ParserPattern(String pattern, double priority, int id) {
         this(null, pattern, priority);
         this.id = id;
     }
 
-    public Pattern(String pattern, double priority, int id, char[] charset) {
+    public ParserPattern(String pattern, double priority, int id, char[] charset) {
         this(pattern, priority, id);
         this.charset = charset;
     }
 
-    public Pattern(Parser parser, String pattern, double priority) {
+    public ParserPattern(Parser parser, String pattern, double priority) {
         this.parser = parser;
         this.pattern = pattern.replace(" ", "");
         this.priority = priority;
     }
 
+    @Override
     public boolean match(String s) {
         char[] string = s.toCharArray();
         int i = 0;
@@ -73,7 +75,7 @@ public class Pattern implements Comparable<Pattern> {
         return count;
     }
 
-    public Pattern parser(Parser parser) {
+    public ParserPattern parser(Parser parser) {
         this.parser = parser;
         return this;
     }
@@ -111,7 +113,7 @@ public class Pattern implements Comparable<Pattern> {
     }
 
     @Override
-    public int compareTo(Pattern pattern) {
+    public int compareTo(ParserPattern pattern) {
         double priority = this.priority;
         double priorityTo = pattern.getPriority();
 

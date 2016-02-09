@@ -31,7 +31,7 @@ public class ReturnParser implements Parser {
         ReturnParser returnParser = new ReturnParser();
         ParserLayout parserLayout = new ParserLayout(returnParser);
         parserLayout.pattern("return*;", EssentialPriority.RETURN.getPriority(), EssentialPriority.RETURN.getPriority() * 10, PatternExtractor.FULL);
-        panda.registerParser(parserLayout);
+        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

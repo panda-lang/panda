@@ -43,7 +43,7 @@ public class IfThenBlock extends Block {
                 return current;
             }
         });
-        panda.registerBlock(blockLayout);
+        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

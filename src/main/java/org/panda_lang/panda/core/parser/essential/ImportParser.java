@@ -64,7 +64,7 @@ public class ImportParser implements Parser {
     public static void initialize(Panda panda) {
         ParserLayout parserLayout = new ParserLayout(new ImportParser());
         parserLayout.pattern("import *;", EssentialPriority.IMPORT.getPriority(), EssentialPriority.IMPORT.getPriority() * 10, PatternExtractor.FULL);
-        panda.registerParser(parserLayout);
+        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

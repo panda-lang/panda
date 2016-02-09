@@ -104,7 +104,7 @@ public class MethodParser implements Parser {
     public static void initialize(Panda panda) {
         MethodParser methodParser = new MethodParser();
         ParserLayout parserLayout = new ParserLayout(methodParser, "*(*);", EssentialPriority.METHOD.getPriority());
-        panda.registerParser(parserLayout);
+        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

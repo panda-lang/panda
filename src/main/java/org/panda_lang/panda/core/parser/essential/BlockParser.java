@@ -20,7 +20,7 @@ public class BlockParser implements Parser {
         String vialLine = sourcesDivider.getLine();
         String vialIndication = BlockAssistant.extractIndication(vialLine);
         BlockInfo blockInfo = BlockAssistant.extractBlock(vialLine);
-        Block current = null;
+        Block current = atom.getParent();
 
         indication:
         for (BlockLayout blockLayout : atom.getBlockCenter().getBlocks()) {
@@ -63,7 +63,7 @@ public class BlockParser implements Parser {
     public static void initialize(Panda panda) {
         BlockParser blockParser = new BlockParser();
         ParserLayout parserLayout = new ParserLayout(blockParser, "*{", EssentialPriority.VIAL.getPriority());
-        panda.registerParser(parserLayout);
+        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

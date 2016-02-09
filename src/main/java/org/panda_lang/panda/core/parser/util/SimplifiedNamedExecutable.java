@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser.essential.util;
+package org.panda_lang.panda.core.parser.util;
 
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.syntax.Essence;

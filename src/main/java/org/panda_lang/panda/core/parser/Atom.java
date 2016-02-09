@@ -6,7 +6,7 @@ import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
-import org.panda_lang.panda.core.parser.essential.util.Dependencies;
+import org.panda_lang.panda.core.parser.util.Dependencies;
 import org.panda_lang.panda.core.syntax.Block;
 
 import java.util.HashMap;
@@ -24,7 +24,7 @@ public class Atom {
     private PatternExtractor patternExtractor;
     private BlockInfo blockInfo;
     private String sourceCode;
-    private Pattern variant;
+    private ParserPattern variant;
     private Block previous;
     private Block current;
     private Block parent;
@@ -102,7 +102,7 @@ public class Atom {
         this.parent = parent;
     }
 
-    public void setVariant(Pattern variant) {
+    public void setVariant(ParserPattern variant) {
         this.variant = variant;
     }
 
@@ -166,7 +166,7 @@ public class Atom {
         return parent;
     }
 
-    public Pattern getVariant() {
+    public ParserPattern getVariant() {
         return variant;
     }
 
