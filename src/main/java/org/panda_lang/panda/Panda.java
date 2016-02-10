@@ -33,6 +33,7 @@ public class Panda {
     public void initializeDefaultElements() {
         Basis basis = getBasis();
         basis.loadParsers();
+        basis.loadInjections();
         basis.loadBlocks();
         basis.loadObjects();
     }
