@@ -2,7 +2,11 @@ package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaCore;
+import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.*;
+import org.panda_lang.panda.core.parser.util.Injection;
+import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.*;
 import org.panda_lang.panda.util.ClassCaller;
 
@@ -24,6 +28,17 @@ public class Basis {
         ImportParser.initialize(panda);
         MethodParser.initialize(panda);
         ReturnParser.initialize(panda);
+    }
+
+    public void loadInjections() {
+        panda.getPandaCore().registerInjection(new Injection() {
+            @Override
+            public void call(Atom atom, NamedExecutable namedExecutable) {
+                if (!(namedExecutable instanceof Block)) {
+                    atom.getPandaParser().getPandaBlock().addExecutable(namedExecutable);
+                }
+            }
+        });
     }
 
     public void loadBlocks() {

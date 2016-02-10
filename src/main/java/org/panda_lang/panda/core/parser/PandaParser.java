@@ -4,7 +4,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.util.Dependencies;
-import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.parser.util.Injection;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -22,6 +22,7 @@ public class PandaParser {
     private final SourcesDivider divider;
     private final PatternExtractor extractor;
     private final SemanticAnalyzer semanticAnalyzer;
+    private final Collection<Injection> injections;
     private final Collection<Runnable> postProcesses;
     private boolean exception;
 
@@ -33,6 +34,7 @@ public class PandaParser {
         this.divider = new SourcesDivider(source);
         this.extractor = new PatternExtractor();
         this.semanticAnalyzer = new SemanticAnalyzer();
+        this.injections = panda.getPandaCore().getInjectionCenter().getInjections();
         this.postProcesses = new ArrayList<>();
         this.atom = new Atom(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
@@ -45,9 +47,10 @@ public class PandaParser {
             }
 
             atom.update(pandaBlock, pandaBlock);
-            NamedExecutable executable = parseLine(line, atom);
-            if (!(executable instanceof Block)) {
-                pandaBlock.addExecutable(executable);
+            NamedExecutable namedExecutable = parseLine(line, atom);
+
+            for (Injection injection : injections) {
+                injection.call(atom, namedExecutable);
             }
         }
 
@@ -79,6 +82,10 @@ public class PandaParser {
         return null;
     }
 
+    public void addInjection(Injection injection) {
+        injections.add(injection);
+    }
+
     public void addPostProcess(Runnable process) {
         postProcesses.add(process);
     }
@@ -105,6 +112,10 @@ public class PandaParser {
 
     public PandaScript getPandaScript() {
         return pandaScript;
+    }
+
+    public Panda getPanda() {
+        return panda;
     }
 
     public Atom getAtom() {
