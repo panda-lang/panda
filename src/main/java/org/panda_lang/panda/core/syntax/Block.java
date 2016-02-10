@@ -34,7 +34,7 @@ public class Block implements NamedExecutable {
         Memory memory = particle.getMemory();
         Cache cache = memory.getCache();
 
-        if (particle.getFactors() != null) {
+        if (particle.getFactors() != null && factors != null) {
             for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
                 memory.put(factors[i].getVariable(), particle.getFactors()[i].getValue(particle));
             }
