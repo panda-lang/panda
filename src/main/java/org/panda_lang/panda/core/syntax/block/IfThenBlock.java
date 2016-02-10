@@ -20,7 +20,7 @@ public class IfThenBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        PBoolean flag = factors[0].getValue().cast(PBoolean.class);
+        PBoolean flag = factors[0].getValue(particle);
         if (flag != null && flag.isTrue()) {
             return super.run(particle);
         }

@@ -18,7 +18,7 @@ public class ForBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        Numeric times = factors[0].getValue();
+        Numeric times = factors[0].getValue(particle);
         for (int i = 0; i < times.getInt(); i++) {
             Essence o = super.run(particle);
             if (o != null) {
