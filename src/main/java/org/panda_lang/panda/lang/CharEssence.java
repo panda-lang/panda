@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PChar extends PObject {
+public class CharEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Char");
@@ -16,14 +16,14 @@ public class PChar extends PObject {
                 if (particle.hasFactors()) {
                     return particle.getValueOfFactor(0);
                 }
-                return new PChar('\u0000');
+                return new CharEssence('\u0000');
             }
         });
     }
 
     private final char c;
 
-    public PChar(char c) {
+    public CharEssence(char c) {
         this.c = c;
     }
 

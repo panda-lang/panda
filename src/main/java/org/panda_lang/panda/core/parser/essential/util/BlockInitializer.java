@@ -5,6 +5,6 @@ import org.panda_lang.panda.core.syntax.Block;
 
 public interface BlockInitializer {
 
-    public Block initialize(Atom atom);
+    Block initialize(Atom atom);
 
 }

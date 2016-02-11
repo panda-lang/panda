@@ -64,9 +64,7 @@ public class FactorAssistant {
         char[] chars = source.toCharArray();
         boolean string = false;
 
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
-
+        for (char c : chars) {
             if (c == '"') {
                 string = !string;
                 node.append(c);

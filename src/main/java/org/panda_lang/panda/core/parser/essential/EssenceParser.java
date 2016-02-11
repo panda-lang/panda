@@ -8,8 +8,6 @@ public class EssenceParser implements Parser {
 
     @Override
     public Essence parse(Atom atom) {
-        String source = atom.getSourceCode();
-
         return null;
     }
 

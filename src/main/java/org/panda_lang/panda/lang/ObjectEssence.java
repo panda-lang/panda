@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PObject extends Essence {
+public class ObjectEssence extends Essence {
 
     static {
         Vial vial = new Vial("Object");
@@ -15,23 +15,23 @@ public class PObject extends Essence {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return particle.hasFactors() ? new PObject(particle.getFactor(0)) : new PObject();
+                return particle.hasFactors() ? new ObjectEssence(particle.getFactor(0)) : new ObjectEssence();
             }
         });
         vial.method(new Method("toString", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PString(particle.getInstance().getValue().toString());
+                return new StringEssence(particle.getInstance().getValue().toString());
             }
         }));
     }
 
     private Object object;
 
-    public PObject() {
+    public ObjectEssence() {
     }
 
-    public PObject(Object object) {
+    public ObjectEssence(Object object) {
         this.object = object;
     }
 

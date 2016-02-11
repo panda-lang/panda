@@ -1,11 +1,11 @@
 package org.panda_lang.panda.lang.net;
 
 import org.panda_lang.panda.core.syntax.Vial;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.lang.ObjectEssence;
 
 import java.net.Socket;
 
-public class PSocket extends PObject {
+public class SocketEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Socket");
@@ -14,7 +14,7 @@ public class PSocket extends PObject {
 
     private final Socket socket;
 
-    public PSocket(Socket socket) {
+    public SocketEssence(Socket socket) {
         this.socket = socket;
     }
 

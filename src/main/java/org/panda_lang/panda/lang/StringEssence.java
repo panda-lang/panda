@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PString extends PObject {
+public class StringEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("String");
@@ -13,25 +13,25 @@ public class PString extends PObject {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PString(particle.getValueOfFactor(0).toString());
+                return new StringEssence(particle.getValueOfFactor(0).toString());
             }
         });
     }
 
     private final String string;
 
-    public PString(String string) {
+    public StringEssence(String string) {
         this.string = string;
     }
 
-    public PBoolean contains(PObject o) {
-        return new PBoolean(string.contains(o.toString()));
+    public BooleanEssence contains(ObjectEssence o) {
+        return new BooleanEssence(string.contains(o.toString()));
     }
 
-    public PString replace(PObject f, PObject t) {
+    public StringEssence replace(ObjectEssence f, ObjectEssence t) {
         String from = f.toString();
         String to = t.toString();
-        return new PString(string.replace(from, to));
+        return new StringEssence(string.replace(from, to));
     }
 
     @Override

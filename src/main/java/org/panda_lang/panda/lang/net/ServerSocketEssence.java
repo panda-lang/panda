@@ -3,13 +3,13 @@ package org.panda_lang.panda.lang.net;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.*;
-import org.panda_lang.panda.lang.PNull;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.lang.NullEssence;
+import org.panda_lang.panda.lang.ObjectEssence;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
-public class PServerSocket extends PObject {
+public class ServerSocketEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("ServerSocket");
@@ -19,30 +19,30 @@ public class PServerSocket extends PObject {
             public Essence run(Particle particle) {
                 Numeric port = particle.getValueOfFactor(0);
                 try {
-                    return new PServerSocket(port.getInt());
+                    return new ServerSocketEssence(port.getInt());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return new PNull();
+                return new NullEssence();
             }
         });
         vial.method(new Method("accept", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PServerSocket serverSocket = particle.getValueOfInstance();
+                ServerSocketEssence serverSocket = particle.getValueOfInstance();
                 try {
-                    return new PSocket(serverSocket.getServerSocket().accept());
+                    return new SocketEssence(serverSocket.getServerSocket().accept());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                return new PNull();
+                return new NullEssence();
             }
         }));
     }
 
     private final ServerSocket serverSocket;
 
-    public PServerSocket(int port) throws IOException {
+    public ServerSocketEssence(int port) throws IOException {
         this.serverSocket = new ServerSocket(port);
 
     }

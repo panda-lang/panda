@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PBoolean extends PObject {
+public class BooleanEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Boolean");
@@ -15,24 +15,24 @@ public class PBoolean extends PObject {
             @Override
             public Essence run(Particle particle) {
                 Essence essence = particle.getValueOfFactor(0);
-                if (essence instanceof PNull) {
-                    return new PBoolean(false);
+                if (essence instanceof NullEssence) {
+                    return new BooleanEssence(false);
                 }
-                else if (essence instanceof PBoolean) {
-                    return new PBoolean(((PBoolean) essence).getBoolean());
+                else if (essence instanceof BooleanEssence) {
+                    return new BooleanEssence(((BooleanEssence) essence).getBoolean());
                 }
                 else if (essence instanceof Numeric) {
                     byte value = ((Numeric) essence).getByte();
-                    return new PBoolean(value != 0);
+                    return new BooleanEssence(value != 0);
                 }
-                return new PBoolean(false);
+                return new BooleanEssence(false);
             }
         });
     }
 
     private final boolean b;
 
-    public PBoolean(boolean b) {
+    public BooleanEssence(boolean b) {
         this.b = b;
     }
 

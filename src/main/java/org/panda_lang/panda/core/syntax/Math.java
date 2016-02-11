@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.lang.PDouble;
+import org.panda_lang.panda.lang.DoubleEssence;
 
 import java.util.Stack;
 
@@ -40,7 +40,7 @@ public class Math implements Executable {
                         c = a.divide(b);
                         break;
                     case '^':
-                        c = new PDouble(java.lang.Math.pow(a.getDouble(), b.getDouble()));
+                        c = new DoubleEssence(java.lang.Math.pow(a.getDouble(), b.getDouble()));
                         break;
                     default:
                         c = null;
@@ -49,7 +49,7 @@ public class Math implements Executable {
             }
             else {
                 Factor factor = mathBuilder.getParameter();
-                Numeric value = factor.getValue(particle.getMemory());
+                Numeric value = factor.getValue(particle);
                 values.push(value);
             }
         }

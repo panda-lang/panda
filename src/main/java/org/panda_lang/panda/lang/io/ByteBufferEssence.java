@@ -1,11 +1,11 @@
 package org.panda_lang.panda.lang.io;
 
 import org.panda_lang.panda.core.syntax.Vial;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.lang.ObjectEssence;
 
 import java.nio.ByteBuffer;
 
-public class PByteBuffer extends PObject {
+public class ByteBufferEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("ByteBuffer");
@@ -14,11 +14,11 @@ public class PByteBuffer extends PObject {
 
     private ByteBuffer byteBuffer;
 
-    public PByteBuffer() {
+    public ByteBufferEssence() {
         this.byteBuffer = ByteBuffer.allocate(0);
     }
 
-    public PByteBuffer(ByteBuffer byteBuffer) {
+    public ByteBufferEssence(ByteBuffer byteBuffer) {
         this.byteBuffer = byteBuffer;
     }
 

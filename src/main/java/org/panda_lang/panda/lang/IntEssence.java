@@ -4,37 +4,37 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PLong extends Numeric {
+public class IntEssence extends Numeric {
 
     static {
-        Vial vial = new Vial("Long");
+        Vial vial = new Vial("Int");
         vial.group("panda.lang");
     }
 
-    private final long l;
+    private final int i;
 
-    public PLong(long l) {
-        this.l = l;
+    public IntEssence(int i) {
+        this.i = i;
     }
 
     @Override
-    public long getLong() {
-        return l;
+    public int getInt() {
+        return i;
     }
 
     @Override
     public Number getNumber() {
-        return getLong();
+        return getInt();
     }
 
     @Override
     public NumberType getNumberType() {
-        return NumberType.LONG;
+        return NumberType.INT;
     }
 
     @Override
     public Object getJavaValue() {
-        return getLong();
+        return getInt();
     }
 
 }

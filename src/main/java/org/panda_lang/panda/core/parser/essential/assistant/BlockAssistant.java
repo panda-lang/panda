@@ -9,19 +9,15 @@ public class BlockAssistant {
 
     public static String extractIndication(String line) {
         StringBuilder node = new StringBuilder();
-        for (char c : line.toCharArray()) {
+        for (char c : line.toCharArray())
             if (Character.isWhitespace(c) || c == '(' || c == '{') {
-                if (node.length() == 0) {
-                    continue;
-                }
-                else {
+                if (node.length() != 0) {
                     break;
                 }
             }
             else {
                 node.append(c);
             }
-        }
         return node.toString();
     }
 
@@ -38,8 +34,8 @@ public class BlockAssistant {
 
         // {parseLocal}
         char[] chars = s.toCharArray();
-        for (int i = 0; i < chars.length; i++) {
-            char c = chars[i];
+        for (char aChar : chars) {
+            char c = aChar;
 
             // {switch.special}
             switch (c) {

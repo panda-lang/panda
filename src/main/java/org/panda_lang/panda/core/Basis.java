@@ -54,31 +54,31 @@ public class Basis {
 
     public void loadObjects() {
         ClassCaller.loadClasses("org.panda_lang.panda.lang",
-                "PArray",
-                "PBoolean",
-                "PByte",
-                "PChar",
-                "PFile",
-                "PList",
-                "PMap",
-                "PNumber",
-                "PObject",
-                "PPanda",
-                "PRunnable",
-                "PStack",
-                "PString",
-                "PSystem",
-                "PThread");
+                "ArrayEssence",
+                "BooleanEssence",
+                "ByteEssence",
+                "CharEssence",
+                "FileEssence",
+                "ListEssence",
+                "MapEssence",
+                "NumberEssence",
+                "ObjectEssence",
+                "PandaEssence",
+                "RunnableEssence",
+                "StackEssence",
+                "StringEssence",
+                "SystemEssence",
+                "ThreadEssence");
 
         ClassCaller.loadClasses("org.panda_lang.panda.lang.net",
-                "PPacket",
-                "PServerSocket",
-                "PServerSocketChannel",
-                "PSocket",
-                "PSocketChannel");
+                "PacketEssence",
+                "ServerSocketEssence",
+                "ServerSocketChannelEssence",
+                "SocketEssence",
+                "SocketChannelEssence");
 
         ClassCaller.loadClasses("org.panda_lang.panda.lang.ui",
-                "PInterface");
+                "InterfaceEssence");
     }
 
     public PandaCore getPandaCore() {

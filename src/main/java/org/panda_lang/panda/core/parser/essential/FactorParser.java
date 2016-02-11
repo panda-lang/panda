@@ -62,15 +62,15 @@ public class FactorParser implements Parser {
         }
         // Null
         else if (parameter.equals("null")) {
-            return new Factor(new PNull());
+            return new Factor(new NullEssence());
         }
         // Boolean
         else if (parameter.equals("true")) {
-            return new Factor(new PBoolean(true));
+            return new Factor(new BooleanEssence(true));
         }
         // Boolean
         else if (parameter.equals("false")) {
-            return new Factor(new PBoolean(false));
+            return new Factor(new BooleanEssence(false));
         }
         else {
             // Variable
@@ -103,11 +103,11 @@ public class FactorParser implements Parser {
 
     public Factor parseArray(Atom atom, String s) {
         String array = s.substring(1, s.length() - 1);
-        return new Factor(new PArray(parse(atom, array)));
+        return new Factor(new ArrayEssence(parse(atom, array)));
     }
 
     public Factor parseString(String s) {
-        return new Factor(new PString(s.substring(1, s.length() - 1)));
+        return new Factor(new StringEssence(s.substring(1, s.length() - 1)));
     }
 
     public Factor parseThisOperator(Atom atom) {
@@ -127,29 +127,29 @@ public class FactorParser implements Parser {
     public Factor parseNumber(String s) {
         char unit = s.toUpperCase().charAt(s.length() - 1);
         if (Character.isDigit(unit)) {
-            return new Factor(new PInt(Integer.parseInt(s)));
+            return new Factor(new IntEssence(Integer.parseInt(s)));
         }
 
         NumberType numberType = NumberType.valueOf(unit);
         String numberValue = s.substring(0, s.length() - 1);
         switch (numberType) {
             case BYTE:
-                return new Factor(new PByte(Byte.parseByte(numberValue)));
+                return new Factor(new ByteEssence(Byte.parseByte(numberValue)));
             case SHORT:
-                return new Factor(new PShort(Short.parseShort(numberValue)));
+                return new Factor(new ShortEssence(Short.parseShort(numberValue)));
             case INT:
-                return new Factor(new PInt(Integer.parseInt(numberValue)));
+                return new Factor(new IntEssence(Integer.parseInt(numberValue)));
             case LONG:
-                return new Factor(new PLong(Long.parseLong(numberValue)));
+                return new Factor(new LongEssence(Long.parseLong(numberValue)));
             case FLOAT:
-                return new Factor(new PFloat(Float.parseFloat(numberValue)));
+                return new Factor(new FloatEssence(Float.parseFloat(numberValue)));
             case DOUBLE:
-                return new Factor(new PDouble(Double.parseDouble(numberValue)));
+                return new Factor(new DoubleEssence(Double.parseDouble(numberValue)));
             case FAT_PANDA:
                 return null;
             default:
                 System.out.print("Unknown number type " + s);
-                return new Factor(new PInt(0));
+                return new Factor(new IntEssence(0));
         }
     }
 

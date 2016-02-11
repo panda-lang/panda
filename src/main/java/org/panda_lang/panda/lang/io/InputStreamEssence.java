@@ -1,11 +1,11 @@
 package org.panda_lang.panda.lang.io;
 
 import org.panda_lang.panda.core.syntax.Vial;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.lang.ObjectEssence;
 
 import java.io.InputStream;
 
-public class PInputStream extends PObject {
+public class InputStreamEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("InputStream");
@@ -14,7 +14,7 @@ public class PInputStream extends PObject {
 
     private InputStream inputStream;
 
-    public PInputStream() {
+    public InputStreamEssence() {
     }
 
 }

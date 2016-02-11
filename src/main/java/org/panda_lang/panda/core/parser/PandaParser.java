@@ -17,14 +17,28 @@ public class PandaParser {
     private final Panda panda;
     private final PandaScript pandaScript;
     private final Dependencies dependencies;
-    private final PandaBlock pandaBlock;
 
     private final SourcesDivider divider;
     private final PatternExtractor extractor;
     private final SemanticAnalyzer semanticAnalyzer;
     private final Collection<Injection> injections;
     private final Collection<Runnable> postProcesses;
+
+    private PandaBlock pandaBlock;
     private boolean exception;
+
+    public PandaParser(Panda panda, PandaScript pandaScript, String source) {
+        this.panda = panda;
+        this.pandaScript = pandaScript;
+        this.dependencies = new Dependencies(pandaScript);
+        this.pandaBlock = new PandaBlock(pandaScript);
+        this.divider = new SourcesDivider(source);
+        this.extractor = new PatternExtractor();
+        this.semanticAnalyzer = new SemanticAnalyzer();
+        this.injections = panda.getPandaCore().getInjectionCenter().getInjections();
+        this.postProcesses = new ArrayList<>();
+        this.atom = new Atom(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
+    }
 
     public PandaParser(Panda panda, String source) {
         this.panda = panda;
@@ -88,6 +102,10 @@ public class PandaParser {
 
     public void addPostProcess(Runnable process) {
         postProcesses.add(process);
+    }
+
+    public void setPandaBlock(PandaBlock pandaBlock) {
+        this.pandaBlock = pandaBlock;
     }
 
     public boolean isHappy() {

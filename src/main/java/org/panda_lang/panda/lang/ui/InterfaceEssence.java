@@ -1,9 +1,9 @@
 package org.panda_lang.panda.lang.ui;
 
-import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.lang.ObjectEssence;
 
-public class PInterface extends Essence {
+public class InterfaceEssence extends ObjectEssence {
 
     private static final Vial vial;
 
@@ -12,7 +12,7 @@ public class PInterface extends Essence {
         vial.group("panda.lang.ui");
     }
 
-    public PInterface() {
+    public InterfaceEssence() {
         super(vial);
     }
 

@@ -4,9 +4,9 @@ import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
-import org.panda_lang.panda.lang.PObject;
+import org.panda_lang.panda.lang.ObjectEssence;
 
-public class PPacket extends PObject {
+public class PacketEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Packet");
@@ -14,12 +14,12 @@ public class PPacket extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return new PPacket();
+                return new PacketEssence();
             }
         });
     }
 
-    public PPacket() {
+    public PacketEssence() {
     }
 
     @Override

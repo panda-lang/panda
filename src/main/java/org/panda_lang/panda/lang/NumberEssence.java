@@ -8,7 +8,7 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PNumber extends Essence {
+public class NumberEssence extends Essence {
 
     static {
         Vial vial = new Vial("Number");
@@ -28,15 +28,15 @@ public class PNumber extends Essence {
         vial.method(new Method("toString", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PNumber number = particle.getInstance().getValue(particle);
-                return new PString(number.toString());
+                NumberEssence number = particle.getInstance().getValue(particle);
+                return new StringEssence(number.toString());
             }
         }));
     }
 
     private Numeric number;
 
-    protected PNumber(Numeric number) {
+    protected NumberEssence(Numeric number) {
         this.number = number;
     }
 

@@ -4,37 +4,37 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PInt extends Numeric {
+public class DoubleEssence extends Numeric {
 
     static {
-        Vial vial = new Vial("Int");
+        Vial vial = new Vial("Double");
         vial.group("panda.lang");
     }
 
-    private final int i;
+    private final double d;
 
-    public PInt(int i) {
-        this.i = i;
+    public DoubleEssence(double d) {
+        this.d = d;
     }
 
     @Override
-    public int getInt() {
-        return i;
+    public double getDouble() {
+        return d;
     }
 
     @Override
     public Number getNumber() {
-        return getInt();
+        return getDouble();
     }
 
     @Override
     public NumberType getNumberType() {
-        return NumberType.INT;
+        return NumberType.DOUBLE;
     }
 
     @Override
     public Object getJavaValue() {
-        return getInt();
+        return getDouble();
     }
 
 }

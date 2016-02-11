@@ -1,7 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
-import org.panda_lang.panda.core.memory.Memory;
 
 public class Field implements NamedExecutable {
 
@@ -27,14 +26,25 @@ public class Field implements NamedExecutable {
 
     @Override
     public Essence run(Particle particle) {
-        Memory memory = particle.getMemory();
-        value = factor != null ? factor.getValue(memory) : null;
-        memory.put(fieldName, value);
+        value = factor != null ? factor.getValue(particle) : null;
+        particle.getMemory().put(fieldName, value);
         return value;
     }
 
     public void setDataType(String dataType) {
         this.dataType = dataType;
+    }
+
+    public Essence getValue() {
+        return value;
+    }
+
+    public Factor getFactor() {
+        return factor;
+    }
+
+    public String getDataType() {
+        return dataType;
     }
 
     @Override

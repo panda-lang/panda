@@ -4,6 +4,6 @@ import org.panda_lang.panda.PandaScript;
 
 public interface Analyzer {
 
-    public void analyze(PandaScript pandaScript);
+    void analyze(PandaScript pandaScript);
 
 }

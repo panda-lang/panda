@@ -8,7 +8,7 @@ import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.lang.PBoolean;
+import org.panda_lang.panda.lang.BooleanEssence;
 
 public class IfThenBlock extends Block {
 
@@ -20,7 +20,7 @@ public class IfThenBlock extends Block {
 
     @Override
     public Essence run(Particle particle) {
-        PBoolean flag = factors[0].getValue(particle);
+        BooleanEssence flag = factors[0].getValue(particle);
         if (flag != null && flag.isTrue()) {
             return super.run(particle);
         }

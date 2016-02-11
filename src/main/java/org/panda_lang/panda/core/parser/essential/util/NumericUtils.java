@@ -10,17 +10,17 @@ public class NumericUtils {
         }
         switch (a.getNumberType()) {
             case BYTE:
-                return new PByte((byte) (a.getByte() + b.getByte()));
+                return new ByteEssence((byte) (a.getByte() + b.getByte()));
             case SHORT:
-                return new PShort((short) (a.getShort() + b.getShort()));
+                return new ShortEssence((short) (a.getShort() + b.getShort()));
             case INT:
-                return new PInt(a.getInt() + b.getInt());
+                return new IntEssence(a.getInt() + b.getInt());
             case LONG:
-                return new PLong(a.getLong() + b.getLong());
+                return new LongEssence(a.getLong() + b.getLong());
             case FLOAT:
-                return new PFloat(a.getFloat() + b.getFloat());
+                return new FloatEssence(a.getFloat() + b.getFloat());
             case DOUBLE:
-                return new PDouble(a.getDouble() + b.getDouble());
+                return new DoubleEssence(a.getDouble() + b.getDouble());
             case FAT_PANDA:
                 break;
         }

@@ -10,7 +10,7 @@ import org.panda_lang.panda.core.syntax.Vial;
 
 import java.io.File;
 
-public class PPanda extends PObject {
+public class PandaEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Panda");
@@ -26,12 +26,12 @@ public class PPanda extends PObject {
             @Override
             public Essence run(Particle particle) {
                 Essence essence = particle.getValueOfFactor(0);
-                if (essence instanceof PString) {
+                if (essence instanceof StringEssence) {
                     PandaScript pandaScript = particle.getPanda().getPandaLoader().loadSimpleScript(essence.toString());
                     particle.getPanda().addScript(pandaScript);
                 }
-                else if (essence instanceof PFile) {
-                    File file = ((PFile) essence).getFile();
+                else if (essence instanceof FileEssence) {
+                    File file = ((FileEssence) essence).getFile();
                     PandaScript pandaScript = particle.getPanda().getPandaLoader().loadSingleScript(file);
                     particle.getPanda().addScript(pandaScript);
                 }
@@ -41,7 +41,7 @@ public class PPanda extends PObject {
         vial.method(new Method("getVersion", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PString(Panda.PANDA_VERSION);
+                return new StringEssence(Panda.PANDA_VERSION);
             }
         }));
     }

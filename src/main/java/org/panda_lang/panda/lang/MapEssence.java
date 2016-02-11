@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.syntax.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PMap extends PObject {
+public class MapEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Map");
@@ -14,20 +14,20 @@ public class PMap extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return new PMap();
+                return new MapEssence();
             }
         });
         vial.method(new Method("put", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PMap map = particle.getValueOfInstance();
+                MapEssence map = particle.getValueOfInstance();
                 return map.getMap().put(particle.getValueOfFactor(0), particle.getValueOfFactor(1));
             }
         }));
         vial.method(new Method("get", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PMap map = particle.getValueOfInstance();
+                MapEssence map = particle.getValueOfInstance();
                 return map.getMap().get(particle.getValueOfFactor(0));
             }
         }));
@@ -35,7 +35,7 @@ public class PMap extends PObject {
 
     private final Map<Essence, Essence> map;
 
-    public PMap() {
+    public MapEssence() {
         this.map = new HashMap<>();
     }
 

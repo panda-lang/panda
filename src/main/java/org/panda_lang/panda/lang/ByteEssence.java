@@ -4,37 +4,37 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PFloat extends Numeric {
+public class ByteEssence extends Numeric {
 
     static {
-        Vial vial = new Vial("Float");
+        Vial vial = new Vial("Byte");
         vial.group("panda.lang");
     }
 
-    private final float f;
+    private final byte b;
 
-    public PFloat(float f) {
-        this.f = f;
+    public ByteEssence(byte b) {
+        this.b = b;
     }
 
     @Override
-    public float getFloat() {
-        return f;
+    public byte getByte() {
+        return b;
     }
 
     @Override
     public Number getNumber() {
-        return getFloat();
+        return getByte();
     }
 
     @Override
     public NumberType getNumberType() {
-        return NumberType.FLOAT;
+        return NumberType.BYTE;
     }
 
     @Override
     public Object getJavaValue() {
-        return getFloat();
+        return getByte();
     }
 
 }
