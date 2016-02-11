@@ -8,7 +8,7 @@ import org.panda_lang.panda.util.IOUtils;
 
 import java.io.File;
 
-public class PFile extends PObject {
+public class FileEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("File");
@@ -16,15 +16,15 @@ public class PFile extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                PString file = particle.getValueOfFactor(0);
-                return new PFile(file.toString());
+                StringEssence file = particle.getValueOfFactor(0);
+                return new FileEssence(file.toString());
             }
         });
     }
 
     private final File file;
 
-    public PFile(String file) {
+    public FileEssence(String file) {
         this.file = new File(file);
     }
 
@@ -32,8 +32,8 @@ public class PFile extends PObject {
         return file;
     }
 
-    public PString getContentOfFile() {
-        return new PString(IOUtils.getContentOfFile(file));
+    public StringEssence getContentOfFile() {
+        return new StringEssence(IOUtils.getContentOfFile(file));
     }
 
     @Override

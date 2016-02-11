@@ -35,7 +35,10 @@ public class MethodParser implements Parser {
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
                     public Essence run(Particle particle) {
-                        particle = new Particle(atom.getPanda(), particle, mi.getFactors());
+                        particle = new Particle()
+                                .fork()
+                                .pandaScript(atom.getPandaScript())
+                                .factors(mi.getFactors());
                         return method != null ? method.run(particle) : vial.getMethod(mi.getMethodName()).run(particle);
                     }
                 }));
@@ -82,7 +85,7 @@ public class MethodParser implements Parser {
                     @Override
                     public Essence run(Particle particle) {
                         particle.setInstance(instance);
-                        Essence essence = instance.getValue(particle.getMemory());
+                        Essence essence = instance.getValue(particle);
                         String methodName = mi.getMethodName();
                         return essence.call(methodName, particle);
                     }

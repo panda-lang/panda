@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -11,11 +12,11 @@ import java.util.List;
 
 public class VialBlock extends Block {
 
-    private final Panda panda;
+    private final PandaScript pandaScript;
     private final Vial vial;
 
-    public VialBlock(Panda panda, Group group, List<String> specifiers) {
-        this.panda = panda;
+    public VialBlock(PandaScript pandaScript, Group group, List<String> specifiers) {
+        this.pandaScript = pandaScript;
         this.vial = new Vial(specifiers.get(0));
         this.vial.setVialBlock(this);
 
@@ -34,7 +35,7 @@ public class VialBlock extends Block {
     }
 
     public Particle initializeFields(Essence essence) {
-        Particle particle = new Particle(panda);
+        Particle particle = new Particle().pandaScript(pandaScript);
         particle.setMemory(essence.getMemory());
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
@@ -66,7 +67,7 @@ public class VialBlock extends Block {
             @Override
             public Block initialize(Atom atom) {
                 Group group = atom.getPandaParser().getPandaBlock().getGroup();
-                return new VialBlock(atom.getPanda(), group, atom.getBlockInfo().getSpecifiers());
+                return new VialBlock(atom.getPandaScript(), group, atom.getBlockInfo().getSpecifiers());
             }
         });
         panda.getPandaCore().registerBlock(blockLayout);

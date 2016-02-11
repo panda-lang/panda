@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PNull extends Essence {
+public class NullEssence extends Essence {
 
     static {
         Vial vial = new Vial("null");
@@ -14,12 +14,12 @@ public class PNull extends Essence {
         vial.method(new Method("toString", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PString("null");
+                return new StringEssence("null");
             }
         }));
     }
 
-    public PNull() {
+    public NullEssence() {
     }
 
     @Override

@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.lang.PBoolean;
+import org.panda_lang.panda.lang.BooleanEssence;
 
 public class Equality implements Executable {
 
@@ -52,7 +52,7 @@ public class Equality implements Executable {
             }
         }
 
-        return new PBoolean(flag);
+        return new BooleanEssence(flag);
     }
 
 }

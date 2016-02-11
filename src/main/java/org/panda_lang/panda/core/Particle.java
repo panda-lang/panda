@@ -1,58 +1,57 @@
 package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
 
 public class Particle {
 
-    private Panda panda;
+    private PandaScript pandaScript;
     private Memory memory;
     private Essence essence;
     private Factor instance;
     private Factor[] factors;
 
-    public Particle(Panda panda) {
-        this.panda = panda;
+    public Particle() {
     }
 
-    public Particle(Panda panda, Memory memory) {
-        this(panda);
-        this.memory = memory;
-    }
-
-    public Particle(Panda panda, Factor... factors) {
-        this.panda = panda;
-        this.factors = factors;
-    }
-
-    public Particle(Panda panda, Essence essence, Factor... factors) {
-        this(panda, null, essence, null, factors);
-    }
-
-    public Particle(Panda panda, Factor instance, Factor... factors) {
-        this(panda, null, null, instance, factors);
-    }
-
-    public Particle(Panda panda, Particle particle, Factor... factors) {
-        this(panda, particle.getMemory(), particle.getEssence(), particle.getInstance(), factors);
-    }
-
-    public Particle(Panda panda, Particle particle, Memory memory) {
-        this(panda, memory, particle.getEssence(), particle.getInstance(), particle.getFactors());
-    }
-
-    public Particle(Panda panda, Memory memory, Essence essence, Factor instance, Factor... factors) {
+    public Particle(PandaScript pandaScript, Memory memory, Essence essence, Factor instance, Factor... factors) {
+        this.pandaScript = pandaScript;
         this.memory = memory;
         this.essence = essence;
         this.instance = instance;
         this.factors = factors;
     }
 
+    public Particle pandaScript(PandaScript pandaScript) {
+        this.pandaScript = pandaScript;
+        return this;
+    }
+
     public Particle memory(Memory memory) {
         this.memory = memory;
         return this;
+    }
+
+    public Particle essence(Essence essence) {
+        this.essence = essence;
+        return this;
+    }
+
+    public Particle instance(Factor instance) {
+        this.instance = instance;
+        return this;
+    }
+
+    public Particle factors(Factor... factors) {
+        this.factors = factors;
+        return this;
+    }
+
+    public Particle fork() {
+        return new Particle(pandaScript, memory, essence, instance, factors);
     }
 
     public boolean hasFactors() {
@@ -81,22 +80,26 @@ public class Particle {
 
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getValueOfFactor(int i) {
-        return (T) getFactor(i).getValue(memory);
+        return (T) getFactor(i).getValue(this);
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getValueOfFactor(int i, Class<T> clazz) {
-        return (T) getFactor(i).getValue(memory);
+        return (T) getFactor(i).getValue(this);
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getValueOfInstance() {
-        return (T) instance.getValue(memory);
+        return (T) instance.getValue(this);
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getValueOfInstance(Class<T> clazz) {
-        return (T) instance.getValue(memory);
+        return (T) instance.getValue(this);
+    }
+
+    public Panda getPanda() {
+        return pandaScript.getPanda();
     }
 
     public Essence getEssence() {
@@ -115,8 +118,8 @@ public class Particle {
         return memory;
     }
 
-    public Panda getPanda() {
-        return panda;
+    public PandaScript getPandaScript() {
+        return pandaScript;
     }
 
 }

@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
 
-public class PThread extends PObject {
+public class ThreadEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Thread");
@@ -13,13 +13,13 @@ public class PThread extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return particle.hasFactors() ? new PThread(particle.getValueOfFactor(0).toString()) : new PThread();
+                return particle.hasFactors() ? new ThreadEssence(particle.getValueOfFactor(0).toString()) : new ThreadEssence();
             }
         });
         vial.method(new Method("start", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PThread thread = particle.getValueOfInstance();
+                ThreadEssence thread = particle.getValueOfInstance();
                 thread.start(particle);
                 return thread;
             }
@@ -27,14 +27,14 @@ public class PThread extends PObject {
         vial.method(new Method("getName", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PThread thread = particle.getValueOfInstance();
-                return new PString(thread.getName());
+                ThreadEssence thread = particle.getValueOfInstance();
+                return new StringEssence(thread.getName());
             }
         }));
         vial.method(new Method("currentThread", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PThread(Thread.currentThread());
+                return new ThreadEssence(Thread.currentThread());
             }
         }));
     }
@@ -44,15 +44,15 @@ public class PThread extends PObject {
     private Thread thread;
     private Memory memory;
 
-    public PThread() {
+    public ThreadEssence() {
     }
 
-    public PThread(String name) {
+    public ThreadEssence(String name) {
         this();
         this.name = name;
     }
 
-    public PThread(Thread thread) {
+    public ThreadEssence(Thread thread) {
         this(thread.getName());
         this.thread = thread;
     }

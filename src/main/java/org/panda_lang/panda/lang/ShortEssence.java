@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PShort extends Numeric {
+public class ShortEssence extends Numeric {
 
     static {
         Vial vial = new Vial("Short");
@@ -13,7 +13,7 @@ public class PShort extends Numeric {
 
     private final short s;
 
-    public PShort(short s) {
+    public ShortEssence(short s) {
         this.s = s;
     }
 

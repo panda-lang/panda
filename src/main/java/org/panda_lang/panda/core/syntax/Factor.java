@@ -16,7 +16,7 @@ public class Factor implements NamedExecutable {
     private String variable;
     private Runtime runtime;
     private Essence value;
-    private Memory memory;
+    private Particle particle;
 
     public Factor(Essence object) {
         this.type = Type.DEFINED;
@@ -33,9 +33,9 @@ public class Factor implements NamedExecutable {
         this.variable = variable;
     }
 
-    public Factor(Memory memory, String variable) {
+    public Factor(Particle particle, String variable) {
         this.type = Type.VARIABLE;
-        this.memory = memory;
+        this.particle = particle;
         this.variable = variable;
     }
 
@@ -45,27 +45,26 @@ public class Factor implements NamedExecutable {
     }
 
     public <T extends Essence> T getValue() {
-        return getValue(memory);
-    }
-
-    public <T extends Essence> T getValue(Particle particle) {
-        return getValue(particle.getMemory());
+        return getValue(particle);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getValue(Memory memory) {
+    public <T extends Essence> T getValue(Particle particle) {
         switch (type) {
             case DEFINED:
                 this.value = object;
                 break;
             case VARIABLE:
-                this.value = memory.get(variable);
+                this.value = particle.getMemory().get(variable);
                 break;
             case RUNTIME:
                 if (runtime == null) {
                     return null;
                 }
-                this.value = runtime.run(new Particle(null, memory));
+                if (particle == null) {
+                    particle = new Particle().memory(new Memory());
+                }
+                this.value = runtime.run(particle);
                 break;
         }
         return (T) this.value;

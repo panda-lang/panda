@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.syntax.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PList extends PObject {
+public class ListEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("List");
@@ -14,13 +14,13 @@ public class PList extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return new PList();
+                return new ListEssence();
             }
         });
         vial.method(new Method("add", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PList list = particle.getValueOfInstance();
+                ListEssence list = particle.getValueOfInstance();
                 list.getList().add(particle.getValueOfFactor(0));
                 return null;
             }
@@ -29,7 +29,7 @@ public class PList extends PObject {
 
     private final List<Essence> list;
 
-    public PList() {
+    public ListEssence() {
         this.list = new ArrayList<>();
     }
 

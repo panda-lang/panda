@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
 
-public class PSystem extends PObject {
+public class SystemEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("System");
@@ -21,20 +21,20 @@ public class PSystem extends PObject {
         vial.method(new Method("currentTimeMillis", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PLong(System.currentTimeMillis());
+                return new LongEssence(System.currentTimeMillis());
             }
         }));
         vial.method(new Method("nanoTime", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new PLong(System.nanoTime());
+                return new LongEssence(System.nanoTime());
             }
         }));
         vial.method(new Method("exit", new Executable() {
             @Override
             public Essence run(Particle particle) {
                 System.exit(-1);
-                return new PInt(-1);
+                return new IntEssence(-1);
             }
         }));
     }

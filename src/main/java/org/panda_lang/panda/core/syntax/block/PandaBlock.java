@@ -26,7 +26,10 @@ public class PandaBlock extends Block {
     }
 
     public void initializeGlobalVariables() {
-        Particle particle = new Particle(pandaScript.getPanda(), memory);
+        Particle particle = new Particle()
+                .pandaScript(pandaScript)
+                .memory(memory);
+
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.run(particle);
@@ -37,8 +40,10 @@ public class PandaBlock extends Block {
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (NamedExecutable executable : super.getExecutables()) {
             if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                Particle particle = new Particle(pandaScript.getPanda(), memory);
-                particle.setFactors(factors);
+                Particle particle = new Particle()
+                        .pandaScript(pandaScript)
+                        .memory(memory)
+                        .factors(factors);
                 return executable.run(particle);
             }
         }
@@ -56,13 +61,21 @@ public class PandaBlock extends Block {
         return vials;
     }
 
+    public void setGroup(Group group) {
+        this.group = group;
+    }
+
     @Override
     public boolean isReturned() {
         return true;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public Collection<Library> getLibraries() {
+        return libraries;
+    }
+
+    public Collection<Import> getImports() {
+        return imports;
     }
 
     public Group getGroup() {

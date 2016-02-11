@@ -10,11 +10,11 @@ import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
-import org.panda_lang.panda.lang.PThread;
+import org.panda_lang.panda.lang.ThreadEssence;
 
 public class ThreadBlock extends Block {
 
-    private PThread pThread;
+    private ThreadEssence pThread;
 
     public ThreadBlock() {
         super.setName("thread::" + atomicInteger.incrementAndGet());

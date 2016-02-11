@@ -9,7 +9,7 @@ import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.lang.PBoolean;
+import org.panda_lang.panda.lang.BooleanEssence;
 
 public class WhileBlock extends Block {
 
@@ -20,7 +20,7 @@ public class WhileBlock extends Block {
     @Override
     public Essence run(Particle particle) {
         Factor factor = factors[0];
-        while (factor.<PBoolean>getValue().isTrue()) {
+        while (factor.<BooleanEssence>getValue().isTrue()) {
             Essence o = super.run(particle);
             if (o != null) {
                 return o;

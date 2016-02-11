@@ -20,24 +20,22 @@ public class Catcher extends Thread {
 
     @Override
     public void run() {
-        while (true) {
-            try {
-                final Socket socket = serverSocket.accept();
-                final DataInputStream input = new DataInputStream(socket.getInputStream());
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            String command = input.readUTF();
-                            panda.exec(command);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+        try {
+            final Socket socket = serverSocket.accept();
+            final DataInputStream input = new DataInputStream(socket.getInputStream());
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String command = input.readUTF();
+                        panda.exec(command);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
-                }).start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                }
+            }).start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

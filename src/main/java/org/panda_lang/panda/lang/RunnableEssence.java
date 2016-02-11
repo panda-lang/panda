@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.RunnableBlock;
 
-public class PRunnable extends PObject {
+public class RunnableEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("Runnable");
@@ -13,13 +13,13 @@ public class PRunnable extends PObject {
         vial.constructor(new Constructor() {
             @Override
             public Essence run(Particle particle) {
-                return new PRunnable();
+                return new RunnableEssence();
             }
         });
         vial.method(new Method("run", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PRunnable runnable = particle.getValueOfInstance();
+                RunnableEssence runnable = particle.getValueOfInstance();
                 return runnable.run(particle);
             }
         }));
@@ -28,7 +28,7 @@ public class PRunnable extends PObject {
     private RunnableBlock block;
     private Memory memory;
 
-    public PRunnable() {
+    public RunnableEssence() {
     }
 
     public Essence run(Particle particle) {

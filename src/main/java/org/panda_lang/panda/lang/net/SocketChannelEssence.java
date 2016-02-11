@@ -5,13 +5,13 @@ import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
 import org.panda_lang.panda.core.syntax.Vial;
-import org.panda_lang.panda.lang.PObject;
-import org.panda_lang.panda.lang.io.PByteBuffer;
+import org.panda_lang.panda.lang.ObjectEssence;
+import org.panda_lang.panda.lang.io.ByteBufferEssence;
 
 import java.io.IOException;
 import java.nio.channels.SocketChannel;
 
-public class PSocketChannel extends PObject {
+public class SocketChannelEssence extends ObjectEssence {
 
     static {
         Vial vial = new Vial("SocketChannel");
@@ -19,8 +19,8 @@ public class PSocketChannel extends PObject {
         vial.method(new Method("write", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PSocketChannel socketChannel = particle.getValueOfInstance();
-                PByteBuffer byteBuffer = particle.getValueOfFactor(0);
+                SocketChannelEssence socketChannel = particle.getValueOfInstance();
+                ByteBufferEssence byteBuffer = particle.getValueOfFactor(0);
                 try {
                     socketChannel.getSocketChannel().write(byteBuffer.getByteBuffer());
                 } catch (IOException e) {
@@ -32,8 +32,8 @@ public class PSocketChannel extends PObject {
         vial.method(new Method("read", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                PSocketChannel socketChannel = particle.getValueOfInstance();
-                PByteBuffer pByteBuffer = new PByteBuffer();
+                SocketChannelEssence socketChannel = particle.getValueOfInstance();
+                ByteBufferEssence pByteBuffer = new ByteBufferEssence();
                 try {
                     socketChannel.getSocketChannel().read(pByteBuffer.getByteBuffer());
                 } catch (IOException e) {
@@ -46,7 +46,7 @@ public class PSocketChannel extends PObject {
 
     private final SocketChannel socketChannel;
 
-    public PSocketChannel(SocketChannel socketChannel) {
+    public SocketChannelEssence(SocketChannel socketChannel) {
         this.socketChannel = socketChannel;
     }
 
