@@ -9,7 +9,7 @@ public class BlockAssistant {
 
     public static String extractIndication(String line) {
         StringBuilder node = new StringBuilder();
-        for (char c : line.toCharArray())
+        for (char c : line.toCharArray()) {
             if (Character.isWhitespace(c) || c == '(' || c == '{') {
                 if (node.length() != 0) {
                     break;
@@ -18,6 +18,7 @@ public class BlockAssistant {
             else {
                 node.append(c);
             }
+        }
         return node.toString();
     }
 
