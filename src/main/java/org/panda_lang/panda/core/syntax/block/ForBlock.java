@@ -29,7 +29,7 @@ public class ForBlock extends Block {
     }
 
     public static void initialize(Panda panda) {
-        BlockLayout blockLayout = new BlockLayout(ForBlock.class, "for", "loop").initializer(new BlockInitializer() {
+        BlockLayout blockLayout = new BlockLayout(ForBlock.class, "for").initializer(new BlockInitializer() {
             @Override
             public Block initialize(Atom atom) {
                 Block current = new ForBlock();
