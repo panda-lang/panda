@@ -1,5 +1,7 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
+import org.panda_lang.panda.core.parser.util.ParserUtils;
+
 import java.util.List;
 
 public class BlockInfo {
@@ -16,6 +18,10 @@ public class BlockInfo {
 
     public String getType() {
         return type;
+    }
+
+    public String getSpecifiersAsPhrase() {
+        return ParserUtils.toString(specifiers, " ", 0, specifiers.size());
     }
 
     public List<String> getSpecifiers() {

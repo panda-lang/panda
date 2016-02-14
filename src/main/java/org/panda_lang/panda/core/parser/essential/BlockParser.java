@@ -29,7 +29,6 @@ public class BlockParser implements Parser {
                     atom.setBlockInfo(blockInfo);
                     current = blockLayout.getInitializer().initialize(atom);
                     current.setParent(atom.getParent());
-                    atom.setCurrent(current);
                     if (blockLayout.isConventional()) {
                         atom.getParent().addExecutable(current);
                     }
@@ -51,13 +50,14 @@ public class BlockParser implements Parser {
             if (executable instanceof Block) {
                 atom.setPrevious((Block) executable);
                 atom.getPrevious().setParent(current);
+                atom.setCurrent(current);
             }
             else {
-                atom.getCurrent().addExecutable(executable);
+                current.addExecutable(executable);
             }
         }
 
-        return atom.getCurrent();
+        return current;
     }
 
     public static void initialize(Panda panda) {
