@@ -3,8 +3,8 @@
 Panda is a lightweight and powerful programming language written in Java
 <br>
 <br>
-Project website: http://panda-lang.org/ 
-<br>
+Project website: http://panda-lang.org/
+Repository: http://repo.panda-lang.org/
 <br>
 <br>
 #### API
