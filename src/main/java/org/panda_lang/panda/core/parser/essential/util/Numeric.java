@@ -13,15 +13,15 @@ public abstract class Numeric extends ObjectEssence {
     }
 
     public Numeric subtract(Numeric numeric) {
-        return null;
+        return NumericUtils.subtract(this, numeric);
     }
 
     public Numeric multiply(Numeric numeric) {
-        return null;
+        return NumericUtils.multiply(this, numeric);
     }
 
     public Numeric divide(Numeric numeric) {
-        return null;
+        return NumericUtils.divide(this, numeric);
     }
 
     public byte getByte() {
@@ -46,6 +46,18 @@ public abstract class Numeric extends ObjectEssence {
 
     public double getDouble() {
         return getNumber().doubleValue();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj != null) {
+            if (obj instanceof Numeric) {
+                if (getNumber().equals(((Numeric) obj).getNumber())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     @Override
