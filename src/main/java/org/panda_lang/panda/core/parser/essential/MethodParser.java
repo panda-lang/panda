@@ -35,11 +35,11 @@ public class MethodParser implements Parser {
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
                     public Essence run(Particle particle) {
-                        particle = new Particle()
+                        Particle fork = particle
                                 .fork()
                                 .pandaScript(atom.getPandaScript())
                                 .factors(mi.getFactors());
-                        return method != null ? method.run(particle) : vial.getMethod(mi.getMethodName()).run(particle);
+                        return method != null ? method.run(fork) : vial.getMethod(mi.getMethodName()).run(fork);
                     }
                 }));
 
