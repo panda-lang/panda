@@ -24,6 +24,10 @@ public class Essence implements NamedExecutable {
         this.memory = new Memory();
     }
 
+    public void initializeParticle(Particle particle) {
+        this.memory = new Memory(particle.getMemory());
+    }
+
     public Essence call(String methodName, Particle particle) {
         particle = new Particle(particle.getPandaScript(), memory, this, new Factor(this), particle.getFactors());
         return vial.call(methodName, particle);
@@ -35,7 +39,7 @@ public class Essence implements NamedExecutable {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T cast(Class<T> clazz) {
+    public <T extends Essence> T cast(Class<? extends Essence> clazz) {
         try {
             return (T) this;
         } catch (Exception e) {
@@ -44,12 +48,13 @@ public class Essence implements NamedExecutable {
         }
     }
 
-    public void initializeParticle(Particle particle) {
-        this.memory = new Memory(particle.getMemory());
-    }
-
     public void setVial(Vial vial) {
         this.vial = vial;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getMe() {
+        return (T) this;
     }
 
     public Memory getMemory() {
