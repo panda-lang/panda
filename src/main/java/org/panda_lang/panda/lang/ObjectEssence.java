@@ -35,11 +35,6 @@ public class ObjectEssence extends Essence {
         this.object = object;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T extends Essence> T getMe() {
-        return (T) this;
-    }
-
     @Override
     public Object getJavaValue() {
         return object;
