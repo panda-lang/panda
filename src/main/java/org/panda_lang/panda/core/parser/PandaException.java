@@ -29,4 +29,20 @@ public class PandaException {
         System.out.println("[Panda] !# at line: " + code + " [" + line + ":" + caret + "]");
     }
 
+    public int getCaret() {
+        return caret;
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
 }

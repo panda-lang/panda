@@ -138,4 +138,9 @@ public class ParserPattern implements Matcher, Comparable<ParserPattern> {
         return 0;
     }
 
+    @Override
+    public String toString() {
+        return pattern;
+    }
+
 }

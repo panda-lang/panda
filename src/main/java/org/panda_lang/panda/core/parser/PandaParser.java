@@ -112,11 +112,23 @@ public class PandaParser {
         return !exception;
     }
 
-    public SourcesDivider getDivider() {
+    public Collection<Injection> getInjections() {
+        return injections;
+    }
+
+    public Collection<Runnable> getPostProcesses() {
+        return postProcesses;
+    }
+
+    public SemanticAnalyzer getSemanticAnalyzer() {
+        return semanticAnalyzer;
+    }
+
+    public SourcesDivider getSourceDivider() {
         return divider;
     }
 
-    public PatternExtractor getExtractor() {
+    public PatternExtractor getPatternExtractor() {
         return extractor;
     }
 
