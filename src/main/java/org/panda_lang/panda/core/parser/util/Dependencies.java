@@ -4,6 +4,7 @@ import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 import org.panda_lang.panda.core.syntax.Group;
 import org.panda_lang.panda.core.syntax.Import;
+import org.panda_lang.panda.core.syntax.Library;
 import org.panda_lang.panda.core.syntax.Vial;
 
 import java.io.File;
@@ -16,12 +17,14 @@ public class Dependencies {
 
     private final PandaScript pandaScript;
     private final Collection<Group> groups;
+    private final Collection<Library> libraries;
     private final Map<String, Import> specificMap;
     private final Map<String, Import> asMap;
 
     public Dependencies(PandaScript pandaScript) {
         this.pandaScript = pandaScript;
         this.groups = new ArrayList<>();
+        this.libraries = new ArrayList<>();
         this.specificMap = new HashMap<>();
         this.asMap = new HashMap<>();
         this.initializeDefault();
@@ -84,6 +87,26 @@ public class Dependencies {
         }
 
         return null;
+    }
+
+    public Map<String, Import> getAsMap() {
+        return asMap;
+    }
+
+    public Map<String, Import> getSpecificMap() {
+        return specificMap;
+    }
+
+    public Collection<Library> getLibraries() {
+        return libraries;
+    }
+
+    public Collection<Group> getGroups() {
+        return groups;
+    }
+
+    public PandaScript getPandaScript() {
+        return pandaScript;
     }
 
 }
