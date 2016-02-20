@@ -84,6 +84,10 @@ public class Essence implements NamedExecutable {
 
     @Override
     public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
         if (obj != null && obj instanceof Essence) {
             Essence compared = (Essence) obj;
 

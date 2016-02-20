@@ -48,6 +48,13 @@ public class Memory {
         return o;
     }
 
+    public void delete(String name) {
+        Essence essence = local.remove(name);
+        if (essence == null && parent != null) {
+            parent.delete(name);
+        }
+    }
+
     public Memory copy() {
         return new Memory(parent, new HashMap<>(local));
     }
