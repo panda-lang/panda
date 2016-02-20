@@ -19,15 +19,15 @@ public class Panda {
     private Runnable reload;
 
     public Panda() {
-        pandaCore = new PandaCore(this);
-        pandaLoader = new PandaLoader(this);
-        extensions = new ArrayList<>();
-        scripts = new ArrayList<>();
+        this.pandaCore = new PandaCore(this);
+        this.pandaLoader = new PandaLoader(this);
+        this.extensions = new ArrayList<>();
+        this.scripts = new ArrayList<>();
     }
 
     public void registerExtension(PandaExtension pandaExtension) {
         pandaExtension.onLoad();
-        this.extensions.add(pandaExtension);
+        extensions.add(pandaExtension);
     }
 
     public void initializeDefaultElements() {
@@ -52,7 +52,7 @@ public class Panda {
 
     public void reload() {
         if (reload != null) {
-            this.reload.run();
+            reload.run();
         }
     }
 
