@@ -3,6 +3,8 @@ package org.panda_lang.panda.core.memory;
 import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,32 +13,39 @@ public class Memory {
     private final Cache cache;
     private final Memory parent;
     private final Map<String, Essence> local;
+    private final Collection<MemoryFollower> memoryFollowers;
     private Block block;
 
     private Memory(Memory parent, Map<String, Essence> local) {
         this.parent = parent;
         this.local = local;
         this.cache = new Cache();
+        this.memoryFollowers = new ArrayList<>(0);
     }
 
     public Memory(Memory parent) {
         this.parent = parent;
         this.local = new HashMap<>();
         this.cache = new Cache();
+        this.memoryFollowers = new ArrayList<>(0);
     }
 
     public Memory() {
-        this.parent = null;
+        this.parent = Global.COMMON_MEMORY;
         this.local = new HashMap<>();
         this.cache = new Cache();
+        this.memoryFollowers = new ArrayList<>(0);
     }
 
     public void put(String key, Essence o) {
-        if (this.parent != null && this.parent.parentContainsKey(key)) {
+        if (this.parent != null && this.parent.containsKey(key)) {
             this.parent.put(key, o);
         }
         else {
             this.local.put(key, o);
+        }
+        for (MemoryFollower memoryFollower : memoryFollowers) {
+            memoryFollower.put(key, o);
         }
     }
 
@@ -53,6 +62,10 @@ public class Memory {
         if (essence == null && parent != null) {
             parent.delete(name);
         }
+    }
+
+    public void registerMemoryFollower(MemoryFollower memoryFollower) {
+        memoryFollowers.add(memoryFollower);
     }
 
     public Memory copy() {

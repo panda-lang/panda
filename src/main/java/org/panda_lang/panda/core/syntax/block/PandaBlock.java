@@ -37,6 +37,17 @@ public class PandaBlock extends Block {
         }
     }
 
+    @Override
+    public Essence run(Particle particle) {
+        for (NamedExecutable namedExecutable : getExecutables()) {
+            if (namedExecutable instanceof Block) {
+                continue;
+            }
+            namedExecutable.run(particle);
+        }
+        return null;
+    }
+
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (NamedExecutable executable : super.getExecutables()) {
             if (executable.getClass() == blockType && executable.getName().equals(name)) {

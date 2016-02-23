@@ -25,10 +25,7 @@ public class PandaScript implements Executable {
     @Override
     public Essence run(Particle particle) {
         for (PandaBlock pandaBlock : elements) {
-            Essence result = pandaBlock.run(particle);
-            if (result != null) {
-                return result;
-            }
+            pandaBlock.run(particle);
         }
         return null;
     }
