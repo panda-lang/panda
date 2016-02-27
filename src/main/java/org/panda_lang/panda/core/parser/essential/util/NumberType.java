@@ -26,6 +26,10 @@ public enum NumberType {
         return id;
     }
 
+    public boolean isFloatingPoint() {
+        return id == 4 || id == 5;
+    }
+
     public boolean hasGreaterRangeThan(Numeric numeric) {
         return hasGreaterRangeThan(numeric.getNumberType());
     }
