@@ -52,6 +52,10 @@ public class PandaScript implements Executable {
         this.workingDirectory = workingDirectory;
     }
 
+    public Collection<PandaBlock> getElements() {
+        return elements;
+    }
+
     public String getWorkingDirectory() {
         return workingDirectory;
     }

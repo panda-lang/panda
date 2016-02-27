@@ -19,7 +19,7 @@ public class SourcesDivider {
         boolean string = false;
         boolean skip = false;
 
-        index++;
+        ++index;
         for (; index < source.length; index++) {
             char c = source[index];
 

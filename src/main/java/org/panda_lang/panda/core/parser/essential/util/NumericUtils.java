@@ -51,7 +51,7 @@ public class NumericUtils {
                 case FLOAT:
                     return new FloatEssence(b.getFloat() - a.getFloat());
                 case DOUBLE:
-                    return new DoubleEssence(b.getFloat() - a.getFloat());
+                    return new DoubleEssence(b.getDouble() - a.getDouble());
                 case FAT_PANDA:
                     return null;
             }
@@ -68,7 +68,7 @@ public class NumericUtils {
             case FLOAT:
                 return new FloatEssence(a.getFloat() - b.getFloat());
             case DOUBLE:
-                return new DoubleEssence(a.getFloat() - b.getFloat());
+                return new DoubleEssence(a.getDouble() - b.getDouble());
             case FAT_PANDA:
                 return null;
         }
@@ -122,7 +122,7 @@ public class NumericUtils {
                 case FLOAT:
                     return new FloatEssence(b.getFloat() / a.getFloat());
                 case DOUBLE:
-                    return new DoubleEssence(b.getFloat() / a.getFloat());
+                    return new DoubleEssence(b.getDouble() / a.getDouble());
                 case FAT_PANDA:
                     return null;
             }
@@ -139,7 +139,7 @@ public class NumericUtils {
             case FLOAT:
                 return new FloatEssence(a.getFloat() / b.getFloat());
             case DOUBLE:
-                return new DoubleEssence(a.getFloat() / b.getFloat());
+                return new DoubleEssence(a.getDouble() / b.getDouble());
             case FAT_PANDA:
                 return null;
         }
@@ -175,7 +175,8 @@ public class NumericUtils {
                 flag = f ? b.getFloat() > a.getFloat() : a.getFloat() > b.getFloat();
                 break;
             case DOUBLE:
-                flag = f ? b.getFloat() > a.getFloat() : a.getFloat() > b.getFloat();
+                flag = f ? b.getDouble() > a.getDouble() : a.getDouble() > b.getDouble();
+                break;
             case FAT_PANDA:
                 break;
         }
@@ -211,11 +212,22 @@ public class NumericUtils {
                 flag = f ? b.getFloat() < a.getFloat() : a.getFloat() < b.getFloat();
                 break;
             case DOUBLE:
-                flag = f ? b.getFloat() < a.getFloat() : a.getFloat() < b.getFloat();
+                flag = f ? b.getDouble() < a.getDouble() : a.getDouble() < b.getDouble();
+                break;
             case FAT_PANDA:
                 break;
         }
         return new BooleanEssence(flag);
+    }
+
+    public static boolean isALessThanB(Numeric a, Numeric b) {
+        boolean bFloat = b.getNumberType().isFloatingPoint();
+        if (a.getNumberType().isFloatingPoint())
+            return bFloat ? a.getDouble() < b.getDouble() : a.getDouble() < b.getLong();
+        else if (bFloat)
+            return a.getLong() < b.getDouble();
+        else
+            return a.getLong() < b.getLong();
     }
 
     public static BooleanEssence isGreaterThanOrEquals(Numeric a, Numeric b) {
@@ -247,7 +259,8 @@ public class NumericUtils {
                 flag = f ? b.getFloat() >= a.getFloat() : a.getFloat() >= b.getFloat();
                 break;
             case DOUBLE:
-                flag = f ? b.getFloat() >= a.getFloat() : a.getFloat() >= b.getFloat();
+                flag = f ? b.getDouble() >= a.getDouble() : a.getDouble() >= b.getDouble();
+                break;
             case FAT_PANDA:
                 break;
         }
@@ -283,7 +296,8 @@ public class NumericUtils {
                 flag = f ? b.getFloat() <= a.getFloat() : a.getFloat() <= b.getFloat();
                 break;
             case DOUBLE:
-                flag = f ? b.getFloat() <= a.getFloat() : a.getFloat() <= b.getFloat();
+                flag = f ? b.getDouble() <= a.getDouble() : a.getDouble() <= b.getDouble();
+                break;
             case FAT_PANDA:
                 break;
         }

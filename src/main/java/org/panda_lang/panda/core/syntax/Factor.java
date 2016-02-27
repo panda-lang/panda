@@ -55,19 +55,25 @@ public class Factor implements NamedExecutable {
                 this.value = object;
                 break;
             case VARIABLE:
-                this.value = particle.getMemory().get(variable);
+                this.value = getMemoryValue(particle);
                 break;
             case RUNTIME:
-                if (runtime == null) {
-                    return null;
-                }
                 if (particle == null) {
-                    particle = new Particle().memory(new Memory());
+                    particle = new Particle();
+                    particle.setMemory(new Memory());
                 }
-                this.value = runtime.run(particle);
+                this.value = getRuntimeValue(particle);
                 break;
         }
         return (T) this.value;
+    }
+
+    public Essence getMemoryValue(Particle particle) {
+        return particle.getMemory().get(variable);
+    }
+
+    public Essence getRuntimeValue(Particle particle) {
+        return runtime.run(particle);
     }
 
     public Essence getObject() {
