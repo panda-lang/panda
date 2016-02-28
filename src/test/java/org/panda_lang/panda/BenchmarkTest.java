@@ -3,6 +3,8 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BenchmarkTest {
 
@@ -17,18 +19,18 @@ public class BenchmarkTest {
 
         long initTime = System.nanoTime();
         pandaScript.call(MethodBlock.class, "main");
-        benchmark(initTime, 10000);
+        benchmark(initTime, 100000);
     }
 
     public static void mainx(String[] args) {
         long initTime = System.nanoTime();
 
-        for(int i = 0; i < 200000; i++) {
-            int var = 10;
-            System.out.println(var);
+        List<String> list = new ArrayList<>();
+        for(int i = 0; i < 100000; i++) {
+            list.add("element");
         }
 
-        benchmark(initTime, 200000);
+        benchmark(initTime, 100000);
     }
 
     public static void benchmark(long initTime, int times) {

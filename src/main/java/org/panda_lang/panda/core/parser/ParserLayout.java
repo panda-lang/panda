@@ -1,6 +1,7 @@
 package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.parser.util.match.parser.ParserPattern;
 
 import java.util.ArrayList;
 import java.util.Collection;

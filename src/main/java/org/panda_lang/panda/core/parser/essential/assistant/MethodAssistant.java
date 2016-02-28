@@ -69,7 +69,7 @@ public class MethodAssistant {
         node.setLength(0);
         atom.setSourceCode(params);
         FactorParser parser = new FactorParser();
-        Factor[] factors = parser.parseLocal(atom);
+        Factor[] factors = parser.splitAndParse(atom);
 
         Factor instance;
         if (object != null) {

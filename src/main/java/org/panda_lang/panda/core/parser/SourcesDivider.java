@@ -1,8 +1,11 @@
 package org.panda_lang.panda.core.parser;
 
+import org.panda_lang.panda.core.syntax.Token;
+
 public class SourcesDivider {
 
-    private char[] source;
+    private final char[] source;
+    private final Token token;
     private int index, iLine, realLine;
     private StringBuilder node;
     private String line;
@@ -10,6 +13,7 @@ public class SourcesDivider {
     public SourcesDivider(String source) {
         source = source.replace(System.lineSeparator(), Character.toString('\n'));
         this.source = source.toCharArray();
+        this.token = new Token();
         this.node = new StringBuilder();
         this.index = -1;
     }
@@ -39,15 +43,11 @@ public class SourcesDivider {
                 continue;
             }
 
-            switch (c) {
-                case '"':
-                    string = !string;
-                    break;
-                case '{':
-                case '}':
-                case ';':
-                    end = true;
-                    break;
+            if (c == token.STRING_TOKEN) {
+                string = !string;
+            }
+            else if (c == token.BLOCK_START_TOKEN || c == token.BLOCK_END_TOKEN || c == token.STATEMENT_SEPARATOR_TOKEN) {
+                end = true;
             }
 
             node.append(c);
@@ -84,6 +84,10 @@ public class SourcesDivider {
 
     public int getCaretPosition() {
         return index;
+    }
+
+    public Token getToken() {
+        return token;
     }
 
     public char[] getSource() {

@@ -21,7 +21,7 @@ public class ObjectEssence extends Essence {
         vial.method(new Method("toString", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return new StringEssence(particle.getInstance().getValue().toString());
+                return new StringEssence(particle.getInstance().getValue(particle).toString());
             }
         }));
     }
