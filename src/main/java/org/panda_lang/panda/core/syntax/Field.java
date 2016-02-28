@@ -2,24 +2,30 @@ package org.panda_lang.panda.core.syntax;
 
 import org.panda_lang.panda.core.Particle;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Field implements NamedExecutable {
 
+    protected static final AtomicInteger atomicInteger = new AtomicInteger();
+
+    private final int id;
     private final String fieldName;
     private String dataType;
     private Factor factor;
     private Essence value;
 
     public Field(String fieldName) {
+        this.id = atomicInteger.incrementAndGet();
         this.fieldName = fieldName;
     }
 
     public Field(String fieldName, Factor factor) {
-        this.fieldName = fieldName;
+        this(fieldName);
         this.factor = factor;
     }
 
     public Field(String dataType, String fieldName, Factor factor) {
-        this.fieldName = fieldName;
+        this(fieldName);
         this.dataType = dataType;
         this.factor = factor;
     }
@@ -50,6 +56,10 @@ public class Field implements NamedExecutable {
     @Override
     public String getName() {
         return fieldName;
+    }
+
+    public int getID() {
+        return id;
     }
 
 }

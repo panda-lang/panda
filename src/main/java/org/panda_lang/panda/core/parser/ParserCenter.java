@@ -1,5 +1,8 @@
 package org.panda_lang.panda.core.parser;
 
+import org.panda_lang.panda.core.parser.util.match.parser.ParserPattern;
+import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;

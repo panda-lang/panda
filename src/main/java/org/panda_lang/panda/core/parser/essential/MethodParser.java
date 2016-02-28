@@ -50,18 +50,14 @@ public class MethodParser implements Parser {
 
                 if (instance == null) {
                     PandaException exception = new PandaException("MethodParserException: Instance not found", atom.getSourcesDivider());
-                    atom.getPandaParser().throwException(exception);
-                    return null;
+                    return atom.getPandaParser().throwException(exception);
                 }
 
-                /*
-
-                #TODO: type from field
                 String instanceOf = instance.getDataType();
 
                 // {instance.type.defined}
                 if (instanceOf != null) {
-                    Vial vial = VialCenter.getVial(instanceOf);
+                    Vial vial = atom.getDependencies().getVial(instanceOf);
                     final Method method = vial.getMethod(mi.getMethodName());
 
                     if (method == null) {
@@ -78,7 +74,6 @@ public class MethodParser implements Parser {
                         }
                     }, mi.getFactors());
                 }
-                */
 
                 // {instance.type.undefined}
                 return new Runtime(instance, new Executable() {

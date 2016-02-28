@@ -4,6 +4,8 @@ import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.*;
 
+import java.util.Arrays;
+
 public class ArrayEssence extends Essence {
 
     static {
@@ -27,7 +29,7 @@ public class ArrayEssence extends Essence {
             public Essence run(Particle particle) {
                 Numeric numeric = particle.getValueOfFactor(0);
                 ArrayEssence instance = particle.getValueOfInstance();
-                return instance.get(numeric.getInt());
+                return instance.get(particle, numeric.getInt());
             }
         }));
     }
@@ -38,8 +40,8 @@ public class ArrayEssence extends Essence {
         this.array = values;
     }
 
-    public Essence get(int i) {
-        return i < array.length ? array[i].getValue() : new NullEssence();
+    public Essence get(Particle particle, int i) {
+        return i < array.length ? array[i].getValue(particle) : new NullEssence();
     }
 
     public Factor[] getArray() {
@@ -53,7 +55,7 @@ public class ArrayEssence extends Essence {
 
     @Override
     public String toString() {
-        return array.toString();
+        return Arrays.toString(array);
     }
 
 }

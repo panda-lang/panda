@@ -17,7 +17,7 @@ public class FieldParser implements Parser {
         String source = atom.getSourcesDivider().getLine();
         String[] ss = FieldAssistant.splitAndClear(source);
         if (ss == null || ss.length < 1) {
-            System.out.println("[FieldParser] Cannot parseLocal: " + source);
+            System.out.println("[FieldParser] Cannot splitAndParse: " + source);
             return null;
         }
 
@@ -35,6 +35,7 @@ public class FieldParser implements Parser {
 
         if (lss.length > 1) {
             field.setDataType(lss[0]);
+            factor.setDataType(lss[0]);
         }
 
         return field;

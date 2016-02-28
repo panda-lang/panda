@@ -12,15 +12,16 @@ public class Factor implements NamedExecutable {
     }
 
     private final Type type;
-    private Essence object;
-    private String variable;
+    private Essence definedEssence;
+    private String variableName;
     private Runtime runtime;
     private Essence value;
-    private Particle particle;
+    private String dataType;
 
-    public Factor(Essence object) {
+    public Factor(Essence definedEssence) {
         this.type = Type.DEFINED;
-        this.object = object;
+        this.definedEssence = definedEssence;
+        this.value = definedEssence;
     }
 
     public Factor(Runtime runtime) {
@@ -28,15 +29,9 @@ public class Factor implements NamedExecutable {
         this.runtime = runtime;
     }
 
-    public Factor(String variable) {
+    public Factor(String variableName) {
         this.type = Type.VARIABLE;
-        this.variable = variable;
-    }
-
-    public Factor(Particle particle, String variable) {
-        this.type = Type.VARIABLE;
-        this.particle = particle;
-        this.variable = variable;
+        this.variableName = variableName;
     }
 
     @Override
@@ -44,15 +39,24 @@ public class Factor implements NamedExecutable {
         return getValue(particle);
     }
 
-    public <T extends Essence> T getValue() {
-        return getValue(particle);
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T extends Essence> T getCurrentValue() {
+        return (T) this.value;
     }
 
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getValue(Particle particle) {
         switch (type) {
             case DEFINED:
-                this.value = object;
+                this.value = definedEssence;
                 break;
             case VARIABLE:
                 this.value = getMemoryValue(particle);
@@ -69,19 +73,19 @@ public class Factor implements NamedExecutable {
     }
 
     public Essence getMemoryValue(Particle particle) {
-        return particle.getMemory().get(variable);
+        return particle.getMemory().get(variableName);
     }
 
     public Essence getRuntimeValue(Particle particle) {
         return runtime.run(particle);
     }
 
-    public Essence getObject() {
-        return object;
+    public Essence getDefinedEssence() {
+        return definedEssence;
     }
 
-    public String getVariable() {
-        return variable;
+    public String getVariableName() {
+        return variableName;
     }
 
     @Override

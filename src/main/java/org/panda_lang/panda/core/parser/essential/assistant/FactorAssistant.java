@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
 import org.panda_lang.panda.core.parser.Atom;
-import org.panda_lang.panda.core.parser.PatternExtractor;
+import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.syntax.Operator;
 

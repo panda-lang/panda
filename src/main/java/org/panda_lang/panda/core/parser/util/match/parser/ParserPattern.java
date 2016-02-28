@@ -1,7 +1,8 @@
-package org.panda_lang.panda.core.parser;
+package org.panda_lang.panda.core.parser.util.match.parser;
 
+import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.util.CharArrayDistributor;
-import org.panda_lang.panda.core.parser.util.Matcher;
+import org.panda_lang.panda.core.parser.util.match.Matcher;
 
 public class ParserPattern implements Matcher, Comparable<ParserPattern> {
 
@@ -114,6 +115,10 @@ public class ParserPattern implements Matcher, Comparable<ParserPattern> {
 
     @Override
     public int compareTo(ParserPattern pattern) {
+        if (pattern == null) {
+            return 1;
+        }
+
         double priority = this.priority;
         double priorityTo = pattern.getPriority();
 

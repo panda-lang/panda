@@ -5,6 +5,7 @@ import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.util.Dependencies;
 import org.panda_lang.panda.core.parser.util.Injection;
+import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -90,7 +91,7 @@ public class PandaParser {
         return parser.parse(atom);
     }
 
-    public NamedExecutable throwException(PandaException pandaException) {
+    public <T> T throwException(PandaException pandaException) {
         pandaException.print();
         exception = true;
         return null;

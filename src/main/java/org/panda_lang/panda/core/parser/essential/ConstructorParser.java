@@ -70,7 +70,7 @@ public class ConstructorParser implements Parser {
         atom.setSourceCode(params);
 
         FactorParser parser = new FactorParser();
-        final Factor[] factors = parser.parseLocal(atom);
+        final Factor[] factors = parser.splitAndParse(atom);
         final Vial vial = atom.getDependencies().getVial(clazz);
 
         if (vial == null) {

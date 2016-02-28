@@ -33,7 +33,7 @@ public class BlockAssistant {
         boolean spec = false;
         boolean param = false;
 
-        // {parseLocal}
+        // {splitAndParse}
         char[] chars = s.toCharArray();
         for (char aChar : chars) {
             char c = aChar;
