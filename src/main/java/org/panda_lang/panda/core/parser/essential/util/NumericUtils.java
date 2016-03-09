@@ -222,12 +222,15 @@ public class NumericUtils {
 
     public static boolean isALessThanB(Numeric a, Numeric b) {
         boolean bFloat = b.getNumberType().isFloatingPoint();
-        if (a.getNumberType().isFloatingPoint())
+        if (a.getNumberType().isFloatingPoint()) {
             return bFloat ? a.getDouble() < b.getDouble() : a.getDouble() < b.getLong();
-        else if (bFloat)
+        }
+        else if (bFloat) {
             return a.getLong() < b.getDouble();
-        else
+        }
+        else {
             return a.getLong() < b.getLong();
+        }
     }
 
     public static BooleanEssence isGreaterThanOrEquals(Numeric a, Numeric b) {

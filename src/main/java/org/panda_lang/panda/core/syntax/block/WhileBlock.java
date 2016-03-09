@@ -20,7 +20,7 @@ public class WhileBlock extends Block {
     @Override
     public Essence run(Particle particle) {
         Factor factor = factors[0];
-        while (factor.<BooleanEssence> getValue(particle).isTrue()) {
+        while (factor.<BooleanEssence>getValue(particle).isTrue()) {
             Essence o = super.run(particle);
             if (o != null) {
                 return o;
