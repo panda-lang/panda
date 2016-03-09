@@ -6,7 +6,7 @@ import java.io.File;
 
 public class ExampleTest {
 
-    private static final File SCRIPT = new File("control_statements.sp");
+    private static final File SCRIPT = new File("interface.sp");
     private static final File DIRECTORY = new File("examples");
 
     public static void main(String[] args) {

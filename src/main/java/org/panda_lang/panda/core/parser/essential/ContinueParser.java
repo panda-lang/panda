@@ -4,8 +4,8 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
-import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
+import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.syntax.Continue;
 
 public class ContinueParser implements Parser {

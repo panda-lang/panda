@@ -62,7 +62,7 @@ public class Essence implements NamedExecutable {
     }
 
     public Object getJavaValue() {
-        return null;
+        return this;
     }
 
     public int getInstanceID() {
@@ -79,7 +79,7 @@ public class Essence implements NamedExecutable {
 
     @Override
     public String getName() {
-        return vial.getName();
+        return vial != null ? vial.getName() : "Unknown";
     }
 
     @Override

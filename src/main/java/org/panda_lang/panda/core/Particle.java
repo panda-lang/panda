@@ -13,6 +13,7 @@ public class Particle {
     private Essence essence;
     private Factor instance;
     private Factor[] factors;
+    private Object custom;
 
     public Particle() {
     }
@@ -50,6 +51,11 @@ public class Particle {
         return this;
     }
 
+    public Particle custom(Object custom) {
+        this.custom = custom;
+        return this;
+    }
+
     public Particle fork() {
         return new Particle(pandaScript, memory, essence, instance, factors);
     }
@@ -72,6 +78,15 @@ public class Particle {
 
     public void setMemory(Memory memory) {
         this.memory = memory;
+    }
+
+    public void setCustom(Object custom) {
+        this.custom = custom;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getCustom() {
+        return (T) custom;
     }
 
     public Factor getFactor(int i) {

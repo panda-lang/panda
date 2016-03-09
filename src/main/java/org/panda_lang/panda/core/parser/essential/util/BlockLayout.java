@@ -6,8 +6,8 @@ public class BlockLayout {
 
     private final Class<? extends Block> clazz;
     private final String[] indications;
-    private final boolean conventional;
     private BlockInitializer initializer;
+    private boolean conventional;
 
     public BlockLayout(Class<? extends Block> clazz, String... indications) {
         this(clazz, true, indications);
@@ -21,6 +21,11 @@ public class BlockLayout {
 
     public BlockLayout initializer(BlockInitializer initializer) {
         this.initializer = initializer;
+        return this;
+    }
+
+    public BlockLayout conventional(boolean conventional) {
+        this.conventional = conventional;
         return this;
     }
 
