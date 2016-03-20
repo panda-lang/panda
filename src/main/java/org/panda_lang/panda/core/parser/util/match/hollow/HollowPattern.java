@@ -18,6 +18,10 @@ public class HollowPattern implements Matcher {
         this.hollows = new ArrayList<>();
     }
 
+    public static HollowPatternBuilder builder() {
+        return new HollowPatternBuilder();
+    }
+
     @Override
     public boolean match(String expression) {
         List<String> fragments = HollowPatternUtils.toFragments(expression);
@@ -79,10 +83,6 @@ public class HollowPattern implements Matcher {
 
     public int getIndex() {
         return index;
-    }
-
-    public static HollowPatternBuilder builder() {
-        return new HollowPatternBuilder();
     }
 
     @Override

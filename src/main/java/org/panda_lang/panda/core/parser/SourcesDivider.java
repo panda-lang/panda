@@ -62,12 +62,12 @@ public class SourcesDivider {
         return node.toString();
     }
 
-    public void setLine(String line) {
-        this.line = line;
-    }
-
     public String getLine() {
         return line;
+    }
+
+    public void setLine(String line) {
+        this.line = line;
     }
 
     public boolean hasNext() {

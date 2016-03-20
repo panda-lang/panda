@@ -18,6 +18,18 @@ public class IfThenBlock extends Block {
         super.setName("if-then::" + atomicInteger.incrementAndGet());
     }
 
+    public static void initialize(Panda panda) {
+        BlockLayout blockLayout = new BlockLayout(IfThenBlock.class, "if").initializer(new BlockInitializer() {
+            @Override
+            public Block initialize(Atom atom) {
+                Block current = new IfThenBlock();
+                current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
+                return current;
+            }
+        });
+        panda.getPandaCore().registerBlock(blockLayout);
+    }
+
     @Override
     public Essence run(Particle particle) {
         BooleanEssence flag = factors[0].getValue(particle);
@@ -32,18 +44,6 @@ public class IfThenBlock extends Block {
 
     public void setElseThenBlock(Block block) {
         this.elseThenBlock = block;
-    }
-
-    public static void initialize(Panda panda) {
-        BlockLayout blockLayout = new BlockLayout(IfThenBlock.class, "if").initializer(new BlockInitializer() {
-            @Override
-            public Block initialize(Atom atom) {
-                Block current = new IfThenBlock();
-                current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
-                return current;
-            }
-        });
-        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

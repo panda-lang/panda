@@ -11,6 +11,13 @@ import org.panda_lang.panda.core.syntax.Return;
 
 public class ReturnParser implements Parser {
 
+    public static void initialize(Panda panda) {
+        ReturnParser returnParser = new ReturnParser();
+        ParserLayout parserLayout = new ParserLayout(returnParser);
+        parserLayout.pattern("return*;", EssentialPriority.RETURN.getPriority(), EssentialPriority.RETURN.getPriority() * 10, PatternExtractor.FULL);
+        panda.getPandaCore().registerParser(parserLayout);
+    }
+
     @Override
     public Return parse(Atom atom) {
         String line = atom.getSourcesDivider().getLine();
@@ -25,13 +32,6 @@ public class ReturnParser implements Parser {
         }
 
         return returnElement;
-    }
-
-    public static void initialize(Panda panda) {
-        ReturnParser returnParser = new ReturnParser();
-        ParserLayout parserLayout = new ParserLayout(returnParser);
-        parserLayout.pattern("return*;", EssentialPriority.RETURN.getPriority(), EssentialPriority.RETURN.getPriority() * 10, PatternExtractor.FULL);
-        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

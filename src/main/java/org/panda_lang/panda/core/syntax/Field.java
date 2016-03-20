@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Field implements NamedExecutable {
 
-    protected static final AtomicInteger atomicInteger = new AtomicInteger();
+    protected static final AtomicInteger identifier = new AtomicInteger();
 
     private final int id;
     private final String fieldName;
@@ -15,7 +15,7 @@ public class Field implements NamedExecutable {
     private Essence value;
 
     public Field(String fieldName) {
-        this.id = atomicInteger.incrementAndGet();
+        this.id = identifier.incrementAndGet();
         this.fieldName = fieldName;
     }
 
@@ -30,15 +30,15 @@ public class Field implements NamedExecutable {
         this.factor = factor;
     }
 
+    public static AtomicInteger getIdentifier() {
+        return identifier;
+    }
+
     @Override
     public Essence run(Particle particle) {
         value = factor != null ? factor.getValue(particle) : null;
         particle.getMemory().put(fieldName, value);
         return value;
-    }
-
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
     }
 
     public Essence getValue() {
@@ -51,6 +51,10 @@ public class Field implements NamedExecutable {
 
     public String getDataType() {
         return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 
     @Override

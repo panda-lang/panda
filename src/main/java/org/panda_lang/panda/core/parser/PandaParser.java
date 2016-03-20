@@ -105,10 +105,6 @@ public class PandaParser {
         postProcesses.add(process);
     }
 
-    public void setPandaBlock(PandaBlock pandaBlock) {
-        this.pandaBlock = pandaBlock;
-    }
-
     public boolean isHappy() {
         return !exception;
     }
@@ -139,6 +135,10 @@ public class PandaParser {
 
     public PandaBlock getPandaBlock() {
         return pandaBlock;
+    }
+
+    public void setPandaBlock(PandaBlock pandaBlock) {
+        this.pandaBlock = pandaBlock;
     }
 
     public PandaScript getPandaScript() {

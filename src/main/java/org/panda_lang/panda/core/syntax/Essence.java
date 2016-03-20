@@ -48,10 +48,6 @@ public class Essence implements NamedExecutable {
         }
     }
 
-    public void setVial(Vial vial) {
-        this.vial = vial;
-    }
-
     @SuppressWarnings("unchecked")
     public <T extends Essence> T getMe() {
         return (T) this;
@@ -75,6 +71,10 @@ public class Essence implements NamedExecutable {
 
     public Vial getVial() {
         return vial;
+    }
+
+    public void setVial(Vial vial) {
+        this.vial = vial;
     }
 
     @Override

@@ -20,6 +20,19 @@ public class ThreadBlock extends Block {
         super.setName("thread::" + atomicInteger.incrementAndGet());
     }
 
+    public static void initialize(Panda panda) {
+        BlockLayout blockLayout = new BlockLayout(ThreadBlock.class, "thread").initializer(new BlockInitializer() {
+            @Override
+            public Block initialize(Atom atom) {
+                Block current = new ThreadBlock();
+                Factor[] factors = new FactorParser().parse(atom, atom.getBlockInfo().getParameters());
+                current.setFactors(factors);
+                return current;
+            }
+        });
+        panda.getPandaCore().registerBlock(blockLayout);
+    }
+
     public Essence start(final Particle particle) {
         final Block block = this;
         Thread thread = new Thread(new Runnable() {
@@ -50,19 +63,6 @@ public class ThreadBlock extends Block {
             pThread.setMemory(particle.getMemory());
             return pThread;
         }
-    }
-
-    public static void initialize(Panda panda) {
-        BlockLayout blockLayout = new BlockLayout(ThreadBlock.class, "thread").initializer(new BlockInitializer() {
-            @Override
-            public Block initialize(Atom atom) {
-                Block current = new ThreadBlock();
-                Factor[] factors = new FactorParser().parse(atom, atom.getBlockInfo().getParameters());
-                current.setFactors(factors);
-                return current;
-            }
-        });
-        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

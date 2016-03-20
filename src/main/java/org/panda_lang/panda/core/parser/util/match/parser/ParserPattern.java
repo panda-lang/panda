@@ -81,14 +81,6 @@ public class ParserPattern implements Matcher, Comparable<ParserPattern> {
         return this;
     }
 
-    public void setID(int id) {
-        this.id = id;
-    }
-
-    public void setCharset(char[] charset) {
-        this.charset = charset;
-    }
-
     public char getNext(char[] array, int current) {
         return current + 1 < array.length ? array[current + 1] : array[current];
     }
@@ -109,8 +101,16 @@ public class ParserPattern implements Matcher, Comparable<ParserPattern> {
         return charset;
     }
 
+    public void setCharset(char[] charset) {
+        this.charset = charset;
+    }
+
     public int getID() {
         return id;
+    }
+
+    public void setID(int id) {
+        this.id = id;
     }
 
     @Override

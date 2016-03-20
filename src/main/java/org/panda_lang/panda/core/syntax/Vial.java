@@ -97,10 +97,6 @@ public class Vial {
         return essence;
     }
 
-    public void setVialBlock(VialBlock vialBlock) {
-        this.vialBlock = vialBlock;
-    }
-
     public boolean isVeritableVial() {
         return vialBlock != null;
     }
@@ -123,6 +119,10 @@ public class Vial {
 
     public VialBlock getVialBlock() {
         return vialBlock;
+    }
+
+    public void setVialBlock(VialBlock vialBlock) {
+        this.vialBlock = vialBlock;
     }
 
     public Group getGroup() {

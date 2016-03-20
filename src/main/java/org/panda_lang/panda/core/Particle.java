@@ -64,29 +64,13 @@ public class Particle {
         return factors != null && factors.length > 0;
     }
 
-    public void setEssence(Essence essence) {
-        this.essence = essence;
-    }
-
-    public void setInstance(Factor instance) {
-        this.instance = instance;
-    }
-
-    public void setFactors(Factor... factors) {
-        this.factors = factors;
-    }
-
-    public void setMemory(Memory memory) {
-        this.memory = memory;
+    @SuppressWarnings("unchecked")
+    public <T> T getCustom() {
+        return (T) custom;
     }
 
     public void setCustom(Object custom) {
         this.custom = custom;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getCustom() {
-        return (T) custom;
     }
 
     public Factor getFactor(int i) {
@@ -121,16 +105,32 @@ public class Particle {
         return essence;
     }
 
+    public void setEssence(Essence essence) {
+        this.essence = essence;
+    }
+
     public Factor getInstance() {
         return instance;
+    }
+
+    public void setInstance(Factor instance) {
+        this.instance = instance;
     }
 
     public Factor[] getFactors() {
         return factors;
     }
 
+    public void setFactors(Factor... factors) {
+        this.factors = factors;
+    }
+
     public Memory getMemory() {
         return memory;
+    }
+
+    public void setMemory(Memory memory) {
+        this.memory = memory;
     }
 
     public PandaScript getPandaScript() {

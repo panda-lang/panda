@@ -68,48 +68,12 @@ public class Atom {
         return this;
     }
 
-    public void setPandaScript(PandaScript pandaScript) {
-        this.pandaScript = pandaScript;
-    }
-
-    public void setPandaParser(PandaParser pandaParser) {
-        this.pandaParser = pandaParser;
-    }
-
-    public void setSourcesDivider(SourcesDivider sourcesDivider) {
-        this.sourcesDivider = sourcesDivider;
-    }
-
-    public void setPatternExtractor(PatternExtractor patternExtractor) {
-        this.patternExtractor = patternExtractor;
-    }
-
-    public void setBlockInfo(BlockInfo blockInfo) {
-        this.blockInfo = blockInfo;
+    public String getSourceCode() {
+        return sourceCode == null && sourcesDivider != null ? new String(sourcesDivider.getSource()) : sourceCode;
     }
 
     public void setSourceCode(String sourceCode) {
         this.sourceCode = sourceCode;
-    }
-
-    public void setPrevious(Block previous) {
-        this.previous = previous;
-    }
-
-    public void setCurrent(Block current) {
-        this.current = current;
-    }
-
-    public void setParent(Block parent) {
-        this.parent = parent;
-    }
-
-    public void setVariant(ParserPattern variant) {
-        this.variant = variant;
-    }
-
-    public String getSourceCode() {
-        return sourceCode == null && sourcesDivider != null ? new String(sourcesDivider.getSource()) : sourceCode;
     }
 
     public BlockCenter getBlockCenter() {
@@ -136,8 +100,16 @@ public class Atom {
         return pandaScript;
     }
 
+    public void setPandaScript(PandaScript pandaScript) {
+        this.pandaScript = pandaScript;
+    }
+
     public PandaParser getPandaParser() {
         return pandaParser;
+    }
+
+    public void setPandaParser(PandaParser pandaParser) {
+        this.pandaParser = pandaParser;
     }
 
     public Dependencies getDependencies() {
@@ -148,28 +120,56 @@ public class Atom {
         return sourcesDivider;
     }
 
+    public void setSourcesDivider(SourcesDivider sourcesDivider) {
+        this.sourcesDivider = sourcesDivider;
+    }
+
     public PatternExtractor getPatternExtractor() {
         return patternExtractor;
+    }
+
+    public void setPatternExtractor(PatternExtractor patternExtractor) {
+        this.patternExtractor = patternExtractor;
     }
 
     public BlockInfo getBlockInfo() {
         return blockInfo;
     }
 
+    public void setBlockInfo(BlockInfo blockInfo) {
+        this.blockInfo = blockInfo;
+    }
+
     public Block getPrevious() {
         return previous;
+    }
+
+    public void setPrevious(Block previous) {
+        this.previous = previous;
     }
 
     public Block getCurrent() {
         return current;
     }
 
+    public void setCurrent(Block current) {
+        this.current = current;
+    }
+
     public Block getParent() {
         return parent;
     }
 
+    public void setParent(Block parent) {
+        this.parent = parent;
+    }
+
     public ParserPattern getVariant() {
         return variant;
+    }
+
+    public void setVariant(ParserPattern variant) {
+        this.variant = variant;
     }
 
     public Panda getPanda() {

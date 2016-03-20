@@ -16,18 +16,6 @@ public class ForBlock extends Block {
         super.setName("for::" + atomicInteger.incrementAndGet());
     }
 
-    @Override
-    public Essence run(Particle particle) {
-        Numeric times = factors[0].getValue(particle);
-        for (int i = 0; i < times.getInt(); i++) {
-            Essence o = super.run(particle);
-            if (o != null) {
-                return o;
-            }
-        }
-        return null;
-    }
-
     public static void initialize(Panda panda) {
         BlockLayout blockLayout = new BlockLayout(ForBlock.class, "for").initializer(new BlockInitializer() {
             @Override
@@ -38,6 +26,18 @@ public class ForBlock extends Block {
             }
         });
         panda.getPandaCore().registerBlock(blockLayout);
+    }
+
+    @Override
+    public Essence run(Particle particle) {
+        Numeric times = factors[0].getValue(particle);
+        for (int i = 0; i < times.getInt(); i++) {
+            Essence o = super.run(particle);
+            if (o != null) {
+                return o;
+            }
+        }
+        return null;
     }
 
 }

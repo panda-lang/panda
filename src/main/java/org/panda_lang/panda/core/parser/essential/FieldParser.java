@@ -12,6 +12,13 @@ import org.panda_lang.panda.lang.NullEssence;
 
 public class FieldParser implements Parser {
 
+    public static void initialize(Panda panda) {
+        ParserLayout parserLayout = new ParserLayout(new FieldParser());
+        parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
+        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
+        panda.getPandaCore().registerParser(parserLayout);
+    }
+
     @Override
     public Field parse(Atom atom) {
         String source = atom.getSourcesDivider().getLine();
@@ -39,13 +46,6 @@ public class FieldParser implements Parser {
         }
 
         return field;
-    }
-
-    public static void initialize(Panda panda) {
-        ParserLayout parserLayout = new ParserLayout(new FieldParser());
-        parserLayout.pattern("*=*;", EssentialPriority.VARIABLE.getPriority());
-        parserLayout.pattern(";", EssentialPriority.VARIABLE.getPriority() * 100);
-        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

@@ -19,19 +19,19 @@ public class StackEssence extends ObjectEssence {
         vial.method(new Method("push", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return particle.<StackEssence>getValueOfInstance().getStack().push(particle.getValueOfFactor(0));
+                return particle.<StackEssence> getValueOfInstance().getStack().push(particle.getValueOfFactor(0));
             }
         }));
         vial.method(new Method("peek", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return particle.<StackEssence>getValueOfInstance().getStack().peek();
+                return particle.<StackEssence> getValueOfInstance().getStack().peek();
             }
         }));
         vial.method(new Method("pop", new Executable() {
             @Override
             public Essence run(Particle particle) {
-                return particle.<StackEssence>getValueOfInstance().getStack().pop();
+                return particle.<StackEssence> getValueOfInstance().getStack().pop();
             }
         }));
     }

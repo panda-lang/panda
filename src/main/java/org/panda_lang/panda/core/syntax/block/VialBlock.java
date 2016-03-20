@@ -34,6 +34,17 @@ public class VialBlock extends Block {
         super.setName(vial.getName());
     }
 
+    public static void initialize(Panda panda) {
+        BlockLayout blockLayout = new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
+            @Override
+            public Block initialize(Atom atom) {
+                Group group = atom.getPandaParser().getPandaBlock().getGroup();
+                return new VialBlock(atom.getPandaScript(), group, atom.getBlockInfo().getSpecifiers());
+            }
+        });
+        panda.getPandaCore().registerBlock(blockLayout);
+    }
+
     public Particle initializeFields(Essence essence) {
         Particle particle = new Particle().pandaScript(pandaScript);
         particle.setMemory(essence.getMemory());
@@ -60,17 +71,6 @@ public class VialBlock extends Block {
 
     public Vial getVial() {
         return vial;
-    }
-
-    public static void initialize(Panda panda) {
-        BlockLayout blockLayout = new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
-            @Override
-            public Block initialize(Atom atom) {
-                Group group = atom.getPandaParser().getPandaBlock().getGroup();
-                return new VialBlock(atom.getPandaScript(), group, atom.getBlockInfo().getSpecifiers());
-            }
-        });
-        panda.getPandaCore().registerBlock(blockLayout);
     }
 
 }

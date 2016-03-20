@@ -72,10 +72,6 @@ public class PandaBlock extends Block {
         return vials;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
-    }
-
     @Override
     public boolean isReturned() {
         return true;
@@ -91,6 +87,10 @@ public class PandaBlock extends Block {
 
     public Group getGroup() {
         return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
 }
