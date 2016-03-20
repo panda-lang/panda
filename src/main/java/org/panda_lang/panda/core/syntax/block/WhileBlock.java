@@ -17,18 +17,6 @@ public class WhileBlock extends Block {
         super.setName("while::" + atomicInteger.incrementAndGet());
     }
 
-    @Override
-    public Essence run(Particle particle) {
-        Factor factor = factors[0];
-        while (factor.<BooleanEssence>getValue(particle).isTrue()) {
-            Essence o = super.run(particle);
-            if (o != null) {
-                return o;
-            }
-        }
-        return null;
-    }
-
     public static void initialize(Panda panda) {
         BlockLayout blockLayout = new BlockLayout(WhileBlock.class, "while").initializer(new BlockInitializer() {
             @Override
@@ -39,6 +27,18 @@ public class WhileBlock extends Block {
             }
         });
         panda.getPandaCore().registerBlock(blockLayout);
+    }
+
+    @Override
+    public Essence run(Particle particle) {
+        Factor factor = factors[0];
+        while (factor.<BooleanEssence> getValue(particle).isTrue()) {
+            Essence o = super.run(particle);
+            if (o != null) {
+                return o;
+            }
+        }
+        return null;
     }
 
 }

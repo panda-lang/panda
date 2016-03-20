@@ -48,16 +48,16 @@ public class PandaScript implements Executable {
         return vials;
     }
 
-    public void setWorkingDirectory(String workingDirectory) {
-        this.workingDirectory = workingDirectory;
-    }
-
     public Collection<PandaBlock> getElements() {
         return elements;
     }
 
     public String getWorkingDirectory() {
         return workingDirectory;
+    }
+
+    public void setWorkingDirectory(String workingDirectory) {
+        this.workingDirectory = workingDirectory;
     }
 
     public Panda getPanda() {

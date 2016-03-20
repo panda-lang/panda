@@ -5,19 +5,12 @@ import org.panda_lang.panda.core.memory.Memory;
 
 public class Factor implements NamedExecutable {
 
-    enum Type {
-        DEFINED,
-        VARIABLE,
-        RUNTIME
-    }
-
     private final Type type;
     private Essence definedEssence;
     private String variableName;
     private Runtime runtime;
     private Essence value;
     private String dataType;
-
     public Factor(Essence definedEssence) {
         this.type = Type.DEFINED;
         this.definedEssence = definedEssence;
@@ -39,12 +32,12 @@ public class Factor implements NamedExecutable {
         return getValue(particle);
     }
 
-    public void setDataType(String dataType) {
-        this.dataType = dataType;
-    }
-
     public String getDataType() {
         return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 
     @SuppressWarnings("unchecked")
@@ -91,6 +84,12 @@ public class Factor implements NamedExecutable {
     @Override
     public String getName() {
         return toString();
+    }
+
+    enum Type {
+        DEFINED,
+        VARIABLE,
+        RUNTIME
     }
 
 }

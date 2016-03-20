@@ -15,6 +15,12 @@ import org.panda_lang.panda.core.syntax.block.MethodBlock;
 
 public class MethodParser implements Parser {
 
+    public static void initialize(Panda panda) {
+        MethodParser methodParser = new MethodParser();
+        ParserLayout parserLayout = new ParserLayout(methodParser, "*(*);", EssentialPriority.METHOD.getPriority());
+        panda.getPandaCore().registerParser(parserLayout);
+    }
+
     @Override
     public Runtime parse(final Atom atom) {
         final String source = atom.getSourcesDivider().getLine();
@@ -97,12 +103,6 @@ public class MethodParser implements Parser {
                 }
             }));
         }
-    }
-
-    public static void initialize(Panda panda) {
-        MethodParser methodParser = new MethodParser();
-        ParserLayout parserLayout = new ParserLayout(methodParser, "*(*);", EssentialPriority.METHOD.getPriority());
-        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

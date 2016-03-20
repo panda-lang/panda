@@ -18,6 +18,24 @@ public enum NumberType {
         this.unit = unit;
     }
 
+    public static boolean isUnit(char c) {
+        for (NumberType numberType : values()) {
+            if (numberType.getUnit() == c) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static NumberType valueOf(char unit) {
+        for (NumberType numberType : values()) {
+            if (numberType.getUnit() == unit) {
+                return numberType;
+            }
+        }
+        return null;
+    }
+
     public char getUnit() {
         return unit;
     }
@@ -36,24 +54,6 @@ public enum NumberType {
 
     public boolean hasGreaterRangeThan(NumberType numberType) {
         return getID() < numberType.getID();
-    }
-
-    public static boolean isUnit(char c) {
-        for (NumberType numberType : values()) {
-            if (numberType.getUnit() == c) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static NumberType valueOf(char unit) {
-        for (NumberType numberType : values()) {
-            if (numberType.getUnit() == unit) {
-                return numberType;
-            }
-        }
-        return null;
     }
 
 }

@@ -7,15 +7,9 @@ import java.util.Stack;
 
 public class MathBuilder {
 
-    public enum Type {
-        OPERATOR,
-        PARAMETER
-    }
-
     private Stack<SimpleEntry<Type, Object>> stack;
     private SimpleEntry<Type, Object>[] values;
     private int i;
-
     public MathBuilder() {
         this.stack = new Stack<>();
         this.i = -1;
@@ -49,6 +43,11 @@ public class MathBuilder {
 
     public int size() {
         return values.length;
+    }
+
+    public enum Type {
+        OPERATOR,
+        PARAMETER
     }
 
 }

@@ -53,16 +53,12 @@ public class Import implements NamedExecutable {
         return declaredImport.charAt(0) == '\'';
     }
 
-    public void setSpecific(String specific) {
-        this.specific = specific;
+    public String getAs() {
+        return as;
     }
 
     public void setAs(String as) {
         this.as = as;
-    }
-
-    public String getAs() {
-        return as;
     }
 
     public String getFile() {
@@ -71,6 +67,10 @@ public class Import implements NamedExecutable {
 
     public String getSpecific() {
         return specific;
+    }
+
+    public void setSpecific(String specific) {
+        this.specific = specific;
     }
 
     public Group getGroup() {

@@ -13,8 +13,8 @@ public class Block implements NamedExecutable {
 
     protected static final AtomicInteger atomicInteger = new AtomicInteger();
 
-    private final Collection<NamedExecutable> executables;
-    private final Collection<Field> fields;
+    protected Collection<NamedExecutable> executables;
+    protected Collection<Field> fields;
     protected Factor[] factors;
     private String name;
     private Block parent;
@@ -84,20 +84,20 @@ public class Block implements NamedExecutable {
         return false;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setParent(Block block) {
-        this.parent = block;
+    public boolean hasParent() {
+        return parent != null;
     }
 
     public void setFactors(Factor... factors) {
         this.factors = factors;
     }
 
-    public boolean hasParent() {
-        return parent != null;
+    public void setExecutables(Collection<NamedExecutable> executables) {
+        this.executables = executables;
+    }
+
+    public void setFields(Collection<Field> fields) {
+        this.fields = fields;
     }
 
     public Factor[] getFactors() {
@@ -116,6 +116,10 @@ public class Block implements NamedExecutable {
         return parent;
     }
 
+    public void setParent(Block block) {
+        this.parent = block;
+    }
+
     public Block getBlock() {
         return this;
     }
@@ -123,6 +127,10 @@ public class Block implements NamedExecutable {
     @Override
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

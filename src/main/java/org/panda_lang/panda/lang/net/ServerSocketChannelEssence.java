@@ -22,7 +22,7 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         vial.constructor(new Executable() {
             @Override
             public Essence run(Particle particle) {
-                int port = particle.<Numeric>getValueOfFactor(0).getInt();
+                int port = particle.<Numeric> getValueOfFactor(0).getInt();
                 try {
                     return new ServerSocketChannelEssence(port);
                 } catch (IOException e) {
@@ -36,7 +36,7 @@ public class ServerSocketChannelEssence extends ObjectEssence {
             public Essence run(Particle particle) {
                 SocketChannel socketChannel = null;
                 try {
-                    socketChannel = particle.<ServerSocketChannelEssence>getValueOfInstance().getServerSocketChannel().accept();
+                    socketChannel = particle.<ServerSocketChannelEssence> getValueOfInstance().getServerSocketChannel().accept();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

@@ -37,18 +37,6 @@ public enum Operator {
         this.operator = operator;
     }
 
-    public String getOperator() {
-        return this.operator;
-    }
-
-    public int getPart() {
-        return this.id / 10;
-    }
-
-    public int getID() {
-        return this.id;
-    }
-
     public static Collection<Operator> getOperators(int part) {
         Collection<Operator> operators = new ArrayList<>();
         for (Operator operator : values()) {
@@ -75,6 +63,18 @@ public enum Operator {
             }
         }
         return null;
+    }
+
+    public String getOperator() {
+        return this.operator;
+    }
+
+    public int getPart() {
+        return this.id / 10;
+    }
+
+    public int getID() {
+        return this.id;
     }
 
 }

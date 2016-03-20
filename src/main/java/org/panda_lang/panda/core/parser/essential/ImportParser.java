@@ -11,6 +11,12 @@ import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class ImportParser implements Parser {
 
+    public static void initialize(Panda panda) {
+        ParserLayout parserLayout = new ParserLayout(new ImportParser());
+        parserLayout.pattern("import *;", EssentialPriority.IMPORT.getPriority(), EssentialPriority.IMPORT.getPriority() * 10, PatternExtractor.FULL);
+        panda.getPandaCore().registerParser(parserLayout);
+    }
+
     @Override
     public NamedExecutable parse(Atom atom) {
         final String source = atom.getSourcesDivider().getLine();
@@ -59,12 +65,6 @@ public class ImportParser implements Parser {
 
         atom.getPandaParser().getDependencies().importElement(importElement);
         return importElement;
-    }
-
-    public static void initialize(Panda panda) {
-        ParserLayout parserLayout = new ParserLayout(new ImportParser());
-        parserLayout.pattern("import *;", EssentialPriority.IMPORT.getPriority(), EssentialPriority.IMPORT.getPriority() * 10, PatternExtractor.FULL);
-        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

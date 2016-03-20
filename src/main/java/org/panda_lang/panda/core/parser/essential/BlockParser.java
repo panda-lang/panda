@@ -14,6 +14,12 @@ import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class BlockParser implements Parser {
 
+    public static void initialize(Panda panda) {
+        BlockParser blockParser = new BlockParser();
+        ParserLayout parserLayout = new ParserLayout(blockParser, "*{", EssentialPriority.VIAL.getPriority());
+        panda.getPandaCore().registerParser(parserLayout);
+    }
+
     @Override
     public Block parse(Atom atom) {
         SourcesDivider sourcesDivider = atom.getSourcesDivider();
@@ -58,12 +64,6 @@ public class BlockParser implements Parser {
         }
 
         return current;
-    }
-
-    public static void initialize(Panda panda) {
-        BlockParser blockParser = new BlockParser();
-        ParserLayout parserLayout = new ParserLayout(blockParser, "*{", EssentialPriority.VIAL.getPriority());
-        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }

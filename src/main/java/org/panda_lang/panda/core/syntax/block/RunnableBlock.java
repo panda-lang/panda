@@ -15,11 +15,6 @@ public class RunnableBlock extends Block {
         super.setName("runnable::" + atomicInteger.incrementAndGet());
     }
 
-    @Override
-    public Essence run(Particle particle) {
-        return super.run(particle);
-    }
-
     public static void initialize(Panda panda) {
         BlockLayout blockLayout = new BlockLayout(RunnableBlock.class, "runnable").initializer(new BlockInitializer() {
             @Override
@@ -30,6 +25,11 @@ public class RunnableBlock extends Block {
             }
         });
         panda.getPandaCore().registerBlock(blockLayout);
+    }
+
+    @Override
+    public Essence run(Particle particle) {
+        return super.run(particle);
     }
 
 }

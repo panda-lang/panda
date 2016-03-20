@@ -12,6 +12,13 @@ import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class GroupParser implements Parser {
 
+    public static void initialize(Panda panda) {
+        GroupParser groupParser = new GroupParser();
+        ParserLayout parserLayout = new ParserLayout(groupParser);
+        parserLayout.pattern("group *;", EssentialPriority.GROUP.getPriority(), EssentialPriority.GROUP.getPriority() * 10, PatternExtractor.FULL);
+        panda.getPandaCore().registerParser(parserLayout);
+    }
+
     @Override
     public NamedExecutable parse(Atom atom) {
         final String source = atom.getSourcesDivider().getLine();
@@ -36,13 +43,6 @@ public class GroupParser implements Parser {
         atom.getPandaParser().getPandaBlock().setGroup(group);
         atom.getPandaParser().getDependencies().importElement(anImport);
         return group;
-    }
-
-    public static void initialize(Panda panda) {
-        GroupParser groupParser = new GroupParser();
-        ParserLayout parserLayout = new ParserLayout(groupParser);
-        parserLayout.pattern("group *;", EssentialPriority.GROUP.getPriority(), EssentialPriority.GROUP.getPriority() * 10, PatternExtractor.FULL);
-        panda.getPandaCore().registerParser(parserLayout);
     }
 
 }
