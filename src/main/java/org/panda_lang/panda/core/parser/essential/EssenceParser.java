@@ -66,10 +66,6 @@ public class EssenceParser implements Parser {
         NumberType numberType = NumberType.valueOf(unit);
         String numberValue = s.substring(0, s.length() - 1);
 
-        if (numberType == null) {
-            numberType = NumberType.INT;
-        }
-
         switch (numberType) {
             case BYTE:
                 return new ByteEssence(Byte.parseByte(numberValue));

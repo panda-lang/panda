@@ -11,6 +11,7 @@ public class Factor implements NamedExecutable {
     private Runtime runtime;
     private Essence value;
     private String dataType;
+
     public Factor(Essence definedEssence) {
         this.type = Type.DEFINED;
         this.definedEssence = definedEssence;

@@ -3,18 +3,19 @@ package org.panda_lang.panda.core.syntax;
 import org.panda_lang.panda.core.Particle;
 import org.panda_lang.panda.core.memory.Cache;
 import org.panda_lang.panda.core.memory.Memory;
+import org.panda_lang.panda.core.syntax.util.ExecutableCell;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Block implements NamedExecutable {
 
     protected static final AtomicInteger atomicInteger = new AtomicInteger();
 
-    protected Collection<NamedExecutable> executables;
-    protected Collection<Field> fields;
+    protected List<ExecutableCell> executableCells;
+    protected List<Field> fields;
     protected Factor[] factors;
     private String name;
     private Block parent;
@@ -25,7 +26,7 @@ public class Block implements NamedExecutable {
     }
 
     public Block() {
-        this.executables = new LinkedList<>();
+        this.executableCells = new ArrayList<>();
         this.fields = new ArrayList<>();
     }
 
@@ -40,8 +41,9 @@ public class Block implements NamedExecutable {
             }
         }
 
-        for (NamedExecutable executable : executables) {
+        for (ExecutableCell executableCell : executableCells) {
             Essence result;
+            Executable executable = executableCell.getExecutable();
 
             if (executable instanceof Block) {
                 Memory blockMemory = new Memory(memory);
@@ -74,7 +76,9 @@ public class Block implements NamedExecutable {
     }
 
     public void addExecutable(NamedExecutable e) {
-        this.executables.add(e);
+        ExecutableCell cell = new ExecutableCell(executableCells.size(), e);
+        executableCells.add(cell);
+
         if (e instanceof Field) {
             fields.add((Field) e);
         }
@@ -88,28 +92,39 @@ public class Block implements NamedExecutable {
         return parent != null;
     }
 
-    public void setFactors(Factor... factors) {
-        this.factors = factors;
-    }
-
-    public void setExecutables(Collection<NamedExecutable> executables) {
-        this.executables = executables;
-    }
-
-    public void setFields(Collection<Field> fields) {
-        this.fields = fields;
-    }
-
     public Factor[] getFactors() {
         return factors;
+    }
+
+    public void setFactors(Factor... factors) {
+        this.factors = factors;
     }
 
     public Collection<Field> getFields() {
         return fields;
     }
 
-    public Collection<NamedExecutable> getExecutables() {
-        return executables;
+    public void setFields(List<Field> fields) {
+        this.fields = fields;
+    }
+
+    public List<NamedExecutable> getExecutables() {
+        List<NamedExecutable> list = new ArrayList<>();
+        for (ExecutableCell cell : executableCells) {
+            list.add(cell.getExecutable());
+        }
+        return list;
+    }
+
+    public void setExecutables(Collection<NamedExecutable> newExecutables) {
+        executableCells.clear();
+        for (NamedExecutable executable : newExecutables) {
+            addExecutable(executable);
+        }
+    }
+
+    public List<ExecutableCell> getExecutableCells() {
+        return executableCells;
     }
 
     public Block getParent() {

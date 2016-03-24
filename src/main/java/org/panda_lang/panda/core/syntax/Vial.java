@@ -87,6 +87,8 @@ public class Vial {
     public Essence initializeInstance(Particle particle) {
         Essence essence = new Essence(this);
         essence.initializeParticle(particle);
+        particle = essence.particle(particle);
+
         if (constructor != null) {
             Essence instance = constructor.run(particle);
             if (instance != null) {
