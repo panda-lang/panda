@@ -29,8 +29,11 @@ public class Essence implements NamedExecutable {
     }
 
     public Essence call(String methodName, Particle particle) {
-        particle = new Particle(particle.getPandaScript(), memory, this, new Factor(this), particle.getFactors());
-        return vial.call(methodName, particle);
+        return vial.call(methodName, particle(particle));
+    }
+
+    public Particle particle(Particle particle) {
+        return new Particle(particle.getPandaScript(), memory, this, new Factor(this), particle.getFactors());
     }
 
     @Override

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class BenchmarkTest {
 
-    private static final File SCRIPT = new File("benchmark.sp");
+    private static final File SCRIPT = new File("benchmark.panda");
     private static final File DIRECTORY = new File("examples");
 
     public static void main(String[] args) {

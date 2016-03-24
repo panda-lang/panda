@@ -57,6 +57,11 @@ public class VialBlock extends Block {
     }
 
     @Override
+    public Essence run(Particle particle) {
+        return vial.initializeInstance(particle);
+    }
+
+    @Override
     public void addExecutable(NamedExecutable executable) {
         if (executable instanceof Field) {
             vial.getFields().put(executable.getName(), (Field) executable);

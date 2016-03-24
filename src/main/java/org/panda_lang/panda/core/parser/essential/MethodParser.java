@@ -37,7 +37,6 @@ public class MethodParser implements Parser {
             // {method.static}
             if (mi.isStatic()) {
                 final Vial vial = mi.getVial();
-                final Method method = vial.getMethod(mi.getMethodName());
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
                     public Essence run(Particle particle) {
@@ -45,7 +44,7 @@ public class MethodParser implements Parser {
                                 .fork()
                                 .pandaScript(atom.getPandaScript())
                                 .factors(mi.getFactors());
-                        return method != null ? method.run(fork) : vial.getMethod(mi.getMethodName()).run(fork);
+                        return vial.call(mi.getMethodName(), fork);
                     }
                 }));
 
@@ -68,14 +67,15 @@ public class MethodParser implements Parser {
 
                     if (method == null) {
                         PandaException exception = new PandaException("MethodParserException: Method not found", atom.getSourcesDivider());
-                        atom.getPandaParser().throwException(exception);
-                        return null;
+                        return atom.getPandaParser().throwException(exception);
                     }
 
                     return new Runtime(instance, new Executable() {
                         @Override
                         public Essence run(Particle particle) {
                             particle.setInstance(instance);
+                            Essence essence = instance.getValue(particle);
+                            particle = essence.particle(particle);
                             return method.run(particle);
                         }
                     }, mi.getFactors());

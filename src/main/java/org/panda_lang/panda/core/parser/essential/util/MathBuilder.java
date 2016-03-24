@@ -10,6 +10,7 @@ public class MathBuilder {
     private Stack<SimpleEntry<Type, Object>> stack;
     private SimpleEntry<Type, Object>[] values;
     private int i;
+
     public MathBuilder() {
         this.stack = new Stack<>();
         this.i = -1;
