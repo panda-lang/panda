@@ -21,15 +21,29 @@ method main() {
     // Start the thread
     testThread.start();
 
-    // Get the current thread
-    Thread currentThread = Thread.currentThread();
-    // Display the name of the current thread
-    System.print(currentThread.getName());
+    // Loop 10 times
+    for (10) {
+        // Display current milliseconds
+        System.print(System.currentTimeMillis());
+    }
+
+    // Math
+    Number result = ((10 + 4)*2)^2;
+    // Display result
+    System.print(result);
+
+    if (result > 0) {
+        goodbye();
+    }
+}
+
+method goodbye() {
+    System.print("Goodbye!");
 }
 ```
 #### Maven
 API is not stable yet :red_circle:
-```
+```xml
 <dependency>
             <groupId>org.panda_lang</groupId>
             <artifactId>panda</artifactId>
@@ -37,7 +51,7 @@ API is not stable yet :red_circle:
 </dependency>
 ```
 Repository: https://repo.panda-lang.org/
-```
+```xml
 <repositories>
         <repository>
             <id>panda-repo</id>
@@ -47,6 +61,6 @@ Repository: https://repo.panda-lang.org/
 </repositories>
 ```
 ### Other
-Lily IDE: https://github.com/Panda-Programming-Language/Lily
+Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily
 <br>
 Moonlight: https://github.com/dzikoysk/Moonlight
