@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -35,9 +35,9 @@ public class Field implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        value = factor != null ? factor.getValue(particle) : null;
-        particle.getMemory().put(fieldName, value);
+    public Essence run(Alice alice) {
+        value = factor != null ? factor.getValue(alice) : null;
+        alice.getMemory().put(fieldName, value);
         return value;
     }
 

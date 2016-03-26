@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.net;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -13,7 +13,7 @@ public class PacketEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return new PacketEssence();
             }
         });

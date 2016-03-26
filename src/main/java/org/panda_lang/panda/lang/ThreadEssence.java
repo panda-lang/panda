@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.ThreadBlock;
@@ -12,28 +12,28 @@ public class ThreadEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
-                return particle.hasFactors() ? new ThreadEssence(particle.getValueOfFactor(0).toString()) : new ThreadEssence();
+            public Essence run(Alice alice) {
+                return alice.hasFactors() ? new ThreadEssence(alice.getValueOfFactor(0).toString()) : new ThreadEssence();
             }
         });
         vial.method(new Method("start", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                ThreadEssence thread = particle.getValueOfInstance();
-                thread.start(particle);
+            public Essence run(Alice alice) {
+                ThreadEssence thread = alice.getValueOfInstance();
+                thread.start(alice);
                 return thread;
             }
         }));
         vial.method(new Method("getName", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                ThreadEssence thread = particle.getValueOfInstance();
+            public Essence run(Alice alice) {
+                ThreadEssence thread = alice.getValueOfInstance();
                 return new StringEssence(thread.getName());
             }
         }));
         vial.method(new Method("currentThread", new Executable() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return new ThreadEssence(Thread.currentThread());
             }
         }));
@@ -57,13 +57,13 @@ public class ThreadEssence extends ObjectEssence {
         this.thread = thread;
     }
 
-    public void start(Particle particle) {
+    public void start(Alice alice) {
         if (memory != null) {
             Memory threadMemory = new Memory(memory);
-            particle.setMemory(threadMemory);
+            alice.setMemory(threadMemory);
         }
         if (this.block != null) {
-            block.start(particle);
+            block.start(alice);
         }
         else if (thread != null) {
             thread.start();

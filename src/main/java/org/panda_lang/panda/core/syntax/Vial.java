@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 import org.panda_lang.panda.core.syntax.block.VialBlock;
 
@@ -59,8 +59,8 @@ public class Vial {
         if (constructor == null && method.getName().equals(name)) {
             this.constructor(new Constructor() {
                 @Override
-                public Essence run(Particle particle) {
-                    return method.run(particle);
+                public Essence run(Alice alice) {
+                    return method.run(alice);
                 }
             });
         }
@@ -75,22 +75,22 @@ public class Vial {
         return this;
     }
 
-    public Essence call(String name, Particle particle) {
+    public Essence call(String name, Alice alice) {
         Method method = getMethod(name);
         if (method == null) {
             System.out.println("Method '" + name + "' not found in instance of " + name);
             return null;
         }
-        return method.run(particle);
+        return method.run(alice);
     }
 
-    public Essence initializeInstance(Particle particle) {
+    public Essence initializeInstance(Alice alice) {
         Essence essence = new Essence(this);
-        essence.initializeParticle(particle);
-        particle = essence.particle(particle);
+        essence.initializeParticle(alice);
+        alice = essence.particle(alice);
 
         if (constructor != null) {
-            Essence instance = constructor.run(particle);
+            Essence instance = constructor.run(alice);
             if (instance != null) {
                 essence = instance;
                 instance.setVial(this);

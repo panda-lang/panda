@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.net;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
@@ -21,8 +21,8 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.constructor(new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                int port = particle.<Numeric> getValueOfFactor(0).getInt();
+            public Essence run(Alice alice) {
+                int port = alice.<Numeric> getValueOfFactor(0).getInt();
                 try {
                     return new ServerSocketChannelEssence(port);
                 } catch (IOException e) {
@@ -33,10 +33,10 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         });
         vial.method(new Method("accept", new Executable() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 SocketChannel socketChannel = null;
                 try {
-                    socketChannel = particle.<ServerSocketChannelEssence> getValueOfInstance().getServerSocketChannel().accept();
+                    socketChannel = alice.<ServerSocketChannelEssence> getValueOfInstance().getServerSocketChannel().accept();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -45,9 +45,9 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         }));
         vial.method(new Method("configureBlocking", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                ServerSocketChannelEssence serverSocketChannel = particle.getValueOfInstance();
-                BooleanEssence flag = particle.getValueOfFactor(0);
+            public Essence run(Alice alice) {
+                ServerSocketChannelEssence serverSocketChannel = alice.getValueOfInstance();
+                BooleanEssence flag = alice.getValueOfFactor(0);
                 try {
                     serverSocketChannel.getServerSocketChannel().configureBlocking(flag.getBoolean());
                 } catch (IOException e) {

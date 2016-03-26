@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.net;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.lang.NullEssence;
@@ -16,8 +16,8 @@ public class ServerSocketEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
-                Numeric port = particle.getValueOfFactor(0);
+            public Essence run(Alice alice) {
+                Numeric port = alice.getValueOfFactor(0);
                 try {
                     return new ServerSocketEssence(port.getInt());
                 } catch (IOException e) {
@@ -28,8 +28,8 @@ public class ServerSocketEssence extends ObjectEssence {
         });
         vial.method(new Method("accept", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                ServerSocketEssence serverSocket = particle.getValueOfInstance();
+            public Essence run(Alice alice) {
+                ServerSocketEssence serverSocket = alice.getValueOfInstance();
                 try {
                     return new SocketEssence(serverSocket.getServerSocket().accept());
                 } catch (IOException e) {

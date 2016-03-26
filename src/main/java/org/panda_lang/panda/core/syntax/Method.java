@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 public class Method implements NamedExecutable {
 
@@ -17,9 +17,9 @@ public class Method implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         if (executable != null) {
-            return executable.run(particle);
+            return executable.run(alice);
         }
         return null;
     }

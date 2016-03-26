@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ public class Group implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         return null;
     }
 

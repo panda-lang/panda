@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Essence;
@@ -15,20 +15,20 @@ public class NumberEssence extends Essence {
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return null;
             }
         });
         vial.method(new Method("valueOf", new Executable() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return null;
             }
         }));
         vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                NumberEssence number = particle.getInstance().getValue(particle);
+            public Essence run(Alice alice) {
+                NumberEssence number = alice.getInstance().getValue(alice);
                 return new StringEssence(number.toString());
             }
         }));

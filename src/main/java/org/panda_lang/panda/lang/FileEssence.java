@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -15,8 +15,8 @@ public class FileEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
-                StringEssence file = particle.getValueOfFactor(0);
+            public Essence run(Alice alice) {
+                StringEssence file = alice.getValueOfFactor(0);
                 return new FileEssence(file.toString());
             }
         });

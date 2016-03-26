@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.net;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
@@ -18,9 +18,9 @@ public class SocketChannelEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.method(new Method("write", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                SocketChannelEssence socketChannel = particle.getValueOfInstance();
-                ByteBufferEssence byteBuffer = particle.getValueOfFactor(0);
+            public Essence run(Alice alice) {
+                SocketChannelEssence socketChannel = alice.getValueOfInstance();
+                ByteBufferEssence byteBuffer = alice.getValueOfFactor(0);
                 try {
                     socketChannel.getSocketChannel().write(byteBuffer.getByteBuffer());
                 } catch (IOException e) {
@@ -31,8 +31,8 @@ public class SocketChannelEssence extends ObjectEssence {
         }));
         vial.method(new Method("read", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                SocketChannelEssence socketChannel = particle.getValueOfInstance();
+            public Essence run(Alice alice) {
+                SocketChannelEssence socketChannel = alice.getValueOfInstance();
                 ByteBufferEssence pByteBuffer = new ByteBufferEssence();
                 try {
                     socketChannel.getSocketChannel().read(pByteBuffer.getByteBuffer());

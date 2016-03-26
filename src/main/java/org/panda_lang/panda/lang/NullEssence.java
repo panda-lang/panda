@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Method;
@@ -13,7 +13,7 @@ public class NullEssence extends Essence {
         vial.group("panda.lang");
         vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return new StringEssence("null");
             }
         }));

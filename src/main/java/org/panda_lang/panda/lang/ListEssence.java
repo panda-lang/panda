@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.*;
 
 import java.util.ArrayList;
@@ -13,15 +13,15 @@ public class ListEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return new ListEssence();
             }
         });
         vial.method(new Method("add", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                ListEssence list = particle.getValueOfInstance();
-                list.getList().add(particle.getValueOfFactor(0));
+            public Essence run(Alice alice) {
+                ListEssence list = alice.getValueOfInstance();
+                list.getList().add(alice.getValueOfFactor(0));
                 return null;
             }
         }));

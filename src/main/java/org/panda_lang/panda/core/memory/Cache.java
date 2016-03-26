@@ -6,6 +6,11 @@ import java.util.Map;
 public class Cache {
 
     private final Map<String, Object> map;
+    public Object slotA;
+    public Object slotB;
+    public Object slotC;
+    public Object slotD;
+    public Object slotE;
     private boolean proceed;
     private boolean skipped;
 

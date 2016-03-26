@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.memory.Global;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
@@ -26,24 +26,24 @@ public class PandaBlock extends Block {
     }
 
     public void initializeGlobalVariables() {
-        Particle particle = new Particle()
+        Alice alice = new Alice()
                 .pandaScript(pandaScript)
                 .memory(memory);
 
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
-                executable.run(particle);
+                executable.run(alice);
             }
         }
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         for (NamedExecutable namedExecutable : getExecutables()) {
             if (namedExecutable instanceof Block) {
                 continue;
             }
-            namedExecutable.run(particle);
+            namedExecutable.run(alice);
         }
         return null;
     }
@@ -51,11 +51,11 @@ public class PandaBlock extends Block {
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
         for (NamedExecutable executable : super.getExecutables()) {
             if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                Particle particle = new Particle()
+                Alice alice = new Alice()
                         .pandaScript(pandaScript)
                         .memory(memory)
                         .factors(factors);
-                return executable.run(particle);
+                return executable.run(alice);
             }
         }
         return null;

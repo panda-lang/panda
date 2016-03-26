@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -30,10 +30,10 @@ public class WhileBlock extends Block {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         Factor factor = factors[0];
-        while (factor.<BooleanEssence> getValue(particle).isTrue()) {
-            Essence o = super.run(particle);
+        while (factor.<BooleanEssence> getValue(alice).isTrue()) {
+            Essence o = super.run(alice);
             if (o != null) {
                 return o;
             }

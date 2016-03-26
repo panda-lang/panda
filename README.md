@@ -60,6 +60,10 @@ Repository: https://repo.panda-lang.org/
         </repository>
 </repositories>
 ```
+### TODO
+- Memory system
+- Java implementation
+- Analyzers
 ### Other
 Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily
 <br>

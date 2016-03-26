@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.util;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.NamedExecutable;
@@ -15,8 +15,8 @@ public class SimplifiedNamedExecutable implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        return executable.run(particle);
+    public Essence run(Alice alice) {
+        return executable.run(alice);
     }
 
     public Executable getExecutable() {

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.memory.Memory;
 
 public class Factor implements NamedExecutable {
@@ -29,8 +29,8 @@ public class Factor implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        return getValue(particle);
+    public Essence run(Alice alice) {
+        return getValue(alice);
     }
 
     public String getDataType() {
@@ -47,31 +47,31 @@ public class Factor implements NamedExecutable {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getValue(Particle particle) {
+    public <T extends Essence> T getValue(Alice alice) {
         switch (type) {
             case DEFINED:
                 this.value = definedEssence;
                 break;
             case VARIABLE:
-                this.value = getMemoryValue(particle);
+                this.value = getMemoryValue(alice);
                 break;
             case RUNTIME:
-                if (particle == null) {
-                    particle = new Particle();
-                    particle.setMemory(new Memory());
+                if (alice == null) {
+                    alice = new Alice();
+                    alice.setMemory(new Memory());
                 }
-                this.value = getRuntimeValue(particle);
+                this.value = getRuntimeValue(alice);
                 break;
         }
         return (T) this.value;
     }
 
-    public Essence getMemoryValue(Particle particle) {
-        return particle.getMemory().get(variableName);
+    public Essence getMemoryValue(Alice alice) {
+        return alice.getMemory().get(variableName);
     }
 
-    public Essence getRuntimeValue(Particle particle) {
-        return runtime.run(particle);
+    public Essence getRuntimeValue(Alice alice) {
+        return runtime.run(alice);
     }
 
     public Essence getDefinedEssence() {

@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 public interface Executable {
 
-    Essence run(Particle particle);
+    Essence run(Alice alice);
 
 }

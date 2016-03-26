@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -31,13 +31,13 @@ public class IfThenBlock extends Block {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        BooleanEssence flag = factors[0].getValue(particle);
+    public Essence run(Alice alice) {
+        BooleanEssence flag = factors[0].getValue(alice);
         if (flag != null && flag.isTrue()) {
-            return super.run(particle);
+            return super.run(alice);
         }
         else if (elseThenBlock != null) {
-            return elseThenBlock.run(particle);
+            return elseThenBlock.run(alice);
         }
         return null;
     }

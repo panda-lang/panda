@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -29,10 +29,10 @@ public class ForBlock extends Block {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        Numeric times = factors[0].getValue(particle);
+    public Essence run(Alice alice) {
+        Numeric times = factors[0].getValue(alice);
         for (int i = 0; i < times.getInt(); i++) {
-            Essence o = super.run(particle);
+            Essence o = super.run(alice);
             if (o != null) {
                 return o;
             }

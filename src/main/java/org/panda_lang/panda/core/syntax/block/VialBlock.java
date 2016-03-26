@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -45,20 +45,20 @@ public class VialBlock extends Block {
         panda.getPandaCore().registerBlock(blockLayout);
     }
 
-    public Particle initializeFields(Essence essence) {
-        Particle particle = new Particle().pandaScript(pandaScript);
-        particle.setMemory(essence.getMemory());
+    public Alice initializeFields(Essence essence) {
+        Alice alice = new Alice().pandaScript(pandaScript);
+        alice.setMemory(essence.getMemory());
         for (NamedExecutable executable : getExecutables()) {
             if (executable instanceof Field) {
-                executable.run(particle);
+                executable.run(alice);
             }
         }
-        return particle;
+        return alice;
     }
 
     @Override
-    public Essence run(Particle particle) {
-        return vial.initializeInstance(particle);
+    public Essence run(Alice alice) {
+        return vial.initializeInstance(alice);
     }
 
     @Override

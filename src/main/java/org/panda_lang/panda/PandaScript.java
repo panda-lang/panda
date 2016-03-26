@@ -1,6 +1,6 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
@@ -23,9 +23,9 @@ public class PandaScript implements Executable {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         for (PandaBlock pandaBlock : elements) {
-            pandaBlock.run(particle);
+            pandaBlock.run(alice);
         }
         return null;
     }

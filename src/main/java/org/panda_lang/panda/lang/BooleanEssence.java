@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.syntax.Constructor;
 import org.panda_lang.panda.core.syntax.Essence;
@@ -13,8 +13,8 @@ public class BooleanEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
-                Essence essence = particle.getValueOfFactor(0);
+            public Essence run(Alice alice) {
+                Essence essence = alice.getValueOfFactor(0);
                 if (essence instanceof NullEssence) {
                     return new BooleanEssence(false);
                 }
