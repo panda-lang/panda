@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 
 public class Import implements NamedExecutable {
@@ -33,7 +33,7 @@ public class Import implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         return null;
     }
 

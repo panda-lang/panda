@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.memory.Cache;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.util.ExecutableCell;
@@ -31,13 +31,14 @@ public class Block implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        Memory memory = particle.getMemory();
+    public Essence run(Alice alice) {
+        Memory memory = alice.getMemory();
         Cache cache = memory.getCache();
 
-        if (particle.getFactors() != null && factors != null) {
-            for (int i = 0; i < particle.getFactors().length && i < factors.length; i++) {
-                memory.put(factors[i].getVariableName(), particle.getFactors()[i].getValue(particle));
+        alice.setBlock(this);
+        if (alice.getFactors() != null && factors != null) {
+            for (int i = 0; i < alice.getFactors().length && i < factors.length; i++) {
+                memory.put(factors[i].getVariableName(), alice.getFactors()[i].getValue(alice));
             }
         }
 
@@ -47,18 +48,19 @@ public class Block implements NamedExecutable {
 
             if (executable instanceof Block) {
                 Memory blockMemory = new Memory(memory);
-                Particle blockParticle = new Particle()
+                blockMemory.setCache(cache);
+                Alice blockAlice = new Alice()
                         .fork()
                         .memory(blockMemory);
                 blockMemory.setBlock((Block) executable);
-                result = executable.run(blockParticle);
+                result = executable.run(blockAlice);
             }
             else if (executable instanceof Return) {
-                result = executable.run(particle);
+                result = executable.run(alice);
                 cache.proceed(false);
             }
             else if (executable != null) {
-                result = executable.run(particle);
+                result = executable.run(alice);
             }
             else {
                 result = null;

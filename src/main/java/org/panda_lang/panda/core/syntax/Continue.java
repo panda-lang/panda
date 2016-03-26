@@ -1,11 +1,11 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 public class Continue implements NamedExecutable {
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         return null;
     }
 

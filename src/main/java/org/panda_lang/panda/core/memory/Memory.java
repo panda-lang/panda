@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class Memory {
 
-    private final Cache cache;
     private final Memory parent;
     private final Map<String, Essence> local;
     private final Collection<MemoryFollower> memoryFollowers;
+    private Cache cache;
     private Block block;
 
     private Memory(Memory parent, Map<String, Essence> local) {
@@ -104,6 +104,10 @@ public class Memory {
 
     public Cache getCache() {
         return cache;
+    }
+
+    public void setCache(Cache cache) {
+        this.cache = cache;
     }
 
 }

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Executable;
 import org.panda_lang.panda.core.syntax.Vial;
@@ -12,8 +12,8 @@ public class StringEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                return new StringEssence(particle.getValueOfFactor(0).toString());
+            public Essence run(Alice alice) {
+                return new StringEssence(alice.getValueOfFactor(0).toString());
             }
         });
     }

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.lang.BooleanEssence;
@@ -14,22 +14,22 @@ public class Equality implements Executable {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         Operator operator = equalityBuilder.getOperator();
         Factor oneFactor = equalityBuilder.getOne();
         Factor otherFactor = equalityBuilder.getOther();
         boolean flag = false;
 
         if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
-            flag = oneFactor.getValue(particle).equals(otherFactor.getValue(particle));
+            flag = oneFactor.getValue(alice).equals(otherFactor.getValue(alice));
             flag = (operator == Operator.EQUALS_TO) == flag;
 
         }
         else {
             //TODO
 
-            Numeric oneNumber = oneFactor.getValue(particle);
-            Numeric otherNumber = otherFactor.getValue(particle);
+            Numeric oneNumber = oneFactor.getValue(alice);
+            Numeric otherNumber = otherFactor.getValue(alice);
 
             float one = oneNumber.getFloat();
             float other = otherNumber.getFloat();

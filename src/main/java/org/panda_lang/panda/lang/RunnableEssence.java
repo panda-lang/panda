@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.syntax.*;
 import org.panda_lang.panda.core.syntax.block.RunnableBlock;
@@ -12,15 +12,15 @@ public class RunnableEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return new RunnableEssence();
             }
         });
         vial.method(new Method("run", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                RunnableEssence runnable = particle.getValueOfInstance();
-                return runnable.run(particle);
+            public Essence run(Alice alice) {
+                RunnableEssence runnable = alice.getValueOfInstance();
+                return runnable.run(alice);
             }
         }));
     }
@@ -31,12 +31,12 @@ public class RunnableEssence extends ObjectEssence {
     public RunnableEssence() {
     }
 
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         if (memory != null) {
             Memory threadMemory = new Memory(memory);
-            particle.setMemory(threadMemory);
+            alice.setMemory(threadMemory);
         }
-        return block != null ? block.run(particle) : null;
+        return block != null ? block.run(alice) : null;
     }
 
     public void setBlock(RunnableBlock block) {

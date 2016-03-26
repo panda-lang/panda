@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -33,18 +33,18 @@ public class ThreadBlock extends Block {
         panda.getPandaCore().registerBlock(blockLayout);
     }
 
-    public Essence start(final Particle particle) {
+    public Essence start(final Alice alice) {
         final Block block = this;
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 for (NamedExecutable executable : block.getExecutables()) {
-                    executable.run(particle);
+                    executable.run(alice);
                 }
             }
         });
         if (factors != null && factors.length > 0) {
-            Essence value = factors[0].getValue(particle);
+            Essence value = factors[0].getValue(alice);
             thread.setName(pThread.getName());
         }
         thread.start();
@@ -52,15 +52,15 @@ public class ThreadBlock extends Block {
     }
 
     @Override
-    public Essence run(final Particle particle) {
+    public Essence run(final Alice alice) {
         if (factors.length == 0) {
-            start(particle);
+            start(alice);
             return null;
         }
         else {
-            pThread = factors[0].getValue(particle);
+            pThread = factors[0].getValue(alice);
             pThread.setBlock(this);
-            pThread.setMemory(particle.getMemory());
+            pThread.setMemory(alice.getMemory());
             return pThread;
         }
     }

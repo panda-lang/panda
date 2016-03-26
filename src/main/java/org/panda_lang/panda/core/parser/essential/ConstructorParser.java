@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
@@ -88,8 +88,8 @@ public class ConstructorParser implements Parser {
                     }
                     runtime.setExecutable(new Executable() {
                         @Override
-                        public Essence run(Particle particle) {
-                            return vial.initializeInstance(particle);
+                        public Essence run(Alice alice) {
+                            return vial.initializeInstance(alice);
                         }
                     });
                 }
@@ -100,8 +100,8 @@ public class ConstructorParser implements Parser {
 
         return new Runtime(null, new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                return vial.initializeInstance(particle);
+            public Essence run(Alice alice) {
+                return vial.initializeInstance(alice);
             }
         }, factors);
     }

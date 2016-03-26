@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
@@ -39,8 +39,8 @@ public class MethodParser implements Parser {
                 final Vial vial = mi.getVial();
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
-                    public Essence run(Particle particle) {
-                        Particle fork = particle
+                    public Essence run(Alice alice) {
+                        Alice fork = alice
                                 .fork()
                                 .pandaScript(atom.getPandaScript())
                                 .factors(mi.getFactors());
@@ -72,11 +72,11 @@ public class MethodParser implements Parser {
 
                     return new Runtime(instance, new Executable() {
                         @Override
-                        public Essence run(Particle particle) {
-                            particle.setInstance(instance);
-                            Essence essence = instance.getValue(particle);
-                            particle = essence.particle(particle);
-                            return method.run(particle);
+                        public Essence run(Alice alice) {
+                            alice.setInstance(instance);
+                            Essence essence = instance.getValue(alice);
+                            alice = essence.particle(alice);
+                            return method.run(alice);
                         }
                     }, mi.getFactors());
                 }
@@ -84,11 +84,11 @@ public class MethodParser implements Parser {
                 // {instance.type.undefined}
                 return new Runtime(instance, new Executable() {
                     @Override
-                    public Essence run(Particle particle) {
-                        particle.setInstance(instance);
-                        Essence essence = instance.getValue(particle);
+                    public Essence run(Alice alice) {
+                        alice.setInstance(instance);
+                        Essence essence = instance.getValue(alice);
                         String methodName = mi.getMethodName();
-                        return essence.call(methodName, particle);
+                        return essence.call(methodName, alice);
                     }
                 }, mi.getFactors());
             }
@@ -98,7 +98,7 @@ public class MethodParser implements Parser {
         else {
             return new Runtime(new Method(mi.getMethodName(), new Executable() {
                 @Override
-                public Essence run(Particle particle) {
+                public Essence run(Alice alice) {
                     return atom.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getFactors());
                 }
             }));

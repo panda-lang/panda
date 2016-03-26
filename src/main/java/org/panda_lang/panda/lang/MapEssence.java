@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.syntax.*;
 
 import java.util.HashMap;
@@ -13,22 +13,22 @@ public class MapEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Particle particle) {
+            public Essence run(Alice alice) {
                 return new MapEssence();
             }
         });
         vial.method(new Method("put", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                MapEssence map = particle.getValueOfInstance();
-                return map.getMap().put(particle.getValueOfFactor(0), particle.getValueOfFactor(1));
+            public Essence run(Alice alice) {
+                MapEssence map = alice.getValueOfInstance();
+                return map.getMap().put(alice.getValueOfFactor(0), alice.getValueOfFactor(1));
             }
         }));
         vial.method(new Method("get", new Executable() {
             @Override
-            public Essence run(Particle particle) {
-                MapEssence map = particle.getValueOfInstance();
-                return map.getMap().get(particle.getValueOfFactor(0));
+            public Essence run(Alice alice) {
+                MapEssence map = alice.getValueOfInstance();
+                return map.getMap().get(alice.getValueOfFactor(0));
             }
         }));
     }

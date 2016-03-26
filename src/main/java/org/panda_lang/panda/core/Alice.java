@@ -3,22 +3,24 @@ package org.panda_lang.panda.core;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.memory.Memory;
+import org.panda_lang.panda.core.syntax.Block;
 import org.panda_lang.panda.core.syntax.Essence;
 import org.panda_lang.panda.core.syntax.Factor;
 
-public class Particle {
+public class Alice {
 
     private PandaScript pandaScript;
+    private Block block;
     private Memory memory;
     private Essence essence;
     private Factor instance;
     private Factor[] factors;
     private Object custom;
 
-    public Particle() {
+    public Alice() {
     }
 
-    public Particle(PandaScript pandaScript, Memory memory, Essence essence, Factor instance, Factor... factors) {
+    public Alice(PandaScript pandaScript, Memory memory, Essence essence, Factor instance, Factor... factors) {
         this.pandaScript = pandaScript;
         this.memory = memory;
         this.essence = essence;
@@ -26,38 +28,43 @@ public class Particle {
         this.factors = factors;
     }
 
-    public Particle pandaScript(PandaScript pandaScript) {
+    public Alice pandaScript(PandaScript pandaScript) {
         this.pandaScript = pandaScript;
         return this;
     }
 
-    public Particle memory(Memory memory) {
+    public Alice block(Block block) {
+        this.block = block;
+        return this;
+    }
+
+    public Alice memory(Memory memory) {
         this.memory = memory;
         return this;
     }
 
-    public Particle essence(Essence essence) {
+    public Alice essence(Essence essence) {
         this.essence = essence;
         return this;
     }
 
-    public Particle instance(Factor instance) {
+    public Alice instance(Factor instance) {
         this.instance = instance;
         return this;
     }
 
-    public Particle factors(Factor... factors) {
+    public Alice factors(Factor... factors) {
         this.factors = factors;
         return this;
     }
 
-    public Particle custom(Object custom) {
+    public Alice custom(Object custom) {
         this.custom = custom;
         return this;
     }
 
-    public Particle fork() {
-        return new Particle(pandaScript, memory, essence, instance, factors);
+    public Alice fork() {
+        return new Alice(pandaScript, memory, essence, instance, factors);
     }
 
     public boolean hasFactors() {
@@ -131,6 +138,14 @@ public class Particle {
 
     public void setMemory(Memory memory) {
         this.memory = memory;
+    }
+
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
     }
 
     public PandaScript getPandaScript() {

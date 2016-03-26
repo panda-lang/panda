@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.lang.DoubleEssence;
@@ -16,7 +16,7 @@ public class Math implements Executable {
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         Stack<Numeric> values = new Stack<>();
 
         for (int i = 0; i < mathBuilder.size(); i++) {
@@ -49,7 +49,7 @@ public class Math implements Executable {
             }
             else {
                 Factor factor = mathBuilder.getParameter();
-                Numeric value = factor.getValue(particle);
+                Numeric value = factor.getValue(alice);
                 values.push(value);
             }
         }

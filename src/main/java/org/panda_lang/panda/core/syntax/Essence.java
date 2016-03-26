@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.memory.Memory;
 
 import java.util.Map;
@@ -24,20 +24,20 @@ public class Essence implements NamedExecutable {
         this.memory = new Memory();
     }
 
-    public void initializeParticle(Particle particle) {
-        this.memory = new Memory(particle.getMemory());
+    public void initializeParticle(Alice alice) {
+        this.memory = new Memory(alice.getMemory());
     }
 
-    public Essence call(String methodName, Particle particle) {
-        return vial.call(methodName, particle(particle));
+    public Essence call(String methodName, Alice alice) {
+        return vial.call(methodName, particle(alice));
     }
 
-    public Particle particle(Particle particle) {
-        return new Particle(particle.getPandaScript(), memory, this, new Factor(this), particle.getFactors());
+    public Alice particle(Alice alice) {
+        return new Alice(alice.getPandaScript(), memory, this, new Factor(this), alice.getFactors());
     }
 
     @Override
-    public Essence run(Particle particle) {
+    public Essence run(Alice alice) {
         return this;
     }
 

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 public class Runtime implements NamedExecutable {
 
@@ -33,20 +33,20 @@ public class Runtime implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        particle.setInstance(instance);
-        particle.setFactors(factors);
+    public Essence run(Alice alice) {
+        alice.setInstance(instance);
+        alice.setFactors(factors);
         if (method != null) {
-            return method.run(particle);
+            return method.run(alice);
         }
         else if (math != null) {
-            return math.run(particle);
+            return math.run(alice);
         }
         else if (equality != null) {
-            return equality.run(particle);
+            return equality.run(alice);
         }
         else if (executable != null) {
-            return executable.run(particle);
+            return executable.run(alice);
         }
         return null;
     }

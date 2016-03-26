@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.syntax;
 
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 
 public class Return implements NamedExecutable {
 
@@ -17,8 +17,8 @@ public class Return implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        return factor.getValue(particle);
+    public Essence run(Alice alice) {
+        return factor.getValue(alice);
     }
 
     public final Block getBlock() {

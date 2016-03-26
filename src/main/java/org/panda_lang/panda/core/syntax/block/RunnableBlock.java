@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.syntax.block;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.Particle;
+import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -28,8 +28,8 @@ public class RunnableBlock extends Block {
     }
 
     @Override
-    public Essence run(Particle particle) {
-        return super.run(particle);
+    public Essence run(Alice alice) {
+        return super.run(alice);
     }
 
 }
