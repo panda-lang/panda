@@ -1,8 +1,11 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.syntax.*;
-import org.panda_lang.panda.core.syntax.block.PandaBlock;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.*;
+import org.panda_lang.panda.core.statement.block.PandaBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -3,10 +3,10 @@ package org.panda_lang.panda.lang;
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Method;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.Method;
+import org.panda_lang.panda.core.statement.Vial;
 
 public class NumberEssence extends Essence {
 

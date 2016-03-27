@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core.parser;
 
-import org.panda_lang.panda.core.syntax.NamedExecutable;
+import org.panda_lang.panda.core.statement.Executable;
 
 public interface Parser {
 
-    NamedExecutable parse(Atom atom);
+    Executable parse(Atom atom);
 
 }

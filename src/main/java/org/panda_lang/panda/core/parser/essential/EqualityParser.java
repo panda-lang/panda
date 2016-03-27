@@ -4,17 +4,15 @@ import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FieldAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
-import org.panda_lang.panda.core.syntax.Equality;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Operator;
-import org.panda_lang.panda.core.syntax.Runtime;
+import org.panda_lang.panda.core.statement.Equality;
+import org.panda_lang.panda.core.statement.Operator;
 
 import java.util.Collection;
 
 public class EqualityParser implements Parser {
 
     @Override
-    public Factor parse(Atom atom) {
+    public Equality parse(Atom atom) {
         EqualityBuilder equalityBuilder = new EqualityBuilder();
         String source = atom.getSourcesDivider().getLine();
 
@@ -32,8 +30,7 @@ public class EqualityParser implements Parser {
             }
         }
 
-        Equality equality = new Equality(equalityBuilder);
-        return new Factor(new Runtime(equality));
+        return new Equality(equalityBuilder);
     }
 
 }

@@ -2,7 +2,7 @@ package org.panda_lang.panda.util;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.syntax.block.MethodBlock;
+import org.panda_lang.panda.core.statement.block.MethodBlock;
 
 import java.io.File;
 

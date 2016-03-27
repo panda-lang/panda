@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser;
 
-import org.panda_lang.panda.core.syntax.Token;
+import org.panda_lang.panda.core.statement.Token;
 
 public class SourcesDivider {
 

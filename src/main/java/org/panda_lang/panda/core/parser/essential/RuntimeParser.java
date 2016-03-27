@@ -3,8 +3,10 @@ package org.panda_lang.panda.core.parser.essential;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Runtime;
+import org.panda_lang.panda.core.statement.Equality;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.Math;
+import org.panda_lang.panda.core.statement.Runtime;
 
 public class RuntimeParser implements Parser {
 
@@ -15,12 +17,16 @@ public class RuntimeParser implements Parser {
         // Math
         if (FactorAssistant.isMath(parameter)) {
             atom.getSourcesDivider().setLine(parameter);
-            return new MathParser().parse(atom);
+            Math math = new MathParser().parse(atom);
+            Runtime runtime = new Runtime(math);
+            return new Factor(runtime);
         }
         // Equality
         else if (FactorAssistant.isEquality(atom, parameter)) {
             atom.getSourcesDivider().setLine(parameter);
-            return new EqualityParser().parse(atom);
+            Equality equality = new EqualityParser().parse(atom);
+            Runtime runtime = new Runtime(equality);
+            return new Factor(runtime);
         }
         else if (FactorAssistant.isMethod(atom, parameter)) {
             // Constructor

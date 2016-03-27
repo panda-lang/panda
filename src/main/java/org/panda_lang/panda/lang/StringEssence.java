@@ -1,9 +1,9 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Executable;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.Vial;
 
 public class StringEssence extends ObjectEssence {
 

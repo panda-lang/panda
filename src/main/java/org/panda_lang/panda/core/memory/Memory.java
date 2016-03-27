@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.memory;
 
-import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.statement.Block;
+import org.panda_lang.panda.core.Essence;
 
 import java.util.ArrayList;
 import java.util.Collection;

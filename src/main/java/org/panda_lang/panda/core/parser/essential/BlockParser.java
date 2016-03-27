@@ -1,6 +1,8 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.statement.Block;
+import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
@@ -9,8 +11,6 @@ import org.panda_lang.panda.core.parser.essential.assistant.BlockAssistant;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
-import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.NamedExecutable;
 
 public class BlockParser implements Parser {
 
@@ -52,7 +52,7 @@ public class BlockParser implements Parser {
 
             atom.update(current, current);
 
-            NamedExecutable executable = atom.getPandaParser().parseLine(line, atom);
+            Executable executable = atom.getPandaParser().parseLine(line, atom);
             if (executable instanceof Block) {
                 atom.setPrevious((Block) executable);
                 atom.getPrevious().setParent(current);

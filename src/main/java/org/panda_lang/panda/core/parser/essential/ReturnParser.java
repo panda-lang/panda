@@ -6,8 +6,8 @@ import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Return;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.Return;
 
 public class ReturnParser implements Parser {
 

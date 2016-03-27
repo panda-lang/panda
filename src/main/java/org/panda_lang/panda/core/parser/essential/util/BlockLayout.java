@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.syntax.Block;
+import org.panda_lang.panda.core.statement.Block;
 
 public class BlockLayout {
 

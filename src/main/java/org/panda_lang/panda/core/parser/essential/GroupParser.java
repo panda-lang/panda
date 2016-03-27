@@ -6,9 +6,8 @@ import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
-import org.panda_lang.panda.core.syntax.Group;
-import org.panda_lang.panda.core.syntax.Import;
-import org.panda_lang.panda.core.syntax.NamedExecutable;
+import org.panda_lang.panda.core.statement.Group;
+import org.panda_lang.panda.core.statement.Import;
 
 public class GroupParser implements Parser {
 
@@ -20,7 +19,7 @@ public class GroupParser implements Parser {
     }
 
     @Override
-    public NamedExecutable parse(Atom atom) {
+    public Group parse(Atom atom) {
         final String source = atom.getSourcesDivider().getLine();
         final StringBuilder groupBuilder = new StringBuilder();
         boolean nsFlag = false;

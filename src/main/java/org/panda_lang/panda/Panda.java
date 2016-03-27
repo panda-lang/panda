@@ -1,8 +1,8 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.Basis;
-import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Factor;
+import org.panda_lang.panda.util.Basis;
+import org.panda_lang.panda.core.statement.Block;
+import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.util.Exec;
 
 import java.util.ArrayList;

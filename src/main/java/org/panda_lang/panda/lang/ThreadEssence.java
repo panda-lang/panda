@@ -1,9 +1,11 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Alice;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.memory.Memory;
-import org.panda_lang.panda.core.syntax.*;
-import org.panda_lang.panda.core.syntax.block.ThreadBlock;
+import org.panda_lang.panda.core.statement.*;
+import org.panda_lang.panda.core.statement.block.ThreadBlock;
 
 public class ThreadEssence extends ObjectEssence {
 

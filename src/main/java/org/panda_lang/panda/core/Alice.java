@@ -2,10 +2,9 @@ package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.core.memory.Memory;
-import org.panda_lang.panda.core.syntax.Block;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Factor;
+import org.panda_lang.panda.core.statement.Block;
 
 public class Alice {
 

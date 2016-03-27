@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.syntax.Factor;
+import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.util.SimpleEntry;
 
 import java.util.Stack;

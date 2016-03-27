@@ -1,0 +1,71 @@
+package org.panda_lang.panda.core.statement;
+
+import org.panda_lang.panda.core.Alice;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.util.NamedExecutable;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Field implements NamedExecutable {
+
+    protected static final AtomicInteger identifier = new AtomicInteger();
+
+    private final int id;
+    private final String fieldName;
+    private String dataType;
+    private Factor factor;
+    private Essence value;
+
+    public Field(String fieldName) {
+        this.id = identifier.incrementAndGet();
+        this.fieldName = fieldName;
+    }
+
+    public Field(String fieldName, Factor factor) {
+        this(fieldName);
+        this.factor = factor;
+    }
+
+    public Field(String dataType, String fieldName, Factor factor) {
+        this(fieldName);
+        this.dataType = dataType;
+        this.factor = factor;
+    }
+
+    public static AtomicInteger getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public Essence run(Alice alice) {
+        value = factor != null ? factor.getValue(alice) : null;
+        alice.getMemory().put(fieldName, value);
+        return value;
+    }
+
+    public Essence getValue() {
+        return value;
+    }
+
+    public Factor getFactor() {
+        return factor;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    @Override
+    public String getName() {
+        return fieldName;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+}

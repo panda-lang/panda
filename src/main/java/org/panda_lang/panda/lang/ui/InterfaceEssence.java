@@ -1,9 +1,9 @@
 package org.panda_lang.panda.lang.ui;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.syntax.Constructor;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.statement.Constructor;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Vial;
 import org.panda_lang.panda.lang.ObjectEssence;
 import org.panda_lang.panda.lang.ui.util.PandaInterface;
 

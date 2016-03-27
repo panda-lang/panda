@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Operator;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.Operator;
 
 public class EqualityBuilder {
 
