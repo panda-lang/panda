@@ -18,7 +18,7 @@ public class Return implements NamedExecutable {
 
     @Override
     public Essence run(Alice alice) {
-        return factor.getValue(alice);
+        return factor != null ? factor.getValue(alice) : null;
     }
 
     public final Block getBlock() {

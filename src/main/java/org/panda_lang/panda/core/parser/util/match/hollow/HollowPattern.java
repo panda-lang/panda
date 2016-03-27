@@ -3,7 +3,6 @@ package org.panda_lang.panda.core.parser.util.match.hollow;
 import org.panda_lang.panda.core.parser.util.match.Matcher;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class HollowPattern implements Matcher {
@@ -73,7 +72,7 @@ public class HollowPattern implements Matcher {
         return true;
     }
 
-    public Collection<String> getHollows() {
+    public List<String> getHollows() {
         return hollows;
     }
 
