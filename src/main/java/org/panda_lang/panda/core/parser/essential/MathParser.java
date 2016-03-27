@@ -3,9 +3,8 @@ package org.panda_lang.panda.core.parser.essential;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Math;
-import org.panda_lang.panda.core.syntax.Runtime;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.Math;
 
 import java.util.Stack;
 import java.util.StringTokenizer;
@@ -13,7 +12,7 @@ import java.util.StringTokenizer;
 public class MathParser implements Parser {
 
     @Override
-    public Factor parse(Atom atom) {
+    public Math parse(Atom atom) {
         MathBuilder mathBuilder = new MathBuilder();
         Stack<Character> operators = new Stack<>();
         StringTokenizer tokenizer = new StringTokenizer(atom.getSourcesDivider().getLine(), "+-*/^()", true);
@@ -61,8 +60,7 @@ public class MathParser implements Parser {
         }
 
         mathBuilder.rewrite();
-        Math math = new Math(mathBuilder);
-        return new Factor(new Runtime(math));
+        return new Math(mathBuilder);
     }
 
     public boolean compare(char prev, char current) {

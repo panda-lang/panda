@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.syntax.Group;
+import org.panda_lang.panda.core.statement.Group;
 
 import java.util.HashMap;
 import java.util.Map;

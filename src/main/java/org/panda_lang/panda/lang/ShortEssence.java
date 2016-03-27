@@ -2,7 +2,7 @@ package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.statement.Vial;
 
 public class ShortEssence extends Numeric {
 

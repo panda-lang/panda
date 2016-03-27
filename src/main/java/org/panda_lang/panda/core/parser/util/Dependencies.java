@@ -2,10 +2,10 @@ package org.panda_lang.panda.core.parser.util;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
-import org.panda_lang.panda.core.syntax.Group;
-import org.panda_lang.panda.core.syntax.Import;
-import org.panda_lang.panda.core.syntax.Library;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.statement.Group;
+import org.panda_lang.panda.core.statement.Import;
+import org.panda_lang.panda.core.statement.Library;
+import org.panda_lang.panda.core.statement.Vial;
 
 import java.io.File;
 import java.util.ArrayList;

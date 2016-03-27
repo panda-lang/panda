@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.memory;
 
-import org.panda_lang.panda.core.syntax.Essence;
+import org.panda_lang.panda.core.Essence;
 
 public class MemoryFollower {
 

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.memory.successor;
 
-import org.panda_lang.panda.core.syntax.Field;
+import org.panda_lang.panda.core.statement.Field;
 
 public class MemoryCompartment {
 

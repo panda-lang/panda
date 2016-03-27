@@ -1,6 +1,6 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.syntax.block.MethodBlock;
+import org.panda_lang.panda.core.statement.block.MethodBlock;
 
 import java.io.File;
 import java.util.Collection;

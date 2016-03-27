@@ -2,6 +2,9 @@ package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
@@ -9,9 +12,9 @@ import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.assistant.MethodAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.syntax.*;
-import org.panda_lang.panda.core.syntax.Runtime;
-import org.panda_lang.panda.core.syntax.block.MethodBlock;
+import org.panda_lang.panda.core.statement.*;
+import org.panda_lang.panda.core.statement.Runtime;
+import org.panda_lang.panda.core.statement.block.MethodBlock;
 
 public class MethodParser implements Parser {
 

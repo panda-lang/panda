@@ -1,6 +1,6 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.syntax.block.MethodBlock;
+import org.panda_lang.panda.core.statement.block.MethodBlock;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class BenchmarkTest {
 
         List<String> list = new ArrayList<>();
         for (int i = 0; i < 100000; i++) {
-            list.add("element");
+            list.add("statement");
         }
 
         benchmark(initTime, 100000);

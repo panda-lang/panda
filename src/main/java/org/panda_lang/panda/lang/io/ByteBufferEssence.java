@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.io;
 
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.statement.Vial;
 import org.panda_lang.panda.lang.ObjectEssence;
 
 import java.nio.ByteBuffer;

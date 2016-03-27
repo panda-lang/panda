@@ -6,8 +6,8 @@ import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.assistant.FieldAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Field;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.Field;
 import org.panda_lang.panda.lang.NullEssence;
 
 public class FieldParser implements Parser {

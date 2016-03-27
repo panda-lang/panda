@@ -2,12 +2,12 @@ package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.block.PandaBlock;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.util.Dependencies;
 import org.panda_lang.panda.core.parser.util.Injection;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
-import org.panda_lang.panda.core.syntax.NamedExecutable;
-import org.panda_lang.panda.core.syntax.block.PandaBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,10 +62,10 @@ public class PandaParser {
             }
 
             atom.update(pandaBlock, pandaBlock);
-            NamedExecutable namedExecutable = parseLine(line, atom);
+            Executable executable = parseLine(line, atom);
 
             for (Injection injection : injections) {
-                injection.call(atom, namedExecutable);
+                injection.call(atom, executable);
             }
         }
 
@@ -80,7 +80,7 @@ public class PandaParser {
         return pandaScript;
     }
 
-    public NamedExecutable parseLine(String line, Atom atom) {
+    public Executable parseLine(String line, Atom atom) {
         Parser parser = atom.getParserCenter().getParser(atom, line);
 
         // {initializer.not.found}

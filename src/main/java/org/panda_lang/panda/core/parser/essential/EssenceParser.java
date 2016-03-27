@@ -5,8 +5,8 @@ import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.core.syntax.Essence;
-import org.panda_lang.panda.core.syntax.Factor;
+import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.lang.*;
 
 public class EssenceParser implements Parser {

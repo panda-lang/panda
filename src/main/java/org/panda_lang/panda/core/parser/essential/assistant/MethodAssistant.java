@@ -3,8 +3,8 @@ package org.panda_lang.panda.core.parser.essential.assistant;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.syntax.Factor;
-import org.panda_lang.panda.core.syntax.Vial;
+import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.Vial;
 
 import java.util.Stack;
 
