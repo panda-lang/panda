@@ -3,11 +3,10 @@ package org.panda_lang.panda.core.statement.block;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.statement.Factor;
-import org.panda_lang.panda.core.statement.util.NamedExecutable;
 import org.panda_lang.panda.core.memory.Global;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.*;
+import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,7 +32,7 @@ public class PandaBlock extends Block {
                 .pandaScript(pandaScript)
                 .memory(memory);
 
-        for (NamedExecutable executable : getExecutables()) {
+        for (Executable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.run(alice);
             }
@@ -42,7 +41,7 @@ public class PandaBlock extends Block {
 
     @Override
     public Essence run(Alice alice) {
-        for (NamedExecutable namedExecutable : getExecutables()) {
+        for (Executable namedExecutable : getExecutables()) {
             if (namedExecutable instanceof Block) {
                 continue;
             }
@@ -52,13 +51,16 @@ public class PandaBlock extends Block {
     }
 
     public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
-        for (NamedExecutable executable : super.getExecutables()) {
-            if (executable.getClass() == blockType && executable.getName().equals(name)) {
-                Alice alice = new Alice()
-                        .pandaScript(pandaScript)
-                        .memory(memory)
-                        .factors(factors);
-                return executable.run(alice);
+        for (Executable executable : super.getExecutables()) {
+            if (executable instanceof NamedExecutable && executable.getClass() == blockType) {
+                NamedExecutable namedExecutable = (NamedExecutable) executable;
+                if (namedExecutable.getName().equals(name)) {
+                    Alice alice = new Alice()
+                            .pandaScript(pandaScript)
+                            .memory(memory)
+                            .factors(factors);
+                    return executable.run(alice);
+                }
             }
         }
         return null;
@@ -66,9 +68,10 @@ public class PandaBlock extends Block {
 
     public Collection<Vial> extractVials() {
         Collection<Vial> vials = new ArrayList<>(1);
-        for (NamedExecutable executable : super.getExecutables()) {
+        for (Executable executable : super.getExecutables()) {
             if (executable instanceof VialBlock) {
-                Vial vial = ((VialBlock) executable).getVial();
+                VialBlock vialBlock = (VialBlock) executable;
+                Vial vial = vialBlock.getVial();
                 vials.add(vial);
             }
         }

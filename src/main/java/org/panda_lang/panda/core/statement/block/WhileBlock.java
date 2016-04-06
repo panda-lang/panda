@@ -2,12 +2,12 @@ package org.panda_lang.panda.core.statement.block;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
+import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.statement.Block;
-import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.lang.BooleanEssence;
 
@@ -32,13 +32,18 @@ public class WhileBlock extends Block {
     @Override
     public Essence run(Alice alice) {
         Factor factor = factors[0];
-        while (factor.<BooleanEssence> getValue(alice).isTrue()) {
-            Essence o = super.run(alice);
-            if (o != null) {
-                return o;
+        Essence essence = null;
+
+        while (true) {
+            BooleanEssence booleanEssence = factor.getValue(alice);
+            if (booleanEssence == null || booleanEssence.isFalse() || essence != null) {
+                break;
             }
+
+            essence = super.run(alice);
         }
-        return null;
+
+        return essence;
     }
 
 }

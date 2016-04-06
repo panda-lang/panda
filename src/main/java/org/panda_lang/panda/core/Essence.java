@@ -1,10 +1,10 @@
 package org.panda_lang.panda.core;
 
-import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.core.memory.Memory;
+import org.panda_lang.panda.core.statement.Factor;
 import org.panda_lang.panda.core.statement.Field;
-import org.panda_lang.panda.core.statement.util.NamedExecutable;
 import org.panda_lang.panda.core.statement.Vial;
+import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -99,6 +99,10 @@ public class Essence implements NamedExecutable {
 
             Vial currentVial = getVial();
             Vial comparedVial = compared.getVial();
+
+            if (currentVial == null || comparedVial == null) {
+                return false;
+            }
 
             if (currentVial.isVeritableVial() || comparedVial.isVeritableVial()) {
                 if (!currentVial.equals(comparedVial)) {

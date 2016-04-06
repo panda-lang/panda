@@ -1,11 +1,15 @@
 // Main method called when the script starts
 method main() {
+    // Flag
+    Boolean flag = true;
     // Infinite loop
-    while (true) {
+    while (flag) {
         // Loop 10 times
         for (10) {
             // Display current milliseconds
             System.print(System.currentTimeMillis());
         }
+        // Exit
+        flag = false;
     }
 }

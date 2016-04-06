@@ -2,10 +2,10 @@ package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.statement.util.NamedExecutable;
 import org.panda_lang.panda.core.memory.Cache;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.util.ExecutableCell;
+import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
 import java.util.ArrayList;
 import java.util.Collection;

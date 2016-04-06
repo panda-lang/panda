@@ -1,9 +1,9 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Alice;
+import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.statement.Constructor;
-import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.statement.Vial;
 
 public class BooleanEssence extends ObjectEssence {
