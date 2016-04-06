@@ -4,7 +4,6 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.statement.util.NamedExecutable;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -50,7 +49,7 @@ public class VialBlock extends Block {
     public Alice initializeFields(Essence essence) {
         Alice alice = new Alice().pandaScript(pandaScript);
         alice.setMemory(essence.getMemory());
-        for (NamedExecutable executable : getExecutables()) {
+        for (Executable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.run(alice);
             }
@@ -64,15 +63,17 @@ public class VialBlock extends Block {
     }
 
     @Override
-    public void addExecutable(NamedExecutable executable) {
+    public void addExecutable(Executable executable) {
         if (executable instanceof Field) {
-            vial.getFields().put(executable.getName(), (Field) executable);
+            Field field = (Field) executable;
+            vial.getFields().put(field.getName(), field);
         }
         else if (executable instanceof MethodBlock) {
-            vial.method(new Method(executable));
+            MethodBlock methodBlock = (MethodBlock) executable;
+            vial.method(new Method(methodBlock));
         }
         else {
-            System.out.println("Cannot add " + executable.getName() + " (" + executable.getClass().getSimpleName() + ") to vial (class)");
+            System.out.println("Cannot add " + executable + " (" + executable.getClass().getSimpleName() + ") to vial (class)");
         }
     }
 

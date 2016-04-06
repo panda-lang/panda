@@ -22,9 +22,11 @@ public class Equality implements Executable {
         boolean flag = false;
 
         if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
-            flag = oneFactor.getValue(alice).equals(otherFactor.getValue(alice));
-            flag = (operator == Operator.EQUALS_TO) == flag;
+            Essence oneFactorValue = oneFactor.getValue(alice);
+            Essence otherFactorValue = otherFactor.getValue(alice);
 
+            flag = oneFactorValue.equals(otherFactorValue);
+            flag = (operator == Operator.EQUALS_TO) == flag;
         }
         else {
             //TODO

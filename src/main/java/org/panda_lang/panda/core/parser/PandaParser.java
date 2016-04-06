@@ -2,12 +2,12 @@ package org.panda_lang.panda.core.parser;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.core.statement.Executable;
-import org.panda_lang.panda.core.statement.block.PandaBlock;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.util.Dependencies;
 import org.panda_lang.panda.core.parser.util.Injection;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.block.PandaBlock;
 
 import java.util.ArrayList;
 import java.util.Collection;

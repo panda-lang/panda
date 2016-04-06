@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core.parser.essential;
 
+import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.parser.Atom;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
-import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.statement.Factor;
 
 public class FactorParser implements Parser {

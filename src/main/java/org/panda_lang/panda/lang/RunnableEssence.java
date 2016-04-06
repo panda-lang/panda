@@ -2,9 +2,11 @@ package org.panda_lang.panda.lang;
 
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.memory.Memory;
-import org.panda_lang.panda.core.statement.*;
+import org.panda_lang.panda.core.statement.Constructor;
+import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.statement.Method;
+import org.panda_lang.panda.core.statement.Vial;
 import org.panda_lang.panda.core.statement.block.RunnableBlock;
 
 public class RunnableEssence extends ObjectEssence {

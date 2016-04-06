@@ -1,8 +1,8 @@
 package org.panda_lang.panda.lang.net;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.parser.essential.util.Numeric;
 import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.statement.Method;
 import org.panda_lang.panda.core.statement.Vial;
