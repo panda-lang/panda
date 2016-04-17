@@ -14,7 +14,7 @@ import org.panda_lang.panda.lang.BooleanEssence;
 public class WhileBlock extends Block {
 
     public WhileBlock() {
-        super.setName("while::" + atomicInteger.incrementAndGet());
+        super.setName("while::" + blockIDAssigner.incrementAndGet());
     }
 
     public static void initialize(Panda panda) {
@@ -30,7 +30,7 @@ public class WhileBlock extends Block {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         Factor factor = factors[0];
         Essence essence = null;
 
@@ -40,7 +40,7 @@ public class WhileBlock extends Block {
                 break;
             }
 
-            essence = super.run(alice);
+            essence = super.execute(alice);
         }
 
         return essence;

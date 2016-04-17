@@ -13,7 +13,7 @@ import org.panda_lang.panda.core.statement.Block;
 public class ForBlock extends Block {
 
     public ForBlock() {
-        super.setName("for::" + atomicInteger.incrementAndGet());
+        super.setName("for::" + blockIDAssigner.incrementAndGet());
     }
 
     public static void initialize(Panda panda) {
@@ -29,10 +29,10 @@ public class ForBlock extends Block {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         Numeric times = factors[0].getValue(alice);
         for (int i = 0; i < times.getInt(); i++) {
-            Essence o = super.run(alice);
+            Essence o = super.execute(alice);
             if (o != null) {
                 return o;
             }

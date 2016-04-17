@@ -9,7 +9,7 @@ import org.panda_lang.panda.core.statement.Block;
 public class ElseThenBlock extends Block {
 
     public ElseThenBlock() {
-        super.setName("else-then::" + atomicInteger.incrementAndGet());
+        super.setName("else-then::" + blockIDAssigner.incrementAndGet());
     }
 
     public static void initialize(Panda panda) {

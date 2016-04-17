@@ -12,7 +12,7 @@ public class CharEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 if (alice.hasFactors()) {
                     return alice.getValueOfFactor(0);
                 }

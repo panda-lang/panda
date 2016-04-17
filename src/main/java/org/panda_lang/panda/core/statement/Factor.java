@@ -31,7 +31,7 @@ public class Factor implements Executable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         return getValue(alice);
     }
 
@@ -73,7 +73,7 @@ public class Factor implements Executable {
     }
 
     public Essence getRuntimeValue(Alice alice) {
-        return runtime.run(alice);
+        return runtime.execute(alice);
     }
 
     public Essence getDefinedEssence() {

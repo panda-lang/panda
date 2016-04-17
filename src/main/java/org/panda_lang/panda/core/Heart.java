@@ -16,7 +16,7 @@ public class Heart implements Executable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         Memory memory = alice.getMemory();
         Cache cache = memory.getCache();
 
@@ -33,14 +33,14 @@ public class Heart implements Executable {
                         .fork()
                         .memory(blockMemory);
                 blockMemory.setBlock((Block) executable);
-                result = executable.run(blockAlice);
+                result = executable.execute(blockAlice);
             }
             else if (executable instanceof Return) {
-                result = executable.run(alice);
+                result = executable.execute(alice);
                 cache.proceed(false);
             }
             else if (executable != null) {
-                result = executable.run(alice);
+                result = executable.execute(alice);
             }
             else {
                 result = null;

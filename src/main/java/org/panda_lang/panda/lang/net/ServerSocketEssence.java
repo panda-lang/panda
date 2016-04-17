@@ -20,7 +20,7 @@ public class ServerSocketEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 Numeric port = alice.getValueOfFactor(0);
                 try {
                     return new ServerSocketEssence(port.getInt());
@@ -32,7 +32,7 @@ public class ServerSocketEssence extends ObjectEssence {
         });
         vial.method(new Method("accept", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 ServerSocketEssence serverSocket = alice.getValueOfInstance();
                 try {
                     return new SocketEssence(serverSocket.getServerSocket().accept());

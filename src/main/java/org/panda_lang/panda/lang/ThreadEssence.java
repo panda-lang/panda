@@ -16,13 +16,13 @@ public class ThreadEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return alice.hasFactors() ? new ThreadEssence(alice.getValueOfFactor(0).toString()) : new ThreadEssence();
             }
         });
         vial.method(new Method("start", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 ThreadEssence thread = alice.getValueOfInstance();
                 thread.start(alice);
                 return thread;
@@ -30,14 +30,14 @@ public class ThreadEssence extends ObjectEssence {
         }));
         vial.method(new Method("getName", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 ThreadEssence thread = alice.getValueOfInstance();
                 return new StringEssence(thread.getName());
             }
         }));
         vial.method(new Method("currentThread", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new ThreadEssence(Thread.currentThread());
             }
         }));

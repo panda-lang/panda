@@ -37,7 +37,7 @@ public class Field implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         value = factor != null ? factor.getValue(alice) : null;
         alice.getMemory().put(fieldName, value);
         return value;

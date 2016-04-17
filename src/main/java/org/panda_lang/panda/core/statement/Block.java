@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Block implements NamedExecutable {
 
-    protected static final AtomicInteger atomicInteger = new AtomicInteger();
+    protected static final AtomicInteger blockIDAssigner = new AtomicInteger();
 
     protected List<ExecutableCell> executableCells;
     protected List<Field> fields;
@@ -33,7 +33,7 @@ public class Block implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         Memory memory = alice.getMemory();
         Cache cache = memory.getCache();
 
@@ -55,14 +55,14 @@ public class Block implements NamedExecutable {
                         .fork()
                         .memory(blockMemory);
                 blockMemory.setBlock((Block) executable);
-                result = executable.run(blockAlice);
+                result = executable.execute(blockAlice);
             }
             else if (executable instanceof Return) {
-                result = executable.run(alice);
+                result = executable.execute(alice);
                 cache.proceed(false);
             }
             else if (executable != null) {
-                result = executable.run(alice);
+                result = executable.execute(alice);
             }
             else {
                 result = null;
@@ -120,9 +120,9 @@ public class Block implements NamedExecutable {
         return list;
     }
 
-    public void setExecutables(Collection<NamedExecutable> newExecutables) {
+    public void setExecutables(Collection<Executable> newExecutables) {
         executableCells.clear();
-        for (NamedExecutable executable : newExecutables) {
+        for (Executable executable : newExecutables) {
             addExecutable(executable);
         }
     }

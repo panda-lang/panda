@@ -14,13 +14,13 @@ public class ObjectEssence extends Essence {
         vial.extension(null);
         vial.constructor(new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return alice.hasFactors() ? new ObjectEssence(alice.getFactor(0)) : new ObjectEssence();
             }
         });
         vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new StringEssence(alice.getInstance().getValue(alice).toString());
             }
         }));

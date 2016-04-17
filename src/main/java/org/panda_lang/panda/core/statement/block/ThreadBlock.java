@@ -17,7 +17,7 @@ public class ThreadBlock extends Block {
     private ThreadEssence pThread;
 
     public ThreadBlock() {
-        super.setName("thread::" + atomicInteger.incrementAndGet());
+        super.setName("thread::" + blockIDAssigner.incrementAndGet());
     }
 
     public static void initialize(Panda panda) {
@@ -39,7 +39,7 @@ public class ThreadBlock extends Block {
             @Override
             public void run() {
                 for (Executable executable : block.getExecutables()) {
-                    executable.run(alice);
+                    executable.execute(alice);
                 }
             }
         });
@@ -52,7 +52,7 @@ public class ThreadBlock extends Block {
     }
 
     @Override
-    public Essence run(final Alice alice) {
+    public Essence execute(final Alice alice) {
         if (factors.length == 0) {
             start(alice);
             return null;

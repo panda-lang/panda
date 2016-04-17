@@ -25,12 +25,6 @@ public class Panda {
         this.scripts = new ArrayList<>();
     }
 
-    public static void main(String[] args) throws Exception {
-        Panda panda = new Panda();
-        panda.initializeDefaultElements();
-        panda.exec(args);
-    }
-
     public void registerExtension(PandaExtension pandaExtension) {
         pandaExtension.onLoad();
         extensions.add(pandaExtension);
@@ -92,6 +86,12 @@ public class Panda {
 
     public PandaCore getPandaCore() {
         return pandaCore;
+    }
+
+    public static void main(String[] args) throws Exception {
+        Panda panda = new Panda();
+        panda.initializeDefaultElements();
+        panda.exec(args);
     }
 
 }

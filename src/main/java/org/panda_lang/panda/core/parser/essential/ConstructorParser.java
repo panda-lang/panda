@@ -91,7 +91,7 @@ public class ConstructorParser implements Parser {
                     }
                     runtime.setExecutable(new Executable() {
                         @Override
-                        public Essence run(Alice alice) {
+                        public Essence execute(Alice alice) {
                             return vial.initializeInstance(alice);
                         }
                     });
@@ -103,7 +103,7 @@ public class ConstructorParser implements Parser {
 
         return new Runtime(null, new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return vial.initializeInstance(alice);
             }
         }, factors);

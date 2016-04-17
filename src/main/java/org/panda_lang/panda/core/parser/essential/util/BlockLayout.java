@@ -2,6 +2,8 @@ package org.panda_lang.panda.core.parser.essential.util;
 
 import org.panda_lang.panda.core.statement.Block;
 
+import java.util.Arrays;
+
 public class BlockLayout {
 
     private final Class<? extends Block> clazz;
@@ -43,6 +45,11 @@ public class BlockLayout {
 
     public Class<? extends Block> getClazz() {
         return clazz;
+    }
+
+    @Override
+    public String toString() {
+        return clazz.getName() + Arrays.toString(indications);
     }
 
 }

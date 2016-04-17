@@ -17,14 +17,14 @@ public class PandaEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.method(new Method("reload", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 alice.getPanda().reload();
                 return null;
             }
         }));
         vial.method(new Method("loadSinglePandaFile", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 Essence essence = alice.getValueOfFactor(0);
                 if (essence instanceof StringEssence) {
                     PandaScript pandaScript = alice.getPanda().getPandaLoader().loadSimpleScript(essence.toString());
@@ -40,7 +40,7 @@ public class PandaEssence extends ObjectEssence {
         }));
         vial.method(new Method("getVersion", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new StringEssence(Panda.PANDA_VERSION);
             }
         }));

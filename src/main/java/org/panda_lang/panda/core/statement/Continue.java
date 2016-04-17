@@ -6,7 +6,7 @@ import org.panda_lang.panda.core.Essence;
 public class Continue implements Executable {
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         return null;
     }
 
