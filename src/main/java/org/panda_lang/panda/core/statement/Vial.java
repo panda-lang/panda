@@ -60,8 +60,8 @@ public class Vial {
         if (constructor == null && method.getName().equals(name)) {
             this.constructor(new Constructor() {
                 @Override
-                public Essence run(Alice alice) {
-                    return method.run(alice);
+                public Essence execute(Alice alice) {
+                    return method.execute(alice);
                 }
             });
         }
@@ -82,7 +82,7 @@ public class Vial {
             System.out.println("Method '" + name + "' not found in instance of " + name);
             return null;
         }
-        return method.run(alice);
+        return method.execute(alice);
     }
 
     public Essence initializeInstance(Alice alice) {
@@ -91,7 +91,7 @@ public class Vial {
         alice = essence.particle(alice);
 
         if (constructor != null) {
-            Essence instance = constructor.run(alice);
+            Essence instance = constructor.execute(alice);
             if (instance != null) {
                 essence = instance;
                 instance.setVial(this);

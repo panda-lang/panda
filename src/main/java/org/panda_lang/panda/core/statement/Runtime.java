@@ -34,20 +34,20 @@ public class Runtime implements Executable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         alice.setInstance(instance);
         alice.setFactors(factors);
         if (method != null) {
-            return method.run(alice);
+            return method.execute(alice);
         }
         else if (math != null) {
-            return math.run(alice);
+            return math.execute(alice);
         }
         else if (equality != null) {
-            return equality.run(alice);
+            return equality.execute(alice);
         }
         else if (executable != null) {
-            return executable.run(alice);
+            return executable.execute(alice);
         }
         return null;
     }

@@ -15,7 +15,7 @@ public class IfThenBlock extends Block {
     private Block elseThenBlock;
 
     public IfThenBlock() {
-        super.setName("if-then::" + atomicInteger.incrementAndGet());
+        super.setName("if-then::" + blockIDAssigner.incrementAndGet());
     }
 
     public static void initialize(Panda panda) {
@@ -31,13 +31,13 @@ public class IfThenBlock extends Block {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         BooleanEssence flag = factors[0].getValue(alice);
         if (flag != null && flag.isTrue()) {
-            return super.run(alice);
+            return super.execute(alice);
         }
         else if (elseThenBlock != null) {
-            return elseThenBlock.run(alice);
+            return elseThenBlock.execute(alice);
         }
         return null;
     }

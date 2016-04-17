@@ -12,7 +12,7 @@ import org.panda_lang.panda.core.statement.Block;
 public class RunnableBlock extends Block {
 
     public RunnableBlock() {
-        super.setName("runnable::" + atomicInteger.incrementAndGet());
+        super.setName("runnable::" + blockIDAssigner.incrementAndGet());
     }
 
     public static void initialize(Panda panda) {
@@ -28,8 +28,8 @@ public class RunnableBlock extends Block {
     }
 
     @Override
-    public Essence run(Alice alice) {
-        return super.run(alice);
+    public Essence execute(Alice alice) {
+        return super.execute(alice);
     }
 
 }

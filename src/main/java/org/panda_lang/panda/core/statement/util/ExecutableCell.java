@@ -19,8 +19,8 @@ public class ExecutableCell implements Executable {
     }
 
     @Override
-    public Essence run(Alice alice) {
-        return executable.run(alice);
+    public Essence execute(Alice alice) {
+        return executable.execute(alice);
     }
 
     public Executable getExecutable() {

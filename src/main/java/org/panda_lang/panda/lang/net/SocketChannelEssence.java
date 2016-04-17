@@ -18,7 +18,7 @@ public class SocketChannelEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.method(new Method("write", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 SocketChannelEssence socketChannel = alice.getValueOfInstance();
                 ByteBufferEssence byteBuffer = alice.getValueOfFactor(0);
                 try {
@@ -31,7 +31,7 @@ public class SocketChannelEssence extends ObjectEssence {
         }));
         vial.method(new Method("read", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 SocketChannelEssence socketChannel = alice.getValueOfInstance();
                 ByteBufferEssence pByteBuffer = new ByteBufferEssence();
                 try {

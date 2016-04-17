@@ -51,14 +51,14 @@ public class VialBlock extends Block {
         alice.setMemory(essence.getMemory());
         for (Executable executable : getExecutables()) {
             if (executable instanceof Field) {
-                executable.run(alice);
+                executable.execute(alice);
             }
         }
         return alice;
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         return vial.initializeInstance(alice);
     }
 

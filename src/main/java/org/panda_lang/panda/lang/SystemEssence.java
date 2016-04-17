@@ -13,26 +13,26 @@ public class SystemEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.method(new Method("print", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 System.out.println(alice.getValueOfFactor(0));
                 return null;
             }
         }));
         vial.method(new Method("currentTimeMillis", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new LongEssence(System.currentTimeMillis());
             }
         }));
         vial.method(new Method("nanoTime", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new LongEssence(System.nanoTime());
             }
         }));
         vial.method(new Method("exit", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 System.exit(-1);
                 return new IntEssence(-1);
             }

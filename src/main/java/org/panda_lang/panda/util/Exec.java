@@ -36,6 +36,11 @@ public class Exec {
                     sScript.call(MethodBlock.class, "main");
                     break;
                 default:
+                    PandaScript dScript = panda.getPandaLoader().loadSingleScript(new File(parts[0]));
+                    if (dScript == null) {
+                        return;
+                    }
+                    dScript.call(MethodBlock.class, "main");
                     break;
             }
 

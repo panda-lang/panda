@@ -40,7 +40,7 @@ public class MethodParser implements Parser {
                 final Vial vial = mi.getVial();
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
-                    public Essence run(Alice alice) {
+                    public Essence execute(Alice alice) {
                         Alice fork = alice
                                 .fork()
                                 .pandaScript(atom.getPandaScript())
@@ -73,11 +73,11 @@ public class MethodParser implements Parser {
 
                     return new Runtime(instance, new Executable() {
                         @Override
-                        public Essence run(Alice alice) {
+                        public Essence execute(Alice alice) {
                             alice.setInstance(instance);
                             Essence essence = instance.getValue(alice);
                             alice = essence.particle(alice);
-                            return method.run(alice);
+                            return method.execute(alice);
                         }
                     }, mi.getFactors());
                 }
@@ -85,7 +85,7 @@ public class MethodParser implements Parser {
                 // {instance.type.undefined}
                 return new Runtime(instance, new Executable() {
                     @Override
-                    public Essence run(Alice alice) {
+                    public Essence execute(Alice alice) {
                         alice.setInstance(instance);
                         Essence essence = instance.getValue(alice);
                         String methodName = mi.getMethodName();
@@ -99,7 +99,7 @@ public class MethodParser implements Parser {
         else {
             return new Runtime(new Method(mi.getMethodName(), new Executable() {
                 @Override
-                public Essence run(Alice alice) {
+                public Essence execute(Alice alice) {
                     return atom.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getFactors());
                 }
             }));

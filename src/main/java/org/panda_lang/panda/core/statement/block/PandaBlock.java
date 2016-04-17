@@ -34,18 +34,18 @@ public class PandaBlock extends Block {
 
         for (Executable executable : getExecutables()) {
             if (executable instanceof Field) {
-                executable.run(alice);
+                executable.execute(alice);
             }
         }
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         for (Executable namedExecutable : getExecutables()) {
             if (namedExecutable instanceof Block) {
                 continue;
             }
-            namedExecutable.run(alice);
+            namedExecutable.execute(alice);
         }
         return null;
     }
@@ -59,7 +59,7 @@ public class PandaBlock extends Block {
                             .pandaScript(pandaScript)
                             .memory(memory)
                             .factors(factors);
-                    return executable.run(alice);
+                    return executable.execute(alice);
                 }
             }
         }

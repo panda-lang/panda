@@ -15,7 +15,7 @@ public class FileEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 StringEssence file = alice.getValueOfFactor(0);
                 return new FileEssence(file.toString());
             }

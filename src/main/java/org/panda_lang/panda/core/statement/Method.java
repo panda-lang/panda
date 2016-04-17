@@ -19,9 +19,9 @@ public class Method implements NamedExecutable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         if (executable != null) {
-            return executable.run(alice);
+            return executable.execute(alice);
         }
         return null;
     }

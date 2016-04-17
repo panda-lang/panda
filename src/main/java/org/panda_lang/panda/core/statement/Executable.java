@@ -5,6 +5,6 @@ import org.panda_lang.panda.core.Essence;
 
 public interface Executable {
 
-    Essence run(Alice alice);
+    Essence execute(Alice alice);
 
 }

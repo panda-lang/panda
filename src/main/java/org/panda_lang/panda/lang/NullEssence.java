@@ -13,7 +13,7 @@ public class NullEssence extends Essence {
         vial.group("panda.lang");
         vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new StringEssence("null");
             }
         }));

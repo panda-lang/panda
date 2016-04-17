@@ -17,20 +17,20 @@ public class MapEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new MapEssence();
             }
         });
         vial.method(new Method("put", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 MapEssence map = alice.getValueOfInstance();
                 return map.getMap().put(alice.getValueOfFactor(0), alice.getValueOfFactor(1));
             }
         }));
         vial.method(new Method("get", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 MapEssence map = alice.getValueOfInstance();
                 return map.getMap().get(alice.getValueOfFactor(0));
             }

@@ -17,7 +17,7 @@ public class Math implements Executable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         Stack<Numeric> values = new Stack<>();
 
         for (int i = 0; i < mathBuilder.size(); i++) {

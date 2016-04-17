@@ -16,15 +16,15 @@ public class RunnableEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new RunnableEssence();
             }
         });
-        vial.method(new Method("run", new Executable() {
+        vial.method(new Method("execute", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 RunnableEssence runnable = alice.getValueOfInstance();
-                return runnable.run(alice);
+                return runnable.execute(alice);
             }
         }));
     }
@@ -35,12 +35,12 @@ public class RunnableEssence extends ObjectEssence {
     public RunnableEssence() {
     }
 
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         if (memory != null) {
             Memory threadMemory = new Memory(memory);
             alice.setMemory(threadMemory);
         }
-        return block != null ? block.run(alice) : null;
+        return block != null ? block.execute(alice) : null;
     }
 
     public void setBlock(RunnableBlock block) {

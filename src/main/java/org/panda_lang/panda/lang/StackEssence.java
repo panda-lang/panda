@@ -16,25 +16,25 @@ public class StackEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new StackEssence();
             }
         });
         vial.method(new Method("push", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return alice.<StackEssence> getValueOfInstance().getStack().push(alice.getValueOfFactor(0));
             }
         }));
         vial.method(new Method("peek", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return alice.<StackEssence> getValueOfInstance().getStack().peek();
             }
         }));
         vial.method(new Method("pop", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return alice.<StackEssence> getValueOfInstance().getStack().pop();
             }
         }));

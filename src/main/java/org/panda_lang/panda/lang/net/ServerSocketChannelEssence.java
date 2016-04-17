@@ -21,7 +21,7 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         vial.group("panda.network");
         vial.constructor(new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 int port = alice.<Numeric> getValueOfFactor(0).getInt();
                 try {
                     return new ServerSocketChannelEssence(port);
@@ -33,7 +33,7 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         });
         vial.method(new Method("accept", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 SocketChannel socketChannel = null;
                 try {
                     socketChannel = alice.<ServerSocketChannelEssence> getValueOfInstance().getServerSocketChannel().accept();
@@ -45,7 +45,7 @@ public class ServerSocketChannelEssence extends ObjectEssence {
         }));
         vial.method(new Method("configureBlocking", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 ServerSocketChannelEssence serverSocketChannel = alice.getValueOfInstance();
                 BooleanEssence flag = alice.getValueOfFactor(0);
                 try {

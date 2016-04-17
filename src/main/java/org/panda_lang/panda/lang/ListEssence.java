@@ -17,13 +17,13 @@ public class ListEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new ListEssence();
             }
         });
         vial.method(new Method("add", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 ListEssence list = alice.getValueOfInstance();
                 list.getList().add(alice.getValueOfFactor(0));
                 return null;

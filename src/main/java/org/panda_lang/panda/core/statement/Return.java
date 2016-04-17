@@ -18,7 +18,7 @@ public class Return implements Executable {
     }
 
     @Override
-    public Essence run(Alice alice) {
+    public Essence execute(Alice alice) {
         return factor != null ? factor.getValue(alice) : null;
     }
 

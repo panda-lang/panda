@@ -15,19 +15,19 @@ public class NumberEssence extends Essence {
         vial.group("panda.lang");
         vial.constructor(new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return null;
             }
         });
         vial.method(new Method("valueOf", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return null;
             }
         }));
         vial.method(new Method("toString", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 NumberEssence number = alice.getInstance().getValue(alice);
                 return new StringEssence(number.toString());
             }

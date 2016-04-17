@@ -14,20 +14,20 @@ public class ArrayEssence extends Essence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new ArrayEssence(alice.getFactors());
             }
         });
         vial.method(new Method("size", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 ArrayEssence array = alice.getValueOfInstance();
                 return new IntEssence(array.getArray().length);
             }
         }));
         vial.method(new Method("get", new Executable() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 Numeric numeric = alice.getValueOfFactor(0);
                 ArrayEssence instance = alice.getValueOfInstance();
                 return instance.get(alice, numeric.getInt());

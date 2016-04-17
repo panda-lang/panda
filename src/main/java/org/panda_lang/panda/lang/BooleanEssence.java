@@ -13,7 +13,7 @@ public class BooleanEssence extends ObjectEssence {
         vial.group("panda.lang");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 Essence essence = alice.getValueOfFactor(0);
                 if (essence instanceof NullEssence) {
                     return new BooleanEssence(false);

@@ -16,7 +16,7 @@ public class InterfaceEssence extends ObjectEssence {
         vial.group("panda.lang.ui");
         vial.constructor(new Constructor() {
             @Override
-            public Essence run(Alice alice) {
+            public Essence execute(Alice alice) {
                 return new InterfaceEssence();
             }
         });

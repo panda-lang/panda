@@ -30,8 +30,8 @@ public class MethodBlock extends Block {
     }
 
     @Override
-    public Essence run(Alice alice) {
-        return super.run(alice);
+    public Essence execute(Alice alice) {
+        return super.execute(alice);
     }
 
     @Override
@@ -48,8 +48,8 @@ public class MethodBlock extends Block {
             }
 
             @Override
-            public Essence run(Alice alice) {
-                return methodBlock.run(alice);
+            public Essence execute(Alice alice) {
+                return methodBlock.execute(alice);
             }
         });
     }
