@@ -6,6 +6,8 @@ import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.Block;
 import org.panda_lang.panda.core.statement.Factor;
 
+import java.util.Arrays;
+
 public class Alice {
 
     private PandaScript pandaScript;
@@ -63,7 +65,7 @@ public class Alice {
     }
 
     public Alice fork() {
-        return new Alice(pandaScript, memory, essence, instance, factors);
+        return new Alice(pandaScript, memory, essence, instance, factors).custom(custom);
     }
 
     public boolean hasFactors() {
@@ -149,6 +151,19 @@ public class Alice {
 
     public PandaScript getPandaScript() {
         return pandaScript;
+    }
+
+    @Override
+    public String toString() {
+        return "Alice{" +
+                "pandaScript=" + pandaScript +
+                ", block=" + block +
+                ", memory=" + memory +
+                ", essence=" + essence +
+                ", instance=" + instance +
+                ", factors=" + Arrays.toString(factors) +
+                ", custom=" + custom +
+                '}';
     }
 
 }

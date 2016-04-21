@@ -14,12 +14,13 @@ public class HollowPatternUtils {
             if (c == '"') {
                 string = !string;
             }
-            else if (Character.isWhitespace(c) && !string) {
+            else if (c == '*' && !string) {
                 if (fragmentBuilder.length() != 0) {
                     String fragment = fragmentBuilder.toString();
                     fragments.add(fragment);
                     fragmentBuilder.setLength(0);
                 }
+                fragments.add("*");
                 continue;
             }
             fragmentBuilder.append(c);

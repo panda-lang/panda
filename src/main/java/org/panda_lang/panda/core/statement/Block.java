@@ -51,8 +51,7 @@ public class Block implements NamedExecutable {
             if (executable instanceof Block) {
                 Memory blockMemory = new Memory(memory);
                 blockMemory.setCache(cache);
-                Alice blockAlice = new Alice()
-                        .fork()
+                Alice blockAlice = alice.fork()
                         .memory(blockMemory);
                 blockMemory.setBlock((Block) executable);
                 result = executable.execute(blockAlice);

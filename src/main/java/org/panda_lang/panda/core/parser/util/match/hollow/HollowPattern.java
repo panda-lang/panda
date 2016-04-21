@@ -23,7 +23,50 @@ public class HollowPattern implements Matcher {
 
     @Override
     public boolean match(String expression) {
-        List<String> fragments = HollowPatternUtils.toFragments(expression);
+        hollows.clear();
+
+        for (int f = 0; f < hollowSymbols.size(); f++) {
+            HollowSymbol hollowSymbol = hollowSymbols.get(f);
+
+            loop:
+            if (hollowSymbol.isBasis()) {
+
+                for (String variant : hollowSymbol.getVariants()) {
+                    String part = getPart(expression, 0, variant.length());
+
+                    if (variant.equals(part)) {
+                        expression = expression.substring(variant.length(), expression.length());
+                        break loop;
+                    }
+                }
+
+                return false;
+            }
+            else if (hollowSymbol.isHollow()) {
+                HollowSymbol nextHollowSymbol = hollowSymbols.size() > hollowSymbol.getIndex() + 1 ? hollowSymbols.get(hollowSymbol.getIndex() + 1) : hollowSymbol;
+
+                for (String variant : nextHollowSymbol.getVariants()) {
+                    int partIndex = expression.indexOf(variant);
+
+                    if (partIndex < 0) {
+                        return false;
+                    }
+
+                    String hollow = expression.substring(0, partIndex);
+                    expression = expression.substring(partIndex, expression.length());
+
+                    hollows.add(hollow);
+                    break loop;
+                }
+
+                hollows.add(expression);
+            }
+
+        }
+
+        return true;
+
+        /*List<String> fragments = HollowPatternUtils.toFragments(expression);
         int f = 0;
 
         hollows.clear();
@@ -68,8 +111,12 @@ public class HollowPattern implements Matcher {
             // <todo: optional>
 
         }
-
         return true;
+        */
+    }
+
+    public String getPart(String string, int beginIndex, int endIndex) {
+        return string.length() >= endIndex ? string.substring(beginIndex, endIndex) : string.substring(beginIndex, string.length());
     }
 
     public List<String> getHollows() {
