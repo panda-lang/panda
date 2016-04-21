@@ -30,7 +30,6 @@ public class Heart implements Executable {
                 Memory blockMemory = new Memory(memory);
                 blockMemory.setCache(cache);
                 Alice blockAlice = new Alice()
-                        .fork()
                         .memory(blockMemory);
                 blockMemory.setBlock((Block) executable);
                 result = executable.execute(blockAlice);

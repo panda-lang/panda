@@ -62,6 +62,7 @@ Repository: https://repo.panda-lang.org/
 ```
 ### TODO
 - Memory system
+- Associations system
 - Java implementation
 - Analyzers
 ### Other
