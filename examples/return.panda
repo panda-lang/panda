@@ -8,4 +8,5 @@ method main() {
 method get() {
     // Returns 'Text'
     return "Text";
+    System.print("oops");
 }
