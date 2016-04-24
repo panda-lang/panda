@@ -49,8 +49,8 @@ public class Math implements Executable {
                 values.push(c);
             }
             else {
-                Factor factor = mathBuilder.getParameter();
-                Numeric value = factor.getValue(alice);
+                RuntimeValue runtimeValue = mathBuilder.getParameter();
+                Numeric value = runtimeValue.getValue(alice);
                 values.push(value);
             }
         }

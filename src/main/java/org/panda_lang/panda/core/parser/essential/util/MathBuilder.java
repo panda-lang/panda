@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.util.SimpleEntry;
 
 import java.util.Stack;
@@ -20,8 +20,8 @@ public class MathBuilder {
         this.stack.push(new SimpleEntry<Type, Object>(Type.OPERATOR, c));
     }
 
-    public void append(Factor factor) {
-        this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETER, factor));
+    public void append(RuntimeValue runtimeValue) {
+        this.stack.push(new SimpleEntry<Type, Object>(Type.PARAMETER, runtimeValue));
     }
 
     @SuppressWarnings("unchecked")
@@ -38,8 +38,8 @@ public class MathBuilder {
         return (char) values[i].getValue();
     }
 
-    public Factor getParameter() {
-        return (Factor) values[i].getValue();
+    public RuntimeValue getParameter() {
+        return (RuntimeValue) values[i].getValue();
     }
 
     public int size() {

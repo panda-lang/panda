@@ -1,9 +1,9 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Math;
 
 import java.util.Stack;
@@ -12,10 +12,10 @@ import java.util.StringTokenizer;
 public class MathParser implements Parser {
 
     @Override
-    public Math parse(Atom atom) {
+    public Math parse(ParserInfo parserInfo) {
         MathBuilder mathBuilder = new MathBuilder();
         Stack<Character> operators = new Stack<>();
-        StringTokenizer tokenizer = new StringTokenizer(atom.getSourcesDivider().getLine(), "+-*/^()", true);
+        StringTokenizer tokenizer = new StringTokenizer(parserInfo.getSourcesDivider().getLine(), "+-*/^()", true);
 
         while (tokenizer.hasMoreElements()) {
             String token = tokenizer.nextToken();
@@ -47,9 +47,9 @@ public class MathParser implements Parser {
                     operators.pop();
                     break;
                 default:
-                    atom.setSourceCode(token);
-                    Factor factor = new FactorParser().parse(atom);
-                    mathBuilder.append(factor);
+                    parserInfo.setSourceCode(token);
+                    RuntimeValue runtimeValue = new FactorParser().parse(parserInfo);
+                    mathBuilder.append(runtimeValue);
                     break;
             }
 

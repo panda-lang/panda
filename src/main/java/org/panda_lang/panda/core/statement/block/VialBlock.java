@@ -4,7 +4,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.statement.*;
@@ -38,7 +38,7 @@ public class VialBlock extends Block {
     public static void initialize(Panda panda) {
         BlockLayout blockLayout = new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
             @Override
-            public Block initialize(Atom atom) {
+            public Block initialize(ParserInfo atom) {
                 Group group = atom.getPandaParser().getPandaBlock().getGroup();
                 return new VialBlock(atom.getPandaScript(), group, atom.getBlockInfo().getSpecifiers());
             }

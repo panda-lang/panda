@@ -1,11 +1,11 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Operator;
 
 public class EqualityBuilder {
 
-    private Factor one, other;
+    private RuntimeValue one, other;
     private Operator operator;
 
     public void setOperator(Operator operator) {
@@ -20,19 +20,19 @@ public class EqualityBuilder {
         this.operator = Operator.getOperator(s);
     }
 
-    public Factor getOther() {
+    public RuntimeValue getOther() {
         return other;
     }
 
-    public void setOther(Factor other) {
+    public void setOther(RuntimeValue other) {
         this.other = other;
     }
 
-    public Factor getOne() {
+    public RuntimeValue getOne() {
         return one;
     }
 
-    public void setOne(Factor one) {
+    public void setOne(RuntimeValue one) {
         this.one = one;
     }
 

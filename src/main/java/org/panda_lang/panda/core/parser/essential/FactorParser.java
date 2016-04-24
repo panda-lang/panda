@@ -1,54 +1,54 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 
 public class FactorParser implements Parser {
 
     @Override
-    public Factor parse(Atom atom) {
-        return parse(atom, atom.getSourceCode());
+    public RuntimeValue parse(ParserInfo parserInfo) {
+        return parse(parserInfo, parserInfo.getSourceCode());
     }
 
-    public Factor parse(Atom atom, String parameter) {
-        atom.setSourceCode(parameter);
+    public RuntimeValue parse(ParserInfo parserInfo, String parameter) {
+        parserInfo.setSourceCode(parameter);
 
         RuntimeParser runtimeParser = new RuntimeParser();
-        Factor runtimeFactor = runtimeParser.parse(atom);
+        RuntimeValue runtimeRuntimeValue = runtimeParser.parse(parserInfo);
 
-        if (runtimeFactor != null) {
-            return runtimeFactor;
+        if (runtimeRuntimeValue != null) {
+            return runtimeRuntimeValue;
         }
 
         EssenceParser essenceParser = new EssenceParser();
-        Essence essence = essenceParser.parse(atom);
+        Essence essence = essenceParser.parse(parserInfo);
 
         if (essence != null) {
-            return new Factor(essence);
+            return new RuntimeValue(essence);
         }
 
         VariableParser variableParser = new VariableParser();
-        return variableParser.parse(atom);
+        return variableParser.parse(parserInfo);
     }
 
-    public Factor[] parse(Atom atom, String[] parametersSources) {
-        Factor[] factors = new Factor[parametersSources.length];
-        for (int i = 0; i < factors.length; i++) {
+    public RuntimeValue[] parse(ParserInfo parserInfo, String[] parametersSources) {
+        RuntimeValue[] runtimeValues = new RuntimeValue[parametersSources.length];
+        for (int i = 0; i < runtimeValues.length; i++) {
             String src = parametersSources[i];
             if (src == null || src.isEmpty()) {
                 continue;
             }
-            factors[i] = parse(atom, src);
+            runtimeValues[i] = parse(parserInfo, src);
         }
-        return factors;
+        return runtimeValues;
     }
 
-    public Factor[] splitAndParse(Atom atom) {
-        String[] parametersSources = FactorAssistant.split(atom.getSourceCode());
-        return parse(atom, parametersSources);
+    public RuntimeValue[] splitAndParse(ParserInfo parserInfo) {
+        String[] parametersSources = FactorAssistant.split(parserInfo.getSourceCode());
+        return parse(parserInfo, parametersSources);
     }
 
 }

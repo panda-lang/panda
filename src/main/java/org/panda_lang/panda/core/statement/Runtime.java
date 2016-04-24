@@ -5,9 +5,9 @@ import org.panda_lang.panda.core.Essence;
 
 public class Runtime implements Executable {
 
-    private Factor instance;
+    private RuntimeValue instance;
     private Executable executable;
-    private Factor[] factors;
+    private RuntimeValue[] runtimeValues;
     private Equality equality;
     private Method method;
     private Math math;
@@ -27,16 +27,16 @@ public class Runtime implements Executable {
         this.math = math;
     }
 
-    public Runtime(Factor instance, Executable executable, Factor[] factors) {
+    public Runtime(RuntimeValue instance, Executable executable, RuntimeValue[] runtimeValues) {
         this.instance = instance;
         this.executable = executable;
-        this.factors = factors;
+        this.runtimeValues = runtimeValues;
     }
 
     @Override
     public Essence execute(Alice alice) {
         alice.setInstance(instance);
-        alice.setFactors(factors);
+        alice.setRuntimeValues(runtimeValues);
         if (method != null) {
             return method.execute(alice);
         }
@@ -52,7 +52,7 @@ public class Runtime implements Executable {
         return null;
     }
 
-    public void setInstance(Factor instance) {
+    public void setInstance(RuntimeValue instance) {
         this.instance = instance;
     }
 
@@ -60,8 +60,8 @@ public class Runtime implements Executable {
         this.executable = executable;
     }
 
-    public void setFactors(Factor[] factors) {
-        this.factors = factors;
+    public void setRuntimeValues(RuntimeValue[] runtimeValues) {
+        this.runtimeValues = runtimeValues;
     }
 
     public void setEquality(Equality equality) {

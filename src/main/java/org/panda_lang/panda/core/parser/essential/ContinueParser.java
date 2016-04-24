@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
@@ -18,7 +18,7 @@ public class ContinueParser implements Parser {
     }
 
     @Override
-    public Continue parse(Atom atom) {
+    public Continue parse(ParserInfo parserInfo) {
         return new Continue();
     }
 

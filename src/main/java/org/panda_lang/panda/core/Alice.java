@@ -4,7 +4,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.Block;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 
 import java.util.Arrays;
 
@@ -14,19 +14,19 @@ public class Alice {
     private Block block;
     private Memory memory;
     private Essence essence;
-    private Factor instance;
-    private Factor[] factors;
+    private RuntimeValue instance;
+    private RuntimeValue[] runtimeValues;
     private Object custom;
 
     public Alice() {
     }
 
-    public Alice(PandaScript pandaScript, Memory memory, Essence essence, Factor instance, Factor... factors) {
+    public Alice(PandaScript pandaScript, Memory memory, Essence essence, RuntimeValue instance, RuntimeValue... runtimeValues) {
         this.pandaScript = pandaScript;
         this.memory = memory;
         this.essence = essence;
         this.instance = instance;
-        this.factors = factors;
+        this.runtimeValues = runtimeValues;
     }
 
     public Alice pandaScript(PandaScript pandaScript) {
@@ -49,13 +49,13 @@ public class Alice {
         return this;
     }
 
-    public Alice instance(Factor instance) {
+    public Alice instance(RuntimeValue instance) {
         this.instance = instance;
         return this;
     }
 
-    public Alice factors(Factor... factors) {
-        this.factors = factors;
+    public Alice factors(RuntimeValue... runtimeValues) {
+        this.runtimeValues = runtimeValues;
         return this;
     }
 
@@ -65,11 +65,11 @@ public class Alice {
     }
 
     public Alice fork() {
-        return new Alice(pandaScript, memory, essence, instance, factors).custom(custom);
+        return new Alice(pandaScript, memory, essence, instance, runtimeValues).custom(custom);
     }
 
     public boolean hasFactors() {
-        return factors != null && factors.length > 0;
+        return runtimeValues != null && runtimeValues.length > 0;
     }
 
     @SuppressWarnings("unchecked")
@@ -81,8 +81,8 @@ public class Alice {
         this.custom = custom;
     }
 
-    public Factor getFactor(int i) {
-        return i < factors.length ? factors[i] : null;
+    public RuntimeValue getFactor(int i) {
+        return i < runtimeValues.length ? runtimeValues[i] : null;
     }
 
     @SuppressWarnings("unchecked")
@@ -117,20 +117,20 @@ public class Alice {
         this.essence = essence;
     }
 
-    public Factor getInstance() {
+    public RuntimeValue getInstance() {
         return instance;
     }
 
-    public void setInstance(Factor instance) {
+    public void setInstance(RuntimeValue instance) {
         this.instance = instance;
     }
 
-    public Factor[] getFactors() {
-        return factors;
+    public RuntimeValue[] getRuntimeValues() {
+        return runtimeValues;
     }
 
-    public void setFactors(Factor... factors) {
-        this.factors = factors;
+    public void setRuntimeValues(RuntimeValue... runtimeValues) {
+        this.runtimeValues = runtimeValues;
     }
 
     public Memory getMemory() {
@@ -161,7 +161,7 @@ public class Alice {
                 ", memory=" + memory +
                 ", essence=" + essence +
                 ", instance=" + instance +
-                ", factors=" + Arrays.toString(factors) +
+                ", runtimeValues=" + Arrays.toString(runtimeValues) +
                 ", custom=" + custom +
                 '}';
     }
