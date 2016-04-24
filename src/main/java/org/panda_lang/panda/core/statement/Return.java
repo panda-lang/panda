@@ -6,11 +6,11 @@ import org.panda_lang.panda.core.Essence;
 public class Return implements Executable {
 
     private final Block block;
-    private Factor factor;
+    private RuntimeValue runtimeValue;
 
-    public Return(Block block, Factor factor) {
+    public Return(Block block, RuntimeValue runtimeValue) {
         this(block);
-        this.factor = factor;
+        this.runtimeValue = runtimeValue;
     }
 
     public Return(Block block) {
@@ -19,7 +19,7 @@ public class Return implements Executable {
 
     @Override
     public Essence execute(Alice alice) {
-        return factor != null ? factor.getValue(alice) : null;
+        return runtimeValue != null ? runtimeValue.getValue(alice) : null;
     }
 
     public final Block getBlock() {

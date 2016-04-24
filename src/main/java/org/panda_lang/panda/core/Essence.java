@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core;
 
 import org.panda_lang.panda.core.memory.Memory;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Field;
 import org.panda_lang.panda.core.statement.Vial;
 import org.panda_lang.panda.core.statement.util.NamedExecutable;
@@ -36,7 +36,7 @@ public class Essence implements NamedExecutable {
     }
 
     public Alice particle(Alice alice) {
-        return new Alice(alice.getPandaScript(), memory, this, new Factor(this), alice.getFactors());
+        return new Alice(alice.getPandaScript(), memory, this, new RuntimeValue(this), alice.getRuntimeValues());
     }
 
     @Override

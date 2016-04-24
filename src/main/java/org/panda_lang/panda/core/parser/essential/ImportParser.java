@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
@@ -17,8 +17,8 @@ public class ImportParser implements Parser {
     }
 
     @Override
-    public Import parse(Atom atom) {
-        final String source = atom.getSourcesDivider().getLine();
+    public Import parse(ParserInfo parserInfo) {
+        final String source = parserInfo.getSourcesDivider().getLine();
         final StringBuilder importBuilder = new StringBuilder();
 
         int stage = 0;
@@ -62,7 +62,7 @@ public class ImportParser implements Parser {
             }
         }
 
-        atom.getPandaParser().getDependencies().importElement(importElement);
+        parserInfo.getPandaParser().getDependencies().importElement(importElement);
         return importElement;
     }
 

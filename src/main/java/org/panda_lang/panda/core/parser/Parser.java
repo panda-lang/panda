@@ -4,6 +4,6 @@ import org.panda_lang.panda.core.statement.Executable;
 
 public interface Parser {
 
-    Executable parse(Atom atom);
+    Executable parse(ParserInfo parserInfo);
 
 }

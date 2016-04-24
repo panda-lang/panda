@@ -1,19 +1,19 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.lang.*;
 
 public class EssenceParser implements Parser {
 
     @Override
-    public Essence parse(Atom atom) {
-        String parameter = atom.getSourceCode();
+    public Essence parse(ParserInfo parserInfo) {
+        String parameter = parserInfo.getSourceCode();
 
         char[] chars = parameter.toCharArray();
         char c = chars[0];
@@ -24,7 +24,7 @@ public class EssenceParser implements Parser {
         }
         // Array
         else if (c == '[') {
-            return parseArray(atom, parameter);
+            return parseArray(parserInfo, parameter);
         }
         // Number
         else if (FactorAssistant.isNumber(parameter)) {
@@ -46,11 +46,11 @@ public class EssenceParser implements Parser {
         return null;
     }
 
-    public ArrayEssence parseArray(Atom atom, String s) {
+    public ArrayEssence parseArray(ParserInfo parserInfo, String s) {
         String array = s.substring(1, s.length() - 1);
         String[] parameters = array.split(",");
-        Factor[] factors = new FactorParser().parse(atom, parameters);
-        return new ArrayEssence(factors);
+        RuntimeValue[] runtimeValues = new FactorParser().parse(parserInfo, parameters);
+        return new ArrayEssence(runtimeValues);
     }
 
     public StringEssence parseString(String s) {

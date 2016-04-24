@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.essential.assistant.FieldAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
@@ -12,9 +12,9 @@ import java.util.Collection;
 public class EqualityParser implements Parser {
 
     @Override
-    public Equality parse(Atom atom) {
+    public Equality parse(ParserInfo parserInfo) {
         EqualityBuilder equalityBuilder = new EqualityBuilder();
-        String source = atom.getSourcesDivider().getLine();
+        String source = parserInfo.getSourcesDivider().getLine();
 
         Collection<Operator> operators = Operator.getOperators(1);
         for (Operator operator : operators) {
@@ -24,8 +24,8 @@ public class EqualityParser implements Parser {
                 sides[1] = FieldAssistant.clear(sides[1], 0);
 
                 FactorParser factorParser = new FactorParser();
-                equalityBuilder.setOne(factorParser.parse(atom, sides[0]));
-                equalityBuilder.setOther(factorParser.parse(atom, sides[1]));
+                equalityBuilder.setOne(factorParser.parse(parserInfo, sides[0]));
+                equalityBuilder.setOther(factorParser.parse(parserInfo, sides[1]));
                 equalityBuilder.setOperator(operator);
             }
         }

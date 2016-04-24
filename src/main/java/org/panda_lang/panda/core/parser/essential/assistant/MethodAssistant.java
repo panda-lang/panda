@@ -1,16 +1,16 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Vial;
 
 import java.util.Stack;
 
 public class MethodAssistant {
 
-    public static MethodInfo getMethodIndication(Atom atom, String string) {
+    public static MethodInfo getMethodIndication(ParserInfo parserInfo, String string) {
         StringBuilder node = new StringBuilder();
         Stack<Character> stack = new Stack<>();
         char[] chars = string.toCharArray();
@@ -67,20 +67,20 @@ public class MethodAssistant {
 
         String params = node.toString();
         node.setLength(0);
-        atom.setSourceCode(params);
+        parserInfo.setSourceCode(params);
         FactorParser parser = new FactorParser();
-        Factor[] factors = parser.splitAndParse(atom);
+        RuntimeValue[] runtimeValues = parser.splitAndParse(parserInfo);
 
-        Factor instance;
+        RuntimeValue instance;
         if (object != null) {
-            Vial vial = atom.getDependencies().getVial(object);
+            Vial vial = parserInfo.getDependencies().getVial(object);
             if (vial != null) {
-                return new MethodInfo(vial, method, factors);
+                return new MethodInfo(vial, method, runtimeValues);
             }
-            instance = new FactorParser().parse(atom, object);
-            return new MethodInfo(instance, method, factors);
+            instance = new FactorParser().parse(parserInfo, object);
+            return new MethodInfo(instance, method, runtimeValues);
         }
-        return new MethodInfo(method, factors);
+        return new MethodInfo(method, runtimeValues);
     }
 
 

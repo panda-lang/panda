@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.statement.block;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -19,9 +19,9 @@ public class ForBlock extends Block {
     public static void initialize(Panda panda) {
         BlockLayout blockLayout = new BlockLayout(ForBlock.class, "for").initializer(new BlockInitializer() {
             @Override
-            public Block initialize(Atom atom) {
+            public Block initialize(ParserInfo atom) {
                 Block current = new ForBlock();
-                current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
+                current.setRuntimeValues(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         });
@@ -30,7 +30,7 @@ public class ForBlock extends Block {
 
     @Override
     public Essence execute(Alice alice) {
-        Numeric times = factors[0].getValue(alice);
+        Numeric times = runtimeValues[0].getValue(alice);
         for (int i = 0; i < times.getInt(); i++) {
             Essence o = super.execute(alice);
             if (o != null) {

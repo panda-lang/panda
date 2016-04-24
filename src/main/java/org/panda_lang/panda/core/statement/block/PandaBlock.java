@@ -50,7 +50,7 @@ public class PandaBlock extends Block {
         return null;
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
+    public Essence call(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
         for (Executable executable : super.getExecutables()) {
             if (executable instanceof NamedExecutable && executable.getClass() == blockType) {
                 NamedExecutable namedExecutable = (NamedExecutable) executable;
@@ -58,7 +58,7 @@ public class PandaBlock extends Block {
                     Alice alice = new Alice()
                             .pandaScript(pandaScript)
                             .memory(memory)
-                            .factors(factors);
+                            .factors(runtimeValues);
                     return executable.execute(alice);
                 }
             }

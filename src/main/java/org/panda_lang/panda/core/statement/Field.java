@@ -13,7 +13,7 @@ public class Field implements NamedExecutable {
     private final int id;
     private final String fieldName;
     private String dataType;
-    private Factor factor;
+    private RuntimeValue runtimeValue;
     private Essence value;
 
     public Field(String fieldName) {
@@ -21,15 +21,15 @@ public class Field implements NamedExecutable {
         this.fieldName = fieldName;
     }
 
-    public Field(String fieldName, Factor factor) {
+    public Field(String fieldName, RuntimeValue runtimeValue) {
         this(fieldName);
-        this.factor = factor;
+        this.runtimeValue = runtimeValue;
     }
 
-    public Field(String dataType, String fieldName, Factor factor) {
+    public Field(String dataType, String fieldName, RuntimeValue runtimeValue) {
         this(fieldName);
         this.dataType = dataType;
-        this.factor = factor;
+        this.runtimeValue = runtimeValue;
     }
 
     public static AtomicInteger getIdentifier() {
@@ -38,7 +38,7 @@ public class Field implements NamedExecutable {
 
     @Override
     public Essence execute(Alice alice) {
-        value = factor != null ? factor.getValue(alice) : null;
+        value = runtimeValue != null ? runtimeValue.getValue(alice) : null;
         alice.getMemory().put(fieldName, value);
         return value;
     }
@@ -47,8 +47,8 @@ public class Field implements NamedExecutable {
         return value;
     }
 
-    public Factor getFactor() {
-        return factor;
+    public RuntimeValue getRuntimeValue() {
+        return runtimeValue;
     }
 
     public String getDataType() {

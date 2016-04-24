@@ -1,7 +1,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.statement.Block;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.util.Basis;
 import org.panda_lang.panda.util.Exec;
 
@@ -38,9 +38,9 @@ public class Panda {
         basis.loadObjects();
     }
 
-    public void callAll(Class<? extends Block> blockType, String name, Factor... factors) {
+    public void callAll(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
         for (PandaScript script : getScripts()) {
-            script.call(blockType, name, factors);
+            script.call(blockType, name, runtimeValues);
         }
     }
 

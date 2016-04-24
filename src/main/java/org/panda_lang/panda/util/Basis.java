@@ -2,7 +2,7 @@ package org.panda_lang.panda.util;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaCore;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.*;
 import org.panda_lang.panda.core.parser.util.Injection;
 import org.panda_lang.panda.core.statement.Block;
@@ -32,9 +32,9 @@ public class Basis {
     public void loadInjections() {
         panda.getPandaCore().registerInjection(new Injection() {
             @Override
-            public void call(Atom atom, Executable namedExecutable) {
+            public void call(ParserInfo parserInfo, Executable namedExecutable) {
                 if (!(namedExecutable instanceof Block)) {
-                    atom.getPandaParser().getPandaBlock().addExecutable(namedExecutable);
+                    parserInfo.getPandaParser().getPandaBlock().addExecutable(namedExecutable);
                 }
             }
         });

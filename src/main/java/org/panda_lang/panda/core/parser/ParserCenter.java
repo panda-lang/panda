@@ -21,12 +21,12 @@ public class ParserCenter {
         Collections.sort(patterns);
     }
 
-    public Parser getParser(Atom atom, String s) {
-        final String defaultPattern = atom.getPatternExtractor().extract(s, PatternExtractor.DEFAULT);
+    public Parser getParser(ParserInfo parserInfo, String s) {
+        final String defaultPattern = parserInfo.getPatternExtractor().extract(s, PatternExtractor.DEFAULT);
         for (ParserPattern pattern : getPatterns()) {
-            String matchedPattern = pattern.getCharset() != null ? atom.getPatternExtractor().extract(s, pattern.getCharset()) : defaultPattern;
+            String matchedPattern = pattern.getCharset() != null ? parserInfo.getPatternExtractor().extract(s, pattern.getCharset()) : defaultPattern;
             if (pattern.match(matchedPattern)) {
-                atom.setVariant(pattern);
+                parserInfo.setVariant(pattern);
                 return pattern.getParser();
             }
         }

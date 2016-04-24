@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.SourcesDivider;
@@ -21,42 +21,42 @@ public class BlockParser implements Parser {
     }
 
     @Override
-    public Block parse(Atom atom) {
-        SourcesDivider sourcesDivider = atom.getSourcesDivider();
+    public Block parse(ParserInfo parserInfo) {
+        SourcesDivider sourcesDivider = parserInfo.getSourcesDivider();
         String vialLine = sourcesDivider.getLine();
         String vialIndication = BlockAssistant.extractIndication(vialLine);
         BlockInfo blockInfo = BlockAssistant.extractBlock(vialLine);
-        Block current = atom.getParent();
+        Block current = parserInfo.getParent();
 
         indication:
-        for (BlockLayout blockLayout : atom.getBlockCenter().getBlocks()) {
+        for (BlockLayout blockLayout : parserInfo.getBlockCenter().getBlocks()) {
             for (String indication : blockLayout.getIndications()) {
                 if (vialIndication.equals(indication)) {
-                    atom.setBlockInfo(blockInfo);
-                    current = blockLayout.getInitializer().initialize(atom);
-                    current.setParent(atom.getParent());
+                    parserInfo.setBlockInfo(blockInfo);
+                    current = blockLayout.getInitializer().initialize(parserInfo);
+                    current.setParent(parserInfo.getParent());
                     if (blockLayout.isConventional()) {
-                        atom.getParent().addExecutable(current);
+                        parserInfo.getParent().addExecutable(current);
                     }
                     break indication;
                 }
             }
         }
 
-        while (sourcesDivider.hasNext() && atom.getPandaParser().isHappy()) {
+        while (sourcesDivider.hasNext() && parserInfo.getPandaParser().isHappy()) {
             String line = sourcesDivider.next();
 
             if (BlockAssistant.isPlug(line)) {
                 break;
             }
 
-            atom.update(current, current);
+            parserInfo.update(current, current);
 
-            Executable executable = atom.getPandaParser().parseLine(line, atom);
+            Executable executable = parserInfo.getPandaParser().parseLine(line, parserInfo);
             if (executable instanceof Block) {
-                atom.setPrevious((Block) executable);
-                atom.getPrevious().setParent(current);
-                atom.setCurrent(current);
+                parserInfo.setPrevious((Block) executable);
+                parserInfo.getPrevious().setParent(current);
+                parserInfo.setCurrent(current);
             }
             else {
                 current.addExecutable(executable);

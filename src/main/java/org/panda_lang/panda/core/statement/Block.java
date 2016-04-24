@@ -18,7 +18,7 @@ public class Block implements NamedExecutable {
 
     protected List<ExecutableCell> executableCells;
     protected List<Field> fields;
-    protected Factor[] factors;
+    protected RuntimeValue[] runtimeValues;
     protected String name;
     protected Block parent;
 
@@ -38,9 +38,9 @@ public class Block implements NamedExecutable {
         Cache cache = memory.getCache();
 
         alice.setBlock(this);
-        if (alice.getFactors() != null && factors != null) {
-            for (int i = 0; i < alice.getFactors().length && i < factors.length; i++) {
-                memory.put(factors[i].getVariableName(), alice.getFactors()[i].getValue(alice));
+        if (alice.getRuntimeValues() != null && runtimeValues != null) {
+            for (int i = 0; i < alice.getRuntimeValues().length && i < runtimeValues.length; i++) {
+                memory.put(runtimeValues[i].getVariableName(), alice.getRuntimeValues()[i].getValue(alice));
             }
         }
 
@@ -95,12 +95,12 @@ public class Block implements NamedExecutable {
         return parent != null;
     }
 
-    public Factor[] getFactors() {
-        return factors;
+    public RuntimeValue[] getRuntimeValues() {
+        return runtimeValues;
     }
 
-    public void setFactors(Factor... factors) {
-        this.factors = factors;
+    public void setRuntimeValues(RuntimeValue... runtimeValues) {
+        this.runtimeValues = runtimeValues;
     }
 
     public Collection<Field> getFields() {

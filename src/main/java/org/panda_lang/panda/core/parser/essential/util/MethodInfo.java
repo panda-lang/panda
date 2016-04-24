@@ -1,34 +1,34 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Vial;
 
 public class MethodInfo {
 
     private final String methodName;
-    private final Factor[] factors;
-    private Factor instance;
+    private final RuntimeValue[] runtimeValues;
+    private RuntimeValue instance;
     private Vial vial;
 
-    public MethodInfo(String methodName, Factor... factors) {
+    public MethodInfo(String methodName, RuntimeValue... runtimeValues) {
         this.methodName = methodName;
-        this.factors = factors;
+        this.runtimeValues = runtimeValues;
     }
 
-    public MethodInfo(Factor instance, String methodName, Factor... factors) {
+    public MethodInfo(RuntimeValue instance, String methodName, RuntimeValue... runtimeValues) {
         this.instance = instance;
         this.methodName = methodName;
-        this.factors = factors;
+        this.runtimeValues = runtimeValues;
     }
 
-    public MethodInfo(Vial vial, String methodName, Factor... factors) {
+    public MethodInfo(Vial vial, String methodName, RuntimeValue... runtimeValues) {
         this.vial = vial;
         this.methodName = methodName;
-        this.factors = factors;
+        this.runtimeValues = runtimeValues;
     }
 
-    public Factor[] getFactors() {
-        return factors;
+    public RuntimeValue[] getRuntimeValues() {
+        return runtimeValues;
     }
 
     public String getMethodName() {
@@ -39,7 +39,7 @@ public class MethodInfo {
         return vial;
     }
 
-    public Factor getInstance() {
+    public RuntimeValue getInstance() {
         return instance;
     }
 

@@ -14,7 +14,7 @@ import java.util.Collection;
 
 public class PandaParser {
 
-    private final Atom atom;
+    private final ParserInfo parserInfo;
     private final Panda panda;
     private final PandaScript pandaScript;
     private final Dependencies dependencies;
@@ -38,7 +38,7 @@ public class PandaParser {
         this.semanticAnalyzer = new SemanticAnalyzer();
         this.injections = panda.getPandaCore().getInjectionCenter().getInjections();
         this.postProcesses = new ArrayList<>();
-        this.atom = new Atom(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
+        this.parserInfo = new ParserInfo(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
     public PandaParser(Panda panda, String source) {
@@ -51,7 +51,7 @@ public class PandaParser {
         this.semanticAnalyzer = new SemanticAnalyzer();
         this.injections = panda.getPandaCore().getInjectionCenter().getInjections();
         this.postProcesses = new ArrayList<>();
-        this.atom = new Atom(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
+        this.parserInfo = new ParserInfo(panda, pandaScript, this, dependencies, divider, extractor, null, null, pandaBlock, pandaBlock, pandaBlock);
     }
 
     public PandaScript parse() {
@@ -61,11 +61,11 @@ public class PandaParser {
                 break;
             }
 
-            atom.update(pandaBlock, pandaBlock);
-            Executable executable = parseLine(line, atom);
+            parserInfo.update(pandaBlock, pandaBlock);
+            Executable executable = parseLine(line, parserInfo);
 
             for (Injection injection : injections) {
-                injection.call(atom, executable);
+                injection.call(parserInfo, executable);
             }
         }
 
@@ -80,15 +80,15 @@ public class PandaParser {
         return pandaScript;
     }
 
-    public Executable parseLine(String line, Atom atom) {
-        Parser parser = atom.getParserCenter().getParser(atom, line);
+    public Executable parseLine(String line, ParserInfo parserInfo) {
+        Parser parser = parserInfo.getParserCenter().getParser(parserInfo, line);
 
         // {initializer.not.found}
         if (parser == null) {
             return throwException(new PandaException("ParserNotFoundException", divider));
         }
 
-        return parser.parse(atom);
+        return parser.parse(parserInfo);
     }
 
     public <T> T throwException(PandaException pandaException) {
@@ -149,8 +149,8 @@ public class PandaParser {
         return panda;
     }
 
-    public Atom getAtom() {
-        return atom;
+    public ParserInfo getParserInfo() {
+        return parserInfo;
     }
 
 }

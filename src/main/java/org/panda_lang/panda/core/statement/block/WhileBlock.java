@@ -3,12 +3,12 @@ package org.panda_lang.panda.core.statement.block;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.statement.Block;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.lang.BooleanEssence;
 
 public class WhileBlock extends Block {
@@ -20,9 +20,9 @@ public class WhileBlock extends Block {
     public static void initialize(Panda panda) {
         BlockLayout blockLayout = new BlockLayout(WhileBlock.class, "while").initializer(new BlockInitializer() {
             @Override
-            public Block initialize(Atom atom) {
+            public Block initialize(ParserInfo atom) {
                 Block current = new WhileBlock();
-                current.setFactors(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
+                current.setRuntimeValues(new FactorParser().parse(atom, atom.getBlockInfo().getParameters()));
                 return current;
             }
         });
@@ -31,11 +31,11 @@ public class WhileBlock extends Block {
 
     @Override
     public Essence execute(Alice alice) {
-        Factor factor = factors[0];
+        RuntimeValue runtimeValue = runtimeValues[0];
         Essence essence = null;
 
         while (true) {
-            BooleanEssence booleanEssence = factor.getValue(alice);
+            BooleanEssence booleanEssence = runtimeValue.getValue(alice);
             if (booleanEssence == null || booleanEssence.isFalse() || essence != null) {
                 break;
             }

@@ -15,7 +15,7 @@ public class ArrayEssence extends Essence {
         vial.constructor(new Constructor() {
             @Override
             public Essence execute(Alice alice) {
-                return new ArrayEssence(alice.getFactors());
+                return new ArrayEssence(alice.getRuntimeValues());
             }
         });
         vial.method(new Method("size", new Executable() {
@@ -35,9 +35,9 @@ public class ArrayEssence extends Essence {
         }));
     }
 
-    private final Factor[] array;
+    private final RuntimeValue[] array;
 
-    public ArrayEssence(Factor... values) {
+    public ArrayEssence(RuntimeValue... values) {
         this.array = values;
     }
 
@@ -45,7 +45,7 @@ public class ArrayEssence extends Essence {
         return i < array.length ? array[i].getValue(alice) : new NullEssence();
     }
 
-    public Factor[] getArray() {
+    public RuntimeValue[] getArray() {
         return array;
     }
 

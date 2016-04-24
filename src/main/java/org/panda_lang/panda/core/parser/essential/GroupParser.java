@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
@@ -19,8 +19,8 @@ public class GroupParser implements Parser {
     }
 
     @Override
-    public Group parse(Atom atom) {
-        final String source = atom.getSourcesDivider().getLine();
+    public Group parse(ParserInfo parserInfo) {
+        final String source = parserInfo.getSourcesDivider().getLine();
         final StringBuilder groupBuilder = new StringBuilder();
         boolean nsFlag = false;
 
@@ -39,8 +39,8 @@ public class GroupParser implements Parser {
         String groupName = groupBuilder.toString();
         Group group = GroupCenter.getGroup(groupName);
         Import anImport = new Import(group);
-        atom.getPandaParser().getPandaBlock().setGroup(group);
-        atom.getPandaParser().getDependencies().importElement(anImport);
+        parserInfo.getPandaParser().getPandaBlock().setGroup(group);
+        parserInfo.getPandaParser().getDependencies().importElement(anImport);
         return group;
     }
 

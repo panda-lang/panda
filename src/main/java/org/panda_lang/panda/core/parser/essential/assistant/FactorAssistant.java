@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser.essential.assistant;
 
-import org.panda_lang.panda.core.parser.Atom;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.statement.Operator;
@@ -11,13 +11,13 @@ import java.util.Stack;
 
 public class FactorAssistant {
 
-    public static boolean isMethod(Atom atom, String parameter) {
-        String pattern = atom.getPatternExtractor().extract(parameter, PatternExtractor.METHOD);
+    public static boolean isMethod(ParserInfo parserInfo, String parameter) {
+        String pattern = parserInfo.getPatternExtractor().extract(parameter, PatternExtractor.METHOD);
         return pattern.equals("()");
     }
 
-    public static boolean isEquality(Atom atom, String parameter) {
-        String extract = atom.getPatternExtractor().extract(parameter, PatternExtractor.EQUALITY);
+    public static boolean isEquality(ParserInfo parserInfo, String parameter) {
+        String extract = parserInfo.getPatternExtractor().extract(parameter, PatternExtractor.EQUALITY);
         for (Operator operator : Operator.getOperators(1)) {
             if (extract.equals(operator.getOperator())) {
                 return true;

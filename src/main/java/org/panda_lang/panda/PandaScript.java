@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.Alice;
 import org.panda_lang.panda.core.Essence;
 import org.panda_lang.panda.core.statement.Block;
 import org.panda_lang.panda.core.statement.Executable;
-import org.panda_lang.panda.core.statement.Factor;
+import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Vial;
 import org.panda_lang.panda.core.statement.block.PandaBlock;
 
@@ -34,9 +34,9 @@ public class PandaScript implements Executable {
         return null;
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, Factor... factors) {
+    public Essence call(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
         for (PandaBlock pandaBlock : elements) {
-            Essence essence = pandaBlock.call(blockType, name, factors);
+            Essence essence = pandaBlock.call(blockType, name, runtimeValues);
             if (essence != null) {
                 return essence;
             }

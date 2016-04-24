@@ -17,13 +17,13 @@ public class Equality implements Executable {
     @Override
     public Essence execute(Alice alice) {
         Operator operator = equalityBuilder.getOperator();
-        Factor oneFactor = equalityBuilder.getOne();
-        Factor otherFactor = equalityBuilder.getOther();
+        RuntimeValue oneRuntimeValue = equalityBuilder.getOne();
+        RuntimeValue otherRuntimeValue = equalityBuilder.getOther();
         boolean flag = false;
 
         if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
-            Essence oneFactorValue = oneFactor.getValue(alice);
-            Essence otherFactorValue = otherFactor.getValue(alice);
+            Essence oneFactorValue = oneRuntimeValue.getValue(alice);
+            Essence otherFactorValue = otherRuntimeValue.getValue(alice);
 
             flag = oneFactorValue.equals(otherFactorValue);
             flag = (operator == Operator.EQUALS_TO) == flag;
@@ -31,8 +31,8 @@ public class Equality implements Executable {
         else {
             //TODO
 
-            Numeric oneNumber = oneFactor.getValue(alice);
-            Numeric otherNumber = otherFactor.getValue(alice);
+            Numeric oneNumber = oneRuntimeValue.getValue(alice);
+            Numeric otherNumber = otherRuntimeValue.getValue(alice);
 
             float one = oneNumber.getFloat();
             float other = otherNumber.getFloat();
