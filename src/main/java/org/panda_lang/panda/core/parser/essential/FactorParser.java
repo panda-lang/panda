@@ -1,8 +1,7 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
 import org.panda_lang.panda.core.statement.RuntimeValue;
 
@@ -17,17 +16,17 @@ public class FactorParser implements Parser {
         parserInfo.setSourceCode(parameter);
 
         RuntimeParser runtimeParser = new RuntimeParser();
-        RuntimeValue runtimeRuntimeValue = runtimeParser.parse(parserInfo);
+        RuntimeValue runtimeValue = runtimeParser.parse(parserInfo);
 
-        if (runtimeRuntimeValue != null) {
-            return runtimeRuntimeValue;
+        if (runtimeValue != null) {
+            return runtimeValue;
         }
 
         EssenceParser essenceParser = new EssenceParser();
-        Essence essence = essenceParser.parse(parserInfo);
+        runtimeValue = essenceParser.parse(parserInfo);
 
-        if (essence != null) {
-            return new RuntimeValue(essence);
+        if (runtimeValue != null) {
+            return runtimeValue;
         }
 
         VariableParser variableParser = new VariableParser();

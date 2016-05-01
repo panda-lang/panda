@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.memory;
 
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.statement.Block;
 
 import java.util.ArrayList;
@@ -11,12 +11,12 @@ import java.util.Map;
 public class Memory {
 
     private final Memory parent;
-    private final Map<String, Essence> local;
+    private final Map<String, Inst> local;
     private final Collection<MemoryFollower> memoryFollowers;
     private Cache cache;
     private Block block;
 
-    private Memory(Memory parent, Map<String, Essence> local) {
+    private Memory(Memory parent, Map<String, Inst> local) {
         this.parent = parent;
         this.local = local;
         this.cache = new Cache();
@@ -37,7 +37,7 @@ public class Memory {
         this.memoryFollowers = new ArrayList<>(0);
     }
 
-    public void put(String key, Essence o) {
+    public void put(String key, Inst o) {
         if (this.parent != null && this.parent.containsKey(key)) {
             this.parent.put(key, o);
         }
@@ -49,8 +49,8 @@ public class Memory {
         }
     }
 
-    public Essence get(String name) {
-        Essence o = local.get(name);
+    public Inst get(String name) {
+        Inst o = local.get(name);
         if (o == null && parent != null) {
             o = parent.get(name);
         }
@@ -58,8 +58,8 @@ public class Memory {
     }
 
     public void delete(String name) {
-        Essence essence = local.remove(name);
-        if (essence == null && parent != null) {
+        Inst inst = local.remove(name);
+        if (inst == null && parent != null) {
             parent.delete(name);
         }
     }
@@ -98,7 +98,7 @@ public class Memory {
         return this.parent;
     }
 
-    public Map<String, Essence> getLocal() {
+    public Map<String, Inst> getLocal() {
         return this.local;
     }
 

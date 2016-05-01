@@ -31,8 +31,4 @@ public class PandaInterface extends Application {
         stage.show();
     }
 
-    public void run() {
-        launch();
-    }
-
 }

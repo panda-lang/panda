@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
@@ -37,15 +37,15 @@ public class MethodParser implements Parser {
 
             // {method.static}
             if (mi.isStatic()) {
-                final Vial vial = mi.getVial();
+                final Structure structure = mi.getStructure();
                 return new Runtime(new Method(mi.getMethodName(), new Executable() {
                     @Override
-                    public Essence execute(Alice alice) {
+                    public Inst execute(Alice alice) {
                         Alice fork = alice
                                 .fork()
                                 .pandaScript(parserInfo.getPandaScript())
                                 .factors(mi.getRuntimeValues());
-                        return vial.call(mi.getMethodName(), fork);
+                        return structure.call(mi.getMethodName(), fork);
                     }
                 }));
 
@@ -55,7 +55,7 @@ public class MethodParser implements Parser {
                 final RuntimeValue instance = mi.getInstance();
 
                 if (instance == null) {
-                    PandaException exception = new PandaException("MethodParserException: Instance not found", parserInfo.getSourcesDivider());
+                    PandaException exception = new PandaException("MethodParserException: Inst not found", parserInfo.getSourcesDivider());
                     return parserInfo.getPandaParser().throwException(exception);
                 }
 
@@ -63,8 +63,8 @@ public class MethodParser implements Parser {
 
                 // {instance.type.defined}
                 if (instanceOf != null) {
-                    Vial vial = parserInfo.getDependencies().getVial(instanceOf);
-                    final Method method = vial.getMethod(mi.getMethodName());
+                    Structure structure = parserInfo.getDependencies().getVial(instanceOf);
+                    final Method method = structure.getMethod(mi.getMethodName());
 
                     if (method == null) {
                         PandaException exception = new PandaException("MethodParserException: Method not found", parserInfo.getSourcesDivider());
@@ -73,10 +73,10 @@ public class MethodParser implements Parser {
 
                     return new Runtime(instance, new Executable() {
                         @Override
-                        public Essence execute(Alice alice) {
+                        public Inst execute(Alice alice) {
                             alice.setInstance(instance);
-                            Essence essence = instance.getValue(alice);
-                            alice = essence.particle(alice);
+                            Inst inst = instance.getValue(alice);
+                            alice = inst.particle(alice);
                             return method.execute(alice);
                         }
                     }, mi.getRuntimeValues());
@@ -85,11 +85,11 @@ public class MethodParser implements Parser {
                 // {instance.type.undefined}
                 return new Runtime(instance, new Executable() {
                     @Override
-                    public Essence execute(Alice alice) {
+                    public Inst execute(Alice alice) {
                         alice.setInstance(instance);
-                        Essence essence = instance.getValue(alice);
+                        Inst inst = instance.getValue(alice);
                         String methodName = mi.getMethodName();
-                        return essence.call(methodName, alice);
+                        return inst.call(methodName, alice);
                     }
                 }, mi.getRuntimeValues());
             }
@@ -99,7 +99,7 @@ public class MethodParser implements Parser {
         else {
             return new Runtime(new Method(mi.getMethodName(), new Executable() {
                 @Override
-                public Essence execute(Alice alice) {
+                public Inst execute(Alice alice) {
                     return parserInfo.getPandaScript().call(MethodBlock.class, mi.getMethodName(), mi.getRuntimeValues());
                 }
             }));

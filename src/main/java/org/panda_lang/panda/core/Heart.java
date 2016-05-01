@@ -16,14 +16,14 @@ public class Heart implements Executable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         Memory memory = alice.getMemory();
         Cache cache = memory.getCache();
 
         // todo: Parameters
 
         for (ExecutableCell executableCell : block.getExecutableCells()) {
-            Essence result;
+            Inst result;
             Executable executable = executableCell.getExecutable();
 
             if (executable instanceof Block) {

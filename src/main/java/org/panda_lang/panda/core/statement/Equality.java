@@ -1,10 +1,10 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.essential.util.EqualityBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.lang.BooleanEssence;
+import org.panda_lang.panda.lang.BooleanInst;
 
 public class Equality implements Executable {
 
@@ -15,15 +15,15 @@ public class Equality implements Executable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         Operator operator = equalityBuilder.getOperator();
         RuntimeValue oneRuntimeValue = equalityBuilder.getOne();
         RuntimeValue otherRuntimeValue = equalityBuilder.getOther();
         boolean flag = false;
 
         if (operator == Operator.EQUALS_TO || operator == Operator.NOT_EQUALS_TO) {
-            Essence oneFactorValue = oneRuntimeValue.getValue(alice);
-            Essence otherFactorValue = otherRuntimeValue.getValue(alice);
+            Inst oneFactorValue = oneRuntimeValue.getValue(alice);
+            Inst otherFactorValue = otherRuntimeValue.getValue(alice);
 
             flag = oneFactorValue.equals(otherFactorValue);
             flag = (operator == Operator.EQUALS_TO) == flag;
@@ -55,7 +55,7 @@ public class Equality implements Executable {
             }
         }
 
-        return new BooleanEssence(flag);
+        return new BooleanInst(flag);
     }
 
 }

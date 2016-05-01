@@ -5,6 +5,7 @@ import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.parser.analyzer.SemanticAnalyzer;
 import org.panda_lang.panda.core.parser.util.Dependencies;
 import org.panda_lang.panda.core.parser.util.Injection;
+import org.panda_lang.panda.core.parser.util.SourcesDivider;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.statement.block.PandaBlock;

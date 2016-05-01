@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
 public class Method implements NamedExecutable {
@@ -19,7 +19,7 @@ public class Method implements NamedExecutable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         if (executable != null) {
             return executable.execute(alice);
         }

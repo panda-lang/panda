@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.memory.Cache;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.util.ExecutableCell;
@@ -33,7 +33,7 @@ public class Block implements NamedExecutable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         Memory memory = alice.getMemory();
         Cache cache = memory.getCache();
 
@@ -45,7 +45,7 @@ public class Block implements NamedExecutable {
         }
 
         for (ExecutableCell executableCell : executableCells) {
-            Essence result;
+            Inst result;
             Executable executable = executableCell.getExecutable();
 
             if (executable instanceof Block) {

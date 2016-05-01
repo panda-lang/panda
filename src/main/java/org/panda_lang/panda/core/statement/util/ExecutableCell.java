@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement.util;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.statement.Executable;
 
 public class ExecutableCell implements Executable {
@@ -19,7 +19,7 @@ public class ExecutableCell implements Executable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         return executable.execute(alice);
     }
 

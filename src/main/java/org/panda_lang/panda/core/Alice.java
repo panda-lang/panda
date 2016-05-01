@@ -6,14 +6,12 @@ import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.Block;
 import org.panda_lang.panda.core.statement.RuntimeValue;
 
-import java.util.Arrays;
-
 public class Alice {
 
     private PandaScript pandaScript;
     private Block block;
     private Memory memory;
-    private Essence essence;
+    private Inst value;
     private RuntimeValue instance;
     private RuntimeValue[] runtimeValues;
     private Object custom;
@@ -21,10 +19,9 @@ public class Alice {
     public Alice() {
     }
 
-    public Alice(PandaScript pandaScript, Memory memory, Essence essence, RuntimeValue instance, RuntimeValue... runtimeValues) {
+    public Alice(PandaScript pandaScript, Memory memory, RuntimeValue instance, RuntimeValue... runtimeValues) {
         this.pandaScript = pandaScript;
         this.memory = memory;
-        this.essence = essence;
         this.instance = instance;
         this.runtimeValues = runtimeValues;
     }
@@ -44,11 +41,6 @@ public class Alice {
         return this;
     }
 
-    public Alice essence(Essence essence) {
-        this.essence = essence;
-        return this;
-    }
-
     public Alice instance(RuntimeValue instance) {
         this.instance = instance;
         return this;
@@ -65,7 +57,7 @@ public class Alice {
     }
 
     public Alice fork() {
-        return new Alice(pandaScript, memory, essence, instance, runtimeValues).custom(custom);
+        return new Alice(pandaScript, memory, instance, runtimeValues).custom(custom);
     }
 
     public boolean hasFactors() {
@@ -86,35 +78,27 @@ public class Alice {
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getValueOfFactor(int i) {
+    public <T extends Inst> T getValueOfFactor(int i) {
         return (T) getFactor(i).getValue(this);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getValueOfFactor(int i, Class<T> clazz) {
+    public <T extends Inst> T getValueOfFactor(int i, Class<T> clazz) {
         return (T) getFactor(i).getValue(this);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getValueOfInstance() {
+    public <T extends Inst> T getValueOfInstance() {
         return (T) instance.getValue(this);
     }
 
     @SuppressWarnings("unchecked")
-    public <T extends Essence> T getValueOfInstance(Class<T> clazz) {
+    public <T extends Inst> T getValueOfInstance(Class<T> clazz) {
         return (T) instance.getValue(this);
     }
 
     public Panda getPanda() {
         return pandaScript.getPanda();
-    }
-
-    public Essence getEssence() {
-        return essence;
-    }
-
-    public void setEssence(Essence essence) {
-        this.essence = essence;
     }
 
     public RuntimeValue getInstance() {
@@ -151,19 +135,6 @@ public class Alice {
 
     public PandaScript getPandaScript() {
         return pandaScript;
-    }
-
-    @Override
-    public String toString() {
-        return "Alice{" +
-                "pandaScript=" + pandaScript +
-                ", block=" + block +
-                ", memory=" + memory +
-                ", essence=" + essence +
-                ", instance=" + instance +
-                ", runtimeValues=" + Arrays.toString(runtimeValues) +
-                ", custom=" + custom +
-                '}';
     }
 
 }

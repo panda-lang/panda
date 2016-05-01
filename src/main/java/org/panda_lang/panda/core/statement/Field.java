@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,7 +14,7 @@ public class Field implements NamedExecutable {
     private final String fieldName;
     private String dataType;
     private RuntimeValue runtimeValue;
-    private Essence value;
+    private Inst value;
 
     public Field(String fieldName) {
         this.id = identifier.incrementAndGet();
@@ -37,13 +37,13 @@ public class Field implements NamedExecutable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         value = runtimeValue != null ? runtimeValue.getValue(alice) : null;
         alice.getMemory().put(fieldName, value);
         return value;
     }
 
-    public Essence getValue() {
+    public Inst getValue() {
         return value;
     }
 

@@ -8,7 +8,7 @@ import org.panda_lang.panda.core.parser.essential.assistant.FieldAssistant;
 import org.panda_lang.panda.core.parser.essential.util.EssentialPriority;
 import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Field;
-import org.panda_lang.panda.lang.NullEssence;
+import org.panda_lang.panda.lang.NullInst;
 
 public class FieldParser implements Parser {
 
@@ -28,7 +28,7 @@ public class FieldParser implements Parser {
             return null;
         }
 
-        RuntimeValue runtimeValue = new RuntimeValue(new NullEssence());
+        RuntimeValue runtimeValue = new RuntimeValue(new NullInst());
         if (ss.length > 1) {
             parserInfo.setSourceCode(ss[1]);
             FactorParser parser = new FactorParser();

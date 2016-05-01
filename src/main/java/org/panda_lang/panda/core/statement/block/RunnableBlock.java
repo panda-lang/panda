@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.statement.block;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -28,7 +28,7 @@ public class RunnableBlock extends Block {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         return super.execute(alice);
     }
 

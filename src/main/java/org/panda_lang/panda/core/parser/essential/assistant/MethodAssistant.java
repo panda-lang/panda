@@ -4,7 +4,7 @@ import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.MethodInfo;
 import org.panda_lang.panda.core.statement.RuntimeValue;
-import org.panda_lang.panda.core.statement.Vial;
+import org.panda_lang.panda.core.statement.Structure;
 
 import java.util.Stack;
 
@@ -73,9 +73,9 @@ public class MethodAssistant {
 
         RuntimeValue instance;
         if (object != null) {
-            Vial vial = parserInfo.getDependencies().getVial(object);
-            if (vial != null) {
-                return new MethodInfo(vial, method, runtimeValues);
+            Structure structure = parserInfo.getDependencies().getVial(object);
+            if (structure != null) {
+                return new MethodInfo(structure, method, runtimeValues);
             }
             instance = new FactorParser().parse(parserInfo, object);
             return new MethodInfo(instance, method, runtimeValues);

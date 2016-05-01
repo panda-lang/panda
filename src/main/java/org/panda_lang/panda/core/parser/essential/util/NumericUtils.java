@@ -10,17 +10,17 @@ public class NumericUtils {
         }
         switch (a.getNumberType()) {
             case BYTE:
-                return new ByteEssence((byte) (a.getByte() + b.getByte()));
+                return new ByteInst((byte) (a.getByte() + b.getByte()));
             case SHORT:
-                return new ShortEssence((short) (a.getShort() + b.getShort()));
+                return new ShortInst((short) (a.getShort() + b.getShort()));
             case INT:
-                return new IntEssence(a.getInt() + b.getInt());
+                return new IntInst(a.getInt() + b.getInt());
             case LONG:
-                return new LongEssence(a.getLong() + b.getLong());
+                return new LongInst(a.getLong() + b.getLong());
             case FLOAT:
-                return new FloatEssence(a.getFloat() + b.getFloat());
+                return new FloatInst(a.getFloat() + b.getFloat());
             case DOUBLE:
-                return new DoubleEssence(a.getDouble() + b.getDouble());
+                return new DoubleInst(a.getDouble() + b.getDouble());
             case FAT_PANDA:
                 break;
         }
@@ -41,34 +41,34 @@ public class NumericUtils {
         if (f) {
             switch (a.getNumberType()) {
                 case BYTE:
-                    return new ByteEssence((byte) (b.getByte() - a.getByte()));
+                    return new ByteInst((byte) (b.getByte() - a.getByte()));
                 case SHORT:
-                    return new ShortEssence((short) (b.getShort() - a.getShort()));
+                    return new ShortInst((short) (b.getShort() - a.getShort()));
                 case INT:
-                    return new IntEssence(b.getInt() - a.getInt());
+                    return new IntInst(b.getInt() - a.getInt());
                 case LONG:
-                    return new LongEssence(b.getLong() - a.getLong());
+                    return new LongInst(b.getLong() - a.getLong());
                 case FLOAT:
-                    return new FloatEssence(b.getFloat() - a.getFloat());
+                    return new FloatInst(b.getFloat() - a.getFloat());
                 case DOUBLE:
-                    return new DoubleEssence(b.getDouble() - a.getDouble());
+                    return new DoubleInst(b.getDouble() - a.getDouble());
                 case FAT_PANDA:
                     return null;
             }
         }
         switch (a.getNumberType()) {
             case BYTE:
-                return new ByteEssence((byte) (a.getByte() - b.getByte()));
+                return new ByteInst((byte) (a.getByte() - b.getByte()));
             case SHORT:
-                return new ShortEssence((short) (a.getShort() - b.getShort()));
+                return new ShortInst((short) (a.getShort() - b.getShort()));
             case INT:
-                return new IntEssence(a.getInt() - b.getInt());
+                return new IntInst(a.getInt() - b.getInt());
             case LONG:
-                return new LongEssence(a.getLong() - b.getLong());
+                return new LongInst(a.getLong() - b.getLong());
             case FLOAT:
-                return new FloatEssence(a.getFloat() - b.getFloat());
+                return new FloatInst(a.getFloat() - b.getFloat());
             case DOUBLE:
-                return new DoubleEssence(a.getDouble() - b.getDouble());
+                return new DoubleInst(a.getDouble() - b.getDouble());
             case FAT_PANDA:
                 return null;
         }
@@ -81,17 +81,17 @@ public class NumericUtils {
         }
         switch (a.getNumberType()) {
             case BYTE:
-                return new ByteEssence((byte) (a.getByte() * b.getByte()));
+                return new ByteInst((byte) (a.getByte() * b.getByte()));
             case SHORT:
-                return new ShortEssence((short) (a.getShort() * b.getShort()));
+                return new ShortInst((short) (a.getShort() * b.getShort()));
             case INT:
-                return new IntEssence(a.getInt() * b.getInt());
+                return new IntInst(a.getInt() * b.getInt());
             case LONG:
-                return new LongEssence(a.getLong() * b.getLong());
+                return new LongInst(a.getLong() * b.getLong());
             case FLOAT:
-                return new FloatEssence(a.getFloat() * b.getFloat());
+                return new FloatInst(a.getFloat() * b.getFloat());
             case DOUBLE:
-                return new DoubleEssence(a.getDouble() * b.getDouble());
+                return new DoubleInst(a.getDouble() * b.getDouble());
             case FAT_PANDA:
                 break;
         }
@@ -112,48 +112,48 @@ public class NumericUtils {
         if (f) {
             switch (a.getNumberType()) {
                 case BYTE:
-                    return new ByteEssence((byte) (b.getByte() / a.getByte()));
+                    return new ByteInst((byte) (b.getByte() / a.getByte()));
                 case SHORT:
-                    return new ShortEssence((short) (b.getShort() / a.getShort()));
+                    return new ShortInst((short) (b.getShort() / a.getShort()));
                 case INT:
-                    return new IntEssence(b.getInt() / a.getInt());
+                    return new IntInst(b.getInt() / a.getInt());
                 case LONG:
-                    return new LongEssence(b.getLong() / a.getLong());
+                    return new LongInst(b.getLong() / a.getLong());
                 case FLOAT:
-                    return new FloatEssence(b.getFloat() / a.getFloat());
+                    return new FloatInst(b.getFloat() / a.getFloat());
                 case DOUBLE:
-                    return new DoubleEssence(b.getDouble() / a.getDouble());
+                    return new DoubleInst(b.getDouble() / a.getDouble());
                 case FAT_PANDA:
                     return null;
             }
         }
         switch (a.getNumberType()) {
             case BYTE:
-                return new ByteEssence((byte) (a.getByte() / b.getByte()));
+                return new ByteInst((byte) (a.getByte() / b.getByte()));
             case SHORT:
-                return new ShortEssence((short) (a.getShort() / b.getShort()));
+                return new ShortInst((short) (a.getShort() / b.getShort()));
             case INT:
-                return new IntEssence(a.getInt() / b.getInt());
+                return new IntInst(a.getInt() / b.getInt());
             case LONG:
-                return new LongEssence(a.getLong() / b.getLong());
+                return new LongInst(a.getLong() / b.getLong());
             case FLOAT:
-                return new FloatEssence(a.getFloat() / b.getFloat());
+                return new FloatInst(a.getFloat() / b.getFloat());
             case DOUBLE:
-                return new DoubleEssence(a.getDouble() / b.getDouble());
+                return new DoubleInst(a.getDouble() / b.getDouble());
             case FAT_PANDA:
                 return null;
         }
         return null;
     }
 
-    public static BooleanEssence isGreaterThan(Numeric a, Numeric b) {
+    public static BooleanInst isGreaterThan(Numeric a, Numeric b) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isGreaterThan(b, a, true);
         }
         return isGreaterThan(a, b, false);
     }
 
-    private static BooleanEssence isGreaterThan(Numeric a, Numeric b, boolean f) {
+    private static BooleanInst isGreaterThan(Numeric a, Numeric b, boolean f) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isGreaterThan(b, a, true);
         }
@@ -180,17 +180,17 @@ public class NumericUtils {
             case FAT_PANDA:
                 break;
         }
-        return new BooleanEssence(flag);
+        return new BooleanInst(flag);
     }
 
-    public static BooleanEssence isLessThan(Numeric a, Numeric b) {
+    public static BooleanInst isLessThan(Numeric a, Numeric b) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isLessThan(b, a, true);
         }
         return isLessThan(a, b, false);
     }
 
-    private static BooleanEssence isLessThan(Numeric a, Numeric b, boolean f) {
+    private static BooleanInst isLessThan(Numeric a, Numeric b, boolean f) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isLessThan(b, a, true);
         }
@@ -217,7 +217,7 @@ public class NumericUtils {
             case FAT_PANDA:
                 break;
         }
-        return new BooleanEssence(flag);
+        return new BooleanInst(flag);
     }
 
     public static boolean isALessThanB(Numeric a, Numeric b) {
@@ -233,14 +233,14 @@ public class NumericUtils {
         }
     }
 
-    public static BooleanEssence isGreaterThanOrEquals(Numeric a, Numeric b) {
+    public static BooleanInst isGreaterThanOrEquals(Numeric a, Numeric b) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isGreaterThanOrEquals(b, a, true);
         }
         return isGreaterThanOrEquals(a, b, false);
     }
 
-    private static BooleanEssence isGreaterThanOrEquals(Numeric a, Numeric b, boolean f) {
+    private static BooleanInst isGreaterThanOrEquals(Numeric a, Numeric b, boolean f) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isGreaterThanOrEquals(b, a, true);
         }
@@ -267,17 +267,17 @@ public class NumericUtils {
             case FAT_PANDA:
                 break;
         }
-        return new BooleanEssence(flag);
+        return new BooleanInst(flag);
     }
 
-    public static BooleanEssence isLessThanOrEquals(Numeric a, Numeric b) {
+    public static BooleanInst isLessThanOrEquals(Numeric a, Numeric b) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isLessThanOrEquals(b, a, true);
         }
         return isLessThanOrEquals(a, b, false);
     }
 
-    private static BooleanEssence isLessThanOrEquals(Numeric a, Numeric b, boolean f) {
+    private static BooleanInst isLessThanOrEquals(Numeric a, Numeric b, boolean f) {
         if (a.getNumberType().hasGreaterRangeThan(b)) {
             return isLessThanOrEquals(b, a, true);
         }
@@ -304,7 +304,7 @@ public class NumericUtils {
             case FAT_PANDA:
                 break;
         }
-        return new BooleanEssence(flag);
+        return new BooleanInst(flag);
     }
 
 }

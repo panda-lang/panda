@@ -1,10 +1,10 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 
 public interface Executable {
 
-    Essence execute(Alice alice);
+    Inst execute(Alice alice);
 
 }

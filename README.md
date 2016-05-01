@@ -56,16 +56,18 @@ Repository: https://repo.panda-lang.org/
         <repository>
             <id>panda-repo</id>
             <name>Panda Repository</name>
-            <url>http://repo.panda-lang.org/</url>
+            <url>https://repo.panda-lang.org/</url>
         </repository>
 </repositories>
 ```
-### TODO
+#### TODO
 - Memory system
 - Associations system
 - Java implementation
 - Analyzers
-### Other
+<br>
+
+#### Other
 Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily
 <br>
 Moonlight: https://github.com/dzikoysk/Moonlight

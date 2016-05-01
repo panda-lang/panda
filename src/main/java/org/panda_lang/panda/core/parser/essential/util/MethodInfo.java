@@ -1,14 +1,14 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
 import org.panda_lang.panda.core.statement.RuntimeValue;
-import org.panda_lang.panda.core.statement.Vial;
+import org.panda_lang.panda.core.statement.Structure;
 
 public class MethodInfo {
 
     private final String methodName;
     private final RuntimeValue[] runtimeValues;
     private RuntimeValue instance;
-    private Vial vial;
+    private Structure structure;
 
     public MethodInfo(String methodName, RuntimeValue... runtimeValues) {
         this.methodName = methodName;
@@ -21,8 +21,8 @@ public class MethodInfo {
         this.runtimeValues = runtimeValues;
     }
 
-    public MethodInfo(Vial vial, String methodName, RuntimeValue... runtimeValues) {
-        this.vial = vial;
+    public MethodInfo(Structure structure, String methodName, RuntimeValue... runtimeValues) {
+        this.structure = structure;
         this.methodName = methodName;
         this.runtimeValues = runtimeValues;
     }
@@ -35,8 +35,8 @@ public class MethodInfo {
         return methodName;
     }
 
-    public Vial getVial() {
-        return vial;
+    public Structure getStructure() {
+        return structure;
     }
 
     public RuntimeValue getInstance() {
@@ -44,11 +44,11 @@ public class MethodInfo {
     }
 
     public boolean isStatic() {
-        return vial != null;
+        return structure != null;
     }
 
     public boolean isExternal() {
-        return instance != null || vial != null;
+        return instance != null || structure != null;
     }
 
 }

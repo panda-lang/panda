@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
 import java.util.HashMap;
@@ -10,7 +10,7 @@ import java.util.Map;
 public class Group implements NamedExecutable {
 
     private final String group;
-    private final Map<String, Vial> vials;
+    private final Map<String, Structure> vials;
 
     public Group(String group) {
         this.group = group;
@@ -18,15 +18,15 @@ public class Group implements NamedExecutable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         return null;
     }
 
-    public void registerVial(Vial vial) {
-        vials.put(vial.getName(), vial);
+    public void registerVial(Structure structure) {
+        vials.put(structure.getName(), structure);
     }
 
-    public Vial getVial(String vialName) {
+    public Structure getVial(String vialName) {
         return vials.get(vialName);
     }
 

@@ -5,7 +5,7 @@ import org.panda_lang.panda.core.parser.essential.GroupCenter;
 import org.panda_lang.panda.core.statement.Group;
 import org.panda_lang.panda.core.statement.Import;
 import org.panda_lang.panda.core.statement.Library;
-import org.panda_lang.panda.core.statement.Vial;
+import org.panda_lang.panda.core.statement.Structure;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -55,9 +55,9 @@ public class Dependencies {
                     continue;
                 }
 
-                Collection<Vial> vials = pandaScript.extractVials();
-                for (Vial vial : vials) {
-                    Import anImport = new Import(vial.getGroup(), vial);
+                Collection<Structure> structures = pandaScript.extractVials();
+                for (Structure structure : structures) {
+                    Import anImport = new Import(structure.getGroup(), structure);
                     specificMap.put(anImport.getName(), anImport);
                 }
             }
@@ -68,7 +68,7 @@ public class Dependencies {
         }
     }
 
-    public Vial getVial(String vialName) {
+    public Structure getVial(String vialName) {
         Import anImport = asMap.get(vialName);
         if (anImport == null) {
             anImport = specificMap.get(vialName);
@@ -80,9 +80,9 @@ public class Dependencies {
         }
 
         for (Group group : groups) {
-            Vial vial = group.getVial(vialName);
-            if (vial != null) {
-                return vial;
+            Structure structure = group.getVial(vialName);
+            if (structure != null) {
+                return structure;
             }
         }
 

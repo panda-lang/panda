@@ -4,7 +4,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.parser.ParserLayout;
-import org.panda_lang.panda.core.parser.SourcesDivider;
+import org.panda_lang.panda.core.parser.util.SourcesDivider;
 import org.panda_lang.panda.core.parser.essential.assistant.BlockAssistant;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;

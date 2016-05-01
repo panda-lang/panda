@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.statement.block;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
@@ -29,10 +29,10 @@ public class ForBlock extends Block {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         Numeric times = runtimeValues[0].getValue(alice);
         for (int i = 0; i < times.getInt(); i++) {
-            Essence o = super.execute(alice);
+            Inst o = super.execute(alice);
             if (o != null) {
                 return o;
             }
