@@ -3,7 +3,7 @@ package org.panda_lang.panda.core.statement.block;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
@@ -14,29 +14,29 @@ import java.util.List;
 public class VialBlock extends Block {
 
     private final PandaScript pandaScript;
-    private final Vial vial;
+    private final Structure structure;
 
     public VialBlock(PandaScript pandaScript, Group group, List<String> specifiers) {
         this.pandaScript = pandaScript;
-        this.vial = new Vial(specifiers.get(0));
-        this.vial.setVialBlock(this);
+        this.structure = new Structure(specifiers.get(0));
+        this.structure.setVialBlock(this);
 
         if (group != null) {
-            this.vial.group(group);
+            this.structure.group(group);
         }
         else {
-            this.vial.group("default");
+            this.structure.group("default");
         }
 
         if (specifiers.size() > 2 && specifiers.get(1).equals("extends")) {
-            vial.extension(specifiers.get(2));
+            structure.extension(specifiers.get(2));
         }
 
-        super.setName(vial.getName());
+        super.setName(structure.getName());
     }
 
     public static void initialize(Panda panda) {
-        BlockLayout blockLayout = new BlockLayout(VialBlock.class, false, "vial", "class").initializer(new BlockInitializer() {
+        BlockLayout blockLayout = new BlockLayout(VialBlock.class, false, "structure", "class").initializer(new BlockInitializer() {
             @Override
             public Block initialize(ParserInfo atom) {
                 Group group = atom.getPandaParser().getPandaBlock().getGroup();
@@ -46,9 +46,9 @@ public class VialBlock extends Block {
         panda.getPandaCore().registerBlock(blockLayout);
     }
 
-    public Alice initializeFields(Essence essence) {
+    public Alice initializeFields(Inst inst) {
         Alice alice = new Alice().pandaScript(pandaScript);
-        alice.setMemory(essence.getMemory());
+        alice.setMemory(inst.getMemory());
         for (Executable executable : getExecutables()) {
             if (executable instanceof Field) {
                 executable.execute(alice);
@@ -58,27 +58,27 @@ public class VialBlock extends Block {
     }
 
     @Override
-    public Essence execute(Alice alice) {
-        return vial.initializeInstance(alice);
+    public Inst execute(Alice alice) {
+        return structure.initializeInstance(alice);
     }
 
     @Override
     public void addExecutable(Executable executable) {
         if (executable instanceof Field) {
             Field field = (Field) executable;
-            vial.getFields().put(field.getName(), field);
+            structure.getFields().put(field.getName(), field);
         }
         else if (executable instanceof MethodBlock) {
             MethodBlock methodBlock = (MethodBlock) executable;
-            vial.method(new Method(methodBlock));
+            structure.method(new Method(methodBlock));
         }
         else {
-            System.out.println("Cannot add " + executable + " (" + executable.getClass().getSimpleName() + ") to vial (class)");
+            System.out.println("Cannot add " + executable + " (" + executable.getClass().getSimpleName() + ") to structure (class)");
         }
     }
 
-    public Vial getVial() {
-        return vial;
+    public Structure getStructure() {
+        return structure;
     }
 
 }

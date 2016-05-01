@@ -1,10 +1,10 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.essential.util.MathBuilder;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
-import org.panda_lang.panda.lang.DoubleEssence;
+import org.panda_lang.panda.lang.DoubleInst;
 
 import java.util.Stack;
 
@@ -17,7 +17,7 @@ public class Math implements Executable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         Stack<Numeric> values = new Stack<>();
 
         for (int i = 0; i < mathBuilder.size(); i++) {
@@ -41,7 +41,7 @@ public class Math implements Executable {
                         c = a.divide(b);
                         break;
                     case '^':
-                        c = new DoubleEssence(java.lang.Math.pow(a.getDouble(), b.getDouble()));
+                        c = new DoubleInst(java.lang.Math.pow(a.getDouble(), b.getDouble()));
                         break;
                     default:
                         c = null;

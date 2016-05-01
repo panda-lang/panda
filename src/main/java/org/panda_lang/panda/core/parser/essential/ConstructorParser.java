@@ -1,14 +1,14 @@
 package org.panda_lang.panda.core.parser.essential;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.PandaException;
 import org.panda_lang.panda.core.parser.Parser;
 import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.statement.RuntimeValue;
 import org.panda_lang.panda.core.statement.Runtime;
-import org.panda_lang.panda.core.statement.Vial;
+import org.panda_lang.panda.core.statement.Structure;
 
 import java.util.Stack;
 
@@ -74,25 +74,25 @@ public class ConstructorParser implements Parser {
 
         final FactorParser parser = new FactorParser();
         final RuntimeValue[] runtimeValues = parser.splitAndParse(parserInfo);
-        final Vial vial = parserInfo.getDependencies().getVial(clazz);
+        final Structure structure = parserInfo.getDependencies().getVial(clazz);
 
-        if (vial == null) {
+        if (structure == null) {
             final Runtime runtime = new Runtime();
             final String vialName = clazz;
 
             parserInfo.getPandaParser().addPostProcess(new Runnable() {
                 @Override
                 public void run() {
-                    final Vial vial = parserInfo.getPandaParser().getDependencies().getVial(vialName);
-                    if (vial == null) {
-                        PandaException exception = new PandaException("ConstructorParser: Vial '" + vialName + "' not found", parserInfo.getSourcesDivider());
+                    final Structure structure = parserInfo.getPandaParser().getDependencies().getVial(vialName);
+                    if (structure == null) {
+                        PandaException exception = new PandaException("ConstructorParser: Structure '" + vialName + "' not found", parserInfo.getSourcesDivider());
                         parserInfo.getPandaParser().throwException(exception);
                         return;
                     }
                     runtime.setExecutable(new Executable() {
                         @Override
-                        public Essence execute(Alice alice) {
-                            return vial.initializeInstance(alice);
+                        public Inst execute(Alice alice) {
+                            return structure.initializeInstance(alice);
                         }
                     });
                 }
@@ -103,8 +103,8 @@ public class ConstructorParser implements Parser {
 
         return new Runtime(null, new Executable() {
             @Override
-            public Essence execute(Alice alice) {
-                return vial.initializeInstance(alice);
+            public Inst execute(Alice alice) {
+                return structure.initializeInstance(alice);
             }
         }, runtimeValues);
     }

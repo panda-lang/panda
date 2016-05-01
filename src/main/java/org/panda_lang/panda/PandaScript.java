@@ -1,11 +1,11 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.statement.Block;
 import org.panda_lang.panda.core.statement.Executable;
 import org.panda_lang.panda.core.statement.RuntimeValue;
-import org.panda_lang.panda.core.statement.Vial;
+import org.panda_lang.panda.core.statement.Structure;
 import org.panda_lang.panda.core.statement.block.PandaBlock;
 
 import java.util.ArrayList;
@@ -27,29 +27,29 @@ public class PandaScript implements Executable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         for (PandaBlock pandaBlock : elements) {
             pandaBlock.execute(alice);
         }
         return null;
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
+    public Inst call(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
         for (PandaBlock pandaBlock : elements) {
-            Essence essence = pandaBlock.call(blockType, name, runtimeValues);
-            if (essence != null) {
-                return essence;
+            Inst inst = pandaBlock.call(blockType, name, runtimeValues);
+            if (inst != null) {
+                return inst;
             }
         }
         return null;
     }
 
-    public Collection<Vial> extractVials() {
-        Collection<Vial> vials = new ArrayList<>(1);
+    public Collection<Structure> extractVials() {
+        Collection<Structure> structures = new ArrayList<>(1);
         for (PandaBlock pandaBlock : elements) {
-            vials.addAll(pandaBlock.extractVials());
+            structures.addAll(pandaBlock.extractVials());
         }
-        return vials;
+        return structures;
     }
 
     public Collection<PandaBlock> getElements() {

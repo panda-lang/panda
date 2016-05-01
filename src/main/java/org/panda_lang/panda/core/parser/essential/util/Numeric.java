@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.parser.essential.util;
 
-import org.panda_lang.panda.lang.ObjectEssence;
+import org.panda_lang.panda.lang.ObjectInst;
 
-public abstract class Numeric extends ObjectEssence {
+public abstract class Numeric extends ObjectInst {
 
     public abstract Number getNumber();
 

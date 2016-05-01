@@ -7,6 +7,7 @@ import org.panda_lang.panda.core.parser.analyzer.AnalyzerCenter;
 import org.panda_lang.panda.core.parser.essential.BlockCenter;
 import org.panda_lang.panda.core.parser.essential.util.BlockInfo;
 import org.panda_lang.panda.core.parser.util.Dependencies;
+import org.panda_lang.panda.core.parser.util.SourcesDivider;
 import org.panda_lang.panda.core.parser.util.match.parser.ParserPattern;
 import org.panda_lang.panda.core.parser.util.match.parser.PatternExtractor;
 import org.panda_lang.panda.core.statement.Block;

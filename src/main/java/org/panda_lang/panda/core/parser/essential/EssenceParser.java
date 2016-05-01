@@ -1,8 +1,8 @@
 package org.panda_lang.panda.core.parser.essential;
 
-import org.panda_lang.panda.core.Essence;
-import org.panda_lang.panda.core.parser.ParserInfo;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.Parser;
+import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.assistant.FactorAssistant;
 import org.panda_lang.panda.core.parser.essential.util.NumberType;
 import org.panda_lang.panda.core.parser.essential.util.Numeric;
@@ -12,55 +12,58 @@ import org.panda_lang.panda.lang.*;
 public class EssenceParser implements Parser {
 
     @Override
-    public Essence parse(ParserInfo parserInfo) {
-        String parameter = parserInfo.getSourceCode();
+    public RuntimeValue parse(ParserInfo parserInfo) {
+        Inst inst = parse(parserInfo, parserInfo.getSourceCode());
+        return inst != null ? new RuntimeValue(inst) : null;
+    }
 
-        char[] chars = parameter.toCharArray();
+    public Inst parse(ParserInfo parserInfo, String source) {
+        char[] chars = source.toCharArray();
         char c = chars[0];
 
         // String
         if (c == '"') {
-            return parseString(parameter);
+            return parseString(source);
         }
         // Array
         else if (c == '[') {
-            return parseArray(parserInfo, parameter);
+            return parseArray(parserInfo, source);
         }
         // Number
-        else if (FactorAssistant.isNumber(parameter)) {
-            return parseNumber(parameter);
+        else if (FactorAssistant.isNumber(source)) {
+            return parseNumber(source);
         }
         // Null
-        else if (parameter.equals("null")) {
-            return new NullEssence();
+        else if (source.equals("null")) {
+            return new NullInst();
         }
         // True
-        else if (parameter.equals("true")) {
-            return new BooleanEssence(true);
+        else if (source.equals("true")) {
+            return new BooleanInst(true);
         }
         // False
-        else if (parameter.equals("false")) {
-            return new BooleanEssence(false);
+        else if (source.equals("false")) {
+            return new BooleanInst(false);
         }
 
         return null;
     }
 
-    public ArrayEssence parseArray(ParserInfo parserInfo, String s) {
+    public ArrayInst parseArray(ParserInfo parserInfo, String s) {
         String array = s.substring(1, s.length() - 1);
         String[] parameters = array.split(",");
         RuntimeValue[] runtimeValues = new FactorParser().parse(parserInfo, parameters);
-        return new ArrayEssence(runtimeValues);
+        return new ArrayInst(runtimeValues);
     }
 
-    public StringEssence parseString(String s) {
-        return new StringEssence(s.substring(1, s.length() - 1));
+    public StringInst parseString(String s) {
+        return new StringInst(s.substring(1, s.length() - 1));
     }
 
     public Numeric parseNumber(String s) {
         char unit = s.toUpperCase().charAt(s.length() - 1);
         if (Character.isDigit(unit)) {
-            return new IntEssence(Integer.parseInt(s));
+            return new IntInst(Integer.parseInt(s));
         }
 
         NumberType numberType = NumberType.valueOf(unit);
@@ -68,22 +71,22 @@ public class EssenceParser implements Parser {
 
         switch (numberType) {
             case BYTE:
-                return new ByteEssence(Byte.parseByte(numberValue));
+                return new ByteInst(Byte.parseByte(numberValue));
             case SHORT:
-                return new ShortEssence(Short.parseShort(numberValue));
+                return new ShortInst(Short.parseShort(numberValue));
             case INT:
-                return new IntEssence(Integer.parseInt(numberValue));
+                return new IntInst(Integer.parseInt(numberValue));
             case LONG:
-                return new LongEssence(Long.parseLong(numberValue));
+                return new LongInst(Long.parseLong(numberValue));
             case FLOAT:
-                return new FloatEssence(Float.parseFloat(numberValue));
+                return new FloatInst(Float.parseFloat(numberValue));
             case DOUBLE:
-                return new DoubleEssence(Double.parseDouble(numberValue));
+                return new DoubleInst(Double.parseDouble(numberValue));
             case FAT_PANDA:
                 return null;
             default:
                 System.out.print("Unknown number type " + s);
-                return new IntEssence(0);
+                return new IntInst(0);
         }
     }
 

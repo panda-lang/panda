@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 
 public class Runtime implements Executable {
 
@@ -34,7 +34,7 @@ public class Runtime implements Executable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         alice.setInstance(instance);
         alice.setRuntimeValues(runtimeValues);
         if (method != null) {

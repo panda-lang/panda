@@ -2,13 +2,13 @@ package org.panda_lang.panda.core.statement.block;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.ParserInfo;
 import org.panda_lang.panda.core.parser.essential.FactorParser;
 import org.panda_lang.panda.core.parser.essential.util.BlockInitializer;
 import org.panda_lang.panda.core.parser.essential.util.BlockLayout;
 import org.panda_lang.panda.core.statement.Block;
-import org.panda_lang.panda.lang.BooleanEssence;
+import org.panda_lang.panda.lang.BooleanInst;
 
 public class IfThenBlock extends Block {
 
@@ -31,8 +31,8 @@ public class IfThenBlock extends Block {
     }
 
     @Override
-    public Essence execute(Alice alice) {
-        BooleanEssence flag = runtimeValues[0].getValue(alice);
+    public Inst execute(Alice alice) {
+        BooleanInst flag = runtimeValues[0].getValue(alice);
         if (flag != null && flag.isTrue()) {
             return super.execute(alice);
         }

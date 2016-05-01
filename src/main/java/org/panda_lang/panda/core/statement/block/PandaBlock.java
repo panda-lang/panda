@@ -2,7 +2,7 @@ package org.panda_lang.panda.core.statement.block;
 
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.memory.Global;
 import org.panda_lang.panda.core.memory.Memory;
 import org.panda_lang.panda.core.statement.*;
@@ -40,7 +40,7 @@ public class PandaBlock extends Block {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         for (Executable namedExecutable : getExecutables()) {
             if (namedExecutable instanceof Block) {
                 continue;
@@ -50,7 +50,7 @@ public class PandaBlock extends Block {
         return null;
     }
 
-    public Essence call(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
+    public Inst call(Class<? extends Block> blockType, String name, RuntimeValue... runtimeValues) {
         for (Executable executable : super.getExecutables()) {
             if (executable instanceof NamedExecutable && executable.getClass() == blockType) {
                 NamedExecutable namedExecutable = (NamedExecutable) executable;
@@ -66,16 +66,16 @@ public class PandaBlock extends Block {
         return null;
     }
 
-    public Collection<Vial> extractVials() {
-        Collection<Vial> vials = new ArrayList<>(1);
+    public Collection<Structure> extractVials() {
+        Collection<Structure> structures = new ArrayList<>(1);
         for (Executable executable : super.getExecutables()) {
             if (executable instanceof VialBlock) {
                 VialBlock vialBlock = (VialBlock) executable;
-                Vial vial = vialBlock.getVial();
-                vials.add(vial);
+                Structure structure = vialBlock.getStructure();
+                structures.add(structure);
             }
         }
-        return vials;
+        return structures;
     }
 
     @Override

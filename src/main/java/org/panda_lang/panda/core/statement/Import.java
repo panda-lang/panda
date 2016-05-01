@@ -1,7 +1,7 @@
 package org.panda_lang.panda.core.statement;
 
 import org.panda_lang.panda.core.Alice;
-import org.panda_lang.panda.core.Essence;
+import org.panda_lang.panda.core.Inst;
 import org.panda_lang.panda.core.parser.essential.GroupCenter;
 import org.panda_lang.panda.core.statement.util.NamedExecutable;
 
@@ -21,10 +21,10 @@ public class Import implements NamedExecutable {
         this.group = group;
     }
 
-    public Import(Group group, Vial vial) {
+    public Import(Group group, Structure structure) {
         this.declaredImport = group.getName();
         this.group = group;
-        this.specific = vial.getName();
+        this.specific = structure.getName();
     }
 
     public Import(String declaredImport, String specific, String as) {
@@ -35,7 +35,7 @@ public class Import implements NamedExecutable {
     }
 
     @Override
-    public Essence execute(Alice alice) {
+    public Inst execute(Alice alice) {
         return null;
     }
 
