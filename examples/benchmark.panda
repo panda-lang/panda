@@ -1,7 +1,0 @@
-
-method main() {
-    List list = new List();
-    for (10000) {
-        list.add("element");
-    }
-}

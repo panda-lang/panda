@@ -2,6 +2,8 @@ package org.panda_lang.panda.util;
 
 public class StringUtils {
 
+    public static final String EMPTY = "";
+
     public static String replace(String text, String searchString, String replacement) {
         if (text == null || text.isEmpty() || searchString.isEmpty()) {
             return text;

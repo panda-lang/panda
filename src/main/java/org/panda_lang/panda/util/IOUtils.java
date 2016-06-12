@@ -1,6 +1,8 @@
 package org.panda_lang.panda.util;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.List;
@@ -26,6 +28,24 @@ public class IOUtils {
         }
         return sb.toString();
     }
+
+    public static String getURLContent(String s) {
+        String body = null;
+        try {
+            URL url = new URL(s);
+            URLConnection con = url.openConnection();
+            con.setRequestProperty("User-Agent", "Mozilla/5.0");
+            InputStream in = con.getInputStream();
+            String encoding = con.getContentEncoding();
+            encoding = encoding == null ? "UTF-8" : encoding;
+            body = IOUtils.toString(in, encoding);
+            in.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return body;
+    }
+
 
     public static void overrideFile(File file, String content) {
         try {
@@ -74,6 +94,17 @@ public class IOUtils {
     public static String convertStreamToString(InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";
+    }
+
+    public static String toString(InputStream in, String encoding) throws Exception {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buf = new byte[8192];
+        int len;
+        while ((len = in.read(buf)) != -1) {
+            byteArrayOutputStream.write(buf, 0, len);
+        }
+        in.close();
+        return new String(byteArrayOutputStream.toByteArray(), encoding);
     }
 
 }

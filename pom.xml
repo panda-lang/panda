@@ -4,12 +4,8 @@
 
     <groupId>org.panda_lang</groupId>
     <artifactId>panda</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-
-    <name>Panda</name>
-    <description>Panda is a new programming language</description>
-    <url>http://panda-lang.org/</url>
 
     <licenses>
         <license>
@@ -20,7 +16,11 @@
     </licenses>
 
     <dependencies>
-
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>reflectasm</artifactId>
+            <version>1.11.3</version>
+        </dependency>
     </dependencies>
 
     <properties>
@@ -81,4 +81,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
