@@ -1,6 +1,6 @@
 package org.panda_lang.panda.core.parser;
 
-import org.panda_lang.panda.core.statement.Executable;
+import org.panda_lang.panda.core.work.Executable;
 
 public interface Parser {
 
