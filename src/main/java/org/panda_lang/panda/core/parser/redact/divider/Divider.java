@@ -2,10 +2,14 @@ package org.panda_lang.panda.core.parser.redact.divider;
 
 import org.panda_lang.panda.core.element.Literal;
 import org.panda_lang.panda.core.element.Separator;
+import org.panda_lang.panda.core.parser.redact.Fragment;
 
 import java.util.Iterator;
 import java.util.Stack;
 
+/**
+ * Divider deals with the separation of code into fragments.
+ */
 public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
 
     private final char[] source;

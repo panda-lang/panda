@@ -6,6 +6,9 @@ import org.panda_lang.panda.core.element.Separator;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * Set of rules for {@link Divider}
+ */
 public class DividerRules {
 
     private final Collection<Separator> separators;

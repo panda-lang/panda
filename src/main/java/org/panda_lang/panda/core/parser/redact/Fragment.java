@@ -1,4 +1,4 @@
-package org.panda_lang.panda.core.parser.redact.divider;
+package org.panda_lang.panda.core.parser.redact;
 
 public class Fragment {
 

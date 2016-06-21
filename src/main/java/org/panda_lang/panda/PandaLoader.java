@@ -9,7 +9,8 @@ import java.io.File;
 
 public class PandaLoader {
 
-    public PandaScript loadSingleFile(File file) {
+    // FIXME: 6/20/2016
+    public PandaApplication loadSingleFile(File file) {
         if (file == null) {
             System.out.println("[PandaLoader] File is null");
             return null;
@@ -23,9 +24,12 @@ public class PandaLoader {
         PandaParser pandaParser = new PandaParser(contentOfFile);
         Wrapper wrapper = pandaParser.parse(new ParserInfo());
 
+        PandaApplication pandaApplication = new PandaApplication();
         PandaScript pandaScript = new PandaScript(wrapper);
         pandaScript.setWorkingDirectory(file.getParent());
-        return pandaScript;
+        pandaApplication.addPandaScript(pandaScript);
+
+        return pandaApplication;
     }
 
 }
