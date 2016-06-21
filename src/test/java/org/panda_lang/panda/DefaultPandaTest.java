@@ -11,7 +11,9 @@ public class DefaultPandaTest {
         Panda panda = pandaInitializer.initialize();
 
         PandaLoader pandaLoader = panda.getPandaLoader();
-        PandaScript pandaScript = pandaLoader.loadSingleFile(SCRIPT);
+        PandaApplication pandaApplication = pandaLoader.loadSingleFile(SCRIPT);
+
+        pandaApplication.launch(args);
     }
 
 }
