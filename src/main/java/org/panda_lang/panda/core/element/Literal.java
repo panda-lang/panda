@@ -2,47 +2,25 @@ package org.panda_lang.panda.core.element;
 
 public class Literal implements Token {
 
-    private final String[] literal;
+    private final String name;
+    private final String pattern;
 
-    public Literal(char literal) {
-        this(Character.toString(literal));
-    }
-
-    public Literal(String literal) {
-        this(new String[]{ literal, literal });
-    }
-
-    public Literal(String literalStart, String literalEnd) {
-        this(new String[]{ literalStart, literalEnd });
-    }
-
-    public Literal(String[] literal) {
-        if (literal.length == 0) {
-            this.literal = new String[]{ "", "" };
-        }
-        else if (literal.length == 1) {
-            this.literal = new String[]{ literal[0], literal[0] };
-        }
-        else {
-            this.literal = literal;
-        }
+    public Literal(String name, String pattern) {
+        this.name = name;
+        this.pattern = pattern;
     }
 
     @Override
     public String getToken() {
-        return getLiteralStart() + getLiteralEnd();
+        return getPattern();
     }
 
-    public String getLiteralStart() {
-        return literal[0];
+    public String getPattern() {
+        return pattern;
     }
 
-    public String getLiteralEnd() {
-        return literal[1];
-    }
-
-    public String[] getLiteral() {
-        return literal;
+    public String getName() {
+        return name;
     }
 
 }

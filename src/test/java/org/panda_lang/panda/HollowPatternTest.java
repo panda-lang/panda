@@ -1,7 +1,7 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.parser.match.charset.CharsetPattern;
-import org.panda_lang.panda.core.parser.match.hollow.HollowPattern;
+import org.panda_lang.panda.core.interpreter.parser.match.charset.CharsetPattern;
+import org.panda_lang.panda.core.interpreter.parser.match.hollow.HollowPattern;
 
 public class HollowPatternTest {
 

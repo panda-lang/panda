@@ -7,8 +7,8 @@ public class DefaultPandaTest {
     private static final File SCRIPT = new File("examples/hello_panda.panda");
 
     public static void main(String[] args) {
-        PandaInitializer pandaInitializer = new PandaInitializer();
-        Panda panda = pandaInitializer.initialize();
+        PandaFactory pandaFactory = new PandaFactory();
+        Panda panda = pandaFactory.createPanda();
 
         PandaLoader pandaLoader = panda.getPandaLoader();
         PandaApplication pandaApplication = pandaLoader.loadSingleFile(SCRIPT);

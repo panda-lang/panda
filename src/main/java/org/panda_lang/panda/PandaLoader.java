@@ -1,15 +1,14 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.parser.ParserInfo;
-import org.panda_lang.panda.core.work.Wrapper;
-import org.panda_lang.panda.lang.parser.PandaParser;
+import org.panda_lang.panda.core.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.core.work.executable.Wrapper;
+import org.panda_lang.panda.lang.interpreter.parser.PandaParser;
 import org.panda_lang.panda.util.IOUtils;
 
 import java.io.File;
 
 public class PandaLoader {
 
-    // FIXME: 6/20/2016
     public PandaApplication loadSingleFile(File file) {
         if (file == null) {
             System.out.println("[PandaLoader] File is null");
