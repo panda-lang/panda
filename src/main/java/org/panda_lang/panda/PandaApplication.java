@@ -1,9 +1,11 @@
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.core.work.Application;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaApplication {
+public class PandaApplication implements Application {
 
     private final Collection<PandaScript> pandaScripts;
 
@@ -11,6 +13,7 @@ public class PandaApplication {
         this.pandaScripts = new ArrayList<>();
     }
 
+    @Override
     public void launch(String[] arguments) {
     }
 
