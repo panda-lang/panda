@@ -1,9 +1,9 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.core.interpreter.parser.ParserInfo;
+import org.panda_lang.core.util.IOUtils;
 import org.panda_lang.core.work.executable.Wrapper;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParser;
-import org.panda_lang.core.util.IOUtils;
 
 import java.io.File;
 

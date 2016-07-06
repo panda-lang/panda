@@ -21,26 +21,6 @@ public class Fragment {
         return fragment.isEmpty();
     }
 
-    public void setFragment(String fragment) {
-        this.fragment = fragment;
-    }
-
-    public void setIndention(String indention) {
-        this.indention = indention;
-    }
-
-    public void setSeparator(Separator separator) {
-        this.separator = separator;
-    }
-
-    public void setInline(int inline) {
-        this.inline = inline;
-    }
-
-    public void setLine(int line) {
-        this.line = line;
-    }
-
     public String getFull() {
         return getIndention() + getFragment();
     }
@@ -49,20 +29,40 @@ public class Fragment {
         return line;
     }
 
+    public void setLine(int line) {
+        this.line = line;
+    }
+
     public int getInline() {
         return inline;
+    }
+
+    public void setInline(int inline) {
+        this.inline = inline;
     }
 
     public Separator getSeparator() {
         return separator;
     }
 
+    public void setSeparator(Separator separator) {
+        this.separator = separator;
+    }
+
     public String getIndention() {
         return indention;
     }
 
+    public void setIndention(String indention) {
+        this.indention = indention;
+    }
+
     public String getFragment() {
         return fragment;
+    }
+
+    public void setFragment(String fragment) {
+        this.fragment = fragment;
     }
 
 }
