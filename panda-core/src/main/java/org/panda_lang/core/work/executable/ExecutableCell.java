@@ -11,12 +11,12 @@ public class ExecutableCell {
         this.executable = executable;
     }
 
-    public void setExecutable(Executable executable) {
-        this.executable = executable;
-    }
-
     public Executable getExecutable() {
         return executable;
+    }
+
+    public void setExecutable(Executable executable) {
+        this.executable = executable;
     }
 
 }

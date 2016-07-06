@@ -1,4 +1,4 @@
-// comment
+// Formatter test
 method       main() {
     System
     .p
@@ -9,5 +9,5 @@ method       main() {
     ("Hello             Panda");
 }
 /*
-xxxx
+Random
 */
