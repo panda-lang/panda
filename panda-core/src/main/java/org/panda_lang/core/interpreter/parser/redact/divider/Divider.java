@@ -1,8 +1,8 @@
 package org.panda_lang.core.interpreter.parser.redact.divider;
 
+import org.panda_lang.core.interpreter.parser.redact.Fragment;
 import org.panda_lang.core.syntax.Separator;
 import org.panda_lang.core.syntax.Sequence;
-import org.panda_lang.core.interpreter.parser.redact.Fragment;
 
 import java.util.Iterator;
 import java.util.Stack;

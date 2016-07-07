@@ -1,10 +1,7 @@
 package org.panda_lang.panda.lang;
 
 import org.panda_lang.core.Application;
-import org.panda_lang.core.interpreter.parser.Parser;
-import org.panda_lang.core.interpreter.parser.ParserInitializer;
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.lang.interpreter.parser.PandaParser;
 
 import java.util.ArrayList;
 import java.util.Collection;

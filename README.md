@@ -43,10 +43,10 @@ panda/
 +--exmaples/                 Example scripts written in Panda.
 +--panda/                    Panda module
    +----/src                 All sources of Panda
-   +----/pom.xml             The main maven build script for Panda module
+   +----pom.xml             The main maven build script for Panda module
 +--panda-core/               Panda Core module
    +---------/src            All sources of Panda Core
-   +---------/pom.xml        The main maven build script for Panda Core module
+   +---------pom.xml        The main maven build script for Panda Core module
 +--pom.xml                   The main maven build script
 ```
 
