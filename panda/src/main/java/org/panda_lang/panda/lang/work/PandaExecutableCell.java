@@ -15,13 +15,13 @@ public class PandaExecutableCell implements ExecutableCell {
     }
 
     @Override
-    public void setExecutable(Executable executable) {
-        this.executable = executable;
+    public Executable getExecutable() {
+        return executable;
     }
 
     @Override
-    public Executable getExecutable() {
-        return executable;
+    public void setExecutable(Executable executable) {
+        this.executable = executable;
     }
 
 }

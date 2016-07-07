@@ -3,7 +3,6 @@ package org.panda_lang.panda.lang.interpreter;
 import org.panda_lang.core.interpreter.SourceFile;
 import org.panda_lang.core.util.IOUtils;
 
-import javax.xml.transform.Source;
 import java.io.File;
 
 public class PandaSourceFile implements SourceFile {

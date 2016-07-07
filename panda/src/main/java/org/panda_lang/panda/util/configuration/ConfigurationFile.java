@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Stack;
 
+@Deprecated
 public class ConfigurationFile {
 
     private final File file;
@@ -94,7 +95,6 @@ public class ConfigurationFile {
                             chars.append(c);
                     }
                     if (skip) {
-                        skip = false;
                         break;
                     }
                 }
@@ -127,7 +127,8 @@ public class ConfigurationFile {
                 out.newLine();
             }
             out.close();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
     }

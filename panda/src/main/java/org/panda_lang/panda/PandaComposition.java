@@ -6,12 +6,12 @@ public class PandaComposition {
 
     private PandaInterpreterConfiguration pandaInterpreterConfiguration;
 
-    public void setPandaInterpreterConfiguration(PandaInterpreterConfiguration pandaInterpreterConfiguration) {
-        this.pandaInterpreterConfiguration = pandaInterpreterConfiguration;
-    }
-
     public PandaInterpreterConfiguration getPandaInterpreterConfiguration() {
         return pandaInterpreterConfiguration;
+    }
+
+    public void setPandaInterpreterConfiguration(PandaInterpreterConfiguration pandaInterpreterConfiguration) {
+        this.pandaInterpreterConfiguration = pandaInterpreterConfiguration;
     }
 
 }

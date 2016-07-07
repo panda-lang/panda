@@ -1,7 +1,6 @@
 package org.panda_lang.panda.util.embed;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.lang.work.PandaValue;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineFactory;

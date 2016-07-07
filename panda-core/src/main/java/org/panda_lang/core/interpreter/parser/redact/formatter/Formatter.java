@@ -1,7 +1,7 @@
 package org.panda_lang.core.interpreter.parser.redact.formatter;
 
-import org.panda_lang.core.syntax.Sequence;
 import org.panda_lang.core.interpreter.parser.redact.Fragment;
+import org.panda_lang.core.syntax.Sequence;
 
 import java.util.Stack;
 

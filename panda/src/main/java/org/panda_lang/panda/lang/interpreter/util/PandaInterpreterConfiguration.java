@@ -17,7 +17,7 @@ public class PandaInterpreterConfiguration {
      * Configuration based on default panda configuration.
      *
      * @param panda necessary to get the default configuration
-     * @see         org.panda_lang.panda.PandaComposition
+     * @see org.panda_lang.panda.PandaComposition
      */
     public PandaInterpreterConfiguration(Panda panda) {
         this(panda.getPandaComposition().getPandaInterpreterConfiguration());
