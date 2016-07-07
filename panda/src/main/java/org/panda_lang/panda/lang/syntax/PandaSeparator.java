@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.syntax;
 
-import org.panda_lang.core.element.Separator;
+import org.panda_lang.core.syntax.Separator;
 
 public enum PandaSeparator {
 

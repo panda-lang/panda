@@ -1,22 +1,9 @@
 package org.panda_lang.core.work;
 
-public class Value {
+public interface Value {
 
-    private Object value;
+    void setValue(Object value);
 
-    public Value() {
-    }
-
-    public Value(Object value) {
-        this.value = value;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
-    public void setValue(Object value) {
-        this.value = value;
-    }
+    Object getValue();
 
 }

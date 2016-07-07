@@ -1,6 +1,6 @@
 package org.panda_lang.core.interpreter.parser.redact;
 
-import org.panda_lang.core.element.Separator;
+import org.panda_lang.core.syntax.Separator;
 
 public class Fragment {
 

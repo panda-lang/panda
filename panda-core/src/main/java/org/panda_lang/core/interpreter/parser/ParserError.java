@@ -1,8 +1,9 @@
 package org.panda_lang.core.interpreter.parser;
 
-public class ParserError {
+public interface ParserError {
 
-    private String message;
-    private int line;
+    String getMessage();
+
+    int getLine();
 
 }

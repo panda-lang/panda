@@ -1,5 +1,7 @@
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.lang.PandaApplication;
+
 import java.io.File;
 
 public class DefaultPandaTest {
