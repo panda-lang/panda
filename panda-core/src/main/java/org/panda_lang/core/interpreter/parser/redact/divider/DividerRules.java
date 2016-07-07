@@ -1,7 +1,7 @@
 package org.panda_lang.core.interpreter.parser.redact.divider;
 
-import org.panda_lang.core.element.Separator;
-import org.panda_lang.core.element.Sequence;
+import org.panda_lang.core.syntax.Separator;
+import org.panda_lang.core.syntax.Sequence;
 
 import java.util.ArrayList;
 import java.util.Collection;

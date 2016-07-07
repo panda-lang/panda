@@ -1,11 +1,11 @@
-package org.panda_lang.panda.lang.interpreter.parser.util;
+package org.panda_lang.panda.lang.interpreter.util;
 
 import org.panda_lang.core.interpreter.parser.redact.divider.Divider;
 import org.panda_lang.core.interpreter.parser.redact.divider.DividerRules;
 import org.panda_lang.panda.lang.syntax.PandaSeparator;
 import org.panda_lang.panda.lang.syntax.PandaSequence;
 
-public class PandaParserAssistant {
+public class PandaInterpreterAssistant {
 
     public static Divider getDefaultDivider(String source) {
         DividerRules dividerRules = new DividerRules();

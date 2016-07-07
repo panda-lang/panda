@@ -1,4 +1,4 @@
-package org.panda_lang.core.element;
+package org.panda_lang.core.syntax;
 
 public class Sequence implements Token {
 

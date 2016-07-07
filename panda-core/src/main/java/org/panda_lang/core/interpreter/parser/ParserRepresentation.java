@@ -5,13 +5,15 @@ import org.panda_lang.core.interpreter.parser.match.hollow.HollowPattern;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ParserRepresentation {
+public class ParserRepresentation<T extends Parser> {
 
-    private final Parser parser;
+    private final T parser;
+    private final ParserInitializer<T> parserParserInitializer;
     private final Collection<HollowPattern> patterns;
 
-    public ParserRepresentation(Parser parser) {
+    public ParserRepresentation(T parser, ParserInitializer<T> parserParserInitializer) {
         this.parser = parser;
+        this.parserParserInitializer = parserParserInitializer;
         this.patterns = new ArrayList<>();
     }
 
@@ -23,7 +25,11 @@ public class ParserRepresentation {
         return patterns;
     }
 
-    public Parser getParser() {
+    public ParserInitializer<T> getParserParserInitializer() {
+        return parserParserInitializer;
+    }
+
+    public T getParser() {
         return parser;
     }
 
