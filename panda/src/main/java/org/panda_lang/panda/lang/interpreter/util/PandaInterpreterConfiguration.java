@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.interpreter.util;
 
-import org.panda_lang.core.interpreter.parser.ParserRepresentationPool;
+import org.panda_lang.core.interpreter.parser.ParserRepresentationRegistry;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.lang.interpreter.PandaInterpreter;
 
@@ -11,7 +11,7 @@ import org.panda_lang.panda.lang.interpreter.PandaInterpreter;
  */
 public class PandaInterpreterConfiguration {
 
-    private final ParserRepresentationPool parserRepresentationPool;
+    private final ParserRepresentationRegistry parserRepresentationRegistry;
 
     /**
      * Configuration based on default panda configuration.
@@ -29,7 +29,7 @@ public class PandaInterpreterConfiguration {
      * @param pandaInterpreterConfiguration configuration to be copied
      */
     public PandaInterpreterConfiguration(PandaInterpreterConfiguration pandaInterpreterConfiguration) {
-        this.parserRepresentationPool = pandaInterpreterConfiguration.getParserRepresentationPool();
+        this.parserRepresentationRegistry = pandaInterpreterConfiguration.getParserRepresentationRegistry();
     }
 
     /**
@@ -39,11 +39,11 @@ public class PandaInterpreterConfiguration {
      * @see PandaInterpreterConfigurationBuilder
      */
     public PandaInterpreterConfiguration(PandaInterpreterConfigurationBuilder pandaInterpreterConfiguration) {
-        this.parserRepresentationPool = pandaInterpreterConfiguration.parserRepresentationPool;
+        this.parserRepresentationRegistry = pandaInterpreterConfiguration.parserRepresentationRegistry;
     }
 
-    public ParserRepresentationPool getParserRepresentationPool() {
-        return parserRepresentationPool;
+    public ParserRepresentationRegistry getParserRepresentationRegistry() {
+        return parserRepresentationRegistry;
     }
 
     /**
@@ -51,7 +51,7 @@ public class PandaInterpreterConfiguration {
      * @see PandaInterpreterConfigurationBuilder
      */
     public PandaInterpreterConfigurationBuilder toBuilder() {
-        return builder().parserPool(parserRepresentationPool);
+        return builder().parserPool(parserRepresentationRegistry);
     }
 
     /**
@@ -68,10 +68,10 @@ public class PandaInterpreterConfiguration {
      */
     public static class PandaInterpreterConfigurationBuilder {
 
-        private ParserRepresentationPool parserRepresentationPool;
+        private ParserRepresentationRegistry parserRepresentationRegistry;
 
-        public PandaInterpreterConfigurationBuilder parserPool(ParserRepresentationPool parserRepresentationPool) {
-            this.parserRepresentationPool = parserRepresentationPool;
+        public PandaInterpreterConfigurationBuilder parserPool(ParserRepresentationRegistry parserRepresentationRegistry) {
+            this.parserRepresentationRegistry = parserRepresentationRegistry;
             return this;
         }
 
