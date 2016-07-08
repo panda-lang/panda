@@ -1,6 +1,6 @@
 package org.panda_lang.core.interpreter.analyzer;
 
-import javafx.application.Application;
+import org.panda_lang.core.Application;
 
 public interface Analyzer {
 

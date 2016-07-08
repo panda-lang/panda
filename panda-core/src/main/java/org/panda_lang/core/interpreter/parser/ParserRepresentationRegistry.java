@@ -2,7 +2,7 @@ package org.panda_lang.core.interpreter.parser;
 
 import java.util.Collection;
 
-public class ParserRepresentationPool {
+public class ParserRepresentationRegistry {
 
     private Collection<ParserRepresentation> parserRepresentations;
 

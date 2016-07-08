@@ -1,0 +1,27 @@
+# Panda - work spec
+
+[Application]
+
+memory mem
+set<panda script> pandaScripts
+
+launch:
+    call main
+
+call custom:
+    for pandaScripts:
+        if custom:
+            call custom-head-wrapper
+
+[Panda Script] ext Instance
+
+set<head wrapper> headWrappers
+
+call wrapper:
+    for headWrappers:
+        if wrapper:
+            call headWrapper
+
+
+
+
