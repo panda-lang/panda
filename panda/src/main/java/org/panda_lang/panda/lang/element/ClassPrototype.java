@@ -1,16 +1,13 @@
 package org.panda_lang.panda.lang.element;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class ClassPrototype {
 
     private final String className;
     private final Field[] fields;
     private final Method[] methods;
 
-    public ClassPrototype(String className) {
-        this.className = className;
+    public ClassPrototype(ClassPrototypeBuilder classPrototypeBuilder) {
+        this.className = classPrototypeBuilder.className;
         this.fields = null;
         this.methods = null;
     }
@@ -25,6 +22,20 @@ public class ClassPrototype {
 
     public String getClassName() {
         return className;
+    }
+
+    public static ClassPrototypeBuilder builder() {
+        return new ClassPrototypeBuilder();
+    }
+
+    public static class ClassPrototypeBuilder {
+
+        private String className;
+
+        public ClassPrototype build() {
+            return new ClassPrototype(this);
+        }
+
     }
 
 }

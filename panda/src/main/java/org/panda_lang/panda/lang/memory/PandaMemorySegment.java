@@ -56,6 +56,17 @@ public class PandaMemorySegment implements MemorySegment {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <T> T destroy(int pointer) {
+        if (instances.size() > pointer) {
+            Object element = instances.remove(pointer);
+            free.push(pointer);
+            return (T) element;
+        }
+        return null;
+    }
+
+    @Override
     public String getType() {
         return type;
     }

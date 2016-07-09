@@ -1,7 +1,5 @@
 package org.panda_lang.panda.lang.element;
 
-import java.util.ArrayList;
-
 public class Instance {
 
     private final ClassPrototype classPrototype;
@@ -12,8 +10,8 @@ public class Instance {
         this.fields = new int[classPrototype.getFields().length];
     }
 
-    public int getFieldValue(int i) {
-        return fields[i];
+    public <T> T getFieldValue(int i) {
+        return null;
     }
 
     public int[] getFields() {
