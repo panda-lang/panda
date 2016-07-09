@@ -6,6 +6,8 @@ public interface MemorySegment {
 
     <T> T get(int pointer);
 
+    <T> T destroy(int pointer);
+
     String getType();
 
     int getTypeID();

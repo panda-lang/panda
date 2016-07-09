@@ -6,6 +6,8 @@ public interface Application {
 
     void launch(String[] arguments);
 
+    String getWorkingDirectory();
+
     Memory getMemory();
 
 }
