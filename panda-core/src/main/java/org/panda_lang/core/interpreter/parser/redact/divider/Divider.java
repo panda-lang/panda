@@ -1,8 +1,8 @@
 package org.panda_lang.core.interpreter.parser.redact.divider;
 
 import org.panda_lang.core.interpreter.parser.redact.Fragment;
-import org.panda_lang.core.syntax.Separator;
-import org.panda_lang.core.syntax.Sequence;
+import org.panda_lang.core.interpreter.parser.redact.Separator;
+import org.panda_lang.core.interpreter.parser.redact.Sequence;
 
 import java.util.Iterator;
 import java.util.Stack;
@@ -47,6 +47,7 @@ public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
      */
     @Override
     public Fragment next() {
+        inline = 0;
         caret++;
 
         divider:
@@ -114,7 +115,6 @@ public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
 
         indentionBuilder.setLength(0);
         nodeBuilder.setLength(0);
-        inline = 0;
         nodes++;
 
         return currentFragment;

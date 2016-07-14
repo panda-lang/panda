@@ -1,10 +1,12 @@
-package org.panda_lang.core.syntax;
+package org.panda_lang.core.interpreter.parser.redact;
+
+import org.panda_lang.core.interpreter.parser.tokenizer.Token;
 
 public class Sequence implements Token {
 
     private final String[] range;
     private String name;
-    private boolean overlooked;
+    private boolean negligible;
 
     public Sequence(char range) {
         this(Character.toString(range));
@@ -35,13 +37,13 @@ public class Sequence implements Token {
         return this;
     }
 
-    public Sequence overlooked(boolean overlooked) {
-        this.overlooked = overlooked;
+    public Sequence negligible(boolean negligible) {
+        this.negligible = negligible;
         return this;
     }
 
-    public boolean isOverlooked() {
-        return overlooked;
+    public boolean isNegligible() {
+        return negligible;
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.panda_lang.core.interpreter.parser.redact.formatter;
 
 import org.panda_lang.core.interpreter.parser.redact.Fragment;
-import org.panda_lang.core.syntax.Sequence;
+import org.panda_lang.core.interpreter.parser.redact.Sequence;
 
 import java.util.Stack;
 
@@ -36,7 +36,7 @@ public class Formatter {
                 }
 
                 if (formatterRules.isSequenceOverlookEnabled()) {
-                    if (!previousSequence.isOverlooked()) {
+                    if (!previousSequence.isNegligible()) {
                         fragmentBuilder.append(sequenceBuilder.toString());
                     }
                 }

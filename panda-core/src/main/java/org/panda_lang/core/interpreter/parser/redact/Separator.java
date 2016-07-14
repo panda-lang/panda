@@ -1,4 +1,6 @@
-package org.panda_lang.core.syntax;
+package org.panda_lang.core.interpreter.parser.redact;
+
+import org.panda_lang.core.interpreter.parser.tokenizer.Token;
 
 public class Separator implements Token {
 

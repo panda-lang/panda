@@ -66,6 +66,10 @@ public class HollowPattern implements Matcher {
         return expression.length() < 1;
     }
 
+    public void clear() {
+        hollows.clear();
+    }
+
     public List<String> cloneHollows() {
         return new ArrayList<>(hollows);
     }
