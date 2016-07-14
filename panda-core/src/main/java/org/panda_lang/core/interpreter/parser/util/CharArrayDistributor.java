@@ -1,4 +1,4 @@
-package org.panda_lang.core.interpreter.parser.match.util;
+package org.panda_lang.core.interpreter.parser.util;
 
 public class CharArrayDistributor {
 

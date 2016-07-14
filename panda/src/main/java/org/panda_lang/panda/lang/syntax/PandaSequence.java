@@ -1,6 +1,6 @@
 package org.panda_lang.panda.lang.syntax;
 
-import org.panda_lang.core.syntax.Sequence;
+import org.panda_lang.core.interpreter.parser.redact.Sequence;
 
 public enum PandaSequence {
 
@@ -12,20 +12,20 @@ public enum PandaSequence {
 
     private final Sequence sequence;
 
-    PandaSequence(String literalName, char literal, boolean overlooked) {
-        this(literalName, Character.toString(literal), overlooked);
+    PandaSequence(String literalName, char literal, boolean negligible) {
+        this(literalName, Character.toString(literal), negligible);
     }
 
-    PandaSequence(String literalName, String literal, boolean overlooked) {
-        this(literalName, literal, literal, overlooked);
+    PandaSequence(String literalName, String literal, boolean negligible) {
+        this(literalName, literal, literal, negligible);
     }
 
-    PandaSequence(String literalName, String literalStart, String literalEnd, boolean overlooked) {
-        this(literalName, new String[]{ literalStart, literalEnd }, overlooked);
+    PandaSequence(String literalName, String literalStart, String literalEnd, boolean negligible) {
+        this(literalName, new String[]{ literalStart, literalEnd }, negligible);
     }
 
-    PandaSequence(String literalName, String[] literal, boolean overlooked) {
-        this.sequence = new Sequence(literal).name(literalName).overlooked(overlooked);
+    PandaSequence(String literalName, String[] literal, boolean negligible) {
+        this.sequence = new Sequence(literal).name(literalName).negligible(negligible);
     }
 
     public Sequence getSequence() {

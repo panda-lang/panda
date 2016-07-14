@@ -1,22 +1,19 @@
 package org.panda_lang.panda.lang.syntax;
 
-import org.panda_lang.core.syntax.Separator;
+public class PandaSeparator {
 
-public enum PandaSeparator {
+    public static final String BLOCK_START = "{";
 
-    BLOCK_START('{'),
-    BLOCK_END('}'),
-    END_LINE(';'),
-    SEPARATOR(',');
+    public static final String BLOCK_END = "}";
 
-    private final Separator separator;
+    public static final String END_LINE = ";";
 
-    PandaSeparator(char separator) {
-        this.separator = new Separator(separator);
-    }
+    public static final String SEPARATOR = ",";
 
-    public Separator getSeparator() {
-        return separator;
+    private static final String[] VALUES = new String[] { BLOCK_START, BLOCK_END, END_LINE, SEPARATOR };
+
+    public static String[] values() {
+        return VALUES;
     }
 
 }

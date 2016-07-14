@@ -1,17 +1,19 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.core.interpreter.parser.ParserRepresentationRegistry;
 import org.panda_lang.panda.lang.interpreter.util.PandaInterpreterConfiguration;
+import org.panda_lang.panda.lang.registry.ParserRegistry;
 
 public class PandaFactory {
 
     public Panda createPanda() {
         Panda panda = new Panda();
 
-        ParserRepresentationRegistry parserRepresentationRegistry = new ParserRepresentationRegistry();
+        PandaInterpreterConfiguration interpreterConfiguration = PandaInterpreterConfiguration.builder()
+                .pipeline(ParserRegistry.getPipeline())
+                .build();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
-        pandaComposition.setPandaInterpreterConfiguration(PandaInterpreterConfiguration.builder().build());
+        pandaComposition.setPandaInterpreterConfiguration(interpreterConfiguration);
 
         return panda;
     }

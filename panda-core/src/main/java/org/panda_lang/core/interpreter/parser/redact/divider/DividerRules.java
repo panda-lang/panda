@@ -1,13 +1,15 @@
 package org.panda_lang.core.interpreter.parser.redact.divider;
 
-import org.panda_lang.core.syntax.Separator;
-import org.panda_lang.core.syntax.Sequence;
+import org.panda_lang.core.interpreter.parser.redact.Separator;
+import org.panda_lang.core.interpreter.parser.redact.Sequence;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Set of rules for {@link Divider}
+ * Set of rules for Divider
+ *
+ * @see Divider
  */
 public class DividerRules {
 
@@ -28,7 +30,7 @@ public class DividerRules {
         separators.add(separator);
     }
 
-    public void addLiteral(Sequence sequence) {
+    public void addSequence(Sequence sequence) {
         sequences.add(sequence);
     }
 

@@ -2,14 +2,29 @@ package org.panda_lang.panda.lang.element;
 
 public class ClassPrototype {
 
-    private final String className;
-    private final Field[] fields;
-    private final Method[] methods;
+    protected String className;
+    protected Field[] fields;
+    protected Method[] methods;
+
+    public ClassPrototype() {
+    }
 
     public ClassPrototype(ClassPrototypeBuilder classPrototypeBuilder) {
         this.className = classPrototypeBuilder.className;
         this.fields = null;
         this.methods = null;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
+    }
+
+    public void setFields(Field[] fields) {
+        this.fields = fields;
+    }
+
+    public void setMethods(Method[] methods) {
+        this.methods = methods;
     }
 
     public Method[] getMethods() {
@@ -31,6 +46,11 @@ public class ClassPrototype {
     public static class ClassPrototypeBuilder {
 
         private String className;
+
+        public ClassPrototypeBuilder className(String className) {
+            this.className = className;
+            return this;
+        }
 
         public ClassPrototype build() {
             return new ClassPrototype(this);

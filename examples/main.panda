@@ -1,0 +1,26 @@
+group example;
+
+static final String VERSION = "indev-0.0.1-SNAPSHOT";
+
+static main() {
+    Main main = new Main();
+    main.start();
+}
+
+class Main() {
+
+    String version;
+
+    constructor Main() {
+        this.version = VERSION;
+    }
+
+    method start() {
+
+    }
+
+    method String getVersion() {
+        return version;
+    }
+
+}
