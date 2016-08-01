@@ -186,6 +186,13 @@ public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
     }
 
     /**
+     * @return position of caret in the current line
+     */
+    public int getInlineCaretPosition() {
+        return inline;
+    }
+
+    /**
      * @return position of caret
      */
     public int getCaretPosition() {

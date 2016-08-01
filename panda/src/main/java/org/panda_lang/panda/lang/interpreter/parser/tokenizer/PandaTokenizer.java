@@ -5,7 +5,8 @@ import org.panda_lang.core.interpreter.parser.tokenizer.Tokenizer;
 import org.panda_lang.panda.lang.syntax.PandaSeparator;
 import org.panda_lang.panda.lang.syntax.PandaSequence;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Stack;
 
 public class PandaTokenizer implements Tokenizer<PandaToken> {
 
@@ -72,8 +73,6 @@ public class PandaTokenizer implements Tokenizer<PandaToken> {
             if (tokenPreview.endsWith(System.lineSeparator())) {
                 line++;
             }
-
-
 
             for (String pandaSeparator : PandaSeparator.values()) {
                 if (tokenPreview.equals(pandaSeparator)) {

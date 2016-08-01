@@ -10,7 +10,7 @@ public class PandaSeparator {
 
     public static final String SEPARATOR = ",";
 
-    private static final String[] VALUES = new String[] { BLOCK_START, BLOCK_END, END_LINE, SEPARATOR };
+    private static final String[] VALUES = new String[]{ BLOCK_START, BLOCK_END, END_LINE, SEPARATOR };
 
     public static String[] values() {
         return VALUES;

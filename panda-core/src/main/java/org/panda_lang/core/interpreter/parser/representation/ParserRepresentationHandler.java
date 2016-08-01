@@ -2,7 +2,7 @@ package org.panda_lang.core.interpreter.parser.representation;
 
 import org.panda_lang.core.interpreter.parser.redact.Fragment;
 
-public class ParserRepresentationHandler  {
+public class ParserRepresentationHandler {
 
     private final String handlerName;
     private final ParserRepresentation parserRepresentation;
