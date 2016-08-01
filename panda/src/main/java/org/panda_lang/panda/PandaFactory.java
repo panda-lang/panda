@@ -8,9 +8,7 @@ public class PandaFactory {
     public Panda createPanda() {
         Panda panda = new Panda();
 
-        PandaInterpreterConfiguration interpreterConfiguration = PandaInterpreterConfiguration.builder()
-                .pipeline(ParserRegistry.getPipeline())
-                .build();
+        PandaInterpreterConfiguration interpreterConfiguration = PandaInterpreterConfiguration.builder().pipeline(ParserRegistry.getPipeline()).build();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
         pandaComposition.setPandaInterpreterConfiguration(interpreterConfiguration);

@@ -15,28 +15,28 @@ public class ClassPrototype {
         this.methods = null;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public void setFields(Field[] fields) {
-        this.fields = fields;
+    public Method[] getMethods() {
+        return methods;
     }
 
     public void setMethods(Method[] methods) {
         this.methods = methods;
     }
 
-    public Method[] getMethods() {
-        return methods;
-    }
-
     public Field[] getFields() {
         return fields;
     }
 
+    public void setFields(Field[] fields) {
+        this.fields = fields;
+    }
+
     public String getClassName() {
         return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public static ClassPrototypeBuilder builder() {
