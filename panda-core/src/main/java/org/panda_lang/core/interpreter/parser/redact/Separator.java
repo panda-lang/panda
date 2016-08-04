@@ -1,6 +1,7 @@
 package org.panda_lang.core.interpreter.parser.redact;
 
-import org.panda_lang.core.interpreter.parser.tokenizer.Token;
+import org.panda_lang.core.interpreter.parser.lexer.Token;
+import org.panda_lang.core.interpreter.parser.lexer.TokenType;
 
 public class Separator implements Token {
 
@@ -17,6 +18,11 @@ public class Separator implements Token {
     @Override
     public String getToken() {
         return separator;
+    }
+
+    @Override
+    public TokenType getType() {
+        return TokenType.SEPARATOR;
     }
 
 }

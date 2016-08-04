@@ -23,8 +23,7 @@ public class IOUtils {
                 line = br.readLine();
             }
             br.close();
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return sb.toString();
@@ -41,8 +40,7 @@ public class IOUtils {
             encoding = encoding == null ? "UTF-8" : encoding;
             body = IOUtils.toString(in, encoding);
             in.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return body;
@@ -54,8 +52,7 @@ public class IOUtils {
             PrintWriter writer = new PrintWriter(file, "UTF-8");
             writer.print(content);
             writer.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -69,8 +66,7 @@ public class IOUtils {
                 List<String> list = Files.readAllLines(file.toPath(), Charset.forName("UTF-8"));
                 String[] result = new String[list.size()];
                 return list.toArray(result);
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }

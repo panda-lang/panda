@@ -1,6 +1,7 @@
 package org.panda_lang.core.interpreter.parser.redact;
 
-import org.panda_lang.core.interpreter.parser.tokenizer.Token;
+import org.panda_lang.core.interpreter.parser.lexer.Token;
+import org.panda_lang.core.interpreter.parser.lexer.TokenType;
 
 public class Sequence implements Token {
 
@@ -65,6 +66,11 @@ public class Sequence implements Token {
 
     public String[] getRange() {
         return range;
+    }
+
+    @Override
+    public TokenType getType() {
+        return TokenType.SEQUENCE;
     }
 
 }
