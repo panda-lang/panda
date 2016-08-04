@@ -1,4 +1,4 @@
-package org.panda_lang.core.interpreter.parser.tokenizer;
+package org.panda_lang.core.interpreter.parser.lexer;
 
 import java.util.Iterator;
 

@@ -1,7 +1,8 @@
 package org.panda_lang.panda.lang.interpreter.parser.tokenizer;
 
+import org.panda_lang.core.interpreter.parser.lexer.TokenType;
+import org.panda_lang.core.interpreter.parser.lexer.Tokenizer;
 import org.panda_lang.core.interpreter.parser.redact.Sequence;
-import org.panda_lang.core.interpreter.parser.tokenizer.Tokenizer;
 import org.panda_lang.panda.lang.syntax.PandaSeparator;
 import org.panda_lang.panda.lang.syntax.PandaSequence;
 
@@ -92,7 +93,7 @@ public class PandaTokenizer implements Tokenizer<PandaToken> {
             }
         }
 
-        PandaToken pandaToken = new PandaToken(tokenBuilder.toString());
+        PandaToken pandaToken = new PandaToken(TokenType.UNKNOWN, tokenBuilder.toString());
         sequenceBuilder.setLength(0);
         tokenBuilder.setLength(0);
         sequences.clear();
