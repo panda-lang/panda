@@ -5,22 +5,21 @@ import org.panda_lang.core.util.IOUtils;
 import java.io.File;
 import java.util.*;
 
-@Deprecated
 public class PandaConfiguration {
 
     private File configuration;
-    private String[] code;
     private Map<String, Object> map;
 
     public PandaConfiguration() {
         this.map = new HashMap<>();
-        this.code = new String[0];
     }
 
     public PandaConfiguration(File file) {
+        String[] source = IOUtils.getContentAsLines(file);
+        ConfigurationParser configurationParser = new ConfigurationParser(source);
+
         this.configuration = file;
-        this.code = IOUtils.getContentAsLines(file);
-        this.map = new ConfigurationParser(code).getMap();
+        this.map = configurationParser.getMap();
     }
 
     public ConfigurationFile save() {
@@ -134,17 +133,12 @@ public class PandaConfiguration {
     }
 
     public void clear() {
-        this.code = null;
         this.configuration = null;
         this.map = null;
     }
 
     public Map<String, Object> getMap() {
         return this.map;
-    }
-
-    public String[] getCode() {
-        return this.code;
     }
 
     public File getConfigurationFile() {

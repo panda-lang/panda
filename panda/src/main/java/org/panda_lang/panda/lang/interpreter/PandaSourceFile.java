@@ -1,7 +1,7 @@
 package org.panda_lang.panda.lang.interpreter;
 
 import org.panda_lang.core.interpreter.SourceFile;
-import org.panda_lang.core.util.IOUtils;
+import org.panda_lang.core.util.FileUtils;
 
 import java.io.File;
 
@@ -15,7 +15,7 @@ public class PandaSourceFile implements SourceFile {
 
     @Override
     public String getContent() {
-        return IOUtils.getContentOfFile(file);
+        return FileUtils.getContentOfFile(file);
     }
 
     @Override

@@ -1,22 +1,11 @@
 package org.panda_lang.core.interpreter.parser;
 
-public class ParserStatus {
+public interface ParserStatus {
 
-    private ParserError parserError;
+    void print(ParserError parserError);
 
-    public void print(ParserError parserError) {
-        System.out.println(parserError.getContent());
-    }
+    <T> T throwParserError(ParserError parserError);
 
-    public <T> T throwParserError(ParserError parserError) {
-        this.parserError = parserError;
-
-        print(parserError);
-        return null;
-    }
-
-    public boolean checkStatus() {
-        return parserError == null;
-    }
+    boolean checkStatus();
 
 }

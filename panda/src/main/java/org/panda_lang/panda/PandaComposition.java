@@ -1,17 +1,17 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.lang.interpreter.util.PandaInterpreterConfiguration;
+import org.panda_lang.panda.composition.SyntaxComposition;
 
 public class PandaComposition {
 
-    private PandaInterpreterConfiguration pandaInterpreterConfiguration;
+    private final SyntaxComposition syntaxComposition;
 
-    public PandaInterpreterConfiguration getPandaInterpreterConfiguration() {
-        return pandaInterpreterConfiguration;
+    public PandaComposition() {
+        this.syntaxComposition = new SyntaxComposition();
     }
 
-    public void setPandaInterpreterConfiguration(PandaInterpreterConfiguration pandaInterpreterConfiguration) {
-        this.pandaInterpreterConfiguration = pandaInterpreterConfiguration;
+    public SyntaxComposition getSyntaxComposition() {
+        return syntaxComposition;
     }
 
 }

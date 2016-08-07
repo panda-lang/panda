@@ -1,3 +1,5 @@
+!pseudo code
+
 # Panda - work spec
 
 [Application]
