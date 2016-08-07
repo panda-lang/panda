@@ -2,31 +2,13 @@ package org.panda_lang.core.interpreter.parser;
 
 import org.panda_lang.core.Application;
 
-public class ParserInfo {
+public interface ParserInfo {
 
-    private Application application;
-    private ParserStatus parserStatus;
-    private String source;
+    void setParserContext(ParserContext parserContext);
 
-    public ParserInfo(Application application) {
-        this.application = application;
-        this.parserStatus = new ParserStatus();
-    }
+    ParserContext getParserContext();
 
-    public String getSource() {
-        return source;
-    }
+    ParserStatus getParserStatus();
 
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public ParserStatus getParserStatus() {
-        return parserStatus;
-    }
-
-    public Application getApplication() {
-        return application;
-    }
-
+    Application getApplication();
 }

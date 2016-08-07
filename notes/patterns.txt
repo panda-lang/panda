@@ -1,3 +1,5 @@
+!pseudo code
+
 class Test {                                  // class *{
 
 method main() {                               // method *(){

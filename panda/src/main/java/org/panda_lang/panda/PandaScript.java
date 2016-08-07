@@ -4,11 +4,10 @@ import org.panda_lang.core.work.Executable;
 import org.panda_lang.core.work.ExecutableCell;
 import org.panda_lang.core.work.Value;
 import org.panda_lang.core.work.Wrapper;
-import org.panda_lang.panda.lang.element.ClassPrototype;
 
 import java.util.List;
 
-public class PandaScript extends ClassPrototype implements Wrapper {
+public class PandaScript implements Wrapper {
 
     public PandaScript() {
 

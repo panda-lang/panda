@@ -5,7 +5,7 @@
     <name>Panda</name>
     <groupId>org.panda_lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-0.0.1-SNAPSHOT</version>
+    <version>indev-0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
     <scm>
         <connection>scm:git:https://github.com/Panda-Programming-Language/Panda.git</connection>
@@ -41,7 +41,7 @@
     </dependencyManagement>
 
     <properties>
-        <panda.version>indev-0.0.1-SNAPSHOT</panda.version>
+        <panda.version>indev-0.0.2-SNAPSHOT</panda.version>
         <panda.java>1.8</panda.java>
         <maven.compiler.source>${panda.java}</maven.compiler.source>
         <maven.compiler.target>${panda.java}</maven.compiler.target>
