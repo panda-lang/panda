@@ -1,26 +1,28 @@
 package org.panda_lang.panda.composition.syntax;
 
+import org.panda_lang.core.interpreter.parser.lexer.suggestion.Separator;
+
 public class Separators {
 
-    public static final String SEMICOLON = ";";
+    public static final Separator SEMICOLON = new Separator(";");
 
-    public static final String COMMA = ",";
+    public static final Separator COMMA = new Separator(",");
 
-    public static final String PERIOD = ".";
+    public static final Separator PERIOD = new Separator(".");
 
-    public static final String LEFT_PARENTHESIS_DELIMITER = "(";
+    public static final Separator LEFT_PARENTHESIS_DELIMITER = new Separator("(");
 
-    public static final String RIGHT_PARENTHESIS_DELIMITER = ")";
+    public static final Separator RIGHT_PARENTHESIS_DELIMITER = new Separator(")");
 
-    public static final String LEFT_BRACE_DELIMITER = "{";
+    public static final Separator LEFT_BRACE_DELIMITER = new Separator("{");
 
-    public static final String RIGHT_BRACE_DELIMITER = "}";
+    public static final Separator RIGHT_BRACE_DELIMITER = new Separator("}");
 
-    public static final String LEFT_BRACKET_DELIMITER = "[";
+    public static final Separator LEFT_BRACKET_DELIMITER = new Separator("[");
 
-    public static final String RIGHT_BRACKET_DELIMITER = "]";
+    public static final Separator RIGHT_BRACKET_DELIMITER = new Separator("]");
 
-    private static final String[] VALUES = new String[9];
+    private static final Separator[] VALUES = new Separator[9];
 
     static {
         VALUES[0] = SEMICOLON;
@@ -37,7 +39,7 @@ public class Separators {
         VALUES[8] = RIGHT_BRACKET_DELIMITER;
     }
 
-    public static String[] values() {
+    public static Separator[] values() {
         return VALUES;
     }
 

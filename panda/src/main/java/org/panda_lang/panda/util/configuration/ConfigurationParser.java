@@ -18,7 +18,7 @@ public class ConfigurationParser {
         Stack<String> keys = new Stack<>();
         Stack<Character> operators = new Stack<>();
         StringBuilder chars = new StringBuilder();
-        PandaEntry<String, Collection<String>> entry = new PandaEntry<>();
+        ConfigurationEntry<String, Collection<String>> entry = new ConfigurationEntry<>();
 
         int lastPosition = 0;
         entry.setValue(new ArrayList<>());
@@ -176,7 +176,7 @@ public class ConfigurationParser {
                             lo.setObject(entry.getValue());
                             lo.setPosition(position);
                             this.addEntry(entry.getKey(), lo);
-                            entry = new PandaEntry<>();
+                            entry = new ConfigurationEntry<>();
                             entry.setValue(new ArrayList<>());
                         }
                         break;
@@ -209,7 +209,7 @@ public class ConfigurationParser {
                         if (keys.size() != 0) {
                             keys.pop();
                         }
-                        entry = new PandaEntry<>();
+                        entry = new ConfigurationEntry<>();
                         entry.setValue(new ArrayList<>());
                     }
                     keys.push(key);

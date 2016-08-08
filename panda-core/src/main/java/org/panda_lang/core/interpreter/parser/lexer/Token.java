@@ -4,6 +4,8 @@ public interface Token {
 
     String getToken();
 
-    TokenType getType();
+    default TokenType getType() {
+        return TokenType.UNKNOWN;
+    }
 
 }
