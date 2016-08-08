@@ -1,76 +1,78 @@
 package org.panda_lang.panda.composition.syntax;
 
+import org.panda_lang.core.interpreter.parser.lexer.suggestion.Keyword;
+
 public class Keywords {
 
-    public static final String ABSTRACT = "abstract";
+    public static final Keyword ABSTRACT = new Keyword("abstract");
 
-    public static final String AS = "as";
+    public static final Keyword AS = new Keyword("as");
 
-    public static final String BOOLEAN = "boolean";
+    public static final Keyword BOOLEAN = new Keyword("boolean");
 
-    public static final String BREAK = "break";
+    public static final Keyword BREAK = new Keyword("break");
 
-    public static final String BYTE = "byte";
+    public static final Keyword BYTE = new Keyword("byte");
 
-    public static final String CASE = "catch";
+    public static final Keyword CASE = new Keyword("catch");
 
-    public static final String CHAR = "char";
+    public static final Keyword CHAR = new Keyword("char");
 
-    public static final String CLASS = "class";
+    public static final Keyword CLASS = new Keyword("class");
 
-    public static final String CONSTRUCTOR = "constructor";
+    public static final Keyword CONSTRUCTOR = new Keyword("constructor");
 
-    public static final String CONTINUE = "continue";
+    public static final Keyword CONTINUE = new Keyword("continue");
 
-    public static final String DOUBLE = "double";
+    public static final Keyword DOUBLE = new Keyword("double");
 
-    public static final String ELSE = "else";
+    public static final Keyword ELSE = new Keyword("else");
 
-    public static final String EXTENDS = "extends";
+    public static final Keyword EXTENDS = new Keyword("extends");
 
-    public static final String FINAL = "final";
+    public static final Keyword FINAL = new Keyword("final");
 
-    public static final String FLOAT = "float";
+    public static final Keyword FLOAT = new Keyword("float");
 
-    public static final String FOR = "for";
+    public static final Keyword FOR = new Keyword("for");
 
-    public static final String GROUP = "group";
+    public static final Keyword GROUP = new Keyword("group");
 
-    public static final String IF = "if";
+    public static final Keyword IF = new Keyword("if");
 
-    public static final String IMPLEMENTS = "implements";
+    public static final Keyword IMPLEMENTS = new Keyword("implements");
 
-    public static final String INSTANCE_OF = "instanceof";
+    public static final Keyword INSTANCE_OF = new Keyword("instanceof");
 
-    public static final String INT = "interface";
+    public static final Keyword INT = new Keyword("interface");
 
-    public static final String LONG = "long";
+    public static final Keyword LONG = new Keyword("long");
 
-    public static final String METHOD = "method";
+    public static final Keyword METHOD = new Keyword("method");
 
-    public static final String NATIVE = "native";
+    public static final Keyword NATIVE = new Keyword("native");
 
-    public static final String NEW = "new";
+    public static final Keyword NEW = new Keyword("new");
 
-    public static final String RETURN = "return";
+    public static final Keyword RETURN = new Keyword("return");
 
-    public static final String REQUIRE = "require";
+    public static final Keyword REQUIRE = new Keyword("require");
 
-    public static final String SHORT = "short";
+    public static final Keyword SHORT = new Keyword("short");
 
-    public static final String STATIC = "static";
+    public static final Keyword STATIC = new Keyword("static");
 
-    public static final String SUPER = "super";
+    public static final Keyword SUPER = new Keyword("super");
 
-    public static final String SYNCHRONIZED = "synchronized";
+    public static final Keyword SYNCHRONIZED = new Keyword("synchronized");
 
-    public static final String SWITCH = "switch";
+    public static final Keyword SWITCH = new Keyword("switch");
 
-    public static final String THIS = "this";
+    public static final Keyword THIS = new Keyword("this");
 
-    public static final String WHILE = "while";
+    public static final Keyword WHILE = new Keyword("while");
 
-    private static final String[] VALUES = new String[34];
+    private static final Keyword[] VALUES = new Keyword[34];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -109,7 +111,7 @@ public class Keywords {
         VALUES[33] = WHILE;
     }
 
-    public static String[] values() {
+    public static Keyword[] values() {
         return VALUES;
     }
 

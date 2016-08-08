@@ -1,5 +1,8 @@
 package org.panda_lang.panda.composition;
 
+import org.panda_lang.core.interpreter.parser.lexer.suggestion.Keyword;
+import org.panda_lang.core.interpreter.parser.lexer.suggestion.Separator;
+import org.panda_lang.core.interpreter.parser.lexer.suggestion.Sequence;
 import org.panda_lang.panda.composition.syntax.Keywords;
 import org.panda_lang.panda.composition.syntax.Separators;
 import org.panda_lang.panda.composition.syntax.Sequences;
@@ -10,9 +13,9 @@ import java.util.Collections;
 
 public class SyntaxComposition {
 
-    private final Collection<String> keywords;
-    private final Collection<String> separators;
-    private final Collection<String> sequences;
+    private final Collection<Keyword> keywords;
+    private final Collection<Separator> separators;
+    private final Collection<Sequence> sequences;
 
     public SyntaxComposition() {
         this.keywords = new ArrayList<>();
@@ -28,15 +31,15 @@ public class SyntaxComposition {
         Collections.addAll(sequences, Sequences.values());
     }
 
-    public Collection<String> getSequences() {
+    public Collection<Sequence> getSequences() {
         return sequences;
     }
 
-    public Collection<String> getSeparators() {
+    public Collection<Separator> getSeparators() {
         return separators;
     }
 
-    public Collection<String> getKeywords() {
+    public Collection<Keyword> getKeywords() {
         return keywords;
     }
 

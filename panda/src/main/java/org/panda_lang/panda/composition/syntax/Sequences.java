@@ -1,19 +1,21 @@
 package org.panda_lang.panda.composition.syntax;
 
+import org.panda_lang.core.interpreter.parser.lexer.suggestion.Sequence;
+
 public class Sequences {
 
-    public static final String STRING = "\"";
+    public static final Sequence STRING = new Sequence("\"");
 
-    public static final String CHARACTER = "'";
+    public static final Sequence CHARACTER = new Sequence("'");
 
-    private static final String[] VALUES = new String[2];
+    private static final Sequence[] VALUES = new Sequence[2];
 
     static {
         VALUES[0] = STRING;
         VALUES[1] = CHARACTER;
     }
 
-    public static String[] values() {
+    public static Sequence[] values() {
         return VALUES;
     }
 

@@ -1,14 +1,14 @@
 package org.panda_lang.panda.util.configuration;
 
-public class PandaEntry<K, V> {
+public class ConfigurationEntry<K, V> {
 
     private K key;
     private V value;
 
-    public PandaEntry() {
+    public ConfigurationEntry() {
     }
 
-    public PandaEntry(K key, V value) {
+    public ConfigurationEntry(K key, V value) {
         this.key = key;
         this.value = value;
     }

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.util.configuration;
 
-import org.panda_lang.core.util.IOUtils;
+import org.panda_lang.core.util.FileUtils;
 
 import java.io.File;
 import java.util.*;
@@ -15,7 +15,7 @@ public class PandaConfiguration {
     }
 
     public PandaConfiguration(File file) {
-        String[] source = IOUtils.getContentAsLines(file);
+        String[] source = FileUtils.getContentAsLines(file);
         ConfigurationParser configurationParser = new ConfigurationParser(source);
 
         this.configuration = file;

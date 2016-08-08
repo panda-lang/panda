@@ -6,7 +6,7 @@ import java.io.File;
 
 public class DefaultPandaTest {
 
-    private static final File SCRIPT = new File("examples/hello_panda.panda");
+    private static final File SCRIPT = new File("examples/hello_world.panda");
 
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();
