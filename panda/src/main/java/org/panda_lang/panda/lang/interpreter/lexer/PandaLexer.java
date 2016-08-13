@@ -10,106 +10,101 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.composition.SyntaxComposition;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 public class PandaLexer implements Lexer {
 
     private final Panda panda;
+    private final List<Token> tokens;
+    private final Collection<Keyword> keywords;
+    private final Collection<Separator> separators;
+    private final Collection<Sequence> sequences;
+    private final StringBuilder tokenBuilder;
+    private final Stack<Sequence> sequenceStack;
+    private final char[] sourceCharArray;
+    private boolean previousSpecial;
+    private int index;
 
-    public PandaLexer(Panda panda) {
-        this.panda = panda;
-    }
-
-    @Override
-    public Token[] convert(String source) {
+    public PandaLexer(Panda panda, String source) {
         if (source == null) {
             throw new IllegalArgumentException("Source cannot be null");
         }
+        else if (source.isEmpty()) {
+            throw new IllegalArgumentException("Source is empty");
+        }
 
-        List<Token> tokens = new ArrayList<>();
+        this.panda = panda;
+        this.tokens = new ArrayList<>();
+        this.sourceCharArray = source.toCharArray();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
         SyntaxComposition syntaxComposition = pandaComposition.getSyntaxComposition();
 
-        Collection<Keyword> keywords = syntaxComposition.getKeywords();
-        Collection<Separator> separators = syntaxComposition.getSeparators();
-        Collection<Sequence> sequences = syntaxComposition.getSequences();
+        this.keywords = syntaxComposition.getKeywords();
+        this.separators = syntaxComposition.getSeparators();
+        this.sequences = syntaxComposition.getSequences();
 
-        StringBuilder tokenBuilder = new StringBuilder();
-        Stack<Sequence> sequenceStack = new Stack<>();
+        this.tokenBuilder = new StringBuilder();
+        this.sequenceStack = new Stack<>();
+        this.index = 0;
+    }
 
-        char[] sourceCharArray = (source + " ").toCharArray();
-
-        lexer:
-        for (int i = 0; i < sourceCharArray.length; i++) {
-            char c = sourceCharArray[i];
-
-            if (sequenceStack.size() != 0) {
-                String tokenPreview = tokenBuilder.append(c).toString();
-
-                for (Sequence sequence : sequences) {
-                    if (!tokenPreview.endsWith(sequence.getSequenceEnd())) {
-                        continue;
-                    }
-
-                    Token token = new PandaToken(TokenType.SEQUENCE, tokenPreview);
-                    tokens.add(token);
-
-                    tokenBuilder.setLength(0);
-                    sequenceStack.pop();
-                    continue lexer;
-                }
-
-                continue;
-            }
-
-            if (Character.isWhitespace(c)) {
-                continue;
-            }
-
-            tokenBuilder.append(c);
-
-            if (sequenceStack.size() != 0) {
-                continue;
-            }
-
-            String tokenPreview = tokenBuilder.toString();
-
-            for (Separator separator : separators) {
-                if (!tokenPreview.equals(separator.getToken())) {
-                    continue;
-                }
-
-                tokenBuilder.setLength(0);
-                tokens.add(separator);
-                continue lexer;
-            }
-
-            for (Keyword keyword : keywords) {
-                if (!tokenPreview.equals(keyword.getToken())) {
-                    continue;
-                }
-
-                tokenBuilder.setLength(0);
-                tokens.add(keyword);
-                continue lexer;
-            }
-
-            for (Sequence sequence : sequences) {
-                if (!tokenPreview.equals(sequence.getSequenceStart())) {
-                    continue;
-                }
-
-                sequenceStack.push(sequence);
-                continue lexer;
-            }
-
+    @Override
+    public Token[] convert() {
+        for (index = 0; index < sourceCharArray.length; index++) {
+            next(sourceCharArray[index]);
         }
+        extract();
 
         return tokens.toArray(new Token[tokens.size()]);
+    }
+
+    private void next(char c) {
+        if (sequenceStack.size() > 0) {
+            tokenBuilder.append(c);
+            checkSequence();
+            return;
+        }
+
+        if (Character.isWhitespace(c)) {
+            extract();
+            return;
+        }
+
+        tokenBuilder.append(c);
+        String tokenPreview = tokenBuilder.toString();
+
+        boolean special = !Character.isLetterOrDigit(c);
+
+        if (previousSpecial && !special) {
+            extract();
+        }
+        else if (!previousSpecial && special) {
+            extract();
+        }
+
+        previousSpecial = special;
+    }
+
+    private void extract() {
+        String tokenPreview = tokenBuilder.toString();
+
+
+    }
+
+    private void checkSequence() {
+        Sequence sequence = sequenceStack.peek();
+        String sequencePreview = tokenBuilder.toString();
+
+        if (!sequencePreview.endsWith(sequence.getSequenceEnd())) {
+            return;
+        }
+
+        Token token = new PandaToken(TokenType.SEQUENCE, sequencePreview);
+
+        tokenBuilder.setLength(0);
+        sequenceStack.pop();
+        tokens.add(token);
     }
 
 }

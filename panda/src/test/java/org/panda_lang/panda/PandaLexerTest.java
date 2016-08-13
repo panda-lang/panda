@@ -15,8 +15,8 @@ public class PandaLexerTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda);
-        Token[] tokens = lexer.convert(FileUtils.getContentOfFile(SOURCE_FILE));
+        Lexer lexer = new PandaLexer(panda, FileUtils.getContentOfFile(SOURCE_FILE));
+        Token[] tokens = lexer.convert();
 
         for (Token token : tokens) {
             System.out.println(token.getType().toString() + ": " + token.getToken());

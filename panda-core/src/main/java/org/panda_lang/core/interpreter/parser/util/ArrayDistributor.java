@@ -1,23 +1,71 @@
 package org.panda_lang.core.interpreter.parser.util;
 
-public interface ArrayDistributor<T> {
+public class ArrayDistributor<T> {
 
-    T previous();
+    private final T[] array;
+    private int i;
 
-    T current();
+    public ArrayDistributor(T[] array) {
+        this.array = array;
+    }
 
-    boolean hasNext();
+    public T previous() {
+        if (i - 1 < array.length) {
+            i--;
 
-    T next();
+            if (i < 0) {
+                i = 0;
+            }
 
-    T further();
+            return array[i];
+        }
 
-    T future();
+        return null;
+    }
 
-    T getPrevious();
+    public T current() {
+        return array[i];
+    }
 
-    T getPrevious(int i);
+    public boolean hasNext() {
+        return i < array.length - 1;
+    }
 
-    T getLast();
+    public T next() {
+        if (i + 1 < array.length) {
+            i++;
+            return array[i];
+        }
+
+        return null;
+    }
+
+    public T further() {
+        if (i + 1 < array.length) {
+            return array[i + 1];
+        }
+
+        return null;
+    }
+
+    public T future() {
+        if (i + 2 < array.length) {
+            return array[i + 2];
+        }
+
+        return null;
+    }
+
+    public T getPrevious() {
+        return i - 1 > 0 ? array[i - 1] : null;
+    }
+
+    public T getPrevious(int t) {
+        return i - t > 0 ? array[i - t] : null;
+    }
+
+    public T getLast() {
+        return array[array.length - 1];
+    }
 
 }
