@@ -1,7 +1,7 @@
 package org.panda_lang.core.util.match.charset;
 
-import org.panda_lang.core.util.match.Matcher;
 import org.panda_lang.core.interpreter.parser.util.CharArrayDistributor;
+import org.panda_lang.core.util.match.Matcher;
 
 public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
 

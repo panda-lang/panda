@@ -2,6 +2,7 @@ package org.panda_lang.panda;
 
 import org.panda_lang.core.interpreter.parser.lexer.Lexer;
 import org.panda_lang.core.interpreter.parser.lexer.Token;
+import org.panda_lang.core.interpreter.parser.lexer.TokenizedSource;
 import org.panda_lang.core.util.FileUtils;
 import org.panda_lang.panda.lang.interpreter.lexer.PandaLexer;
 
@@ -16,10 +17,14 @@ public class PandaLexerTest {
         Panda panda = pandaFactory.createPanda();
 
         Lexer lexer = new PandaLexer(panda, FileUtils.getContentOfFile(SOURCE_FILE));
-        Token[] tokens = lexer.convert();
+        TokenizedSource tokenizedSource = lexer.convert();
 
-        for (Token token : tokens) {
-            System.out.println(token.getType().toString() + ": " + token.getToken());
+        for (int line = 0; line < tokenizedSource.getTokenizedSource().length; line++) {
+            Token[] tokensLine = tokenizedSource.getTokenizedSource()[line];
+
+            for (Token token : tokensLine) {
+                System.out.println((line + 1) + ": " + token.getType().toString() + ": " + token.getToken());
+            }
         }
     }
 

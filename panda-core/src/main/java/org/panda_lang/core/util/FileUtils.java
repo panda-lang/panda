@@ -70,11 +70,9 @@ public class FileUtils {
                 sb.append(System.lineSeparator());
                 line = br.readLine();
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             IOUtils.close(br);
         }
 

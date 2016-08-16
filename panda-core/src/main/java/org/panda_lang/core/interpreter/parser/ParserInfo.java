@@ -4,9 +4,9 @@ import org.panda_lang.core.Application;
 
 public interface ParserInfo {
 
-    void setParserContext(ParserContext parserContext);
-
     ParserContext getParserContext();
+
+    void setParserContext(ParserContext parserContext);
 
     ParserStatus getParserStatus();
 

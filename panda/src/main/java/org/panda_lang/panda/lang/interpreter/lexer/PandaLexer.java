@@ -2,28 +2,32 @@ package org.panda_lang.panda.lang.interpreter.lexer;
 
 import org.panda_lang.core.interpreter.parser.lexer.Lexer;
 import org.panda_lang.core.interpreter.parser.lexer.Token;
-import org.panda_lang.core.interpreter.parser.lexer.TokenType;
-import org.panda_lang.core.interpreter.parser.lexer.suggestion.Keyword;
-import org.panda_lang.core.interpreter.parser.lexer.suggestion.Separator;
-import org.panda_lang.core.interpreter.parser.lexer.suggestion.Sequence;
+import org.panda_lang.core.interpreter.parser.lexer.TokenizedSource;
+import org.panda_lang.core.util.CharacterUtils;
+import org.panda_lang.core.util.StringUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.composition.SyntaxComposition;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class PandaLexer implements Lexer {
 
     private final Panda panda;
-    private final List<Token> tokens;
-    private final Collection<Keyword> keywords;
-    private final Collection<Separator> separators;
-    private final Collection<Sequence> sequences;
+    private final String source;
+    private final Token[][] tokenizedSource;
+    private final Collection<Token> tokenizedSourceLine;
+    private final SyntaxComposition syntaxComposition;
+
     private final StringBuilder tokenBuilder;
-    private final Stack<Sequence> sequenceStack;
-    private final char[] sourceCharArray;
+    private final PandaLexerTokenExtractor lexerTokenExtractor;
+    private final PandaLexerSequencer lexerSequencer;
+
+    private String linePreview;
+    private String tokenPreview;
     private boolean previousSpecial;
-    private int index;
+    private int currentLine;
 
     public PandaLexer(Panda panda, String source) {
         if (source == null) {
@@ -34,77 +38,107 @@ public class PandaLexer implements Lexer {
         }
 
         this.panda = panda;
-        this.tokens = new ArrayList<>();
-        this.sourceCharArray = source.toCharArray();
+        this.source = source + " ";
+        this.tokenizedSource = new Token[StringUtils.countOccurrences(source, System.lineSeparator())][];
+        this.tokenizedSourceLine = new ArrayList<>();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
-        SyntaxComposition syntaxComposition = pandaComposition.getSyntaxComposition();
+        this.syntaxComposition = pandaComposition.getSyntaxComposition();
 
-        this.keywords = syntaxComposition.getKeywords();
-        this.separators = syntaxComposition.getSeparators();
-        this.sequences = syntaxComposition.getSequences();
-
+        this.lexerTokenExtractor = new PandaLexerTokenExtractor(this);
+        this.lexerSequencer = new PandaLexerSequencer(this, syntaxComposition.getSequences());
         this.tokenBuilder = new StringBuilder();
-        this.sequenceStack = new Stack<>();
-        this.index = 0;
+
+        this.previousSpecial = false;
+        this.currentLine = 0;
     }
 
     @Override
-    public Token[] convert() {
-        for (index = 0; index < sourceCharArray.length; index++) {
-            next(sourceCharArray[index]);
-        }
-        extract();
+    public TokenizedSource convert() {
+        char[] sourceCharArray = source.toCharArray();
 
-        return tokens.toArray(new Token[tokens.size()]);
+        for (char c : sourceCharArray) {
+            next(c);
+            checkLine();
+        }
+
+        return new PandaTokenizedSource(tokenizedSource);
     }
 
     private void next(char c) {
-        if (sequenceStack.size() > 0) {
-            tokenBuilder.append(c);
-            checkSequence();
+        linePreview += c;
+        tokenPreview = tokenBuilder.toString();
+
+        if (lexerSequencer.checkBefore(tokenBuilder, c)) {
             return;
         }
 
         if (Character.isWhitespace(c)) {
-            extract();
+            boolean extracted = lexerTokenExtractor.extract(tokenBuilder);
+
+            if (!extracted) {
+                System.out.println("Unknown token: " + tokenPreview);
+            }
+
             return;
         }
 
+        check(c);
         tokenBuilder.append(c);
-        String tokenPreview = tokenBuilder.toString();
 
-        boolean special = !Character.isLetterOrDigit(c);
+        if (lexerSequencer.checkAfter(tokenBuilder)) {
+            return;
+        }
+    }
+
+    private void check(char c) {
+        boolean special = CharacterUtils.belongsTo(c, syntaxComposition.getSpecialCharacters());
 
         if (previousSpecial && !special) {
-            extract();
+            lexerTokenExtractor.extract(tokenBuilder);
         }
         else if (!previousSpecial && special) {
-            extract();
+            lexerTokenExtractor.extract(tokenBuilder);
         }
 
         previousSpecial = special;
     }
 
-    private void extract() {
-        String tokenPreview = tokenBuilder.toString();
-
-
+    private void checkLine() {
+        if (linePreview.endsWith(System.lineSeparator())) {
+            tokenizedSource[currentLine] = tokenizedSourceLine.toArray(new Token[tokenizedSourceLine.size()]);
+            tokenizedSourceLine.clear();
+            linePreview = "";
+            currentLine++;
+        }
     }
 
-    private void checkSequence() {
-        Sequence sequence = sequenceStack.peek();
-        String sequencePreview = tokenBuilder.toString();
+    protected int getCurrentLine() {
+        return currentLine;
+    }
 
-        if (!sequencePreview.endsWith(sequence.getSequenceEnd())) {
-            return;
-        }
+    protected String getTokenPreview() {
+        return tokenPreview;
+    }
 
-        Token token = new PandaToken(TokenType.SEQUENCE, sequencePreview);
+    protected StringBuilder getTokenBuilder() {
+        return tokenBuilder;
+    }
 
-        tokenBuilder.setLength(0);
-        sequenceStack.pop();
-        tokens.add(token);
+    protected SyntaxComposition getSyntaxComposition() {
+        return syntaxComposition;
+    }
+
+    protected Collection<Token> getTokenizedSourceLine() {
+        return tokenizedSourceLine;
+    }
+
+    protected Token[][] getTokenizedSource() {
+        return tokenizedSource;
+    }
+
+    protected Panda getPanda() {
+        return panda;
     }
 
 }

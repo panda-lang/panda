@@ -1,8 +1,8 @@
 package org.panda_lang.core.util.redact.divider;
 
-import org.panda_lang.core.util.redact.Fragment;
 import org.panda_lang.core.interpreter.parser.lexer.suggestion.Separator;
 import org.panda_lang.core.interpreter.parser.lexer.suggestion.Sequence;
+import org.panda_lang.core.util.redact.Fragment;
 
 import java.util.Iterator;
 import java.util.Stack;

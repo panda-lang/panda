@@ -1,7 +1,7 @@
 package org.panda_lang.core.util.match.hollow;
 
-import org.panda_lang.core.util.match.Matcher;
 import org.panda_lang.core.util.StringUtils;
+import org.panda_lang.core.util.match.Matcher;
 
 import java.util.ArrayList;
 import java.util.List;

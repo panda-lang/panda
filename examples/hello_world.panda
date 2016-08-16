@@ -1,9 +1,14 @@
-method       main() {
-    System
-    .p
-    r
-    i
-    n
-    t
-    ("Hello             Panda");
-}
+    public final static function error($errno, $errstr, $errfile, $errline) {
+        echo 'ERROR: ';
+        var_dump($errno);
+        var_dump($errstr);
+        var_dump($errfile);
+        var_dump($errline);
+        exit();
+    }
+
+    public final static function exception($exception) {
+        echo 'EXCEPTION: ';
+        var_dump($exception);
+        exit();
+    }

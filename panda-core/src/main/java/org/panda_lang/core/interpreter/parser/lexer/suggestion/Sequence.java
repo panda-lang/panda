@@ -20,7 +20,7 @@ public class Sequence implements Token {
         this.sequenceStart = sequenceStart;
         this.sequenceEnd = sequenceEnd;
     }
-    
+
     public String getSequenceStart() {
         return sequenceStart;
     }
@@ -33,7 +33,7 @@ public class Sequence implements Token {
     public String getToken() {
         return getSequenceStart() + getSequenceEnd();
     }
-    
+
     @Override
     public TokenType getType() {
         return TokenType.SEQUENCE;
