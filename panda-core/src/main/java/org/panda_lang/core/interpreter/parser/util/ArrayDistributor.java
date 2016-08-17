@@ -3,69 +3,78 @@ package org.panda_lang.core.interpreter.parser.util;
 public class ArrayDistributor<T> {
 
     private final T[] array;
-    private int i;
+    private int index;
 
     public ArrayDistributor(T[] array) {
         this.array = array;
+        this.index = -1;
     }
 
     public T previous() {
-        if (i - 1 < array.length) {
-            i--;
+        if (index - 1 < array.length) {
+            index--;
 
-            if (i < 0) {
-                i = 0;
+            if (index < 0) {
+                index = 0;
             }
 
-            return array[i];
+            return array[index];
         }
 
         return null;
     }
 
     public T current() {
-        return array[i];
+        return index < array.length ? array[index] : null;
     }
 
     public boolean hasNext() {
-        return i < array.length - 1;
+        return index < array.length - 1;
     }
 
     public T next() {
-        if (i + 1 < array.length) {
-            i++;
-            return array[i];
+        if (index + 1 < array.length) {
+            index++;
+            return array[index];
         }
 
         return null;
     }
 
     public T further() {
-        if (i + 1 < array.length) {
-            return array[i + 1];
+        if (index + 1 < array.length) {
+            return array[index + 1];
         }
 
         return null;
     }
 
     public T future() {
-        if (i + 2 < array.length) {
-            return array[i + 2];
+        if (index + 2 < array.length) {
+            return array[index + 2];
         }
 
         return null;
     }
 
     public T getPrevious() {
-        return i - 1 > 0 ? array[i - 1] : null;
+        return index - 1 > 0 ? array[index - 1] : null;
     }
 
     public T getPrevious(int t) {
-        return i - t > 0 ? array[i - t] : null;
+        return index - t > 0 ? array[index - t] : null;
     }
 
     public T getLast() {
         return array[array.length - 1];
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public int getLength() {
+        return array.length;
     }
 
 }

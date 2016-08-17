@@ -27,7 +27,7 @@ public class PandaLoader {
         PandaSourceSet pandaSourceSet = new PandaSourceSet();
         pandaSourceSet.add(file);
 
-        PandaInterpreter interpreter = new PandaInterpreter(pandaSourceSet);
+        PandaInterpreter interpreter = new PandaInterpreter(panda, pandaSourceSet);
         PandaApplication application = interpreter.interpret();
 
         application.setWorkingDirectory(file.getParent());

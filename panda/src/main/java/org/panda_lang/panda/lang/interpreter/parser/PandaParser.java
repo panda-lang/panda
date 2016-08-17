@@ -1,16 +1,21 @@
 package org.panda_lang.panda.lang.interpreter.parser;
 
-import org.panda_lang.core.interpreter.Interpreter;
 import org.panda_lang.core.interpreter.parser.Parser;
+import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
+import org.panda_lang.core.interpreter.parser.lexer.Lexer;
+import org.panda_lang.core.interpreter.parser.lexer.TokenizedSource;
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.lang.interpreter.PandaInterpreter;
+import org.panda_lang.panda.lang.interpreter.lexer.PandaLexer;
 
 public class PandaParser implements Parser {
 
-    private final Interpreter interpreter;
+    private final PandaInterpreter interpreter;
     private PandaScript pandaScript;
+    private TokenizedSource tokenizedSource;
 
-    public PandaParser(Interpreter interpreter) {
+    public PandaParser(PandaInterpreter interpreter) {
         this.interpreter = interpreter;
     }
 
@@ -18,30 +23,24 @@ public class PandaParser implements Parser {
     public PandaScript parse(ParserInfo parserInfo) {
         this.pandaScript = new PandaScript();
 
-        /* TODO: ↓
-        for (Fragment fragment : divider) {
-            ParserRepresentationHandler parserRepresentationHandler = pipeline.handle(fragment);
+        ParserContext parserContext = parserInfo.getParserContext();
+        Lexer lexer = new PandaLexer(interpreter.getPanda(), parserContext.getSource());
 
-            if (parserRepresentationHandler == null) {
-                ParserError error = new PandaParserError()
-                        .title("Unrecognized fragment")
-                        .particulars("Fragment: '" + fragment.getFragment() + "'")
-                        .line(divider.getLine());
+        this.tokenizedSource = lexer.convert();
 
-                ParserStatus parserStatus = parserInfo.getParserStatus();
-                return parserStatus.throwParserError(error);
-            }
-        }
-        */
 
         return pandaScript;
+    }
+
+    public TokenizedSource getTokenizedSource() {
+        return tokenizedSource;
     }
 
     public PandaScript getPandaScript() {
         return pandaScript;
     }
 
-    public Interpreter getInterpreter() {
+    public PandaInterpreter getInterpreter() {
         return interpreter;
     }
 

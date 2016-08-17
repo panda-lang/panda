@@ -73,11 +73,11 @@ public class PandaLexer implements Lexer {
             return;
         }
 
-        if (Character.isWhitespace(c)) {
+        if (CharacterUtils.isWhitespace(c)) {
             boolean extracted = lexerTokenExtractor.extract(tokenBuilder);
 
             if (!extracted) {
-                System.out.println("Unknown token: " + tokenPreview);
+                throw new PandaLexerException("Unknown token: " + tokenPreview);
             }
 
             return;
@@ -85,10 +85,7 @@ public class PandaLexer implements Lexer {
 
         check(c);
         tokenBuilder.append(c);
-
-        if (lexerSequencer.checkAfter(tokenBuilder)) {
-            return;
-        }
+        lexerSequencer.checkAfter(tokenBuilder);
     }
 
     private void check(char c) {

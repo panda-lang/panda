@@ -3,21 +3,22 @@ package org.panda_lang.core.interpreter.parser.util;
 public class CharArrayDistributor {
 
     private final char[] array;
-    private int i;
+    private int index;
 
     public CharArrayDistributor(char[] array) {
         this.array = array;
+        this.index = -1;
     }
 
     public char previous() {
-        if (i - 1 < array.length) {
-            i--;
+        if (index - 1 < array.length) {
+            index--;
 
-            if (i < 0) {
-                i = 0;
+            if (index < 0) {
+                index = 0;
             }
 
-            return array[i];
+            return array[index];
         }
         else {
             return getLast();
@@ -25,17 +26,17 @@ public class CharArrayDistributor {
     }
 
     public char current() {
-        return array[i];
+        return array[index];
     }
 
     public boolean hasNext() {
-        return i < array.length - 1;
+        return index < array.length - 1;
     }
 
     public char next() {
-        if (i + 1 < array.length) {
-            i++;
-            return array[i];
+        if (index + 1 < array.length) {
+            index++;
+            return array[index];
         }
         else {
             return getLast();
@@ -43,8 +44,8 @@ public class CharArrayDistributor {
     }
 
     public char further() {
-        if (i + 1 < array.length) {
-            return array[i + 1];
+        if (index + 1 < array.length) {
+            return array[index + 1];
         }
         else {
             return getLast();
@@ -52,8 +53,8 @@ public class CharArrayDistributor {
     }
 
     public char future() {
-        if (i + 2 < array.length) {
-            return array[i + 2];
+        if (index + 2 < array.length) {
+            return array[index + 2];
         }
         else {
             return getLast();
@@ -61,11 +62,11 @@ public class CharArrayDistributor {
     }
 
     public char getPrevious() {
-        return i - 1 > 0 ? array[i - 1] : array[0];
+        return index - 1 > 0 ? array[index - 1] : array[0];
     }
 
     public char getPrevious(int t) {
-        return i - t > 0 ? array[i - t] : array[0];
+        return index - t > 0 ? array[index - t] : array[0];
     }
 
     public char getLast() {

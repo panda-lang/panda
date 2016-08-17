@@ -7,8 +7,8 @@ import org.panda_lang.core.interpreter.parser.ParserStatus;
 
 public class PandaParserInfo implements ParserInfo {
 
-    private Application application;
-    private ParserStatus parserStatus;
+    private final Application application;
+    private final ParserStatus parserStatus;
     private ParserContext parserContext;
 
     public PandaParserInfo(Application application) {

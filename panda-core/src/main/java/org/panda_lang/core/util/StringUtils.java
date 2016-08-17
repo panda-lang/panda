@@ -80,4 +80,15 @@ public class StringUtils {
         return false;
     }
 
+    public static String toCharCodes(String str) {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (char c : str.toCharArray()) {
+            stringBuilder.append((int) c);
+            stringBuilder.append(" ");
+        }
+
+        return stringBuilder.toString();
+    }
+
 }

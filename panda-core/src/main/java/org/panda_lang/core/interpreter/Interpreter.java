@@ -6,6 +6,4 @@ public interface Interpreter {
 
     Application interpret();
 
-    SourceSet getSourceSet();
-
 }

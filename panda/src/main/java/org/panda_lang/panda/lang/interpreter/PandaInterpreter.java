@@ -5,6 +5,7 @@ import org.panda_lang.core.interpreter.SourceFile;
 import org.panda_lang.core.interpreter.SourceSet;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.lang.PandaApplication;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParser;
@@ -13,18 +14,20 @@ import org.panda_lang.panda.lang.interpreter.parser.PandaParserInfo;
 
 public class PandaInterpreter implements Interpreter {
 
+    private final Panda panda;
     private final SourceSet sourceSet;
 
-    public PandaInterpreter(SourceSet sourceSet) {
+    public PandaInterpreter(Panda panda, SourceSet sourceSet) {
+        this.panda = panda;
         this.sourceSet = sourceSet;
     }
 
     @Override
     public PandaApplication interpret() {
         PandaApplication pandaApplication = new PandaApplication();
+        ParserInfo parserInfo = new PandaParserInfo(pandaApplication);
 
         for (SourceFile sourceFile : sourceSet.getSourceFiles()) {
-            ParserInfo parserInfo = new PandaParserInfo(pandaApplication);
             ParserContext parserContext = new PandaParserContext(sourceFile.getContent());
             parserInfo.setParserContext(parserContext);
 
@@ -39,6 +42,10 @@ public class PandaInterpreter implements Interpreter {
 
     public SourceSet getSourceSet() {
         return sourceSet;
+    }
+
+    public Panda getPanda() {
+        return panda;
     }
 
 }

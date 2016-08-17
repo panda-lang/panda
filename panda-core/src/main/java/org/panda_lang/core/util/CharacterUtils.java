@@ -12,4 +12,8 @@ public class CharacterUtils {
         return false;
     }
 
+    public static boolean isWhitespace(char c) {
+        return Character.isWhitespace(c) || (int) c == 160;
+    }
+
 }
