@@ -1,4 +1,4 @@
-package org.panda_lang.core.interpreter.parser.lexer;
+package org.panda_lang.core.interpreter.lexer;
 
 public enum TokenType {
 

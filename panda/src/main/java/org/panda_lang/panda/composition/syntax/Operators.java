@@ -1,6 +1,6 @@
 package org.panda_lang.panda.composition.syntax;
 
-import org.panda_lang.core.interpreter.parser.lexer.suggestion.Operator;
+import org.panda_lang.core.interpreter.lexer.suggestion.Operator;
 
 public class Operators {
 

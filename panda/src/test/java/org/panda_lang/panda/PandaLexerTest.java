@@ -1,9 +1,9 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.core.interpreter.parser.lexer.Lexer;
-import org.panda_lang.core.interpreter.parser.lexer.Token;
-import org.panda_lang.core.interpreter.parser.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.lexer.TokenizedSource;
+import org.panda_lang.core.interpreter.lexer.Lexer;
+import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.lexer.TokenReader;
+import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.util.FileUtils;
 import org.panda_lang.panda.lang.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.lang.interpreter.lexer.PandaTokenReader;
@@ -23,7 +23,7 @@ public class PandaLexerTest {
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
         for (Token token : tokenReader) {
-            System.out.println((tokenReader.getLine() + 1) + "[" + tokenReader.getIndex() + "]" + ": " + token.getType().toString() + ": " + token.getToken());
+            System.out.println((tokenReader.getLine() + 1) + "[" + tokenReader.getNextIndex() + "]" + ": " + token.getType().toString() + ": " + token.getToken());
         }
     }
 

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.composition.syntax;
 
-import org.panda_lang.core.interpreter.parser.lexer.suggestion.Separator;
+import org.panda_lang.core.interpreter.lexer.suggestion.Separator;
 
 public class Separators {
 

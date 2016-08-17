@@ -1,4 +1,4 @@
-package org.panda_lang.core.interpreter.parser.util;
+package org.panda_lang.core.util.array;
 
 public class ArrayDistributor<T> {
 
@@ -7,6 +7,10 @@ public class ArrayDistributor<T> {
 
     public ArrayDistributor(T[] array) {
         this.array = array;
+        this.index = -1;
+    }
+
+    public void reset() {
         this.index = -1;
     }
 

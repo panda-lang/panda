@@ -1,7 +1,7 @@
-package org.panda_lang.core.interpreter.parser.lexer.suggestion;
+package org.panda_lang.core.interpreter.lexer.suggestion;
 
-import org.panda_lang.core.interpreter.parser.lexer.Token;
-import org.panda_lang.core.interpreter.parser.lexer.TokenType;
+import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.lexer.TokenType;
 
 public class Keyword implements Token {
 

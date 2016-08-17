@@ -1,7 +1,7 @@
 package org.panda_lang.panda.lang.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.parser.lexer.Token;
-import org.panda_lang.core.interpreter.parser.lexer.TokenizedSource;
+import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 
 public class PandaTokenizedSource implements TokenizedSource {
 

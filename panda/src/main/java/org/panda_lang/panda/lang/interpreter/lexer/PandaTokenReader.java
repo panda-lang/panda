@@ -1,21 +1,25 @@
 package org.panda_lang.panda.lang.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.parser.lexer.Token;
-import org.panda_lang.core.interpreter.parser.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.lexer.TokenizedSource;
-import org.panda_lang.core.interpreter.parser.util.ArrayDistributor;
+import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.lexer.TokenReader;
+import org.panda_lang.core.interpreter.lexer.TokenizedSource;
+import org.panda_lang.core.util.array.ArrayDistributor;
+
+import java.util.Iterator;
 
 public class PandaTokenReader implements TokenReader {
 
     private final TokenizedSource tokenizedSource;
     private ArrayDistributor<Token[]> sourceArrayDistributor;
     private ArrayDistributor<Token> tokenArrayDistributor;
+    private PandaTokenReaderIterator iterator;
     private int index;
 
     public PandaTokenReader(TokenizedSource tokenizedSource) {
         this.tokenizedSource = tokenizedSource;
         this.sourceArrayDistributor = new ArrayDistributor<>(tokenizedSource.getTokenizedSource());
-        this.tokenArrayDistributor = nextLine();
+        this.tokenArrayDistributor = nextLine(sourceArrayDistributor);
+        this.iterator = new PandaTokenReaderIterator(this);
         this.index = -1;
     }
 
@@ -32,15 +36,15 @@ public class PandaTokenReader implements TokenReader {
         Token token = tokenArrayDistributor.next();
 
         if (token == null) {
-            tokenArrayDistributor = nextLine();
-            return read();
+            tokenArrayDistributor = nextLine(sourceArrayDistributor);
+            return next();
         }
 
         ++index;
         return token;
     }
 
-    protected ArrayDistributor<Token> nextLine() {
+    protected ArrayDistributor<Token> nextLine(ArrayDistributor<Token[]> sourceArrayDistributor) {
         Token[] tokens = sourceArrayDistributor.next();
 
         if (tokens == null) {
@@ -51,8 +55,37 @@ public class PandaTokenReader implements TokenReader {
     }
 
     @Override
+    public Token next() {
+        return iterator.next();
+    }
+
+    @Override
+    public void reset() {
+        index = -1;
+        iterator.reset();
+        sourceArrayDistributor.reset();
+
+        if (tokenArrayDistributor == null) {
+            tokenArrayDistributor = nextLine(sourceArrayDistributor);
+            return;
+        }
+
+        tokenArrayDistributor.reset();
+    }
+
+    @Override
+    public Iterator<Token> iterator() {
+        return iterator;
+    }
+
+    @Override
     public boolean hasNext() {
-        return index + 1 < tokenizedSource.size();
+        return iterator.hasNext();
+    }
+
+    @Override
+    public TokenizedSource getTokenizedSource() {
+        return tokenizedSource;
     }
 
     @Override
@@ -66,12 +99,13 @@ public class PandaTokenReader implements TokenReader {
     }
 
     @Override
-    public int getIndex() {
-        return index;
+    public int getNextIndex() {
+        return iterator.getIndex();
     }
 
-    public TokenizedSource getTokenizedSource() {
-        return tokenizedSource;
+    @Override
+    public int getIndex() {
+        return index;
     }
 
 }
