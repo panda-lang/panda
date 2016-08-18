@@ -1,24 +1,19 @@
 package org.panda_lang.panda.lang.interpreter.parser;
 
-import org.panda_lang.core.Application;
+import org.panda_lang.core.interpreter.Interpreter;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
-import org.panda_lang.core.interpreter.parser.ParserStatus;
+import org.panda_lang.core.interpreter.parser.ParserPipeline;
 
 public class PandaParserInfo implements ParserInfo {
 
-    private final Application application;
-    private final ParserStatus parserStatus;
+    private final Interpreter interpreter;
+    private final ParserPipeline pipeline;
     private ParserContext parserContext;
 
-    public PandaParserInfo(Application application) {
-        this.application = application;
-        this.parserStatus = new PandaParserStatus();
-    }
-
-    @Override
-    public ParserContext getParserContext() {
-        return parserContext;
+    public PandaParserInfo(Interpreter interpreter, ParserPipeline pipeline) {
+        this.interpreter = interpreter;
+        this.pipeline = pipeline;
     }
 
     @Override
@@ -27,13 +22,18 @@ public class PandaParserInfo implements ParserInfo {
     }
 
     @Override
-    public ParserStatus getParserStatus() {
-        return parserStatus;
+    public ParserContext getParserContext() {
+        return parserContext;
     }
 
     @Override
-    public Application getApplication() {
-        return application;
+    public ParserPipeline getParserPipeline() {
+        return pipeline;
+    }
+
+    @Override
+    public Interpreter getInterpreter() {
+        return interpreter;
     }
 
 }

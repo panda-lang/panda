@@ -4,6 +4,8 @@ import org.panda_lang.core.Application;
 
 public interface Interpreter {
 
-    Application interpret();
+    void interpret();
+
+    Application getApplication();
 
 }

@@ -33,7 +33,7 @@ public class PandaTokenizedSource implements TokenizedSource {
     }
 
     @Override
-    public Token[][] getTokenizedSource() {
+    public Token[][] getSource() {
         return tokenizedSource;
     }
 

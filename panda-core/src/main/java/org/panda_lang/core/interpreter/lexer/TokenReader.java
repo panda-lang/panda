@@ -6,15 +6,19 @@ public interface TokenReader extends Iterator<Token>, Iterable<Token> {
 
     Token read();
 
-    void reset();
+    void synchronize();
 
     TokenizedSource getTokenizedSource();
+
+    int getIteratorLineIndex();
+
+    int getIteratorLine();
+
+    int getIteratorIndex();
 
     int getLineIndex();
 
     int getLine();
-
-    int getNextIndex();
 
     int getIndex();
 

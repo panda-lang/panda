@@ -14,10 +14,12 @@ public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token
 
     public PandaTokenReaderIterator(PandaTokenReader pandaTokenReader) {
         this.pandaTokenReader = pandaTokenReader;
+        this.sourceArrayDistributor = new ArrayDistributor<>(pandaTokenReader.getTokenizedSource().getSource());
+        this.tokenArrayDistributor = pandaTokenReader.nextLine(sourceArrayDistributor);
         this.index = -1;
     }
 
-    public void reset() {
+    public void synchronize() {
         this.index = -1;
         this.sourceArrayDistributor.reset();
 
@@ -30,7 +32,7 @@ public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token
     }
 
     @Override
-    public Iterator<Token> iterator() {
+    public PandaTokenReaderIterator iterator() {
         return this;
     }
 
@@ -58,6 +60,14 @@ public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token
 
         ++index;
         return token;
+    }
+
+    public int getLineIndex() {
+        return tokenArrayDistributor != null ? tokenArrayDistributor.getIndex() : 0;
+    }
+
+    public int getLine() {
+        return sourceArrayDistributor.getIndex();
     }
 
     public int getIndex() {

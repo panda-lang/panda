@@ -6,6 +6,6 @@ public interface TokenizedSource {
 
     Token[] getLine(int lineNumber);
 
-    Token[][] getTokenizedSource();
+    Token[][] getSource();
 
 }

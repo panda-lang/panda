@@ -3,19 +3,21 @@ package org.panda_lang.panda.lang.interpreter.parser;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.parser.Parser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
+import org.panda_lang.core.interpreter.parser.ParserPipeline;
+import org.panda_lang.core.interpreter.parser.ParserRepresentation;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class ParserPipeline {
+public class PandaParserPipeline implements ParserPipeline {
 
     private final List<ParserRepresentation> representations;
     private final Comparator<ParserRepresentation> comparator;
     private int count;
 
-    public ParserPipeline() {
+    public PandaParserPipeline() {
         this.representations = new ArrayList<>();
         this.comparator = new Comparator<ParserRepresentation>() {
             @Override
@@ -25,6 +27,7 @@ public class ParserPipeline {
         };
     }
 
+    @Override
     public Parser handle(TokenReader tokenReader) {
         if (count > 100) {
             count = 0;
@@ -49,6 +52,7 @@ public class ParserPipeline {
         Collections.sort(representations, comparator);
     }
 
+    @Override
     public void registerParserRepresentation(ParserRepresentation parserRepresentation) {
         this.representations.add(parserRepresentation);
     }

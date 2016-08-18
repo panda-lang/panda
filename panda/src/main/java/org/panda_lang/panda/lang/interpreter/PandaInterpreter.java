@@ -6,7 +6,9 @@ import org.panda_lang.core.interpreter.SourceSet;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.composition.ParserComposition;
 import org.panda_lang.panda.lang.PandaApplication;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParser;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParserContext;
@@ -16,16 +18,20 @@ public class PandaInterpreter implements Interpreter {
 
     private final Panda panda;
     private final SourceSet sourceSet;
+    private final PandaApplication application;
 
     public PandaInterpreter(Panda panda, SourceSet sourceSet) {
         this.panda = panda;
         this.sourceSet = sourceSet;
+        this.application = new PandaApplication();
     }
 
     @Override
-    public PandaApplication interpret() {
-        PandaApplication pandaApplication = new PandaApplication();
-        ParserInfo parserInfo = new PandaParserInfo(pandaApplication);
+    public void interpret() {
+        PandaComposition pandaComposition = panda.getPandaComposition();
+        ParserComposition parserComposition = pandaComposition.getParserComposition();
+
+        ParserInfo parserInfo = new PandaParserInfo(this, parserComposition.getPipeline());
 
         for (SourceFile sourceFile : sourceSet.getSourceFiles()) {
             ParserContext parserContext = new PandaParserContext(sourceFile.getContent());
@@ -34,10 +40,13 @@ public class PandaInterpreter implements Interpreter {
             PandaParser pandaParser = new PandaParser(this);
             PandaScript pandaScript = pandaParser.parse(parserInfo);
 
-            pandaApplication.addPandaScript(pandaScript);
+            application.addPandaScript(pandaScript);
         }
+    }
 
-        return pandaApplication;
+    @Override
+    public PandaApplication getApplication() {
+        return application;
     }
 
     public SourceSet getSourceSet() {

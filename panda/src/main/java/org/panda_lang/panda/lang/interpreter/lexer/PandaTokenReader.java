@@ -5,8 +5,6 @@ import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.util.array.ArrayDistributor;
 
-import java.util.Iterator;
-
 public class PandaTokenReader implements TokenReader {
 
     private final TokenizedSource tokenizedSource;
@@ -17,7 +15,7 @@ public class PandaTokenReader implements TokenReader {
 
     public PandaTokenReader(TokenizedSource tokenizedSource) {
         this.tokenizedSource = tokenizedSource;
-        this.sourceArrayDistributor = new ArrayDistributor<>(tokenizedSource.getTokenizedSource());
+        this.sourceArrayDistributor = new ArrayDistributor<>(tokenizedSource.getSource());
         this.tokenArrayDistributor = nextLine(sourceArrayDistributor);
         this.iterator = new PandaTokenReaderIterator(this);
         this.index = -1;
@@ -60,21 +58,12 @@ public class PandaTokenReader implements TokenReader {
     }
 
     @Override
-    public void reset() {
-        index = -1;
-        iterator.reset();
-        sourceArrayDistributor.reset();
-
-        if (tokenArrayDistributor == null) {
-            tokenArrayDistributor = nextLine(sourceArrayDistributor);
-            return;
-        }
-
-        tokenArrayDistributor.reset();
+    public void synchronize() {
+        iterator.synchronize();
     }
 
     @Override
-    public Iterator<Token> iterator() {
+    public PandaTokenReaderIterator iterator() {
         return iterator;
     }
 
@@ -89,18 +78,28 @@ public class PandaTokenReader implements TokenReader {
     }
 
     @Override
+    public int getIteratorLineIndex() {
+        return iterator.getLineIndex();
+    }
+
+    @Override
+    public int getIteratorLine() {
+        return iterator.getLine();
+    }
+
+    @Override
+    public int getIteratorIndex() {
+        return iterator.getIndex();
+    }
+
+    @Override
     public int getLineIndex() {
-        return tokenArrayDistributor.getIndex();
+        return tokenArrayDistributor != null ? tokenArrayDistributor.getIndex() : 0;
     }
 
     @Override
     public int getLine() {
         return sourceArrayDistributor.getIndex();
-    }
-
-    @Override
-    public int getNextIndex() {
-        return iterator.getIndex();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class PandaLexerTest {
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
         for (Token token : tokenReader) {
-            System.out.println((tokenReader.getLine() + 1) + "[" + tokenReader.getNextIndex() + "]" + ": " + token.getType().toString() + ": " + token.getToken());
+            System.out.println((tokenReader.getIteratorLine() + 1) + "[" + tokenReader.getIteratorIndex() + "]" + ": " + token.getType().toString() + ": " + token.getToken());
         }
     }
 

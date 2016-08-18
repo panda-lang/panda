@@ -1,14 +1,15 @@
 package org.panda_lang.core.interpreter.parser;
 
-import org.panda_lang.core.Application;
+import org.panda_lang.core.interpreter.Interpreter;
 
 public interface ParserInfo {
 
-    ParserContext getParserContext();
-
     void setParserContext(ParserContext parserContext);
 
-    ParserStatus getParserStatus();
+    ParserContext getParserContext();
 
-    Application getApplication();
+    ParserPipeline getParserPipeline();
+
+    Interpreter getInterpreter();
+
 }
