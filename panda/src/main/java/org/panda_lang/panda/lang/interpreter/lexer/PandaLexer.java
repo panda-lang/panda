@@ -134,7 +134,11 @@ public class PandaLexer implements Lexer {
         return tokenizedSource;
     }
 
-    protected Panda getPanda() {
+    public String getSource() {
+        return source;
+    }
+
+    public Panda getPanda() {
         return panda;
     }
 

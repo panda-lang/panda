@@ -23,4 +23,9 @@ public class PandaToken implements Token {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return getType().name().toLowerCase() + ": " + getToken();
+    }
+
 }

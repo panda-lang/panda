@@ -25,4 +25,9 @@ public class Separator implements Token {
         return TokenType.SEPARATOR;
     }
 
+    @Override
+    public String toString() {
+        return getType().name().toLowerCase() + ": " + getToken();
+    }
+
 }

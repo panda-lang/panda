@@ -21,4 +21,9 @@ public class Operator implements Token {
         return TokenType.OPERATOR;
     }
 
+    @Override
+    public String toString() {
+        return getType().name().toLowerCase() + ": " + getToken();
+    }
+
 }

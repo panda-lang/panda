@@ -1,8 +1,6 @@
 package org.panda_lang.panda.lang.interpreter.parser;
 
-import org.panda_lang.core.interpreter.lexer.Lexer;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.interpreter.parser.Parser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
@@ -10,15 +8,11 @@ import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.work.Executable;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.lang.interpreter.PandaInterpreter;
-import org.panda_lang.panda.lang.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.lang.interpreter.lexer.PandaTokenReader;
 
 public class PandaParser implements Parser {
 
     private final PandaInterpreter interpreter;
     private PandaScript pandaScript;
-    private TokenizedSource tokenizedSource;
-    private TokenReader tokenReader;
 
     public PandaParser(PandaInterpreter interpreter) {
         this.interpreter = interpreter;
@@ -30,16 +24,16 @@ public class PandaParser implements Parser {
 
         ParserPipeline pipeline = parserInfo.getParserPipeline();
         ParserContext parserContext = parserInfo.getParserContext();
-        Lexer lexer = new PandaLexer(interpreter.getPanda(), parserContext.getSource());
-
-        this.tokenizedSource = lexer.convert();
-        this.tokenReader = new PandaTokenReader(tokenizedSource);
+        TokenReader tokenReader = parserContext.getTokenReader();
 
         while (tokenReader.hasNext()) {
+            tokenReader.synchronize();
+
             Parser parser = pipeline.handle(tokenReader);
 
             if (parser == null) {
-                throw new PandaParserException("Unrecognized syntax: " + tokenReader.toString());
+                tokenReader.synchronize();
+                throw new PandaParserException("Unrecognized " + tokenReader.next());
             }
 
             Executable executable = parser.parse(parserInfo);
@@ -47,14 +41,6 @@ public class PandaParser implements Parser {
         }
 
         return pandaScript;
-    }
-
-    public TokenReader getTokenReader() {
-        return tokenReader;
-    }
-
-    public TokenizedSource getTokenizedSource() {
-        return tokenizedSource;
     }
 
     public PandaScript getPandaScript() {

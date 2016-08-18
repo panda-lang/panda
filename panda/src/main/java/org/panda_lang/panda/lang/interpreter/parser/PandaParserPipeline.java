@@ -54,7 +54,7 @@ public class PandaParserPipeline implements ParserPipeline {
 
     @Override
     public void registerParserRepresentation(ParserRepresentation parserRepresentation) {
-        this.representations.add(parserRepresentation);
+        representations.add(parserRepresentation);
     }
 
     public List<ParserRepresentation> getRepresentations() {

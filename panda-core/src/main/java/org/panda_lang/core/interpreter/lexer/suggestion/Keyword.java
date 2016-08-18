@@ -21,4 +21,9 @@ public class Keyword implements Token {
         return TokenType.KEYWORD;
     }
 
+    @Override
+    public String toString() {
+        return getType().name().toLowerCase() + ": " + getToken();
+    }
+
 }

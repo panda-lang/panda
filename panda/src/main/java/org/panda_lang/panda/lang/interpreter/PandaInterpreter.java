@@ -3,6 +3,8 @@ package org.panda_lang.panda.lang.interpreter;
 import org.panda_lang.core.interpreter.Interpreter;
 import org.panda_lang.core.interpreter.SourceFile;
 import org.panda_lang.core.interpreter.SourceSet;
+import org.panda_lang.core.interpreter.lexer.TokenReader;
+import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.Panda;
@@ -10,6 +12,8 @@ import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.composition.ParserComposition;
 import org.panda_lang.panda.lang.PandaApplication;
+import org.panda_lang.panda.lang.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.lang.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParser;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParserContext;
 import org.panda_lang.panda.lang.interpreter.parser.PandaParserInfo;
@@ -29,12 +33,18 @@ public class PandaInterpreter implements Interpreter {
     @Override
     public void interpret() {
         PandaComposition pandaComposition = panda.getPandaComposition();
-        ParserComposition parserComposition = pandaComposition.getParserComposition();
 
+        ParserComposition parserComposition = pandaComposition.getParserComposition();
         ParserInfo parserInfo = new PandaParserInfo(this, parserComposition.getPipeline());
 
         for (SourceFile sourceFile : sourceSet.getSourceFiles()) {
-            ParserContext parserContext = new PandaParserContext(sourceFile.getContent());
+            PandaLexer lexer = new PandaLexer(panda, sourceFile.getContent());
+
+            TokenizedSource tokenizedSource = lexer.convert();
+            TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
+
+            ParserContext parserContext = new PandaParserContext(lexer.getSource(), tokenizedSource);
+            parserContext.setTokenReader(tokenReader);
             parserInfo.setParserContext(parserContext);
 
             PandaParser pandaParser = new PandaParser(this);

@@ -39,4 +39,9 @@ public class Sequence implements Token {
         return TokenType.SEQUENCE;
     }
 
+    @Override
+    public String toString() {
+        return getType().name().toLowerCase() + ": " + getToken();
+    }
+
 }

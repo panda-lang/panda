@@ -20,15 +20,11 @@ public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token
     }
 
     public void synchronize() {
-        this.index = -1;
-        this.sourceArrayDistributor.reset();
+        this.index = pandaTokenReader.getIndex();
+        this.sourceArrayDistributor.setIndex(pandaTokenReader.getLine());
 
-        if (tokenArrayDistributor == null) {
-            tokenArrayDistributor = pandaTokenReader.nextLine(sourceArrayDistributor);
-            return;
-        }
-
-        this.tokenArrayDistributor.reset();
+        this.tokenArrayDistributor = new ArrayDistributor<>(sourceArrayDistributor.current());
+        this.tokenArrayDistributor.setIndex(pandaTokenReader.getLineIndex());
     }
 
     @Override

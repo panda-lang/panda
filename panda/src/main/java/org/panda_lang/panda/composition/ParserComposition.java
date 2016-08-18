@@ -12,6 +12,8 @@ public class ParserComposition {
 
     public ParserComposition() {
         this.pipeline = new PandaParserPipeline();
+
+        this.initialize();
     }
 
     protected void initialize() {
