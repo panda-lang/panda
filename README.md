@@ -57,7 +57,7 @@ Latest build. Remember, API is not stable yet :o:
 <dependency>
     <groupId>org.panda_lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-0.0.1-SNAPSHOT</version>
+    <version>indev-0.0.2-SNAPSHOT</version>
 </dependency>
 ```
 The latest build of the previous edition. Remember, this is deprecated!
