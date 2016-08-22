@@ -28,10 +28,6 @@ public class PandaApplication implements Application {
         pandaScripts.add(pandaScript);
     }
 
-    public void setWorkingDirectory(String workingDirectory) {
-        this.workingDirectory = workingDirectory;
-    }
-
     public Collection<PandaScript> getPandaScripts() {
         return pandaScripts;
     }
@@ -39,6 +35,10 @@ public class PandaApplication implements Application {
     @Override
     public String getWorkingDirectory() {
         return workingDirectory;
+    }
+
+    public void setWorkingDirectory(String workingDirectory) {
+        this.workingDirectory = workingDirectory;
     }
 
     @Override

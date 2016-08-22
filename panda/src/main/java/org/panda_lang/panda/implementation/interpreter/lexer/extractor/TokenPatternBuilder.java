@@ -1,5 +1,7 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
+import org.panda_lang.core.interpreter.lexer.TokenType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,12 @@ public class TokenPatternBuilder {
 
     public TokenPatternBuilder() {
         units = new ArrayList<>();
+    }
+
+    public TokenPatternBuilder unit(TokenType type, String token) {
+        TokenPatternUnit unit = new TokenPatternUnit(type, token);
+        units.add(unit);
+        return this;
     }
 
     public TokenPattern build() {

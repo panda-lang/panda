@@ -5,7 +5,7 @@ import org.panda_lang.core.util.array.ArrayDistributor;
 
 import java.util.Iterator;
 
-public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token>  {
+public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token> {
 
     private final PandaTokenReader pandaTokenReader;
     private ArrayDistributor<Token[]> sourceArrayDistributor;

@@ -61,10 +61,6 @@ public class ArrayDistributor<T> {
         return null;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
-    }
-
     public T getPrevious() {
         return index - 1 > 0 ? array[index - 1] : null;
     }
@@ -79,6 +75,10 @@ public class ArrayDistributor<T> {
 
     public int getIndex() {
         return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 
     public int getLength() {

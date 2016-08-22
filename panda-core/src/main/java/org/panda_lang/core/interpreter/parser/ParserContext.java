@@ -5,9 +5,9 @@ import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 
 public interface ParserContext {
 
-    void setTokenReader(TokenReader tokenReader);
-
     TokenReader getTokenReader();
+
+    void setTokenReader(TokenReader tokenReader);
 
     TokenizedSource getTokenizedSource();
 

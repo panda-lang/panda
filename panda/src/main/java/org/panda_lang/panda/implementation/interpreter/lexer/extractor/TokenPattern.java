@@ -12,6 +12,10 @@ public class TokenPattern {
         return new TokenExtractor(this);
     }
 
+    public TokenPatternUnit[] getUnits() {
+        return units;
+    }
+
     public static TokenPatternBuilder builder() {
         return new TokenPatternBuilder();
     }
