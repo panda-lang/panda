@@ -5,8 +5,8 @@ import org.panda_lang.core.interpreter.lexer.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.util.FileUtils;
-import org.panda_lang.panda.lang.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.lang.interpreter.lexer.PandaTokenReader;
+import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 
 import java.io.File;
 

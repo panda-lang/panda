@@ -1,8 +1,8 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.lang.PandaApplication;
-import org.panda_lang.panda.lang.interpreter.PandaInterpreter;
-import org.panda_lang.panda.lang.interpreter.PandaSourceSet;
+import org.panda_lang.panda.implementation.PandaApplication;
+import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
+import org.panda_lang.panda.implementation.interpreter.PandaSourceSet;
 
 import java.io.File;
 

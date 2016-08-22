@@ -33,6 +33,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         }
 
         CharArrayDistributor distributor = new CharArrayDistributor(getPattern().toCharArray());
+
         while (distributor.hasNext() && i < string.length) {
             char current = distributor.current();
             if (current == string[i]) {
@@ -50,16 +51,19 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
                 break;
             }
         }
+
         return !distributor.hasNext();
     }
 
     public int count(String s, char c) {
         int count = 0;
+
         for (int i = 0; i < s.length(); i++) {
             if (s.charAt(i) == c) {
                 count++;
             }
         }
+
         return count;
     }
 
@@ -103,6 +107,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         else if (priorityTo == priority) {
             return 0;
         }
+
         if (priorityTo == priority) {
             priority = getPattern().length();
             priorityTo = pattern.getPattern().length();
@@ -114,6 +119,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         else if (priorityTo > priority) {
             return -1;
         }
+
         return 0;
     }
 

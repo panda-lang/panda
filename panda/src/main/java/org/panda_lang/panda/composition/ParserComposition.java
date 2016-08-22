@@ -3,8 +3,8 @@ package org.panda_lang.panda.composition;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.interpreter.parser.ParserRepresentation;
 import org.panda_lang.panda.composition.parser.MethodParser;
-import org.panda_lang.panda.lang.interpreter.parser.PandaParserPipeline;
-import org.panda_lang.panda.lang.interpreter.parser.PandaParserRepresentation;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserPipeline;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserRepresentation;
 
 public class ParserComposition {
 
