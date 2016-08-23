@@ -6,6 +6,7 @@ import org.panda_lang.core.interpreter.lexer.TokenType;
 public class Separator implements Token {
 
     private final String separator;
+    private Separator opposite;
 
     public Separator(char separator) {
         this(Character.toString(separator));
@@ -13,6 +14,18 @@ public class Separator implements Token {
 
     public Separator(String separator) {
         this.separator = separator;
+    }
+
+    public void setOpposite(Separator opposite) {
+        this.opposite = opposite;
+    }
+
+    public boolean hasOpposite() {
+        return opposite != null;
+    }
+
+    public Separator getOpposite() {
+        return opposite;
     }
 
     @Override
@@ -27,7 +40,7 @@ public class Separator implements Token {
 
     @Override
     public String toString() {
-        return getType().name().toLowerCase() + ": " + getToken();
+        return getType().getTypeName().toLowerCase() + ": " + getToken();
     }
 
 }

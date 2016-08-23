@@ -37,6 +37,20 @@ public class Separators {
 
         VALUES[7] = LEFT_BRACKET_DELIMITER;
         VALUES[8] = RIGHT_BRACKET_DELIMITER;
+
+        LEFT_BRACE_DELIMITER.setOpposite(RIGHT_BRACE_DELIMITER);
+        LEFT_BRACKET_DELIMITER.setOpposite(RIGHT_BRACKET_DELIMITER);
+        LEFT_PARENTHESIS_DELIMITER.setOpposite(RIGHT_PARENTHESIS_DELIMITER);
+    }
+
+    public static Separator valueOf(String str) {
+        for (Separator separator : values()) {
+            if (separator.getToken().equals(str)) {
+                return separator;
+            }
+        }
+
+        return null;
     }
 
     public static Separator[] values() {

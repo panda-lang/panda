@@ -23,7 +23,7 @@ public class Operator implements Token {
 
     @Override
     public String toString() {
-        return getType().name().toLowerCase() + ": " + getToken();
+        return getType().getTypeName().toLowerCase() + ": " + getToken();
     }
 
 }

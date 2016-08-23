@@ -19,6 +19,11 @@ public class TokenPatternBuilder {
         return this;
     }
 
+    public TokenPatternBuilder hollow() {
+        units.add(TokenExtractor.HOLLOW);
+        return this;
+    }
+
     public TokenPattern build() {
         TokenPatternUnit[] unitsArray = new TokenPatternUnit[units.size()];
         units.toArray(unitsArray);

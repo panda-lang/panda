@@ -1,5 +1,7 @@
 package org.panda_lang.core.interpreter.lexer;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class TokenType {
 
     public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
@@ -16,6 +18,8 @@ public class TokenType {
 
     private static final TokenType[] VALUES = new TokenType[6];
 
+    private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
+
     static {
         VALUES[0] = IDENTIFIER;
         VALUES[1] = KEYWORD;
@@ -25,14 +29,41 @@ public class TokenType {
         VALUES[5] = UNKNOWN;
     }
 
+    private final int id;
     private final String typeName;
 
     public TokenType(String typeName) {
+        this.id = ID_ASSIGNER.getAndIncrement();
         this.typeName = typeName;
     }
 
-    public String name() {
+    public String getTypeName() {
         return typeName;
+    }
+
+    public int ordinal() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (!(o instanceof TokenType)) {
+            return false;
+        }
+
+        TokenType tokenType = (TokenType) o;
+
+        return id == tokenType.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 
     public static TokenType[] values() {

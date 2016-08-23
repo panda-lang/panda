@@ -1,6 +1,8 @@
 package org.panda_lang.core.util.array;
 
-public class ArrayDistributor<T> {
+import java.util.Iterator;
+
+public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
     private final T[] array;
     private int index;
@@ -12,6 +14,11 @@ public class ArrayDistributor<T> {
 
     public void reset() {
         this.index = -1;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return this;
     }
 
     public T previous() {
@@ -32,10 +39,12 @@ public class ArrayDistributor<T> {
         return index < array.length ? array[index] : null;
     }
 
+    @Override
     public boolean hasNext() {
         return index < array.length - 1;
     }
 
+    @Override
     public T next() {
         if (index + 1 < array.length) {
             index++;

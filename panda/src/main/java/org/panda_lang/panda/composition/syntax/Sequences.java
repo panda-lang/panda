@@ -4,15 +4,15 @@ import org.panda_lang.core.interpreter.lexer.suggestion.Sequence;
 
 public class Sequences {
 
-    public static final Sequence STRING = new Sequence("\"");
+    public static final Sequence STRING = new Sequence("String", '"');
 
-    public static final Sequence CHARACTER = new Sequence("'");
+    public static final Sequence CHARACTER = new Sequence("Character", "'");
 
-    public static final Sequence LINE_ORIENTED_COMMENT = new Sequence("//", System.lineSeparator());
+    public static final Sequence LINE_ORIENTED_COMMENT = new Sequence("Comment", "//", System.lineSeparator());
 
-    public static final Sequence BLOCK_ORIENTED_COMMENT = new Sequence("/*", "*/");
+    public static final Sequence BLOCK_ORIENTED_COMMENT = new Sequence("Comment", "/*", "*/");
 
-    public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("/**", "*/");
+    public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("Comment", "/**", "*/");
 
     private static final Sequence[] VALUES = new Sequence[5];
 
