@@ -34,11 +34,15 @@ public class TokenExtractor {
 
             for (Token token : tokenReader) {
                 if (unit.equals(token)) {
-
+                    break;
                 }
 
-            }
+                if (!unit.equals(HOLLOW)) {
+                    continue;
+                }
 
+                hollow.addToken(token);
+            }
 
         }
     }

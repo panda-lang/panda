@@ -16,16 +16,16 @@ public class Separator implements Token {
         this.separator = separator;
     }
 
-    public void setOpposite(Separator opposite) {
-        this.opposite = opposite;
-    }
-
     public boolean hasOpposite() {
         return opposite != null;
     }
 
     public Separator getOpposite() {
         return opposite;
+    }
+
+    public void setOpposite(Separator opposite) {
+        this.opposite = opposite;
     }
 
     @Override
