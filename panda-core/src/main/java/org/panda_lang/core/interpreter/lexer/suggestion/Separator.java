@@ -34,7 +34,7 @@ public class Separator implements Token {
     }
 
     @Override
-    public TokenType getType() {
+    public final TokenType getType() {
         return TokenType.SEPARATOR;
     }
 

@@ -1,5 +1,6 @@
 package org.panda_lang.panda.composition.syntax;
 
+import org.panda_lang.core.interpreter.lexer.Token;
 import org.panda_lang.core.interpreter.lexer.suggestion.Separator;
 
 public class Separators {
@@ -41,6 +42,16 @@ public class Separators {
         LEFT_BRACE_DELIMITER.setOpposite(RIGHT_BRACE_DELIMITER);
         LEFT_BRACKET_DELIMITER.setOpposite(RIGHT_BRACKET_DELIMITER);
         LEFT_PARENTHESIS_DELIMITER.setOpposite(RIGHT_PARENTHESIS_DELIMITER);
+    }
+
+    public static Separator valueOf(Token token) {
+        for (Separator separator : values()) {
+            if (separator.getToken().equals(token.getToken())) {
+                return separator;
+            }
+        }
+
+        return null;
     }
 
     public static Separator valueOf(String str) {

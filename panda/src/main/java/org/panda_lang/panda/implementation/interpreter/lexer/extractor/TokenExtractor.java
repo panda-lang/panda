@@ -25,26 +25,24 @@ public class TokenExtractor {
         this.hollow = new TokenHollow();
     }
 
-    public void extract(TokenReader tokenReader) {
+    // TODO
+    public boolean extract(TokenReader tokenReader) {
         TokenPatternUnit[] tokenPatternUnits = pattern.getUnits();
+        int readerIndex = 0;
 
         for (int unitIndex = 0; unitIndex < tokenPatternUnits.length; unitIndex++) {
             TokenPatternUnit unit = tokenPatternUnits[unitIndex];
-            int readerIndex = 0;
 
-            for (Token token : tokenReader) {
-                if (unit.equals(token)) {
-                    break;
+            for (Token nextToken : tokenReader) {
+                if (unit.isHollow()) {
+
                 }
-
-                if (!unit.equals(HOLLOW)) {
-                    continue;
-                }
-
-                hollow.addToken(token);
             }
 
+
         }
+
+        return true;
     }
 
     public List<TokenHollow> getHollows() {
