@@ -4,6 +4,7 @@ import org.panda_lang.core.interpreter.lexer.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenType;
 import org.panda_lang.core.interpreter.lexer.suggestion.Separator;
+import org.panda_lang.core.util.array.ArrayDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,24 +26,46 @@ public class TokenExtractor {
         this.hollow = new TokenHollow();
     }
 
-    // TODO
-    public boolean extract(TokenReader tokenReader) {
-        TokenPatternUnit[] tokenPatternUnits = pattern.getUnits();
-        int readerIndex = 0;
+    /*
+        method main(String str) { return; }
 
-        for (int unitIndex = 0; unitIndex < tokenPatternUnits.length; unitIndex++) {
-            TokenPatternUnit unit = tokenPatternUnits[unitIndex];
+        method * ( * ) { * }
+
+        hollows:
+            : main
+            : String str
+            : return;
+
+     */
+    public boolean extract(TokenReader tokenReader) {
+        TokenPatternUnit[] tokenUnits = pattern.getUnits();
+        ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(tokenUnits);
+
+        for (int unitIndex = 0; unitIndex < tokenUnits.length; unitIndex++) {
+            TokenPatternUnit unit = tokenUnits[unitIndex];
+            TokenPatternUnit nextUnit = unitsDistributor.get(unitIndex + 1);
 
             for (Token nextToken : tokenReader) {
-                if (unit.isHollow()) {
-
+                if (nextToken.equals(unit)) {
+                    break;
                 }
+
+                if (!unit.isHollow()) {
+                    return false;
+                }
+
+                if (!unit.equals(nextUnit)) {
+                    hollow.addToken(nextToken);
+                    break;
+                }
+
+                hollows.add(hollow);
+                hollow = new TokenHollow();
+                break;
             }
-
-
         }
 
-        return true;
+        return tokenReader.hasNext();
     }
 
     public List<TokenHollow> getHollows() {

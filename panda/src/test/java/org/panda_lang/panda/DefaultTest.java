@@ -4,7 +4,7 @@ import org.panda_lang.panda.implementation.PandaApplication;
 
 import java.io.File;
 
-public class DefaultPandaTest {
+public class DefaultTest {
 
     private static final File SCRIPT = new File("examples/hello_world.panda");
 

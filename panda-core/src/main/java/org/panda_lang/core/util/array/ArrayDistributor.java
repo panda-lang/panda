@@ -70,6 +70,10 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return null;
     }
 
+    public T get(int index) {
+        return index > -1 && index < array.length ? array[index] : null;
+    }
+
     public T getPrevious() {
         return index - 1 > 0 ? array[index - 1] : null;
     }

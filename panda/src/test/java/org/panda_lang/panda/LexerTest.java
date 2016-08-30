@@ -10,7 +10,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 
 import java.io.File;
 
-public class PandaLexerTest {
+public class LexerTest {
 
     private static final File SOURCE_FILE = new File("examples/hello_world.panda");
 
