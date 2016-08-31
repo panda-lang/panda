@@ -1,7 +1,7 @@
 package org.panda_lang.core.util.redact.divider;
 
-import org.panda_lang.core.interpreter.lexer.suggestion.Separator;
-import org.panda_lang.core.interpreter.lexer.suggestion.Sequence;
+import org.panda_lang.core.interpreter.token.suggestion.Separator;
+import org.panda_lang.core.interpreter.token.suggestion.Sequence;
 
 import java.util.ArrayList;
 import java.util.Collection;

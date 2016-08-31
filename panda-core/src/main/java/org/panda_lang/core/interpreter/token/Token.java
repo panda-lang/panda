@@ -1,4 +1,4 @@
-package org.panda_lang.core.interpreter.lexer;
+package org.panda_lang.core.interpreter.token;
 
 public interface Token {
 

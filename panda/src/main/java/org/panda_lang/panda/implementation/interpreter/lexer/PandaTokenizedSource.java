@@ -1,6 +1,6 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 
 public class PandaTokenizedSource implements TokenizedSource {
@@ -26,10 +26,6 @@ public class PandaTokenizedSource implements TokenizedSource {
     @Override
     public int size() {
         return size;
-    }
-
-    public Token[] getLine(int lineNumber) {
-        return lineNumber < tokenizedSource.length ? tokenizedSource[lineNumber] : null;
     }
 
     @Override

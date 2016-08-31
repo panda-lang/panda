@@ -1,6 +1,6 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.util.array.ArrayDistributor;

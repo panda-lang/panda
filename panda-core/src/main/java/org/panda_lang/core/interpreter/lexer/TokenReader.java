@@ -1,5 +1,7 @@
 package org.panda_lang.core.interpreter.lexer;
 
+import org.panda_lang.core.interpreter.token.Token;
+
 import java.util.Iterator;
 
 public interface TokenReader extends Iterator<Token>, Iterable<Token> {

@@ -1,9 +1,9 @@
-package org.panda_lang.core.interpreter.lexer.suggestion;
+package org.panda_lang.core.interpreter.token.suggestion;
 
-import org.panda_lang.core.interpreter.lexer.Token;
-import org.panda_lang.core.interpreter.lexer.TokenType;
+import org.panda_lang.core.interpreter.token.TokenType;
+import org.panda_lang.core.interpreter.token.util.EqualableToken;
 
-public class Operator implements Token {
+public class Operator extends EqualableToken {
 
     private final String operator;
 

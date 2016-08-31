@@ -1,4 +1,4 @@
-package org.panda_lang.core.interpreter.lexer;
+package org.panda_lang.core.interpreter.token;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

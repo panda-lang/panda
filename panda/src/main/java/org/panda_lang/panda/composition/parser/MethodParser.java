@@ -1,8 +1,8 @@
 package org.panda_lang.panda.composition.parser;
 
-import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.lexer.TokenType;
+import org.panda_lang.core.interpreter.token.TokenType;
 import org.panda_lang.core.interpreter.parser.Parser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserHandler;

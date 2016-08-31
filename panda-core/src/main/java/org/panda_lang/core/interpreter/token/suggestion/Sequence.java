@@ -1,9 +1,9 @@
-package org.panda_lang.core.interpreter.lexer.suggestion;
+package org.panda_lang.core.interpreter.token.suggestion;
 
-import org.panda_lang.core.interpreter.lexer.Token;
-import org.panda_lang.core.interpreter.lexer.TokenType;
+import org.panda_lang.core.interpreter.token.TokenType;
+import org.panda_lang.core.interpreter.token.util.EqualableToken;
 
-public class Sequence implements Token {
+public class Sequence extends EqualableToken {
 
     private final String tokenName;
     private final String sequenceStart;

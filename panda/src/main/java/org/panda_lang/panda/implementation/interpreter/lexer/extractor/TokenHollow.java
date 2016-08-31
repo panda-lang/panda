@@ -1,6 +1,6 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
-import org.panda_lang.core.interpreter.lexer.Token;
+import org.panda_lang.core.interpreter.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;

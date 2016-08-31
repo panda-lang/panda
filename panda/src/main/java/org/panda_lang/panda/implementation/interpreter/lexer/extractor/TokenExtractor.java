@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
-import org.panda_lang.core.interpreter.lexer.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.lexer.TokenType;
-import org.panda_lang.core.interpreter.lexer.suggestion.Separator;
+import org.panda_lang.core.interpreter.token.Token;
+import org.panda_lang.core.interpreter.token.TokenType;
+import org.panda_lang.core.interpreter.token.suggestion.Separator;
 import org.panda_lang.core.util.array.ArrayDistributor;
 
 import java.util.ArrayList;
@@ -45,24 +45,27 @@ public class TokenExtractor {
             TokenPatternUnit unit = tokenUnits[unitIndex];
             TokenPatternUnit nextUnit = unitsDistributor.get(unitIndex + 1);
 
-            for (Token nextToken : tokenReader) {
-                if (nextToken.equals(unit)) {
-                    break;
-                }
+            if (unit.isHollow()) {
+                for (Token nextToken : tokenReader) {
+                    if (nextToken.equals(nextUnit)) {
+                        break;
+                    }
 
-                if (!unit.isHollow()) {
-                    return false;
-                }
-
-                if (!unit.equals(nextUnit)) {
                     hollow.addToken(nextToken);
-                    break;
                 }
 
                 hollows.add(hollow);
                 hollow = new TokenHollow();
-                break;
+                continue;
             }
+
+            Token nextToken = tokenReader.next();
+
+            if (unit.equals(nextToken)) {
+                continue;
+            }
+
+            return false;
         }
 
         return tokenReader.hasNext();

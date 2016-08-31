@@ -1,10 +1,10 @@
 package org.panda_lang.panda.composition;
 
-import org.panda_lang.core.interpreter.lexer.Token;
-import org.panda_lang.core.interpreter.lexer.suggestion.Keyword;
-import org.panda_lang.core.interpreter.lexer.suggestion.Operator;
-import org.panda_lang.core.interpreter.lexer.suggestion.Separator;
-import org.panda_lang.core.interpreter.lexer.suggestion.Sequence;
+import org.panda_lang.core.interpreter.token.Token;
+import org.panda_lang.core.interpreter.token.suggestion.Keyword;
+import org.panda_lang.core.interpreter.token.suggestion.Operator;
+import org.panda_lang.core.interpreter.token.suggestion.Separator;
+import org.panda_lang.core.interpreter.token.suggestion.Sequence;
 import org.panda_lang.panda.composition.syntax.*;
 
 import java.util.ArrayList;
