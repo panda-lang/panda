@@ -1,0 +1,11 @@
+!pseudo code
+
+method main(String str) { return; }
+
+method * ( * ) { * }
+
+hollows:
+    : main
+    : String str
+    : return;
+

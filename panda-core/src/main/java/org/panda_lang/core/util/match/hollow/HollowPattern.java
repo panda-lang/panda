@@ -29,7 +29,6 @@ public class HollowPattern implements Matcher {
 
             loop:
             if (hollowSymbol.isBasis()) {
-
                 for (String variant : hollowSymbol.getVariants()) {
                     String part = getPart(expression, 0, variant.length());
 

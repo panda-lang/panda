@@ -21,6 +21,7 @@ public class HollowPatternCompiler {
                 builder.basis(fragment);
             }
         }
+
         return builder;
     }
 
