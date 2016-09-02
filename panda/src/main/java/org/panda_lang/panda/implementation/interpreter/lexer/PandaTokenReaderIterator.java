@@ -1,71 +1,44 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.token.Token;
+import org.panda_lang.core.interpreter.lexer.TokenReader;
+import org.panda_lang.core.interpreter.lexer.TokenReaderIterator;
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.util.array.ArrayDistributor;
 
-import java.util.Iterator;
+public class PandaTokenReaderIterator implements TokenReaderIterator {
 
-public class PandaTokenReaderIterator implements Iterator<Token>, Iterable<Token> {
-
-    private final PandaTokenReader pandaTokenReader;
-    private ArrayDistributor<Token[]> sourceArrayDistributor;
-    private ArrayDistributor<Token> tokenArrayDistributor;
+    private final TokenReader tokenReader;
+    private ArrayDistributor<TokenRepresentation> representationsDistributor;
     private int index;
 
-    public PandaTokenReaderIterator(PandaTokenReader pandaTokenReader) {
-        this.pandaTokenReader = pandaTokenReader;
-        this.sourceArrayDistributor = new ArrayDistributor<>(pandaTokenReader.getTokenizedSource().getSource());
-        this.tokenArrayDistributor = pandaTokenReader.nextLine(sourceArrayDistributor);
+    public PandaTokenReaderIterator(TokenReader tokenReader) {
+        this.tokenReader = tokenReader;
+        this.representationsDistributor = new ArrayDistributor<>(tokenReader.getTokenizedSource().getSource());
         this.index = -1;
     }
 
+    @Override
     public void synchronize() {
-        this.index = pandaTokenReader.getIndex();
-        this.sourceArrayDistributor.setIndex(pandaTokenReader.getLine());
-
-        this.tokenArrayDistributor = new ArrayDistributor<>(sourceArrayDistributor.current());
-        this.tokenArrayDistributor.setIndex(pandaTokenReader.getLineIndex());
+        setIndex(tokenReader.getIndex());
+        representationsDistributor.setIndex(index);
     }
 
     @Override
-    public PandaTokenReaderIterator iterator() {
-        return this;
+    public TokenRepresentation next() {
+        return representationsDistributor.next();
     }
 
     @Override
     public boolean hasNext() {
-        return index + 1 < pandaTokenReader.getTokenizedSource().size();
+        return index + 1 < tokenReader.getTokenizedSource().size();
     }
 
     @Override
-    public Token next() {
-        if (index >= pandaTokenReader.getTokenizedSource().size()) {
-            return null;
-        }
-
-        if (tokenArrayDistributor == null) {
-            return null;
-        }
-
-        Token token = tokenArrayDistributor.next();
-
-        if (token == null) {
-            tokenArrayDistributor = pandaTokenReader.nextLine(sourceArrayDistributor);
-            return next();
-        }
-
-        ++index;
-        return token;
+    public void setIndex(int index) {
+        this.index = index;
     }
 
-    public int getLineIndex() {
-        return tokenArrayDistributor != null ? tokenArrayDistributor.getIndex() : 0;
-    }
-
-    public int getLine() {
-        return sourceArrayDistributor.getIndex();
-    }
-
+    @Override
     public int getIndex() {
         return index;
     }

@@ -1,5 +1,6 @@
 package org.panda_lang.panda.composition.parser;
 
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.token.TokenType;
@@ -38,7 +39,7 @@ public class MethodParser implements Parser {
         TokenReader tokenReader = parserContext.getTokenReader();
 
         TokenExtractor extractor = pattern.extractor();
-        extractor.extract(tokenReader);
+        extractor.extract(tokenReader.getTokenizedSource());
 
         List<TokenHollow> hollows = extractor.getHollows();
 
@@ -55,7 +56,9 @@ public class MethodParser implements Parser {
 
         @Override
         public boolean handle(TokenReader tokenReader) {
-            Token token = tokenReader.next();
+            TokenRepresentation tokenRepresentation = tokenReader.next();
+            Token token = tokenRepresentation.getToken();
+
             return !(token == null || token.getType() != TokenType.KEYWORD || !token.getToken().equals("method"));
         }
 

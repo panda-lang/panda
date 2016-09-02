@@ -1,6 +1,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.core.interpreter.lexer.Lexer;
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
@@ -22,8 +23,10 @@ public class LexerTest {
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
-        for (Token token : tokenReader) {
-            System.out.println((tokenReader.getIteratorLine() + 1) + "[" + tokenReader.getIteratorIndex() + "]" + ": " + token.getType().toString() + ": " + token.getToken());
+        for (TokenRepresentation tokenRepresentation : tokenReader) {
+            Token token = tokenRepresentation.getToken();
+
+            System.out.println((tokenRepresentation.getLine() + 1) + "[" + tokenReader.getIndex() + "]" + ": " + token.getType().toString() + ": " + token.getToken());
         }
     }
 

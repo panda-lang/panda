@@ -1,10 +1,10 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
 import org.panda_lang.core.interpreter.lexer.Lexer;
-import org.panda_lang.core.interpreter.token.Token;
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
+import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.util.CharacterUtils;
-import org.panda_lang.core.util.StringUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.composition.SyntaxComposition;
@@ -16,8 +16,8 @@ public class PandaLexer implements Lexer {
 
     private final Panda panda;
     private final String source;
-    private final Token[][] tokenizedSource;
-    private final Collection<Token> tokenizedSourceLine;
+    private final Collection<TokenRepresentation> tokenRepresentations;
+    private final Collection<Token> tokenizedLine;
     private final SyntaxComposition syntaxComposition;
 
     private final StringBuilder tokenBuilder;
@@ -27,7 +27,7 @@ public class PandaLexer implements Lexer {
     private String linePreview;
     private String tokenPreview;
     private boolean previousSpecial;
-    private int currentLine;
+    private int line;
 
     public PandaLexer(Panda panda, String source) {
         if (source == null) {
@@ -39,8 +39,8 @@ public class PandaLexer implements Lexer {
 
         this.panda = panda;
         this.source = source + " ";
-        this.tokenizedSource = new Token[StringUtils.countOccurrences(source, System.lineSeparator())][];
-        this.tokenizedSourceLine = new ArrayList<>();
+        this.tokenRepresentations = new ArrayList<>();
+        this.tokenizedLine = new ArrayList<>();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
         this.syntaxComposition = pandaComposition.getSyntaxComposition();
@@ -50,7 +50,7 @@ public class PandaLexer implements Lexer {
         this.tokenBuilder = new StringBuilder();
 
         this.previousSpecial = false;
-        this.currentLine = 0;
+        this.line = 0;
     }
 
     @Override
@@ -62,7 +62,10 @@ public class PandaLexer implements Lexer {
             checkLine();
         }
 
-        return new PandaTokenizedSource(tokenizedSource);
+        TokenRepresentation[] representations = new TokenRepresentation[tokenRepresentations.size()];
+        representations = tokenRepresentations.toArray(representations);
+
+        return new PandaTokenizedSource(representations);
     }
 
     private void next(char c) {
@@ -102,20 +105,22 @@ public class PandaLexer implements Lexer {
     }
 
     private void checkLine() {
-        if (linePreview.endsWith(System.lineSeparator())) {
-            tokenizedSource[currentLine] = tokenizedSourceLine.toArray(new Token[tokenizedSourceLine.size()]);
-            tokenizedSourceLine.clear();
-            linePreview = "";
-            currentLine++;
+        if (!linePreview.endsWith(System.lineSeparator())) {
+            return;
         }
+
+        for (Token token : tokenizedLine) {
+            TokenRepresentation representation = new PandaTokenRepresentation(token, line);
+            tokenRepresentations.add(representation);
+        }
+
+        tokenizedLine.clear();
+        linePreview = "";
+        line++;
     }
 
-    protected int getCurrentLine() {
-        return currentLine;
-    }
-
-    protected String getTokenPreview() {
-        return tokenPreview;
+    protected int getLine() {
+        return line;
     }
 
     protected StringBuilder getTokenBuilder() {
@@ -126,12 +131,12 @@ public class PandaLexer implements Lexer {
         return syntaxComposition;
     }
 
-    protected Collection<Token> getTokenizedSourceLine() {
-        return tokenizedSourceLine;
+    protected Collection<Token> getTokenizedLine() {
+        return tokenizedLine;
     }
 
-    protected Token[][] getTokenizedSource() {
-        return tokenizedSource;
+    protected Collection<TokenRepresentation> getTokenRepresentations() {
+        return tokenRepresentations;
     }
 
     public String getSource() {

@@ -25,6 +25,10 @@ public class TokenExtractor {
         this.hollow = new TokenHollow();
     }
 
+    public boolean extract(TokenReader tokenReader) {
+        return extract(tokenReader.getTokenizedSource());
+    }
+
     public boolean extract(TokenizedSource tokenizedSource) {
         TokenPatternUnit[] units = pattern.getUnits();
         ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
@@ -45,44 +49,8 @@ public class TokenExtractor {
             }
         }
 
-        return tokenReader.hasNext();
+        return tokenReader.getIndex() >= tokenizedSource.size();
     }
-
-    /*
-    public boolean extract(TokenReader tokenReader) {
-        TokenPatternUnit[] tokenUnits = pattern.getUnits();
-        ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(tokenUnits);
-
-        for (int unitIndex = 0; unitIndex < tokenUnits.length; unitIndex++) {
-            TokenPatternUnit unit = tokenUnits[unitIndex];
-            TokenPatternUnit nextUnit = unitsDistributor.get(unitIndex + 1);
-
-            if (unit.isHollow()) {
-                for (Token nextToken : tokenReader) {
-                    if (nextToken.equals(nextUnit)) {
-                        break;
-                    }
-
-                    hollow.addToken(nextToken);
-                }
-
-                hollows.add(hollow);
-                hollow = new TokenHollow();
-                continue;
-            }
-
-            Token nextToken = tokenReader.next();
-
-            if (unit.equals(nextToken)) {
-                continue;
-            }
-
-            return false;
-        }
-
-        return tokenReader.hasNext();
-    }
-    */
 
     public List<TokenHollow> getHollows() {
         return hollows;

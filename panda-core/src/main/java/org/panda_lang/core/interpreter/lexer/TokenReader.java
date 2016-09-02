@@ -1,27 +1,29 @@
 package org.panda_lang.core.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.token.Token;
-
 import java.util.Iterator;
 
-public interface TokenReader extends Iterator<Token>, Iterable<Token> {
+public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
 
-    Token read();
+    TokenRepresentation read();
 
-    void synchronize();
+    TokenReaderIterator iterator();
 
-    TokenizedSource getTokenizedSource();
+    default void synchronize() {
+        iterator().synchronize();
+    }
 
-    int getIteratorLineIndex();
+    default TokenRepresentation next() {
+        return iterator().next();
+    }
 
-    int getIteratorLine();
+    default boolean hasNext() {
+        return iterator().hasNext();
+    }
 
-    int getIteratorIndex();
-
-    int getLineIndex();
-
-    int getLine();
+    void setIndex(int index);
 
     int getIndex();
+
+    TokenizedSource getTokenizedSource();
 
 }

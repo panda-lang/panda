@@ -30,7 +30,7 @@ public class PandaLexerSequencer {
             }
 
             Token token = new PandaToken(TokenType.SEQUENCE, tokenPreview);
-            lexer.getTokenizedSourceLine().add(token);
+            lexer.getTokenizedLine().add(token);
 
             tokenBuilder.setLength(0);
             sequenceStack.pop();
