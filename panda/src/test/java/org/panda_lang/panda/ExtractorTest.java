@@ -37,17 +37,15 @@ public class ExtractorTest {
                 .build();
 
         TokenExtractor extractor = pattern.extractor();
+
         boolean matched = extractor.extract(tokenReader);
+        List<TokenHollow> hollows = extractor.getHollows();
 
-        if (matched) {
-            List<TokenHollow> hollows = extractor.getHollows();
+        for (TokenHollow hollow : hollows) {
+            System.out.println("--- TokenHollow");
 
-            for (TokenHollow hollow : hollows) {
-                System.out.println("--- TokenHollow");
-
-                for (Token token : hollow.getTokens()) {
-                    System.out.println(": " + token.toString());
-                }
+            for (Token token : hollow.getTokens()) {
+                System.out.println("  : " + token.toString());
             }
         }
 

@@ -1,15 +1,15 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
+import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.suggestion.Separator;
 import org.panda_lang.core.util.array.ArrayDistributor;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class TokenExtractor {
 
@@ -17,12 +17,12 @@ public class TokenExtractor {
 
     private final TokenPattern pattern;
     private final List<TokenHollow> hollows;
-    private TokenHollow hollow;
+    private final TokenExtractorOpposites extractorOpposites;
 
     public TokenExtractor(TokenPattern pattern) {
         this.pattern = pattern;
         this.hollows = new ArrayList<>();
-        this.hollow = new TokenHollow();
+        this.extractorOpposites = new TokenExtractorOpposites(this);
     }
 
     public boolean extract(TokenReader tokenReader) {
@@ -34,22 +34,46 @@ public class TokenExtractor {
         ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
 
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
-        Stack<Separator> separators = new Stack<>();
+        TokenHollow hollow = new TokenHollow();
 
         for (int unitIndex = 0; unitIndex < units.length; unitIndex++) {
             TokenPatternUnit unit = unitsDistributor.get(unitIndex);
-            TokenPatternUnit nextUnit = unitsDistributor.get(unitIndex + 1);
+            tokenReader.synchronize();
 
-            loop:
-            if (!unit.isHollow()) {
+            for (TokenRepresentation representation : tokenReader) {
+                Token token = representation.getToken();
 
-            }
-            else {
+                if (unit.equals(token)) {
+                    tokenReader.read();
+                    break;
+                }
 
+                if (!unit.isHollow()) {
+                    return false;
+                }
+
+                TokenPatternUnit nextUnit = unitsDistributor.get(unitIndex + 1);
+
+                if (!token.equals(nextUnit) || extractorOpposites.isLocked()) {
+                    extractorOpposites.report(token);
+
+                    tokenReader.read();
+                    hollow.addToken(token);
+
+                    continue;
+                }
+
+                hollows.add(hollow);
+                hollow = new TokenHollow();
+                break;
             }
         }
 
-        return tokenReader.getIndex() >= tokenizedSource.size();
+        return tokenReader.getIndex() + 1 >= tokenizedSource.size();
+    }
+
+    protected TokenPattern getPattern() {
+        return pattern;
     }
 
     public List<TokenHollow> getHollows() {

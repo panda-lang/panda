@@ -8,9 +8,16 @@ import java.util.List;
 public class TokenPatternBuilder {
 
     private final List<TokenPatternUnit> units;
+    private boolean keepOpposites;
 
     public TokenPatternBuilder() {
-        units = new ArrayList<>();
+        this.units = new ArrayList<>();
+        this.keepOpposites = true;
+    }
+
+    public TokenPatternBuilder keepOpposites(boolean keepOpposites) {
+        this.keepOpposites = keepOpposites;
+        return this;
     }
 
     public TokenPatternBuilder unit(TokenType type, String token) {
@@ -28,7 +35,7 @@ public class TokenPatternBuilder {
         TokenPatternUnit[] unitsArray = new TokenPatternUnit[units.size()];
         units.toArray(unitsArray);
 
-        return new TokenPattern(unitsArray);
+        return new TokenPattern(unitsArray, keepOpposites);
     }
 
 }
