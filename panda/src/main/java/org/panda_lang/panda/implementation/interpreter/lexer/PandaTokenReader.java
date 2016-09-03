@@ -10,13 +10,11 @@ public class PandaTokenReader implements TokenReader {
     private final TokenizedSource tokenizedSource;
     private ArrayDistributor<TokenRepresentation> representationsDistributor;
     private PandaTokenReaderIterator iterator;
-    private int index;
 
     public PandaTokenReader(TokenizedSource tokenizedSource) {
         this.tokenizedSource = tokenizedSource;
         this.representationsDistributor = new ArrayDistributor<>(tokenizedSource.getSource());
         this.iterator = new PandaTokenReaderIterator(this);
-        this.index = -1;
     }
 
     @Override
@@ -31,13 +29,13 @@ public class PandaTokenReader implements TokenReader {
 
     @Override
     public void setIndex(int index) {
-        this.index = index;
-        this.synchronize();
+        representationsDistributor.setIndex(index);
+        synchronize();
     }
 
     @Override
     public int getIndex() {
-        return index;
+        return representationsDistributor.getIndex();
     }
 
     @Override

@@ -66,6 +66,11 @@ public class TokenType {
         return id;
     }
 
+    @Override
+    public String toString() {
+        return getTypeName();
+    }
+
     public static TokenType[] values() {
         return VALUES;
     }
