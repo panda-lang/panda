@@ -7,7 +7,7 @@ import org.panda_lang.core.util.FileUtils;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenHollow;
+import org.panda_lang.core.interpreter.token.util.TokensSet;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
 
 import java.io.File;
@@ -26,11 +26,9 @@ public class ExtractorTest {
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
         TokenPattern pattern = TokenPattern.builder()
-                .unit(TokenType.KEYWORD, "method")
+                .keepOpposites(true)
+                .unit(TokenType.KEYWORD, "class")
                 .hollow()
-                .unit(TokenType.SEPARATOR, "(")
-                .hollow()
-                .unit(TokenType.SEPARATOR, ")")
                 .unit(TokenType.SEPARATOR, "{")
                 .hollow()
                 .unit(TokenType.SEPARATOR, "}")
@@ -39,9 +37,9 @@ public class ExtractorTest {
         TokenExtractor extractor = pattern.extractor();
 
         boolean matched = extractor.extract(tokenReader);
-        List<TokenHollow> hollows = extractor.getHollows();
+        List<TokensSet> hollows = extractor.getHollows();
 
-        for (TokenHollow hollow : hollows) {
+        for (TokensSet hollow : hollows) {
             System.out.println("--- TokenHollow");
 
             for (Token token : hollow.getTokens()) {

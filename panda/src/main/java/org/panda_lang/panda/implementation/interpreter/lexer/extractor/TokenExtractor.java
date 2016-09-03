@@ -7,6 +7,7 @@ import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.TokenType;
 import org.panda_lang.core.util.array.ArrayDistributor;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
+import org.panda_lang.core.interpreter.token.util.TokensSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class TokenExtractor {
     public static final TokenPatternUnit HOLLOW = new TokenPatternUnit(new TokenType("HOLLOW"), "*");
 
     private final TokenPattern pattern;
-    private final List<TokenHollow> hollows;
+    private final List<TokensSet> hollows;
     private final TokenExtractorOpposites extractorOpposites;
 
     public TokenExtractor(TokenPattern pattern) {
@@ -34,7 +35,7 @@ public class TokenExtractor {
         ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
 
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
-        TokenHollow hollow = new TokenHollow();
+        TokensSet hollow = new TokensSet();
 
         for (int unitIndex = 0; unitIndex < units.length; unitIndex++) {
             TokenPatternUnit unit = unitsDistributor.get(unitIndex);
@@ -64,7 +65,7 @@ public class TokenExtractor {
                 }
 
                 hollows.add(hollow);
-                hollow = new TokenHollow();
+                hollow = new TokensSet();
                 break;
             }
         }
@@ -76,7 +77,7 @@ public class TokenExtractor {
         return pattern;
     }
 
-    public List<TokenHollow> getHollows() {
+    public List<TokensSet> getHollows() {
         return hollows;
     }
 

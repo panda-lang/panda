@@ -11,7 +11,7 @@ import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.work.Executable;
 import org.panda_lang.panda.composition.element.Method;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenHollow;
+import org.panda_lang.core.interpreter.token.util.TokensSet;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
 
 import java.util.List;
@@ -41,11 +41,11 @@ public class MethodParser implements Parser {
         TokenExtractor extractor = pattern.extractor();
         extractor.extract(tokenReader.getTokenizedSource());
 
-        List<TokenHollow> hollows = extractor.getHollows();
+        List<TokensSet> hollows = extractor.getHollows();
 
-        TokenHollow methodNameHollow = hollows.get(0);
-        TokenHollow parametersHollow = hollows.get(1);
-        TokenHollow bodyHollow = hollows.get(2);
+        TokensSet methodNameHollow = hollows.get(0);
+        TokensSet parametersHollow = hollows.get(1);
+        TokensSet bodyHollow = hollows.get(2);
 
         Method method = new Method(methodNameHollow.getTokens().get(0).getToken());
 

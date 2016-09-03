@@ -8,12 +8,10 @@ import java.util.Stack;
 
 public class TokenExtractorOpposites {
 
-    private final TokenExtractor tokenExtractor;
     private final Stack<Separator> separators;
     private final boolean active;
 
     protected TokenExtractorOpposites(TokenExtractor tokenExtractor) {
-        this.tokenExtractor = tokenExtractor;
         this.separators = new Stack<>();
         this.active = tokenExtractor.getPattern().isKeepingOpposites();
     }

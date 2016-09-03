@@ -1,15 +1,15 @@
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
+package org.panda_lang.core.interpreter.token.util;
 
 import org.panda_lang.core.interpreter.token.Token;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TokenHollow {
+public class TokensSet {
 
     private final List<Token> tokens;
 
-    public TokenHollow() {
+    public TokensSet() {
         this.tokens = new ArrayList<>();
     }
 

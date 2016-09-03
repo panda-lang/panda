@@ -1,7 +1,3 @@
 method main(String[] args) {
     System.out.print("x");
-
-    method main(String[] args) {
-        System.out.print("x");
-    }
 }
