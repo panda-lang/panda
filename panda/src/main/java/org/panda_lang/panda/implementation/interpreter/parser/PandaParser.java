@@ -5,7 +5,7 @@ import org.panda_lang.core.interpreter.parser.Parser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
-import org.panda_lang.core.work.Executable;
+import org.panda_lang.core.work.element.Executable;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 

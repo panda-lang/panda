@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.work;
 
-import org.panda_lang.core.work.Executable;
+import org.panda_lang.core.work.element.Executable;
 import org.panda_lang.core.work.ExecutableCell;
 import org.panda_lang.core.work.Value;
-import org.panda_lang.core.work.Wrapper;
+import org.panda_lang.core.work.element.Wrapper;
 
 import java.util.ArrayList;
 import java.util.List;

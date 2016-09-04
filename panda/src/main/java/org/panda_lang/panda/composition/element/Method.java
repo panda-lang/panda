@@ -1,6 +1,6 @@
 package org.panda_lang.panda.composition.element;
 
-import org.panda_lang.core.work.HeadWrapper;
+import org.panda_lang.core.work.element.HeadWrapper;
 
 public class Method extends Block implements HeadWrapper {
 

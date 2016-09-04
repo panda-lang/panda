@@ -8,7 +8,7 @@ import org.panda_lang.core.interpreter.parser.Parser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
-import org.panda_lang.core.work.Executable;
+import org.panda_lang.core.work.element.Executable;
 import org.panda_lang.panda.composition.element.Method;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
 import org.panda_lang.core.interpreter.token.util.TokensSet;

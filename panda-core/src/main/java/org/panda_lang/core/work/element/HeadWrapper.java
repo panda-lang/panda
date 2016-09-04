@@ -1,4 +1,4 @@
-package org.panda_lang.core.work;
+package org.panda_lang.core.work.element;
 
 public interface HeadWrapper extends NamedWrapper {
 
