@@ -1,6 +1,4 @@
-package org.panda_lang.core.work;
-
-import org.panda_lang.core.work.element.Executable;
+package org.panda_lang.core.work.element;
 
 public interface ExecutableCell {
 

@@ -1,31 +1,23 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.core.work.element.Executable;
-import org.panda_lang.core.work.ExecutableCell;
-import org.panda_lang.core.work.Value;
-import org.panda_lang.core.work.element.Wrapper;
+import org.panda_lang.panda.implementation.work.PandaWrapper;
 
-import java.util.List;
+public class PandaScript {
 
-public class PandaScript implements Wrapper {
+    private final String scriptName;
+    private final PandaWrapper pandaWrapper;
 
-    public PandaScript() {
-
+    public PandaScript(String scriptName, PandaWrapper pandaWrapper) {
+        this.scriptName = scriptName;
+        this.pandaWrapper = pandaWrapper;
     }
 
-    @Override
-    public Value execute() {
-        return null;
+    public PandaWrapper getPandaWrapper() {
+        return pandaWrapper;
     }
 
-    @Override
-    public ExecutableCell addExecutable(Executable executable) {
-        return null;
-    }
-
-    @Override
-    public List<ExecutableCell> getExecutableCells() {
-        return null;
+    public String getScriptName() {
+        return scriptName;
     }
 
 }

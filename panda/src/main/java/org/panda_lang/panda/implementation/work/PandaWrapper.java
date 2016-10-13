@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.work;
 
 import org.panda_lang.core.work.element.Executable;
-import org.panda_lang.core.work.ExecutableCell;
-import org.panda_lang.core.work.Value;
+import org.panda_lang.core.work.element.ExecutableCell;
 import org.panda_lang.core.work.element.Wrapper;
+import org.panda_lang.core.work.element.WrapperInstance;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class PandaWrapper implements Wrapper {
     }
 
     @Override
-    public Value execute() {
+    public WrapperInstance createInstance() {
         return null;
     }
 
@@ -31,6 +31,17 @@ public class PandaWrapper implements Wrapper {
     @Override
     public List<ExecutableCell> getExecutableCells() {
         return executableCells;
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    public static class PandaWrapperInstance {
+
+
+
     }
 
 }

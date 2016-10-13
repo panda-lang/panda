@@ -4,7 +4,7 @@ public class ClassPrototype {
 
     protected String className;
     protected Field[] fields;
-    protected Method[] methods;
+    protected MethodWrapper[] methods;
 
     public ClassPrototype() {
     }
@@ -15,11 +15,11 @@ public class ClassPrototype {
         this.methods = null;
     }
 
-    public Method[] getMethods() {
+    public MethodWrapper[] getMethods() {
         return methods;
     }
 
-    public void setMethods(Method[] methods) {
+    public void setMethods(MethodWrapper[] methods) {
         this.methods = methods;
     }
 

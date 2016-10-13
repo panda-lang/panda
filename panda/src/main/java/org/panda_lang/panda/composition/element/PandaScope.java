@@ -1,31 +1,16 @@
 package org.panda_lang.panda.composition.element;
 
 import org.panda_lang.core.work.element.Executable;
-import org.panda_lang.core.work.ExecutableCell;
-import org.panda_lang.core.work.element.NamedWrapper;
-import org.panda_lang.core.work.Value;
+import org.panda_lang.core.work.element.ExecutableCell;
+import org.panda_lang.core.work.element.Scope;
 import org.panda_lang.panda.implementation.work.PandaExecutableCell;
 
 import java.util.List;
 
-public class Block implements NamedWrapper {
+public class PandaScope implements Scope {
 
     protected String name;
     protected List<ExecutableCell> executableCells;
-
-    @Override
-    public Value execute() {
-        for (ExecutableCell executableCell : executableCells) {
-            Executable executable = executableCell.getExecutable();
-
-            if (executable == null) {
-                continue;
-            }
-
-            executable.execute();
-        }
-        return null;
-    }
 
     @Override
     public ExecutableCell addExecutable(Executable executable) {
