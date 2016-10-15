@@ -1,6 +1,6 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.implementation.work.PandaWrapper;
+import org.panda_lang.panda.implementation.work.element.PandaWrapper;
 
 public class PandaScript {
 
