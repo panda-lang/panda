@@ -24,3 +24,12 @@ class Main() {
     }
 
 }
+
+method foo() {
+    int i = 5;
+    bar();
+
+    method bar() {
+        System.println(i);
+    }
+}

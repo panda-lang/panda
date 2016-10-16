@@ -1,24 +1,23 @@
 package org.panda_lang.panda.implementation.work.structure;
 
-import org.panda_lang.core.work.element.ExecutablePrototype;
+import org.panda_lang.core.work.element.Executable;
 import org.panda_lang.core.work.structure.ExecutableCell;
 
 public class PandaExecutableCell implements ExecutableCell {
 
-    private ExecutablePrototype executablePrototype;
+    private Executable executable;
     private boolean manipulated;
 
-    public PandaExecutableCell(ExecutablePrototype executablePrototype) {
-        this.executablePrototype = executablePrototype;
+    public PandaExecutableCell(Executable executable) {
+        this.executable = executable;
     }
 
-    @Override
-    public void setExecutablePrototype(ExecutablePrototype executablePrototype) {
-        if (this.executablePrototype != null) {
+    public void setExecutable(Executable executable) {
+        if (this.executable != null) {
             this.manipulated = true;
         }
 
-        this.executablePrototype = executablePrototype;
+        this.executable = executable;
     }
 
     public boolean isManipulated() {
@@ -26,8 +25,8 @@ public class PandaExecutableCell implements ExecutableCell {
     }
 
     @Override
-    public ExecutablePrototype getExecutablePrototype() {
-        return executablePrototype;
+    public Executable getExecutable() {
+        return executable;
     }
 
 }

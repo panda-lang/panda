@@ -13,11 +13,4 @@ public interface Executable {
      */
     @Nullable Value execute(Value... parameters);
 
-    /**
-     * @return prototype of the current executable
-     */
-    default @Nullable ExecutablePrototype getExecutablePrototype() {
-        return null;
-    }
-
 }

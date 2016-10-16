@@ -6,21 +6,21 @@ import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.work.element.Executable;
-import org.panda_lang.panda.PandaScript;
+import org.panda_lang.core.work.element.Wrapper;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
+import org.panda_lang.panda.implementation.work.element.PandaWrapper;
 
 public class PandaParser implements Parser {
 
     private final PandaInterpreter interpreter;
-    private PandaScript pandaScript;
 
     public PandaParser(PandaInterpreter interpreter) {
         this.interpreter = interpreter;
     }
 
     @Override
-    public PandaScript parse(ParserInfo parserInfo) {
-        this.pandaScript = new PandaScript();
+    public Wrapper parse(ParserInfo parserInfo) {
+        Wrapper wrapper = new PandaWrapper();
 
         ParserPipeline pipeline = parserInfo.getParserPipeline();
         ParserContext parserContext = parserInfo.getParserContext();
@@ -37,14 +37,10 @@ public class PandaParser implements Parser {
             }
 
             Executable executable = parser.parse(parserInfo);
-            pandaScript.addExecutable(executable);
+            wrapper.addExecutable(executable);
         }
 
-        return pandaScript;
-    }
-
-    public PandaScript getPandaScript() {
-        return pandaScript;
+        return wrapper;
     }
 
     public PandaInterpreter getInterpreter() {

@@ -1,51 +1,38 @@
 package org.panda_lang.panda.implementation.work.element;
 
 import org.panda_lang.core.work.Value;
-import org.panda_lang.core.work.element.ExecutablePrototype;
 import org.panda_lang.core.work.element.Wrapper;
 import org.panda_lang.core.work.element.WrapperInstance;
-import org.panda_lang.core.work.structure.ExecutableCell;
-import org.panda_lang.panda.implementation.work.structure.PandaExecutableCell;
+import org.panda_lang.panda.composition.work.Field;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaWrapper implements Wrapper {
+public class PandaWrapper extends PandaScope implements Wrapper {
 
-    private final List<ExecutableCell> executableCells;
+    private final List<Field> fields;
 
     public PandaWrapper() {
-        this.executableCells = new ArrayList<>();
+        this.fields = new ArrayList<>();
     }
 
     @Override
     public WrapperInstance createInstance() {
-        return null;
+        return new PandaWrapperInstance(this);
     }
 
-    @Override
-    public ExecutableCell addExecutable(ExecutablePrototype executablePrototype) {
-        ExecutableCell executableCell = new PandaExecutableCell(executablePrototype);
-        executableCells.add(executableCell);
-        return executableCell;
-    }
-
-    @Override
-    public List<ExecutableCell> getExecutableCells() {
-        return executableCells;
-    }
-
-    @Override
-    public String getName() {
-        return null;
+    public List<Field> getFields() {
+        return fields;
     }
 
     public static class PandaWrapperInstance implements WrapperInstance {
 
-        private final PandaWrapper pandaWrapper;
+        private final PandaWrapper wrapper;
+        private final int[] pointers;
 
         public PandaWrapperInstance(PandaWrapper pandaWrapper) {
-            this.pandaWrapper = pandaWrapper;
+            this.wrapper = pandaWrapper;
+            this.pointers = new int[pandaWrapper.getFields().size()];
         }
 
         @Override

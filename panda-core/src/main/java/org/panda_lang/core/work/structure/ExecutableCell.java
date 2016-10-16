@@ -1,11 +1,11 @@
 package org.panda_lang.core.work.structure;
 
-import org.panda_lang.core.work.element.ExecutablePrototype;
+import org.panda_lang.core.work.element.Executable;
 
 public interface ExecutableCell {
 
-    void setExecutablePrototype(ExecutablePrototype executablePrototype);
+    void setExecutable(Executable executable);
 
-    ExecutablePrototype getExecutablePrototype();
+    Executable getExecutable();
 
 }
