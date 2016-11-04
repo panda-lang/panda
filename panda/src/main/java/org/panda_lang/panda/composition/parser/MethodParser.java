@@ -38,10 +38,9 @@ public class MethodParser implements Parser {
         TokenReader tokenReader = parserContext.getTokenReader();
 
         TokenExtractor extractor = pattern.extractor();
-        extractor.extract(tokenReader.getTokenizedSource());
+        extractor.extract(tokenReader);
 
         List<TokensSet> hollows = extractor.getHollows();
-
         TokensSet methodNameHollow = hollows.get(0);
         TokensSet parametersHollow = hollows.get(1);
         TokensSet bodyHollow = hollows.get(2);

@@ -6,7 +6,6 @@ import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.work.element.Executable;
-import org.panda_lang.core.work.element.Wrapper;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.work.element.PandaWrapper;
 
@@ -19,8 +18,8 @@ public class PandaParser implements Parser {
     }
 
     @Override
-    public Wrapper parse(ParserInfo parserInfo) {
-        Wrapper wrapper = new PandaWrapper();
+    public PandaWrapper parse(ParserInfo parserInfo) {
+        PandaWrapper wrapper = new PandaWrapper();
 
         ParserPipeline pipeline = parserInfo.getParserPipeline();
         ParserContext parserContext = parserInfo.getParserContext();

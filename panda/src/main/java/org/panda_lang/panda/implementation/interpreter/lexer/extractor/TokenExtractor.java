@@ -2,12 +2,10 @@ package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.util.array.ArrayDistributor;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.core.interpreter.token.util.TokensSet;
+import org.panda_lang.core.util.array.ArrayDistributor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +25,8 @@ public class TokenExtractor {
     }
 
     public boolean extract(TokenReader tokenReader) {
-        return extract(tokenReader.getTokenizedSource());
-    }
-
-    public boolean extract(TokenizedSource tokenizedSource) {
         TokenPatternUnit[] units = pattern.getUnits();
         ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
-
-        TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
         TokensSet hollow = new TokensSet();
 
         for (int unitIndex = 0; unitIndex < units.length; unitIndex++) {
@@ -70,7 +62,7 @@ public class TokenExtractor {
             }
         }
 
-        return tokenReader.getIndex() + 1 >= tokenizedSource.size();
+        return tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size();
     }
 
     protected TokenPattern getPattern() {

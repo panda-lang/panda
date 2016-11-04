@@ -6,6 +6,12 @@ import org.panda_lang.core.work.element.WrapperInstance;
 
 public class PandaWrapperInstance implements WrapperInstance {
 
+    private final Wrapper wrapper;
+
+    public PandaWrapperInstance(Wrapper wrapper) {
+        this.wrapper = wrapper;
+    }
+
     @Override
     public Value execute(Value... parameters) {
         return null;
@@ -18,7 +24,7 @@ public class PandaWrapperInstance implements WrapperInstance {
 
     @Override
     public Wrapper getWrapper() {
-        return null;
+        return wrapper;
     }
 
 }

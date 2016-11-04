@@ -17,6 +17,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserContext;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
+import org.panda_lang.panda.implementation.work.element.PandaWrapper;
 
 public class PandaInterpreter implements Interpreter {
 
@@ -48,8 +49,9 @@ public class PandaInterpreter implements Interpreter {
             parserInfo.setParserContext(parserContext);
 
             PandaParser pandaParser = new PandaParser(this);
-            PandaScript pandaScript = pandaParser.parse(parserInfo);
+            PandaWrapper wrapper = pandaParser.parse(parserInfo);
 
+            PandaScript pandaScript = new PandaScript(wrapper.getName(), wrapper);
             application.addPandaScript(pandaScript);
         }
     }

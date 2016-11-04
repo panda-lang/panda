@@ -41,6 +41,11 @@ public class PandaWrapper extends PandaScope implements Wrapper {
         }
 
         @Override
+        public int[] getPointers() {
+            return pointers;
+        }
+
+        @Override
         public Wrapper getWrapper() {
             return null;
         }
