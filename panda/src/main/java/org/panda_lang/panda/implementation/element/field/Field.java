@@ -1,4 +1,4 @@
-package org.panda_lang.panda.composition.work;
+package org.panda_lang.panda.implementation.element.field;
 
 public class Field {
 

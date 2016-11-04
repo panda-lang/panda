@@ -1,4 +1,4 @@
-package org.panda_lang.panda.composition.parser;
+package org.panda_lang.panda.implementation.element.method;
 
 import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.token.Token;
@@ -9,12 +9,14 @@ import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.work.element.Executable;
+import org.panda_lang.panda.composition.parser.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
 import org.panda_lang.core.interpreter.token.util.TokensSet;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
 
 import java.util.List;
 
+@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParser.MethodParserHandler.class)
 public class MethodParser implements Parser {
 
     private static final TokenPattern pattern;

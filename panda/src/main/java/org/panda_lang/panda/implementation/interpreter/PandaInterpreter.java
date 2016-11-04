@@ -10,7 +10,7 @@ import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.PandaScript;
-import org.panda_lang.panda.composition.ParserComposition;
+import org.panda_lang.panda.composition.parser.ParserComposition;
 import org.panda_lang.panda.implementation.PandaApplication;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;

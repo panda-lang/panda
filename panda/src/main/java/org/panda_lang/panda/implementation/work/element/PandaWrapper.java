@@ -3,7 +3,7 @@ package org.panda_lang.panda.implementation.work.element;
 import org.panda_lang.core.work.Value;
 import org.panda_lang.core.work.element.Wrapper;
 import org.panda_lang.core.work.element.WrapperInstance;
-import org.panda_lang.panda.composition.work.Field;
+import org.panda_lang.panda.implementation.element.field.Field;
 
 import java.util.ArrayList;
 import java.util.List;

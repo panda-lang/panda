@@ -1,11 +1,10 @@
-package org.panda_lang.panda.composition;
+package org.panda_lang.panda.composition.syntax;
 
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.suggestion.Keyword;
 import org.panda_lang.core.interpreter.token.suggestion.Operator;
 import org.panda_lang.core.interpreter.token.suggestion.Separator;
 import org.panda_lang.core.interpreter.token.suggestion.Sequence;
-import org.panda_lang.panda.composition.syntax.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

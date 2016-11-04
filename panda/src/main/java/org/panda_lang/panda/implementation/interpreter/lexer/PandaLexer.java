@@ -7,7 +7,7 @@ import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.util.CharacterUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
-import org.panda_lang.panda.composition.SyntaxComposition;
+import org.panda_lang.panda.composition.syntax.SyntaxComposition;
 
 import java.util.ArrayList;
 import java.util.Collection;

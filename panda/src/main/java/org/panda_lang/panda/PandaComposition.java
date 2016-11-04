@@ -1,7 +1,7 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.composition.ParserComposition;
-import org.panda_lang.panda.composition.SyntaxComposition;
+import org.panda_lang.panda.composition.parser.ParserComposition;
+import org.panda_lang.panda.composition.syntax.SyntaxComposition;
 
 public class PandaComposition {
 
