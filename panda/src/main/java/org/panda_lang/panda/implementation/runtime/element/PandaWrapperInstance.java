@@ -1,8 +1,8 @@
-package org.panda_lang.panda.implementation.work.element;
+package org.panda_lang.panda.implementation.runtime.element;
 
-import org.panda_lang.core.work.Value;
-import org.panda_lang.core.work.element.Wrapper;
-import org.panda_lang.core.work.element.WrapperInstance;
+import org.panda_lang.core.runtime.Value;
+import org.panda_lang.core.runtime.element.Wrapper;
+import org.panda_lang.core.runtime.element.WrapperInstance;
 
 public class PandaWrapperInstance implements WrapperInstance {
 

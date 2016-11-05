@@ -1,4 +1,4 @@
-package org.panda_lang.core.work.element;
+package org.panda_lang.core.runtime.element;
 
 public interface WrapperInstance extends Executable {
 

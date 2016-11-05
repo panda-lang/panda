@@ -1,7 +1,7 @@
-package org.panda_lang.core.work;
+package org.panda_lang.core.runtime;
 
 import org.panda_lang.core.memory.Memory;
-import org.panda_lang.core.work.structure.ExecutableTree;
+import org.panda_lang.core.runtime.structure.ExecutableTree;
 
 public interface ExecutiveProcess {
 

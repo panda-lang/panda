@@ -1,6 +1,6 @@
-package org.panda_lang.core.work.structure;
+package org.panda_lang.core.runtime.structure;
 
-import org.panda_lang.core.work.element.WrapperInstance;
+import org.panda_lang.core.runtime.element.WrapperInstance;
 
 public interface ExecutableBranch {
 

@@ -25,8 +25,6 @@ public class ParserComposition {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return;
     }
 
     protected void initialize() throws Exception {

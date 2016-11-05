@@ -1,7 +1,7 @@
-package org.panda_lang.core.work.element;
+package org.panda_lang.core.runtime.element;
 
 import com.sun.istack.internal.Nullable;
-import org.panda_lang.core.work.Value;
+import org.panda_lang.core.runtime.Value;
 
 public interface Executable {
 

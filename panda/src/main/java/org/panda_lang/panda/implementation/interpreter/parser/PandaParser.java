@@ -5,9 +5,9 @@ import org.panda_lang.core.interpreter.parser.Parser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
-import org.panda_lang.core.work.element.Executable;
+import org.panda_lang.core.runtime.element.Executable;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
-import org.panda_lang.panda.implementation.work.element.PandaWrapper;
+import org.panda_lang.panda.implementation.runtime.element.PandaWrapper;
 
 public class PandaParser implements Parser {
 

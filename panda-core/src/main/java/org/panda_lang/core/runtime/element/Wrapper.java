@@ -1,6 +1,6 @@
-package org.panda_lang.core.work.element;
+package org.panda_lang.core.runtime.element;
 
-import org.panda_lang.core.work.Value;
+import org.panda_lang.core.runtime.Value;
 
 /**
  * Specific type of scope which

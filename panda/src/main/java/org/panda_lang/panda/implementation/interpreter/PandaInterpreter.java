@@ -17,7 +17,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserContext;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
-import org.panda_lang.panda.implementation.work.element.PandaWrapper;
+import org.panda_lang.panda.implementation.runtime.element.PandaWrapper;
 
 public class PandaInterpreter implements Interpreter {
 

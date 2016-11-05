@@ -1,6 +1,6 @@
-package org.panda_lang.panda.implementation.work;
+package org.panda_lang.panda.implementation.runtime;
 
-import org.panda_lang.core.work.Value;
+import org.panda_lang.core.runtime.Value;
 
 public class PandaValue implements Value {
 

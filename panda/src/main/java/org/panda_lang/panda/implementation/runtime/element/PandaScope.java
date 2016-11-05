@@ -1,10 +1,10 @@
-package org.panda_lang.panda.implementation.work.element;
+package org.panda_lang.panda.implementation.runtime.element;
 
-import org.panda_lang.core.work.Value;
-import org.panda_lang.core.work.element.Executable;
-import org.panda_lang.core.work.element.Scope;
-import org.panda_lang.core.work.structure.ExecutableCell;
-import org.panda_lang.panda.implementation.work.structure.PandaExecutableCell;
+import org.panda_lang.core.runtime.Value;
+import org.panda_lang.core.runtime.element.Executable;
+import org.panda_lang.core.runtime.element.Scope;
+import org.panda_lang.core.runtime.structure.ExecutableCell;
+import org.panda_lang.panda.implementation.runtime.structure.PandaExecutableCell;
 
 import java.util.ArrayList;
 import java.util.List;
