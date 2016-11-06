@@ -1,16 +1,22 @@
 package org.panda_lang.core.interpreter.parser;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.lexer.TokenizedSource;
 
 public interface ParserContext {
 
+    /**
+     * @param tokenReader set the main token reader
+     */
     void setTokenReader(TokenReader tokenReader);
 
+    /**
+     * @return the main token reader for parsed text
+     */
     TokenReader getTokenReader();
 
-    TokenizedSource getTokenizedSource();
-
+    /**
+     * @return raw source
+     */
     String getSource();
 
 }

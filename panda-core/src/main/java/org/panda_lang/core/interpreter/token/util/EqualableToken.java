@@ -6,12 +6,6 @@ import org.panda_lang.core.interpreter.token.TokenType;
 public abstract class EqualableToken implements Token {
 
     @Override
-    public abstract String getToken();
-
-    @Override
-    public abstract TokenType getType();
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -32,5 +26,11 @@ public abstract class EqualableToken implements Token {
         result = 31 * result + getType().hashCode();
         return result;
     }
+
+    @Override
+    public abstract String getToken();
+
+    @Override
+    public abstract TokenType getType();
 
 }

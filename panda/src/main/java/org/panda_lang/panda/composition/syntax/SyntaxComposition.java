@@ -48,12 +48,12 @@ public class SyntaxComposition {
         Collections.sort(sequences, tokenComparator);
     }
 
-    public char[] getSpecialCharacters() {
-        return specialCharacters;
-    }
-
     public void setSpecialCharacters(char[] specialCharacters) {
         this.specialCharacters = specialCharacters;
+    }
+
+    public char[] getSpecialCharacters() {
+        return specialCharacters;
     }
 
     public List<Sequence> getSequences() {

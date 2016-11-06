@@ -10,6 +10,7 @@ public interface Executable {
      * @param parameters parameters for executable process
      * @return result of executed code
      */
-    @Nullable Value execute(Value... parameters);
+    @Nullable
+    Value execute(Value... parameters);
 
 }

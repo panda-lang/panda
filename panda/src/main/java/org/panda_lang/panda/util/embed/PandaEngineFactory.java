@@ -17,41 +17,6 @@ public class PandaEngineFactory implements ScriptEngineFactory {
     }
 
     @Override
-    public String getEngineName() {
-        return PandaEngineFactoryConstants.ENGINE_NAME;
-    }
-
-    @Override
-    public String getEngineVersion() {
-        return PandaEngineFactoryConstants.ENGINE_VERSION;
-    }
-
-    @Override
-    public List<String> getExtensions() {
-        return PandaEngineFactoryConstants.EXTENSIONS;
-    }
-
-    @Override
-    public List<String> getMimeTypes() {
-        return PandaEngineFactoryConstants.MIME_TYPES;
-    }
-
-    @Override
-    public List<String> getNames() {
-        return PandaEngineFactoryConstants.NAMES;
-    }
-
-    @Override
-    public String getLanguageName() {
-        return PandaEngineFactoryConstants.NAME;
-    }
-
-    @Override
-    public String getLanguageVersion() {
-        return PandaEngineFactoryConstants.VERSION;
-    }
-
-    @Override
     public Object getParameter(String s) {
         return null; // TODO
     }
@@ -84,6 +49,41 @@ public class PandaEngineFactory implements ScriptEngineFactory {
     @Override
     public String getProgram(String... strings) {
         return null; // TODO
+    }
+
+    @Override
+    public String getEngineName() {
+        return PandaEngineFactoryConstants.ENGINE_NAME;
+    }
+
+    @Override
+    public String getEngineVersion() {
+        return PandaEngineFactoryConstants.ENGINE_VERSION;
+    }
+
+    @Override
+    public List<String> getExtensions() {
+        return PandaEngineFactoryConstants.EXTENSIONS;
+    }
+
+    @Override
+    public List<String> getMimeTypes() {
+        return PandaEngineFactoryConstants.MIME_TYPES;
+    }
+
+    @Override
+    public List<String> getNames() {
+        return PandaEngineFactoryConstants.NAMES;
+    }
+
+    @Override
+    public String getLanguageName() {
+        return PandaEngineFactoryConstants.NAME;
+    }
+
+    @Override
+    public String getLanguageVersion() {
+        return PandaEngineFactoryConstants.VERSION;
     }
 
     @Override

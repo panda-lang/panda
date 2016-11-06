@@ -1,7 +1,7 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.core.runtime.element.Value;
 import org.panda_lang.core.runtime.element.Executable;
+import org.panda_lang.core.runtime.element.Value;
 import org.panda_lang.core.runtime.structure.ExecutableCell;
 import org.panda_lang.panda.implementation.runtime.element.PandaScope;
 import org.panda_lang.panda.implementation.runtime.element.PandaWrapper;

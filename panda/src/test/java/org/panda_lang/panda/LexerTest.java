@@ -1,10 +1,10 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.core.interpreter.lexer.Lexer;
-import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.lexer.TokenReader;
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.lexer.TokenizedSource;
+import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.util.FileUtils;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;

@@ -4,20 +4,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TokenType {
 
-    private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
-
     public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
-
     public static final TokenType KEYWORD = new TokenType("KEYWORD");
-
     public static final TokenType SEPARATOR = new TokenType("SEPARATOR");
-
     public static final TokenType SEQUENCE = new TokenType("SEQUENCE");
-
     public static final TokenType OPERATOR = new TokenType("OPERATOR");
-
     public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
-
+    private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
     private static final TokenType[] VALUES = new TokenType[6];
 
     static {
@@ -35,10 +28,6 @@ public class TokenType {
     public TokenType(String typeName) {
         this.id = ID_ASSIGNER.getAndIncrement();
         this.typeName = typeName;
-    }
-
-    public String getTypeName() {
-        return typeName;
     }
 
     public int ordinal() {
@@ -73,6 +62,10 @@ public class TokenType {
 
     public static TokenType[] values() {
         return VALUES;
+    }
+
+    public String getTypeName() {
+        return typeName;
     }
 
 }

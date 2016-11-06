@@ -61,12 +61,12 @@ public class CharArrayDistributor {
         }
     }
 
-    public char getPrevious() {
-        return index - 1 > 0 ? array[index - 1] : array[0];
-    }
-
     public char getPrevious(int t) {
         return index - t > 0 ? array[index - t] : array[0];
+    }
+
+    public char getPrevious() {
+        return index - 1 > 0 ? array[index - 1] : array[0];
     }
 
     public char getLast() {

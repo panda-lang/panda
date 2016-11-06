@@ -16,13 +16,13 @@ public class PandaParserContext implements ParserContext {
     }
 
     @Override
-    public TokenReader getTokenReader() {
-        return tokenReader;
+    public void setTokenReader(TokenReader tokenReader) {
+        this.tokenReader = tokenReader;
     }
 
     @Override
-    public void setTokenReader(TokenReader tokenReader) {
-        this.tokenReader = tokenReader;
+    public TokenReader getTokenReader() {
+        return tokenReader;
     }
 
     @Override

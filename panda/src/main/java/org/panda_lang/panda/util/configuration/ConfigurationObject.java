@@ -10,6 +10,14 @@ public class ConfigurationObject {
         this.type = type;
     }
 
+    protected void setPosition(int i) {
+        this.position = i;
+    }
+
+    protected void setObject(Object o) {
+        this.object = o;
+    }
+
     protected String getString() {
         if (type == ConfigurationType.STRING) {
             return (String) object;
@@ -21,16 +29,8 @@ public class ConfigurationObject {
         return this.position;
     }
 
-    protected void setPosition(int i) {
-        this.position = i;
-    }
-
     protected Object getObject() {
         return this.object;
-    }
-
-    protected void setObject(Object o) {
-        this.object = o;
     }
 
     protected ConfigurationType getType() {

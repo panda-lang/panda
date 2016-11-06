@@ -71,13 +71,13 @@ public class PandaEngine implements ScriptEngine {
     }
 
     @Override
-    public ScriptContext getContext() {
-        return null;
+    public void setContext(ScriptContext scriptContext) {
+
     }
 
     @Override
-    public void setContext(ScriptContext scriptContext) {
-
+    public ScriptContext getContext() {
+        return null;
     }
 
     @Override

@@ -126,15 +126,15 @@ public class PandaConfiguration {
         return list;
     }
 
+    public void clear() {
+        this.configuration = null;
+        this.map = null;
+    }
+
     public Collection<String> getKeys() {
         Collection<String> list = new ArrayList<>();
         list.addAll(map.keySet());
         return list;
-    }
-
-    public void clear() {
-        this.configuration = null;
-        this.map = null;
     }
 
     public Map<String, Object> getMap() {

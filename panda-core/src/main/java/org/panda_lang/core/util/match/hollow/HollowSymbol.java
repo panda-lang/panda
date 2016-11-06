@@ -43,6 +43,20 @@ public class HollowSymbol implements Matcher {
         this.segmentsAfter.add(segment);
     }
 
+    @Override
+    public String toString() {
+        switch (getHollowSymbolType()) {
+            case BASIS:
+                return variants.toString();
+            case HOLLOW:
+                return "*";
+            case OPTIONAL:
+                return segmentsBefore + "[ ]" + segmentsAfter;
+            default:
+                return null;
+        }
+    }
+
     public boolean isOptional() {
         return hollowSymbolType == HollowSymbolType.OPTIONAL;
     }
@@ -73,20 +87,6 @@ public class HollowSymbol implements Matcher {
 
     public int getIndex() {
         return index;
-    }
-
-    @Override
-    public String toString() {
-        switch (getHollowSymbolType()) {
-            case BASIS:
-                return variants.toString();
-            case HOLLOW:
-                return "*";
-            case OPTIONAL:
-                return segmentsBefore + "[ ]" + segmentsAfter;
-            default:
-                return null;
-        }
     }
 
 }

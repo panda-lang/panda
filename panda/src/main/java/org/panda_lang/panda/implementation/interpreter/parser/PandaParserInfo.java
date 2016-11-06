@@ -17,13 +17,13 @@ public class PandaParserInfo implements ParserInfo {
     }
 
     @Override
-    public ParserContext getParserContext() {
-        return parserContext;
+    public void setParserContext(ParserContext parserContext) {
+        this.parserContext = parserContext;
     }
 
     @Override
-    public void setParserContext(ParserContext parserContext) {
-        this.parserContext = parserContext;
+    public ParserContext getParserContext() {
+        return parserContext;
     }
 
     @Override

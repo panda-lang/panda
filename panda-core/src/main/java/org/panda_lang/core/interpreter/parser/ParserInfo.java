@@ -4,9 +4,9 @@ import org.panda_lang.core.interpreter.Interpreter;
 
 public interface ParserInfo {
 
-    ParserContext getParserContext();
-
     void setParserContext(ParserContext parserContext);
+
+    ParserContext getParserContext();
 
     ParserPipeline getParserPipeline();
 

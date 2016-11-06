@@ -1,7 +1,7 @@
 package org.panda_lang.core.runtime.element;
 
 /**
- * Specific type of scope which
+ * Specific type of scope which contains own memory, independence, etc.
  */
 public interface Wrapper extends Scope {
 

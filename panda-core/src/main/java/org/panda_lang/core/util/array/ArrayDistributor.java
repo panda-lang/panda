@@ -74,12 +74,16 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return index > -1 && index < array.length ? array[index] : null;
     }
 
-    public T getPrevious() {
-        return index - 1 > 0 ? array[index - 1] : null;
-    }
-
     public T getPrevious(int t) {
         return index - t > 0 ? array[index - t] : null;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public T getPrevious() {
+        return index - 1 > 0 ? array[index - 1] : null;
     }
 
     public T getLast() {
@@ -88,10 +92,6 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
     public int getIndex() {
         return index;
-    }
-
-    public void setIndex(int index) {
-        this.index = index;
     }
 
     public int getLength() {

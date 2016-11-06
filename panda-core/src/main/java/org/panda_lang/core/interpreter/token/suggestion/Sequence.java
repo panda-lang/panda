@@ -23,6 +23,11 @@ public class Sequence extends EqualableToken {
         this.sequenceEnd = sequenceEnd;
     }
 
+    @Override
+    public String toString() {
+        return getType().getTypeName().toLowerCase() + ": " + getToken();
+    }
+
     public String getSequenceStart() {
         return sequenceStart;
     }
@@ -44,11 +49,6 @@ public class Sequence extends EqualableToken {
     @Override
     public TokenType getType() {
         return TokenType.SEQUENCE;
-    }
-
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
     }
 
 }

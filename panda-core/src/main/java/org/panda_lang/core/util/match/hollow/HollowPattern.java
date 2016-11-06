@@ -77,17 +77,17 @@ public class HollowPattern implements Matcher {
         return string.length() >= endIndex ? string.substring(beginIndex, endIndex) : string.substring(beginIndex, string.length());
     }
 
+    @Override
+    public String toString() {
+        return hollowSymbols.toString();
+    }
+
     public List<String> getHollows() {
         return hollows;
     }
 
     public List<HollowSymbol> getHollowSymbols() {
         return hollowSymbols;
-    }
-
-    @Override
-    public String toString() {
-        return hollowSymbols.toString();
     }
 
 }
