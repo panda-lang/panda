@@ -4,13 +4,16 @@ public class StringUtils {
 
     public static final String EMPTY = "";
 
+    /**
+     * Faster alternative to str.replace
+     */
     public static String replace(String text, String searchString, String replacement) {
         if (text == null || text.isEmpty() || searchString.isEmpty()) {
             return text;
         }
 
         if (replacement == null) {
-            replacement = "";
+            replacement = EMPTY;
         }
 
         int start = 0;

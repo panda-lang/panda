@@ -1,7 +1,5 @@
 package org.panda_lang.core.runtime.element;
 
-import org.panda_lang.core.runtime.Value;
-
 /**
  * Specific type of scope which
  */

@@ -1,6 +1,6 @@
 package org.panda_lang.core.runtime.structure;
 
-import org.panda_lang.core.runtime.Value;
+import org.panda_lang.core.runtime.element.Value;
 import org.panda_lang.core.runtime.element.Executable;
 
 public interface ExecutableTree {

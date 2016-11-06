@@ -5,8 +5,14 @@ import org.panda_lang.core.runtime.structure.ExecutableTree;
 
 public interface ExecutiveProcess {
 
+    /**
+     * @return executable tree of the current process
+     */
     ExecutableTree getExecutableTree();
 
+    /**
+     * @return a memory used by this process
+     */
     Memory getMemory();
 
 }

@@ -1,6 +1,6 @@
 package org.panda_lang.panda.implementation.runtime.element;
 
-import org.panda_lang.core.runtime.Value;
+import org.panda_lang.core.runtime.element.Value;
 import org.panda_lang.core.runtime.element.Wrapper;
 import org.panda_lang.core.runtime.element.WrapperInstance;
 
