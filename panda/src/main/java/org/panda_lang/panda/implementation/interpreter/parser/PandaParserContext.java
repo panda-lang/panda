@@ -26,11 +26,6 @@ public class PandaParserContext implements ParserContext {
     }
 
     @Override
-    public TokenizedSource getTokenizedSource() {
-        return tokenizedSource;
-    }
-
-    @Override
     public String getSource() {
         return source;
     }
