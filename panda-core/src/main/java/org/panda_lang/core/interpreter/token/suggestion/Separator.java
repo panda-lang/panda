@@ -20,11 +20,6 @@ public class Separator extends EqualableToken {
         return opposite != null;
     }
 
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
-    }
-
     public void setOpposite(Separator opposite) {
         this.opposite = opposite;
     }
@@ -41,6 +36,11 @@ public class Separator extends EqualableToken {
     @Override
     public final TokenType getType() {
         return TokenType.SEPARATOR;
+    }
+
+    @Override
+    public String toString() {
+        return getType().getTypeName().toLowerCase() + ": " + getToken();
     }
 
 }

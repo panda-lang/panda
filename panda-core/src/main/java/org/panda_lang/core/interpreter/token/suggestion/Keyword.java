@@ -12,11 +12,6 @@ public class Keyword extends EqualableToken {
     }
 
     @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
-    }
-
-    @Override
     public String getToken() {
         return keyword;
     }
@@ -24,6 +19,11 @@ public class Keyword extends EqualableToken {
     @Override
     public TokenType getType() {
         return TokenType.KEYWORD;
+    }
+
+    @Override
+    public String toString() {
+        return getType().getTypeName().toLowerCase() + ": " + getToken();
     }
 
 }

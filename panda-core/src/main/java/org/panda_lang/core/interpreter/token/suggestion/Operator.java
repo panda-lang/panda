@@ -12,11 +12,6 @@ public class Operator extends EqualableToken {
     }
 
     @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
-    }
-
-    @Override
     public String getToken() {
         return operator;
     }
@@ -24,6 +19,11 @@ public class Operator extends EqualableToken {
     @Override
     public TokenType getType() {
         return TokenType.OPERATOR;
+    }
+
+    @Override
+    public String toString() {
+        return getType().getTypeName().toLowerCase() + ": " + getToken();
     }
 
 }

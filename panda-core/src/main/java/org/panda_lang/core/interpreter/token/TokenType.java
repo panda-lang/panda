@@ -4,13 +4,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class TokenType {
 
-    public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
-    public static final TokenType KEYWORD = new TokenType("KEYWORD");
-    public static final TokenType SEPARATOR = new TokenType("SEPARATOR");
-    public static final TokenType SEQUENCE = new TokenType("SEQUENCE");
-    public static final TokenType OPERATOR = new TokenType("OPERATOR");
-    public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
     private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
+
+    public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
+
+    public static final TokenType KEYWORD = new TokenType("KEYWORD");
+
+    public static final TokenType SEPARATOR = new TokenType("SEPARATOR");
+
+    public static final TokenType SEQUENCE = new TokenType("SEQUENCE");
+
+    public static final TokenType OPERATOR = new TokenType("OPERATOR");
+
+    public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
+
     private static final TokenType[] VALUES = new TokenType[6];
 
     static {
@@ -34,6 +41,19 @@ public class TokenType {
         return id;
     }
 
+    public static TokenType[] values() {
+        return VALUES;
+    }
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -51,21 +71,8 @@ public class TokenType {
     }
 
     @Override
-    public int hashCode() {
-        return id;
-    }
-
-    @Override
     public String toString() {
         return getTypeName();
-    }
-
-    public static TokenType[] values() {
-        return VALUES;
-    }
-
-    public String getTypeName() {
-        return typeName;
     }
 
 }

@@ -103,11 +103,6 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         return 0;
     }
 
-    @Override
-    public String toString() {
-        return pattern;
-    }
-
     public void setCharset(char[] charset) {
         this.charset = charset;
     }
@@ -126,6 +121,11 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
 
     public double getPriority() {
         return priority;
+    }
+
+    @Override
+    public String toString() {
+        return pattern;
     }
 
 }
