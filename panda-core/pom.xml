@@ -5,7 +5,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda_lang</groupId>
-        <version>indev-0.0.2-SNAPSHOT</version>
+        <version>indev-0.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda-core</artifactId>

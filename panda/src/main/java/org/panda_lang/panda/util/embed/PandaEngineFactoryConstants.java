@@ -13,7 +13,7 @@ public class PandaEngineFactoryConstants {
     /**
      * Panda version
      */
-    public static final String VERSION = "indev-0.0.1-SNAPSHOT";
+    public static final String VERSION = "indev-0.0.3-SNAPSHOT";
 
     /**
      * Engine name
@@ -43,7 +43,6 @@ public class PandaEngineFactoryConstants {
 
 
     static {
-        EXTENSIONS.add(".pnative");
         EXTENSIONS.add(".panda");
 
         MIME_TYPES.add("application/panda");
