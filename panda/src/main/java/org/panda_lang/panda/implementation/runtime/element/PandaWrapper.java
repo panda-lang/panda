@@ -3,6 +3,7 @@ package org.panda_lang.panda.implementation.runtime.element;
 import org.panda_lang.core.runtime.element.Value;
 import org.panda_lang.core.runtime.element.Wrapper;
 import org.panda_lang.core.runtime.element.WrapperInstance;
+import org.panda_lang.core.runtime.structure.ExecutableBranch;
 import org.panda_lang.panda.implementation.element.field.Field;
 
 import java.util.ArrayList;
@@ -28,20 +29,20 @@ public class PandaWrapper extends PandaScope implements Wrapper {
     public static class PandaWrapperInstance implements WrapperInstance {
 
         private final PandaWrapper wrapper;
-        private final int[] pointers;
+        private final long[] pointers;
 
         public PandaWrapperInstance(PandaWrapper pandaWrapper) {
             this.wrapper = pandaWrapper;
-            this.pointers = new int[pandaWrapper.getFields().size()];
+            this.pointers = new long[pandaWrapper.getFields().size()];
         }
 
         @Override
-        public Value execute(Value... values) {
+        public Value execute(ExecutableBranch executableBranch, Value... values) {
             return null;
         }
 
         @Override
-        public int[] getPointers() {
+        public long[] getPointers() {
             return pointers;
         }
 

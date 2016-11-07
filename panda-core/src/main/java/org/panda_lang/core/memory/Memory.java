@@ -1,5 +1,7 @@
 package org.panda_lang.core.memory;
 
+import org.panda_lang.core.util.BitwiseUtils;
+
 public interface Memory {
 
     /**
@@ -22,5 +24,19 @@ public interface Memory {
      * @return memory segment associated with specified type id
      */
     MemorySegment get(int typeID);
+
+    /**
+     * @param pointer type id and index of value as long
+     * @return value
+     */
+    default Object get(long pointer) {
+        MemorySegment segment = get(BitwiseUtils.extractLeft(pointer));
+
+        if (segment == null) {
+            return null;
+        }
+
+        return segment.get(BitwiseUtils.extractRight(pointer));
+    }
 
 }

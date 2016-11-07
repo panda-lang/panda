@@ -1,6 +1,6 @@
 package org.panda_lang.core.interpreter;
 
-import org.panda_lang.core.Application;
+import org.panda_lang.core.runtime.Application;
 
 public interface Interpreter {
 

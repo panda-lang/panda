@@ -1,4 +1,4 @@
-package org.panda_lang.core;
+package org.panda_lang.core.runtime;
 
 import org.panda_lang.core.memory.Memory;
 

@@ -11,7 +11,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
 import org.panda_lang.panda.PandaScript;
 import org.panda_lang.panda.composition.parser.ParserComposition;
-import org.panda_lang.panda.implementation.PandaApplication;
+import org.panda_lang.panda.implementation.runtime.PandaApplication;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParser;

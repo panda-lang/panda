@@ -1,11 +1,19 @@
 package org.panda_lang.core.runtime.element;
 
-public interface WrapperInstance extends Executable {
+import org.panda_lang.core.runtime.structure.ExecutableBranch;
+
+public interface WrapperInstance {
+
+    /**
+     * @param executableBranch associated branch with instance
+     * @return result
+     */
+    Value execute(ExecutableBranch executableBranch, Value... parameters);
 
     /**
      * @return array of pointers associated by index to fields
      */
-    int[] getPointers();
+    long[] getPointers();
 
     /**
      * @return proper wrapper
