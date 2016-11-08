@@ -26,6 +26,11 @@ public class PandaWrapper extends PandaScope implements Wrapper {
         return fields;
     }
 
+    @Override
+    public int getOrder() {
+        return 0;
+    }
+
     public static class PandaWrapperInstance implements WrapperInstance {
 
         private final PandaWrapper wrapper;

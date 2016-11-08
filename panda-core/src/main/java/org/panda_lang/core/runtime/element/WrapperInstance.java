@@ -11,9 +11,9 @@ public interface WrapperInstance {
     Value execute(ExecutableBranch executableBranch, Value... parameters);
 
     /**
-     * @return array of pointers associated by index to fields
+     * @return array of variables which index is equals to order of fields
      */
-    long[] getPointers();
+    Object[] getVariables();
 
     /**
      * @return proper wrapper

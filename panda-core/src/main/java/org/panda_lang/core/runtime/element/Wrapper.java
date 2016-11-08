@@ -17,4 +17,9 @@ public interface Wrapper extends Scope {
      */
     WrapperInstance createInstance();
 
+    /**
+     * @return the order counted from the main wrapper
+     */
+    int getID();
+
 }
