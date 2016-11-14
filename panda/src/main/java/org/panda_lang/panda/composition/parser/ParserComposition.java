@@ -1,7 +1,7 @@
 package org.panda_lang.panda.composition.parser;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
-import org.panda_lang.core.interpreter.parser.Parser;
+import org.panda_lang.core.interpreter.parser.MatchedParser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.interpreter.parser.ParserRepresentation;
@@ -38,8 +38,8 @@ public class ParserComposition {
         for (Class<?> clazz : annotated) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
 
-            ConstructorAccess<? extends Parser> parserConstructor = ConstructorAccess.get(parserRegistration.parserClass());
-            Parser parser = parserConstructor.newInstance();
+            ConstructorAccess<? extends MatchedParser> parserConstructor = ConstructorAccess.get(parserRegistration.parserClass());
+            MatchedParser parser = parserConstructor.newInstance();
 
             ConstructorAccess<? extends ParserHandler> handlerConstructor = ConstructorAccess.get(parserRegistration.handlerClass());
             ParserHandler handler = handlerConstructor.newInstance();

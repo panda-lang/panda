@@ -2,7 +2,7 @@ package org.panda_lang.panda.implementation.runtime;
 
 import org.panda_lang.core.runtime.Application;
 import org.panda_lang.core.memory.Memory;
-import org.panda_lang.panda.PandaScript;
+import org.panda_lang.panda.implementation.element.script.PandaScript;
 import org.panda_lang.panda.implementation.memory.PandaMemory;
 
 import java.util.ArrayList;

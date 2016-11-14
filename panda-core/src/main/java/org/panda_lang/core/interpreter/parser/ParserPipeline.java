@@ -8,7 +8,7 @@ public interface ParserPipeline {
      * @param tokenReader source
      * @return parser which fits to source
      */
-    Parser handle(TokenReader tokenReader);
+    MatchedParser handle(TokenReader tokenReader);
 
     /**
      * @param parserRepresentation specified parser representation which will be registered in pipeline

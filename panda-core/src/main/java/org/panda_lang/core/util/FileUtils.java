@@ -10,6 +10,28 @@ import java.util.List;
 
 public class FileUtils {
 
+    /**
+     * @return file name without extension
+     */
+    public static String getFileName(File file) {
+        String fileName = file.getName();
+
+        if (fileName == null) {
+            return null;
+        }
+
+        int pos = fileName.lastIndexOf(".");
+
+        if (pos == -1) {
+            return fileName;
+        }
+
+        return fileName.substring(0, pos);
+    }
+
+    /**
+     * @return collection of file with the specified extension
+     */
     public static Collection<File> findFilesByExtension(File directory, String extension) {
         Collection<File> files = new ArrayList<>();
 
@@ -40,6 +62,9 @@ public class FileUtils {
         return files;
     }
 
+    /**
+     * Override content of the specified file
+     */
     public static void overrideFile(File file, String content) {
         PrintWriter writer = null;
 
@@ -53,6 +78,9 @@ public class FileUtils {
         }
     }
 
+    /**
+     * @return content of the specified file
+     */
     public static String getContentOfFile(File file) {
         StringBuilder sb = new StringBuilder();
         BufferedReader br = null;
@@ -79,6 +107,9 @@ public class FileUtils {
         return sb.toString();
     }
 
+    /**
+     * @return content of file divided by lines
+     */
     public static String[] getContentAsLines(File file) {
         if (!file.exists()) {
             return new String[0];
@@ -96,8 +127,11 @@ public class FileUtils {
         return null;
     }
 
-    public static int countLines(String filename) throws IOException {
-        try (InputStream is = new BufferedInputStream(new FileInputStream(filename))) {
+    /**
+     * @return number of lines in the specified file
+     */
+    public static int countLines(String fileName) throws IOException {
+        try (InputStream is = new BufferedInputStream(new FileInputStream(fileName))) {
             byte[] c = new byte[1024];
             boolean empty = true;
             int count = 0;

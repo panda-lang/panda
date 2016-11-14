@@ -2,7 +2,7 @@ package org.panda_lang.panda.implementation.element.method;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.parser.Parser;
+import org.panda_lang.core.interpreter.parser.MatchedParser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
@@ -17,7 +17,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPatt
 import java.util.List;
 
 @ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParser.MethodParserHandler.class)
-public class MethodParser implements Parser {
+public class MethodParser implements MatchedParser {
 
     private static final TokenPattern pattern;
 
@@ -47,8 +47,7 @@ public class MethodParser implements Parser {
         TokensSet parametersHollow = hollows.get(1);
         TokensSet bodyHollow = hollows.get(2);
 
-        // TODO
-        // MethodWrapper method = new MethodWrapper(methodNameHollow.getTokens().get(0).getToken());
+        // MethodWrapper method = new MethodWrapper(TokenUtils.get(methodNameHollow, 0));
 
         return null;
     }

@@ -1,15 +1,15 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.Parser;
+import org.panda_lang.core.interpreter.parser.MatchedParser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.runtime.element.Executable;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
-import org.panda_lang.panda.implementation.runtime.element.PandaWrapper;
+import org.panda_lang.panda.implementation.element.script.PandaWrapper;
 
-public class PandaParser implements Parser {
+public class PandaParser implements MatchedParser {
 
     private final PandaInterpreter interpreter;
 
@@ -28,7 +28,7 @@ public class PandaParser implements Parser {
         while (tokenReader.hasNext()) {
             tokenReader.synchronize();
 
-            Parser parser = pipeline.handle(tokenReader);
+            MatchedParser parser = pipeline.handle(tokenReader);
 
             if (parser == null) {
                 tokenReader.synchronize();

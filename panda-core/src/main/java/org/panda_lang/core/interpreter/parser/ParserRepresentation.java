@@ -20,6 +20,6 @@ public interface ParserRepresentation {
     /**
      * @return associated parser
      */
-    Parser getParser();
+    MatchedParser getParser();
 
 }

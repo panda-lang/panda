@@ -19,9 +19,4 @@ public interface Scope extends Executable {
      */
     List<ExecutableCell> getExecutableCells();
 
-    /**
-     * @return name of the current scope, format depends on the scope
-     */
-    String getName();
-
 }
