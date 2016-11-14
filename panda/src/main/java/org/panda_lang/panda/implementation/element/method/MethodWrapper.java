@@ -24,9 +24,4 @@ public class MethodWrapper extends PandaScope implements Wrapper {
         return wrapperID;
     }
 
-    @Override
-    public String getName() {
-        return methodName;
-    }
-
 }

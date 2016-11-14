@@ -7,9 +7,8 @@ import org.panda_lang.core.interpreter.parser.Parser;
 
 import java.util.List;
 
-public class ParameterParser implements Parser<Parameter> {
+public class ParameterParser implements Parser {
 
-    @Override
     public Parameter parse(ParserInfo parserInfo, TokensSet tokensSet) {
         List<Token> tokens = tokensSet.getTokens();
         Token parameterType = tokens.get(0);
