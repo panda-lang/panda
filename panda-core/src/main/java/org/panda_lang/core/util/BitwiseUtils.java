@@ -28,7 +28,7 @@ public class BitwiseUtils {
      * Extract 2 ints from long
      */
     public static int[] extract(long l) {
-        return new int[] { (int) l >> 32, (int) l };
+        return new int[]{ (int) l >> 32, (int) l };
     }
 
 }

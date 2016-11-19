@@ -9,7 +9,7 @@ public interface ExecutableTree {
      * Creates executable-tree based on specified executable
      *
      * @param wrapper root of the tree
-     * @param value      parameters
+     * @param value   parameters
      * @return result of executed code
      */
     Value call(Wrapper wrapper, Value... value);

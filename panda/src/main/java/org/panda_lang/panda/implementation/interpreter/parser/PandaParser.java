@@ -6,8 +6,8 @@ import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.runtime.element.Executable;
-import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.element.script.PandaWrapper;
+import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 
 public class PandaParser implements MatchedParser {
 
