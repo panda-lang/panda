@@ -1,6 +1,6 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.implementation.runtime.PandaApplication;
+import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 import java.io.File;
 

@@ -1,22 +1,22 @@
-package org.panda_lang.panda.implementation.runtime;
+package org.panda_lang.panda.implementation.structure;
 
 import org.panda_lang.core.memory.Memory;
-import org.panda_lang.core.runtime.Application;
-import org.panda_lang.panda.implementation.element.script.PandaScript;
+import org.panda_lang.core.structure.Application;
+import org.panda_lang.core.structure.Script;
 import org.panda_lang.panda.implementation.memory.PandaMemory;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public class PandaApplication implements Application {
 
     private final Memory memory;
-    private final Collection<PandaScript> pandaScripts;
+    private final List<Script> scripts;
     private String workingDirectory;
 
     public PandaApplication() {
         this.memory = new PandaMemory();
-        this.pandaScripts = new ArrayList<>();
+        this.scripts = new ArrayList<>();
     }
 
     @Override
@@ -24,16 +24,17 @@ public class PandaApplication implements Application {
 
     }
 
-    public void addPandaScript(PandaScript pandaScript) {
-        pandaScripts.add(pandaScript);
+    public void addPandaScript(Script pandaScript) {
+        scripts.add(pandaScript);
     }
 
     public void setWorkingDirectory(String workingDirectory) {
         this.workingDirectory = workingDirectory;
     }
 
-    public Collection<PandaScript> getPandaScripts() {
-        return pandaScripts;
+    @Override
+    public List<Script> getScripts() {
+        return scripts;
     }
 
     @Override

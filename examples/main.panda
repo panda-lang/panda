@@ -1,35 +1,24 @@
-group example;
+group com.example;
 
-static final String VERSION = "indev-0.0.1-SNAPSHOT";
-
-static main() {
+main launch() {
     Main main = new Main();
     main.start();
 }
 
 class Main() {
 
-    String version;
+    static String version = "indev-0.0.3-SNAPSHOT";
 
     constructor Main() {
-        this.version = VERSION;
+        print version;
     }
 
     method start() {
-
+        // [...]
     }
 
-    method String getVersion() {
+    static String getVersion() {
         return version;
     }
 
-}
-
-method foo() {
-    int i = 5;
-    bar();
-
-    method bar() {
-        System.println(i);
-    }
 }

@@ -1,10 +1,8 @@
-package org.panda_lang.core.runtime.element;
-
-import org.panda_lang.core.runtime.structure.ExecutableCell;
+package org.panda_lang.core.structure;
 
 import java.util.List;
 
-public interface Scope extends Executable {
+public interface Container extends Statement {
 
     /**
      * Adds executable to the current scope

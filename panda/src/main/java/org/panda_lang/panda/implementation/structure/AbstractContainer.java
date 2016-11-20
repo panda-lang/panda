@@ -1,18 +1,17 @@
-package org.panda_lang.panda.implementation.runtime.element;
+package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.core.runtime.element.Executable;
-import org.panda_lang.core.runtime.element.Scope;
-import org.panda_lang.core.runtime.structure.ExecutableCell;
-import org.panda_lang.panda.implementation.runtime.structure.PandaExecutableCell;
+import org.panda_lang.core.structure.Container;
+import org.panda_lang.core.structure.Executable;
+import org.panda_lang.core.structure.ExecutableCell;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class PandaScope implements Scope {
+public abstract class AbstractContainer implements Container {
 
-    private final List<ExecutableCell> executableCells;
+    protected final List<ExecutableCell> executableCells;
 
-    public PandaScope() {
+    public AbstractContainer() {
         this.executableCells = new ArrayList<>();
     }
 

@@ -1,10 +1,10 @@
-package org.panda_lang.panda.implementation.runtime.structure;
+package org.panda_lang.panda.implementation.runtime.element;
 
-import org.panda_lang.core.runtime.element.Value;
-import org.panda_lang.core.runtime.element.Wrapper;
-import org.panda_lang.core.runtime.element.WrapperInstance;
-import org.panda_lang.core.runtime.structure.ExecutableBranch;
-import org.panda_lang.core.runtime.structure.ExecutableTree;
+import org.panda_lang.core.structure.Value;
+import org.panda_lang.core.structure.Wrapper;
+import org.panda_lang.core.structure.WrapperInstance;
+import org.panda_lang.core.runtime.element.ExecutableBranch;
+import org.panda_lang.core.runtime.element.ExecutableTree;
 
 public class PandaExecutableTree implements ExecutableTree {
 

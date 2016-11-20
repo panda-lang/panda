@@ -1,15 +1,20 @@
 package org.panda_lang.core.interpreter.parser;
 
-import org.panda_lang.core.interpreter.Interpreter;
+import org.panda_lang.core.interpreter.parser.util.Components;
 
 public interface ParserInfo {
 
-    void setParserContext(ParserContext parserContext);
+    /**
+     * Default list of components is available here: {@link Components}
+     *
+     * @param componentName a name of the specified component
+     * @return selected component
+     */
+    <T> T getComponent(String componentName);
 
-    ParserContext getParserContext();
-
-    ParserPipeline getParserPipeline();
-
-    Interpreter getInterpreter();
+    /**
+     * @param componentName a name of the specified component
+     */
+    void setComponent(String componentName, Object component);
 
 }

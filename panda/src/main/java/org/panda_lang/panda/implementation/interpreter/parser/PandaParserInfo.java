@@ -1,39 +1,27 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.core.interpreter.Interpreter;
-import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
-import org.panda_lang.core.interpreter.parser.ParserPipeline;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class PandaParserInfo implements ParserInfo {
 
-    private final Interpreter interpreter;
-    private final ParserPipeline pipeline;
-    private ParserContext parserContext;
+    private final Map<String, Object> components;
 
-    public PandaParserInfo(Interpreter interpreter, ParserPipeline pipeline) {
-        this.interpreter = interpreter;
-        this.pipeline = pipeline;
+    public PandaParserInfo() {
+        this.components = new HashMap<>();
     }
 
     @Override
-    public void setParserContext(ParserContext parserContext) {
-        this.parserContext = parserContext;
+    public void setComponent(String componentName, Object component) {
+        this.components.put(componentName, component);
     }
 
     @Override
-    public ParserContext getParserContext() {
-        return parserContext;
-    }
-
-    @Override
-    public ParserPipeline getParserPipeline() {
-        return pipeline;
-    }
-
-    @Override
-    public Interpreter getInterpreter() {
-        return interpreter;
+    @SuppressWarnings({ "unchecked" })
+    public <T> T getComponent(String componentName) {
+        return (T) components.get(componentName);
     }
 
 }

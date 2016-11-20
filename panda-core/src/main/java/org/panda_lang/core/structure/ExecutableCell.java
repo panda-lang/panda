@@ -1,6 +1,4 @@
-package org.panda_lang.core.runtime.structure;
-
-import org.panda_lang.core.runtime.element.Executable;
+package org.panda_lang.core.structure;
 
 /**
  * ExecutableCell is a mutable container for {@link Executable}

@@ -23,4 +23,9 @@ public class PandaTokenRepresentation implements TokenRepresentation {
         return token;
     }
 
+    @Override
+    public String toString() {
+        return token.getToken() + " [" + line + "]";
+    }
+
 }

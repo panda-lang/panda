@@ -1,8 +1,8 @@
-package org.panda_lang.core.runtime.element;
+package org.panda_lang.core.structure;
 
 import com.sun.istack.internal.Nullable;
 
-public interface Executable {
+public interface Executable extends Statement {
 
     /**
      * Call executable

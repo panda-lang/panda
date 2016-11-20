@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.element.method;
 
-import org.panda_lang.core.runtime.element.Value;
-import org.panda_lang.core.runtime.element.Wrapper;
-import org.panda_lang.core.runtime.element.WrapperInstance;
-import org.panda_lang.core.runtime.structure.ExecutableBranch;
+import org.panda_lang.core.structure.Value;
+import org.panda_lang.core.structure.Wrapper;
+import org.panda_lang.core.structure.WrapperInstance;
+import org.panda_lang.core.runtime.element.ExecutableBranch;
 
 public class MethodWrapperInstance implements WrapperInstance {
 

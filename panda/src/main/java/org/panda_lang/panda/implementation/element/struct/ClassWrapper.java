@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.element.struct;
 
-import org.panda_lang.core.runtime.element.Executable;
-import org.panda_lang.core.runtime.element.Wrapper;
-import org.panda_lang.core.runtime.element.WrapperInstance;
-import org.panda_lang.core.runtime.structure.ExecutableCell;
+import org.panda_lang.core.structure.Executable;
+import org.panda_lang.core.structure.Wrapper;
+import org.panda_lang.core.structure.WrapperInstance;
+import org.panda_lang.core.structure.ExecutableCell;
 
 import java.util.List;
 
@@ -21,6 +21,11 @@ public class ClassWrapper implements Wrapper {
 
     @Override
     public List<ExecutableCell> getExecutableCells() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
         return null;
     }
 

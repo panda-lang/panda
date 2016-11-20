@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.element.method;
 
-import org.panda_lang.core.runtime.element.Executable;
-import org.panda_lang.core.runtime.element.Value;
+import org.panda_lang.core.structure.Executable;
+import org.panda_lang.core.structure.Value;
 import org.panda_lang.panda.implementation.element.struct.ClassPrototype;
 
 public class Method implements Executable {
@@ -10,12 +10,14 @@ public class Method implements Executable {
     private final String methodName;
     private final Executable methodBody;
     private final boolean isStatic;
+    private MethodVisibility visibility;
 
-    public Method(ClassPrototype classPrototype, String methodName, Executable methodBody, boolean isStatic) {
+    public Method(ClassPrototype classPrototype, String methodName, Executable methodBody, boolean isStatic, MethodVisibility visibility) {
         this.classPrototype = classPrototype;
         this.methodName = methodName;
         this.methodBody = methodBody;
         this.isStatic = isStatic;
+        this.visibility = visibility;
     }
 
     @Override
@@ -31,6 +33,10 @@ public class Method implements Executable {
         return isStatic;
     }
 
+    public MethodVisibility getVisibility() {
+        return visibility;
+    }
+
     public ClassPrototype getClassPrototype() {
         return classPrototype;
     }
@@ -41,6 +47,10 @@ public class Method implements Executable {
 
     public String getMethodName() {
         return methodName;
+    }
+
+    public static MethodBuilder builder() {
+        return new MethodBuilder();
     }
 
 }

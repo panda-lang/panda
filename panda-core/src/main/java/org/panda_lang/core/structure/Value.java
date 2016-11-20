@@ -1,4 +1,4 @@
-package org.panda_lang.core.runtime.element;
+package org.panda_lang.core.structure;
 
 /**
  * Mutable wrapper for java object

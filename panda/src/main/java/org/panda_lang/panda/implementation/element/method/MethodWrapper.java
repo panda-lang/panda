@@ -1,22 +1,31 @@
 package org.panda_lang.panda.implementation.element.method;
 
-import org.panda_lang.core.runtime.element.Wrapper;
-import org.panda_lang.core.runtime.element.WrapperInstance;
-import org.panda_lang.panda.implementation.runtime.element.PandaScope;
+import org.panda_lang.core.structure.Wrapper;
+import org.panda_lang.core.structure.WrapperInstance;
+import org.panda_lang.panda.implementation.structure.AbstractContainer;
 
-public class MethodWrapper extends PandaScope implements Wrapper {
+public class MethodWrapper extends AbstractContainer implements Wrapper {
 
     private final int wrapperID;
-    private final String methodName;
+    private final Method method;
 
-    public MethodWrapper(int wrapperID, String methodName) {
+    public MethodWrapper(int wrapperID, Method method) {
         this.wrapperID = wrapperID;
-        this.methodName = methodName;
+        this.method = method;
     }
 
     @Override
     public WrapperInstance createInstance() {
         return new MethodWrapperInstance(this);
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    @Override
+    public String getName() {
+        return method.getMethodName();
     }
 
     @Override

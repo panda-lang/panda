@@ -1,16 +1,16 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.core.interpreter.parser.MatchedParser;
+import org.panda_lang.core.interpreter.parser.ContainerParser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserRepresentation;
 
 public class PandaParserRepresentation implements ParserRepresentation {
 
-    private final MatchedParser parser;
+    private final ContainerParser parser;
     private final ParserHandler handler;
     private int usages;
 
-    public PandaParserRepresentation(MatchedParser parser, ParserHandler parserHandler) {
+    public PandaParserRepresentation(ContainerParser parser, ParserHandler parserHandler) {
         this.parser = parser;
         this.handler = parserHandler;
     }
@@ -31,7 +31,7 @@ public class PandaParserRepresentation implements ParserRepresentation {
     }
 
     @Override
-    public MatchedParser getParser() {
+    public ContainerParser getParser() {
         return parser;
     }
 

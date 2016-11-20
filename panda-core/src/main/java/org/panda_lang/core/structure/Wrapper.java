@@ -1,14 +1,9 @@
-package org.panda_lang.core.runtime.element;
+package org.panda_lang.core.structure;
 
 /**
  * Specific type of scope which contains own memory, independence, etc.
  */
-public interface Wrapper extends Scope {
-
-    @Override
-    default Value execute(Value... parameters) {
-        throw new RuntimeException("Wrapper shouldn't be executed without instance");
-    }
+public interface Wrapper extends Container {
 
     /**
      * Creates new instance of the current wrapper for individual values for fields, etc.
@@ -16,6 +11,11 @@ public interface Wrapper extends Scope {
      * @return instance of the current wrapper
      */
     WrapperInstance createInstance();
+
+    /**
+     * @return wrapper name
+     */
+    String getName();
 
     /**
      * @return the order counted from the main wrapper

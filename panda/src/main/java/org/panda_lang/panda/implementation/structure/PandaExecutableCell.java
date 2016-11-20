@@ -1,7 +1,7 @@
-package org.panda_lang.panda.implementation.runtime.structure;
+package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.core.runtime.element.Executable;
-import org.panda_lang.core.runtime.structure.ExecutableCell;
+import org.panda_lang.core.structure.Executable;
+import org.panda_lang.core.structure.ExecutableCell;
 
 public class PandaExecutableCell implements ExecutableCell {
 

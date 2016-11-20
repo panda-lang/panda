@@ -9,7 +9,7 @@ Project website: https://panda-lang.org/
 
 ```javascript
 // Main method, called when the script starts
-method main() {
+main launch() {
     // Prints "Hello Panda" in console
     System.print("Hello Panda");
 
@@ -28,11 +28,16 @@ method main() {
     // Display result
     System.print(result);
 
-    goodbye();
+    Foo foo = new Foo();
+    foo.goodbye();
 }
 
-method goodbye() {
-    System.print("Goodbye!");
+class Foo {
+
+    method goodbye() {
+        System.print("Goodbye!");
+    }
+
 }
 ```
 

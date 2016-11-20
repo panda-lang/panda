@@ -16,6 +16,10 @@ public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<Tok
         return iterator().next();
     }
 
+    default TokenRepresentation previous() {
+        return iterator().previous();
+    }
+
     default boolean hasNext() {
         return iterator().hasNext();
     }

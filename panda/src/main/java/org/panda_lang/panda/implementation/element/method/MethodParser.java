@@ -2,14 +2,16 @@ package org.panda_lang.panda.implementation.element.method;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.parser.MatchedParser;
+import org.panda_lang.core.interpreter.parser.ContainerParser;
 import org.panda_lang.core.interpreter.parser.ParserContext;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserInfo;
+import org.panda_lang.core.interpreter.parser.util.Components;
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.TokenType;
+import org.panda_lang.core.interpreter.token.util.TokenUtils;
 import org.panda_lang.core.interpreter.token.util.TokensSet;
-import org.panda_lang.core.runtime.element.Executable;
+import org.panda_lang.core.structure.Wrapper;
 import org.panda_lang.panda.composition.parser.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
@@ -17,7 +19,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPatt
 import java.util.List;
 
 @ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParser.MethodParserHandler.class)
-public class MethodParser implements MatchedParser {
+public class MethodParser implements ContainerParser {
 
     private static final TokenPattern pattern;
 
@@ -35,8 +37,8 @@ public class MethodParser implements MatchedParser {
     }
 
     @Override
-    public Executable parse(ParserInfo parserInfo) {
-        ParserContext parserContext = parserInfo.getParserContext();
+    public MethodWrapper parse(ParserInfo parserInfo) {
+        ParserContext parserContext = parserInfo.getComponent(Components.PARSER_CONTEXT);
         TokenReader tokenReader = parserContext.getTokenReader();
 
         TokenExtractor extractor = pattern.extractor();
@@ -47,9 +49,19 @@ public class MethodParser implements MatchedParser {
         TokensSet parametersHollow = hollows.get(1);
         TokensSet bodyHollow = hollows.get(2);
 
-        // MethodWrapper method = new MethodWrapper(TokenUtils.get(methodNameHollow, 0));
+        // TODO
+        Wrapper wrapper = parserInfo.getComponent("current-wrapper");
+        int currentID = wrapper != null ? wrapper.getID() + 1 : 0;
 
-        return null;
+        Method method = Method.builder()
+                .classPrototype(parserInfo.getComponent("class-prototype"))
+                .methodName(TokenUtils.get(methodNameHollow, 0))
+                .methodBody(null)
+                .isStatic(true)
+                .visibility(MethodVisibility.PUBLIC)
+                .build();
+
+        return new MethodWrapper(currentID, method);
     }
 
     public static class MethodParserHandler implements ParserHandler {
