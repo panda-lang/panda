@@ -5,6 +5,11 @@ import org.panda_lang.core.interpreter.parser.util.Components;
 public interface ParserInfo {
 
     /**
+     * Clone ParserInfo to a new instance with old components
+     */
+    ParserInfo clone();
+
+    /**
      * Default list of components is available here: {@link Components}
      *
      * @param componentName a name of the specified component

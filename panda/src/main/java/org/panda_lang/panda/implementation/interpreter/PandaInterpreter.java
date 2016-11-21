@@ -5,9 +5,7 @@ import org.panda_lang.core.interpreter.SourceFile;
 import org.panda_lang.core.interpreter.SourceSet;
 import org.panda_lang.core.structure.Script;
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaComposition;
-import org.panda_lang.panda.composition.parser.ParserComposition;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParser;
+import org.panda_lang.panda.implementation.interpreter.parser.util.SourceFileParser;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 public class PandaInterpreter implements Interpreter {
@@ -24,9 +22,7 @@ public class PandaInterpreter implements Interpreter {
 
     @Override
     public void interpret() {
-        PandaComposition pandaComposition = panda.getPandaComposition();
-        ParserComposition parserComposition = pandaComposition.getParserComposition();
-        PandaParser pandaParser = new PandaParser(this, parserComposition.getPipeline());
+        SourceFileParser pandaParser = new SourceFileParser(this);
 
         for (SourceFile sourceFile : sourceSet.getSourceFiles()) {
             Script script = pandaParser.parse(sourceFile);

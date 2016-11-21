@@ -23,7 +23,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
     public T previous() {
         if (index - 1 < array.length) {
-            index--;
+            --index;
 
             if (index < 0) {
                 index = 0;
@@ -47,7 +47,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     @Override
     public T next() {
         if (index + 1 < array.length) {
-            index++;
+            ++index;
             return array[index];
         }
 

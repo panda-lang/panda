@@ -40,6 +40,10 @@ public class PandaTokenReaderIterator implements TokenReaderIterator {
         representationsDistributor.setIndex(index);
     }
 
+    public ArrayDistributor<TokenRepresentation> getRepresentationsDistributor() {
+        return representationsDistributor;
+    }
+
     @Override
     public int getIndex() {
         return representationsDistributor.getIndex();

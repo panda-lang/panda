@@ -1,6 +1,6 @@
-package org.panda_lang.panda.composition.parser;
+package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.core.interpreter.parser.ContainerParser;
+import org.panda_lang.core.interpreter.parser.UnifiedParser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 
 import java.lang.annotation.ElementType;
@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 
 public @interface ParserRegistration {
 
-    Class<? extends ContainerParser> parserClass();
+    Class<? extends UnifiedParser> parserClass();
 
     Class<? extends ParserHandler> handlerClass();
 

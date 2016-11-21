@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.ContainerParser;
+import org.panda_lang.core.interpreter.parser.UnifiedParser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.interpreter.parser.ParserRepresentation;
@@ -28,7 +28,7 @@ public class PandaParserPipeline implements ParserPipeline {
     }
 
     @Override
-    public ContainerParser handle(TokenReader tokenReader) {
+    public UnifiedParser handle(TokenReader tokenReader) {
         if (count > 100) {
             count = 0;
             sort();

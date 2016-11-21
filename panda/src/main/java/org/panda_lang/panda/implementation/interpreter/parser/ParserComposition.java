@@ -1,13 +1,11 @@
-package org.panda_lang.panda.composition.parser;
+package org.panda_lang.panda.implementation.interpreter.parser;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
-import org.panda_lang.core.interpreter.parser.ContainerParser;
+import org.panda_lang.core.interpreter.parser.UnifiedParser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserPipeline;
 import org.panda_lang.core.interpreter.parser.ParserRepresentation;
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserPipeline;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserRepresentation;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
@@ -38,8 +36,8 @@ public class ParserComposition {
         for (Class<?> clazz : annotated) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
 
-            ConstructorAccess<? extends ContainerParser> parserConstructor = ConstructorAccess.get(parserRegistration.parserClass());
-            ContainerParser parser = parserConstructor.newInstance();
+            ConstructorAccess<? extends UnifiedParser> parserConstructor = ConstructorAccess.get(parserRegistration.parserClass());
+            UnifiedParser parser = parserConstructor.newInstance();
 
             ConstructorAccess<? extends ParserHandler> handlerConstructor = ConstructorAccess.get(parserRegistration.handlerClass());
             ParserHandler handler = handlerConstructor.newInstance();

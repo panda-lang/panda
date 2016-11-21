@@ -10,7 +10,16 @@ public class PandaParserInfo implements ParserInfo {
     private final Map<String, Object> components;
 
     public PandaParserInfo() {
-        this.components = new HashMap<>();
+        this(new HashMap<>());
+    }
+
+    private PandaParserInfo(Map<String, Object> components) {
+        this.components = components;
+    }
+
+    @Override
+    public PandaParserInfo clone() {
+        return new PandaParserInfo(new HashMap<>(components));
     }
 
     @Override
