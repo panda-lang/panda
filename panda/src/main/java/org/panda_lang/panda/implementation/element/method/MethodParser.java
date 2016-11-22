@@ -10,8 +10,9 @@ import org.panda_lang.core.interpreter.parser.util.Components;
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.TokenType;
 import org.panda_lang.core.interpreter.token.util.TokenUtils;
-import org.panda_lang.core.interpreter.token.util.TokensSet;
-import org.panda_lang.core.structure.Wrapper;
+import org.panda_lang.core.interpreter.token.TokensSet;
+import org.panda_lang.core.structure.WrapperLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
@@ -49,19 +50,23 @@ public class MethodParser implements UnifiedParser {
         TokensSet parametersHollow = hollows.get(1);
         TokensSet bodyHollow = hollows.get(2);
 
-        // TODO
-        Wrapper wrapper = parserInfo.getComponent("current-wrapper");
-        int currentID = wrapper != null ? wrapper.getID() + 1 : 0;
+        WrapperLinker wrapperLinker = parserInfo.getComponent(Components.WRAPPER_LINKER);
+        int id = wrapperLinker.reserveSlot();
+
+        OverallParser overallParser = new OverallParser(parserInfo);
 
         Method method = Method.builder()
                 .classPrototype(parserInfo.getComponent("class-prototype"))
-                .methodName(TokenUtils.get(methodNameHollow, 0))
+                .methodName(TokenUtils.extractToken(methodNameHollow, 0))
                 .methodBody(null)
                 .isStatic(true)
                 .visibility(MethodVisibility.PUBLIC)
                 .build();
 
-        return new MethodWrapper(currentID, method);
+        MethodWrapper wrapper = new MethodWrapper(id, method);
+        wrapperLinker.linkWrapper(id, wrapper);
+
+        return wrapper;
     }
 
     public static class MethodParserHandler implements ParserHandler {

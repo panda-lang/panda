@@ -19,6 +19,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.*;
 import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.implementation.structure.PandaWrapperLinker;
 
 import java.io.File;
 
@@ -52,6 +53,7 @@ public class SourceFileParser implements Parser {
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
         parserInfo.setComponent(Components.PARSER_PIPELINE, pipeline);
         parserInfo.setComponent(Components.PARSER_CONTEXT, parserContext);
+        parserInfo.setComponent(Components.WRAPPER_LINKER, new PandaWrapperLinker());
 
         OverallParser headOverallParser = new OverallParser(parserInfo);
 

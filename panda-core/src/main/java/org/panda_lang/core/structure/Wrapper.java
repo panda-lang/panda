@@ -13,11 +13,6 @@ public interface Wrapper extends Container {
     WrapperInstance createInstance();
 
     /**
-     * @return parent wrapper
-     */
-    Wrapper getParent();
-
-    /**
      * @return wrapper name
      */
     String getName();

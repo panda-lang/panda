@@ -1,19 +1,23 @@
 package org.panda_lang.core.interpreter.token.util;
 
+import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.token.Token;
+import org.panda_lang.core.interpreter.token.TokensSet;
 
 import java.util.List;
 
 public class TokenUtils {
 
-    public static String get(TokensSet tokensSet, int i) {
-        List<Token> tokenList = tokensSet.getTokens();
+    public static String extractToken(TokensSet tokensSet, int i) {
+        List<TokenRepresentation> tokenList = tokensSet.getTokensRepresentations();
 
         if (i >= tokenList.size()) {
             return null;
         }
 
-        Token token = tokenList.get(0);
+        TokenRepresentation tokenRepresentation = tokenList.get(0);
+        Token token = tokenRepresentation.getToken();
+
         return token.getName();
     }
 

@@ -5,7 +5,7 @@ import org.panda_lang.core.util.match.hollow.HollowPattern;
 
 public class HollowPatternTest {
 
-    private static final String EXPRESSION = "instance.get().method(parameter.get())";
+    private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
 
     public static void main(String[] args) {
         HollowPattern hollowPattern = HollowPattern.builder().compile("*.*(*)*").build();

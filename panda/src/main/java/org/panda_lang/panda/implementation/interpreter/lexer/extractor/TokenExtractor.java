@@ -4,7 +4,7 @@ import org.panda_lang.core.interpreter.lexer.TokenReader;
 import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.core.interpreter.token.Token;
 import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.util.TokensSet;
+import org.panda_lang.core.interpreter.token.TokensSet;
 import org.panda_lang.core.util.array.ArrayDistributor;
 
 import java.util.ArrayList;
@@ -49,10 +49,8 @@ public class TokenExtractor {
 
                 if (!token.equals(nextUnit) || extractorOpposites.isLocked()) {
                     extractorOpposites.report(token);
-
                     tokenReader.read();
-                    hollow.addToken(token);
-
+                    hollow.addToken(representation);
                     continue;
                 }
 
