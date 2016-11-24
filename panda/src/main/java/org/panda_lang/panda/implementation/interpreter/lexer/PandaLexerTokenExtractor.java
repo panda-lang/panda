@@ -39,7 +39,7 @@ public class PandaLexerTokenExtractor {
             }
 
             lexer.getTokenizedLine().add(token);
-            tokenBuilder.delete(0, token.getToken().length());
+            tokenBuilder.delete(0, token.getTokenValue().length());
             tokenPreview = tokenBuilder.toString();
         }
 
@@ -50,7 +50,7 @@ public class PandaLexerTokenExtractor {
     protected final Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
-                if (!tokenPreview.startsWith(token.getToken())) {
+                if (!tokenPreview.startsWith(token.getTokenValue())) {
                     continue;
                 }
 

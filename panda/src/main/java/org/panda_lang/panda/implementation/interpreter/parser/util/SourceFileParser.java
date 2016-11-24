@@ -19,7 +19,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.*;
 import org.panda_lang.panda.implementation.structure.PandaScript;
-import org.panda_lang.panda.implementation.structure.PandaWrapperLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
 
 import java.io.File;
 

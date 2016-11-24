@@ -1,7 +1,7 @@
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.interpreter.parser.linker;
 
 import org.panda_lang.core.structure.Wrapper;
-import org.panda_lang.core.structure.WrapperLinker;
+import org.panda_lang.core.interpreter.parser.linker.WrapperLinker;
 
 import java.util.Stack;
 
@@ -14,18 +14,23 @@ public class PandaWrapperLinker implements WrapperLinker {
     }
 
     @Override
-    public int reserveSlot() {
-        return 0;
+    public void pushWrapper(Wrapper wrapper) {
+        wrapperStack.push(wrapper);
     }
 
     @Override
-    public void linkWrapper(int id, Wrapper wrapper) {
-
+    public Wrapper popWrapper() {
+        return wrapperStack.pop();
     }
 
     @Override
     public Wrapper getCurrentWrapper() {
         return wrapperStack.peek();
+    }
+
+    @Override
+    public int getNextID() {
+        return wrapperStack.size();
     }
 
 }

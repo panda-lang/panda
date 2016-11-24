@@ -1,9 +1,6 @@
 package org.panda_lang.panda.implementation.element.struct;
 
-import org.panda_lang.core.structure.Executable;
-import org.panda_lang.core.structure.Wrapper;
-import org.panda_lang.core.structure.WrapperInstance;
-import org.panda_lang.core.structure.ExecutableCell;
+import org.panda_lang.core.structure.*;
 
 import java.util.List;
 
@@ -15,12 +12,12 @@ public class ClassWrapper implements Wrapper {
     }
 
     @Override
-    public ExecutableCell addExecutable(Executable executable) {
+    public StatementCell addStatement(Statement statement) {
         return null;
     }
 
     @Override
-    public List<ExecutableCell> getExecutableCells() {
+    public List<StatementCell> getStatementCells() {
         return null;
     }
 

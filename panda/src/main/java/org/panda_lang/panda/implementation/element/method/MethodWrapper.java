@@ -2,35 +2,36 @@ package org.panda_lang.panda.implementation.element.method;
 
 import org.panda_lang.core.structure.Wrapper;
 import org.panda_lang.core.structure.WrapperInstance;
+import org.panda_lang.panda.implementation.element.parameter.Parameter;
 import org.panda_lang.panda.implementation.structure.AbstractContainer;
+
+import java.util.List;
 
 public class MethodWrapper extends AbstractContainer implements Wrapper {
 
     private final int wrapperID;
-    private final Method method;
+    private final String methodName;
+    private final List<Parameter> parameters;
 
-    public MethodWrapper(int wrapperID, Method method) {
+    public MethodWrapper(int wrapperID, String methodName, List<Parameter> parameters) {
         this.wrapperID = wrapperID;
-        this.method = method;
+        this.methodName = methodName;
+        this.parameters = parameters;
     }
 
     @Override
     public WrapperInstance createInstance() {
-        return new MethodWrapperInstance(this);
-    }
-
-    public Method getMethod() {
-        return method;
+        return null;
     }
 
     @Override
     public String getName() {
-        return method.getMethodName();
+        return methodName;
     }
 
     @Override
     public int getID() {
-        return wrapperID;
+        return 0;
     }
 
 }

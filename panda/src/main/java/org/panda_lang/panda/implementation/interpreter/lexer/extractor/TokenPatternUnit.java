@@ -18,7 +18,7 @@ public class TokenPatternUnit extends EqualableToken {
     }
 
     @Override
-    public String getToken() {
+    public String getTokenValue() {
         return token;
     }
 

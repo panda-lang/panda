@@ -93,11 +93,11 @@ public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
             }
 
             for (Separator separator : dividerRules.getSeparators()) {
-                if (!node.endsWith(separator.getToken())) {
+                if (!node.endsWith(separator.getTokenValue())) {
                     continue;
                 }
 
-                node = node.substring(0, node.length() - separator.getToken().length());
+                node = node.substring(0, node.length() - separator.getTokenValue().length());
                 latestSeparator = separator;
 
                 break divider;

@@ -14,7 +14,7 @@ public class PandaToken extends EqualableToken {
     }
 
     @Override
-    public String getToken() {
+    public String getTokenValue() {
         return token;
     }
 
@@ -25,7 +25,7 @@ public class PandaToken extends EqualableToken {
 
     @Override
     public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
+        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
     }
 
 }

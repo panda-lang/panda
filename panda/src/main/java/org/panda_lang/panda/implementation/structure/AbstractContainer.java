@@ -1,29 +1,29 @@
 package org.panda_lang.panda.implementation.structure;
 
 import org.panda_lang.core.structure.Container;
-import org.panda_lang.core.structure.Executable;
-import org.panda_lang.core.structure.ExecutableCell;
+import org.panda_lang.core.structure.Statement;
+import org.panda_lang.core.structure.StatementCell;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractContainer implements Container {
 
-    protected final List<ExecutableCell> executableCells;
+    protected final List<StatementCell> executableCells;
 
     public AbstractContainer() {
         this.executableCells = new ArrayList<>();
     }
 
     @Override
-    public ExecutableCell addExecutable(Executable executable) {
-        ExecutableCell executableCell = new PandaExecutableCell(executable);
+    public StatementCell addStatement(Statement executable) {
+        StatementCell executableCell = new PandaStatementCell(executable);
         executableCells.add(executableCell);
         return executableCell;
     }
 
     @Override
-    public List<ExecutableCell> getExecutableCells() {
+    public List<StatementCell> getStatementCells() {
         return executableCells;
     }
 

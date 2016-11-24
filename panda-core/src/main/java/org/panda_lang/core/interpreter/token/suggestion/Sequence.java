@@ -32,7 +32,7 @@ public class Sequence extends EqualableToken {
     }
 
     @Override
-    public String getToken() {
+    public String getTokenValue() {
         return getSequenceStart() + getSequenceEnd();
     }
 
@@ -48,7 +48,7 @@ public class Sequence extends EqualableToken {
 
     @Override
     public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
+        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
     }
 
 }

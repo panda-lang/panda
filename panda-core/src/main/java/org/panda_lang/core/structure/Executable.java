@@ -1,6 +1,6 @@
 package org.panda_lang.core.structure;
 
-import com.sun.istack.internal.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface Executable extends Statement {
 
@@ -10,6 +10,7 @@ public interface Executable extends Statement {
      * @param parametersValues parameters for executable process
      * @return result of executed code
      */
+
     @Nullable
     Value execute(Value... parametersValues);
 

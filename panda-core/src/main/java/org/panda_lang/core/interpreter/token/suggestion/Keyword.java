@@ -12,7 +12,7 @@ public class Keyword extends EqualableToken {
     }
 
     @Override
-    public String getToken() {
+    public String getTokenValue() {
         return keyword;
     }
 
@@ -23,7 +23,7 @@ public class Keyword extends EqualableToken {
 
     @Override
     public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
+        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
     }
 
 }

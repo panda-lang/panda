@@ -1,5 +1,7 @@
 package org.panda_lang.core.interpreter.parser.util;
 
+import org.panda_lang.core.interpreter.parser.linker.WrapperLinker;
+
 /**
  * Default list of names used by {@link org.panda_lang.core.interpreter.parser.ParserInfo} for components
  */
@@ -21,7 +23,7 @@ public class Components {
     public static final String PARSER_CONTEXT = "context";
 
     /**
-     * Used by {@link org.panda_lang.core.structure.WrapperLinker}
+     * Used by {@link WrapperLinker}
      */
     public static final String WRAPPER_LINKER = "wrapper-linker";
 

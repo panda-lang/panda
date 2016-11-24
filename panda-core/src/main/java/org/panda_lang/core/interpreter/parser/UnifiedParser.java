@@ -1,7 +1,5 @@
 package org.panda_lang.core.interpreter.parser;
 
-import org.panda_lang.core.interpreter.parser.Parser;
-import org.panda_lang.core.interpreter.parser.ParserInfo;
 import org.panda_lang.core.structure.Statement;
 
 public interface UnifiedParser extends Parser {

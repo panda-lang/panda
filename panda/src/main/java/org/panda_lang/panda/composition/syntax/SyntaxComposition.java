@@ -38,7 +38,7 @@ public class SyntaxComposition {
         Comparator<Token> tokenComparator = new Comparator<Token>() {
             @Override
             public int compare(Token t, Token t1) {
-                return Integer.compare(t1.getToken().length(), t.getToken().length());
+                return Integer.compare(t1.getTokenValue().length(), t.getTokenValue().length());
             }
         };
 

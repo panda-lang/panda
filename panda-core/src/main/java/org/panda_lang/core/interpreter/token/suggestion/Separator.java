@@ -29,7 +29,7 @@ public class Separator extends EqualableToken {
     }
 
     @Override
-    public String getToken() {
+    public String getTokenValue() {
         return separator;
     }
 
@@ -40,7 +40,7 @@ public class Separator extends EqualableToken {
 
     @Override
     public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getToken();
+        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
     }
 
 }

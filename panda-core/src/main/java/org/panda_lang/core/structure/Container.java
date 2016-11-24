@@ -7,14 +7,14 @@ public interface Container extends Statement {
     /**
      * Adds executable to the current scope
      *
-     * @param executable proper executable
+     * @param statement proper statement
      * @return executable cell where executable was placed
      */
-    ExecutableCell addExecutable(Executable executable);
+    StatementCell addStatement(Statement statement);
 
     /**
      * @return list of all cells in correct order
      */
-    List<ExecutableCell> getExecutableCells();
+    List<StatementCell> getStatementCells();
 
 }

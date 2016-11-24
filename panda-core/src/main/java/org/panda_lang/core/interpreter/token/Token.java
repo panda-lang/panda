@@ -2,7 +2,7 @@ package org.panda_lang.core.interpreter.token;
 
 public interface Token {
 
-    String getToken();
+    String getTokenValue();
 
     default String getName() {
         return getType().getTypeName();
