@@ -25,6 +25,10 @@ public class Method implements Executable {
         return methodBody.execute(parametersValues);
     }
 
+    public static MethodBuilder builder() {
+        return new MethodBuilder();
+    }
+
     public boolean isClassMember() {
         return classPrototype != null;
     }
@@ -47,10 +51,6 @@ public class Method implements Executable {
 
     public String getMethodName() {
         return methodName;
-    }
-
-    public static MethodBuilder builder() {
-        return new MethodBuilder();
     }
 
 }

@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.runtime.element;
 
-import org.panda_lang.core.structure.WrapperInstance;
 import org.panda_lang.core.runtime.element.ExecutableBranch;
+import org.panda_lang.core.structure.WrapperInstance;
 
 public class PandaExecutableBranch implements ExecutableBranch {
 

@@ -1,18 +1,20 @@
 package org.panda_lang.panda.implementation.element.method;
 
 import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.*;
+import org.panda_lang.core.interpreter.parser.Parser;
+import org.panda_lang.core.interpreter.parser.ParserContext;
+import org.panda_lang.core.interpreter.parser.ParserInfo;
+import org.panda_lang.core.interpreter.parser.linker.WrapperLinker;
 import org.panda_lang.core.interpreter.parser.util.Components;
 import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.util.TokenUtils;
 import org.panda_lang.core.interpreter.token.TokensSet;
-import org.panda_lang.core.interpreter.parser.linker.WrapperLinker;
+import org.panda_lang.core.interpreter.token.util.TokenUtils;
 import org.panda_lang.core.structure.Statement;
 import org.panda_lang.panda.implementation.element.parameter.Parameter;
 import org.panda_lang.panda.implementation.element.parameter.ParameterParser;
-import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 
 import java.util.List;
 

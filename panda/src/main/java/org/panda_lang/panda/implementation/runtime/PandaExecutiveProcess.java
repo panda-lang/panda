@@ -1,12 +1,12 @@
 package org.panda_lang.panda.implementation.runtime;
 
 import org.panda_lang.core.memory.Memory;
-import org.panda_lang.core.structure.Application;
 import org.panda_lang.core.runtime.ExecutiveProcess;
+import org.panda_lang.core.runtime.element.ExecutableTree;
+import org.panda_lang.core.structure.Application;
 import org.panda_lang.core.structure.Executable;
 import org.panda_lang.core.structure.Value;
 import org.panda_lang.core.structure.Wrapper;
-import org.panda_lang.core.runtime.element.ExecutableTree;
 import org.panda_lang.panda.implementation.runtime.element.PandaExecutableTree;
 
 public class PandaExecutiveProcess implements ExecutiveProcess, Executable {

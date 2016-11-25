@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.core.interpreter.parser.UnifiedParser;
 import org.panda_lang.core.interpreter.parser.ParserHandler;
 import org.panda_lang.core.interpreter.parser.ParserRepresentation;
+import org.panda_lang.core.interpreter.parser.UnifiedParser;
 
 public class PandaParserRepresentation implements ParserRepresentation {
 

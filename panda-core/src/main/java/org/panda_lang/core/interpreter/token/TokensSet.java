@@ -35,13 +35,13 @@ public class TokensSet {
         return tokens.get(id);
     }
 
-    public List<TokenRepresentation> getTokensRepresentations() {
-        return tokens;
-    }
-
     public TokenRepresentation[] toArray() {
         TokenRepresentation[] array = new TokenRepresentation[tokens.size()];
         return tokens.toArray(array);
+    }
+
+    public List<TokenRepresentation> getTokensRepresentations() {
+        return tokens;
     }
 
 }

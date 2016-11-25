@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.interpreter.parser.linker;
 
-import org.panda_lang.core.structure.Wrapper;
 import org.panda_lang.core.interpreter.parser.linker.WrapperLinker;
+import org.panda_lang.core.structure.Wrapper;
 
 import java.util.Stack;
 
