@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.element.field;
 
-import org.panda_lang.core.interpreter.parser.ParserInfo;
-import org.panda_lang.core.interpreter.parser.UnifiedParser;
-import org.panda_lang.core.structure.Executable;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.structure.Executable;
 
 public class FieldParser implements UnifiedParser {
 

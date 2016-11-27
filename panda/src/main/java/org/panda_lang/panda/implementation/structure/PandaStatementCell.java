@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.core.structure.Executable;
-import org.panda_lang.core.structure.Statement;
-import org.panda_lang.core.structure.StatementCell;
+import org.panda_lang.framework.structure.Executable;
+import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.framework.structure.StatementCell;
 
 public class PandaStatementCell implements StatementCell {
 

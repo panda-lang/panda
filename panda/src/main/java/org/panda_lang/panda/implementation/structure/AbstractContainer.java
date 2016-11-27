@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.core.structure.Container;
-import org.panda_lang.core.structure.Statement;
-import org.panda_lang.core.structure.StatementCell;
+import org.panda_lang.framework.structure.Container;
+import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.framework.structure.StatementCell;
 
 import java.util.ArrayList;
 import java.util.List;

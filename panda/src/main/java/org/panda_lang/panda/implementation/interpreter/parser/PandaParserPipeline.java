@@ -1,10 +1,10 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.ParserHandler;
-import org.panda_lang.core.interpreter.parser.ParserPipeline;
-import org.panda_lang.core.interpreter.parser.ParserRepresentation;
-import org.panda_lang.core.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.parser.ParserHandler;
+import org.panda_lang.framework.interpreter.parser.ParserPipeline;
+import org.panda_lang.framework.interpreter.parser.ParserRepresentation;
+import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,12 +19,7 @@ public class PandaParserPipeline implements ParserPipeline {
 
     public PandaParserPipeline() {
         this.representations = new ArrayList<>();
-        this.comparator = new Comparator<ParserRepresentation>() {
-            @Override
-            public int compare(ParserRepresentation parserRepresentation, ParserRepresentation parserRepresentationTo) {
-                return Integer.compare(parserRepresentation.getUsages(), parserRepresentationTo.getUsages());
-            }
-        };
+        this.comparator = new ParserRepresentationComparator();
     }
 
     @Override
@@ -55,6 +50,7 @@ public class PandaParserPipeline implements ParserPipeline {
     @Override
     public void registerParserRepresentation(ParserRepresentation parserRepresentation) {
         representations.add(parserRepresentation);
+        sort();
     }
 
     public List<ParserRepresentation> getRepresentations() {

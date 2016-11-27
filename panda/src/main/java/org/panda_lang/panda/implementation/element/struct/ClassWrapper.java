@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.element.struct;
 
-import org.panda_lang.core.structure.Statement;
-import org.panda_lang.core.structure.StatementCell;
-import org.panda_lang.core.structure.Wrapper;
-import org.panda_lang.core.structure.WrapperInstance;
+import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.framework.structure.StatementCell;
+import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.structure.WrapperInstance;
 
 import java.util.List;
 

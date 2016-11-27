@@ -14,16 +14,16 @@ public class TokenPattern {
         return new TokenExtractor(this);
     }
 
-    public static TokenPatternBuilder builder() {
-        return new TokenPatternBuilder();
-    }
-
     public boolean isKeepingOpposites() {
         return keepingOpposites;
     }
 
     public TokenPatternUnit[] getUnits() {
         return units;
+    }
+
+    public static TokenPatternBuilder builder() {
+        return new TokenPatternBuilder();
     }
 
 }

@@ -1,12 +1,10 @@
 package org.panda_lang.panda;
 
-import org.panda_lang.core.interpreter.lexer.Lexer;
-import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.lexer.TokenizedSource;
-import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.TokensSet;
-import org.panda_lang.core.util.FileUtils;
+import org.panda_lang.framework.interpreter.lexer.Lexer;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
@@ -23,25 +21,24 @@ public class ExtractorTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda, FileUtils.getContentOfFile(SOURCE_FILE));
+        Lexer lexer = new PandaLexer(panda, "rgerg.wergwerg();");
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
         TokenPattern pattern = TokenPattern.builder()
                 .keepOpposites(true)
-                .unit(TokenType.KEYWORD, "class")
-                .hollow()
-                .unit(TokenType.SEPARATOR, "{")
-                .hollow()
-                .unit(TokenType.SEPARATOR, "}")
+                .gap()
+                .unit(TokenType.SEPARATOR, ".")
+                .gap()
+                .unit(TokenType.SEPARATOR, ";")
                 .build();
 
         TokenExtractor extractor = pattern.extractor();
 
         boolean matched = extractor.extract(tokenReader);
-        List<TokensSet> hollows = extractor.getHollows();
+        List<TokenizedSource> hollows = extractor.getGaps();
 
-        for (TokensSet hollow : hollows) {
+        for (TokenizedSource hollow : hollows) {
             System.out.println("--- TokenHollow");
 
             for (TokenRepresentation tokenRepresentation : hollow.getTokensRepresentations()) {

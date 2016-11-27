@@ -1,7 +1,7 @@
 package org.panda_lang.panda.launcher;
 
-import org.panda_lang.core.structure.Application;
-import org.panda_lang.core.util.FileUtils;
+import org.panda_lang.framework.structure.Application;
+import org.panda_lang.framework.util.FileUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.PandaLoader;

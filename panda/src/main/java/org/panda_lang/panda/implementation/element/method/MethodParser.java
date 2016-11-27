@@ -1,48 +1,40 @@
 package org.panda_lang.panda.implementation.element.method;
 
-import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.parser.Parser;
-import org.panda_lang.core.interpreter.parser.ParserContext;
-import org.panda_lang.core.interpreter.parser.ParserInfo;
-import org.panda_lang.core.interpreter.parser.linker.WrapperLinker;
-import org.panda_lang.core.interpreter.parser.util.Components;
-import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.TokensSet;
-import org.panda_lang.core.interpreter.token.util.TokenUtils;
-import org.panda_lang.core.structure.Statement;
-import org.panda_lang.panda.implementation.element.parameter.Parameter;
-import org.panda_lang.panda.implementation.element.parameter.ParameterParser;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
+import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 
-import java.util.List;
-
-public class MethodParser implements Parser {
+@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
+public class MethodParser implements UnifiedParser {
 
     private static final TokenPattern pattern;
 
     static {
         pattern = TokenPattern.builder()
                 .unit(TokenType.KEYWORD, "method")
-                .hollow()
+                .gap()
                 .unit(TokenType.SEPARATOR, "(")
-                .hollow()
+                .gap()
                 .unit(TokenType.SEPARATOR, ")")
                 .unit(TokenType.SEPARATOR, "{")
-                .hollow()
+                .gap()
                 .unit(TokenType.SEPARATOR, "}")
                 .build();
     }
 
+    @Override
     public Method parse(ParserInfo parserInfo) {
+        /*
         ParserContext parserContext = parserInfo.getComponent(Components.PARSER_CONTEXT);
         TokenReader tokenReader = parserContext.getTokenReader();
 
         TokenExtractor extractor = pattern.extractor();
         extractor.extract(tokenReader);
 
-        List<TokensSet> hollows = extractor.getHollows();
+
+        List<TokensSet> hollows = extractor.getGaps();
         TokensSet methodNameHollow = hollows.get(0);
         TokensSet parametersHollow = hollows.get(1);
         TokensSet bodyHollow = hollows.get(2);
@@ -51,7 +43,7 @@ public class MethodParser implements Parser {
         List<Parameter> parameters = parameterParser.parse(parserInfo, parametersHollow);
         String methodName = TokenUtils.extractToken(methodNameHollow, 0);
 
-        WrapperLinker wrapperLinker = parserInfo.getComponent(Components.WRAPPER_LINKER);
+        WrapperLinker wrapperLinker = parserInfo.getComponent(Components.LINKER);
         int id = wrapperLinker.getNextID();
 
         MethodWrapper methodWrapper = new MethodWrapper(id, methodName, parameters);
@@ -73,6 +65,9 @@ public class MethodParser implements Parser {
                 .build();
 
         return method;
+        */
+
+        return null;
     }
 
 }

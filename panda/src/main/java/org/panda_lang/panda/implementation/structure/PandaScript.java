@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.core.interpreter.SourceFile;
-import org.panda_lang.core.structure.Script;
-import org.panda_lang.core.structure.Wrapper;
+import org.panda_lang.framework.interpreter.SourceFile;
+import org.panda_lang.framework.structure.Script;
+import org.panda_lang.framework.structure.Wrapper;
 
 import java.util.ArrayList;
 import java.util.List;

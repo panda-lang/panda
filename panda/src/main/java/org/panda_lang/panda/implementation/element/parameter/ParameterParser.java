@@ -1,11 +1,11 @@
 package org.panda_lang.panda.implementation.element.parameter;
 
-import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.parser.Parser;
-import org.panda_lang.core.interpreter.parser.ParserInfo;
-import org.panda_lang.core.interpreter.token.Token;
-import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.TokensSet;
+import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.parser.Parser;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 
 import java.util.ArrayList;
@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserInfo parserInfo, TokensSet tokensSet) {
-        TokenRepresentation[] tokenRepresentations = tokensSet.toArray();
+    public List<Parameter> parse(ParserInfo parserInfo, TokenizedSource tokenizedSource) {
+        TokenRepresentation[] tokenRepresentations = tokenizedSource.toArray();
         List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
 
         for (int i = 0; i < tokenRepresentations.length; i += 3) {

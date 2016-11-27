@@ -1,6 +1,6 @@
 group com.example;
 
-main launch() {
+main {
     Main main = new Main();
     main.start();
 }

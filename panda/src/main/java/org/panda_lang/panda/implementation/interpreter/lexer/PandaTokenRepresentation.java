@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
+import org.panda_lang.framework.interpreter.token.Token;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 

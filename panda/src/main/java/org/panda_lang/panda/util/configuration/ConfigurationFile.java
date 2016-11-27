@@ -1,6 +1,6 @@
 package org.panda_lang.panda.util.configuration;
 
-import org.panda_lang.core.util.FileUtils;
+import org.panda_lang.framework.util.FileUtils;
 
 import java.io.File;
 import java.util.Collection;

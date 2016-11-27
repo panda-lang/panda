@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
-import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.util.EqualableToken;
+import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.token.util.EqualableToken;
 
 public class TokenPatternUnit extends EqualableToken {
 
@@ -13,8 +13,8 @@ public class TokenPatternUnit extends EqualableToken {
         this.token = token;
     }
 
-    public boolean isHollow() {
-        return TokenExtractor.HOLLOW.getType().equals(tokenType);
+    public boolean isGap() {
+        return TokenExtractor.GAP.getType().equals(tokenType);
     }
 
     @Override
@@ -27,4 +27,8 @@ public class TokenPatternUnit extends EqualableToken {
         return tokenType;
     }
 
+    @Override
+    public String toString() {
+        return tokenType + ": " + token;
+    }
 }

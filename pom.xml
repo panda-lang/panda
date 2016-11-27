@@ -13,7 +13,7 @@
         <url>https://github.com/Panda-Programming-Language/Panda</url>
     </scm>
     <modules>
-        <module>panda-core</module>
+        <module>panda-framework</module>
         <module>panda</module>
     </modules>
 

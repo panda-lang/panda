@@ -1,6 +1,6 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
-import org.panda_lang.core.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.token.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +26,8 @@ public class TokenPatternBuilder {
         return this;
     }
 
-    public TokenPatternBuilder hollow() {
-        units.add(TokenExtractor.HOLLOW);
+    public TokenPatternBuilder gap() {
+        units.add(TokenExtractor.GAP);
         return this;
     }
 

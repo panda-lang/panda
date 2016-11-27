@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.core.memory.Memory;
-import org.panda_lang.core.structure.Application;
-import org.panda_lang.core.structure.Script;
+import org.panda_lang.framework.memory.Memory;
+import org.panda_lang.framework.structure.Application;
+import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.implementation.memory.PandaMemory;
 
 import java.util.ArrayList;

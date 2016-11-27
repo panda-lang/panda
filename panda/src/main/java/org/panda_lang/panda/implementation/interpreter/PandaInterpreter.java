@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.interpreter;
 
-import org.panda_lang.core.interpreter.Interpreter;
-import org.panda_lang.core.interpreter.SourceFile;
-import org.panda_lang.core.interpreter.SourceSet;
-import org.panda_lang.core.structure.Script;
+import org.panda_lang.framework.interpreter.Interpreter;
+import org.panda_lang.framework.interpreter.SourceFile;
+import org.panda_lang.framework.interpreter.SourceSet;
+import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.implementation.interpreter.parser.util.SourceFileParser;
 import org.panda_lang.panda.implementation.structure.PandaApplication;

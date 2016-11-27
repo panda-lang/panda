@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.memory;
 
-import org.panda_lang.core.memory.Memory;
-import org.panda_lang.core.memory.MemorySegment;
+import org.panda_lang.framework.memory.Memory;
+import org.panda_lang.framework.memory.MemorySegment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.token.Token;
-import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.suggestion.Sequence;
+import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.token.suggestion.Sequence;
 import org.panda_lang.panda.implementation.interpreter.token.PandaToken;
 
 import java.util.Collection;

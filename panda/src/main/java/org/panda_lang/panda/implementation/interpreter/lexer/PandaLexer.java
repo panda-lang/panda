@@ -1,13 +1,13 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.lexer.Lexer;
-import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.lexer.TokenizedSource;
-import org.panda_lang.core.interpreter.token.Token;
-import org.panda_lang.core.util.CharacterUtils;
+import org.panda_lang.framework.interpreter.lexer.Lexer;
+import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.util.CharacterUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaComposition;
-import org.panda_lang.panda.composition.syntax.SyntaxComposition;
+import org.panda_lang.panda.implementation.syntax.SyntaxComposition;
 
 import java.util.ArrayList;
 import java.util.Collection;

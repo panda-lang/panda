@@ -1,7 +1,7 @@
 package org.panda_lang.panda.implementation.interpreter.token;
 
-import org.panda_lang.core.interpreter.token.TokenType;
-import org.panda_lang.core.interpreter.token.util.EqualableToken;
+import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.token.util.EqualableToken;
 
 public class PandaToken extends EqualableToken {
 

@@ -1,9 +1,9 @@
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.core.interpreter.lexer.TokenReader;
-import org.panda_lang.core.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.core.interpreter.lexer.TokenizedSource;
-import org.panda_lang.core.util.array.ArrayDistributor;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.util.array.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {
 
@@ -11,9 +11,14 @@ public class PandaTokenReader implements TokenReader {
     private ArrayDistributor<TokenRepresentation> representationsDistributor;
     private PandaTokenReaderIterator iterator;
 
+    public PandaTokenReader(TokenReader tokenReader) {
+        this(tokenReader.getTokenizedSource());
+        this.setIndex(tokenReader.getIndex());
+    }
+
     public PandaTokenReader(TokenizedSource tokenizedSource) {
         this.tokenizedSource = tokenizedSource;
-        this.representationsDistributor = new ArrayDistributor<>(tokenizedSource.getSource());
+        this.representationsDistributor = new ArrayDistributor<>(tokenizedSource.toArray());
         this.iterator = new PandaTokenReaderIterator(this);
     }
 

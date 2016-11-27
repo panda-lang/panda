@@ -1,20 +1,14 @@
 package org.panda_lang.panda.implementation.element.method;
 
-import org.panda_lang.core.structure.Executable;
-import org.panda_lang.panda.implementation.element.struct.ClassPrototype;
+import org.panda_lang.framework.structure.Executable;
 
 public class MethodBuilder {
 
-    private ClassPrototype classPrototype;
     private String methodName;
     private Executable methodBody;
     private boolean isStatic;
     private MethodVisibility visibility;
 
-    public MethodBuilder classPrototype(ClassPrototype classPrototype) {
-        this.classPrototype = classPrototype;
-        return this;
-    }
 
     public MethodBuilder methodName(String methodName) {
         this.methodName = methodName;
@@ -37,7 +31,7 @@ public class MethodBuilder {
     }
 
     public Method build() {
-        return new Method(classPrototype, methodName, methodBody, isStatic, visibility);
+        return new Method(methodName, methodBody, isStatic, visibility);
     }
 
 }
