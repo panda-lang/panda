@@ -93,7 +93,7 @@ public class TokenExtractor {
         return tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size();
     }
 
-    protected TokenPattern getPattern() {
+    public TokenPattern getPattern() {
         return pattern;
     }
 

@@ -14,34 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer;
+package org.panda_lang.panda.implementation.interpreter.lexer.prepared;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.token.Token;
 
-public class PandaTokenRepresentation implements TokenRepresentation {
+public class PreparedRepresentation {
 
-    private final Token token;
-    private final int line;
+    private final TokenRepresentation tokenRepresentation;
+    private final int nestingLevel;
 
-    public PandaTokenRepresentation(Token token, int line) {
-        this.token = token;
-        this.line = line;
+    public PreparedRepresentation(TokenRepresentation tokenRepresentation, int nestingLevel) {
+        this.tokenRepresentation = tokenRepresentation;
+        this.nestingLevel = nestingLevel;
     }
 
-    @Override
-    public int getLine() {
-        return line;
+    public int getNestingLevel() {
+        return nestingLevel;
     }
 
-    @Override
-    public Token getToken() {
-        return token;
-    }
-
-    @Override
-    public String toString() {
-        return token.getTokenValue();
+    public TokenRepresentation getTokenRepresentation() {
+        return tokenRepresentation;
     }
 
 }

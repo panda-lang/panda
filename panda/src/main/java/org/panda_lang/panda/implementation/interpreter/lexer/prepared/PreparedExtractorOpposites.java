@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.prepared;
 
 import org.panda_lang.framework.interpreter.token.Token;
 import org.panda_lang.framework.interpreter.token.suggestion.Separator;
@@ -22,25 +22,19 @@ import org.panda_lang.panda.implementation.syntax.Separators;
 
 import java.util.Stack;
 
-public class TokenExtractorOpposites {
+public class PreparedExtractorOpposites {
 
     private final Stack<Separator> separators;
-    private final boolean active;
 
-    public TokenExtractorOpposites(TokenExtractor tokenExtractor) {
+    public PreparedExtractorOpposites() {
         this.separators = new Stack<>();
-        this.active = tokenExtractor.getPattern().isKeepingOpposites();
     }
 
-    public void report(Token token) {
-        if (!active) {
-            return;
-        }
-
+    public boolean report(Token token) {
         Separator separator = Separators.valueOf(token);
 
         if (separator == null) {
-            return;
+            return false;
         }
 
         if (separators.size() > 0) {
@@ -49,15 +43,20 @@ public class TokenExtractorOpposites {
 
             if (separator.equals(opposite)) {
                 separators.pop();
-                return;
+                return false;
             }
         }
 
         if (!separator.hasOpposite()) {
-            return;
+            return false;
         }
 
         separators.push(separator);
+        return true;
+    }
+
+    public int getNestingLevel() {
+        return separators.size();
     }
 
     public boolean isLocked() {

@@ -34,7 +34,7 @@ public class LexerTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda, "rgerg.wergwerg();");
+        Lexer lexer = new PandaLexer(panda, "a('z').b.c('y').d('x');");
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 

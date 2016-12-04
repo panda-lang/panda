@@ -23,8 +23,8 @@ import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
 import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.prepared.PreparedExtractor;
 
 import java.io.File;
 import java.util.List;
@@ -37,7 +37,7 @@ public class ExtractorTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda, "rgerg.wergwerg();");
+        Lexer lexer = new PandaLexer(panda, "a('z').b.c('y').d('x');");
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
@@ -46,10 +46,13 @@ public class ExtractorTest {
                 .gap()
                 .unit(TokenType.SEPARATOR, ".")
                 .gap()
+                .unit(TokenType.SEPARATOR, "(")
+                .gap()
+                .unit(TokenType.SEPARATOR, ")")
                 .unit(TokenType.SEPARATOR, ";")
                 .build();
 
-        TokenExtractor extractor = pattern.extractor();
+        PreparedExtractor extractor = new PreparedExtractor(pattern);
 
         boolean matched = extractor.extract(tokenReader);
         List<TokenizedSource> hollows = extractor.getGaps();
