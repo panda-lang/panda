@@ -62,7 +62,7 @@ public class ExtractorTest {
             }
         }
 
-        System.out.println(matched);
+        System.out.println(matched + " | " + hollows.size());
     }
 
 }

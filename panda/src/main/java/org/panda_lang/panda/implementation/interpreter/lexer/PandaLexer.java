@@ -54,7 +54,7 @@ public class PandaLexer implements Lexer {
         }
 
         this.panda = panda;
-        this.source = source + " ";
+        this.source = source + System.lineSeparator();
         this.tokenRepresentations = new ArrayList<>();
         this.tokenizedLine = new ArrayList<>();
 
@@ -66,6 +66,8 @@ public class PandaLexer implements Lexer {
         this.tokenBuilder = new StringBuilder();
 
         this.previousSpecial = false;
+        this.tokenPreview = "";
+        this.linePreview = "";
         this.line = 0;
     }
 
