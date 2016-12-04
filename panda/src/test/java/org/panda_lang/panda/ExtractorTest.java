@@ -55,17 +55,17 @@ public class ExtractorTest {
         PreparedExtractor extractor = new PreparedExtractor(pattern);
 
         boolean matched = extractor.extract(tokenReader);
-        List<TokenizedSource> hollows = extractor.getGaps();
+        List<TokenizedSource> gaps = extractor.getGaps();
 
-        for (TokenizedSource hollow : hollows) {
-            System.out.println("--- TokenHollow");
+        for (TokenizedSource hollow : gaps) {
+            System.out.println("--- Gap:");
 
             for (TokenRepresentation tokenRepresentation : hollow.getTokensRepresentations()) {
                 System.out.println("  : " + tokenRepresentation.toString());
             }
         }
 
-        System.out.println(matched + " | " + hollows.size());
+        System.out.println(matched + " | " + gaps.size());
     }
 
 }
