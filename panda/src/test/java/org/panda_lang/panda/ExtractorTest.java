@@ -57,10 +57,10 @@ public class ExtractorTest {
         boolean matched = extractor.extract(tokenReader);
         List<TokenizedSource> gaps = extractor.getGaps();
 
-        for (TokenizedSource hollow : gaps) {
+        for (TokenizedSource gap : gaps) {
             System.out.println("--- Gap:");
 
-            for (TokenRepresentation tokenRepresentation : hollow.getTokensRepresentations()) {
+            for (TokenRepresentation tokenRepresentation : gap.getTokensRepresentations()) {
                 System.out.println("  : " + tokenRepresentation.toString());
             }
         }

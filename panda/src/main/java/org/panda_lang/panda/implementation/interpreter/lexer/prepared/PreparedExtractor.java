@@ -80,7 +80,7 @@ public class PreparedExtractor {
             tokenReader.synchronize();
 
             TokenizedSource gap = new PandaTokenizedSource();
-            int indexOfUnit = positions[i];
+            int indexOfUnit = positions[i] - 1;
 
             for (TokenRepresentation representation : tokenReader) {
                 int index = tokenReader.getIndex();
