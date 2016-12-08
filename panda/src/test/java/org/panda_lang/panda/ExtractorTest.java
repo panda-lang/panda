@@ -37,7 +37,7 @@ public class ExtractorTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda, "a('z').b.c('y').d('x');");
+        Lexer lexer = new PandaLexer(panda, "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');");
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 

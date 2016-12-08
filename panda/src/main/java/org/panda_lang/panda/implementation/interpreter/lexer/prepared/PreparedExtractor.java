@@ -46,6 +46,7 @@ public class PreparedExtractor {
 
         int hardTypedUnits = PreparedSourceUtils.countHardTypedUnits(units);
         int[] positions = new int[hardTypedUnits];
+        int[] indexes = new int[hardTypedUnits];
 
         for (int i = 0, j = 0; i < units.length; i++) {
             TokenPatternUnit unit = units[i];
@@ -60,12 +61,13 @@ public class PreparedExtractor {
                 return false;
             }
 
-            positions[j++] = lastIndexOfUnit;
+            int index = j++;
+
+            indexes[index] = i;
+            positions[index] = lastIndexOfUnit;
         }
 
-        int previousIndex = 0;
-
-        for (int i = 0; i < positions.length; i++) {
+        for (int i = 0, previousIndex = 0; i < positions.length; i++) {
             int index = positions[i];
 
             if (index > previousIndex) {
@@ -79,8 +81,20 @@ public class PreparedExtractor {
         for (int i = 0; i < positions.length; i++) {
             tokenReader.synchronize();
 
-            TokenizedSource gap = new PandaTokenizedSource();
+            int currentIndex = indexes[i];
+            int previousIndex = currentIndex - 1;
             int indexOfUnit = positions[i] - 1;
+
+            if (currentIndex > 0 && currentIndex < units.length) {
+                TokenPatternUnit unit = units[previousIndex];
+
+                if (!unit.isGap()) {
+                    tokenReader.read();
+                    continue;
+                }
+            }
+
+            TokenizedSource gap = new PandaTokenizedSource();
 
             for (TokenRepresentation representation : tokenReader) {
                 int index = tokenReader.getIndex();
@@ -97,13 +111,8 @@ public class PreparedExtractor {
             gaps.add(gap);
         }
 
+        tokenReader.synchronize();
         return !tokenReader.hasNext();
-    }
-
-
-
-    protected TokenPattern getPattern() {
-        return pattern;
     }
 
     public List<TokenizedSource> getGaps() {
