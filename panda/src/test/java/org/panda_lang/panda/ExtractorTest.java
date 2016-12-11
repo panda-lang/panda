@@ -23,21 +23,20 @@ import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.prepared.PreparedExtractor;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.extractor.prepared.PreparedExtractor;
 
-import java.io.File;
 import java.util.List;
 
 public class ExtractorTest {
 
-    private static final File SOURCE_FILE = new File("examples/hello_world.panda");
+    private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
 
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda, "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');");
+        Lexer lexer = new PandaLexer(panda, SOURCE);
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
@@ -53,9 +52,12 @@ public class ExtractorTest {
                 .build();
 
         PreparedExtractor extractor = new PreparedExtractor(pattern);
+        List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
-        boolean matched = extractor.extract(tokenReader);
-        List<TokenizedSource> gaps = extractor.getGaps();
+        if (gaps == null) {
+            System.out.println("Cannot extract gaps for pattern '" + pattern.toString() + "' and source '" + SOURCE + "'");
+            return;
+        }
 
         for (TokenizedSource gap : gaps) {
             System.out.println("--- Gap:");
@@ -65,7 +67,7 @@ public class ExtractorTest {
             }
         }
 
-        System.out.println(matched + " | " + gaps.size());
+        System.out.println("Size: " + gaps.size());
     }
 
 }

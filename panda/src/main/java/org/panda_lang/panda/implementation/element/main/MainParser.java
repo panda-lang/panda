@@ -25,8 +25,8 @@ import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
@@ -48,7 +48,7 @@ public class MainParser implements UnifiedParser {
         Main main = new Main();
 
         TokenReader tokenReader = parserInfo.getComponent(Components.READER);
-        TokenExtractor extractor = pattern.extractor();
+        PrimitiveExtractor extractor = pattern.extractor();
         boolean matched = extractor.extract(tokenReader);
         List<TokenizedSource> hollows = extractor.getGaps();
 

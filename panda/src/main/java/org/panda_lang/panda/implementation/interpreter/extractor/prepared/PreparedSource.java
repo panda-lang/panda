@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.prepared;
+package org.panda_lang.panda.implementation.interpreter.extractor.prepared;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.Token;
 
-public class PreparedSource {
+class PreparedSource {
 
     private final TokenizedSource tokenizedSource;
     private final PreparedRepresentation[] preparedRepresentations;
 
-    public PreparedSource(TokenizedSource tokenizedSource) {
+    protected PreparedSource(TokenizedSource tokenizedSource) {
         this.tokenizedSource = tokenizedSource;
         this.preparedRepresentations = new PreparedRepresentation[tokenizedSource.size()];
         this.prepare();
@@ -46,7 +46,7 @@ public class PreparedSource {
         }
     }
 
-    public PreparedRepresentation[] getPreparedRepresentations() {
+    protected PreparedRepresentation[] getPreparedRepresentations() {
         return preparedRepresentations;
     }
 

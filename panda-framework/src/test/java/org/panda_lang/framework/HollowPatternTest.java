@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework;
 
-import org.panda_lang.framework.util.match.charset.CharsetPattern;
-import org.panda_lang.framework.util.match.hollow.HollowPattern;
+import org.panda_lang.framework.tool.match.charset.CharsetPattern;
+import org.panda_lang.framework.tool.match.hollow.HollowPattern;
 
 public class HollowPatternTest {
 

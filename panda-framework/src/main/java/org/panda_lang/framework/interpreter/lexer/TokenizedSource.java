@@ -48,8 +48,8 @@ public interface TokenizedSource {
         return tokenRepresentation.getToken();
     }
 
-    List<TokenRepresentation> getTokensRepresentations();
-
     TokenRepresentation[] toArray();
+
+    List<TokenRepresentation> getTokensRepresentations();
 
 }

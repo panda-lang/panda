@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.prepared;
+package org.panda_lang.panda.implementation.interpreter.extractor.prepared;
 
+import org.panda_lang.framework.interpreter.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPatternUnit;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenizedSource;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPatternUnit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreparedExtractor {
-
-    public static final TokenPatternUnit GAP = new TokenPatternUnit(new TokenType("GAP"), "*");
+public class PreparedExtractor implements Extractor {
 
     private final TokenPattern pattern;
     private final List<TokenizedSource> gaps;
@@ -39,7 +37,8 @@ public class PreparedExtractor {
         this.gaps = new ArrayList<>();
     }
 
-    public boolean extract(TokenReader tokenReader) {
+    @Override
+    public List<TokenizedSource> extract(TokenReader tokenReader) {
         TokenPatternUnit[] units = pattern.getUnits();
         TokenizedSource tokenizedSource = tokenReader.getTokenizedSource();
         PreparedSource preparedSource = new PreparedSource(tokenizedSource);
@@ -58,7 +57,7 @@ public class PreparedExtractor {
             int lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit);
 
             if (lastIndexOfUnit == -1) {
-                return false;
+                return null;
             }
 
             int index = j++;
@@ -75,7 +74,7 @@ public class PreparedExtractor {
                 continue;
             }
 
-            return false;
+            return null;
         }
 
         for (int i = 0; i < positions.length; i++) {
@@ -112,10 +111,11 @@ public class PreparedExtractor {
         }
 
         tokenReader.synchronize();
-        return !tokenReader.hasNext();
-    }
 
-    public List<TokenizedSource> getGaps() {
+        if (tokenReader.hasNext()) {
+            return null;
+        }
+
         return gaps;
     }
 

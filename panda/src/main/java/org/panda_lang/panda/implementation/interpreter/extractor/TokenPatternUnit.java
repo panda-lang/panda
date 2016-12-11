@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
+package org.panda_lang.panda.implementation.interpreter.extractor;
 
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.interpreter.token.util.EqualableToken;
 
 public class TokenPatternUnit extends EqualableToken {
+
+    public static final TokenPatternUnit GAP = new TokenPatternUnit(new TokenType("GAP"), "*");
 
     private final TokenType tokenType;
     private final String token;
@@ -30,7 +32,7 @@ public class TokenPatternUnit extends EqualableToken {
     }
 
     public boolean isGap() {
-        return TokenExtractor.GAP.getType().equals(tokenType);
+        return GAP.getType().equals(tokenType);
     }
 
     @Override
@@ -47,4 +49,5 @@ public class TokenPatternUnit extends EqualableToken {
     public String toString() {
         return tokenType + ": " + token;
     }
+
 }

@@ -36,14 +36,14 @@ public class PandaTokenizedSource implements TokenizedSource {
     }
 
     @Override
-    public List<TokenRepresentation> getTokensRepresentations() {
-        return tokens;
-    }
-
-    @Override
     public TokenRepresentation[] toArray() {
         TokenRepresentation[] array = new TokenRepresentation[tokens.size()];
         return tokens.toArray(array);
+    }
+
+    @Override
+    public List<TokenRepresentation> getTokensRepresentations() {
+        return tokens;
     }
 
     @Override

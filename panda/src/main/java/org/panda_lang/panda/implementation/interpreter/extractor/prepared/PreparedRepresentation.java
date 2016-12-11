@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.prepared;
+package org.panda_lang.panda.implementation.interpreter.extractor.prepared;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 

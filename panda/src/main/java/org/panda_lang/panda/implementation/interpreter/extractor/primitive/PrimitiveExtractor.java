@@ -14,37 +14,38 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
+package org.panda_lang.panda.implementation.interpreter.extractor.primitive;
 
+import org.panda_lang.framework.interpreter.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.util.array.ArrayDistributor;
+import org.panda_lang.framework.tool.array.ArrayDistributor;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPatternUnit;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenizedSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TokenExtractor {
-
-    public static final TokenPatternUnit GAP = new TokenPatternUnit(new TokenType("GAP"), "*");
+public class PrimitiveExtractor implements Extractor {
 
     private final TokenPattern pattern;
     private final List<TokenizedSource> gaps;
 
-    public TokenExtractor(TokenPattern pattern) {
+    public PrimitiveExtractor(TokenPattern pattern) {
         this.pattern = pattern;
         this.gaps = new ArrayList<>();
     }
 
-    public boolean extract(TokenReader tokenReader) {
+    @Override
+    public List<TokenizedSource> extract(TokenReader tokenReader) {
         tokenReader.synchronize();
 
         TokenPatternUnit[] units = pattern.getUnits();
         ArrayDistributor<TokenPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
-        TokenExtractorOpposites extractorOpposites = new TokenExtractorOpposites(this);
+        PrimitiveOppositesKeeper extractorOpposites = new PrimitiveOppositesKeeper(this);
         TokenizedSource gap = new PandaTokenizedSource();
 
         for (int unitIndex = 0; unitIndex < units.length; unitIndex++) {
@@ -60,7 +61,7 @@ public class TokenExtractor {
                 }
 
                 if (!unit.isGap()) {
-                    return false;
+                    return null;
                 }
 
                 extractorOpposites.report(token);
@@ -90,14 +91,10 @@ public class TokenExtractor {
             }
         }
 
-        return tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size();
-    }
+        if (!(tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size())) {
+            return null;
+        }
 
-    public TokenPattern getPattern() {
-        return pattern;
-    }
-
-    public List<TokenizedSource> getGaps() {
         return gaps;
     }
 

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.prepared;
+package org.panda_lang.panda.implementation.interpreter.extractor.prepared;
 
 import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPatternUnit;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPatternUnit;
 
 /**
  * Utils for {@link org.panda_lang.framework.interpreter.lexer.TokenizedSource} based on {@link PreparedSource}
@@ -28,11 +28,11 @@ public class PreparedSourceUtils {
         int i = 0;
 
         for (TokenPatternUnit unit : units) {
-           if (unit.isGap()) {
-               continue;
-           }
+            if (unit.isGap()) {
+                continue;
+            }
 
-           ++i;
+            ++i;
         }
 
         return i;

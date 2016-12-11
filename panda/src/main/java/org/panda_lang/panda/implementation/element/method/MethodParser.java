@@ -19,7 +19,7 @@ package org.panda_lang.panda.implementation.element.method;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 
 @ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
@@ -46,11 +46,11 @@ public class MethodParser implements UnifiedParser {
         ParserContext parserContext = parserInfo.getComponent(Components.PARSER_CONTEXT);
         TokenReader tokenReader = parserContext.getTokenReader();
 
-        TokenExtractor extractor = pattern.extractor();
-        extractor.extract(tokenReader);
+        TokenExtractor primitive = pattern.primitive();
+        primitive.extract(tokenReader);
 
 
-        List<TokensSet> hollows = extractor.getGaps();
+        List<TokensSet> hollows = primitive.getGaps();
         TokensSet methodNameHollow = hollows.get(0);
         TokensSet parametersHollow = hollows.get(1);
         TokensSet bodyHollow = hollows.get(2);

@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
+package org.panda_lang.panda.implementation.interpreter.extractor;
+
+import org.panda_lang.framework.interpreter.extractor.Extractor;
+import org.panda_lang.panda.implementation.interpreter.extractor.prepared.PreparedExtractor;
 
 public class TokenPattern {
 
@@ -26,8 +29,8 @@ public class TokenPattern {
         this.keepingOpposites = keepOpposites;
     }
 
-    public TokenExtractor extractor() {
-        return new TokenExtractor(this);
+    public Extractor extractor() {
+        return new PreparedExtractor(this);
     }
 
     public boolean isKeepingOpposites() {

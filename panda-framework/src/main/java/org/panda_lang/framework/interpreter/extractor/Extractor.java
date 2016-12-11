@@ -14,21 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.method.invoker;
+package org.panda_lang.framework.interpreter.extractor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 
-public class MethodInvokerParserHandler implements ParserHandler {
+import java.util.List;
 
-    @Override
-    public boolean handle(TokenReader tokenReader) {
-        TokenReader copyOfTokenReader = new PandaTokenReader(tokenReader);
-        PrimitiveExtractor extractor = MethodInvokerParser.PATTERN.extractor();
+public interface Extractor {
 
-        return extractor.extract(copyOfTokenReader);
-    }
+    @Nullable
+    List<TokenizedSource> extract(TokenReader tokenReader);
 
 }

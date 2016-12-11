@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
+package org.panda_lang.panda.implementation.interpreter.extractor.primitive;
 
 import org.panda_lang.framework.interpreter.token.Token;
 import org.panda_lang.framework.interpreter.token.suggestion.Separator;
@@ -22,17 +22,17 @@ import org.panda_lang.panda.implementation.syntax.Separators;
 
 import java.util.Stack;
 
-public class TokenExtractorOpposites {
+class PrimitiveOppositesKeeper {
 
     private final Stack<Separator> separators;
     private final boolean active;
 
-    public TokenExtractorOpposites(TokenExtractor tokenExtractor) {
+    protected PrimitiveOppositesKeeper(PrimitiveExtractor tokenExtractor) {
         this.separators = new Stack<>();
         this.active = tokenExtractor.getPattern().isKeepingOpposites();
     }
 
-    public void report(Token token) {
+    protected void report(Token token) {
         if (!active) {
             return;
         }
@@ -60,7 +60,7 @@ public class TokenExtractorOpposites {
         separators.push(separator);
     }
 
-    public boolean isLocked() {
+    protected boolean isLocked() {
         return separators.size() > 0;
     }
 

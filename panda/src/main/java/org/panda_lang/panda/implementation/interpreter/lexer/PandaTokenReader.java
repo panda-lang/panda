@@ -19,7 +19,7 @@ package org.panda_lang.panda.implementation.interpreter.lexer;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-import org.panda_lang.framework.util.array.ArrayDistributor;
+import org.panda_lang.framework.tool.array.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {
 

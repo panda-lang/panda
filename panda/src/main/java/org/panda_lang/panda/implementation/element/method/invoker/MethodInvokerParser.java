@@ -23,8 +23,8 @@ import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenExtractor;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 
@@ -47,7 +47,7 @@ public class MethodInvokerParser implements UnifiedParser {
     public Statement parse(ParserInfo parserInfo) {
         TokenReader reader = parserInfo.getComponent(Components.READER);
 
-        TokenExtractor extractor = PATTERN.extractor();
+        PrimitiveExtractor extractor = PATTERN.extractor();
         boolean matched = extractor.extract(reader);
 
         if (!matched) {
