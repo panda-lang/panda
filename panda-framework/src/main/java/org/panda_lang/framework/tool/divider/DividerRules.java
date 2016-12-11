@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.util.redact.divider;
+package org.panda_lang.framework.tool.divider;
 
 import org.panda_lang.framework.interpreter.token.suggestion.Separator;
 import org.panda_lang.framework.interpreter.token.suggestion.Sequence;

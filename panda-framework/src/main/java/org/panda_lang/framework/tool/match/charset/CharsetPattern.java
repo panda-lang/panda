@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.util.match.charset;
+package org.panda_lang.framework.tool.match.charset;
 
-import org.panda_lang.framework.util.array.CharArrayDistributor;
-import org.panda_lang.framework.util.match.Matcher;
+import org.panda_lang.framework.tool.array.CharArrayDistributor;
+import org.panda_lang.framework.tool.match.Matcher;
 
 public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.util.array;
+package org.panda_lang.framework.tool.array;
 
 import java.util.Iterator;
 
