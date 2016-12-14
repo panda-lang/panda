@@ -17,7 +17,6 @@
 package org.panda_lang.panda.implementation.interpreter.extractor;
 
 import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +43,7 @@ public class TokenPatternBuilder {
     }
 
     public TokenPatternBuilder gap() {
-        units.add(PrimitiveExtractor.GAP);
+        units.add(TokenPatternUnit.GAP);
         return this;
     }
 

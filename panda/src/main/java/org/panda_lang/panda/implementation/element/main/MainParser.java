@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.implementation.element.main;
 
+import org.panda_lang.framework.interpreter.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
@@ -24,9 +25,8 @@ import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
 import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
@@ -48,15 +48,14 @@ public class MainParser implements UnifiedParser {
         Main main = new Main();
 
         TokenReader tokenReader = parserInfo.getComponent(Components.READER);
-        PrimitiveExtractor extractor = pattern.extractor();
-        boolean matched = extractor.extract(tokenReader);
-        List<TokenizedSource> hollows = extractor.getGaps();
+        Extractor extractor = pattern.extractor();
+        List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
-        if (!matched) {
+        if (gaps == null) {
             throw new PandaParserException("Mismatched parser to the specified source");
         }
 
-        TokenizedSource body = hollows.get(0);
+        TokenizedSource body = gaps.get(0);
         TokenReader bodyReader = new PandaTokenReader(body);
 
         OverallParser overallParser = new OverallParser(parserInfo, bodyReader);

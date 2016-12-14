@@ -98,4 +98,8 @@ public class PrimitiveExtractor implements Extractor {
         return gaps;
     }
 
+    public TokenPattern getPattern() {
+        return pattern;
+    }
+
 }

@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token.util;
+package org.panda_lang.framework.interpreter.token;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.TokenType;
 
 public class TokenUtils {
 
@@ -30,6 +28,10 @@ public class TokenUtils {
 
         Token token = tokenizedSource.getToken(0);
         return token.getName();
+    }
+
+    public static boolean equals(TokenRepresentation tokenRepresentation, Token token) {
+        return equals(tokenRepresentation, token.getType(), token.getTokenValue());
     }
 
     public static boolean equals(TokenRepresentation tokenRepresentation, TokenType tokenType, String tokenValue) {

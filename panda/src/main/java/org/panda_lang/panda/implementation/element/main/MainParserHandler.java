@@ -20,7 +20,7 @@ import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.parser.ParserHandler;
 import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.util.TokenUtils;
+import org.panda_lang.framework.interpreter.token.TokenUtils;
 
 public class MainParserHandler implements ParserHandler {
 

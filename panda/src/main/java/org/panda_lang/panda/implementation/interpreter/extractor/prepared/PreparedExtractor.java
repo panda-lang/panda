@@ -61,12 +61,11 @@ public class PreparedExtractor implements Extractor {
             }
 
             int index = j++;
-
             indexes[index] = i;
             positions[index] = lastIndexOfUnit;
         }
 
-        for (int i = 0, previousIndex = 0; i < positions.length; i++) {
+        for (int i = 0, previousIndex = -1; i < positions.length; i++) {
             int index = positions[i];
 
             if (index > previousIndex) {
@@ -112,7 +111,7 @@ public class PreparedExtractor implements Extractor {
 
         tokenReader.synchronize();
 
-        if (tokenReader.hasNext()) {
+        if (!(tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size())) {
             return null;
         }
 

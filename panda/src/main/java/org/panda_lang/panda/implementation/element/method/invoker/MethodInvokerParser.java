@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.implementation.element.method.invoker;
 
+import org.panda_lang.framework.interpreter.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
@@ -23,7 +24,6 @@ import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
 import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
@@ -47,16 +47,15 @@ public class MethodInvokerParser implements UnifiedParser {
     public Statement parse(ParserInfo parserInfo) {
         TokenReader reader = parserInfo.getComponent(Components.READER);
 
-        PrimitiveExtractor extractor = PATTERN.extractor();
-        boolean matched = extractor.extract(reader);
+        Extractor extractor = PATTERN.extractor();
+        List<TokenizedSource> gaps = extractor.extract(reader);
 
-        if (!matched) {
+        if (gaps == null) {
             throw new PandaParserException("Mismatched parser to the specified source");
         }
 
-        List<TokenizedSource> hollows = extractor.getGaps();
-        TokenizedSource className = hollows.get(0);
-        TokenizedSource concatenation = hollows.get(1);
+        TokenizedSource className = gaps.get(0);
+        TokenizedSource concatenation = gaps.get(1);
 
         System.out.println(className + " | " + concatenation);
 

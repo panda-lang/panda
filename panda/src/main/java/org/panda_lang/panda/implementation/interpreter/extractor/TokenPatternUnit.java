@@ -17,7 +17,7 @@
 package org.panda_lang.panda.implementation.interpreter.extractor;
 
 import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.util.EqualableToken;
+import org.panda_lang.framework.interpreter.token.suggestion.EqualableToken;
 
 public class TokenPatternUnit extends EqualableToken {
 
@@ -47,7 +47,7 @@ public class TokenPatternUnit extends EqualableToken {
 
     @Override
     public String toString() {
-        return tokenType + ": " + token;
+        return tokenType.getTypeName() + ": " + token;
     }
 
 }

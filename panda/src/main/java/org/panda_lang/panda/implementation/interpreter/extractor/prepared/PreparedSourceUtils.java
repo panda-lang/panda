@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.implementation.interpreter.extractor.prepared;
 
+import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.token.TokenUtils;
 import org.panda_lang.panda.implementation.interpreter.extractor.TokenPatternUnit;
 
 /**
@@ -67,16 +69,16 @@ public class PreparedSourceUtils {
     public static int lastIndexOf(PreparedSource preparedSource, Token search) {
         PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
 
-        for (int i = representations.length - 1; i > 0; i--) {
+        for (int i = representations.length - 1; i > -1; i--) {
             PreparedRepresentation representation = representations[i];
 
             if (representation.getNestingLevel() > 0) {
                 continue;
             }
 
-            Token token = representation.getTokenRepresentation().getToken();
+            TokenRepresentation tokenRepresentation = representation.getTokenRepresentation();
 
-            if (search.equals(token)) {
+            if (TokenUtils.equals(tokenRepresentation, search)) {
                 return i;
             }
         }

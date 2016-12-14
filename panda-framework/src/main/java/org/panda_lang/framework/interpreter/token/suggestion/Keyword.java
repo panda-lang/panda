@@ -17,7 +17,6 @@
 package org.panda_lang.framework.interpreter.token.suggestion;
 
 import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.util.EqualableToken;
 
 public class Keyword extends EqualableToken {
 

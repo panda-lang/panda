@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.implementation.element.method.invoker;
 
+import org.panda_lang.framework.interpreter.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserHandler;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.extractor.primitive.PrimitiveExtractor;
 
 public class MethodInvokerParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
         TokenReader copyOfTokenReader = new PandaTokenReader(tokenReader);
-        PrimitiveExtractor extractor = MethodInvokerParser.PATTERN.extractor();
+        Extractor extractor = MethodInvokerParser.PATTERN.extractor();
 
-        return extractor.extract(copyOfTokenReader);
+        return extractor.extract(copyOfTokenReader) != null;
     }
 
 }
