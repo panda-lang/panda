@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.struct;
+package org.panda_lang.panda.implementation.element.struct.constructor;
 
-import org.panda_lang.panda.implementation.element.field.Field;
-import org.panda_lang.panda.implementation.element.method.Method;
-import org.panda_lang.panda.implementation.element.struct.constructor.Constructor;
+import org.panda_lang.panda.implementation.element.struct.ClassInstance;
 
-import java.util.Collection;
-import java.util.Map;
+public interface Constructor {
 
-public interface ClassPrototype {
-
-    Map<String, Method> getMethods();
-
-    Map<String, Field> getFields();
-
-    Collection<Constructor> getConstructors();
-
-    String getClassName();
+    ClassInstance initialize();
 
 }
