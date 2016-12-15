@@ -22,29 +22,39 @@ import org.panda_lang.panda.implementation.element.method.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ClassPrototypeBuilder {
+public class PandaClassPrototype implements ClassPrototype {
 
-    private String className;
-    private Map<String, Field> fields;
-    private Map<String, Method> methods;
+    private final String className;
+    private final Map<String, Field> fields;
+    private final Map<String, Method> methods;
 
-    public ClassPrototypeBuilder() {
-        this.fields = new HashMap<>();
-        this.methods = new HashMap<>();
+    public PandaClassPrototype(String className) {
+        this(className, new HashMap<>(), new HashMap<>());
     }
 
-    public ClassPrototypeBuilder className(String className) {
+    protected PandaClassPrototype(String className, Map<String, Field> fields, Map<String, Method> methods) {
         this.className = className;
-        return this;
+        this.fields = fields;
+        this.methods = methods;
     }
 
-    public ClassPrototypeBuilder method(Method method) {
-        methods.put(method.getMethodName(), method);
-        return this;
+    @Override
+    public Map<String, Method> getMethods() {
+        return methods;
     }
 
-    public PandaClassPrototype build() {
-        return new PandaClassPrototype(className, fields, methods);
+    @Override
+    public Map<String, Field> getFields() {
+        return fields;
+    }
+
+    @Override
+    public String getClassName() {
+        return className;
+    }
+
+    public static ClassPrototypeBuilder builder() {
+        return new ClassPrototypeBuilder();
     }
 
 }

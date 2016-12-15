@@ -16,7 +16,14 @@
 
 package org.panda_lang.panda.implementation.element.struct;
 
+import org.panda_lang.framework.structure.Value;
+
 public class ClassInstance {
 
+    private final Value[] fieldValues;
+
+    public ClassInstance(PandaClassPrototype classPrototype) {
+        this.fieldValues = new Value[classPrototype.getFields().size()];
+    }
 
 }
