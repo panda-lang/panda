@@ -16,8 +16,8 @@
 
 package org.panda_lang.framework.tool.match.hollow;
 
-import org.panda_lang.framework.util.StringUtils;
 import org.panda_lang.framework.tool.match.Matcher;
+import org.panda_lang.framework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

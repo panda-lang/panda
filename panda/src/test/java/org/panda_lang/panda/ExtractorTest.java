@@ -21,10 +21,10 @@ import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.extractor.prepared.PreparedExtractor;
+import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 
 import java.util.List;
 
