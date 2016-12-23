@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.struct;
+package org.panda_lang.panda.implementation.element.struct.variant;
 
 import org.panda_lang.panda.implementation.element.field.Field;
 import org.panda_lang.panda.implementation.element.method.Method;
+import org.panda_lang.panda.implementation.element.struct.ClassPrototype;
 import org.panda_lang.panda.implementation.element.struct.constructor.Constructor;
 
 import java.util.ArrayList;
@@ -63,8 +64,8 @@ public class PandaClassPrototype implements ClassPrototype {
         return className;
     }
 
-    public static ClassPrototypeBuilder builder() {
-        return new ClassPrototypeBuilder();
+    public static PandaClassPrototypeBuilder builder() {
+        return new PandaClassPrototypeBuilder();
     }
 
 }

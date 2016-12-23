@@ -17,6 +17,7 @@
 package org.panda_lang.panda.implementation.element.struct;
 
 import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.implementation.element.struct.variant.PandaClassPrototype;
 
 public class ClassInstance {
 

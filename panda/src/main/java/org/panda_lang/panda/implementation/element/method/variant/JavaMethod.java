@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.method;
+package org.panda_lang.panda.implementation.element.method.variant;
 
-import org.panda_lang.framework.structure.Executable;
-
-public interface Method extends Executable {
-
-    boolean isStatic();
-
-    MethodVisibility getVisibility();
-
-    Executable getBody();
-
-    String getName();
-
+public class JavaMethod {
 }

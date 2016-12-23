@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.method;
+package org.panda_lang.panda.implementation.element.method.variant;
 
 import org.panda_lang.framework.structure.Executable;
+import org.panda_lang.panda.implementation.element.method.Method;
+import org.panda_lang.panda.implementation.element.method.MethodVisibility;
 
-public class MethodBuilder {
+public class PandaMethodBuilder {
 
     private String methodName;
     private Executable methodBody;
@@ -26,28 +28,28 @@ public class MethodBuilder {
     private MethodVisibility visibility;
 
 
-    public MethodBuilder methodName(String methodName) {
+    public PandaMethodBuilder methodName(String methodName) {
         this.methodName = methodName;
         return this;
     }
 
-    public MethodBuilder methodBody(Executable executable) {
+    public PandaMethodBuilder methodBody(Executable executable) {
         this.methodBody = executable;
         return this;
     }
 
-    public MethodBuilder isStatic(boolean isStatic) {
+    public PandaMethodBuilder isStatic(boolean isStatic) {
         this.isStatic = isStatic;
         return this;
     }
 
-    public MethodBuilder visibility(MethodVisibility visibility) {
+    public PandaMethodBuilder visibility(MethodVisibility visibility) {
         this.visibility = visibility;
         return this;
     }
 
     public Method build() {
-        return new Method(methodName, methodBody, isStatic, visibility);
+        return new PandaMethod(methodName, methodBody, isStatic, visibility);
     }
 
 }
