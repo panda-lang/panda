@@ -16,36 +16,36 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
+import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.lexer.Lexer;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.token.suggestion.Indentation;
 import org.panda_lang.framework.util.CharacterUtils;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaComposition;
-import org.panda_lang.panda.implementation.syntax.SyntaxComposition;
+import org.panda_lang.framework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class PandaLexer implements Lexer {
 
-    private final Panda panda;
     private final String source;
     private final Collection<TokenRepresentation> tokenRepresentations;
     private final Collection<Token> tokenizedLine;
-    private final SyntaxComposition syntaxComposition;
+    private final Syntax syntax;
 
     private final StringBuilder tokenBuilder;
     private final PandaLexerTokenExtractor lexerTokenExtractor;
     private final PandaLexerSequencer lexerSequencer;
 
+    private boolean includeIndentation;
     private String linePreview;
     private String tokenPreview;
     private boolean previousSpecial;
     private int line;
 
-    public PandaLexer(Panda panda, String source) {
+    public PandaLexer(Syntax syntax, String source) {
         if (source == null) {
             throw new IllegalArgumentException("Source cannot be null");
         }
@@ -53,18 +53,17 @@ public class PandaLexer implements Lexer {
             throw new IllegalArgumentException("Source is empty");
         }
 
-        this.panda = panda;
+        this.syntax = syntax;
         this.source = source + System.lineSeparator();
+
         this.tokenRepresentations = new ArrayList<>();
         this.tokenizedLine = new ArrayList<>();
 
-        PandaComposition pandaComposition = panda.getPandaComposition();
-        this.syntaxComposition = pandaComposition.getSyntaxComposition();
-
         this.lexerTokenExtractor = new PandaLexerTokenExtractor(this);
-        this.lexerSequencer = new PandaLexerSequencer(this, syntaxComposition.getSequences());
+        this.lexerSequencer = new PandaLexerSequencer(this, syntax.getSequences());
         this.tokenBuilder = new StringBuilder();
 
+        this.includeIndentation = false;
         this.previousSpecial = false;
         this.tokenPreview = "";
         this.linePreview = "";
@@ -110,7 +109,7 @@ public class PandaLexer implements Lexer {
     }
 
     private void check(char c) {
-        boolean special = CharacterUtils.belongsTo(c, syntaxComposition.getSpecialCharacters());
+        boolean special = CharacterUtils.belongsTo(c, syntax.getSpecialCharacters());
 
         if (previousSpecial && !special) {
             lexerTokenExtractor.extract(tokenBuilder);
@@ -127,6 +126,13 @@ public class PandaLexer implements Lexer {
             return;
         }
 
+        if (includeIndentation) {
+            String paragraph = StringUtils.extractParagraph(linePreview);
+            Indentation indentation = Indentation.valueOf(paragraph);
+            TokenRepresentation representation = new PandaTokenRepresentation(indentation, line);
+            tokenRepresentations.add(representation);
+        }
+
         for (Token token : tokenizedLine) {
             TokenRepresentation representation = new PandaTokenRepresentation(token, line);
             tokenRepresentations.add(representation);
@@ -137,6 +143,10 @@ public class PandaLexer implements Lexer {
         line++;
     }
 
+    public void includeIndentation() {
+        this.includeIndentation = true;
+    }
+
     protected int getLine() {
         return line;
     }
@@ -145,8 +155,8 @@ public class PandaLexer implements Lexer {
         return tokenBuilder;
     }
 
-    protected SyntaxComposition getSyntaxComposition() {
-        return syntaxComposition;
+    protected Syntax getSyntax() {
+        return syntax;
     }
 
     protected Collection<Token> getTokenizedLine() {
@@ -159,10 +169,6 @@ public class PandaLexer implements Lexer {
 
     public String getSource() {
         return source;
-    }
-
-    public Panda getPanda() {
-        return panda;
     }
 
 }

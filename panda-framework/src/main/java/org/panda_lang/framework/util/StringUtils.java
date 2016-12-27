@@ -18,6 +18,9 @@ package org.panda_lang.framework.util;
 
 public class StringUtils {
 
+    /**
+     * Instance of the empty string
+     */
     public static final String EMPTY = "";
 
     /**
@@ -61,6 +64,20 @@ public class StringUtils {
         return sb.toString();
     }
 
+    /**
+     * @param str a string to search
+     * @return whitespaces at the beginning of the specified string
+     */
+    public static String extractParagraph(String str) {
+        int count = str.indexOf(str.trim());
+        return str.substring(0, count);
+    }
+
+    /**
+     * @param str a string to search
+     * @param findStr a searched string
+     * @return amount of occurrences
+     */
     public static int countOccurrences(String str, String findStr) {
         int lastIndex = 0;
         int count = 0;
@@ -77,6 +94,11 @@ public class StringUtils {
         return count;
     }
 
+    /**
+     * @param string a string to search
+     * @param characters searched characters
+     * @return true if the specified string contains any of the specified characters
+     */
     public static boolean containsCharacter(String string, char... characters) {
         for (char c : string.toCharArray()) {
             for (char character : characters) {
@@ -89,6 +111,10 @@ public class StringUtils {
         return false;
     }
 
+    /**
+     * @param str a string to search
+     * @return true if the specified string contains a character other than a letter or a digit
+     */
     public static boolean containsSpecialCharacters(String str) {
         for (char c : str.toCharArray()) {
             if (!Character.isLetterOrDigit(c)) {
@@ -99,6 +125,8 @@ public class StringUtils {
         return false;
     }
 
+
+    @Deprecated
     public static String toCharCodes(String str) {
         StringBuilder stringBuilder = new StringBuilder();
 

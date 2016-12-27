@@ -49,4 +49,9 @@ public abstract class EqualableToken implements Token {
 
     }
 
+    @Override
+    public String toString() {
+        return getTokenValue();
+    }
+
 }

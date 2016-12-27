@@ -18,6 +18,7 @@ package org.panda_lang.framework.tool.divider;
 
 import org.panda_lang.framework.interpreter.token.suggestion.Separator;
 import org.panda_lang.framework.interpreter.token.suggestion.Sequence;
+import org.panda_lang.framework.util.CharacterUtils;
 
 import java.util.Iterator;
 import java.util.Stack;
@@ -69,7 +70,7 @@ public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
         for (; caret < source.length; caret++, inline++) {
             char currentChar = source[caret];
 
-            if (nodeBuilder.length() == 0 && Character.isWhitespace(currentChar)) {
+            if (nodeBuilder.length() == 0 && CharacterUtils.isWhitespace(currentChar)) {
                 indentionBuilder.append(currentChar);
                 continue;
             }
@@ -155,7 +156,7 @@ public class Divider implements Iterable<Fragment>, Iterator<Fragment> {
         for (int i = caret + 1; i < source.length; i++) {
             char character = source[i];
 
-            if (Character.isWhitespace(character)) {
+            if (CharacterUtils.isWhitespace(character)) {
                 continue;
             }
 

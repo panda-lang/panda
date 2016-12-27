@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.util;
+package org.panda_lang.framework.composition;
 
-public class CharacterUtils {
+import org.panda_lang.framework.interpreter.token.suggestion.Keyword;
+import org.panda_lang.framework.interpreter.token.suggestion.Operator;
+import org.panda_lang.framework.interpreter.token.suggestion.Separator;
+import org.panda_lang.framework.interpreter.token.suggestion.Sequence;
 
-    public static char TAB = '\t';
-    public static char NO_BREAK_SPACE = '\u00A0';
+import java.util.List;
 
-    public static boolean belongsTo(char character, char... characters) {
-        for (char c : characters) {
-            if (c == character) {
-                return true;
-            }
-        }
+public interface Syntax {
 
-        return false;
-    }
+    char[] getSpecialCharacters();
 
-    public static boolean isWhitespace(char c) {
-        return Character.isWhitespace(c) || c == NO_BREAK_SPACE;
-    }
+    List<Sequence> getSequences();
+
+    List<Operator> getOperators();
+
+    List<Separator> getSeparators();
+
+    List<Keyword> getKeywords();
 
 }

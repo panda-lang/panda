@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.syntax;
+package org.panda_lang.panda.composition;
 
+import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.token.Token;
 import org.panda_lang.framework.interpreter.token.suggestion.Keyword;
 import org.panda_lang.framework.interpreter.token.suggestion.Operator;
 import org.panda_lang.framework.interpreter.token.suggestion.Separator;
 import org.panda_lang.framework.interpreter.token.suggestion.Sequence;
+import org.panda_lang.panda.implementation.syntax.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class SyntaxComposition {
+public class SyntaxComposition implements Syntax {
 
     private final List<Keyword> keywords;
     private final List<Separator> separators;
@@ -68,22 +70,27 @@ public class SyntaxComposition {
         this.specialCharacters = specialCharacters;
     }
 
+    @Override
     public char[] getSpecialCharacters() {
         return specialCharacters;
     }
 
+    @Override
     public List<Sequence> getSequences() {
         return sequences;
     }
 
+    @Override
     public List<Operator> getOperators() {
         return operators;
     }
 
+    @Override
     public List<Separator> getSeparators() {
         return separators;
     }
 
+    @Override
     public List<Keyword> getKeywords() {
         return keywords;
     }

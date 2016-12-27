@@ -60,7 +60,7 @@ public class SourceFileParser implements Parser {
         ParserComposition parserComposition = pandaComposition.getParserComposition();
         ParserPipeline pipeline = parserComposition.getPipeline();
 
-        PandaLexer lexer = new PandaLexer(interpreter.getPanda(), sourceFile.getContent());
+        PandaLexer lexer = new PandaLexer(pandaComposition.getSyntaxComposition(), sourceFile.getContent());
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 

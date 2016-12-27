@@ -32,9 +32,11 @@ public class TokenType {
 
     public static final TokenType OPERATOR = new TokenType("OPERATOR");
 
+    public static final TokenType INDENTATION = new TokenType("INDENTATION");
+
     public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
 
-    private static final TokenType[] VALUES = new TokenType[6];
+    private static final TokenType[] VALUES = new TokenType[7];
 
     static {
         VALUES[0] = IDENTIFIER;
@@ -42,7 +44,8 @@ public class TokenType {
         VALUES[2] = SEPARATOR;
         VALUES[3] = SEQUENCE;
         VALUES[4] = OPERATOR;
-        VALUES[5] = UNKNOWN;
+        VALUES[5] = INDENTATION;
+        VALUES[6] = UNKNOWN;
     }
 
     private final int id;

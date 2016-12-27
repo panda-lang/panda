@@ -21,6 +21,7 @@ import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.panda.composition.SyntaxComposition;
 import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.extractor.prepared.PreparedExtractor;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
@@ -36,7 +37,10 @@ public class ExtractorTest {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Lexer lexer = new PandaLexer(panda, SOURCE);
+        PandaComposition pandaComposition = panda.getPandaComposition();
+        SyntaxComposition syntaxComposition = pandaComposition.getSyntaxComposition();
+
+        Lexer lexer = new PandaLexer(syntaxComposition, SOURCE);
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 

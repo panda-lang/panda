@@ -16,22 +16,22 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
+import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.token.Token;
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.util.StringUtils;
 import org.panda_lang.panda.implementation.interpreter.token.PandaToken;
-import org.panda_lang.panda.implementation.syntax.SyntaxComposition;
 
 import java.util.Collection;
 
 public class PandaLexerTokenExtractor {
 
     private final PandaLexer lexer;
-    private final SyntaxComposition syntaxComposition;
+    private final Syntax syntax;
 
     public PandaLexerTokenExtractor(PandaLexer lexer) {
         this.lexer = lexer;
-        this.syntaxComposition = lexer.getSyntaxComposition();
+        this.syntax = lexer.getSyntax();
     }
 
     protected boolean extract(StringBuilder tokenBuilder) {
@@ -44,10 +44,10 @@ public class PandaLexerTokenExtractor {
                 return true;
             }
 
-            Token token = extractToken(tokenPreview, syntaxComposition.getSeparators(), syntaxComposition.getOperators(), syntaxComposition.getKeywords());
+            Token token = extractToken(tokenPreview, syntax.getSeparators(), syntax.getOperators(), syntax.getKeywords());
 
             if (token == null) {
-                if (StringUtils.containsCharacter(tokenPreview, syntaxComposition.getSpecialCharacters())) {
+                if (StringUtils.containsCharacter(tokenPreview, syntax.getSpecialCharacters())) {
                     return false;
                 }
 
