@@ -37,7 +37,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.panda_lang</groupId>
-                <artifactId>panda-core</artifactId>
+                <artifactId>panda-framework</artifactId>
                 <version>${panda.version}</version>
             </dependency>
             <dependency>
