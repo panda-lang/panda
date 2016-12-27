@@ -17,6 +17,7 @@
 package org.panda_lang.panda.util.configuration.spcl;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.util.configuration.spcl.value.SPCLValue;
 
 import java.io.File;
 import java.util.HashMap;
@@ -25,18 +26,36 @@ import java.util.Map;
 public class SPCLConfiguration {
 
     private static final Panda spclPanda = new Panda();
-    private final Map<String, SPCLNode> nodes;
+    private final Map<String, SPCLValue> values;
+    private final SPCLLoader loader;
+    private final SPCLSaver saver;
+    private File cachedFile;
 
     public SPCLConfiguration() {
-        this.nodes = new HashMap<>();
+        this.values = new HashMap<>();
+        this.loader = new SPCLLoader(this);
+        this.saver = new SPCLSaver(this);
+    }
+
+    public void put(String key, Object value) {
+
     }
 
     public void load(File file) {
-
+        this.cachedFile = file;
+        loader.load(file);
     }
 
-    protected Map<String, SPCLNode> getNodes() {
-        return this.nodes;
+    public void save() {
+        save(cachedFile);
+    }
+
+    public void save(File file) {
+        this.cachedFile = file;
+    }
+
+    protected Map<String, SPCLValue> getValues() {
+        return this.values;
     }
 
 }

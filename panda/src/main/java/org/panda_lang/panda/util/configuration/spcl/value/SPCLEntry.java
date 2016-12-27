@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl;
+package org.panda_lang.panda.util.configuration.spcl.value;
 
-public class SPCLValue {
+public class SPCLEntry {
+
+    private String key;
+    private SPCLValue value;
+
 }

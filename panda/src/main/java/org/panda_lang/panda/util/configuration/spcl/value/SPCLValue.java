@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl;
+package org.panda_lang.panda.util.configuration.spcl.value;
 
-import java.io.File;
+public interface SPCLValue {
 
-public class SPCLLoader {
+    boolean isNode();
 
-    private final SPCLConfiguration configuration;
-
-    protected SPCLLoader(SPCLConfiguration configuration) {
-       this.configuration = configuration;
-    }
-
-    public void load(File file) {
-
-    }
+    boolean isList();
 
 }

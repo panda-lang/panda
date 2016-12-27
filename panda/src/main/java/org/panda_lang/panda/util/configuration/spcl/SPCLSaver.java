@@ -16,10 +16,18 @@
 
 package org.panda_lang.panda.util.configuration.spcl;
 
-public class SPCLNode {
+import java.io.File;
 
-    private String comment;
-    private String key;
-    private String value;
+public class SPCLSaver {
+
+    private final SPCLConfiguration configuration;
+
+    public SPCLSaver(SPCLConfiguration configuration) {
+        this.configuration = configuration;
+    }
+
+    public void save(File file) {
+
+    }
 
 }
