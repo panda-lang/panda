@@ -25,6 +25,14 @@
         </license>
     </licenses>
 
+    <properties>
+        <panda.java>1.8</panda.java>
+        <panda.version>${project.version}</panda.version>
+        <maven.compiler.source>${panda.java}</maven.compiler.source>
+        <maven.compiler.target>${panda.java}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -37,16 +45,36 @@
                 <artifactId>panda</artifactId>
                 <version>${panda.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains</groupId>
+                <artifactId>annotations</artifactId>
+                <version>13.0</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>net.bytebuddy</groupId>
+                <artifactId>byte-buddy</artifactId>
+                <version>1.5.4</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>0.9.10</version>
+            </dependency>
+            <dependency>
+                <groupId>com.esotericsoftware</groupId>
+                <artifactId>reflectasm</artifactId>
+                <version>1.11.3</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <properties>
-        <panda.java>1.8</panda.java>
-        <panda.version>${project.version}</panda.version>
-        <maven.compiler.source>${panda.java}</maven.compiler.source>
-        <maven.compiler.target>${panda.java}</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
