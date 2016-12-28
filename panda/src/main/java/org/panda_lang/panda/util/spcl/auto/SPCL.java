@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl;
+package org.panda_lang.panda.util.spcl.auto;
 
-import java.io.File;
+public @interface SPCL {
 
-public class SPCLLoader {
-
-    private final SPCLConfiguration configuration;
-
-    protected SPCLLoader(SPCLConfiguration configuration) {
-       this.configuration = configuration;
-    }
-
-    public void load(File file) {
-
-    }
+    String file();
 
 }

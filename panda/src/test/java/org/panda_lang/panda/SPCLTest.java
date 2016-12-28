@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl;
+package org.panda_lang.panda;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.panda_lang.panda.util.spcl.SPCLConfiguration;
 
 import java.io.File;
 
-public class SPCLSaver {
+public class SPCLTest {
 
     private final SPCLConfiguration configuration;
 
-    public SPCLSaver(SPCLConfiguration configuration) {
-        this.configuration = configuration;
+    public SPCLTest() {
+        this.configuration = new SPCLConfiguration();
+        this.configuration.load(new File("configuration.spcl"));
     }
 
-    public void save(File file) {
-
+    @Test
+    public void get() {
+        Assert.assertEquals("Cannot get key1", "value1", configuration.get("key1"));
     }
 
 }

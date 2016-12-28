@@ -14,12 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl.value;
+package org.panda_lang.panda.util.spcl.auto;
 
-public interface SPCLValue {
-
-    boolean isNode();
-
-    boolean isList();
-
+public @interface SPCLVariable {
 }

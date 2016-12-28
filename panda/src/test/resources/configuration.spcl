@@ -1,0 +1,14 @@
+key1: value1
+key2:
+  key3:
+  - list1
+  - list11
+  - list111
+  key4:
+  - list2
+  - list22
+  - list222
+  key5:
+    key6: value6
+    key7: value7
+key8: value8

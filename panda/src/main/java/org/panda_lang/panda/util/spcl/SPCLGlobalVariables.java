@@ -14,8 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl.auto;
+package org.panda_lang.panda.util.spcl;
 
-public @interface SPCL {
+import java.util.HashMap;
+import java.util.Map;
+
+public class SPCLGlobalVariables {
+
+    private final Map<String, String> variables;
+
+    public SPCLGlobalVariables() {
+        this.variables = new HashMap<>();
+    }
+
+    public String get(String variableName) {
+        return variables.get(variableName);
+    }
 
 }

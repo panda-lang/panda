@@ -18,6 +18,7 @@ package org.panda_lang.framework.interpreter.token.suggestion;
 
 import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.util.CharacterUtils;
+import org.panda_lang.framework.util.StringUtils;
 
 /**
  * Indentation determines the amount of whitespaces at the beginning of line. The tab character is exactly equal to 4 whitespaces.
@@ -36,7 +37,7 @@ public class Indentation extends EqualableToken {
 
     @Override
     public String getTokenValue() {
-        return "{" + size + "}";
+        return StringUtils.EMPTY;
     }
 
     @Override

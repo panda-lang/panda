@@ -14,22 +14,43 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl.value;
+package org.panda_lang.panda.util.spcl.value;
 
-public class SPCLList extends SPCLNode {
+import org.panda_lang.panda.util.spcl.SPCLEntry;
 
-    public SPCLList(String key, SPCLValue value, String... comment) {
-        super(key, value, comment);
+import java.util.HashMap;
+import java.util.Map;
+
+public class SPCLSection implements SPCLValue {
+
+    private final Map<String, SPCLEntry> entries;
+    private final SPCLSection parent;
+
+    public SPCLSection() {
+        this(null);
+    }
+
+    public SPCLSection(SPCLSection parent) {
+        this.entries = new HashMap<>();
+        this.parent = parent;
     }
 
     @Override
-    public boolean isNode() {
-        return false;
+    public boolean isSection() {
+        return true;
     }
 
     @Override
     public boolean isList() {
-        return true;
+        return false;
+    }
+
+    public SPCLSection getParent() {
+        return parent;
+    }
+
+    public Map<String, SPCLEntry> getEntries() {
+        return entries;
     }
 
 }

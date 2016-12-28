@@ -14,11 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl.value;
+package org.panda_lang.panda.util.spcl.value;
 
-public class SPCLEntry {
+public class SPCLSimpleValue implements SPCLValue {
 
-    private String key;
-    private SPCLValue value;
+    private final String value;
+
+    public SPCLSimpleValue(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public boolean isSection() {
+        return false;
+    }
+
+    @Override
+    public boolean isList() {
+        return false;
+    }
+
+    public String getValue() {
+        return value;
+    }
 
 }

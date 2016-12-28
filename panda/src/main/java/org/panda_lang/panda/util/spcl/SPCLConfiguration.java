@@ -14,26 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.configuration.spcl.value;
+package org.panda_lang.panda.util.spcl;
 
-import java.util.List;
+import org.panda_lang.panda.util.spcl.storage.SPCLLoader;
+import org.panda_lang.panda.util.spcl.storage.SPCLSaver;
+import org.panda_lang.panda.util.spcl.value.SPCLSection;
 
-public class SPCLNode implements SPCLValue {
+import java.io.File;
 
-    private List<SPCLEntry> entries;
+public class SPCLConfiguration extends SPCLSection {
 
-    public SPCLNode(String key) {
+    private final SPCLLoader loader;
+    private final SPCLSaver saver;
 
+    public SPCLConfiguration() {
+        super();
+
+        this.loader = new SPCLLoader(this);
+        this.saver = new SPCLSaver(this);
     }
 
-    @Override
-    public boolean isNode() {
-        return true;
+    public void load(File file) {
+        loader.load(file);
     }
 
-    @Override
-    public boolean isList() {
-        return false;
+    public void save(File file) {
+        saver.save(file);
     }
 
 }
