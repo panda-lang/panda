@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.util.spcl.storage;
 
+import org.panda_lang.framework.util.FileUtils;
 import org.panda_lang.panda.util.spcl.SPCLConfiguration;
+import org.panda_lang.panda.util.spcl.storage.parser.SPCLParser;
 
 import java.io.File;
 
@@ -25,11 +27,18 @@ public class SPCLLoader {
     private final SPCLConfiguration configuration;
 
     public SPCLLoader(SPCLConfiguration configuration) {
-       this.configuration = configuration;
+        this.configuration = configuration;
     }
 
     public void load(File file) {
+        String fileContent = FileUtils.getContentOfFile(file);
 
+        if (fileContent == null) {
+            return;
+        }
+
+        SPCLParser parser = new SPCLParser(configuration, configuration);
+        parser.parse(fileContent);
     }
 
 }

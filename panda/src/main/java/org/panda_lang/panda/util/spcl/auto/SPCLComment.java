@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.spcl;
+package org.panda_lang.panda.util.spcl.auto;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class SPCLGlobalVariables {
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
 
-    private final Map<String, String> variables;
+public @interface SPCLComment {
 
-    public SPCLGlobalVariables() {
-        this.variables = new HashMap<>();
-    }
-
-    public String get(String variableName) {
-        return variables.get(variableName);
-    }
+    String message();
 
 }

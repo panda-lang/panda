@@ -74,7 +74,7 @@ public class StringUtils {
     }
 
     /**
-     * @param str a string to search
+     * @param str     a string to search
      * @param findStr a searched string
      * @return amount of occurrences
      */
@@ -95,7 +95,7 @@ public class StringUtils {
     }
 
     /**
-     * @param string a string to search
+     * @param string     a string to search
      * @param characters searched characters
      * @return true if the specified string contains any of the specified characters
      */

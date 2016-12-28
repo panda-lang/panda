@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.spcl.storage.util;
+package org.panda_lang.panda.util.spcl.storage.parser;
 
 import org.panda_lang.framework.interpreter.token.suggestion.Operator;
 import org.panda_lang.framework.interpreter.token.suggestion.Separator;

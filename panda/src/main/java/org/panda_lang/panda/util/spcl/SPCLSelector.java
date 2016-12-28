@@ -17,28 +17,47 @@
 package org.panda_lang.panda.util.spcl;
 
 import org.panda_lang.panda.util.spcl.value.SPCLSection;
+import org.panda_lang.panda.util.spcl.value.SPCLValue;
 
 import java.util.Map;
 
 public class SPCLSelector {
 
     public static SPCLEntry select(SPCLSection section, String key) {
-        Map<String, SPCLEntry> entries = section.getEntries();
-
         if (key == null) {
             throw new NullPointerException("Key cannot be null");
         }
 
+        Map<String, SPCLEntry> entries = section.getEntries();
         String[] parts = key.split(".");
-        SPCLEntry entry = entries.get(parts[0]);
 
-        if (entry == null) {
-            return null;
+        for (int i = 0; i < parts.length; i++) {
+            String part = parts[i];
+            SPCLEntry entry = entries.get(part);
+
+            if (entry == null) {
+                return null;
+            }
+
+            if (i + 1 == part.length()) {
+                return entry;
+            }
+
+            SPCLValue value = entry.getValue();
+
+            if (value == null) {
+                return null;
+            }
+
+            if (!value.isSection()) {
+                return null;
+            }
+
+            SPCLSection nextSection = value.toSection();
+            entries = nextSection.getEntries();
         }
 
-        // TODO
-
-        return entry;
+        return null;
     }
 
 }

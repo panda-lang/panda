@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.util.spcl.value;
 
-import org.panda_lang.panda.util.spcl.SPCLGlobalVariables;
+import org.panda_lang.panda.util.spcl.SPCLVariables;
 
-public class SPCLVar extends SPCLSimpleValue{
+public class SPCLVar extends SPCLSimpleValue {
 
-    private final SPCLGlobalVariables variables;
+    private final SPCLVariables variables;
     private final String variableName;
 
-    public SPCLVar(SPCLGlobalVariables variables, String variableName) {
+    public SPCLVar(SPCLVariables variables, String variableName) {
         super(variableName);
 
         this.variables = variables;
@@ -32,7 +32,7 @@ public class SPCLVar extends SPCLSimpleValue{
 
     @Override
     public String getValue() {
-        return variables.get(variableName);
+        return variables.get(variableName).getValue().toString();
     }
 
 }

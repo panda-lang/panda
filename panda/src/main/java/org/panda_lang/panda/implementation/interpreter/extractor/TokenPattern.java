@@ -17,7 +17,11 @@
 package org.panda_lang.panda.implementation.interpreter.extractor;
 
 import org.panda_lang.framework.interpreter.extractor.Extractor;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.panda.implementation.interpreter.extractor.prepared.PreparedExtractor;
+
+import java.util.List;
 
 public class TokenPattern {
 
@@ -27,6 +31,15 @@ public class TokenPattern {
     protected TokenPattern(TokenPatternUnit[] units, boolean keepOpposites) {
         this.units = units;
         this.keepingOpposites = keepOpposites;
+    }
+
+    public List<TokenizedSource> match(TokenReader tokenReader) {
+        int index = tokenReader.getIndex();
+        Extractor extractor = extractor();
+        List<TokenizedSource> result = extractor.extract(tokenReader);
+
+        tokenReader.setIndex(index);
+        return result;
     }
 
     public Extractor extractor() {

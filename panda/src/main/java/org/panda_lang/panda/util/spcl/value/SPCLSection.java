@@ -17,6 +17,7 @@
 package org.panda_lang.panda.util.spcl.value;
 
 import org.panda_lang.panda.util.spcl.SPCLEntry;
+import org.panda_lang.panda.util.spcl.SPCLSelector;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +36,15 @@ public class SPCLSection implements SPCLValue {
         this.parent = parent;
     }
 
+    public void put(SPCLEntry entry) {
+        entries.put(entry.getKey(), entry);
+    }
+
+    public Object get(String key) {
+        SPCLEntry entry = SPCLSelector.select(this, key);
+        return entry != null ? entry.getValue().getValue() : null;
+    }
+
     @Override
     public boolean isSection() {
         return true;
@@ -43,6 +53,11 @@ public class SPCLSection implements SPCLValue {
     @Override
     public boolean isList() {
         return false;
+    }
+
+    @Override
+    public Object getValue() {
+        return this;
     }
 
     public SPCLSection getParent() {

@@ -14,16 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.spcl.auto;
+package org.panda_lang.panda.util.spcl;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.panda_lang.panda.util.spcl.value.SPCLValue;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+import java.util.HashMap;
+import java.util.Map;
 
-public @interface SPCLField {
+public class SPCLVariables {
+
+    private final Map<String, SPCLValue> variables;
+
+    public SPCLVariables() {
+        this.variables = new HashMap<>();
+    }
+
+    public void set(String variableName, SPCLValue value) {
+        variables.put(variableName, value);
+    }
+
+    public SPCLValue get(String variableName) {
+        return variables.get(variableName);
+    }
 
 }

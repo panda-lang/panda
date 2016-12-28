@@ -22,7 +22,6 @@ public class SPCLEntry {
 
     private String key;
     private SPCLValue value;
-    private String comment;
 
     public void setKey(String key) {
         this.key = key;
@@ -30,14 +29,6 @@ public class SPCLEntry {
 
     public void setValue(SPCLValue value) {
         this.value = value;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public String getComment() {
-        return comment;
     }
 
     public SPCLValue getValue() {

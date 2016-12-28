@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.spcl.auto;
+package org.panda_lang.panda.util.spcl.util;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public class VariableUtils {
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-
-public @interface SPCLField {
+    public static String getName(String variableName) {
+        return variableName.substring(1, variableName.length());
+    }
 
 }

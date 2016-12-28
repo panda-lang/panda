@@ -18,13 +18,9 @@ package org.panda_lang.panda.util.spcl.value;
 
 public interface SPCLValue {
 
-    boolean isSection();
-
-    boolean isList();
-
     default SPCLList toList() {
         if (!isList()) {
-            throw  new RuntimeException("Cannot cast this value to list");
+            throw new RuntimeException("Cannot cast this value to list");
         }
 
         return (SPCLList) this;
@@ -37,5 +33,11 @@ public interface SPCLValue {
 
         return (SPCLSection) this;
     }
+
+    boolean isSection();
+
+    boolean isList();
+
+    Object getValue();
 
 }

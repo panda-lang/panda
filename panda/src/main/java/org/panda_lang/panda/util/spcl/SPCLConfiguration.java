@@ -24,12 +24,14 @@ import java.io.File;
 
 public class SPCLConfiguration extends SPCLSection {
 
+    private final SPCLVariables variables;
     private final SPCLLoader loader;
     private final SPCLSaver saver;
 
     public SPCLConfiguration() {
         super();
 
+        this.variables = new SPCLVariables();
         this.loader = new SPCLLoader(this);
         this.saver = new SPCLSaver(this);
     }
@@ -40,6 +42,10 @@ public class SPCLConfiguration extends SPCLSection {
 
     public void save(File file) {
         saver.save(file);
+    }
+
+    public SPCLVariables getVariables() {
+        return variables;
     }
 
 }

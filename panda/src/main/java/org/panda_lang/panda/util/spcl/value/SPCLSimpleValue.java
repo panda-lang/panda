@@ -34,6 +34,7 @@ public class SPCLSimpleValue implements SPCLValue {
         return false;
     }
 
+    @Override
     public String getValue() {
         return value;
     }

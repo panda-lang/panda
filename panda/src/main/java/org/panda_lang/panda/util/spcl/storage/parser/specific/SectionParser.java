@@ -14,16 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.spcl.auto;
+package org.panda_lang.panda.util.spcl.storage.parser.specific;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.panda_lang.framework.interpreter.parser.Parser;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+public class SectionParser implements Parser {
 
-public @interface SPCLField {
 
 }

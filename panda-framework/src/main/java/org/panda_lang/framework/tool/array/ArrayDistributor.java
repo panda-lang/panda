@@ -16,12 +16,18 @@
 
 package org.panda_lang.framework.tool.array;
 
+import java.util.Collection;
 import java.util.Iterator;
 
 public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
     private final T[] array;
     private int index;
+
+    @SuppressWarnings({ "unchecked" })
+    public ArrayDistributor(Collection<T> collection) {
+        this((T[]) collection.toArray());
+    }
 
     public ArrayDistributor(T[] array) {
         this.array = array;

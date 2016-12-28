@@ -40,4 +40,9 @@ public class SPCLList implements SPCLValue {
         return true;
     }
 
+    @Override
+    public Object getValue() {
+        return list;
+    }
+
 }

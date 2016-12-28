@@ -18,6 +18,7 @@ package org.panda_lang.panda.implementation.interpreter.lexer;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.token.Token;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,7 +49,15 @@ public class PandaTokenizedSource implements TokenizedSource {
 
     @Override
     public String toString() {
-        return Arrays.toString(toArray());
+        StringBuilder builder = new StringBuilder();
+
+        for (TokenRepresentation representation : tokens) {
+            Token token = representation.getToken();
+            builder.append(token.getTokenValue());
+            builder.append(" ");
+        }
+
+        return builder.toString();
     }
 
 }
