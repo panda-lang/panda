@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.struct.constructor;
+package org.panda_lang.panda.implementation.element.struct;
 
 import org.panda_lang.panda.implementation.element.struct.ClassInstance;
 

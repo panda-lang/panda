@@ -16,15 +16,10 @@
 
 package org.panda_lang.panda.implementation.element.struct;
 
-import org.panda_lang.framework.structure.Value;
-import org.panda_lang.panda.implementation.element.struct.variant.PandaClassPrototype;
+public interface ClassInstance {
 
-public class ClassInstance {
+    ClassPrototype getClassPrototype();
 
-    private final Value[] fieldValues;
-
-    public ClassInstance(PandaClassPrototype classPrototype) {
-        this.fieldValues = new Value[classPrototype.getFields().size()];
-    }
+    Object getRaw();
 
 }

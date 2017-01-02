@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.element.struct.variant;
+package org.panda_lang.panda.implementation.element.struct;
 
 import org.panda_lang.panda.implementation.element.field.Field;
 import org.panda_lang.panda.implementation.element.method.Method;
@@ -22,29 +22,29 @@ import org.panda_lang.panda.implementation.element.method.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaClassPrototypeBuilder {
+public class ClassPrototypeBuilder {
 
     private String className;
     private Map<String, Field> fields;
     private Map<String, Method> methods;
 
-    public PandaClassPrototypeBuilder() {
+    public ClassPrototypeBuilder() {
         this.fields = new HashMap<>();
         this.methods = new HashMap<>();
     }
 
-    public PandaClassPrototypeBuilder className(String className) {
+    public ClassPrototypeBuilder className(String className) {
         this.className = className;
         return this;
     }
 
-    public PandaClassPrototypeBuilder method(Method method) {
+    public ClassPrototypeBuilder method(Method method) {
         methods.put(method.getName(), method);
         return this;
     }
 
-    public PandaClassPrototype build() {
-        return new PandaClassPrototype(className, fields, methods);
+    public ClassPrototype build() {
+        return new ClassPrototype(className, fields, methods);
     }
 
 }

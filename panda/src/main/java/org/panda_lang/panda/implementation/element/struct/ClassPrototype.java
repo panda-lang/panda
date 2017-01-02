@@ -18,19 +18,48 @@ package org.panda_lang.panda.implementation.element.struct;
 
 import org.panda_lang.panda.implementation.element.field.Field;
 import org.panda_lang.panda.implementation.element.method.Method;
-import org.panda_lang.panda.implementation.element.struct.constructor.Constructor;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
-public interface ClassPrototype {
+public class ClassPrototype {
 
-    Map<String, Method> getMethods();
+    private final String className;
+    private final Collection<Constructor> constructors;
+    private final Map<String, Field> fields;
+    private final Map<String, Method> methods;
 
-    Map<String, Field> getFields();
+    public ClassPrototype(String className) {
+        this(className, new HashMap<>(), new HashMap<>());
+    }
 
-    Collection<Constructor> getConstructors();
+    protected ClassPrototype(String className, Map<String, Field> fields, Map<String, Method> methods) {
+        this.className = className;
+        this.constructors = new ArrayList<>();
+        this.fields = fields;
+        this.methods = methods;
+    }
 
-    String getClassName();
+    public Map<String, Method> getMethods() {
+        return methods;
+    }
+
+    public Map<String, Field> getFields() {
+        return fields;
+    }
+
+    public Collection<Constructor> getConstructors() {
+        return constructors;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public static ClassPrototypeBuilder builder() {
+        return new ClassPrototypeBuilder();
+    }
 
 }
