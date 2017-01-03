@@ -1,11 +1,11 @@
-group com.example;
+group example;
 
 main {
     Main main = new Main();
     main.start();
 }
 
-class Main() {
+class Main {
 
     static String version = "indev-0.0.3-SNAPSHOT";
 

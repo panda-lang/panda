@@ -1,4 +1,4 @@
-group com.example;
+group example;
 
 native java.lang.String as String {
 
