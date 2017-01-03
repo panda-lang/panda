@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.parameter;
 
-import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+public class Parameter {
 
-public class PandaComposition {
+    private final String parameterType;
+    private final String parameterName;
 
-    private final PandaSyntax syntaxComposition;
-    private final ParserComposition parserComposition;
-
-    public PandaComposition() {
-        this.syntaxComposition = new PandaSyntax();
-        this.parserComposition = new ParserComposition();
+    public Parameter(String parameterType, String parameterName) {
+        this.parameterType = parameterType;
+        this.parameterName = parameterName;
     }
 
-    public ParserComposition getParserComposition() {
-        return parserComposition;
+    public String getParameterName() {
+        return parameterName;
     }
 
-    public PandaSyntax getSyntaxComposition() {
-        return syntaxComposition;
+    public String getParameterType() {
+        return parameterType;
     }
 
 }

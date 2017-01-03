@@ -14,27 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.field;
 
-import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+import org.panda_lang.framework.structure.Statement;
 
-public class PandaComposition {
+public class FieldStatement implements Statement {
 
-    private final PandaSyntax syntaxComposition;
-    private final ParserComposition parserComposition;
+    private final Field field;
+    private final int wrapperID;
+    private final int fieldID;
 
-    public PandaComposition() {
-        this.syntaxComposition = new PandaSyntax();
-        this.parserComposition = new ParserComposition();
+    public FieldStatement(int wrapperID, int fieldID, Field field) {
+        this.field = field;
+        this.wrapperID = wrapperID;
+        this.fieldID = fieldID;
     }
 
-    public ParserComposition getParserComposition() {
-        return parserComposition;
+    public int getFieldID() {
+        return fieldID;
     }
 
-    public PandaSyntax getSyntaxComposition() {
-        return syntaxComposition;
+    public int getWrapperID() {
+        return wrapperID;
+    }
+
+    public Field getField() {
+        return field;
     }
 
 }

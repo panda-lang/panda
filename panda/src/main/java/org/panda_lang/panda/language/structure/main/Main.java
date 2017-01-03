@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.main;
 
-import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.structure.WrapperInstance;
+import org.panda_lang.panda.implementation.structure.AbstractContainer;
 
-public class PandaComposition {
+public class Main extends AbstractContainer implements Wrapper {
 
-    private final PandaSyntax syntaxComposition;
-    private final ParserComposition parserComposition;
-
-    public PandaComposition() {
-        this.syntaxComposition = new PandaSyntax();
-        this.parserComposition = new ParserComposition();
+    @Override
+    public WrapperInstance createInstance() {
+        return null;
     }
 
-    public ParserComposition getParserComposition() {
-        return parserComposition;
+    @Override
+    public String getName() {
+        return null;
     }
 
-    public PandaSyntax getSyntaxComposition() {
-        return syntaxComposition;
+    @Override
+    public int getID() {
+        return 0;
     }
 
 }

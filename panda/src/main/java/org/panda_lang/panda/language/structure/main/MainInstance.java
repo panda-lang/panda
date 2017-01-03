@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.main;
 
-import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+import org.panda_lang.framework.runtime.ExecutableBridge;
+import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.structure.WrapperInstance;
 
-public class PandaComposition {
+public class MainInstance implements WrapperInstance {
 
-    private final PandaSyntax syntaxComposition;
-    private final ParserComposition parserComposition;
+    @Override
+    public void execute(ExecutableBridge executiveProcess) {
 
-    public PandaComposition() {
-        this.syntaxComposition = new PandaSyntax();
-        this.parserComposition = new ParserComposition();
     }
 
-    public ParserComposition getParserComposition() {
-        return parserComposition;
+    @Override
+    public Object[] getVariables() {
+        return new Object[0];
     }
 
-    public PandaSyntax getSyntaxComposition() {
-        return syntaxComposition;
+    @Override
+    public Wrapper getWrapper() {
+        return null;
     }
 
 }

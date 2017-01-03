@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.field;
 
-import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+public class Field {
 
-public class PandaComposition {
+    private final String name;
+    private final String type;
 
-    private final PandaSyntax syntaxComposition;
-    private final ParserComposition parserComposition;
-
-    public PandaComposition() {
-        this.syntaxComposition = new PandaSyntax();
-        this.parserComposition = new ParserComposition();
+    public Field(String name, String type) {
+        this.name = name;
+        this.type = type;
     }
 
-    public ParserComposition getParserComposition() {
-        return parserComposition;
+    public String getType() {
+        return type;
     }
 
-    public PandaSyntax getSyntaxComposition() {
-        return syntaxComposition;
+    public String getName() {
+        return name;
     }
 
 }
