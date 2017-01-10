@@ -1,15 +1,11 @@
 # Panda
-
-Panda is a lightweight and powerful programming language written in Java
-<br>
+Panda is a lightweight and powerful programming language written in Java<br>
 Project website: https://panda-lang.org/
-<br>
 
 #### Example
-
 ```javascript
-// Main method, called when the script starts
-main launch() {
+// The main block, called when the script starts
+main {
     // Prints "Hello Panda" in console
     System.print("Hello Panda");
 
@@ -42,22 +38,21 @@ class Foo {
 ```
 
 #### Repository structure
-
 ```
 panda/
-+--exmaples/                 Example scripts written in Panda.
++--exmaples/                 Example scripts written in Panda
 +--panda/                    Panda module
    +----/src                 All sources of Panda
-   +----pom.xml             The main maven build script for Panda module
-+--panda-core/               Panda Core module
-   +---------/src            All sources of Panda Core
-   +---------pom.xml        The main maven build script for Panda Core module
+   +----pom.xml              The main maven build script for Panda module
++--panda-framework/          Panda Framework module
+   +---------/src            All sources of Panda Framework
+   +---------pom.xml         The main maven build script for Panda Framework module
 +--pom.xml                   The main maven build script
 ```
 
 #### Maven
-
 Latest build. Remember, API is not stable yet :o:
+
 ```xml
 <dependency>
     <groupId>org.panda_lang</groupId>
@@ -65,7 +60,9 @@ Latest build. Remember, API is not stable yet :o:
     <version>indev-0.0.2-SNAPSHOT</version>
 </dependency>
 ```
+
 The latest build of the previous edition. Remember, this is deprecated!
+
 ```xml
 <dependency>
     <groupId>org.panda_lang</groupId>
@@ -73,7 +70,9 @@ The latest build of the previous edition. Remember, this is deprecated!
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
+
 Repository: https://repo.panda-lang.org/
+
 ```xml
 <repositories>
     <repository>
@@ -85,7 +84,5 @@ Repository: https://repo.panda-lang.org/
 ```
 
 #### Other
-
-Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily
-<br>
-Light: https://github.com/dzikoysk/Light
+- Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
+- Light: https://github.com/dzikoysk/Light
