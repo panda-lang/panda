@@ -21,6 +21,7 @@ import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
@@ -36,7 +37,7 @@ public class LexerTest {
         Panda panda = pandaFactory.createPanda();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
-        PandaSyntax syntaxComposition = pandaComposition.getSyntaxComposition();
+        PandaSyntax syntaxComposition = pandaComposition.getSyntax();
 
         Lexer lexer = new PandaLexer(syntaxComposition, "a('z').b.c('y').d('x');");
         TokenizedSource tokenizedSource = lexer.convert();

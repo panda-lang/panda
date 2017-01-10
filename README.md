@@ -45,8 +45,8 @@ panda/
    +----/src                 All sources of Panda
    +----pom.xml              The main maven build script for Panda module
 +--panda-framework/          Panda Framework module
-   +---------/src            All sources of Panda Framework
-   +---------pom.xml         The main maven build script for Panda Framework module
+   +----/src                 All sources of Panda Framework
+   +----pom.xml              The main maven build script for Panda Framework module
 +--pom.xml                   The main maven build script
 ```
 

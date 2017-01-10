@@ -35,6 +35,10 @@ public class TokenUtils {
     }
 
     public static boolean equals(TokenRepresentation tokenRepresentation, TokenType tokenType, String tokenValue) {
+        if (tokenRepresentation == null) {
+            return false;
+        }
+
         Token token = tokenRepresentation.getToken();
         return token.getType() == tokenType && token.getTokenValue().equals(tokenValue);
     }

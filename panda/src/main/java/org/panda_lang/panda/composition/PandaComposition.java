@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.composition;
 
 import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 
 public class PandaComposition {
 
-    private final PandaSyntax syntaxComposition;
-    private final ParserComposition parserComposition;
+    private final PandaSyntax syntax;
+    private final ParserRegistry parserRegistry;
 
     public PandaComposition() {
-        this.syntaxComposition = new PandaSyntax();
-        this.parserComposition = new ParserComposition();
+        this.syntax = new PandaSyntax();
+        this.parserRegistry = new ParserRegistry();
     }
 
-    public ParserComposition getParserComposition() {
-        return parserComposition;
+    public ParserRegistry getParserRegistry() {
+        return parserRegistry;
     }
 
-    public PandaSyntax getSyntaxComposition() {
-        return syntaxComposition;
+    public PandaSyntax getSyntax() {
+        return syntax;
     }
 
 }

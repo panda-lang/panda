@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.parser;
+package org.panda_lang.panda.language.structure.prototype.parser;
 
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.TokenUtils;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 
-public class MethodParserHandler implements ParserHandler {
+@ParserRegistration(parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
+public class ClassPrototypeParser implements UnifiedParser {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "main");
+    public Statement parse(ParserInfo parserInfo) {
+        return null;
     }
 
 }

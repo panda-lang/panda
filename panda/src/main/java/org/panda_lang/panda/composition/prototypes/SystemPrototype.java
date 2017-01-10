@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.parser;
+package org.panda_lang.panda.composition.prototypes;
 
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.TokenUtils;
+public class SystemPrototype {
 
-public class MethodParserHandler implements ParserHandler {
 
-    @Override
-    public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "main");
-    }
 
 }

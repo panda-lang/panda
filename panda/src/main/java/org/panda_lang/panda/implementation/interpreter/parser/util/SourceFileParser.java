@@ -28,14 +28,14 @@ import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.framework.structure.Wrapper;
 import org.panda_lang.framework.util.FileUtils;
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.PandaComposition;
+import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserComposition;
+import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 
@@ -57,10 +57,10 @@ public class SourceFileParser implements Parser {
 
         Panda panda = interpreter.getPanda();
         PandaComposition pandaComposition = panda.getPandaComposition();
-        ParserComposition parserComposition = pandaComposition.getParserComposition();
+        ParserRegistry parserComposition = pandaComposition.getParserRegistry();
         ParserPipeline pipeline = parserComposition.getPipeline();
 
-        PandaLexer lexer = new PandaLexer(pandaComposition.getSyntaxComposition(), sourceFile.getContent());
+        PandaLexer lexer = new PandaLexer(pandaComposition.getSyntax(), sourceFile.getContent());
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 

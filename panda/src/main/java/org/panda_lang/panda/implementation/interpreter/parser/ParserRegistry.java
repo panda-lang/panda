@@ -27,11 +27,11 @@ import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Set;
 
-public class ParserComposition {
+public class ParserRegistry {
 
     private final ParserPipeline pipeline;
 
-    public ParserComposition() {
+    public ParserRegistry() {
         this.pipeline = new PandaParserPipeline();
 
         try {
