@@ -16,17 +16,46 @@
 
 package org.panda_lang.panda.language.structure.prototype.parser;
 
+import org.panda_lang.framework.interpreter.extractor.Extractor;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.framework.interpreter.token.TokenType;
 import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+
+import java.util.List;
 
 @ParserRegistration(parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
 
+    protected static final TokenPattern pattern = TokenPattern.builder()
+            .unit(TokenType.KEYWORD, "class")
+            .gap()
+            .unit(TokenType.SEPARATOR, "{")
+            .gap()
+            .unit(TokenType.SEPARATOR, "}")
+            .build();
+
     @Override
     public Statement parse(ParserInfo parserInfo) {
-        return null;
+        TokenReader tokenReader = parserInfo.getComponent(Components.READER);
+        Extractor extractor = pattern.extractor();
+        List<TokenizedSource> gaps = extractor.extract(tokenReader);
+
+        if (gaps == null) {
+            throw new PandaParserException("Mismatched parser to the specified source");
+        }
+
+        ClassPrototype classPrototype = null;
+        // TODO
+
+        return new ClassPrototypeReference(classPrototype);
     }
 
 }

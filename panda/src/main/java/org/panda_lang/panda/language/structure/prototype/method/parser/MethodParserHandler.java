@@ -25,7 +25,7 @@ public class MethodParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "main");
+        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "method");
     }
 
 }
