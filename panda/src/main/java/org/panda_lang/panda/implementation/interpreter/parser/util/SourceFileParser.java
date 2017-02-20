@@ -25,7 +25,6 @@ import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.framework.structure.Wrapper;
 import org.panda_lang.framework.util.FileUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.composition.PandaComposition;
@@ -33,7 +32,6 @@ import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
@@ -70,16 +68,10 @@ public class SourceFileParser implements Parser {
         parserInfo.setComponent(Components.READER, tokenReader);
         parserInfo.setComponent(Components.LINKER, new PandaWrapperLinker());
 
-        OverallParser headOverallParser = new OverallParser(parserInfo, tokenReader);
+        OverallParser overallParser = new OverallParser(parserInfo, tokenReader);
 
-        for (Statement statement : headOverallParser) {
-            if (!(statement instanceof Wrapper)) {
-                tokenReader.synchronize();
-                throw new PandaParserException("Illegal statement in the main scope at " + tokenReader.previous().getLine());
-            }
-
-            Wrapper wrapper = (Wrapper) statement;
-            pandaScript.addWrapper(wrapper);
+        for (Statement statement : overallParser) {
+            pandaScript.addStatement(statement);
         }
 
         return pandaScript;

@@ -23,7 +23,6 @@ import org.panda_lang.framework.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -59,8 +58,8 @@ public class PandaParserPipeline implements ParserPipeline {
         return null;
     }
 
-    protected void sort() {
-        Collections.sort(representations, comparator);
+    public void sort() {
+        representations.sort(comparator);
     }
 
     @Override

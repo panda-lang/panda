@@ -44,12 +44,11 @@ public class OverallParser implements Iterator<Statement>, Iterable<Statement> {
 
         while (tokenReader.hasNext()) {
             tokenReader.synchronize();
-
             UnifiedParser parser = pipeline.handle(tokenReader);
 
             if (parser == null) {
                 tokenReader.synchronize();
-                throw new PandaParserException("Unrecognized " + tokenReader.read());
+                throw new PandaParserException("Unrecognized element '" + tokenReader.read() + "'");
             }
 
             Statement statement = parser.parse(modifiedParserInfo);

@@ -14,24 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.group;
 
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+import org.panda_lang.framework.structure.Statement;
 
-import java.io.File;
+public class GroupStatement implements Statement {
 
-public class DefaultTest {
+    private final Group group;
 
-    private static final File SCRIPT = new File("examples/test.panda");
+    public GroupStatement(Group group) {
+        this.group = group;
+    }
 
-    public static void main(String[] args) {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
-
-        PandaLoader pandaLoader = panda.getPandaLoader();
-        PandaApplication pandaApplication = pandaLoader.loadSingleFile(SCRIPT);
-
-        pandaApplication.launch(args);
+    public Group getGroup() {
+        return group;
     }
 
 }

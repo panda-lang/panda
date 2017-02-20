@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.group;
 
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 
-import java.io.File;
+@ParserRegistration(parserClass = GroupParser.class, handlerClass = GroupParserHandler.class)
+public class GroupParser implements UnifiedParser {
 
-public class DefaultTest {
-
-    private static final File SCRIPT = new File("examples/test.panda");
-
-    public static void main(String[] args) {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
-
-        PandaLoader pandaLoader = panda.getPandaLoader();
-        PandaApplication pandaApplication = pandaLoader.loadSingleFile(SCRIPT);
-
-        pandaApplication.launch(args);
+    @Override
+    public Statement parse(ParserInfo parserInfo) {
+        return null;
     }
 
 }

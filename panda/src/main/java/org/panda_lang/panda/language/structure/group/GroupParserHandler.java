@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.group;
 
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.parser.ParserHandler;
+import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.token.TokenUtils;
 
-import java.io.File;
+public class GroupParserHandler implements ParserHandler {
 
-public class DefaultTest {
-
-    private static final File SCRIPT = new File("examples/test.panda");
-
-    public static void main(String[] args) {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
-
-        PandaLoader pandaLoader = panda.getPandaLoader();
-        PandaApplication pandaApplication = pandaLoader.loadSingleFile(SCRIPT);
-
-        pandaApplication.launch(args);
+    @Override
+    public boolean handle(TokenReader tokenReader) {
+        System.out.println(tokenReader.read());
+        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "group");
     }
 
 }
