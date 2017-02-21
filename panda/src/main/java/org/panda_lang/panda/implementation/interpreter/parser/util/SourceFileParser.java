@@ -17,7 +17,7 @@
 package org.panda_lang.panda.implementation.interpreter.parser.util;
 
 import org.panda_lang.framework.interpreter.SourceFile;
-import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
@@ -30,7 +30,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenReader;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;

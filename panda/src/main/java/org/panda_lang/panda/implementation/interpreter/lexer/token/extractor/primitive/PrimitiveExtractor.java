@@ -17,7 +17,7 @@
 package org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.primitive;
 
 import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
-import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.Token;

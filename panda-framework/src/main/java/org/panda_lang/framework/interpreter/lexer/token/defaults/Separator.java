@@ -14,26 +14,43 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.lexer.token.suggestion;
+package org.panda_lang.framework.interpreter.lexer.token.defaults;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
-public class Operator extends EqualableToken {
+public class Separator extends EqualableToken {
 
-    private final String operator;
+    private final String separator;
+    private Separator opposite;
 
-    public Operator(String operator) {
-        this.operator = operator;
+    public Separator(char separator) {
+        this(Character.toString(separator));
+    }
+
+    public Separator(String separator) {
+        this.separator = separator;
+    }
+
+    public boolean hasOpposite() {
+        return opposite != null;
+    }
+
+    public void setOpposite(Separator opposite) {
+        this.opposite = opposite;
+    }
+
+    public Separator getOpposite() {
+        return opposite;
     }
 
     @Override
     public String getTokenValue() {
-        return operator;
+        return separator;
     }
 
     @Override
-    public TokenType getType() {
-        return TokenType.OPERATOR;
+    public final TokenType getType() {
+        return TokenType.SEPARATOR;
     }
 
     @Override

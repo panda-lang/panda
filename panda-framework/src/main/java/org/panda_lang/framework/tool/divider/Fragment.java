@@ -16,7 +16,7 @@
 
 package org.panda_lang.framework.tool.divider;
 
-import org.panda_lang.framework.interpreter.lexer.token.suggestion.Separator;
+import org.panda_lang.framework.interpreter.lexer.token.defaults.Separator;
 
 public class Fragment {
 

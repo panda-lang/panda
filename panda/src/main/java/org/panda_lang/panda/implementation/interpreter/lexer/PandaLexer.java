@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.lexer.Lexer;
 import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
-import org.panda_lang.framework.interpreter.lexer.token.suggestion.Indentation;
+import org.panda_lang.framework.interpreter.lexer.token.defaults.Indentation;
 import org.panda_lang.framework.util.CharacterUtils;
 import org.panda_lang.framework.util.StringUtils;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenRepresentation;

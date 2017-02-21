@@ -14,18 +14,31 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.lexer.token;
+package org.panda_lang.framework.interpreter.lexer.token.defaults;
 
-import java.util.Iterator;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
-public interface TokenReaderIterator extends Iterator<TokenRepresentation> {
+public class Operator extends EqualableToken {
 
-    TokenRepresentation previous();
+    private final String operator;
 
-    void synchronize();
+    public Operator(String operator) {
+        this.operator = operator;
+    }
 
-    void setIndex(int index);
+    @Override
+    public String getTokenValue() {
+        return operator;
+    }
 
-    int getIndex();
+    @Override
+    public TokenType getType() {
+        return TokenType.OPERATOR;
+    }
+
+    @Override
+    public String toString() {
+        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
+    }
 
 }

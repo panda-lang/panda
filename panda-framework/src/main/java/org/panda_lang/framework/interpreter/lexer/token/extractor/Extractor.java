@@ -17,7 +17,7 @@
 package org.panda_lang.framework.interpreter.lexer.token.extractor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 
 import java.util.List;
