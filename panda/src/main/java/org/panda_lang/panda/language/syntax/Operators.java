@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.token.suggestion.Operator;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Operator;
 
 public class Operators {
 

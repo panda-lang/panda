@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.token.suggestion.Sequence;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Sequence;
 
 public class Sequences {
 

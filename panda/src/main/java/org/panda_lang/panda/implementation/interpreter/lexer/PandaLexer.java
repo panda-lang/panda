@@ -20,8 +20,8 @@ import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.lexer.Lexer;
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.suggestion.Indentation;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Indentation;
 import org.panda_lang.framework.util.CharacterUtils;
 import org.panda_lang.framework.util.StringUtils;
 

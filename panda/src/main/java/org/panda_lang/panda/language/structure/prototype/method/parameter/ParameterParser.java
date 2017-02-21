@@ -20,8 +20,8 @@ import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 
 import java.util.ArrayList;

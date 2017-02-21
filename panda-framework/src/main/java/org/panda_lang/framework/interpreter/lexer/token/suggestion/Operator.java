@@ -14,29 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.token;
+package org.panda_lang.framework.interpreter.lexer.token.suggestion;
 
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.suggestion.EqualableToken;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
-public class PandaToken extends EqualableToken {
+public class Operator extends EqualableToken {
 
-    private final TokenType type;
-    private final String token;
+    private final String operator;
 
-    public PandaToken(TokenType tokenType, String token) {
-        this.type = tokenType;
-        this.token = token;
+    public Operator(String operator) {
+        this.operator = operator;
     }
 
     @Override
     public String getTokenValue() {
-        return token;
+        return operator;
     }
 
     @Override
     public TokenType getType() {
-        return type;
+        return TokenType.OPERATOR;
     }
 
     @Override

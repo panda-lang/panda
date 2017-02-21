@@ -14,33 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.extractor.primitive;
+package org.panda_lang.panda.implementation.interpreter.lexer.extractor.prepared;
 
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.suggestion.Separator;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Separator;
 import org.panda_lang.panda.language.syntax.Separators;
 
 import java.util.Stack;
 
-class PrimitiveOppositesKeeper {
+public class PreparedExtractorOpposites {
 
     private final Stack<Separator> separators;
-    private final boolean active;
 
-    protected PrimitiveOppositesKeeper(PrimitiveExtractor tokenExtractor) {
+    public PreparedExtractorOpposites() {
         this.separators = new Stack<>();
-        this.active = tokenExtractor.getPattern().isKeepingOpposites();
     }
 
-    protected void report(Token token) {
-        if (!active) {
-            return;
-        }
-
+    public boolean report(Token token) {
         Separator separator = Separators.valueOf(token);
 
         if (separator == null) {
-            return;
+            return false;
         }
 
         if (separators.size() > 0) {
@@ -49,18 +43,23 @@ class PrimitiveOppositesKeeper {
 
             if (separator.equals(opposite)) {
                 separators.pop();
-                return;
+                return false;
             }
         }
 
         if (!separator.hasOpposite()) {
-            return;
+            return false;
         }
 
         separators.push(separator);
+        return true;
     }
 
-    protected boolean isLocked() {
+    public int getNestingLevel() {
+        return separators.size();
+    }
+
+    public boolean isLocked() {
         return separators.size() > 0;
     }
 

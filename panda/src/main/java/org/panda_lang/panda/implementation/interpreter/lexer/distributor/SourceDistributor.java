@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token;
+package org.panda_lang.panda.implementation.interpreter.lexer.distributor;
 
-public interface Token {
-
-    String getTokenValue();
-
-    default String getName() {
-        return getType().getTypeName();
-    }
-
-    default TokenType getType() {
-        return TokenType.UNKNOWN;
-    }
+public class SourceDistributor {
 
 }

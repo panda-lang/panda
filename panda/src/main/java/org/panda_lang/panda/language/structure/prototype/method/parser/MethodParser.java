@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.structure.prototype.method.parser;
 
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 import org.panda_lang.panda.language.structure.prototype.method.MethodWrapper;
 

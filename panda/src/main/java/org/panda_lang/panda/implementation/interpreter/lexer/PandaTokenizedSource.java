@@ -18,7 +18,7 @@ package org.panda_lang.panda.implementation.interpreter.lexer;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
 
 import java.util.ArrayList;
 import java.util.Arrays;

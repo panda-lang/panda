@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.structure.prototype.method.invoker;
 
-import org.panda_lang.framework.interpreter.extractor.Extractor;
+import org.panda_lang.framework.interpreter.lexer.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.panda.implementation.interpreter.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 

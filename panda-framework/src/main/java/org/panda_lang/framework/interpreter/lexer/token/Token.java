@@ -14,31 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token.suggestion;
+package org.panda_lang.framework.interpreter.lexer.token;
 
-import org.panda_lang.framework.interpreter.token.TokenType;
+public interface Token {
 
-public class Operator extends EqualableToken {
+    String getTokenValue();
 
-    private final String operator;
-
-    public Operator(String operator) {
-        this.operator = operator;
+    default String getName() {
+        return getType().getTypeName();
     }
 
-    @Override
-    public String getTokenValue() {
-        return operator;
-    }
-
-    @Override
-    public TokenType getType() {
-        return TokenType.OPERATOR;
-    }
-
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
+    default TokenType getType() {
+        return TokenType.UNKNOWN;
     }
 
 }

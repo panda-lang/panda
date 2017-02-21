@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.extractor;
 
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.suggestion.EqualableToken;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.EqualableToken;
 
 public class TokenPatternUnit extends EqualableToken {
 

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.suggestion.Separator;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Separator;
 
 public class Separators {
 

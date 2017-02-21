@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token.suggestion;
+package org.panda_lang.framework.interpreter.lexer.token.suggestion;
 
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.util.CharacterUtils;
 import org.panda_lang.framework.util.StringUtils;
 

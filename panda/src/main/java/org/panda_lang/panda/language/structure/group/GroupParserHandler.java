@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.structure.group;
 
 import org.panda_lang.framework.interpreter.lexer.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.framework.interpreter.token.TokenType;
-import org.panda_lang.framework.interpreter.token.TokenUtils;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
 
 public class GroupParserHandler implements ParserHandler {
 

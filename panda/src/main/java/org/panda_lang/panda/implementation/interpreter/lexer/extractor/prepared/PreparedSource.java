@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.extractor.prepared;
+package org.panda_lang.panda.implementation.interpreter.lexer.extractor.prepared;
 
 import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-import org.panda_lang.framework.interpreter.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
 
 class PreparedSource {
 

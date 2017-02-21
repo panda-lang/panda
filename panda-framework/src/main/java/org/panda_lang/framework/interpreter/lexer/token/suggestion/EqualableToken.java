@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token.suggestion;
+package org.panda_lang.framework.interpreter.lexer.token.suggestion;
 
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
 public abstract class EqualableToken implements Token {
 

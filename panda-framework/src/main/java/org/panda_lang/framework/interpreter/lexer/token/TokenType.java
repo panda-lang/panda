@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token;
+package org.panda_lang.framework.interpreter.lexer.token;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

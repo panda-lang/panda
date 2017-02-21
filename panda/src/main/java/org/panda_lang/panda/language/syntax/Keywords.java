@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.token.suggestion.Keyword;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Keyword;
 
 public class Keywords {
 

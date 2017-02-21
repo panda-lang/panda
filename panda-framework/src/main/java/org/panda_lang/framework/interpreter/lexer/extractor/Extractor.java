@@ -14,31 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.token.suggestion;
+package org.panda_lang.framework.interpreter.lexer.extractor;
 
-import org.panda_lang.framework.interpreter.token.TokenType;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
 
-public class Keyword extends EqualableToken {
+import java.util.List;
 
-    private final String keyword;
+public interface Extractor {
 
-    public Keyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    @Override
-    public String getTokenValue() {
-        return keyword;
-    }
-
-    @Override
-    public TokenType getType() {
-        return TokenType.KEYWORD;
-    }
-
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
-    }
+    @Nullable
+    List<TokenizedSource> extract(TokenReader tokenReader);
 
 }

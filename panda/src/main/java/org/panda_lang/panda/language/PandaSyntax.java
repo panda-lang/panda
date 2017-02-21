@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language;
 
 import org.panda_lang.framework.composition.Syntax;
-import org.panda_lang.framework.interpreter.token.Token;
-import org.panda_lang.framework.interpreter.token.suggestion.Keyword;
-import org.panda_lang.framework.interpreter.token.suggestion.Operator;
-import org.panda_lang.framework.interpreter.token.suggestion.Separator;
-import org.panda_lang.framework.interpreter.token.suggestion.Sequence;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Keyword;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Operator;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Separator;
+import org.panda_lang.framework.interpreter.lexer.token.suggestion.Sequence;
 import org.panda_lang.panda.language.syntax.*;
 
 import java.util.ArrayList;
