@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.lexer;
-
-import org.panda_lang.framework.interpreter.lexer.token.Token;
+package org.panda_lang.framework.interpreter.lexer.token;
 
 import java.util.List;
 

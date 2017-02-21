@@ -16,6 +16,7 @@
 
 package org.panda_lang.framework.interpreter.parser.util;
 
+import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
 import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
 
 /**
@@ -34,7 +35,7 @@ public class Components {
     public static final String PARSER_PIPELINE = "pipeline";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.lexer.TokenReader}
+     * Used by {@link TokenReader}
      */
     public static final String READER = "reader";
 

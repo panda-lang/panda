@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.prototype.method.parameter;
 
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.lexer.token.Token;

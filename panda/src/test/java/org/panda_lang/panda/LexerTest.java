@@ -17,14 +17,14 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.framework.interpreter.lexer.Lexer;
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenReader;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenReader;
 
 import java.io.File;
 

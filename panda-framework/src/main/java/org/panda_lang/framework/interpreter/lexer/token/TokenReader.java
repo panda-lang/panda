@@ -14,18 +14,36 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.lexer;
+package org.panda_lang.framework.interpreter.lexer.token;
 
 import java.util.Iterator;
 
-public interface TokenReaderIterator extends Iterator<TokenRepresentation> {
+public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
 
-    TokenRepresentation previous();
+    TokenRepresentation read();
 
-    void synchronize();
+    TokenReaderIterator iterator();
+
+    default void synchronize() {
+        iterator().synchronize();
+    }
+
+    default TokenRepresentation next() {
+        return iterator().next();
+    }
+
+    default TokenRepresentation previous() {
+        return iterator().previous();
+    }
+
+    default boolean hasNext() {
+        return iterator().hasNext();
+    }
 
     void setIndex(int index);
 
     int getIndex();
+
+    TokenizedSource getTokenizedSource();
 
 }

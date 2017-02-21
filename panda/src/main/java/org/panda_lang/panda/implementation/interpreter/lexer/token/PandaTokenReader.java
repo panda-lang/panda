@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer;
+package org.panda_lang.panda.implementation.interpreter.lexer.token;
 
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.tool.array.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {

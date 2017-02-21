@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.lexer;
+package org.panda_lang.framework.interpreter.lexer.token;
 
-import org.panda_lang.framework.interpreter.lexer.token.Token;
+import java.util.Iterator;
 
-public interface TokenRepresentation {
+public interface TokenReaderIterator extends Iterator<TokenRepresentation> {
 
-    int getLine();
+    TokenRepresentation previous();
 
-    Token getToken();
+    void synchronize();
+
+    void setIndex(int index);
+
+    int getIndex();
 
 }

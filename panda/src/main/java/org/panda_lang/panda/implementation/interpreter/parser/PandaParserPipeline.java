@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserHandler;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.ParserRepresentation;

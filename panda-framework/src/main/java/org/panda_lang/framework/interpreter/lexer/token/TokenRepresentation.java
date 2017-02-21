@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.lexer.extractor;
+package org.panda_lang.framework.interpreter.lexer.token;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
 
-import java.util.List;
+public interface TokenRepresentation {
 
-public interface Extractor {
+    int getLine();
 
-    @Nullable
-    List<TokenizedSource> extract(TokenReader tokenReader);
+    Token getToken();
 
 }

@@ -18,12 +18,14 @@ package org.panda_lang.panda.implementation.interpreter.lexer;
 
 import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.lexer.Lexer;
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.suggestion.Indentation;
 import org.panda_lang.framework.util.CharacterUtils;
 import org.panda_lang.framework.util.StringUtils;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenRepresentation;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenizedSource;
 
 import java.util.ArrayList;
 import java.util.Collection;

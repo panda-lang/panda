@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer;
+package org.panda_lang.panda.implementation.interpreter.lexer.token;
 
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 
 public class PandaTokenRepresentation implements TokenRepresentation {

@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.extractor.primitive;
+package org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.primitive;
 
-import org.panda_lang.framework.interpreter.lexer.extractor.Extractor;
-import org.panda_lang.framework.interpreter.lexer.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
+import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.tool.array.ArrayDistributor;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.extractor.TokenPatternUnit;
-import org.panda_lang.panda.implementation.interpreter.lexer.PandaTokenizedSource;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternUnit;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenizedSource;
 
 import java.util.ArrayList;
 import java.util.List;

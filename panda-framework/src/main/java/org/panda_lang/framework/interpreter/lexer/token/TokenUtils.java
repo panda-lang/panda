@@ -16,9 +16,6 @@
 
 package org.panda_lang.framework.interpreter.lexer.token;
 
-import org.panda_lang.framework.interpreter.lexer.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.TokenizedSource;
-
 public class TokenUtils {
 
     public static String extractToken(TokenizedSource tokenizedSource, int i) {

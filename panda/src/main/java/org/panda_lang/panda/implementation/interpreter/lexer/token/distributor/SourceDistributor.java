@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.parser;
+package org.panda_lang.panda.implementation.interpreter.lexer.token.distributor;
 
-import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+public class SourceDistributor {
 
-public interface ParserPipeline {
+    public SourceDistributor() {
 
-    /**
-     * @param tokenReader source
-     * @return parser which fits to source
-     */
-    UnifiedParser handle(TokenReader tokenReader);
-
-    /**
-     * @param parserRepresentation specified parser representation which will be registered in pipeline
-     */
-    void registerParserRepresentation(ParserRepresentation parserRepresentation);
+    }
 
 }

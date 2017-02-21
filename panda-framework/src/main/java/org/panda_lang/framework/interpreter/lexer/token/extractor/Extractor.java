@@ -14,8 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.distributor;
+package org.panda_lang.framework.interpreter.lexer.token.extractor;
 
-public class SourceDistributor {
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.framework.interpreter.lexer.token.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
+
+import java.util.List;
+
+public interface Extractor {
+
+    @Nullable
+    List<TokenizedSource> extract(TokenReader tokenReader);
 
 }
