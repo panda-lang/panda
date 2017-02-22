@@ -80,10 +80,10 @@ public class PreparedExtractor implements Extractor {
             tokenReader.synchronize();
 
             int currentIndex = indexes[i];
-            int previousIndex = currentIndex - 1;
+            int previousIndex = currentIndex - 1 < 0 ? 0 : currentIndex - 1;
             int indexOfUnit = positions[i] - 1;
 
-            if (currentIndex > 0 && currentIndex < units.length) {
+            if (currentIndex > -1 && currentIndex < units.length) {
                 TokenPatternUnit unit = units[previousIndex];
 
                 if (!unit.isGap()) {

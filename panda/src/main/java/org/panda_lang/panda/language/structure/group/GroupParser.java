@@ -16,17 +16,50 @@
 
 package org.panda_lang.panda.language.structure.group;
 
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
+import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
+import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+
+import java.util.List;
 
 @ParserRegistration(parserClass = GroupParser.class, handlerClass = GroupParserHandler.class)
 public class GroupParser implements UnifiedParser {
 
+    private static final TokenPattern PATTERN = TokenPattern.builder()
+            .unit(TokenType.KEYWORD, "group")
+            .gap()
+            .unit(TokenType.SEPARATOR, ";")
+            .build();
+
     @Override
     public Statement parse(ParserInfo parserInfo) {
-        return null;
+        SourceStream sourceStream = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
+        TokenReader tokenReader = sourceStream.toTokenReader();
+
+        Extractor extractor = PATTERN.extractor();
+        List<TokenizedSource> gaps = extractor.extract(tokenReader);
+
+        if (gaps == null || gaps.size() != 1) {
+            throw new PandaParserException("Cannot parse group at line " + (sourceStream.read().getLine() + 1));
+        }
+
+        int length = tokenReader.getIndex() + 1;
+        sourceStream.read(length);
+
+        GroupRegistry registry = GroupRegistry.getDefault();
+        String groupName = gaps.get(0).getToken(0).getTokenValue();
+        Group group = registry.getOrCreate(groupName);
+
+        return new GroupStatement(group);
     }
 
 }

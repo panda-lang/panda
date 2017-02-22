@@ -45,7 +45,7 @@ public class MethodInvokerParser implements UnifiedParser {
 
     @Override
     public Statement parse(ParserInfo parserInfo) {
-        TokenReader reader = parserInfo.getComponent(Components.READER);
+        TokenReader reader = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
 
         Extractor extractor = PATTERN.extractor();
         List<TokenizedSource> gaps = extractor.extract(reader);

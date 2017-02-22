@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser;
 
+import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserHandler;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
@@ -38,7 +39,7 @@ public class PandaParserPipeline implements ParserPipeline {
     }
 
     @Override
-    public UnifiedParser handle(TokenReader tokenReader) {
+    public UnifiedParser handle(SourceStream sourceStream) {
         if (count > 100) {
             count = 0;
             sort();
@@ -46,6 +47,7 @@ public class PandaParserPipeline implements ParserPipeline {
 
         for (ParserRepresentation representation : representations) {
             ParserHandler parserHandler = representation.getHandler();
+            TokenReader tokenReader = sourceStream.toTokenReader();
 
             if (parserHandler.handle(tokenReader)) {
                 representation.increaseUsages();

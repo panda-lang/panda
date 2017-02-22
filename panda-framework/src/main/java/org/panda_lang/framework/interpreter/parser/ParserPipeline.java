@@ -16,15 +16,15 @@
 
 package org.panda_lang.framework.interpreter.parser;
 
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
 
 public interface ParserPipeline {
 
     /**
-     * @param tokenReader source
+     * @param sourceDistributor source
      * @return parser which fits to source
      */
-    UnifiedParser handle(TokenReader tokenReader);
+    UnifiedParser handle(SourceStream sourceDistributor);
 
     /**
      * @param parserRepresentation specified parser representation which will be registered in pipeline

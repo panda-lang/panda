@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class GroupRegistry {
 
+    private static final GroupRegistry instance = new GroupRegistry();
     private final Map<String, Group> groups;
 
     public GroupRegistry() {
@@ -44,6 +45,10 @@ public class GroupRegistry {
 
     public Map<String, Group> getGroups() {
         return groups;
+    }
+
+    public static GroupRegistry getDefault() {
+        return instance;
     }
 
 }

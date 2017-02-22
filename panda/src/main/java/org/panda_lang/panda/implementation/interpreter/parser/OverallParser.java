@@ -16,12 +16,13 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
+import org.jetbrains.annotations.NotNull;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 
 import java.util.Iterator;
 
@@ -29,41 +30,36 @@ public class OverallParser implements Iterator<Statement>, Iterable<Statement> {
 
     private final ParserInfo parserInfo;
     private final ParserPipeline pipeline;
-    private final TokenReader tokenReader;
+    private final PandaSourceStream sourceStream;
 
-    public OverallParser(ParserInfo parserInfo, TokenReader tokenReader) {
+    public OverallParser(ParserInfo parserInfo) {
         this.parserInfo = parserInfo;
         this.pipeline = parserInfo.getComponent(Components.PARSER_PIPELINE);
-        this.tokenReader = tokenReader;
+        this.sourceStream = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
     }
 
     @Override
     public Statement next() {
-        ParserInfo modifiedParserInfo = parserInfo.clone();
-        modifiedParserInfo.setComponent(Components.READER, tokenReader);
-
-        while (tokenReader.hasNext()) {
-            tokenReader.synchronize();
-            UnifiedParser parser = pipeline.handle(tokenReader);
-
-            if (parser == null) {
-                tokenReader.synchronize();
-                throw new PandaParserException("Unrecognized element '" + tokenReader.read() + "'");
-            }
-
-            Statement statement = parser.parse(modifiedParserInfo);
-
-            if (statement == null) {
-                tokenReader.synchronize();
-                throw new PandaParserException("Failed to parse statement at line " + (tokenReader.previous().getLine() + 1));
-            }
-
-            return statement;
+        if (!hasNext()) {
+            return null;
         }
 
-        return null;
+        UnifiedParser parser = pipeline.handle(sourceStream);
+
+        if (parser == null) {
+            throw new PandaParserException("Unrecognized syntax at line " + (sourceStream.read().getLine() + 1));
+        }
+
+        Statement statement = parser.parse(parserInfo);
+
+        if (statement == null) {
+            throw new PandaParserException("Failed to parse statement at line " + (sourceStream.read().getLine() + 1));
+        }
+
+        return statement;
     }
 
+    @NotNull
     @Override
     public Iterator<Statement> iterator() {
         return this;
@@ -71,7 +67,7 @@ public class OverallParser implements Iterator<Statement>, Iterable<Statement> {
 
     @Override
     public boolean hasNext() {
-        return tokenReader.hasNext();
+        return sourceStream.hasUnreadSource();
     }
 
 }

@@ -25,7 +25,6 @@ public class GroupParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        System.out.println(tokenReader.read());
         return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "group");
     }
 

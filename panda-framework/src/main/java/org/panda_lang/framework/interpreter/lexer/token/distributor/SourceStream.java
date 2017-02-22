@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.token.distributor;
+package org.panda_lang.framework.interpreter.lexer.token.distributor;
 
-public class SourceDistributor {
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 
-    public SourceDistributor() {
+public interface SourceStream {
 
-    }
+    TokenRepresentation read();
+
+    TokenRepresentation[] read(int length);
+
+    boolean hasUnreadSource();
+
+    TokenReader toTokenReader();
+
+    TokenizedSource toTokenizedSource();
 
 }

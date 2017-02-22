@@ -33,7 +33,11 @@ public class PandaTokenizedSource implements TokenizedSource {
     }
 
     public PandaTokenizedSource(TokenRepresentation[] tokenRepresentations) {
-        this.tokens = Arrays.asList(tokenRepresentations);
+        this(Arrays.asList(tokenRepresentations));
+    }
+
+    public PandaTokenizedSource(List<TokenRepresentation> tokenRepresentations) {
+        this.tokens = tokenRepresentations;
     }
 
     @Override

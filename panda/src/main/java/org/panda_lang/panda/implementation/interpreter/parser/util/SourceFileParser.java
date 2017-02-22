@@ -17,7 +17,6 @@
 package org.panda_lang.panda.implementation.interpreter.parser.util;
 
 import org.panda_lang.framework.interpreter.SourceFile;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
@@ -30,7 +29,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
@@ -60,15 +59,16 @@ public class SourceFileParser implements Parser {
 
         PandaLexer lexer = new PandaLexer(pandaComposition.getSyntax(), sourceFile.getContent());
         TokenizedSource tokenizedSource = lexer.convert();
-        TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
+        PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
+        parserInfo.setComponent(Components.SCRIPT, pandaScript);
         parserInfo.setComponent(Components.PARSER_PIPELINE, pipeline);
-        parserInfo.setComponent(Components.READER, tokenReader);
+        parserInfo.setComponent(Components.SOURCE_DISTRIBUTOR, sourceStream);
         parserInfo.setComponent(Components.LINKER, new PandaWrapperLinker());
 
-        OverallParser overallParser = new OverallParser(parserInfo, tokenReader);
+        OverallParser overallParser = new OverallParser(parserInfo);
 
         for (Statement statement : overallParser) {
             pandaScript.addStatement(statement);

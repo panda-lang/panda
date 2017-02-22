@@ -30,6 +30,11 @@ public class Components {
     public static final String INTERPRETER = "interpreter";
 
     /**
+     * Used by {@link org.panda_lang.framework.structure.Script}
+     */
+    public static final String SCRIPT = "script";
+
+    /**
      * Used by {@link org.panda_lang.framework.interpreter.parser.ParserPipeline}
      */
     public static final String PARSER_PIPELINE = "pipeline";
@@ -37,7 +42,7 @@ public class Components {
     /**
      * Used by {@link TokenReader}
      */
-    public static final String READER = "reader";
+    public static final String SOURCE_DISTRIBUTOR = "source-distributor";
 
     /**
      * Used by {@link WrapperLinker}
@@ -52,7 +57,7 @@ public class Components {
     static {
         VALUES[0] = INTERPRETER;
         VALUES[1] = PARSER_PIPELINE;
-        VALUES[2] = READER;
+        VALUES[2] = SOURCE_DISTRIBUTOR;
         VALUES[3] = LINKER;
     }
 
