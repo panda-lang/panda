@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter;
+package org.panda_lang.panda.implementation.interpreter.parser.postproc;
 
-import java.util.Collection;
+import org.panda_lang.framework.interpreter.Interpreter;
 
-/**
- * Set of {@link SourceFile} used by {@link Interpreter}
- */
-public interface SourceSet {
+public interface PostProcessingCallback {
 
-    /**
-     * @return collection of contents
-     */
-    Collection<String> getSources();
-
-    /**
-     * @return collection of {@link SourceFile}
-     */
-    Collection<SourceFile> getSourceFiles();
+    void call(Interpreter interpreter);
 
 }

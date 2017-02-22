@@ -1,1 +1,5 @@
 group example;
+
+class Foo {
+
+}

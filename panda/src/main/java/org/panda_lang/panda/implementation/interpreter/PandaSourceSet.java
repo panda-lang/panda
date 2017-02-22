@@ -38,6 +38,17 @@ public class PandaSourceSet implements SourceSet {
     }
 
     @Override
+    public Collection<String> getSources() {
+        Collection<String> sources = new ArrayList<>();
+
+        for (SourceFile sourceFile : getSourceFiles()) {
+            sources.add(sourceFile.getContent());
+        }
+
+        return sources;
+    }
+
+    @Override
     public Collection<SourceFile> getSourceFiles() {
         return sourceFiles;
     }
