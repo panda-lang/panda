@@ -35,7 +35,7 @@ public class OverallParser implements Iterator<Statement>, Iterable<Statement> {
     public OverallParser(ParserInfo parserInfo) {
         this.parserInfo = parserInfo;
         this.pipeline = parserInfo.getComponent(Components.PARSER_PIPELINE);
-        this.sourceStream = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
+        this.sourceStream = parserInfo.getComponent(Components.SOURCE_STREAM);
     }
 
     @Override

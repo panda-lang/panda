@@ -56,7 +56,7 @@ public class PandaSourceParser implements Parser {
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
         parserInfo.setComponent(Components.SCRIPT, pandaScript);
         parserInfo.setComponent(Components.PARSER_PIPELINE, pipeline);
-        parserInfo.setComponent(Components.SOURCE_DISTRIBUTOR, sourceStream);
+        parserInfo.setComponent(Components.SOURCE_STREAM, sourceStream);
         parserInfo.setComponent(Components.LINKER, new PandaWrapperLinker());
 
         OverallParser overallParser = new OverallParser(parserInfo);

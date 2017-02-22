@@ -16,9 +16,6 @@
 
 package org.panda_lang.framework.interpreter.parser.util;
 
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
-
 /**
  * Default list of names used by {@link org.panda_lang.framework.interpreter.parser.ParserInfo} for components
  */
@@ -40,12 +37,12 @@ public class Components {
     public static final String PARSER_PIPELINE = "pipeline";
 
     /**
-     * Used by {@link TokenReader}
+     * Used by {@link org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream}
      */
-    public static final String SOURCE_DISTRIBUTOR = "source-distributor";
+    public static final String SOURCE_STREAM = "source-stream";
 
     /**
-     * Used by {@link WrapperLinker}
+     * Used by {@link org.panda_lang.framework.interpreter.parser.linker.WrapperLinker}
      */
     public static final String LINKER = "linker";
 
@@ -57,7 +54,7 @@ public class Components {
     static {
         VALUES[0] = INTERPRETER;
         VALUES[1] = PARSER_PIPELINE;
-        VALUES[2] = SOURCE_DISTRIBUTOR;
+        VALUES[2] = SOURCE_STREAM;
         VALUES[3] = LINKER;
     }
 
