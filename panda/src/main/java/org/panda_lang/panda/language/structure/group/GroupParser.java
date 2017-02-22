@@ -42,18 +42,18 @@ public class GroupParser implements UnifiedParser {
 
     @Override
     public Statement parse(ParserInfo parserInfo) {
-        SourceStream stream = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
-        TokenReader reader = stream.toTokenReader();
+        SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
+        TokenReader reader = source.toTokenReader();
 
         Extractor extractor = PATTERN.extractor();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
         if (gaps == null || gaps.size() != 1) {
-            throw new PandaParserException("Cannot parse group at line " + (stream.read().getLine() + 1));
+            throw new PandaParserException("Cannot parse group at line " + (source.read().getLine() + 1));
         }
 
         String groupName = gaps.get(0).getToken(0).getTokenValue();
-        stream.readDifference(reader);
+        source.readDifference(reader);
 
         GroupRegistry registry = GroupRegistry.getDefault();
         Group group = registry.getOrCreate(groupName);

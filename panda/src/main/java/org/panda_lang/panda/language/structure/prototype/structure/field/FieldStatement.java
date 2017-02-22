@@ -14,24 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.parameter;
+package org.panda_lang.panda.language.structure.prototype.structure.field;
 
-public class Parameter {
+import org.panda_lang.framework.structure.Statement;
 
-    private final String parameterType;
-    private final String parameterName;
+public class FieldStatement implements Statement {
 
-    public Parameter(String parameterType, String parameterName) {
-        this.parameterType = parameterType;
-        this.parameterName = parameterName;
+    private final Field field;
+    private final int wrapperID;
+    private final int fieldID;
+
+    public FieldStatement(int wrapperID, int fieldID, Field field) {
+        this.field = field;
+        this.wrapperID = wrapperID;
+        this.fieldID = fieldID;
     }
 
-    public String getParameterName() {
-        return parameterName;
+    public int getFieldID() {
+        return fieldID;
     }
 
-    public String getParameterType() {
-        return parameterType;
+    public int getWrapperID() {
+        return wrapperID;
+    }
+
+    public Field getField() {
+        return field;
     }
 
 }

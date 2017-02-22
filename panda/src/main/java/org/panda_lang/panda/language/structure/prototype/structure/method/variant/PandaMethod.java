@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.variant;
+package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
 import org.panda_lang.framework.structure.Executable;
 import org.panda_lang.framework.structure.Value;
-import org.panda_lang.panda.language.structure.prototype.method.Method;
-import org.panda_lang.panda.language.structure.prototype.method.MethodVisibility;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 
 public class PandaMethod implements Method {

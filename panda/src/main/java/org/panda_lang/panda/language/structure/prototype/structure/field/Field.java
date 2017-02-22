@@ -14,32 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.field;
+package org.panda_lang.panda.language.structure.prototype.structure.field;
 
-import org.panda_lang.framework.structure.Statement;
+public class Field {
 
-public class FieldStatement implements Statement {
+    private final String name;
+    private final String type;
 
-    private final Field field;
-    private final int wrapperID;
-    private final int fieldID;
-
-    public FieldStatement(int wrapperID, int fieldID, Field field) {
-        this.field = field;
-        this.wrapperID = wrapperID;
-        this.fieldID = fieldID;
+    public Field(String name, String type) {
+        this.name = name;
+        this.type = type;
     }
 
-    public int getFieldID() {
-        return fieldID;
+    public String getType() {
+        return type;
     }
 
-    public int getWrapperID() {
-        return wrapperID;
-    }
-
-    public Field getField() {
-        return field;
+    public String getName() {
+        return name;
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.parameter;
+package org.panda_lang.panda.language.structure.prototype.structure.method.parameter;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;

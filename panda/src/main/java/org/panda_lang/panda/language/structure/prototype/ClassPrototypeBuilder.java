@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
-import org.panda_lang.panda.language.structure.prototype.field.Field;
-import org.panda_lang.panda.language.structure.prototype.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
 import java.util.HashMap;
 import java.util.Map;

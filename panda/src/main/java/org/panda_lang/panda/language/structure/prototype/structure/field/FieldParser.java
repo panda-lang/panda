@@ -14,24 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.field;
+package org.panda_lang.panda.language.structure.prototype.structure.field;
 
-public class Field {
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.structure.Executable;
 
-    private final String name;
-    private final String type;
+public class FieldParser implements UnifiedParser {
 
-    public Field(String name, String type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
+    @Override
+    public Executable parse(ParserInfo parserInfo) {
+        return null;
     }
 
 }

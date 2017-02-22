@@ -14,16 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.invoker;
+package org.panda_lang.panda.language.structure.prototype.structure.method.parameter;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.Executable;
+public class Parameter {
 
-public class MethodInvoker implements Executable {
+    private final String parameterType;
+    private final String parameterName;
 
-    @Override
-    public void execute(ExecutableBridge executionInfo) {
+    public Parameter(String parameterType, String parameterName) {
+        this.parameterType = parameterType;
+        this.parameterName = parameterName;
+    }
 
+    public String getParameterName() {
+        return parameterName;
+    }
+
+    public String getParameterType() {
+        return parameterType;
     }
 
 }

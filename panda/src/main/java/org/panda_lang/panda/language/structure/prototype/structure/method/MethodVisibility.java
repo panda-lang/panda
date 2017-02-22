@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.constructor;
+package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+public enum MethodVisibility {
 
-public interface Constructor {
-
-    ClassInstance initialize();
+    PUBLIC,
+    PROTECTED,
+    PRIVATE;
 
 }

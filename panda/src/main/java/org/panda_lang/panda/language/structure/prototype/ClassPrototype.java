@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
-import org.panda_lang.panda.language.structure.prototype.constructor.Constructor;
-import org.panda_lang.panda.language.structure.prototype.field.Field;
-import org.panda_lang.panda.language.structure.prototype.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
 import java.util.ArrayList;
 import java.util.Collection;

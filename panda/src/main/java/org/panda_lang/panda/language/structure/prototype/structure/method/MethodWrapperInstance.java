@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method;
+package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.framework.runtime.ExecutableBridge;
 import org.panda_lang.framework.structure.*;

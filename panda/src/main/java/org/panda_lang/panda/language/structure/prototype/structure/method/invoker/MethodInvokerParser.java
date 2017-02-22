@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.invoker;
+package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
 import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
@@ -45,7 +45,7 @@ public class MethodInvokerParser implements UnifiedParser {
 
     @Override
     public Statement parse(ParserInfo parserInfo) {
-        TokenReader reader = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
+        TokenReader reader = parserInfo.getComponent(Components.SOURCE_STREAM);
 
         Extractor extractor = PATTERN.extractor();
         List<TokenizedSource> gaps = extractor.extract(reader);

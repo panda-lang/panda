@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.field;
+package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.framework.structure.Executable;
+import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 
-public class FieldParser implements UnifiedParser {
+public interface Method {
 
-    @Override
-    public Executable parse(ParserInfo parserInfo) {
-        return null;
-    }
+    Value invoke(ClassInstance instance, Value... parameters);
+
+    boolean isStatic();
+
+    MethodVisibility getVisibility();
+
+    String getName();
 
 }

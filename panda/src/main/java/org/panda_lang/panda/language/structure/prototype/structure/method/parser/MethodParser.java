@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method.parser;
+package org.panda_lang.panda.language.structure.prototype.structure.method.parser;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
-import org.panda_lang.panda.language.structure.prototype.method.MethodWrapper;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodWrapper;
 
 //@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
 public class MethodParser implements UnifiedParser {

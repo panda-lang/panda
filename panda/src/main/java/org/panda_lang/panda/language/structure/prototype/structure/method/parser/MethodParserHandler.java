@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method;
+package org.panda_lang.panda.language.structure.prototype.structure.method.parser;
 
-public enum MethodVisibility {
+import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.framework.interpreter.parser.ParserHandler;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
 
-    PUBLIC,
-    PROTECTED,
-    PRIVATE;
+public class MethodParserHandler implements ParserHandler {
+
+    @Override
+    public boolean handle(TokenReader tokenReader) {
+        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "method");
+    }
 
 }

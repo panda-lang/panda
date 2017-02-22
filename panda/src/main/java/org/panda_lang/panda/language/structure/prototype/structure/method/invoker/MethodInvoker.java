@@ -14,19 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.method;
+package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
-import org.panda_lang.framework.structure.Value;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.framework.runtime.ExecutableBridge;
+import org.panda_lang.framework.structure.Executable;
 
-public interface Method {
+public class MethodInvoker implements Executable {
 
-    Value invoke(ClassInstance instance, Value... parameters);
+    @Override
+    public void execute(ExecutableBridge executionInfo) {
 
-    boolean isStatic();
-
-    MethodVisibility getVisibility();
-
-    String getName();
+    }
 
 }

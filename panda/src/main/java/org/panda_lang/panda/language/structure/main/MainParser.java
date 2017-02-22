@@ -46,7 +46,7 @@ public class MainParser implements UnifiedParser {
     public Statement parse(ParserInfo parserInfo) {
         Main main = new Main();
 
-        TokenReader tokenReader = parserInfo.getComponent(Components.SOURCE_DISTRIBUTOR);
+        TokenReader tokenReader = parserInfo.getComponent(Components.SOURCE_STREAM);
         Extractor extractor = pattern.extractor();
         List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
