@@ -109,11 +109,14 @@ public class PreparedExtractor implements Extractor {
             gaps.add(gap);
         }
 
+        /* Probably useless
+
         tokenReader.synchronize();
 
         if (!(tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size())) {
             return null;
         }
+        */
 
         return gaps;
     }
