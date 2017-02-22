@@ -14,29 +14,33 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter;
+package org.panda_lang.panda.implementation.interpreter.source;
 
-import org.panda_lang.framework.interpreter.SourceFile;
-import org.panda_lang.framework.util.FileUtils;
+import org.panda_lang.framework.interpreter.source.Source;
+import org.panda_lang.framework.interpreter.source.SourceFile;
 
-import java.io.File;
+public class PandaSource implements Source {
 
-public class PandaSourceFile implements SourceFile {
+    private final String title;
+    private final String content;
 
-    private final File file;
+    public PandaSource(SourceFile sourceFile) {
+        this(sourceFile.getFile().getPath(), sourceFile.getContent());
+    }
 
-    public PandaSourceFile(File file) {
-        this.file = file;
+    public PandaSource(String title, String content) {
+        this.title = title;
+        this.content = content;
     }
 
     @Override
     public String getContent() {
-        return FileUtils.getContentOfFile(file);
+        return this.content;
     }
 
     @Override
-    public File getFile() {
-        return file;
+    public String getTitle() {
+        return this.title;
     }
 
 }

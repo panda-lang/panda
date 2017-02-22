@@ -14,23 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter;
+package org.panda_lang.framework.interpreter.source;
+
+import org.panda_lang.framework.interpreter.Interpreter;
 
 import java.util.Collection;
 
 /**
- * Set of {@link SourceFile} used by {@link Interpreter}
+ * Set of {@link Source} used by {@link Interpreter}
  */
 public interface SourceSet {
 
     /**
-     * @return collection of contents
+     * @return collection of sources
      */
-    Collection<String> getSources();
-
-    /**
-     * @return collection of {@link SourceFile}
-     */
-    Collection<SourceFile> getSourceFiles();
+    Collection<Source> getSources();
 
 }

@@ -30,11 +30,6 @@ public class FileUtils {
      */
     public static String getFileName(File file) {
         String fileName = file.getName();
-
-        if (fileName == null) {
-            return null;
-        }
-
         int pos = fileName.lastIndexOf(".");
 
         if (pos == -1) {

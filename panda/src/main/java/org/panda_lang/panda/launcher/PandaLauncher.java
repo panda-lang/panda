@@ -35,7 +35,7 @@ public class PandaLauncher {
         Collection<File> files = FileUtils.findFilesByExtension(new File(System.getProperty("user.dir")), ".panda");
 
         for (File file : files) {
-            Application application = pandaLoader.loadSingleFile(file);
+            Application application = pandaLoader.loadFiles(file);
             application.launch(args);
         }
     }

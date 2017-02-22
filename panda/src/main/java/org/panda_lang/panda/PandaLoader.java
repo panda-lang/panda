@@ -16,8 +16,12 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.framework.interpreter.source.Source;
+import org.panda_lang.framework.interpreter.source.SourceFile;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
-import org.panda_lang.panda.implementation.interpreter.PandaSourceSet;
+import org.panda_lang.panda.implementation.interpreter.source.PandaSource;
+import org.panda_lang.panda.implementation.interpreter.source.PandaSourceFile;
+import org.panda_lang.panda.implementation.interpreter.source.PandaSourceSet;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 import java.io.File;
@@ -30,26 +34,29 @@ public class PandaLoader {
         this.panda = panda;
     }
 
-    public PandaApplication loadSingleFile(File file) {
-        if (file == null) {
+    public PandaApplication loadFiles(File... files) {
+        if (files == null) {
             System.out.println("[PandaLoader] File is null");
-            return null;
-        }
-        else if (!file.exists()) {
-            System.out.println("[PandaLoader] File '" + file.getName() + "' doesn't exist.");
             return null;
         }
 
         PandaSourceSet pandaSourceSet = new PandaSourceSet();
-        pandaSourceSet.add(file);
+
+        for (File file : files) {
+            if (!file.exists()) {
+                System.out.println("[PandaLoader] File '" + file.getName() + "' doesn't exist.");
+                return null;
+            }
+
+            SourceFile sourceFile = new PandaSourceFile(file);
+            Source source = new PandaSource(sourceFile);
+            pandaSourceSet.addSource(source);
+        }
 
         PandaInterpreter interpreter = new PandaInterpreter(panda, pandaSourceSet);
         interpreter.interpret();
 
-        PandaApplication application = interpreter.getApplication();
-        application.setWorkingDirectory(file.getParent());
-
-        return application;
+        return interpreter.getApplication();
     }
 
 }

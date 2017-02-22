@@ -14,43 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter;
+package org.panda_lang.panda.implementation.interpreter.source;
 
-import org.panda_lang.framework.interpreter.SourceFile;
-import org.panda_lang.framework.interpreter.SourceSet;
+import org.panda_lang.framework.interpreter.source.Source;
+import org.panda_lang.framework.interpreter.source.SourceSet;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class PandaSourceSet implements SourceSet {
 
-    private final Collection<SourceFile> sourceFiles;
+    private final Collection<Source> sources;
 
     public PandaSourceSet() {
-        this.sourceFiles = new ArrayList<>();
+        this.sources = new ArrayList<>();
     }
 
-    public SourceFile add(File file) {
-        SourceFile sourceFile = new PandaSourceFile(file);
-        sourceFiles.add(sourceFile);
-        return sourceFile;
+    public void addSource(Source source) {
+        this.sources.add(source);
     }
 
     @Override
-    public Collection<String> getSources() {
-        Collection<String> sources = new ArrayList<>();
-
-        for (SourceFile sourceFile : getSourceFiles()) {
-            sources.add(sourceFile.getContent());
-        }
-
+    public Collection<Source> getSources() {
         return sources;
-    }
-
-    @Override
-    public Collection<SourceFile> getSourceFiles() {
-        return sourceFiles;
     }
 
 }

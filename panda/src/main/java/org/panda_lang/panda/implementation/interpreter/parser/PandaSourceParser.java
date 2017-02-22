@@ -14,50 +14,41 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser.util;
+package org.panda_lang.panda.implementation.interpreter.parser;
 
-import org.panda_lang.framework.interpreter.SourceFile;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.structure.Script;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.framework.util.FileUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 
-import java.io.File;
-
-public class SourceFileParser implements Parser {
+public class PandaSourceParser implements Parser {
 
     private final PandaInterpreter interpreter;
 
-    public SourceFileParser(PandaInterpreter interpreter) {
+    public PandaSourceParser(PandaInterpreter interpreter) {
         this.interpreter = interpreter;
     }
 
-    public Script parse(SourceFile sourceFile) {
-        File file = sourceFile.getFile();
-        String scriptName = FileUtils.getFileName(file);
-
-        PandaScript pandaScript = new PandaScript(scriptName);
+    public Script parse(Source source) {
+        PandaScript pandaScript = new PandaScript(source.getTitle());
 
         Panda panda = interpreter.getPanda();
         PandaComposition pandaComposition = panda.getPandaComposition();
         ParserRegistry parserComposition = pandaComposition.getParserRegistry();
         ParserPipeline pipeline = parserComposition.getPipeline();
 
-        PandaLexer lexer = new PandaLexer(pandaComposition.getSyntax(), sourceFile.getContent());
+        PandaLexer lexer = new PandaLexer(pandaComposition.getSyntax(), source.getContent());
         TokenizedSource tokenizedSource = lexer.convert();
         PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
 

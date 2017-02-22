@@ -14,24 +14,33 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.implementation.interpreter.source;
 
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+import org.panda_lang.framework.interpreter.source.SourceFile;
+import org.panda_lang.framework.util.FileUtils;
 
 import java.io.File;
 
-public class DefaultTest {
+public class PandaSourceFile implements SourceFile {
 
-    private static final File SCRIPT = new File("examples/test.panda");
+    private final File file;
 
-    public static void main(String[] args) {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
+    public PandaSourceFile(String path) {
+        this(new File(path));
+    }
 
-        PandaLoader pandaLoader = panda.getPandaLoader();
-        PandaApplication pandaApplication = pandaLoader.loadFiles(SCRIPT);
+    public PandaSourceFile(File file) {
+        this.file = file;
+    }
 
-        pandaApplication.launch(args);
+    @Override
+    public String getContent() {
+        return FileUtils.getContentOfFile(file);
+    }
+
+    @Override
+    public File getFile() {
+        return file;
     }
 
 }

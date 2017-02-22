@@ -14,24 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.framework.interpreter.source;
 
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+/**
+ * Source representation
+ */
+public interface Source {
 
-import java.io.File;
+    /**
+     * @return source
+     */
+    String getContent();
 
-public class DefaultTest {
-
-    private static final File SCRIPT = new File("examples/test.panda");
-
-    public static void main(String[] args) {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
-
-        PandaLoader pandaLoader = panda.getPandaLoader();
-        PandaApplication pandaApplication = pandaLoader.loadFiles(SCRIPT);
-
-        pandaApplication.launch(args);
-    }
+    /**
+     * @return e.g. name of file or generated name
+     */
+    String getTitle();
 
 }

@@ -14,13 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter;
+package org.panda_lang.framework.interpreter.source;
 
 import java.io.File;
 
-/**
- * SourceFiles are used by {@link SourceSet} and {@link Interpreter}
- */
 public interface SourceFile {
 
     /**
