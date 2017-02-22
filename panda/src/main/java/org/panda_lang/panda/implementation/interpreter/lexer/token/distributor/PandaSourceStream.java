@@ -51,14 +51,20 @@ public class PandaSourceStream implements SourceStream {
         List<TokenRepresentation> tokens = tokenizedSource.getTokensRepresentations();
 
         for (int i = 0; i < array.length && i < tokens.size(); i++) {
-            TokenRepresentation tokenRepresentation = tokens.get(i);
-            array[i] = tokenRepresentation;
+            TokenRepresentation representation = tokens.get(i);
+            array[i] = representation;
         }
 
         tokens = length < tokens.size() ? tokens.subList(length, tokens.size()) : new ArrayList<>();
         this.tokenizedSource = new PandaTokenizedSource(tokens);
 
         return array;
+    }
+
+    @Override
+    public TokenRepresentation[] readDifference(TokenReader reader) {
+        int length = reader.getIndex() + 1;
+        return this.read(length);
     }
 
     @Override
