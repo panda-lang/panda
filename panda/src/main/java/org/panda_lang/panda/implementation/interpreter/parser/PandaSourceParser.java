@@ -29,6 +29,7 @@ import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.implementation.interpreter.parser.generation.PandaParserGeneration;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 
@@ -57,6 +58,7 @@ public class PandaSourceParser implements Parser {
         parserInfo.setComponent(Components.SCRIPT, pandaScript);
         parserInfo.setComponent(Components.PARSER_PIPELINE, pipeline);
         parserInfo.setComponent(Components.SOURCE_STREAM, sourceStream);
+        parserInfo.setComponent(Components.GENERATION, new PandaParserGeneration());
         parserInfo.setComponent(Components.LINKER, new PandaWrapperLinker());
 
         OverallParser overallParser = new OverallParser(parserInfo);

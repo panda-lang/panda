@@ -26,15 +26,20 @@
     </licenses>
 
     <properties>
-        <panda.java>1.8</panda.java>
+        <!-- Panda properties -->
         <panda.version>${project.version}</panda.version>
-        <maven.compiler.source>${panda.java}</maven.compiler.source>
-        <maven.compiler.target>${panda.java}</maven.compiler.target>
+        <panda.javaVersion>1.8</panda.javaVersion>
+        <panda.javaLanguageLevel>1.7</panda.javaLanguageLevel>
+
+        <!-- Maven properties -->
+        <maven.compiler.source>${panda.javaLanguageLevel}</maven.compiler.source>
+        <maven.compiler.target>${panda.javaVersion}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Panda -->
             <dependency>
                 <groupId>org.panda_lang</groupId>
                 <artifactId>panda-framework</artifactId>
@@ -46,6 +51,7 @@
                 <version>${panda.version}</version>
             </dependency>
 
+            <!-- Unit tests and composition of code -->
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
@@ -58,6 +64,7 @@
                 <scope>test</scope>
             </dependency>
 
+            <!-- Reflections -->
             <dependency>
                 <groupId>net.bytebuddy</groupId>
                 <artifactId>byte-buddy</artifactId>
@@ -102,8 +109,8 @@
                     </dependency>
                 </dependencies>
                 <configuration>
-                    <source>${panda.java}</source>
-                    <target>${panda.java}</target>
+                    <source>${panda.javaLanguageLevel}</source>
+                    <target>${panda.javaVersion}</target>
                 </configuration>
             </plugin>
             <plugin>

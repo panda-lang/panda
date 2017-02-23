@@ -14,11 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser.generation;
+package org.panda_lang.framework.interpreter.parser.generation;
 
-public enum ParserGenerationType {
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
-    HIGHER,
-    LOWER
+public interface ParserGenerationLayer {
+
+    void call(ParserInfo parserInfo);
+
+    ParserGenerationLayer delegateBefore(ParserGenerationCallback callback);
+
+    ParserGenerationLayer delegate(ParserGenerationCallback callback);
+
+    ParserGenerationLayer delegateAfter(ParserGenerationCallback callback);
 
 }

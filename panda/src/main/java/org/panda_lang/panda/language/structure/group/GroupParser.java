@@ -23,11 +23,16 @@ import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.framework.structure.Script;
 import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeReference;
 
 import java.util.List;
 
@@ -42,10 +47,11 @@ public class GroupParser implements UnifiedParser {
 
     @Override
     public Statement parse(ParserInfo parserInfo) {
+        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
         SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
-        TokenReader reader = source.toTokenReader();
 
         Extractor extractor = PATTERN.extractor();
+        TokenReader reader = source.toTokenReader();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
         if (gaps == null || gaps.size() != 1) {
@@ -57,6 +63,23 @@ public class GroupParser implements UnifiedParser {
 
         GroupRegistry registry = GroupRegistry.getDefault();
         Group group = registry.getOrCreate(groupName);
+
+        generation.getLayer(ParserGenerationType.HIGHER)
+                .delegate(new ParserGenerationCallback() {
+                    @Override
+                    public void call(ParserInfo parserInfo) {
+
+                    }
+                })
+                .delegateAfter(new ParserGenerationCallback() {
+                    @Override
+                    public void call(ParserInfo parserInfo) {
+                        Script script = parserInfo.getComponent(Components.SCRIPT);
+                        List<Statement> prototypeReferences = script.select(ClassPrototypeReference.class);
+
+                        // TODO
+                    }
+                });
 
         return new GroupStatement(group);
     }

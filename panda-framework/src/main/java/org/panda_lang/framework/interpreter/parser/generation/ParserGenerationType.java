@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.interpreter.parser.generation;
 
-import java.util.List;
+public enum ParserGenerationType {
 
-public interface Script {
+    HIGHER(0),
+    LOWER(1);
 
-    /**
-     * @return selected statements by the specified class
-     */
-    List<Statement> select(Class<? extends Statement> statementClass);
+    private final int index;
 
-    /**
-     * @return the script name, e.g. name of file or generated name
-     */
-    String getScriptName();
+    ParserGenerationType(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 
 }

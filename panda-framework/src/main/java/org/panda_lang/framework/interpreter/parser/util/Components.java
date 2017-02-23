@@ -42,6 +42,11 @@ public class Components {
     public static final String SOURCE_STREAM = "source-stream";
 
     /**
+     * Used by {@link org.panda_lang.framework.interpreter.parser.generation.ParserGeneration}
+     */
+    public static final String GENERATION = "generation";
+
+    /**
      * Used by {@link org.panda_lang.framework.interpreter.parser.linker.WrapperLinker}
      */
     public static final String LINKER = "linker";
@@ -49,13 +54,14 @@ public class Components {
     /**
      * Array of the default names
      */
-    private static final String[] VALUES = new String[4];
+    private static final String[] VALUES = new String[5];
 
     static {
         VALUES[0] = INTERPRETER;
         VALUES[1] = PARSER_PIPELINE;
         VALUES[2] = SOURCE_STREAM;
-        VALUES[3] = LINKER;
+        VALUES[3] = GENERATION;
+        VALUES[4] = LINKER;
     }
 
     public static String[] values() {

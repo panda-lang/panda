@@ -18,7 +18,6 @@ package org.panda_lang.panda.implementation.structure;
 
 import org.panda_lang.framework.structure.Script;
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.framework.structure.Wrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,39 +26,36 @@ public class PandaScript implements Script {
 
     private final String scriptName;
     private final List<Statement> statements;
-    private final List<Wrapper> wrappers;
 
     public PandaScript(String scriptName) {
         this.scriptName = scriptName;
         this.statements = new ArrayList<>();
-        this.wrappers = new ArrayList<>();
     }
 
     @Override
-    public Wrapper select(Class<? extends Wrapper> clazz, String wrapperName) {
-        for (Wrapper wrapper : wrappers) {
-            if (!clazz.isInstance(wrapper)) {
+    public List<Statement> select(Class<? extends Statement> statementClass) {
+        List<Statement> selectedStatements = new ArrayList<>();
+
+        for (Statement statement : statements) {
+            if (!statementClass.isInstance(statement)) {
                 continue;
             }
 
-            return wrapper;
+            selectedStatements.add(statement);
         }
 
-        return null;
+        return statements;
     }
 
     public void addStatement(Statement statement) {
         this.statements.add(statement);
-
-        if (statement instanceof Wrapper) {
-            this.wrappers.add((Wrapper) statement);
-        }
     }
 
     public List<Statement> getStatements() {
         return statements;
     }
 
+    @Override
     public String getScriptName() {
         return scriptName;
     }

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser.generation;
+package org.panda_lang.framework.interpreter.parser.generation;
 
-public class ParserGeneration {
+public interface ParserGeneration {
+
+    ParserGenerationLayer getLayer(ParserGenerationType generationType);
 
 }
