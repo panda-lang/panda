@@ -23,7 +23,7 @@ public interface Script {
     /**
      * @return selected statements by the specified class
      */
-    List<Statement> select(Class<? extends Statement> statementClass);
+    <T extends Statement> List<T> select(Class<? extends T> statementClass);
 
     /**
      * @return the script name, e.g. name of file or generated name

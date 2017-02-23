@@ -32,6 +32,7 @@ import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeReference;
 
 import java.util.List;
@@ -46,7 +47,7 @@ public class GroupParser implements UnifiedParser {
             .build();
 
     @Override
-    public Statement parse(ParserInfo parserInfo) {
+    public Statement parse(final ParserInfo parserInfo) {
         ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
         SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
 
@@ -62,22 +63,19 @@ public class GroupParser implements UnifiedParser {
         source.readDifference(reader);
 
         GroupRegistry registry = GroupRegistry.getDefault();
-        Group group = registry.getOrCreate(groupName);
+        final Group group = registry.getOrCreate(groupName);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegate(new ParserGenerationCallback() {
-                    @Override
-                    public void call(ParserInfo parserInfo) {
-
-                    }
-                })
                 .delegateAfter(new ParserGenerationCallback() {
                     @Override
                     public void call(ParserInfo parserInfo) {
                         Script script = parserInfo.getComponent(Components.SCRIPT);
-                        List<Statement> prototypeReferences = script.select(ClassPrototypeReference.class);
+                        List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
 
-                        // TODO
+                        for (ClassPrototypeReference prototypeReference : prototypeReferences) {
+                            ClassPrototype classPrototype = prototypeReference.getClassPrototype();
+                            group.add(classPrototype);
+                        }
                     }
                 });
 

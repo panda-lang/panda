@@ -23,6 +23,7 @@ import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
@@ -35,7 +36,7 @@ import java.util.List;
 @ParserRegistration(parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
 
-    protected static final TokenPattern pattern = TokenPattern.builder()
+    protected static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "class")
             .gap()
             .unit(TokenType.SEPARATOR, "{")
@@ -46,9 +47,10 @@ public class ClassPrototypeParser implements UnifiedParser {
     @Override
     public Statement parse(ParserInfo parserInfo) {
         SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
-        TokenReader reader = source.toTokenReader();
+        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
 
-        Extractor extractor = pattern.extractor();
+        Extractor extractor = PATTERN.extractor();
+        TokenReader reader = source.toTokenReader();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
         if (gaps == null) {
@@ -57,8 +59,9 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         source.readDifference(reader);
 
-        // TODO
-        ClassPrototype classPrototype = null;
+        String className = gaps.get(0).getToken(0).getTokenValue();
+        ClassPrototype classPrototype = new ClassPrototype(className);
+
         return new ClassPrototypeReference(classPrototype);
     }
 

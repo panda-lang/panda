@@ -46,7 +46,7 @@ public class MethodParser implements UnifiedParser {
         ParserContext parserContext = parserInfo.getComponent(Components.PARSER_CONTEXT);
         TokenReader tokenReader = parserContext.getTokenReader();
 
-        TokenExtractor primitive = pattern.primitive();
+        TokenExtractor primitive = PATTERN.primitive();
         primitive.extract(tokenReader);
 
 

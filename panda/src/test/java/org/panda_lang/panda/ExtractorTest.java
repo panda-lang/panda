@@ -60,7 +60,7 @@ public class ExtractorTest {
         List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
         if (gaps == null) {
-            System.out.println("Cannot extract gaps for pattern '" + pattern.toString() + "' and source '" + SOURCE + "'");
+            System.out.println("Cannot extract gaps for PATTERN '" + pattern.toString() + "' and source '" + SOURCE + "'");
             return;
         }
 

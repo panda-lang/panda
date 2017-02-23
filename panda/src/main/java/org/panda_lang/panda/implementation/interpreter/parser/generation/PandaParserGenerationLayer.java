@@ -25,14 +25,25 @@ import java.util.List;
 
 public class PandaParserGenerationLayer implements ParserGenerationLayer {
 
+    private final List<ParserGenerationCallback> immediately;
     private final List<ParserGenerationCallback> before;
     private final List<ParserGenerationCallback> delegates;
     private final List<ParserGenerationCallback> after;
 
     public PandaParserGenerationLayer() {
-        this.before = new ArrayList<>();
+        this.immediately = new ArrayList<>(1);
+        this.before = new ArrayList<>(1);
         this.delegates = new ArrayList<>();
-        this.after = new ArrayList<>();
+        this.after = new ArrayList<>(1);
+    }
+
+    @Override
+    public void callImmediately(ParserInfo parserInfo) {
+        for (ParserGenerationCallback callback : immediately) {
+            callback.call(parserInfo);
+        }
+
+        immediately.clear();
     }
 
     @Override
@@ -41,13 +52,25 @@ public class PandaParserGenerationLayer implements ParserGenerationLayer {
             callback.call(parserInfo);
         }
 
+        before.clear();
+
         for (ParserGenerationCallback callback : delegates) {
             callback.call(parserInfo);
         }
 
+        delegates.clear();
+
         for (ParserGenerationCallback callback : after) {
             callback.call(parserInfo);
         }
+
+        after.clear();
+    }
+
+    @Override
+    public ParserGenerationLayer delegateImmediately(ParserGenerationCallback callback) {
+        this.immediately.add(callback);
+        return this;
     }
 
     @Override

@@ -20,7 +20,11 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
 public interface ParserGenerationLayer {
 
+    void callImmediately(ParserInfo parserInfo);
+
     void call(ParserInfo parserInfo);
+
+    ParserGenerationLayer delegateImmediately(ParserGenerationCallback callback);
 
     ParserGenerationLayer delegateBefore(ParserGenerationCallback callback);
 

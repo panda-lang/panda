@@ -28,8 +28,8 @@
     <properties>
         <!-- Panda properties -->
         <panda.version>${project.version}</panda.version>
+        <panda.javaLanguageLevel>1.8</panda.javaLanguageLevel>
         <panda.javaVersion>1.8</panda.javaVersion>
-        <panda.javaLanguageLevel>1.7</panda.javaLanguageLevel>
 
         <!-- Maven properties -->
         <maven.compiler.source>${panda.javaLanguageLevel}</maven.compiler.source>

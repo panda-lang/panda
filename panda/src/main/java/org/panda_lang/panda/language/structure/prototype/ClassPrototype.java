@@ -22,20 +22,23 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Method
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 public class ClassPrototype {
 
     private final String className;
+    private final Collection<ClassPrototype> extended;
     private final Collection<Constructor> constructors;
     private final Map<String, Field> fields;
     private final Map<String, Method> methods;
 
-    protected ClassPrototype(String className, Map<String, Field> fields, Map<String, Method> methods) {
+    public ClassPrototype(String className) {
         this.className = className;
+        this.extended = new ArrayList<>();
         this.constructors = new ArrayList<>();
-        this.fields = fields;
-        this.methods = methods;
+        this.fields = new HashMap<>();
+        this.methods = new HashMap<>();
     }
 
     public Map<String, Method> getMethods() {
@@ -50,12 +53,12 @@ public class ClassPrototype {
         return constructors;
     }
 
-    public String getClassName() {
-        return className;
+    public Collection<ClassPrototype> getExtended() {
+        return extended;
     }
 
-    public static ClassPrototypeBuilder builder() {
-        return new ClassPrototypeBuilder();
+    public String getClassName() {
+        return className;
     }
 
 }

@@ -33,18 +33,20 @@ public class PandaScript implements Script {
     }
 
     @Override
-    public List<Statement> select(Class<? extends Statement> statementClass) {
-        List<Statement> selectedStatements = new ArrayList<>();
+    @SuppressWarnings({ "unchecked "})
+    public <T extends Statement> List<T> select(Class<? extends T> statementClass) {
+        List<T> selectedStatements = new ArrayList<>();
 
         for (Statement statement : statements) {
             if (!statementClass.isInstance(statement)) {
                 continue;
             }
 
-            selectedStatements.add(statement);
+            T element = (T) statement;
+            selectedStatements.add(element);
         }
 
-        return statements;
+        return selectedStatements;
     }
 
     public void addStatement(Statement statement) {
