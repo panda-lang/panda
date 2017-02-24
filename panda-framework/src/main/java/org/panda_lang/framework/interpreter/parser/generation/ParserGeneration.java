@@ -20,9 +20,9 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
 public interface ParserGeneration {
 
-    void executeImmediately(ParserInfo parserInfo);
+    void executeImmediately(ParserInfo currentInfo);
 
-    void execute(ParserInfo parserInfo);
+    void execute(ParserInfo currentInfo);
 
     ParserGenerationLayer getLayer(ParserGenerationType generationType);
 

@@ -16,10 +16,10 @@
 
 package org.panda_lang.framework.interpreter.parser.generation;
 
-import org.panda_lang.framework.interpreter.parser.generation.util.DelegatedParserInfo;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
 public interface ParserGenerationCallback {
 
-    void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer);
+    void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer);
 
 }
