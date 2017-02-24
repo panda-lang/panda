@@ -32,14 +32,14 @@ public class PandaParserGeneration implements ParserGeneration {
     }
 
     @Override
-    public void executeImmediately(ParserInfo parserInfo) {
-        this.currentLayer.callImmediately(parserInfo, nextLayer);
+    public void executeImmediately(ParserInfo currentInfo) {
+        this.currentLayer.callImmediately(currentInfo, nextLayer);
     }
 
     @Override
-    public void execute(ParserInfo parserInfo) {
+    public void execute(ParserInfo currentInfo) {
         while (currentLayer != null) {
-            currentLayer.call(parserInfo, nextLayer);
+            currentLayer.call(currentInfo, nextLayer);
 
             if (nextLayer.countDelegates() == 0) {
                 break;

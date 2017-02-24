@@ -20,7 +20,7 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationUnit;
-import org.panda_lang.framework.interpreter.parser.generation.util.DelegatedParserInfo;
+import org.panda_lang.framework.interpreter.parser.util.Components;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,23 +40,24 @@ public class PandaParserGenerationLayer implements ParserGenerationLayer {
     }
 
     @Override
-    public void callImmediately(ParserInfo parserInfo, ParserGenerationLayer nextLayer) {
-        call(immediately, parserInfo, nextLayer);
+    public void callImmediately(ParserInfo currentInfo, ParserGenerationLayer nextLayer) {
+        call(immediately, currentInfo, nextLayer);
     }
 
     @Override
-    public void call(ParserInfo parserInfo, ParserGenerationLayer nextLayer) {
-        call(before, parserInfo, nextLayer);
-        call(delegates, parserInfo, nextLayer);
-        call(after, parserInfo, nextLayer);
+    public void call(ParserInfo currentInfo, ParserGenerationLayer nextLayer) {
+        call(before, currentInfo, nextLayer);
+        call(delegates, currentInfo, nextLayer);
+        call(after, currentInfo, nextLayer);
     }
 
-    private void call(List<ParserGenerationUnit> units, ParserInfo parserInfo, ParserGenerationLayer nextLayer) {
+    private void call(List<ParserGenerationUnit> units, ParserInfo currentInfo, ParserGenerationLayer nextLayer) {
         for (ParserGenerationUnit unit : units) {
             ParserGenerationCallback callback = unit.getCallback();
-            DelegatedParserInfo delegated = new PandaDelegatedParserInfo(unit.getDelegated(), parserInfo);
+            ParserInfo delegatedInfo = unit.getDelegated();
 
-            callback.call(delegated, nextLayer);
+            delegatedInfo.setComponent(Components.CURRENT_PARSER_INFO, currentInfo);
+            callback.call(delegatedInfo, nextLayer);
         }
 
         units.clear();
