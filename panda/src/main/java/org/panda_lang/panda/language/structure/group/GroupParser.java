@@ -23,7 +23,6 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
-import org.panda_lang.framework.interpreter.parser.generation.util.DelegatedParserInfo;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
@@ -51,11 +50,10 @@ public class GroupParser implements UnifiedParser {
         generation.getLayer(ParserGenerationType.HIGHER)
                 .delegateImmediately(new ParserGenerationCallback() {
                     @Override
-                    public void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer) {
-                        ParserInfo parserInfo = delegatedParserInfo.getDelegated();
-                        Script script = parserInfo.getComponent(Components.SCRIPT);
+                    public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+                        Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
-                        TokenPatternGaps gaps = TokenPatternUtils.extract(PATTERN, parserInfo);
+                        TokenPatternGaps gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
                         String groupName = gaps.getToken(0, 0).getTokenValue();
 
                         GroupRegistry registry = GroupRegistry.getDefault();
@@ -67,9 +65,8 @@ public class GroupParser implements UnifiedParser {
                 }, parserInfo)
                 .delegateAfter(new ParserGenerationCallback() {
                     @Override
-                    public void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer) {
-                        ParserInfo parserInfo = delegatedParserInfo.getDelegated();
-                        Script script = parserInfo.getComponent(Components.SCRIPT);
+                    public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+                        Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
                         List<GroupStatement> groupStatements = script.select(GroupStatement.class);
                         List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
