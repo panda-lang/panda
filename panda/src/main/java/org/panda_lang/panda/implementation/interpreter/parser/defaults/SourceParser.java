@@ -14,60 +14,75 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser;
+package org.panda_lang.panda.implementation.interpreter.parser.defaults;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.source.Source;
-import org.panda_lang.framework.structure.Script;
-import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.framework.interpreter.source.SourceSet;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
+import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.generation.PandaParserGeneration;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
+import org.panda_lang.panda.implementation.structure.PandaApplication;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 
-public class PandaSourceParser implements Parser {
+public class SourceParser implements Parser {
 
     private final PandaInterpreter interpreter;
+    private final PandaApplication application;
 
-    public PandaSourceParser(PandaInterpreter interpreter) {
+    public SourceParser(PandaInterpreter interpreter) {
         this.interpreter = interpreter;
+        this.application = interpreter.getApplication();
     }
 
-    public Script parse(Source source) {
-        PandaScript pandaScript = new PandaScript(source.getTitle());
-
+    public void parse(SourceSet sourceSet) {
         Panda panda = interpreter.getPanda();
+
         PandaComposition pandaComposition = panda.getPandaComposition();
         ParserRegistry parserComposition = pandaComposition.getParserRegistry();
-        ParserPipeline pipeline = parserComposition.getPipeline();
 
-        PandaLexer lexer = new PandaLexer(pandaComposition.getSyntax(), source.getContent());
-        TokenizedSource tokenizedSource = lexer.convert();
-        PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
+        ParserPipeline pipeline = parserComposition.getPipeline();
+        ParserGeneration generation = new PandaParserGeneration();
+        WrapperLinker linker = new PandaWrapperLinker();
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
-        parserInfo.setComponent(Components.SCRIPT, pandaScript);
         parserInfo.setComponent(Components.PARSER_PIPELINE, pipeline);
-        parserInfo.setComponent(Components.SOURCE_STREAM, sourceStream);
-        parserInfo.setComponent(Components.GENERATION, new PandaParserGeneration());
-        parserInfo.setComponent(Components.LINKER, new PandaWrapperLinker());
+        parserInfo.setComponent(Components.GENERATION, generation);
+        parserInfo.setComponent(Components.LINKER, linker);
 
-        OverallParser overallParser = new OverallParser(parserInfo);
+        for (Source source : sourceSet.getSources()) {
+            PandaScript pandaScript = new PandaScript(source.getTitle());
 
-        for (Statement statement : overallParser) {
-            pandaScript.addStatement(statement);
+            PandaLexer lexer = new PandaLexer(pandaComposition.getSyntax(), source.getContent());
+            TokenizedSource tokenizedSource = lexer.convert();
+            PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
+
+            parserInfo.setComponent(Components.SOURCE_STREAM, sourceStream);
+            parserInfo.setComponent(Components.SCRIPT, pandaScript);
+
+            OverallParser overallParser = new OverallParser(parserInfo);
+
+            while(overallParser.hasNext()) {
+                overallParser.next();
+            }
+
+            application.addScript(pandaScript);
         }
 
-        return pandaScript;
+        generation.execute(parserInfo);
     }
 
     public PandaInterpreter getInterpreter() {

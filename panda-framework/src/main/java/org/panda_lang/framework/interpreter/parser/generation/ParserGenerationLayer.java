@@ -20,16 +20,18 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
 public interface ParserGenerationLayer {
 
-    void callImmediately(ParserInfo parserInfo);
+    void callImmediately(ParserInfo parserInfo, ParserGenerationLayer nextLayer);
 
-    void call(ParserInfo parserInfo);
+    void call(ParserInfo parserInfo, ParserGenerationLayer nextLayer);
 
-    ParserGenerationLayer delegateImmediately(ParserGenerationCallback callback);
+    ParserGenerationLayer delegateImmediately(ParserGenerationCallback callback, ParserInfo delegated);
 
-    ParserGenerationLayer delegateBefore(ParserGenerationCallback callback);
+    ParserGenerationLayer delegateBefore(ParserGenerationCallback callback, ParserInfo delegated);
 
-    ParserGenerationLayer delegate(ParserGenerationCallback callback);
+    ParserGenerationLayer delegate(ParserGenerationCallback callback, ParserInfo delegated);
 
-    ParserGenerationLayer delegateAfter(ParserGenerationCallback callback);
+    ParserGenerationLayer delegateAfter(ParserGenerationCallback callback, ParserInfo delegated);
+
+    int countDelegates();
 
 }

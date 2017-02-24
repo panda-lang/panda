@@ -17,11 +17,9 @@
 package org.panda_lang.panda.implementation.interpreter;
 
 import org.panda_lang.framework.interpreter.Interpreter;
-import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.SourceSet;
-import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaSourceParser;
+import org.panda_lang.panda.implementation.interpreter.parser.defaults.SourceParser;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 public class PandaInterpreter implements Interpreter {
@@ -38,21 +36,13 @@ public class PandaInterpreter implements Interpreter {
 
     @Override
     public void interpret() {
-        PandaSourceParser pandaParser = new PandaSourceParser(this);
-
-        for (Source source : sourceSet.getSources()) {
-            Script script = pandaParser.parse(source);
-            application.addPandaScript(script);
-        }
+        SourceParser parser = new SourceParser(this);
+        parser.parse(sourceSet);
     }
 
     @Override
     public PandaApplication getApplication() {
         return application;
-    }
-
-    public SourceSet getSourceSet() {
-        return sourceSet;
     }
 
     public Panda getPanda() {

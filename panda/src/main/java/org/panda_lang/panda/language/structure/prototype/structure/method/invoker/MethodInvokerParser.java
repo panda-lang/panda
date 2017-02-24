@@ -16,14 +16,13 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
@@ -44,7 +43,7 @@ public class MethodInvokerParser implements UnifiedParser {
             .build();
 
     @Override
-    public Statement parse(ParserInfo parserInfo) {
+    public void parse(ParserInfo parserInfo) {
         TokenReader reader = parserInfo.getComponent(Components.SOURCE_STREAM);
 
         Extractor extractor = PATTERN.extractor();
@@ -59,7 +58,7 @@ public class MethodInvokerParser implements UnifiedParser {
 
         System.out.println(className + " | " + concatenation);
 
-        return null;
+        //return null;
     }
 
 }

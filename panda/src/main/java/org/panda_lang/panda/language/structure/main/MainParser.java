@@ -24,11 +24,10 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.parser.OverallParser;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.defaults.OverallParser;
 
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class MainParser implements UnifiedParser {
             .build();
 
     @Override
-    public Statement parse(ParserInfo parserInfo) {
+    public void parse(ParserInfo parserInfo) {
         Main main = new Main();
 
         TokenReader tokenReader = parserInfo.getComponent(Components.SOURCE_STREAM);
@@ -61,11 +60,13 @@ public class MainParser implements UnifiedParser {
         WrapperLinker wrapperLinker = parserInfo.getComponent(Components.LINKER);
         wrapperLinker.pushWrapper(main);
 
+        /*
         for (Statement statement : overallParser) {
             main.addStatement(statement);
         }
+        */
 
-        return main;
+        //return main;
     }
 
 }

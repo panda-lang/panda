@@ -14,25 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.interpreter.parser.generation.util;
 
-import java.util.List;
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
-public interface Script {
+public interface DelegatedParserInfo {
 
-    /**
-     * @return selected statements by the specified class
-     */
-    <T extends Statement> List<T> select(Class<? extends T> statementClass);
+    ParserInfo getCurrent();
 
-    /**
-     * @return list of the statement declarations
-     */
-    List<Statement> getStatements();
-
-    /**
-     * @return the script name, e.g. name of file or generated name
-     */
-    String getScriptName();
+    ParserInfo getDelegated();
 
 }

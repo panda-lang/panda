@@ -14,34 +14,33 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser;
+package org.panda_lang.panda.implementation.interpreter.parser.defaults;
 
-import org.jetbrains.annotations.NotNull;
+import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 
-import java.util.Iterator;
-
-public class OverallParser implements Iterator<Statement>, Iterable<Statement> {
+public class OverallParser {
 
     private final ParserInfo parserInfo;
     private final ParserPipeline pipeline;
-    private final PandaSourceStream sourceStream;
+    private final SourceStream sourceStream;
+    private final ParserGeneration generation;
 
     public OverallParser(ParserInfo parserInfo) {
         this.parserInfo = parserInfo;
         this.pipeline = parserInfo.getComponent(Components.PARSER_PIPELINE);
         this.sourceStream = parserInfo.getComponent(Components.SOURCE_STREAM);
+        this.generation = parserInfo.getComponent(Components.GENERATION);
     }
 
-    @Override
-    public Statement next() {
+    public void next() {
         if (!hasNext()) {
-            return null;
+            return;
         }
 
         UnifiedParser parser = pipeline.handle(sourceStream);
@@ -50,22 +49,10 @@ public class OverallParser implements Iterator<Statement>, Iterable<Statement> {
             throw new PandaParserException("Unrecognized syntax at line " + (sourceStream.read().getLine() + 1));
         }
 
-        Statement statement = parser.parse(parserInfo);
-
-        if (statement == null) {
-            throw new PandaParserException("Failed to parse statement at line " + (sourceStream.read().getLine() + 1));
-        }
-
-        return statement;
+        parser.parse(parserInfo);
+        generation.executeImmediately(parserInfo);
     }
 
-    @NotNull
-    @Override
-    public Iterator<Statement> iterator() {
-        return this;
-    }
-
-    @Override
     public boolean hasNext() {
         return sourceStream.hasUnreadSource();
     }

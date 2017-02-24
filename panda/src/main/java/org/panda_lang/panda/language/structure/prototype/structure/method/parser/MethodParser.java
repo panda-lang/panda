@@ -20,7 +20,6 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
-import org.panda_lang.panda.language.structure.prototype.structure.method.MethodWrapper;
 
 //@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
 public class MethodParser implements UnifiedParser {
@@ -41,7 +40,7 @@ public class MethodParser implements UnifiedParser {
     }
 
     @Override
-    public MethodWrapper parse(ParserInfo parserInfo) {
+    public void parse(ParserInfo parserInfo) {
         /*
         ParserContext parserContext = parserInfo.getComponent(Components.PARSER_CONTEXT);
         TokenReader tokenReader = parserContext.getTokenReader();
@@ -82,8 +81,6 @@ public class MethodParser implements UnifiedParser {
 
         return method;
         */
-
-        return null;
     }
 
 }

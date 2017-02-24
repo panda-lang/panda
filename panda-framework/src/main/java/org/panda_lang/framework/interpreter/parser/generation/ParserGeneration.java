@@ -16,7 +16,13 @@
 
 package org.panda_lang.framework.interpreter.parser.generation;
 
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
+
 public interface ParserGeneration {
+
+    void executeImmediately(ParserInfo parserInfo);
+
+    void execute(ParserInfo parserInfo);
 
     ParserGenerationLayer getLayer(ParserGenerationType generationType);
 

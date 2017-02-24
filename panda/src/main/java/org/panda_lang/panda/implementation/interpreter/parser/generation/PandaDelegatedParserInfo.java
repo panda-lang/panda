@@ -14,12 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.parser.generation;
+package org.panda_lang.panda.implementation.interpreter.parser.generation;
 
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.generation.util.DelegatedParserInfo;
 
-public interface ParserGenerationCallback {
+public class PandaDelegatedParserInfo implements DelegatedParserInfo {
 
-    void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer);
+    private final ParserInfo delegated;
+    private final ParserInfo current;
+
+    public PandaDelegatedParserInfo(ParserInfo delegated, ParserInfo current) {
+        this.delegated = delegated;
+        this.current = current;
+    }
+
+    @Override
+    public ParserInfo getCurrent() {
+        return this.current;
+    }
+
+    @Override
+    public ParserInfo getDelegated() {
+        return this.delegated;
+    }
 
 }

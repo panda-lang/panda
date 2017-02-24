@@ -40,8 +40,8 @@ public class PandaApplication implements Application {
 
     }
 
-    public void addPandaScript(Script pandaScript) {
-        scripts.add(pandaScript);
+    public void addScript(Script script) {
+        scripts.add(script);
     }
 
     public void setWorkingDirectory(String workingDirectory) {

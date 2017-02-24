@@ -16,29 +16,43 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.generation;
 
+import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class PandaParserGeneration implements ParserGeneration {
 
-    private final List<PandaParserGenerationLayer> layers;
+    private ParserGenerationLayer currentLayer;
+    private ParserGenerationLayer nextLayer;
 
     public PandaParserGeneration() {
-        this.layers = new ArrayList<>();
-
-        PandaParserGenerationLayer higher = new PandaParserGenerationLayer();
-        PandaParserGenerationLayer lower = new PandaParserGenerationLayer();
-
-        this.layers.add(higher);
-        this.layers.add(lower);
+        this.currentLayer = new PandaParserGenerationLayer();
+        this.nextLayer = new PandaParserGenerationLayer();
     }
 
     @Override
-    public PandaParserGenerationLayer getLayer(ParserGenerationType generationType) {
-        return layers.get(generationType.getIndex());
+    public void executeImmediately(ParserInfo parserInfo) {
+        this.currentLayer.callImmediately(parserInfo, nextLayer);
+    }
+
+    @Override
+    public void execute(ParserInfo parserInfo) {
+        while (currentLayer != null) {
+            currentLayer.call(parserInfo, nextLayer);
+
+            if (nextLayer.countDelegates() == 0) {
+                break;
+            }
+
+            currentLayer = nextLayer;
+            nextLayer = new PandaParserGenerationLayer();
+        }
+    }
+
+    @Override
+    public ParserGenerationLayer getLayer(ParserGenerationType generationType) {
+        return generationType == ParserGenerationType.HIGHER ? currentLayer : nextLayer;
     }
 
 }

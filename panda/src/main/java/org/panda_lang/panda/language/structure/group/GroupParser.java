@@ -25,10 +25,11 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.framework.interpreter.parser.generation.util.DelegatedParserInfo;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
-import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
@@ -47,39 +48,53 @@ public class GroupParser implements UnifiedParser {
             .build();
 
     @Override
-    public Statement parse(final ParserInfo parserInfo) {
+    public void parse(ParserInfo parserInfo) {
         ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
-        SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
-
-        Extractor extractor = PATTERN.extractor();
-        TokenReader reader = source.toTokenReader();
-        List<TokenizedSource> gaps = extractor.extract(reader);
-
-        if (gaps == null || gaps.size() != 1) {
-            throw new PandaParserException("Cannot parse group at line " + (source.read().getLine() + 1));
-        }
-
-        String groupName = gaps.get(0).getToken(0).getTokenValue();
-        source.readDifference(reader);
-
-        GroupRegistry registry = GroupRegistry.getDefault();
-        final Group group = registry.getOrCreate(groupName);
 
         generation.getLayer(ParserGenerationType.HIGHER)
+                .delegateImmediately(new ParserGenerationCallback() {
+                    @Override
+                    public void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer) {
+                        SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
+                        Script script = parserInfo.getComponent(Components.SCRIPT);
+
+                        Extractor extractor = PATTERN.extractor();
+                        TokenReader reader = source.toTokenReader();
+                        List<TokenizedSource> gaps = extractor.extract(reader);
+
+                        if (gaps == null || gaps.size() != 1) {
+                            throw new PandaParserException("Cannot parse group at line " + (source.read().getLine() + 1));
+                        }
+
+                        String groupName = gaps.get(0).getToken(0).getTokenValue();
+                        source.readDifference(reader);
+
+                        GroupRegistry registry = GroupRegistry.getDefault();
+                        Group group = registry.getOrCreate(groupName);
+
+                        GroupStatement groupStatement = new GroupStatement(group);
+                        script.getStatements().add(groupStatement);
+                    }
+                }, parserInfo)
                 .delegateAfter(new ParserGenerationCallback() {
                     @Override
-                    public void call(ParserInfo parserInfo) {
+                    public void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer) {
+                        ParserInfo parserInfo = delegatedParserInfo.getDelegated();
                         Script script = parserInfo.getComponent(Components.SCRIPT);
+
+                        List<GroupStatement> groupStatements = script.select(GroupStatement.class);
                         List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
 
-                        for (ClassPrototypeReference prototypeReference : prototypeReferences) {
-                            ClassPrototype classPrototype = prototypeReference.getClassPrototype();
-                            group.add(classPrototype);
+                        for (GroupStatement groupStatement : groupStatements) {
+                            Group group = groupStatement.getGroup();
+
+                            for (ClassPrototypeReference prototypeReference : prototypeReferences) {
+                                ClassPrototype classPrototype = prototypeReference.getClassPrototype();
+                                group.add(classPrototype);
+                            }
                         }
                     }
-                });
-
-        return new GroupStatement(group);
+                }, parserInfo.clone());
     }
 
 }

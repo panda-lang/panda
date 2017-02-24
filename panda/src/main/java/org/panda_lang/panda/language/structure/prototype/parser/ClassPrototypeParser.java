@@ -45,7 +45,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             .build();
 
     @Override
-    public Statement parse(ParserInfo parserInfo) {
+    public void parse(ParserInfo parserInfo) {
         SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
         ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
 
@@ -62,7 +62,7 @@ public class ClassPrototypeParser implements UnifiedParser {
         String className = gaps.get(0).getToken(0).getTokenValue();
         ClassPrototype classPrototype = new ClassPrototype(className);
 
-        return new ClassPrototypeReference(classPrototype);
+        //return new ClassPrototypeReference(classPrototype);
     }
 
 }
