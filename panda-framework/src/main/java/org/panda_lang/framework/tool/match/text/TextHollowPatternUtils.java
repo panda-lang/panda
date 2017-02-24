@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.tool.match.hollow;
+package org.panda_lang.framework.tool.match.text;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HollowPatternUtils {
+public class TextHollowPatternUtils {
 
     public static List<String> toFragments(String lightLine) {
         List<String> fragments = new ArrayList<>();

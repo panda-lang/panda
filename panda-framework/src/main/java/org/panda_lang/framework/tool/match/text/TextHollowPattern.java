@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.tool.match.hollow;
+package org.panda_lang.framework.tool.match.text;
 
 import org.panda_lang.framework.tool.match.Matcher;
 import org.panda_lang.framework.util.StringUtils;
@@ -22,12 +22,12 @@ import org.panda_lang.framework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HollowPattern implements Matcher {
+public class TextHollowPattern implements Matcher {
 
-    private final List<HollowSymbol> hollowSymbols;
+    private final List<TextHollowSymbol> hollowSymbols;
     private final List<String> hollows;
 
-    protected HollowPattern(List<HollowSymbol> hollowSymbols) {
+    protected TextHollowPattern(List<TextHollowSymbol> hollowSymbols) {
         this.hollowSymbols = hollowSymbols;
         this.hollows = new ArrayList<>();
     }
@@ -37,7 +37,7 @@ public class HollowPattern implements Matcher {
         hollows.clear();
 
         for (int f = 0; f < hollowSymbols.size(); f++) {
-            HollowSymbol hollowSymbol = hollowSymbols.get(f);
+            TextHollowSymbol hollowSymbol = hollowSymbols.get(f);
 
             loop:
             if (hollowSymbol.isBasis()) {
@@ -54,7 +54,7 @@ public class HollowPattern implements Matcher {
             }
             else if (hollowSymbol.isHollow()) {
                 boolean inRange = hollowSymbols.size() > hollowSymbol.getIndex() + 1;
-                HollowSymbol nextHollowSymbol = inRange ? hollowSymbols.get(hollowSymbol.getIndex() + 1) : hollowSymbol;
+                TextHollowSymbol nextHollowSymbol = inRange ? hollowSymbols.get(hollowSymbol.getIndex() + 1) : hollowSymbol;
 
                 for (String variant : nextHollowSymbol.getVariants()) {
                     int partIndex = expression.indexOf(variant);
@@ -94,7 +94,7 @@ public class HollowPattern implements Matcher {
         return hollows;
     }
 
-    public List<HollowSymbol> getHollowSymbols() {
+    public List<TextHollowSymbol> getHollowSymbols() {
         return hollowSymbols;
     }
 
@@ -103,8 +103,8 @@ public class HollowPattern implements Matcher {
         return hollowSymbols.toString();
     }
 
-    public static HollowPatternBuilder builder() {
-        return new HollowPatternBuilder();
+    public static TextHollowPatternBuilder builder() {
+        return new TextHollowPatternBuilder();
     }
 
 }

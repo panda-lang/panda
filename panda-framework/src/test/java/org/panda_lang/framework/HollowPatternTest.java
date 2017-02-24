@@ -17,14 +17,14 @@
 package org.panda_lang.framework;
 
 import org.panda_lang.framework.tool.match.charset.CharsetPattern;
-import org.panda_lang.framework.tool.match.hollow.HollowPattern;
+import org.panda_lang.framework.tool.match.text.TextHollowPattern;
 
 public class HollowPatternTest {
 
     private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
 
     public static void main(String[] args) {
-        HollowPattern hollowPattern = HollowPattern.builder().compile("*.*(*)*").build();
+        TextHollowPattern hollowPattern = TextHollowPattern.builder().compile("*.*(*)*").build();
         boolean matched = hollowPattern.match(EXPRESSION);
 
         System.out.println("[HollowPattern] Matched: " + matched);

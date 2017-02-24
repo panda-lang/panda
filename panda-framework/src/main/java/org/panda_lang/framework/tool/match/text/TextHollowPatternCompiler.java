@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.tool.match.hollow;
+package org.panda_lang.framework.tool.match.text;
 
 import java.util.List;
 
-public class HollowPatternCompiler {
+public class TextHollowPatternCompiler {
 
-    private final HollowPatternBuilder builder;
+    private final TextHollowPatternBuilder builder;
 
-    protected HollowPatternCompiler(HollowPatternBuilder builder) {
+    protected TextHollowPatternCompiler(TextHollowPatternBuilder builder) {
         this.builder = builder;
     }
 
-    public HollowPatternBuilder compile(String pattern) {
-        List<String> fragments = HollowPatternUtils.toFragments(pattern);
+    public TextHollowPatternBuilder compile(String pattern) {
+        List<String> fragments = TextHollowPatternUtils.toFragments(pattern);
 
         for (String fragment : fragments) {
             if (fragment.equals("*")) {
@@ -41,7 +41,7 @@ public class HollowPatternCompiler {
         return builder;
     }
 
-    public HollowPatternBuilder getBuilder() {
+    public TextHollowPatternBuilder getBuilder() {
         return builder;
     }
 

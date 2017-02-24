@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.tool.match.hollow;
+package org.panda_lang.framework.tool.match.text;
 
 import org.panda_lang.framework.tool.match.Matcher;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class HollowSymbol implements Matcher {
+public class TextHollowSymbol implements Matcher {
 
     private final int index;
-    private final HollowSymbolType hollowSymbolType;
+    private final TextHollowSymbolType hollowSymbolType;
     private final Collection<String> segmentsBefore;
     private final Collection<String> variants;
     private final Collection<String> segmentsAfter;
 
-    public HollowSymbol(HollowSymbolType hollowSymbolType, int index) {
+    public TextHollowSymbol(TextHollowSymbolType hollowSymbolType, int index) {
         this.index = index;
         this.hollowSymbolType = hollowSymbolType;
         this.segmentsBefore = new ArrayList<>(1);
@@ -60,15 +60,15 @@ public class HollowSymbol implements Matcher {
     }
 
     public boolean isOptional() {
-        return hollowSymbolType == HollowSymbolType.OPTIONAL;
+        return hollowSymbolType == TextHollowSymbolType.OPTIONAL;
     }
 
     public boolean isHollow() {
-        return hollowSymbolType == HollowSymbolType.HOLLOW;
+        return hollowSymbolType == TextHollowSymbolType.HOLLOW;
     }
 
     public boolean isBasis() {
-        return hollowSymbolType == HollowSymbolType.BASIS;
+        return hollowSymbolType == TextHollowSymbolType.BASIS;
     }
 
     public Collection<String> getSegmentsBefore() {
@@ -83,7 +83,7 @@ public class HollowSymbol implements Matcher {
         return variants;
     }
 
-    public HollowSymbolType getHollowSymbolType() {
+    public TextHollowSymbolType getHollowSymbolType() {
         return hollowSymbolType;
     }
 

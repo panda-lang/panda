@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.tool.match.hollow;
+package org.panda_lang.framework.tool.match.text;
 
-public enum HollowSymbolType {
+public enum TextHollowSymbolType {
 
     BASIS,
     HOLLOW,
