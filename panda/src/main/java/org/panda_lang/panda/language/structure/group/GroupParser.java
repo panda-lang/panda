@@ -25,9 +25,10 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternGaps;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeReference;
@@ -39,7 +40,7 @@ public class GroupParser implements UnifiedParser {
 
     private static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "group")
-            .gap()
+            .hollow()
             .unit(TokenType.SEPARATOR, ";")
             .build();
 
@@ -53,7 +54,7 @@ public class GroupParser implements UnifiedParser {
                     public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
                         Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
-                        TokenPatternGaps gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+                        TokenPatternHollows gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
                         String groupName = gaps.getToken(0, 0).getTokenValue();
 
                         GroupRegistry registry = GroupRegistry.getDefault();
@@ -71,13 +72,21 @@ public class GroupParser implements UnifiedParser {
                         List<GroupStatement> groupStatements = script.select(GroupStatement.class);
                         List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
 
-                        for (GroupStatement groupStatement : groupStatements) {
-                            Group group = groupStatement.getGroup();
+                        if (groupStatements.size() == 0) {
+                            return;
+                        }
 
-                            for (ClassPrototypeReference prototypeReference : prototypeReferences) {
-                                ClassPrototype classPrototype = prototypeReference.getClassPrototype();
-                                group.add(classPrototype);
-                            }
+                        if (groupStatements.size() > 1) {
+                            throw new PandaParserException("Script contains more than one declaration of the group");
+                        }
+
+                        Group group = groupStatements.get(0).getGroup();
+
+                        for (ClassPrototypeReference prototypeReference : prototypeReferences) {
+                            ClassPrototype classPrototype = prototypeReference.getClassPrototype();
+
+                            group.add(classPrototype);
+                            classPrototype.getGroup().setObject(group);
                         }
                     }
                 }, parserInfo.clone());

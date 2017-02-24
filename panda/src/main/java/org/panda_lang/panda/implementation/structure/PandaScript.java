@@ -63,4 +63,24 @@ public class PandaScript implements Script {
         return scriptName;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder node = new StringBuilder();
+
+        node.append("'");
+        node.append(getScriptName());
+        node.append("': {");
+
+        for (Statement statement : statements) {
+            node.append(System.lineSeparator());
+            node.append("  ");
+            node.append(statement.toString());
+            node.append(",");
+        }
+
+        node.append(System.lineSeparator());
+        node.append("}");
+
+        return node.toString();
+    }
 }

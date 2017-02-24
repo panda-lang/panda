@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.token.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
 import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;

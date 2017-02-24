@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.token.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
@@ -42,8 +42,8 @@ public class TokenPatternBuilder {
         return this;
     }
 
-    public TokenPatternBuilder gap() {
-        units.add(TokenPatternUnit.GAP);
+    public TokenPatternBuilder hollow() {
+        units.add(TokenPatternUnit.HOLLOW);
         return this;
     }
 

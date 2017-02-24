@@ -1,5 +1,9 @@
 group example;
 
-class Foo {
+class Foo extends Test {
+
+}
+
+class Test {
 
 }

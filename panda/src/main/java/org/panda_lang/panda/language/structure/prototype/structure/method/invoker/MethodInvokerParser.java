@@ -23,7 +23,7 @@ import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 
@@ -33,11 +33,11 @@ import java.util.List;
 public class MethodInvokerParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
-            .gap()
+            .hollow()
             .unit(TokenType.SEPARATOR, ".")
-            .gap()
+            .hollow()
             .unit(TokenType.SEPARATOR, "(")
-            .gap()
+            .hollow()
             .unit(TokenType.SEPARATOR, ")")
             .unit(TokenType.SEPARATOR, ";")
             .build();

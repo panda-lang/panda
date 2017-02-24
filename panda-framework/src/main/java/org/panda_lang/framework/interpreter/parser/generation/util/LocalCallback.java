@@ -14,25 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.group;
+package org.panda_lang.framework.interpreter.parser.generation.util;
 
-import org.panda_lang.framework.structure.Statement;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public class GroupStatement implements Statement {
+@Target({ ElementType.TYPE})
+@Retention(RetentionPolicy.SOURCE)
 
-    private final Group group;
-
-    public GroupStatement(Group group) {
-        this.group = group;
-    }
-
-    public Group getGroup() {
-        return group;
-    }
-
-    @Override
-    public String toString() {
-        return "'group': '" + group.getName() + "'";
-    }
+public @interface LocalCallback {
 
 }

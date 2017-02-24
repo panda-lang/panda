@@ -16,9 +16,12 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
+import com.google.common.base.Objects;
+import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.util.Container;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +31,7 @@ import java.util.Map;
 public class ClassPrototype {
 
     private final String className;
+    private final Container<Group> group;
     private final Collection<ClassPrototype> extended;
     private final Collection<Constructor> constructors;
     private final Map<String, Field> fields;
@@ -35,7 +39,8 @@ public class ClassPrototype {
 
     public ClassPrototype(String className) {
         this.className = className;
-        this.extended = new ArrayList<>();
+        this.group = new Container<>();
+        this.extended = new ArrayList<>(0);
         this.constructors = new ArrayList<>();
         this.fields = new HashMap<>();
         this.methods = new HashMap<>();
@@ -57,8 +62,23 @@ public class ClassPrototype {
         return extended;
     }
 
+    public Container<Group> getGroup() {
+        return group;
+    }
+
     public String getClassName() {
         return className;
     }
 
+    @Override
+    public String toString() {
+        return Objects.toStringHelper(this)
+                .add("className", className)
+                .add("group", group)
+                .add("extended", extended)
+                .add("constructors", constructors)
+                .add("fields", fields)
+                .add("methods", methods)
+                .toString();
+    }
 }

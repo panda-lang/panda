@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.method.parse
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 
 //@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
 public class MethodParser implements UnifiedParser {
@@ -29,12 +29,12 @@ public class MethodParser implements UnifiedParser {
     static {
         pattern = TokenPattern.builder()
                 .unit(TokenType.KEYWORD, "method")
-                .gap()
+                .hollow()
                 .unit(TokenType.SEPARATOR, "(")
-                .gap()
+                .hollow()
                 .unit(TokenType.SEPARATOR, ")")
                 .unit(TokenType.SEPARATOR, "{")
-                .gap()
+                .hollow()
                 .unit(TokenType.SEPARATOR, "}")
                 .build();
     }

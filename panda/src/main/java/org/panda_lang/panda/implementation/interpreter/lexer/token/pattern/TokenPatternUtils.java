@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.token.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
@@ -29,7 +29,7 @@ import java.util.List;
 
 public class TokenPatternUtils {
 
-    public static TokenPatternGaps extract(TokenPattern pattern, ParserInfo parserInfo) {
+    public static TokenPatternHollows extract(TokenPattern pattern, ParserInfo parserInfo) {
         SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
         Script script = parserInfo.getComponent(Components.SCRIPT);
 
@@ -42,7 +42,7 @@ public class TokenPatternUtils {
         }
 
         source.readDifference(reader);
-        return new TokenPatternGaps(gaps);
+        return new TokenPatternHollows(gaps);
     }
 
 }

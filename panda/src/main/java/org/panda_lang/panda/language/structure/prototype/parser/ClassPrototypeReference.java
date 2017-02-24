@@ -31,4 +31,9 @@ public class ClassPrototypeReference implements Statement {
         return classPrototype;
     }
 
+    @Override
+    public String toString() {
+        return "'class-reference': '" + classPrototype.getClassName() + "': { " + classPrototype.toString() + " }";
+    }
+
 }

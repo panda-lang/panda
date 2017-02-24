@@ -23,7 +23,7 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.language.PandaSyntax;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.prepared.PreparedExtractor;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
@@ -32,7 +32,8 @@ import java.util.List;
 
 public class ExtractorTest {
 
-    private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
+    //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
+    private static final String SOURCE = "class A {} class B {}";
 
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();
@@ -47,13 +48,11 @@ public class ExtractorTest {
 
         TokenPattern pattern = TokenPattern.builder()
                 .keepOpposites(true)
-                .gap()
-                .unit(TokenType.SEPARATOR, ".")
-                .gap()
-                .unit(TokenType.SEPARATOR, "(")
-                .gap()
-                .unit(TokenType.SEPARATOR, ")")
-                .unit(TokenType.SEPARATOR, ";")
+                .unit(TokenType.KEYWORD, "class")
+                .hollow()
+                .unit(TokenType.SEPARATOR, "{")
+                .hollow()
+                .unit(TokenType.SEPARATOR, "}")
                 .build();
 
         PreparedExtractor extractor = new PreparedExtractor(pattern);

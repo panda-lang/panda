@@ -16,18 +16,23 @@
 
 package org.panda_lang.panda.language.structure.prototype.parser;
 
+import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternGaps;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
@@ -36,9 +41,9 @@ public class ClassPrototypeParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "class")
-            .gap()
+            .hollow()
             .unit(TokenType.SEPARATOR, "{")
-            .gap()
+            .hollow()
             .unit(TokenType.SEPARATOR, "}")
             .build();
 
@@ -47,25 +52,91 @@ public class ClassPrototypeParser implements UnifiedParser {
         ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ParserGenerationCallback() {
-                    @Override
-                    public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-                        Script script = delegatedInfo.getComponent(Components.SCRIPT);
-                        TokenPatternGaps gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+                .delegateImmediately(new ClassPrototypeExtractorCallback(), parserInfo.clone());
+    }
 
-                        String className = gaps.getToken(0, 0).getTokenValue();
-                        ClassPrototype classPrototype = new ClassPrototype(className);
+    @LocalCallback
+    private static class ClassPrototypeExtractorCallback implements ParserGenerationCallback {
 
-                        ClassPrototypeReference prototypeReference = new ClassPrototypeReference(classPrototype);
-                        script.getStatements().add(prototypeReference);
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+
+            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
+
+            redactor.map("class-declaration", "class-body");
+            delegatedInfo.setComponent("redactor", redactor);
+
+            TokenizedSource classDeclaration = redactor.get("class-declaration");
+            String className = classDeclaration.getToken(0).getTokenValue();
+
+            ClassPrototype classPrototype = new ClassPrototype(className);
+            delegatedInfo.setComponent("class", classPrototype);
+
+            if (classDeclaration.size() > 1) {
+                nextLayer.delegate(new ClassPrototypeDeclarationParserCallback(), delegatedInfo);
+            }
+            nextLayer.delegate(new ClassPrototypeBodyParserCallback(), delegatedInfo);
+
+            ClassPrototypeReference prototypeReference = new ClassPrototypeReference(classPrototype);
+            script.getStatements().add(prototypeReference);
+        }
+
+    }
+
+    @LocalCallback
+    private static class ClassPrototypeDeclarationParserCallback implements ParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            ClassPrototype classPrototype = delegatedInfo.getComponent("class");
+
+            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            TokenizedSource classDeclaration = redactor.get("class-declaration");
+            Token next = classDeclaration.getToken(1);
+
+            if (next.getType() != TokenType.KEYWORD) {
+                throw new PandaParserException("Unknown element " + next);
+            }
+
+            switch (next.getTokenValue()) {
+                case "extends":
+                    for (int i = 2; i < classDeclaration.size(); i++) {
+                        Token classNameToken = classDeclaration.getToken(i);
+
+                        if (classNameToken.getType() == TokenType.UNKNOWN) {
+                            ClassPrototype extendedPrototype = classPrototype.getGroup().getObject().get(classNameToken.getTokenValue());
+
+                            if (extendedPrototype == null) {
+                                throw new PandaParserException("Class " + classNameToken.getTokenValue() + " not found");
+                            }
+
+                            classPrototype.getExtended().add(extendedPrototype);
+                            continue;
+                        }
+                        else if (classNameToken.getType() == TokenType.SEPARATOR) {
+                            continue;
+                        }
+
+                        break;
                     }
-                }, parserInfo)
-                .delegateAfter(new ParserGenerationCallback() {
-                    @Override
-                    public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+                    break;
+                default:
+                    throw new PandaParserException("Illegal keyword " + next);
+            }
+        }
 
-                    }
-                }, parserInfo.clone());
+    }
+
+    @LocalCallback
+    private static class ClassPrototypeBodyParserCallback implements ParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+
+        }
+
     }
 
 }

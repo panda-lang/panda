@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.lexer.token.extractor;
+package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 
 import java.util.List;
 
-public class TokenPatternGaps {
+public class TokenPatternHollows {
 
     private final List<TokenizedSource> gaps;
 
-    public TokenPatternGaps(List<TokenizedSource> gaps) {
+    public TokenPatternHollows(List<TokenizedSource> gaps) {
         this.gaps = gaps;
     }
 

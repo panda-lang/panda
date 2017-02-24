@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.group;
+package org.panda_lang.panda.language.structure.util;
 
-import org.panda_lang.framework.structure.Statement;
+public class Container<T> {
 
-public class GroupStatement implements Statement {
+    private T object;
 
-    private final Group group;
-
-    public GroupStatement(Group group) {
-        this.group = group;
+    public Container() {
     }
 
-    public Group getGroup() {
-        return group;
+    public Container(T object) {
+        this.object = object;
     }
 
-    @Override
-    public String toString() {
-        return "'group': '" + group.getName() + "'";
+    public void setObject(T object) {
+        this.object = object;
+    }
+
+    public T getObject() {
+        return object;
     }
 
 }

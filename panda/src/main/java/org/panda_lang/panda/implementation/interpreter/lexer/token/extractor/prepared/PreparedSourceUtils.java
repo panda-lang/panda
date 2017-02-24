@@ -20,7 +20,7 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternUnit;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUnit;
 
 /**
  * Utils for {@link TokenizedSource} based on {@link PreparedSource}
@@ -45,9 +45,13 @@ public class PreparedSourceUtils {
      * @return index of the specified token in array, returns -1 if the token was not found
      */
     public static int indexOf(PreparedSource preparedSource, Token search) {
+        return indexOf(preparedSource, search, 0);
+    }
+
+    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex) {
         PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
 
-        for (int i = 0; i < representations.length; i++) {
+        for (int i = minIndex; i < representations.length; i++) {
             PreparedRepresentation representation = representations[i];
 
             if (representation.getNestingLevel() > 0) {

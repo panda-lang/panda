@@ -20,8 +20,8 @@ import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternUnit;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUnit;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaTokenizedSource;
 
 import java.util.ArrayList;
@@ -54,7 +54,7 @@ public class PreparedExtractor implements Extractor {
                 continue;
             }
 
-            int lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit);
+            int lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j]);
 
             if (lastIndexOfUnit == -1) {
                 return null;
@@ -108,15 +108,6 @@ public class PreparedExtractor implements Extractor {
             tokenReader.read();
             gaps.add(gap);
         }
-
-        /* Probably useless
-
-        tokenReader.synchronize();
-
-        if (!(tokenReader.getIndex() + 1 >= tokenReader.getTokenizedSource().size())) {
-            return null;
-        }
-        */
 
         return gaps;
     }
