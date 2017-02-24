@@ -17,10 +17,6 @@
 package org.panda_lang.panda.language.structure.group;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
-import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
@@ -31,7 +27,8 @@ import org.panda_lang.framework.interpreter.parser.generation.util.DelegatedPars
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternGaps;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.TokenPatternUtils;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeReference;
@@ -55,19 +52,11 @@ public class GroupParser implements UnifiedParser {
                 .delegateImmediately(new ParserGenerationCallback() {
                     @Override
                     public void call(DelegatedParserInfo delegatedParserInfo, ParserGenerationLayer nextLayer) {
-                        SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
+                        ParserInfo parserInfo = delegatedParserInfo.getDelegated();
                         Script script = parserInfo.getComponent(Components.SCRIPT);
 
-                        Extractor extractor = PATTERN.extractor();
-                        TokenReader reader = source.toTokenReader();
-                        List<TokenizedSource> gaps = extractor.extract(reader);
-
-                        if (gaps == null || gaps.size() != 1) {
-                            throw new PandaParserException("Cannot parse group at line " + (source.read().getLine() + 1));
-                        }
-
-                        String groupName = gaps.get(0).getToken(0).getTokenValue();
-                        source.readDifference(reader);
+                        TokenPatternGaps gaps = TokenPatternUtils.extract(PATTERN, parserInfo);
+                        String groupName = gaps.getToken(0, 0).getTokenValue();
 
                         GroupRegistry registry = GroupRegistry.getDefault();
                         Group group = registry.getOrCreate(groupName);
