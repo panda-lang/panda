@@ -23,7 +23,7 @@ public interface ParserInfo {
     /**
      * Clone ParserInfo to a new instance with old components
      */
-    ParserInfo clone();
+    ParserInfo fork();
 
     /**
      * Default list of components is available here: {@link Components}

@@ -22,6 +22,11 @@ package org.panda_lang.framework.interpreter.parser.util;
 public class Components {
 
     /**
+     * Used by {@link org.panda_lang.framework.interpreter.parser.ParserInfo}
+     */
+    public static final String FORKED = "forked";
+
+    /**
      * Used by {@link org.panda_lang.framework.interpreter.Interpreter}
      */
     public static final String INTERPRETER = "interpreter";
@@ -59,15 +64,16 @@ public class Components {
     /**
      * Array of the default names
      */
-    private static final String[] VALUES = new String[6];
+    private static final String[] VALUES = new String[7];
 
     static {
-        VALUES[0] = INTERPRETER;
-        VALUES[1] = PARSER_PIPELINE;
-        VALUES[2] = SOURCE_STREAM;
-        VALUES[3] = GENERATION;
-        VALUES[4] = CURRENT_PARSER_INFO;
-        VALUES[5] = LINKER;
+        VALUES[0] = FORKED;
+        VALUES[1] = INTERPRETER;
+        VALUES[2] = PARSER_PIPELINE;
+        VALUES[3] = SOURCE_STREAM;
+        VALUES[4] = GENERATION;
+        VALUES[5] = CURRENT_PARSER_INFO;
+        VALUES[6] = LINKER;
     }
 
     public static String[] values() {

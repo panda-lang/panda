@@ -24,6 +24,19 @@ public class StringUtils {
     public static final String EMPTY = "";
 
     /**
+     * @param text to check
+     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
+     * @return the checked text
+     */
+    public static String isEmpty(String text, String exceptionMessage) {
+        if (text == null || text.isEmpty()) {
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+
+        return text;
+    }
+
+    /**
      * Faster alternative to str.replace
      */
     public static String replace(String text, String searchString, String replacement) {

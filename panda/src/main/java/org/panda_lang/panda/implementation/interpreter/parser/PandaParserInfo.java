@@ -17,6 +17,7 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.framework.interpreter.parser.util.Components;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,8 +35,11 @@ public class PandaParserInfo implements ParserInfo {
     }
 
     @Override
-    public PandaParserInfo clone() {
-        return new PandaParserInfo(new HashMap<>(components));
+    public PandaParserInfo fork() {
+        PandaParserInfo parserInfo = new PandaParserInfo(new HashMap<>(components));
+        parserInfo.setComponent(Components.FORKED, true);
+
+        return parserInfo;
     }
 
     @Override
