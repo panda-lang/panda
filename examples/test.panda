@@ -1,5 +1,7 @@
 group example;
 
+import panda.lang;
+
 class Foo extends Test {
 
 }
@@ -7,3 +9,4 @@ class Foo extends Test {
 class Test {
 
 }
+

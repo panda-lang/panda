@@ -1,4 +1,4 @@
-group example;
+group panda-lang;
 
 native java.lang.String as String {
 

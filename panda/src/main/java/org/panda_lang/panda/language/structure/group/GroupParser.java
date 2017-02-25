@@ -23,6 +23,7 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
@@ -49,47 +50,57 @@ public class GroupParser implements UnifiedParser {
         ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ParserGenerationCallback() {
-                    @Override
-                    public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-                        Script script = delegatedInfo.getComponent(Components.SCRIPT);
+                .delegateImmediately(new GroupDeclarationParserCallback(), parserInfo)
+                .delegateAfter(new GroupAfterParserCallback(), parserInfo.clone());
+    }
 
-                        TokenPatternHollows gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
-                        String groupName = gaps.getToken(0, 0).getTokenValue();
+    @LocalCallback
+    private static class GroupDeclarationParserCallback implements ParserGenerationCallback {
 
-                        GroupRegistry registry = GroupRegistry.getDefault();
-                        Group group = registry.getOrCreate(groupName);
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
-                        GroupStatement groupStatement = new GroupStatement(group);
-                        script.getStatements().add(groupStatement);
-                    }
-                }, parserInfo)
-                .delegateAfter(new ParserGenerationCallback() {
-                    @Override
-                    public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-                        Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            TokenPatternHollows gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            String groupName = gaps.getToken(0, 0).getTokenValue();
 
-                        List<GroupStatement> groupStatements = script.select(GroupStatement.class);
-                        List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
+            GroupRegistry registry = GroupRegistry.getDefault();
+            Group group = registry.getOrCreate(groupName);
 
-                        if (groupStatements.size() == 0) {
-                            return;
-                        }
+            GroupStatement groupStatement = new GroupStatement(group);
+            script.getStatements().add(groupStatement);
+        }
 
-                        if (groupStatements.size() > 1) {
-                            throw new PandaParserException("Script contains more than one declaration of the group");
-                        }
+    }
 
-                        Group group = groupStatements.get(0).getGroup();
+    @LocalCallback
+    private static class GroupAfterParserCallback implements ParserGenerationCallback {
 
-                        for (ClassPrototypeReference prototypeReference : prototypeReferences) {
-                            ClassPrototype classPrototype = prototypeReference.getClassPrototype();
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
-                            group.add(classPrototype);
-                            classPrototype.getGroup().setObject(group);
-                        }
-                    }
-                }, parserInfo.clone());
+            List<GroupStatement> groupStatements = script.select(GroupStatement.class);
+            List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
+
+            if (groupStatements.size() == 0) {
+                return;
+            }
+
+            if (groupStatements.size() > 1) {
+                throw new PandaParserException("Script contains more than one declaration of the group");
+            }
+
+            Group group = groupStatements.get(0).getGroup();
+
+            for (ClassPrototypeReference prototypeReference : prototypeReferences) {
+                ClassPrototype classPrototype = prototypeReference.getClassPrototype();
+
+                group.add(classPrototype);
+                classPrototype.getGroup().setObject(group);
+            }
+        }
+
     }
 
 }
