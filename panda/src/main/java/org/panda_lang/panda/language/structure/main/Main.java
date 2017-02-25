@@ -29,12 +29,17 @@ public class Main extends AbstractContainer implements Wrapper {
 
     @Override
     public String getName() {
-        return null;
+        return "main";
     }
 
     @Override
     public int getID() {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "'wrapper': 'main'";
     }
 
 }
