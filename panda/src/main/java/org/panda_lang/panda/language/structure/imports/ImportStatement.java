@@ -30,4 +30,9 @@ public class ImportStatement implements Statement {
         return associatedImport;
     }
 
+    @Override
+    public String toString() {
+        return "'import': '" + associatedImport.getGroup().getName() + "'";
+    }
+
 }

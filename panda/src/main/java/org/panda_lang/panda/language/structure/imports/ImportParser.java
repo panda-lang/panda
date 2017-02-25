@@ -16,6 +16,10 @@
 
 package org.panda_lang.panda.language.structure.imports;
 
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
@@ -24,10 +28,23 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.framework.structure.Script;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.language.structure.group.Group;
+import org.panda_lang.panda.language.structure.group.GroupRegistry;
 
 @ParserRegistration(parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
+
+    protected static final TokenPattern PATTERN = TokenPattern.builder()
+            .unit(TokenType.KEYWORD, "import")
+            .hollow()
+            .unit(TokenType.SEPARATOR, ";")
+            .build();
 
     @Override
     public void parse(ParserInfo parserInfo) {
@@ -42,7 +59,30 @@ public class ImportParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenizedSource hollow = hollows.getGap(0);
 
+            StringBuilder groupNameBuilder = new StringBuilder();
+
+            for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
+                Token token = representation.getToken();
+                groupNameBuilder.append(token.getTokenValue());
+            }
+
+            String importedGroupName = groupNameBuilder.toString();
+
+            GroupRegistry registry = GroupRegistry.getDefault();
+            Group group = registry.get(importedGroupName);
+
+            if (group == null) {
+                throw new PandaParserException("Unknown group " + importedGroupName);
+            }
+
+            Import anImport = new Import(group);
+            ImportStatement importStatement = new ImportStatement(anImport);
+
+            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            script.getStatements().add(importStatement);
         }
 
     }
