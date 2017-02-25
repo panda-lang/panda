@@ -16,7 +16,10 @@
 
 package org.panda_lang.panda.language.structure.group;
 
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
@@ -51,7 +54,7 @@ public class GroupParser implements UnifiedParser {
 
         generation.getLayer(ParserGenerationType.HIGHER)
                 .delegateImmediately(new GroupDeclarationParserCallback(), parserInfo)
-                .delegateAfter(new GroupAfterParserCallback(), parserInfo.clone());
+                .delegateAfter(new GroupAfterParserCallback(), parserInfo.fork());
     }
 
     @LocalCallback
@@ -61,8 +64,17 @@ public class GroupParser implements UnifiedParser {
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
             Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
-            TokenPatternHollows gaps = TokenPatternUtils.extract(PATTERN, delegatedInfo);
-            String groupName = gaps.getToken(0, 0).getTokenValue();
+            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenizedSource hollow = hollows.getGap(0);
+
+            StringBuilder groupNameBuilder = new StringBuilder();
+
+            for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
+                Token token = representation.getToken();
+                groupNameBuilder.append(token.getTokenValue());
+            }
+
+            String groupName = groupNameBuilder.toString();
 
             GroupRegistry registry = GroupRegistry.getDefault();
             Group group = registry.getOrCreate(groupName);
