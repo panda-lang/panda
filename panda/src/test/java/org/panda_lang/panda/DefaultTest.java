@@ -22,7 +22,7 @@ import java.io.File;
 
 public class DefaultTest {
 
-    private static final File SCRIPT = new File("examples/test.panda");
+    private static final File SCRIPT = new File("examples/current_test.panda");
 
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();
