@@ -16,8 +16,32 @@
 
 package org.panda_lang.panda.composition.prototypes;
 
+import org.panda_lang.framework.runtime.ExecutableBridge;
+import org.panda_lang.framework.structure.Executable;
+import org.panda_lang.panda.language.structure.group.Group;
+import org.panda_lang.panda.language.structure.group.GroupRegistry;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
+import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
+
+@ClassPrototypeRegistrationCall
 public class SystemPrototype {
 
+    static {
+        GroupRegistry registry = GroupRegistry.getDefault();
+        Group defaultGroup = registry.getOrCreate("panda.lang");
 
+        ClassPrototype prototype = new ClassPrototype("System");
+        prototype.getMethods().put("print", new PandaMethod("print", new Executable() {
+            @Override
+            public void execute(ExecutableBridge executionInfo) {
+                System.out.println("System#print call");
+            }
+        }, true, MethodVisibility.PUBLIC));
+
+        prototype.getGroup().setObject(defaultGroup);
+        defaultGroup.add(prototype);
+    }
 
 }

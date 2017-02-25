@@ -18,15 +18,22 @@ package org.panda_lang.panda.composition;
 
 import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistry;
 
 public class PandaComposition {
 
     private final PandaSyntax syntax;
     private final ParserRegistry parserRegistry;
+    private final ClassPrototypeRegistry prototypeRegistry;
 
     public PandaComposition() {
         this.syntax = new PandaSyntax();
         this.parserRegistry = new ParserRegistry();
+        this.prototypeRegistry = new ClassPrototypeRegistry();
+    }
+
+    public ClassPrototypeRegistry getPrototypeRegistry() {
+        return prototypeRegistry;
     }
 
     public ParserRegistry getParserRegistry() {

@@ -52,7 +52,7 @@ public class ClassPrototypeParser implements UnifiedParser {
         ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ClassPrototypeExtractorCallback(), parserInfo.clone());
+                .delegateImmediately(new ClassPrototypeExtractorCallback(), parserInfo.fork());
     }
 
     @LocalCallback
