@@ -58,9 +58,13 @@ public class Keywords {
 
     public static final Keyword IMPLEMENTS = new Keyword("implements");
 
+    public static final Keyword IMPORT = new Keyword("import");
+
     public static final Keyword INSTANCE_OF = new Keyword("instanceof");
 
-    public static final Keyword INT = new Keyword("interface");
+    public static final Keyword INT = new Keyword("int");
+
+    public static final Keyword INTERFACE = new Keyword("interface");
 
     public static final Keyword LONG = new Keyword("long");
 
@@ -90,7 +94,7 @@ public class Keywords {
 
     public static final Keyword WHILE = new Keyword("while");
 
-    private static final Keyword[] VALUES = new Keyword[35];
+    private static final Keyword[] VALUES = new Keyword[37];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -111,9 +115,9 @@ public class Keywords {
         VALUES[15] = FOR;
         VALUES[16] = GROUP;
         VALUES[17] = IF;
-        VALUES[18] = IMPLEMENTS;
+        VALUES[18] = INT;
         VALUES[19] = INSTANCE_OF;
-        VALUES[20] = INT;
+        VALUES[20] = INTERFACE;
         VALUES[21] = LONG;
         VALUES[22] = METHOD;
         VALUES[23] = NATIVE;
@@ -128,6 +132,8 @@ public class Keywords {
         VALUES[32] = THIS;
         VALUES[33] = WHILE;
         VALUES[34] = MAIN;
+        VALUES[35] = IMPORT;
+        VALUES[36] = IMPLEMENTS;
     }
 
     public static Keyword[] values() {
