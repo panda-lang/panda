@@ -17,24 +17,14 @@
 package org.panda_lang.panda.language.structure.main;
 
 import org.panda_lang.framework.structure.Wrapper;
-import org.panda_lang.framework.structure.WrapperInstance;
+import org.panda_lang.framework.structure.dynamic.WrapperInstance;
 import org.panda_lang.panda.implementation.structure.AbstractContainer;
 
 public class Main extends AbstractContainer implements Wrapper {
 
     @Override
     public WrapperInstance createInstance() {
-        return null;
-    }
-
-    @Override
-    public String getName() {
-        return "main";
-    }
-
-    @Override
-    public int getID() {
-        return 0;
+        return new MainInstance(this);
     }
 
     @Override

@@ -18,9 +18,17 @@ package org.panda_lang.panda.language.structure.main;
 
 import org.panda_lang.framework.runtime.ExecutableBridge;
 import org.panda_lang.framework.structure.Wrapper;
-import org.panda_lang.framework.structure.WrapperInstance;
+import org.panda_lang.framework.structure.dynamic.WrapperInstance;
 
 public class MainInstance implements WrapperInstance {
+
+    private final Main main;
+    private final Object[] variables;
+
+    public MainInstance(Main main) {
+        this.main = main;
+        this.variables = new Object[main.getVariables().length];
+    }
 
     @Override
     public void execute(ExecutableBridge executiveProcess) {
@@ -29,12 +37,12 @@ public class MainInstance implements WrapperInstance {
 
     @Override
     public Object[] getVariables() {
-        return new Object[0];
+        return variables;
     }
 
     @Override
     public Wrapper getWrapper() {
-        return null;
+        return main;
     }
 
 }

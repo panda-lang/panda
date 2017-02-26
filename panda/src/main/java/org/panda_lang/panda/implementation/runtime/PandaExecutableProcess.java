@@ -16,30 +16,14 @@
 
 package org.panda_lang.panda.implementation.runtime;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.Application;
-import org.panda_lang.framework.structure.dynamic.Executable;
+import org.panda_lang.framework.runtime.ExecutableProcess;
 import org.panda_lang.framework.structure.Value;
-import org.panda_lang.framework.structure.Wrapper;
 
-public class PandaExecutableBridge implements ExecutableBridge {
-
-    private final Application application;
-    private final Wrapper wrapper;
-
-    public PandaExecutableBridge(Application application, Wrapper headWrapper) {
-        this.application = application;
-        this.wrapper = headWrapper;
-    }
+public class PandaExecutableProcess implements ExecutableProcess {
 
     @Override
-    public void call(Executable executable) {
-
-    }
-
-    @Override
-    public void returnValue(Value value) {
-
+    public Value execute() {
+        return null;
     }
 
 }

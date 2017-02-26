@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.structure.Executable;
+import org.panda_lang.framework.structure.dynamic.Executable;
 import org.panda_lang.framework.structure.Statement;
 import org.panda_lang.framework.structure.StatementCell;
 
