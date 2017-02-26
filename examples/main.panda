@@ -1,16 +1,16 @@
 group example;
 
 main {
-    Main main = new Main();
-    main.start();
+    App app = new App();
+    app.start();
 }
 
-class Main {
+class App {
 
     static String version = "indev-0.0.3-SNAPSHOT";
 
-    constructor Main() {
-        print version;
+    constructor App() {
+        print getVersion();
     }
 
     method start() {
