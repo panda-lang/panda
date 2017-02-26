@@ -16,16 +16,18 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.parser;
 
+import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
+import org.panda_lang.panda.language.syntax.Keywords;
 
 public class MethodParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "method");
+        TokenRepresentation token = tokenReader.read();
+        return TokenUtils.equals(token, Keywords.METHOD) || TokenUtils.equals(token, Keywords.HIDDEN);
     }
 
 }

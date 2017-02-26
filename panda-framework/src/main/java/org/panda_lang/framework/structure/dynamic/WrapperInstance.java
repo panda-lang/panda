@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.structure.dynamic;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
+import org.panda_lang.framework.structure.Wrapper;
 
-public interface Executable extends Statement {
+public interface WrapperInstance extends Executable {
 
-    void execute(ExecutableBridge executionInfo);
+    /**
+     * @return array of variables which index is equals to order of fields
+     */
+    Object[] getVariables();
+
+    /**
+     * @return the proper wrapper
+     */
+    Wrapper getWrapper();
 
 }

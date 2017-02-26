@@ -14,25 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.structure.dynamic;
 
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.runtime.ExecutableBridge;
+import org.panda_lang.framework.structure.Statement;
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Wrapper extends Container {
+public interface Executable extends Statement {
 
-    /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
-     *
-     * @return instance of the current wrapper
-     */
-    WrapperInstance createInstance();
-
-    /**
-     * @return array of variables in the proper order
-     */
-    Variable[] getVariables();
+    void execute(ExecutableBridge executionInfo);
 
 }

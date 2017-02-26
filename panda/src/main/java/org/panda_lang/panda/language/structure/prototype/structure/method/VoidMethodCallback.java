@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Wrapper extends Container {
+public abstract class VoidMethodCallback implements MethodCallback {
 
-    /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
-     *
-     * @return instance of the current wrapper
-     */
-    WrapperInstance createInstance();
+    @Override
+    public final Value invoke(ClassInstance instance, Value... parameters) {
+        invokeMethod(instance, parameters);
+        return null;
+    }
 
-    /**
-     * @return array of variables in the proper order
-     */
-    Variable[] getVariables();
+    protected abstract void invokeMethod(ClassInstance instance, Value... parameters);
 
 }

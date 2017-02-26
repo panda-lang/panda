@@ -16,17 +16,18 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.framework.structure.Value;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-public interface Method {
-
-    Value invoke(ClassInstance instance, Value... parameters);
+public interface Method extends MethodCallback {
 
     boolean isStatic();
 
     MethodVisibility getVisibility();
 
-    String getName();
+    String getReturnType();
+
+    String getMethodName();
+
+    ClassPrototype getClassPrototype();
 
 }

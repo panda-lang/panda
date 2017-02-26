@@ -16,23 +16,8 @@
 
 package org.panda_lang.framework.structure;
 
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+public interface Variable {
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Wrapper extends Container {
-
-    /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
-     *
-     * @return instance of the current wrapper
-     */
-    WrapperInstance createInstance();
-
-    /**
-     * @return array of variables in the proper order
-     */
-    Variable[] getVariables();
+    String getVariableName();
 
 }

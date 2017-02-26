@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.language.structure.prototype.structure.field;
 
-public interface Scope extends Container, Executable {
+public enum FieldVisibility {
+
+    PUBLIC,
+    PROTECTED,
+    PRIVATE;
 
 }

@@ -16,21 +16,31 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
-import org.panda_lang.framework.structure.Executable;
 import org.panda_lang.framework.structure.Value;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
-import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
+import org.panda_lang.panda.language.structure.prototype.structure.method.VoidMethodCallback;
 
 public class PandaMethod implements Method {
 
+    private final ClassPrototype prototype;
     private final String methodName;
-    private final Executable methodBody;
+    private final String returnType;
+    private final MethodCallback methodBody;
     private final boolean isStatic;
     private MethodVisibility visibility;
 
-    public PandaMethod(String methodName, Executable methodBody, boolean isStatic, MethodVisibility visibility) {
+    public PandaMethod(ClassPrototype prototype, String methodName, VoidMethodCallback methodBody, boolean isStatic, MethodVisibility visibility) {
+        this(prototype, methodName, methodBody, isStatic, visibility, null);
+    }
+
+    public PandaMethod(ClassPrototype prototype, String methodName, MethodCallback methodBody, boolean isStatic, MethodVisibility visibility, String returnType) {
+        this.prototype = prototype;
         this.methodName = methodName;
+        this.returnType = returnType;
         this.methodBody = methodBody;
         this.isStatic = isStatic;
         this.visibility = visibility;
@@ -38,7 +48,7 @@ public class PandaMethod implements Method {
 
     @Override
     public Value invoke(ClassInstance instance, Value... parameters) {
-        return null;
+        return methodBody.invoke(instance, parameters);
     }
 
     @Override
@@ -52,8 +62,18 @@ public class PandaMethod implements Method {
     }
 
     @Override
-    public String getName() {
+    public String getReturnType() {
+        return returnType;
+    }
+
+    @Override
+    public String getMethodName() {
         return methodName;
+    }
+
+    @Override
+    public ClassPrototype getClassPrototype() {
+        return prototype;
     }
 
     public static PandaMethodBuilder builder() {

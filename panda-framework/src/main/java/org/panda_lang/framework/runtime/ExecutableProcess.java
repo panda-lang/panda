@@ -14,25 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.runtime;
 
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.structure.Value;
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Wrapper extends Container {
+public interface ExecutableProcess {
 
-    /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
-     *
-     * @return instance of the current wrapper
-     */
-    WrapperInstance createInstance();
-
-    /**
-     * @return array of variables in the proper order
-     */
-    Variable[] getVariables();
+    Value execute();
 
 }

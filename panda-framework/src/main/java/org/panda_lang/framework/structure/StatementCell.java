@@ -17,7 +17,7 @@
 package org.panda_lang.framework.structure;
 
 /**
- * ExecutableCell is a mutable container for {@link Executable}
+ * StatementCell is a mutable container for {@link Statement}
  */
 public interface StatementCell {
 

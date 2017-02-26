@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.framework.structure.Wrapper;
-import org.panda_lang.framework.structure.WrapperInstance;
+import org.panda_lang.framework.structure.dynamic.WrapperInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldStatement;
 import org.panda_lang.panda.language.structure.prototype.structure.method.parameter.Parameter;
 import org.panda_lang.panda.implementation.structure.AbstractContainer;
@@ -49,16 +49,6 @@ public class MethodWrapper extends AbstractContainer implements Wrapper {
 
     public List<Parameter> getParameters() {
         return parameters;
-    }
-
-    @Override
-    public String getName() {
-        return methodName;
-    }
-
-    @Override
-    public int getID() {
-        return wrapperID;
     }
 
 }

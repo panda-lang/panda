@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
-import org.panda_lang.framework.structure.Executable;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.framework.structure.dynamic.Executable;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
 public class PandaMethodBuilder {
@@ -46,10 +45,6 @@ public class PandaMethodBuilder {
     public PandaMethodBuilder visibility(MethodVisibility visibility) {
         this.visibility = visibility;
         return this;
-    }
-
-    public Method build() {
-        return new PandaMethod(methodName, methodBody, isStatic, visibility);
     }
 
 }

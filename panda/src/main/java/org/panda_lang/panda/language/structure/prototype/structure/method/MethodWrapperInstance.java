@@ -18,6 +18,8 @@ package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.framework.runtime.ExecutableBridge;
 import org.panda_lang.framework.structure.*;
+import org.panda_lang.framework.structure.dynamic.Executable;
+import org.panda_lang.framework.structure.dynamic.WrapperInstance;
 
 public class MethodWrapperInstance implements WrapperInstance {
 

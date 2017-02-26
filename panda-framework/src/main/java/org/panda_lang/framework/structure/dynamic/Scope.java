@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.structure.dynamic;
 
-public interface WrapperInstance extends Executable {
+import org.panda_lang.framework.structure.Container;
 
-    /**
-     * @return array of variables which index is equals to order of fields
-     */
-    Object[] getVariables();
-
-    /**
-     * @return proper wrapper
-     */
-    Wrapper getWrapper();
+public interface Scope extends Container, Executable {
 
 }
