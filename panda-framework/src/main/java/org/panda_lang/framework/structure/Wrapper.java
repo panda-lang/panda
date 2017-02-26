@@ -18,6 +18,8 @@ package org.panda_lang.framework.structure;
 
 import org.panda_lang.framework.structure.dynamic.WrapperInstance;
 
+import java.util.List;
+
 /**
  * Specific type of scope which contains own memory, independence, etc.
  */
@@ -31,8 +33,8 @@ public interface Wrapper extends Container {
     WrapperInstance createInstance();
 
     /**
-     * @return array of variables in the proper order
+     * @return list of variables in the proper order
      */
-    Variable[] getVariables();
+    List<Variable> getVariables();
 
 }

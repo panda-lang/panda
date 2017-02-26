@@ -14,21 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.main;
+package org.panda_lang.panda.implementation.structure.util;
 
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
-import org.panda_lang.panda.implementation.structure.util.AbstractWrapper;
+import org.panda_lang.framework.structure.Variable;
+import org.panda_lang.framework.structure.Wrapper;
 
-public class Main extends AbstractWrapper{
+import java.util.ArrayList;
+import java.util.List;
 
-    @Override
-    public WrapperInstance createInstance() {
-        return new MainInstance(this);
+public abstract class AbstractWrapper extends AbstractContainer implements Wrapper {
+
+    protected final List<Variable> variables;
+
+    public AbstractWrapper() {
+        this.variables = new ArrayList<>();
     }
 
     @Override
-    public String toString() {
-        return "'wrapper': 'main'";
+    public List<Variable> getVariables() {
+        return variables;
     }
 
 }

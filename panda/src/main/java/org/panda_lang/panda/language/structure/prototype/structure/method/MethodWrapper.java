@@ -20,7 +20,7 @@ import org.panda_lang.framework.structure.Wrapper;
 import org.panda_lang.framework.structure.dynamic.WrapperInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldStatement;
 import org.panda_lang.panda.language.structure.prototype.structure.method.parameter.Parameter;
-import org.panda_lang.panda.implementation.structure.AbstractContainer;
+import org.panda_lang.panda.implementation.structure.util.AbstractContainer;
 
 import java.util.List;
 
