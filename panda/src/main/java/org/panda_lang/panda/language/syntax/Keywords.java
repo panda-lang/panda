@@ -54,6 +54,8 @@ public class Keywords {
 
     public static final Keyword GROUP = new Keyword("group");
 
+    public static final Keyword HIDDEN = new Keyword("hidden");
+
     public static final Keyword IF = new Keyword("if");
 
     public static final Keyword IMPLEMENTS = new Keyword("implements");
@@ -76,6 +78,10 @@ public class Keywords {
 
     public static final Keyword NEW = new Keyword("new");
 
+    public static final Keyword PRIVATE = new Keyword("private");
+
+    public static final Keyword PUBLIC = new Keyword("public");
+
     public static final Keyword RETURN = new Keyword("return");
 
     public static final Keyword REQUIRE = new Keyword("require");
@@ -94,7 +100,7 @@ public class Keywords {
 
     public static final Keyword WHILE = new Keyword("while");
 
-    private static final Keyword[] VALUES = new Keyword[37];
+    private static final Keyword[] VALUES = new Keyword[40];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -134,6 +140,9 @@ public class Keywords {
         VALUES[34] = MAIN;
         VALUES[35] = IMPORT;
         VALUES[36] = IMPLEMENTS;
+        VALUES[37] = PRIVATE;
+        VALUES[38] = PUBLIC;
+        VALUES[39] = HIDDEN;
     }
 
     public static Keyword[] values() {
