@@ -17,17 +17,17 @@
 package org.panda_lang.panda.language.structure.main;
 
 import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.Wrapper;
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.structure.Scope;
+import org.panda_lang.framework.structure.dynamic.ScopeInstance;
 
-public class MainInstance implements WrapperInstance {
+public class MainInstance implements ScopeInstance {
 
     private final Main main;
     private final Object[] variables;
 
     public MainInstance(Main main) {
         this.main = main;
-        this.variables = new Object[main.getVariables().length];
+        this.variables = new Object[main.getVariables().size()];
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MainInstance implements WrapperInstance {
     }
 
     @Override
-    public Wrapper getWrapper() {
+    public Scope getWrapper() {
         return main;
     }
 

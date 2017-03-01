@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.main;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
@@ -31,6 +32,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.implementation.interpreter.parser.defaults.ScopeParser;
 
 @ParserRegistration(parserClass = MainParser.class, handlerClass = MainParserHandler.class)
 public class MainParser implements UnifiedParser {
@@ -60,8 +62,10 @@ public class MainParser implements UnifiedParser {
             TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
 
-            redactor.map("body");
+            delegatedInfo.setComponent("main", main);
             delegatedInfo.setComponent("redactor", redactor);
+
+            redactor.map("body");
             nextLayer.delegate(new MainBodyParserCallback(), delegatedInfo.fork());
 
             Script script = delegatedInfo.getComponent(Components.SCRIPT);
@@ -75,7 +79,13 @@ public class MainParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            Main main = delegatedInfo.getComponent("main");
 
+            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            TokenizedSource body = redactor.get("body");
+
+            ScopeParser scopeParser = new ScopeParser(main);
+            scopeParser.parse(delegatedInfo, body);
         }
 
     }
