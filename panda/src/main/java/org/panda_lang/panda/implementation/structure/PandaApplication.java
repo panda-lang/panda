@@ -19,7 +19,7 @@ package org.panda_lang.panda.implementation.structure;
 import org.panda_lang.framework.memory.Memory;
 import org.panda_lang.framework.structure.Application;
 import org.panda_lang.framework.structure.Script;
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.memory.PandaMemory;
 import org.panda_lang.panda.language.structure.main.Main;
 
@@ -44,7 +44,7 @@ public class PandaApplication implements Application {
 
             if (mains.size() == 1) {
                 Main main = mains.get(0);
-                WrapperInstance instance = main.createInstance();
+                ScopeInstance instance = main.createInstance();
                 // TODO
             }
             else if (mains.size() > 1) {

@@ -20,14 +20,14 @@ import org.panda_lang.framework.runtime.ExecutableBridge;
 import org.panda_lang.framework.structure.Application;
 import org.panda_lang.framework.structure.dynamic.Executable;
 import org.panda_lang.framework.structure.Value;
-import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.structure.Scope;
 
 public class PandaExecutableBridge implements ExecutableBridge {
 
     private final Application application;
-    private final Wrapper wrapper;
+    private final Scope wrapper;
 
-    public PandaExecutableBridge(Application application, Wrapper headWrapper) {
+    public PandaExecutableBridge(Application application, Scope headWrapper) {
         this.application = application;
         this.wrapper = headWrapper;
     }
