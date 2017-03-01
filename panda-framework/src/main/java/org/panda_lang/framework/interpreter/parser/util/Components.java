@@ -57,7 +57,7 @@ public class Components {
     public static final String CURRENT_PARSER_INFO = "current-parser-info";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.linker.WrapperLinker}
+     * Used by {@link org.panda_lang.framework.interpreter.parser.linker.ScopeLinker}
      */
     public static final String LINKER = "linker";
 

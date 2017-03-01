@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.parser.linker;
+package org.panda_lang.framework.structure;
 
-import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.structure.dynamic.ScopeInstance;
 
-public interface WrapperLinker {
+import java.util.List;
 
-    void pushWrapper(Wrapper wrapper);
+/**
+ * Specific type of scope which contains own memory, independence, etc.
+ */
+public interface Scope extends Container {
 
-    Wrapper popWrapper();
+    /**
+     * Creates new instance of the current wrapper for individual values for fields, etc.
+     *
+     * @return instance of the current wrapper
+     */
+    ScopeInstance createInstance();
 
-    Wrapper getCurrentWrapper();
-
-    int getNextID();
+    /**
+     * @return list of variables in the proper order
+     */
+    List<Variable> getVariables();
 
 }

@@ -20,4 +20,6 @@ public interface Variable {
 
     String getVariableName();
 
+    String getVariableType();
+
 }

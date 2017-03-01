@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure.dynamic;
+package org.panda_lang.framework.interpreter.parser.linker;
 
-import org.panda_lang.framework.structure.Container;
+import org.panda_lang.framework.structure.Scope;
 
-public interface Scope extends Container, Executable {
+public interface ScopeLinker {
+
+    void pushScope(Scope scope);
+
+    Scope popScope();
+
+    Scope getCurrentScope();
+
+    int getNextID();
 
 }

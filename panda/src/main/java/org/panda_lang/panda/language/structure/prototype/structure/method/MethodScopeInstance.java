@@ -19,26 +19,20 @@ package org.panda_lang.panda.language.structure.prototype.structure.method;
 import org.panda_lang.framework.runtime.ExecutableBridge;
 import org.panda_lang.framework.structure.*;
 import org.panda_lang.framework.structure.dynamic.Executable;
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.structure.dynamic.ScopeInstance;
 
-public class MethodWrapperInstance implements WrapperInstance {
+public class MethodScopeInstance implements ScopeInstance {
 
-    private final MethodWrapper methodWrapper;
+    private final MethodScope methodWrapper;
     private final Object[] variables;
 
-    public MethodWrapperInstance(MethodWrapper methodWrapper) {
+    public MethodScopeInstance(MethodScope methodWrapper) {
         this.methodWrapper = methodWrapper;
-        this.variables = new Object[methodWrapper.getFieldStatements().length];
+        this.variables = new Object[methodWrapper.getVariables().size()];
     }
 
     @Override
     public void execute(ExecutableBridge executionInfo) {
-        Value[] parameters = executionInfo.getParameters();
-
-        for (int i = 0; i < parameters.length; i++) {
-            variables[i] = parameters[i].getValue();
-        }
-
         for (StatementCell statementCell : methodWrapper.getStatementCells()) {
             if (!statementCell.isExecutable()) {
                 continue;
@@ -55,7 +49,7 @@ public class MethodWrapperInstance implements WrapperInstance {
     }
 
     @Override
-    public Wrapper getWrapper() {
+    public Scope getWrapper() {
         return methodWrapper;
     }
 

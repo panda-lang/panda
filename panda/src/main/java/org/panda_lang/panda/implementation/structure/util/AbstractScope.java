@@ -14,20 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure.dynamic;
+package org.panda_lang.panda.implementation.structure.util;
 
-import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.structure.Variable;
+import org.panda_lang.framework.structure.Scope;
 
-public interface WrapperInstance extends Executable {
+import java.util.ArrayList;
+import java.util.List;
 
-    /**
-     * @return array of variables which index is equals to order of fields
-     */
-    Object[] getVariables();
+public abstract class AbstractScope extends AbstractContainer implements Scope {
 
-    /**
-     * @return the proper wrapper
-     */
-    Wrapper getWrapper();
+    protected final List<Variable> variables;
+
+    public AbstractScope() {
+        this.variables = new ArrayList<>();
+    }
+
+    @Override
+    public List<Variable> getVariables() {
+        return variables;
+    }
 
 }

@@ -16,37 +16,38 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.linker;
 
-import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
-import org.panda_lang.framework.structure.Wrapper;
+import org.panda_lang.framework.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.framework.structure.Scope;
 
 import java.util.Stack;
 
-public class PandaWrapperLinker implements WrapperLinker {
+public class PandaScopeLinker implements ScopeLinker {
 
-    private final Stack<Wrapper> wrapperStack;
+    private final Stack<Scope> scopeStack;
 
-    public PandaWrapperLinker() {
-        this.wrapperStack = new Stack<>();
+    public PandaScopeLinker(Scope headScope) {
+        this.scopeStack = new Stack<>();
+        this.pushScope(headScope);
     }
 
     @Override
-    public void pushWrapper(Wrapper wrapper) {
-        wrapperStack.push(wrapper);
+    public void pushScope(Scope scope) {
+        scopeStack.push(scope);
     }
 
     @Override
-    public Wrapper popWrapper() {
-        return wrapperStack.pop();
+    public Scope popScope() {
+        return scopeStack.pop();
     }
 
     @Override
-    public Wrapper getCurrentWrapper() {
-        return wrapperStack.peek();
+    public Scope getCurrentScope() {
+        return scopeStack.peek();
     }
 
     @Override
     public int getNextID() {
-        return wrapperStack.size();
+        return scopeStack.size();
     }
 
 }

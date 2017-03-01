@@ -14,27 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.framework.structure.dynamic;
 
-import org.panda_lang.framework.structure.dynamic.WrapperInstance;
+import org.panda_lang.framework.structure.Container;
 
-import java.util.List;
-
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Wrapper extends Container {
-
-    /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
-     *
-     * @return instance of the current wrapper
-     */
-    WrapperInstance createInstance();
-
-    /**
-     * @return list of variables in the proper order
-     */
-    List<Variable> getVariables();
+public interface Block extends Container, Executable {
 
 }
