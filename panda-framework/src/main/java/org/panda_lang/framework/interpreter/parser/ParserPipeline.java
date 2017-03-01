@@ -21,10 +21,10 @@ import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream
 public interface ParserPipeline {
 
     /**
-     * @param sourceDistributor source
+     * @param sourceStream source
      * @return parser which fits to source
      */
-    UnifiedParser handle(SourceStream sourceDistributor);
+    UnifiedParser handle(SourceStream sourceStream);
 
     /**
      * @param parserRepresentation specified parser representation which will be registered in pipeline
