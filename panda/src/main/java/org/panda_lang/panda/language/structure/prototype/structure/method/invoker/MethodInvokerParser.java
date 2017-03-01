@@ -17,17 +17,19 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
-
-import java.util.List;
 
 @ParserRegistration(parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
 public class MethodInvokerParser implements UnifiedParser {
@@ -44,21 +46,36 @@ public class MethodInvokerParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo parserInfo) {
-        TokenReader reader = parserInfo.getComponent(Components.SOURCE_STREAM);
+        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
 
-        Extractor extractor = PATTERN.extractor();
-        List<TokenizedSource> gaps = extractor.extract(reader);
+        generation.getLayer(ParserGenerationType.HIGHER)
+                .delegateImmediately(new MethodInvokerDeclarationParserCallback(), parserInfo.fork());
+    }
 
-        if (gaps == null) {
-            throw new PandaParserException("Mismatched parser to the specified source");
+    @LocalCallback
+    private static class MethodInvokerDeclarationParserCallback implements ParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
+
+            redactor.map("instance", "method-name", "arguments");
+            delegatedInfo.setComponent("redactor", redactor);
+
+            System.out.println(redactor.get("instance") + " | " + redactor.get("method-name"));
         }
 
-        TokenizedSource className = gaps.get(0);
-        TokenizedSource concatenation = gaps.get(1);
+    }
 
-        System.out.println(className + " | " + concatenation);
+    @LocalCallback
+    private static class MethodInvokerParserCallback implements ParserGenerationCallback {
 
-        //return null;
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+        }
+
     }
 
 }

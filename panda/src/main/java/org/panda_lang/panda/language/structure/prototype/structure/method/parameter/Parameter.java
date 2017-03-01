@@ -16,6 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.parameter;
 
+import org.panda_lang.framework.structure.Variable;
+import org.panda_lang.panda.implementation.structure.PandaVariable;
+
 public class Parameter {
 
     private final String parameterType;
@@ -32,6 +35,10 @@ public class Parameter {
 
     public String getParameterType() {
         return parameterType;
+    }
+
+    public Variable toVariable() {
+        return new PandaVariable(parameterType, parameterName);
     }
 
 }

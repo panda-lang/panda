@@ -62,7 +62,7 @@ public class MethodParser implements UnifiedParser {
         int id = wrapperLinker.getNextID();
 
         MethodWrapper methodWrapper = new MethodWrapper(id, methodName, parameters);
-        wrapperLinker.pushWrapper(methodWrapper);
+        wrapperLinker.pushScope(methodWrapper);
 
         OverallParser overallParser = new OverallParser(parserInfo);
         for (Statement statement : overallParser) {
