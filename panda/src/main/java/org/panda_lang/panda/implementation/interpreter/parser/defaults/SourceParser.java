@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.framework.interpreter.parser.linker.WrapperLinker;
+import org.panda_lang.framework.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.SourceSet;
@@ -34,7 +34,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.P
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.generation.PandaParserGeneration;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaWrapperLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 
@@ -56,7 +56,7 @@ public class SourceParser implements Parser {
 
         ParserPipeline pipeline = parserComposition.getPipeline();
         ParserGeneration generation = new PandaParserGeneration();
-        WrapperLinker linker = new PandaWrapperLinker();
+        ScopeLinker linker = new PandaScopeLinker();
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
