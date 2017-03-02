@@ -14,27 +14,35 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser;
+package org.panda_lang.framework.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public interface ParserRepresentation {
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
+    /**
+     * Add 1 to number of use. It's used to optimization process of parsing.
+     */
+    void increaseUsages();
 
-public @interface ParserRegistration {
+    /**
+     * @return amount of usages
+     */
+    int getUsages();
 
-    Class<? extends UnifiedParser> parserClass();
+    /**
+     * @return priority
+     */
+    int getPriority();
 
-    Class<? extends ParserHandler> handlerClass();
+    /**
+     * @return associated handler
+     */
+    ParserHandler getHandler();
 
-    int priority() default 0;
+    /**
+     * @return associated parser
+     */
+    UnifiedParser getParser();
 
 }
-
-

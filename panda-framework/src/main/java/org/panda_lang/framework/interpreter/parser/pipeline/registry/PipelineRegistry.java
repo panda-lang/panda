@@ -14,33 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.parser;
+package org.panda_lang.framework.interpreter.parser.pipeline.registry;
 
-public interface ParserRepresentation {
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
 
-    /**
-     * Add 1 to number of use. It's used to optimization process of parsing.
-     */
-    void increaseUsages();
+public interface PipelineRegistry {
 
-    /**
-     * @return amount of usages
-     */
-    int getUsages();
-
-    /**
-     * @return priority
-     */
-    int getPriority();
-
-    /**
-     * @return associated handler
-     */
-    ParserHandler getHandler();
-
-    /**
-     * @return associated parser
-     */
-    UnifiedParser getParser();
+    ParserPipeline getPipeline(String pipelineName);
 
 }

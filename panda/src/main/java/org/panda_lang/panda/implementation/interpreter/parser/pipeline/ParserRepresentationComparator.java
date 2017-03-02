@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser;
+package org.panda_lang.panda.implementation.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.interpreter.parser.ParserRepresentation;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserRepresentation;
 
 import java.util.Comparator;
 

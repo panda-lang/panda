@@ -14,34 +14,35 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser;
+package org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.framework.interpreter.parser.ParserPipeline;
-import org.panda_lang.framework.interpreter.parser.ParserRepresentation;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Set;
 
-public class ParserRegistry {
+public class ParserRegistrationLoader {
 
-    private final ParserPipeline pipeline;
-
-    public ParserRegistry() {
-        this.pipeline = new PandaParserPipeline();
+    public PandaPipelineRegistry load() {
+        PandaPipelineRegistry registry = new PandaPipelineRegistry();
 
         try {
-            this.initialize();
+            load(registry);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return registry;
     }
 
-    protected void initialize() throws Exception {
+    protected void load(PandaPipelineRegistry registry) throws Exception {
         ConfigurationBuilder config = new ConfigurationBuilder();
         config.setClassLoaders(new ClassLoader[]{ getClass().getClassLoader() });
         config.addUrls(Panda.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());
@@ -59,12 +60,13 @@ public class ParserRegistry {
             ParserHandler handler = handlerConstructor.newInstance();
 
             ParserRepresentation representation = new PandaParserRepresentation(parser, handler, parserRegistration.priority());
-            pipeline.registerParserRepresentation(representation);
+
+            for (String target : parserRegistration.target()) {
+                ParserPipeline pipeline = registry.getOrCreate(target);
+                pipeline.registerParserRepresentation(representation);
+            }
         }
     }
 
-    public ParserPipeline getPipeline() {
-        return pipeline;
-    }
 
 }

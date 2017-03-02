@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser;
+package org.panda_lang.panda.implementation.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
-import org.panda_lang.framework.interpreter.parser.ParserPipeline;
-import org.panda_lang.framework.interpreter.parser.ParserRepresentation;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 
 import java.util.ArrayList;

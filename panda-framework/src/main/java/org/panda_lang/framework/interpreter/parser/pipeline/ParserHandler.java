@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.parser;
+package org.panda_lang.framework.interpreter.parser.pipeline;
 
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 
