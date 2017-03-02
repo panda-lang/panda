@@ -61,7 +61,7 @@ public class PandaTokenizedSource implements TokenizedSource {
             builder.append(" ");
         }
 
-        return builder.toString();
+        return builder.toString().trim();
     }
 
 }
