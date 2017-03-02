@@ -37,9 +37,9 @@ public class Components {
     public static final String SCRIPT = "script";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.ParserPipeline}
+     * Used by {@link org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry}
      */
-    public static final String PARSER_PIPELINE = "pipeline";
+    public static final String PIPELINE_REGISTRY = "pipeline";
 
     /**
      * Used by {@link org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream}
@@ -69,7 +69,7 @@ public class Components {
     static {
         VALUES[0] = FORKED;
         VALUES[1] = INTERPRETER;
-        VALUES[2] = PARSER_PIPELINE;
+        VALUES[2] = PIPELINE_REGISTRY;
         VALUES[3] = SOURCE_STREAM;
         VALUES[4] = GENERATION;
         VALUES[5] = CURRENT_PARSER_INFO;
