@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
@@ -25,12 +26,20 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.framework.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.language.structure.group.Group;
+import org.panda_lang.panda.language.structure.imports.Import;
+import org.panda_lang.panda.language.structure.imports.ImportStatement;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+
+import java.util.List;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
 public class MethodInvokerParser implements UnifiedParser {
@@ -76,6 +85,32 @@ public class MethodInvokerParser implements UnifiedParser {
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+
+            TokenizedSource instance = redactor.get("instance");
+            TokenizedSource method = redactor.get("method-name");
+            TokenizedSource arguments = redactor.get("arguments");
+
+            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            List<ImportStatement> importStatements = script.select(ImportStatement.class);
+
+            // Temp, just a test
+
+            String prototypeName = instance.getToken(0).getTokenValue();
+            String methodName = method.getToken(0).getTokenValue();
+            ClassPrototype prototype = null;
+
+            for (ImportStatement importStatement : importStatements) {
+                Import anImport = importStatement.getAssociatedImport();
+                Group group = anImport.getGroup();
+                prototype = group.get(prototypeName);
+
+                if (prototype != null) {
+                    break;
+                }
+            }
+
+            Method prototypeMethod = prototype.getMethods().get(methodName);
+            prototypeMethod.invoke(null);
         }
 
     }
