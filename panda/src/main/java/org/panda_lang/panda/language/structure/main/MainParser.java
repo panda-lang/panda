@@ -31,10 +31,11 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.parser.defaults.ScopeParser;
 
-@ParserRegistration(parserClass = MainParser.class, handlerClass = MainParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = MainParser.class, handlerClass = MainParserHandler.class)
 public class MainParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
