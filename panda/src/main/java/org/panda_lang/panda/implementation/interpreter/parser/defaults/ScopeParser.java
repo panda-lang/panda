@@ -20,11 +20,14 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.ParserPipeline;
+import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.structure.Scope;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 
 public class ScopeParser implements Parser {
 
@@ -35,13 +38,21 @@ public class ScopeParser implements Parser {
     }
 
     public void parse(ParserInfo parserInfo, TokenizedSource body) {
-        ParserPipeline pipeline = parserInfo.getComponent(Components.PARSER_PIPELINE);
+        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+
+        PipelineRegistry pipelineRegistry = parserInfo.getComponent(Components.PIPELINE_REGISTRY);
+        ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
-        UnifiedParser parser = pipeline.handle(stream);
 
-        parserInfo.setComponent(Components.SOURCE_STREAM, stream);
-        parser.parse(parserInfo);
+        while (stream.hasUnreadSource()) {
+            UnifiedParser parser = pipeline.handle(stream);
+
+            parserInfo.setComponent(Components.SOURCE_STREAM, stream);
+            parser.parse(parserInfo);
+
+            generation.executeImmediately(parserInfo);
+        }
     }
 
 }

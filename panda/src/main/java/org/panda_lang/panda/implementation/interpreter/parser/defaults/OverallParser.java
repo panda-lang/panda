@@ -18,11 +18,13 @@ package org.panda_lang.panda.implementation.interpreter.parser.defaults;
 
 import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.ParserPipeline;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 
 public class OverallParser {
 
@@ -33,7 +35,10 @@ public class OverallParser {
 
     public OverallParser(ParserInfo parserInfo) {
         this.parserInfo = parserInfo;
-        this.pipeline = parserInfo.getComponent(Components.PARSER_PIPELINE);
+
+        PipelineRegistry pipelineRegistry = parserInfo.getComponent(Components.PIPELINE_REGISTRY);
+        this.pipeline = pipelineRegistry.getPipeline(DefaultPipelines.OVERALL);
+
         this.sourceStream = parserInfo.getComponent(Components.SOURCE_STREAM);
         this.generation = parserInfo.getComponent(Components.GENERATION);
     }

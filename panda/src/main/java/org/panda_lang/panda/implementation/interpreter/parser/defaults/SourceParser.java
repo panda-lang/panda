@@ -19,9 +19,8 @@ package org.panda_lang.panda.implementation.interpreter.parser.defaults;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.framework.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.SourceSet;
@@ -32,9 +31,7 @@ import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
 import org.panda_lang.panda.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserInfo;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.generation.PandaParserGeneration;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 
@@ -52,17 +49,14 @@ public class SourceParser implements Parser {
         Panda panda = interpreter.getPanda();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
-        ParserRegistry parserComposition = pandaComposition.getParserRegistry();
+        PipelineRegistry pipelineRegistry = pandaComposition.getPipelineRegistry();
 
-        ParserPipeline pipeline = parserComposition.getPipeline();
         ParserGeneration generation = new PandaParserGeneration();
-        ScopeLinker linker = new PandaScopeLinker();
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
-        parserInfo.setComponent(Components.PARSER_PIPELINE, pipeline);
+        parserInfo.setComponent(Components.PIPELINE_REGISTRY, pipelineRegistry);
         parserInfo.setComponent(Components.GENERATION, generation);
-        parserInfo.setComponent(Components.LINKER, linker);
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
