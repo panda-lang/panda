@@ -29,9 +29,10 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 
-@ParserRegistration(parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
+@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
 public class MethodInvokerParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
@@ -62,6 +63,7 @@ public class MethodInvokerParser implements UnifiedParser {
 
             redactor.map("instance", "method-name", "arguments");
             delegatedInfo.setComponent("redactor", redactor);
+            nextLayer.delegate(new MethodInvokerParserCallback(), delegatedInfo);
 
             System.out.println(redactor.get("instance") + " | " + redactor.get("method-name"));
         }

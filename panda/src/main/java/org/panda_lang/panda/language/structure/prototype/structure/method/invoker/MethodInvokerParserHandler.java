@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.method.invok
 
 import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
 
 public class MethodInvokerParserHandler implements ParserHandler {
