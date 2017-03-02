@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.imports;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.parser.ParserHandler;
+import org.panda_lang.framework.interpreter.parser.pipeline.ParserHandler;
 
 public class ImportParserHandler implements ParserHandler {
 

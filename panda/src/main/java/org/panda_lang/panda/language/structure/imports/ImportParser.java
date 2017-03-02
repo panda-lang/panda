@@ -33,11 +33,12 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.ParserRegistration;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 
-@ParserRegistration(parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
