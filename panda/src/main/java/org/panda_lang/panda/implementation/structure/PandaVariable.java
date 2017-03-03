@@ -38,4 +38,9 @@ public class PandaVariable implements Variable {
         return variableType;
     }
 
+    @Override
+    public String toString() {
+        return "'" + getVariableName() + "': '" + getVariableType() + "'";
+    }
+
 }

@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
+package org.panda_lang.panda.implementation.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.dynamic.Executable;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+public class DefaultPriorities {
 
-public class MethodInvoker implements Executable {
+    /**
+     * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.method.parser.MethodParser}
+     */
+    public static final int METHOD_PARSER = 1;
 
-    private final Method method;
-
-    public MethodInvoker(Method method) {
-        this.method = method;
-    }
-
-    @Override
-    public void execute(ExecutableBridge executionInfo) {
-
-    }
+    /**
+     * Used by {@link org.panda_lang.panda.language.structure.variable.VariableParser}
+     */
+    public static final int VARIABLE_PARSER = 10;
 
 }
