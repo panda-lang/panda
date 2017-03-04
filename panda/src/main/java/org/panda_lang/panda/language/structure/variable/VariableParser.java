@@ -25,7 +25,9 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.framework.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.framework.structure.Scope;
 import org.panda_lang.framework.structure.Variable;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
@@ -64,7 +66,6 @@ public class VariableParser implements UnifiedParser {
 
             redactor.map("left", "right");
             delegatedInfo.setComponent("redactor", redactor);
-            nextLayer.delegate(new VariableParserCallback(), delegatedInfo);
 
             TokenizedSource left = redactor.get("left");
             String variableType = left.getToken(0).getTokenValue();
@@ -72,6 +73,12 @@ public class VariableParser implements UnifiedParser {
 
             Variable variable = new PandaVariable(variableType, variableName);
             System.out.println(variable);
+
+            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+            Scope scope = linker.getCurrentScope();
+
+            scope.getVariables().add(variable);
+            nextLayer.delegate(new VariableParserCallback(), delegatedInfo);
         }
 
     }
@@ -81,7 +88,7 @@ public class VariableParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-
+            System.out.println("hello");
         }
 
     }
