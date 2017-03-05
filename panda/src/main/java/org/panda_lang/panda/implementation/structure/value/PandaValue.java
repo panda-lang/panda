@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.structure.value;
+
+import org.panda_lang.panda.implementation.structure.value.Value;
 
 public class PandaValue implements Value {
 

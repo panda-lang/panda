@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.structure.util;
 
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.framework.structure.Statement;
 
-public interface Variable {
+/**
+ * StatementCell is a mutable container for {@link Statement}
+ */
+public interface StatementCell {
 
-    String getVariableName();
+    void setStatement(Statement statement);
 
-    ClassPrototype getVariableType();
+    boolean isExecutable();
+
+    Statement getStatement();
 
 }

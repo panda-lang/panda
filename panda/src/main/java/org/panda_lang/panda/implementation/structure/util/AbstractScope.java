@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.implementation.structure.util;
 
-import org.panda_lang.panda.implementation.structure.Variable;
-import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
 import java.util.ArrayList;
 import java.util.List;

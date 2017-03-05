@@ -16,5 +16,34 @@
 
 package org.panda_lang.panda.language.structure.imports;
 
+import org.panda_lang.panda.language.structure.group.Group;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class ImportRegistry {
+
+    private final Collection<Group> importedGroups;
+
+    public ImportRegistry() {
+        this.importedGroups = new ArrayList<>();
+    }
+
+    public void include(Group group) {
+        this.importedGroups.add(group);
+    }
+
+    public ClassPrototype forClass(String className) {
+        for (Group group : importedGroups) {
+            ClassPrototype prototype = group.get(className);
+
+            if (prototype != null) {
+                return prototype;
+            }
+        }
+
+        return null;
+    }
+
 }

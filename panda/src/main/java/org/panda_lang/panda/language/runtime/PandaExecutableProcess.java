@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.runtime;
 
-import org.panda_lang.panda.implementation.structure.Value;
+import org.panda_lang.panda.implementation.structure.value.Value;
 
 public class PandaExecutableProcess implements ExecutableProcess {
 

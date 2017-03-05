@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.composition.prototypes;
 
-import org.panda_lang.panda.implementation.structure.Value;
+import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;

@@ -14,25 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.structure.wrapper;
 
-import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 
 import java.util.List;
 
-public interface Container extends Statement {
+/**
+ * Specific type of scope which contains own memory, independence, etc.
+ */
+public interface Scope extends Container {
 
     /**
-     * Adds executable to the current scope
+     * Creates new instance of the current wrapper for individual values for fields, etc.
      *
-     * @param statement proper statement
-     * @return executable cell where executable was placed
+     * @return instance of the current wrapper
      */
-    StatementCell addStatement(Statement statement);
+    ScopeInstance createInstance();
 
     /**
-     * @return list of all cells in correct order
+     * @return list of variables in the proper order
      */
-    List<StatementCell> getStatementCells();
+    List<Variable> getVariables();
 
 }

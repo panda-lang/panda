@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.parameter;
 
-import org.panda_lang.panda.implementation.structure.Variable;
-import org.panda_lang.panda.implementation.structure.PandaVariable;
+import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.implementation.structure.value.PandaVariable;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class Parameter {

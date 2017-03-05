@@ -14,27 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.structure.value;
 
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-import java.util.List;
+public interface Variable {
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Scope extends Container {
+    String getVariableName();
 
-    /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
-     *
-     * @return instance of the current wrapper
-     */
-    ScopeInstance createInstance();
-
-    /**
-     * @return list of variables in the proper order
-     */
-    List<Variable> getVariables();
+    ClassPrototype getVariableType();
 
 }

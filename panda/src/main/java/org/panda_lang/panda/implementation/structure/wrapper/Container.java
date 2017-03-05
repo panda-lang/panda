@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.structure.wrapper;
 
 import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.structure.util.StatementCell;
 
-/**
- * StatementCell is a mutable container for {@link Statement}
- */
-public interface StatementCell {
+import java.util.List;
 
-    void setStatement(Statement statement);
+public interface Container extends Statement {
 
-    boolean isExecutable();
+    /**
+     * Adds executable to the current scope
+     *
+     * @param statement proper statement
+     * @return executable cell where executable was placed
+     */
+    StatementCell addStatement(Statement statement);
 
-    Statement getStatement();
+    /**
+     * @return list of all cells in correct order
+     */
+    List<StatementCell> getStatementCells();
 
 }

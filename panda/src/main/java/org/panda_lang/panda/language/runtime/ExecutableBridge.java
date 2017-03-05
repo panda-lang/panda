@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
-import org.panda_lang.panda.implementation.structure.Value;
+import org.panda_lang.panda.implementation.structure.value.Value;
 
 public interface ExecutableBridge {
 

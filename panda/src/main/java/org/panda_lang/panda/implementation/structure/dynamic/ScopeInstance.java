@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.implementation.structure.dynamic;
 
-import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
 public interface ScopeInstance extends Executable {
 

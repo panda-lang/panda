@@ -34,9 +34,9 @@ import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.implementation.structure.PandaVariable;
-import org.panda_lang.panda.implementation.structure.Scope;
-import org.panda_lang.panda.implementation.structure.Variable;
+import org.panda_lang.panda.implementation.structure.value.PandaVariable;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.implementation.structure.value.Variable;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {

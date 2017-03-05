@@ -17,69 +17,24 @@
 package org.panda_lang.panda.implementation.structure;
 
 import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.implementation.structure.util.AbstractScript;
+import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 
-import java.util.ArrayList;
-import java.util.List;
+public class PandaScript extends AbstractScript {
 
-public class PandaScript implements Script {
-
-    private final String scriptName;
-    private final List<Statement> statements;
+    protected final ImportRegistry importRegistry;
 
     public PandaScript(String scriptName) {
-        this.scriptName = scriptName;
-        this.statements = new ArrayList<>();
-    }
-
-    @Override
-    @SuppressWarnings({ "unchecked "})
-    public <T extends Statement> List<T> select(Class<? extends T> statementClass) {
-        List<T> selectedStatements = new ArrayList<>();
-
-        for (Statement statement : statements) {
-            if (!statementClass.isInstance(statement)) {
-                continue;
-            }
-
-            T element = (T) statement;
-            selectedStatements.add(element);
-        }
-
-        return selectedStatements;
+        super(scriptName);
+        this.importRegistry = new ImportRegistry();
     }
 
     public void addStatement(Statement statement) {
         this.statements.add(statement);
     }
 
-    @Override
-    public List<Statement> getStatements() {
-        return statements;
+    public ImportRegistry getImportRegistry() {
+        return importRegistry;
     }
 
-    @Override
-    public String getScriptName() {
-        return scriptName;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder node = new StringBuilder();
-
-        node.append("'");
-        node.append(getScriptName());
-        node.append("': {");
-
-        for (Statement statement : statements) {
-            node.append(System.lineSeparator());
-            node.append("  ");
-            node.append(statement.toString());
-            node.append(",");
-        }
-
-        node.append(System.lineSeparator());
-        node.append("}");
-
-        return node.toString();
-    }
 }

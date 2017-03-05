@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.linker;
 
-import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
 public interface ScopeLinker {
 

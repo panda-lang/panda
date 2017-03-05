@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.main;
 
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
-import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 
 public class MainInstance implements ScopeInstance {

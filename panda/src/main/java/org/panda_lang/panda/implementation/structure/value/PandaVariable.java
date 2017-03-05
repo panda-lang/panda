@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure;
+package org.panda_lang.panda.implementation.structure.value;
 
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 

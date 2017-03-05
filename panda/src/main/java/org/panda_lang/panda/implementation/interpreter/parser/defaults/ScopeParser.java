@@ -25,7 +25,7 @@ import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 
