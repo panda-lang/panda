@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.structure.Script;
 import org.panda_lang.framework.structure.Statement;
 
 import java.util.ArrayList;

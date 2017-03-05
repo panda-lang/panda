@@ -14,25 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.runtime;
+package org.panda_lang.panda.language.structure.imports;
 
-import org.panda_lang.framework.structure.dynamic.Executable;
-import org.panda_lang.framework.structure.Value;
-
-public interface ExecutableBridge {
-
-    /**
-     * Call next executable by {@link ExecutableProcess}
-     *
-     * @param executable to call
-     */
-    void call(Executable executable);
-
-    /**
-     * Interrupt the execution process and return value
-     *
-     * @param value result
-     */
-    void returnValue(Value value);
-
+public class ImportRegistry {
 }

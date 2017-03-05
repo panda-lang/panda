@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.language.runtime;
 
-import org.panda_lang.framework.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.implementation.structure.Value;
 
-import java.util.List;
-
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Scope extends Container {
+public interface ExecutableBridge {
 
     /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
+     * Call next executable by {@link ExecutableProcess}
      *
-     * @return instance of the current wrapper
+     * @param executable to call
      */
-    ScopeInstance createInstance();
+    void call(Executable executable);
 
     /**
-     * @return list of variables in the proper order
+     * Interrupt the execution process and return value
+     *
+     * @param value result
      */
-    List<Variable> getVariables();
+    void returnValue(Value value);
 
 }

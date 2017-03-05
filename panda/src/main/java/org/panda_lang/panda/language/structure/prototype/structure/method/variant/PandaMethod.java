@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
-import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.implementation.structure.Value;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
@@ -28,7 +28,7 @@ public class PandaMethod implements Method {
 
     private final ClassPrototype prototype;
     private final String methodName;
-    private final String returnType;
+    private final ClassPrototype returnType;
     private final MethodCallback methodBody;
     private final boolean isStatic;
     private MethodVisibility visibility;
@@ -37,7 +37,7 @@ public class PandaMethod implements Method {
         this(prototype, methodName, methodBody, isStatic, visibility, null);
     }
 
-    public PandaMethod(ClassPrototype prototype, String methodName, MethodCallback methodBody, boolean isStatic, MethodVisibility visibility, String returnType) {
+    public PandaMethod(ClassPrototype prototype, String methodName, MethodCallback methodBody, boolean isStatic, MethodVisibility visibility, ClassPrototype returnType) {
         this.prototype = prototype;
         this.methodName = methodName;
         this.returnType = returnType;
@@ -62,7 +62,7 @@ public class PandaMethod implements Method {
     }
 
     @Override
-    public String getReturnType() {
+    public ClassPrototype getReturnType() {
         return returnType;
     }
 

@@ -14,12 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.analyzer;
+package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.structure.Application;
+/**
+ * Mutable wrapper for java object
+ */
+public interface Value {
 
-public interface Analyzer {
+    void setValue(Object value);
 
-    void analyze(Application application);
+    Object getValue();
 
 }

@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.implementation.structure;
+
+import org.panda_lang.framework.structure.Statement;
 
 import java.util.List;
 
-public interface Container extends Statement {
+public interface Script {
 
     /**
-     * Adds executable to the current scope
-     *
-     * @param statement proper statement
-     * @return executable cell where executable was placed
+     * @return selected statements by the specified class
      */
-    StatementCell addStatement(Statement statement);
+    <T extends Statement> List<T> select(Class<? extends T> statementClass);
 
     /**
-     * @return list of all cells in correct order
+     * @return list of the statement declarations
      */
-    List<StatementCell> getStatementCells();
+    List<Statement> getStatements();
+
+    /**
+     * @return the script name, e.g. name of file or generated name
+     */
+    String getScriptName();
 
 }

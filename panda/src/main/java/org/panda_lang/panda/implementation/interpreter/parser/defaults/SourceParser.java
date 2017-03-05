@@ -24,7 +24,7 @@ import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineReg
 import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.SourceSet;
-import org.panda_lang.framework.structure.Script;
+import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;

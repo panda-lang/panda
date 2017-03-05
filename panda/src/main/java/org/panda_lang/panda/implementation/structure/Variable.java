@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.implementation.structure;
+
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public interface Variable {
 
     String getVariableName();
 
-    String getVariableType();
+    ClassPrototype getVariableType();
 
 }

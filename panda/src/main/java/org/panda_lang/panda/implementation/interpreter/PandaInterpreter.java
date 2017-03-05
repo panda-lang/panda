@@ -40,7 +40,6 @@ public class PandaInterpreter implements Interpreter {
         parser.parse(sourceSet);
     }
 
-    @Override
     public PandaApplication getApplication() {
         return application;
     }

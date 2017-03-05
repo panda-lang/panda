@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure.dynamic;
+package org.panda_lang.panda.language.runtime;
 
-import org.panda_lang.framework.structure.Scope;
+import org.panda_lang.panda.implementation.structure.Value;
 
-public interface ScopeInstance extends Executable {
+public class PandaExecutableProcess implements ExecutableProcess {
 
-    /**
-     * @return array of variables which index is equals to order of fields
-     */
-    Object[] getVariables();
-
-    /**
-     * @return the proper wrapper
-     */
-    Scope getWrapper();
+    @Override
+    public Value execute() {
+        return null;
+    }
 
 }

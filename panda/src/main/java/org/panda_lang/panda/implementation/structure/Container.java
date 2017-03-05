@@ -14,13 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure.dynamic;
+package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
 import org.panda_lang.framework.structure.Statement;
 
-public interface Executable extends Statement {
+import java.util.List;
 
-    void execute(ExecutableBridge executionInfo);
+public interface Container extends Statement {
+
+    /**
+     * Adds executable to the current scope
+     *
+     * @param statement proper statement
+     * @return executable cell where executable was placed
+     */
+    StatementCell addStatement(Statement statement);
+
+    /**
+     * @return list of all cells in correct order
+     */
+    List<StatementCell> getStatementCells();
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.memory;
+package org.panda_lang.panda.language.memory;
 
 import org.panda_lang.framework.util.BitwiseUtils;
 

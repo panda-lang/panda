@@ -14,15 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.implementation.structure;
 
-/**
- * Mutable wrapper for java object
- */
-public interface Value {
+import org.panda_lang.panda.language.memory.Memory;
 
-    void setValue(Object value);
+import java.util.List;
 
-    Object getValue();
+public interface Application {
+
+    /**
+     * Launch application with the specified arguments
+     */
+    void launch(String[] arguments);
+
+    /**
+     * @return a list of belonging to the application scripts
+     */
+    List<Script> getScripts();
+
+    /**
+     * @return directory where application was called
+     */
+    String getWorkingDirectory();
+
+    /**
+     * @return a memory used by application
+     */
+    Memory getMemory();
 
 }

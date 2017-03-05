@@ -14,32 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.memory.Memory;
+import org.panda_lang.framework.structure.Statement;
 
-import java.util.List;
+/**
+ * StatementCell is a mutable container for {@link Statement}
+ */
+public interface StatementCell {
 
-public interface Application {
+    void setStatement(Statement statement);
 
-    /**
-     * Launch application with the specified arguments
-     */
-    void launch(String[] arguments);
+    boolean isExecutable();
 
-    /**
-     * @return a list of belonging to the application scripts
-     */
-    List<Script> getScripts();
-
-    /**
-     * @return directory where application was called
-     */
-    String getWorkingDirectory();
-
-    /**
-     * @return a memory used by application
-     */
-    Memory getMemory();
+    Statement getStatement();
 
 }

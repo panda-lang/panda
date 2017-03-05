@@ -16,17 +16,19 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.field;
 
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+
 public class Field {
 
     private final String name;
-    private final String type;
+    private final ClassPrototype type;
 
-    public Field(String name, String type) {
+    public Field(String name, ClassPrototype type) {
         this.name = name;
         this.type = type;
     }
 
-    public String getType() {
+    public ClassPrototype getType() {
         return type;
     }
 

@@ -16,14 +16,27 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.dynamic.Executable;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class Expression implements Executable {
+
+    private final ExpressionType type;
+    private final ClassPrototype returnType;
+
+    public Expression(ExpressionType type, ClassPrototype returnType) {
+        this.type = type;
+        this.returnType =  returnType;
+    }
 
     @Override
     public void execute(ExecutableBridge executionInfo) {
 
+    }
+
+    public ExpressionType getType() {
+        return type;
     }
 
 }

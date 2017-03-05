@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.dynamic.Executable;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
 public class MethodInvoker implements Executable {

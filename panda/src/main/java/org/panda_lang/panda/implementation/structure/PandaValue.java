@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.structure.Value;
-
 public class PandaValue implements Value {
 
     private Object value;

@@ -40,7 +40,8 @@ public class ParameterParser implements Parser {
             String type = parameterTypeRepresentation.getToken().getTokenValue();
             String name = parameterNameRepresentation.getToken().getTokenValue();
 
-            Parameter parameter = new Parameter(type, name);
+            // TODO
+            Parameter parameter = new Parameter(null, name);
             parameters.add(parameter);
 
             if (i + 2 < tokenRepresentations.length) {

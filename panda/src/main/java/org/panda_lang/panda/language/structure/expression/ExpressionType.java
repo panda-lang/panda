@@ -14,17 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.language.structure.expression;
 
-/**
- * StatementCell is a mutable container for {@link Statement}
- */
-public interface StatementCell {
+public enum ExpressionType {
 
-    void setStatement(Statement statement);
-
-    boolean isExecutable();
-
-    Statement getStatement();
+    KNOWN,
+    UNKNOWN
 
 }

@@ -24,7 +24,7 @@ public interface Method extends MethodCallback {
 
     MethodVisibility getVisibility();
 
-    String getReturnType();
+    ClassPrototype getReturnType();
 
     String getMethodName();
 

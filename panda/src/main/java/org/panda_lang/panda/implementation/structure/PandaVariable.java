@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.implementation.structure;
 
-import org.panda_lang.framework.structure.Variable;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class PandaVariable implements Variable {
 
-    private final String variableType;
+    private final ClassPrototype variableType;
     private final String variableName;
 
-    public PandaVariable(String variableType, String variableName) {
+    public PandaVariable(ClassPrototype variableType, String variableName) {
         this.variableType = variableType;
         this.variableName = variableName;
     }
@@ -34,7 +34,7 @@ public class PandaVariable implements Variable {
     }
 
     @Override
-    public String getVariableType() {
+    public ClassPrototype getVariableType() {
         return variableType;
     }
 

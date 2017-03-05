@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.runtime;
+package org.panda_lang.panda.language.runtime;
 
-import org.panda_lang.framework.runtime.ExecutableBridge;
-import org.panda_lang.framework.structure.Application;
-import org.panda_lang.framework.structure.dynamic.Executable;
-import org.panda_lang.framework.structure.Value;
-import org.panda_lang.framework.structure.Scope;
+import org.panda_lang.panda.implementation.structure.Application;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.implementation.structure.Value;
+import org.panda_lang.panda.implementation.structure.Scope;
 
 public class PandaExecutableBridge implements ExecutableBridge {
 

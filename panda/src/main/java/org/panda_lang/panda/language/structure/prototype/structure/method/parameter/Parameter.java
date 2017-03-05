@@ -16,15 +16,16 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.parameter;
 
-import org.panda_lang.framework.structure.Variable;
+import org.panda_lang.panda.implementation.structure.Variable;
 import org.panda_lang.panda.implementation.structure.PandaVariable;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class Parameter {
 
-    private final String parameterType;
+    private final ClassPrototype parameterType;
     private final String parameterName;
 
-    public Parameter(String parameterType, String parameterName) {
+    public Parameter(ClassPrototype parameterType, String parameterName) {
         this.parameterType = parameterType;
         this.parameterName = parameterName;
     }
@@ -33,7 +34,7 @@ public class Parameter {
         return parameterName;
     }
 
-    public String getParameterType() {
+    public ClassPrototype getParameterType() {
         return parameterType;
     }
 

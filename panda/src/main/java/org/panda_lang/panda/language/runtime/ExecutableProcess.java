@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter;
+package org.panda_lang.panda.language.runtime;
 
-public interface Interpreter {
+import org.panda_lang.panda.implementation.structure.Value;
 
-    /**
-     * Starts the process of interpretation
-     */
-    void interpret();
+public interface ExecutableProcess {
+
+    Value execute();
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
-import org.panda_lang.framework.structure.dynamic.Executable;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
 public class PandaMethodBuilder {

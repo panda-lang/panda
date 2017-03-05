@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.implementation.structure.Value;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 
 public abstract class VoidMethodCallback implements MethodCallback {

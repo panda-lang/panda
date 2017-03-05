@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.runtime;
+package org.panda_lang.panda.implementation.structure.dynamic;
 
-import org.panda_lang.framework.runtime.ExecutableProcess;
-import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.framework.structure.Statement;
 
-public class PandaExecutableProcess implements ExecutableProcess {
+public interface Executable extends Statement {
 
-    @Override
-    public Value execute() {
-        return null;
-    }
+    void execute(ExecutableBridge executionInfo);
 
 }

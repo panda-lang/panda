@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.linker;
 
-import org.panda_lang.framework.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.framework.structure.Scope;
-import org.panda_lang.framework.structure.Script;
+import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.Script;
 
 import java.util.Stack;
 

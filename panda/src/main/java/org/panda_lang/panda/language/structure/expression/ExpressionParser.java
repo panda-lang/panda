@@ -22,8 +22,8 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 
 public class ExpressionParser implements Parser {
 
-    public void parse(ParserInfo info, TokenizedSource expressionSource) {
-
+    public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
+        return null;
     }
 
 }

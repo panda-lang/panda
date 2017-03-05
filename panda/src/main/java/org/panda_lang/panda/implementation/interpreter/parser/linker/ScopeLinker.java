@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.runtime;
+package org.panda_lang.panda.implementation.interpreter.parser.linker;
 
-import org.panda_lang.framework.structure.Value;
+import org.panda_lang.panda.implementation.structure.Scope;
 
-public interface ExecutableProcess {
+public interface ScopeLinker {
 
-    Value execute();
+    void pushScope(Scope scope);
+
+    Scope popScope();
+
+    Scope getCurrentScope();
+
+    int getNextID();
 
 }

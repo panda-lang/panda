@@ -25,18 +25,18 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.framework.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.framework.structure.Scope;
-import org.panda_lang.framework.structure.Variable;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.structure.PandaVariable;
+import org.panda_lang.panda.implementation.structure.Scope;
+import org.panda_lang.panda.implementation.structure.Variable;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
@@ -71,7 +71,8 @@ public class VariableParser implements UnifiedParser {
             String variableType = left.getToken(0).getTokenValue();
             String variableName = left.getToken(1).getTokenValue();
 
-            Variable variable = new PandaVariable(variableType, variableName);
+            // TODO
+            Variable variable = new PandaVariable(null, variableName);
             System.out.println(variable);
 
             ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);

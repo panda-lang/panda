@@ -14,25 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.structure;
+package org.panda_lang.panda.implementation.structure;
+
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 
 import java.util.List;
 
-public interface Script {
+/**
+ * Specific type of scope which contains own memory, independence, etc.
+ */
+public interface Scope extends Container {
 
     /**
-     * @return selected statements by the specified class
+     * Creates new instance of the current wrapper for individual values for fields, etc.
+     *
+     * @return instance of the current wrapper
      */
-    <T extends Statement> List<T> select(Class<? extends T> statementClass);
+    ScopeInstance createInstance();
 
     /**
-     * @return list of the statement declarations
+     * @return list of variables in the proper order
      */
-    List<Statement> getStatements();
-
-    /**
-     * @return the script name, e.g. name of file or generated name
-     */
-    String getScriptName();
+    List<Variable> getVariables();
 
 }
