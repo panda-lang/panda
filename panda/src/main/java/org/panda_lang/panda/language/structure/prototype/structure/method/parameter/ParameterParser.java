@@ -22,14 +22,18 @@ import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.framework.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserInfo parserInfo, TokenizedSource tokenizedSource) {
+    public List<Parameter> parse(ParserInfo info, TokenizedSource tokenizedSource) {
         TokenRepresentation[] tokenRepresentations = tokenizedSource.toArray();
         List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
 
@@ -37,11 +41,18 @@ public class ParameterParser implements Parser {
             TokenRepresentation parameterTypeRepresentation = tokenRepresentations[i];
             TokenRepresentation parameterNameRepresentation = tokenRepresentations[i + 1];
 
-            String type = parameterTypeRepresentation.getToken().getTokenValue();
-            String name = parameterNameRepresentation.getToken().getTokenValue();
+            String parameterType = parameterTypeRepresentation.getToken().getTokenValue();
+            String parameterName = parameterNameRepresentation.getToken().getTokenValue();
 
-            // TODO
-            Parameter parameter = new Parameter(null, name);
+            PandaScript script = info.getComponent(Components.SCRIPT);
+            ImportRegistry importRegistry = script.getImportRegistry();
+            ClassPrototype type = importRegistry.forClass(parameterType);
+
+            if (type == null) {
+                throw new PandaParserException("Unknown type '" + parameterType + "'");
+            }
+
+            Parameter parameter = new Parameter(type, parameterName);
             parameters.add(parameter);
 
             if (i + 2 < tokenRepresentations.length) {

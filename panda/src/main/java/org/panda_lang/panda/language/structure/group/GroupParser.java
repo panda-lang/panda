@@ -28,6 +28,7 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.structure.PandaScript;
 import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
@@ -35,6 +36,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeReference;
 
@@ -63,7 +65,7 @@ public class GroupParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
 
             TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
             TokenizedSource hollow = hollows.getGap(0);
@@ -82,6 +84,9 @@ public class GroupParser implements UnifiedParser {
 
             GroupStatement groupStatement = new GroupStatement(group);
             script.getStatements().add(groupStatement);
+
+            ImportRegistry importRegistry = script.getImportRegistry();
+            importRegistry.include(group);
         }
 
     }

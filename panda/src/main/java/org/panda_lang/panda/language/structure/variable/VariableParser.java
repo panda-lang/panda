@@ -30,13 +30,17 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.implementation.structure.PandaScript;
 import org.panda_lang.panda.implementation.structure.value.PandaVariable;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
@@ -71,8 +75,15 @@ public class VariableParser implements UnifiedParser {
             String variableType = left.getToken(0).getTokenValue();
             String variableName = left.getToken(1).getTokenValue();
 
-            // TODO
-            Variable variable = new PandaVariable(null, variableName);
+            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            ImportRegistry importRegistry = script.getImportRegistry();
+            ClassPrototype type = importRegistry.forClass(variableType);
+
+            if (type == null) {
+                throw new PandaParserException("Unknown type '" + variableType + "'");
+            }
+
+            Variable variable = new PandaVariable(type, variableName);
             System.out.println(variable);
 
             ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);

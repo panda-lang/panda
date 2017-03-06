@@ -11,7 +11,7 @@ class Test {
 }
 
 main {
-    String var = "Test";
+    Foo varFoo = null;
 
     System.print("Test");
 }
