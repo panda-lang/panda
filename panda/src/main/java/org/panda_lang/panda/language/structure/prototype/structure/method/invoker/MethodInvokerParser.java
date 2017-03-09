@@ -26,6 +26,7 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
@@ -33,12 +34,14 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.imports.Import;
 import org.panda_lang.panda.language.structure.imports.ImportStatement;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
+import java.awt.*;
 import java.util.List;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
@@ -109,8 +112,14 @@ public class MethodInvokerParser implements UnifiedParser {
                 }
             }
 
+            //prototypeMethod.invoke(null);
+
             Method prototypeMethod = prototype.getMethods().get(methodName);
-            prototypeMethod.invoke(null);
+            MethodInvoker invoker = new MethodInvoker(prototypeMethod);
+            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+
+            Scope currentScope = linker.getCurrentScope();
+            currentScope.addStatement(invoker);
         }
 
     }

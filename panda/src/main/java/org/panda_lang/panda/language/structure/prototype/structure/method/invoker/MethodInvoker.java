@@ -30,7 +30,7 @@ public class MethodInvoker implements Executable {
 
     @Override
     public void execute(ExecutableBridge executionInfo) {
-
+        method.invoke(null);
     }
 
 }

@@ -16,13 +16,15 @@
 
 package org.panda_lang.panda.implementation.structure.value;
 
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+
 /**
- * Mutable wrapper for java object
+ * Wrapper for objects
  */
 public interface Value {
 
-    void setValue(Object value);
-
     Object getValue();
+
+    ClassPrototype getType();
 
 }

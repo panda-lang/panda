@@ -17,26 +17,26 @@
 package org.panda_lang.panda.implementation.structure.value;
 
 import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class PandaValue implements Value {
 
-    private Object value;
+    private final Object value;
+    private final ClassPrototype type;
 
-    public PandaValue() {
-    }
-
-    public PandaValue(Object value) {
-        this.value = value;
-    }
-
-    @Override
-    public void setValue(Object value) {
+    public PandaValue(ClassPrototype type, Object value) {
+        this.type = type;
         this.value = value;
     }
 
     @Override
     public Object getValue() {
         return value;
+    }
+
+    @Override
+    public ClassPrototype getType() {
+        return type;
     }
 
 }

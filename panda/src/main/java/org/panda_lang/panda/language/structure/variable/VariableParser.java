@@ -39,6 +39,8 @@ import org.panda_lang.panda.implementation.structure.PandaScript;
 import org.panda_lang.panda.implementation.structure.value.PandaVariable;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.language.structure.expression.Expression;
+import org.panda_lang.panda.language.structure.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
@@ -100,7 +102,14 @@ public class VariableParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            System.out.println("hello");
+            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            TokenizedSource right = redactor.get("right");
+
+            ExpressionParser expressionParser = new ExpressionParser();
+            Expression expression = expressionParser.parse(delegatedInfo, right);
+
+            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            script.addStatement(expression);
         }
 
     }
