@@ -108,6 +108,10 @@ public class VariableParser implements UnifiedParser {
             ExpressionParser expressionParser = new ExpressionParser();
             Expression expression = expressionParser.parse(delegatedInfo, right);
 
+            if (expression == null) {
+                throw new PandaParserException("Cannot parse expression '" + right + "'");
+            }
+
             PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
             script.addStatement(expression);
         }

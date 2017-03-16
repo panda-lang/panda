@@ -18,39 +18,22 @@ package org.panda_lang.framework.interpreter.lexer.token.defaults;
 
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
-public class Separator extends EqualableToken {
+public class Literal extends EqualableToken {
 
-    private final String separator;
-    private Separator opposite;
+    private final String literal;
 
-    public Separator(char separator) {
-        this(Character.toString(separator));
-    }
-
-    public Separator(String separator) {
-        this.separator = separator;
-    }
-
-    public boolean hasOpposite() {
-        return opposite != null;
-    }
-
-    public void setOpposite(Separator opposite) {
-        this.opposite = opposite;
-    }
-
-    public Separator getOpposite() {
-        return opposite;
+    public Literal(String literal) {
+        this.literal = literal;
     }
 
     @Override
     public String getTokenValue() {
-        return separator;
+        return literal;
     }
 
     @Override
-    public final TokenType getType() {
-        return TokenType.SEPARATOR;
+    public TokenType getType() {
+        return TokenType.LITERAL;
     }
 
 }

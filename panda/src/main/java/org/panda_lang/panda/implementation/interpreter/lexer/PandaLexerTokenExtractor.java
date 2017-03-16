@@ -44,7 +44,7 @@ public class PandaLexerTokenExtractor {
                 return true;
             }
 
-            Token token = extractToken(tokenPreview, syntax.getSeparators(), syntax.getOperators(), syntax.getKeywords());
+            Token token = extractToken(tokenPreview, syntax.getSeparators(), syntax.getOperators(), syntax.getKeywords(), syntax.getLiterals());
 
             if (token == null) {
                 if (StringUtils.containsCharacter(tokenPreview, syntax.getSpecialCharacters())) {

@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.structure.expression;
 public enum ExpressionType {
 
     KNOWN,
-    UNKNOWN
+    UNKNOWN,
+    BOTH
 
 }

@@ -18,20 +18,15 @@ package org.panda_lang.panda.language;
 
 import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Keyword;
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Operator;
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Separator;
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Sequence;
+import org.panda_lang.framework.interpreter.lexer.token.defaults.*;
 import org.panda_lang.panda.language.syntax.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 public class PandaSyntax implements Syntax {
 
     private final List<Keyword> keywords;
+    private final List<Literal> literals;
     private final List<Separator> separators;
     private final List<Operator> operators;
     private final List<Sequence> sequences;
@@ -39,6 +34,7 @@ public class PandaSyntax implements Syntax {
 
     public PandaSyntax() {
         this.keywords = new ArrayList<>();
+        this.literals = new ArrayList<>();
         this.separators = new ArrayList<>();
         this.operators = new ArrayList<>();
         this.sequences = new ArrayList<>();
@@ -49,6 +45,7 @@ public class PandaSyntax implements Syntax {
 
     protected void initialize() {
         Collections.addAll(keywords, Keywords.values());
+        Collections.addAll(literals, Literals.values());
         Collections.addAll(separators, Separators.values());
         Collections.addAll(operators, Operators.values());
         Collections.addAll(sequences, Sequences.values());
@@ -61,6 +58,7 @@ public class PandaSyntax implements Syntax {
         };
 
         Collections.sort(keywords, tokenComparator);
+        Collections.sort(literals, tokenComparator);
         Collections.sort(separators, tokenComparator);
         Collections.sort(operators, tokenComparator);
         Collections.sort(sequences, tokenComparator);
@@ -88,6 +86,11 @@ public class PandaSyntax implements Syntax {
     @Override
     public List<Separator> getSeparators() {
         return separators;
+    }
+
+    @Override
+    public List<Literal> getLiterals() {
+        return literals;
     }
 
     @Override

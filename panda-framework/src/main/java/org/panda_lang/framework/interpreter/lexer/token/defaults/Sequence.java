@@ -61,9 +61,4 @@ public class Sequence extends EqualableToken {
         return TokenType.SEQUENCE;
     }
 
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
-    }
-
 }

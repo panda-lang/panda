@@ -24,6 +24,8 @@ public class TokenType {
 
     public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
 
+    public static final TokenType LITERAL = new TokenType("LITERAL");
+
     public static final TokenType KEYWORD = new TokenType("KEYWORD");
 
     public static final TokenType SEPARATOR = new TokenType("SEPARATOR");
@@ -36,16 +38,17 @@ public class TokenType {
 
     public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
 
-    private static final TokenType[] VALUES = new TokenType[7];
+    private static final TokenType[] VALUES = new TokenType[8];
 
     static {
         VALUES[0] = IDENTIFIER;
-        VALUES[1] = KEYWORD;
-        VALUES[2] = SEPARATOR;
-        VALUES[3] = SEQUENCE;
-        VALUES[4] = OPERATOR;
-        VALUES[5] = INDENTATION;
-        VALUES[6] = UNKNOWN;
+        VALUES[1] = LITERAL;
+        VALUES[2] = KEYWORD;
+        VALUES[3] = SEPARATOR;
+        VALUES[4] = SEQUENCE;
+        VALUES[5] = OPERATOR;
+        VALUES[6] = INDENTATION;
+        VALUES[7] = UNKNOWN;
     }
 
     private final int id;

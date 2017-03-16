@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.composition.prototypes;
+package org.panda_lang.panda.composition.prototypes.lang;
 
 import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.structure.group.Group;

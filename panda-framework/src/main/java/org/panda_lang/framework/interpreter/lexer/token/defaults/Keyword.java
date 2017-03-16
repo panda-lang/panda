@@ -36,9 +36,4 @@ public class Keyword extends EqualableToken {
         return TokenType.KEYWORD;
     }
 
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
-    }
-
 }

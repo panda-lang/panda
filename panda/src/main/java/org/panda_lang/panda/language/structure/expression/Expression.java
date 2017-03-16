@@ -25,15 +25,42 @@ public class Expression implements Executable {
 
     private final ExpressionType type;
     private final ClassPrototype returnType;
+    private final ExpressionCallback callback;
+    private Value value;
 
-    public Expression(ExpressionType type, Value value) {
-        this.type = type;
+    public Expression(Value value) {
+        this.type = ExpressionType.KNOWN;
         this.returnType =  value.getType();
+        this.callback = null;
+        this.value = value;
+    }
+
+    public Expression(ClassPrototype returnType, ExpressionCallback callback) {
+        this.type = ExpressionType.UNKNOWN;
+        this.returnType = returnType;
+        this.callback = callback;
+    }
+
+    public Expression(Value value, ExpressionCallback callback) {
+        this.type = ExpressionType.BOTH;
+        this.returnType = value.getType();
+        this.callback = callback;
+        this.value = value;
     }
 
     @Override
     public void execute(ExecutableBridge executionInfo) {
+        if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
+            this.value = callback.call(this, executionInfo);
+        }
+    }
 
+    public Value getValue() {
+        return value;
+    }
+
+    public ClassPrototype getReturnType() {
+        return returnType;
     }
 
     public ExpressionType getType() {

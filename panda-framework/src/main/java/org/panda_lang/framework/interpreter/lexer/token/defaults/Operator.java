@@ -36,9 +36,4 @@ public class Operator extends EqualableToken {
         return TokenType.OPERATOR;
     }
 
-    @Override
-    public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
-    }
-
 }

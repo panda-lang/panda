@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.composition;
+package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.*;
+import org.panda_lang.framework.interpreter.lexer.token.defaults.Literal;
 
-import java.util.List;
+public class Literals {
 
-public interface Syntax {
+    public static final Literal FALSE = new Literal("false");
 
-    char[] getSpecialCharacters();
+    public static final Literal TRUE = new Literal("true");
 
-    List<Sequence> getSequences();
+    public static final Literal NULL = new Literal("null");
 
-    List<Operator> getOperators();
+    private static final Literal[] VALUES = new Literal[3];
 
-    List<Separator> getSeparators();
+    static {
+        VALUES[0] = FALSE;
+        VALUES[1] = TRUE;
+        VALUES[2] = NULL;
+    }
 
-    List<Literal> getLiterals();
-
-    List<Keyword> getKeywords();
+    public static Literal[] values() {
+        return VALUES;
+    }
 
 }

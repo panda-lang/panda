@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.structure.group;
 
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,6 +51,18 @@ public class GroupRegistry {
 
     public static GroupRegistry getDefault() {
         return instance;
+    }
+
+    public static ClassPrototype forName(String prototypePath) {
+        GroupRegistry registry = getDefault();
+        String[] parts = prototypePath.split(":");
+        Group group = registry.get(parts[0]);
+
+        if (group == null) {
+            return null;
+        }
+
+        return group.get(parts[1]);
     }
 
 }

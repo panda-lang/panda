@@ -16,13 +16,32 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.implementation.structure.value.PandaValue;
+import org.panda_lang.panda.language.structure.group.GroupRegistry;
 
 public class ExpressionParser implements Parser {
 
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
+        if (expressionSource.size() == 1) {
+            Token token = expressionSource.getToken(0);
+
+            if (token.getType() == TokenType.LITERAL) {
+                switch (token.getTokenValue()) {
+                    case "null":
+                        return new Expression(new PandaValue(GroupRegistry.forName("panda.lang:null"), null));
+                    case "true":
+                        return new Expression(null);
+                    case "false":
+                        return new Expression(null);
+                }
+            }
+        }
+
         return null;
     }
 

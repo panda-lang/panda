@@ -14,24 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.composition;
+package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.*;
+import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
-import java.util.List;
+public interface ExpressionCallback {
 
-public interface Syntax {
-
-    char[] getSpecialCharacters();
-
-    List<Sequence> getSequences();
-
-    List<Operator> getOperators();
-
-    List<Separator> getSeparators();
-
-    List<Literal> getLiterals();
-
-    List<Keyword> getKeywords();
+    Value call(Expression expression, ExecutableBridge bridge);
 
 }
