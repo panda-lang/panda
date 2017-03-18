@@ -16,12 +16,26 @@
 
 package org.panda_lang.panda.language.runtime;
 
+import org.panda_lang.panda.implementation.structure.Application;
 import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
 public class PandaExecutableProcess implements ExecutableProcess {
 
+    private final Application application;
+    private final Scope headScope;
+    private final String[] parameters;
+
+    public PandaExecutableProcess(Application application, Scope startScope, String... parameters) {
+        this.application = application;
+        this.headScope = startScope;
+        this.parameters = parameters;
+    }
+
     @Override
     public Value execute() {
+        ExecutableBridge bridge = new PandaExecutableBridge(this);
+        bridge.
         return null;
     }
 
