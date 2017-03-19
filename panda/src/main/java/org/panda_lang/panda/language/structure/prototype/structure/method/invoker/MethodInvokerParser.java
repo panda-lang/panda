@@ -26,22 +26,21 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
-import org.panda_lang.panda.language.structure.group.Group;
-import org.panda_lang.panda.language.structure.imports.Import;
+import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.imports.ImportStatement;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.argument.ArgumentParser;
 
-import java.awt.*;
 import java.util.List;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
@@ -76,8 +75,6 @@ public class MethodInvokerParser implements UnifiedParser {
             redactor.map("instance", "method-name", "arguments");
             delegatedInfo.setComponent("redactor", redactor);
             nextLayer.delegate(new MethodInvokerParserCallback(), delegatedInfo);
-
-            System.out.println(redactor.get("instance") + " | " + redactor.get("method-name"));
         }
 
     }
@@ -96,30 +93,22 @@ public class MethodInvokerParser implements UnifiedParser {
             Script script = delegatedInfo.getComponent(Components.SCRIPT);
             List<ImportStatement> importStatements = script.select(ImportStatement.class);
 
-            // Temp, just a test
+            String surmiseClassName = instance.getToken(0).getTokenValue();
+            ClassPrototype prototype = MethodInvokerUtils.find(importStatements, surmiseClassName);
 
-            String prototypeName = instance.getToken(0).getTokenValue();
-            String methodName = method.getToken(0).getTokenValue();
-            ClassPrototype prototype = null;
+            if (prototype != null) {
+                String methodName = method.getToken(0).getTokenValue();
 
-            for (ImportStatement importStatement : importStatements) {
-                Import anImport = importStatement.getAssociatedImport();
-                Group group = anImport.getGroup();
-                prototype = group.get(prototypeName);
+                ArgumentParser argumentParser = new ArgumentParser();
+                Expression[] parameters = argumentParser.parse(delegatedInfo, arguments);
 
-                if (prototype != null) {
-                    break;
-                }
+                Method prototypeMethod = prototype.getMethods().get(methodName);
+                MethodInvoker invoker = new MethodInvoker(prototypeMethod, null, parameters);
+                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+
+                Scope currentScope = linker.getCurrentScope();
+                currentScope.addStatement(invoker);
             }
-
-            //prototypeMethod.invoke(null);
-
-            Method prototypeMethod = prototype.getMethods().get(methodName);
-            MethodInvoker invoker = new MethodInvoker(prototypeMethod);
-            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
-
-            Scope currentScope = linker.getCurrentScope();
-            currentScope.addStatement(invoker);
         }
 
     }
