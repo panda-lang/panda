@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream
 import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 
 import java.util.List;

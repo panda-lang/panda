@@ -22,7 +22,7 @@ import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 

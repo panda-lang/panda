@@ -13,7 +13,7 @@ class Test {
 main {
     Foo varFoo = true;
     Foo varFoo2 = true;
-    varFoo = false;
+    varFoo = "Foo";
 
     System.print("Hello Panda", "Test", "X", true, false, null);
 }

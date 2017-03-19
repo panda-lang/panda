@@ -14,24 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype;
+package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.panda.implementation.structure.value.Value;
+public class ExpressionUtils {
 
-public class ClassInstance  {
+    public static boolean isNumber(String s) {
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
 
-    private final Object object;
-    private final ClassPrototype prototype;
-    private final Value[] fieldValues;
-
-    public ClassInstance(ClassPrototype classPrototype) {
-        this.object = this;
-        this.prototype = classPrototype;
-        this.fieldValues = new Value[classPrototype.getFields().size()];
-    }
-
-    public ClassPrototype getClassPrototype() {
-        return prototype;
+        return true;
     }
 
 }

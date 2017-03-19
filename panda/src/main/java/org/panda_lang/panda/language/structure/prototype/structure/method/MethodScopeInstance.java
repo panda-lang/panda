@@ -50,7 +50,7 @@ public class MethodScopeInstance implements ScopeInstance {
     }
 
     @Override
-    public Scope getWrapper() {
+    public Scope getScope() {
         return methodWrapper;
     }
 

@@ -25,7 +25,7 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
@@ -87,11 +87,11 @@ public class VariableParser implements UnifiedParser {
                     throw new PandaParserException("Unknown type '" + variableType + "'");
                 }
 
-                Variable variable = new PandaVariable(type, variableName);
-                delegatedInfo.setComponent("variable", variable);
-
                 ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
                 Scope scope = linker.getCurrentScope();
+
+                Variable variable = new PandaVariable(type, variableName, 0);
+                delegatedInfo.setComponent("variable", variable);
 
                 if (VariableParserUtils.checkDuplicates(scope, variable)) {
                     throw new PandaParserException("Variable '" + variableName + "' already exists in this scope");
@@ -104,6 +104,7 @@ public class VariableParser implements UnifiedParser {
 
                 ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
                 Scope scope = linker.getCurrentScope();
+                delegatedInfo.setComponent("scope", scope);
 
                 Variable variable = VariableParserUtils.getVariable(scope, variableName);
                 delegatedInfo.setComponent("variable", variable);
@@ -132,9 +133,7 @@ public class VariableParser implements UnifiedParser {
                 throw new PandaParserException("Cannot parse expression '" + right + "'");
             }
 
-            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
-            Scope scope = linker.getCurrentScope();
-
+            Scope scope = delegatedInfo.getComponent("scope");
             Variable variable = delegatedInfo.getComponent("variable");
             Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
 

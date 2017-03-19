@@ -21,7 +21,7 @@ import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.framework.interpreter.source.Source;
 import org.panda_lang.framework.interpreter.source.SourceSet;
 import org.panda_lang.panda.implementation.structure.Script;

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.implementation.interpreter.parser;
 
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 
 import java.util.HashMap;
 import java.util.Map;

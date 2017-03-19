@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.framework.interpreter.parser.util;
+package org.panda_lang.panda.implementation.interpreter.parser.util;
 
 /**
  * Default list of names used by {@link org.panda_lang.framework.interpreter.parser.ParserInfo} for components
@@ -32,7 +32,7 @@ public class Components {
     public static final String INTERPRETER = "interpreter";
 
     /**
-     * Used by {@link org.panda_lang.framework.structure.Script}
+     * Used by {@link org.panda_lang.panda.implementation.structure.Script}
      */
     public static final String SCRIPT = "script";
 
@@ -57,7 +57,7 @@ public class Components {
     public static final String CURRENT_PARSER_INFO = "current-parser-info";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.linker.ScopeLinker}
+     * Used by {@link org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker}
      */
     public static final String LINKER = "linker";
 

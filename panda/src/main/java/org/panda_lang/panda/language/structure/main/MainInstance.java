@@ -48,7 +48,7 @@ public class MainInstance implements ScopeInstance {
     }
 
     @Override
-    public Scope getWrapper() {
+    public Scope getScope() {
         return main;
     }
 

@@ -21,8 +21,11 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.structure.value.PandaValue;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 
 public class ExpressionParser implements Parser {
@@ -30,6 +33,7 @@ public class ExpressionParser implements Parser {
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
         if (expressionSource.size() == 1) {
             Token token = expressionSource.getToken(0);
+            String value = token.getTokenValue();
 
             if (token.getType() == TokenType.LITERAL) {
                 switch (token.getTokenValue()) {
@@ -47,11 +51,18 @@ public class ExpressionParser implements Parser {
             if (token.getType() == TokenType.SEQUENCE) {
                 switch (token.getName()) {
                     case "String":
-                        return toSimpleKnownExpression("panda.lang:String", token.getTokenValue());
+                        return toSimpleKnownExpression("panda.lang:String", value);
                     default:
                         throw new PandaParserException("Unknown sequence: " + token);
                 }
             }
+
+            if (ExpressionUtils.isNumber(value)) {
+                return toSimpleKnownExpression("panda.lang:Integer", Integer.parseInt(value));
+            }
+
+            ScopeLinker linker = info.getComponent(Components.LINKER);
+            Scope scope = linker.getCurrentScope();
         }
 
         return null;

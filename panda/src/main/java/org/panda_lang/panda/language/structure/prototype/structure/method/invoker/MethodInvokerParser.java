@@ -25,7 +25,7 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCa
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;

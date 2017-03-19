@@ -26,8 +26,8 @@ public interface ScopeInstance extends Executable {
     Object[] getVariables();
 
     /**
-     * @return the proper wrapper
+     * @return the proper scope
      */
-    Scope getWrapper();
+    Scope getScope();
 
 }

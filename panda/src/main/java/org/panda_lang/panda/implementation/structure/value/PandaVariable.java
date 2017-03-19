@@ -22,10 +22,17 @@ public class PandaVariable implements Variable {
 
     private final ClassPrototype variableType;
     private final String variableName;
+    private final int nestingLevel;
 
-    public PandaVariable(ClassPrototype variableType, String variableName) {
+    public PandaVariable(ClassPrototype variableType, String variableName, int nestingLevel) {
         this.variableType = variableType;
         this.variableName = variableName;
+        this.nestingLevel = nestingLevel;
+    }
+
+    @Override
+    public int getNestingLevel() {
+        return nestingLevel;
     }
 
     @Override

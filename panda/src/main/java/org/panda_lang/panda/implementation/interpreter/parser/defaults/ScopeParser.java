@@ -24,7 +24,7 @@ import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.framework.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
@@ -37,10 +37,10 @@ public class ScopeParser implements Parser {
         this.scope = scope;
     }
 
-    public void parse(ParserInfo parserInfo, TokenizedSource body) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info, TokenizedSource body) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
-        PipelineRegistry pipelineRegistry = parserInfo.getComponent(Components.PIPELINE_REGISTRY);
+        PipelineRegistry pipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
@@ -48,11 +48,15 @@ public class ScopeParser implements Parser {
         while (stream.hasUnreadSource()) {
             UnifiedParser parser = pipeline.handle(stream);
 
-            parserInfo.setComponent(Components.SOURCE_STREAM, stream);
-            parser.parse(parserInfo);
+            info.setComponent(Components.SOURCE_STREAM, stream);
+            parser.parse(info);
 
-            generation.executeImmediately(parserInfo);
+            generation.executeImmediately(info);
         }
+    }
+
+    public Scope getScope() {
+        return scope;
     }
 
 }

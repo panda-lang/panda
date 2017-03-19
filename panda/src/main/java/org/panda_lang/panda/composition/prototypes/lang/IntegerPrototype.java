@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.structure.value;
+package org.panda_lang.panda.composition.prototypes.lang;
 
+import org.panda_lang.panda.language.structure.group.Group;
+import org.panda_lang.panda.language.structure.group.GroupRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 
-public interface Variable {
+@ClassPrototypeRegistrationCall
+public class IntegerPrototype {
 
-    int getNestingLevel();
+    static {
+        GroupRegistry registry = GroupRegistry.getDefault();
+        Group defaultGroup = registry.getOrCreate("panda.lang");
 
-    String getVariableName();
-
-    ClassPrototype getVariableType();
+        ClassPrototype prototype = new ClassPrototype("Integer");
+        prototype.getGroup().setObject(defaultGroup);
+        defaultGroup.add(prototype);
+    }
 
 }
