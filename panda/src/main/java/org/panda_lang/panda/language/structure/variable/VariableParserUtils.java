@@ -19,10 +19,30 @@ package org.panda_lang.panda.language.structure.variable;
 import org.panda_lang.panda.implementation.structure.value.Variable;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
-public class VariableUtils {
+public class VariableParserUtils {
+
+    public static boolean checkDuplicates(Scope scope, Variable variable) {
+        for (Variable var : scope.getVariables()) {
+            if (var.getVariableName().equals(variable.getVariableName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
     public static int indexOf(Scope scope, Variable variable) {
         return scope.getVariables().indexOf(variable);
+    }
+
+    public static Variable getVariable(Scope scope, String variableName) {
+        for (Variable var : scope.getVariables()) {
+            if (var.getVariableName().equals(variableName)) {
+                return var;
+            }
+        }
+
+        return null;
     }
 
 }

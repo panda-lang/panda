@@ -74,24 +74,44 @@ public class VariableParser implements UnifiedParser {
             delegatedInfo.setComponent("redactor", redactor);
 
             TokenizedSource left = redactor.get("left");
-            String variableType = left.getToken(0).getTokenValue();
-            String variableName = left.getToken(1).getTokenValue();
 
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
-            ImportRegistry importRegistry = script.getImportRegistry();
-            ClassPrototype type = importRegistry.forClass(variableType);
+            if (left.size() == 2) {
+                String variableType = left.getToken(0).getTokenValue();
+                String variableName = left.getToken(1).getTokenValue();
 
-            if (type == null) {
-                throw new PandaParserException("Unknown type '" + variableType + "'");
+                PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+                ImportRegistry importRegistry = script.getImportRegistry();
+                ClassPrototype type = importRegistry.forClass(variableType);
+
+                if (type == null) {
+                    throw new PandaParserException("Unknown type '" + variableType + "'");
+                }
+
+                Variable variable = new PandaVariable(type, variableName);
+                delegatedInfo.setComponent("variable", variable);
+
+                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+                Scope scope = linker.getCurrentScope();
+
+                if (VariableParserUtils.checkDuplicates(scope, variable)) {
+                    throw new PandaParserException("Variable '" + variableName + "' already exists in this scope");
+                }
+
+                scope.getVariables().add(variable);
+            }
+            else if (left.size() == 1) {
+                String variableName = left.getToken(0).getTokenValue();
+
+                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+                Scope scope = linker.getCurrentScope();
+
+                Variable variable = VariableParserUtils.getVariable(scope, variableName);
+                delegatedInfo.setComponent("variable", variable);
+            }
+            else {
+                throw new PandaParserException("Unknown left side: " + left);
             }
 
-            Variable variable = new PandaVariable(type, variableName);
-            delegatedInfo.setComponent("variable", variable);
-
-            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
-            Scope scope = linker.getCurrentScope();
-
-            scope.getVariables().add(variable);
             nextLayer.delegate(new VariableParserCallback(), delegatedInfo);
         }
 
@@ -116,7 +136,7 @@ public class VariableParser implements UnifiedParser {
             Scope scope = linker.getCurrentScope();
 
             Variable variable = delegatedInfo.getComponent("variable");
-            Assigner assigner = new Assigner(VariableUtils.indexOf(scope, variable), expression);
+            Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
 
             PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
             script.addStatement(assigner);

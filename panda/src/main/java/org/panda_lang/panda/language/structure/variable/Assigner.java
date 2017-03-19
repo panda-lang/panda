@@ -36,13 +36,12 @@ public class Assigner implements Executable {
         expression.execute(bridge);
 
         Value value = expression.getValue();
-        bridge.
         // TODO: find var in mem and assign value
     }
 
     @Override
     public String toString() {
-        return "memory[ + " + memoryIndex + "] << " + expression.toString();
+        return "'memory'[" + memoryIndex + "] << " + expression.toString();
     }
 
 }
