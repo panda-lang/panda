@@ -11,7 +11,9 @@ class Test {
 }
 
 main {
-    Foo varFoo = null;
+    Foo varFoo = true;
+    Foo varFoo2 = true;
+    varFoo = false;
 
-    System.print("Test");
+    System.print("Hello Panda", "Test", "X", true, false, null);
 }

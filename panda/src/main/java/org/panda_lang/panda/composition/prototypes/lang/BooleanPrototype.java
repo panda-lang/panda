@@ -22,13 +22,13 @@ import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 
 @ClassPrototypeRegistrationCall
-public class NullPrototype {
+public class BooleanPrototype {
 
     static {
         GroupRegistry registry = GroupRegistry.getDefault();
         Group defaultGroup = registry.getOrCreate("panda.lang");
 
-        ClassPrototype prototype = new ClassPrototype("null");
+        ClassPrototype prototype = new ClassPrototype("Boolean");
         prototype.getGroup().setObject(defaultGroup);
         defaultGroup.add(prototype);
     }
