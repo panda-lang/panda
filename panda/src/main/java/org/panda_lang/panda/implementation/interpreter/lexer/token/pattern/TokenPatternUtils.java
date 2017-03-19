@@ -22,7 +22,6 @@ import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.framework.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 
 import java.util.List;
@@ -31,7 +30,6 @@ public class TokenPatternUtils {
 
     public static TokenPatternHollows extract(TokenPattern pattern, ParserInfo parserInfo) {
         SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
-        Script script = parserInfo.getComponent(Components.SCRIPT);
 
         Extractor extractor = pattern.extractor();
         TokenReader reader = source.toTokenReader();

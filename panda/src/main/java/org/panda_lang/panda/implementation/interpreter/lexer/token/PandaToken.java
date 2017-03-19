@@ -22,11 +22,22 @@ import org.panda_lang.framework.interpreter.lexer.token.defaults.EqualableToken;
 public class PandaToken extends EqualableToken {
 
     private final TokenType type;
+    private final String name;
     private final String token;
 
-    public PandaToken(TokenType tokenType, String token) {
-        this.type = tokenType;
+    public PandaToken(TokenType type, String token) {
+        this(type, type.getTypeName(), token);
+    }
+
+    public PandaToken(TokenType type, String name, String token) {
+        this.type = type;
         this.token = token;
+        this.name = name;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

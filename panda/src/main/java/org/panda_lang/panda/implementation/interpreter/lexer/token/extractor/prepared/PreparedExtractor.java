@@ -39,6 +39,8 @@ public class PreparedExtractor implements Extractor {
 
     @Override
     public List<TokenizedSource> extract(TokenReader tokenReader) {
+        gaps.clear();
+
         TokenPatternUnit[] units = pattern.getUnits();
         TokenizedSource tokenizedSource = tokenReader.getTokenizedSource();
         PreparedSource preparedSource = new PreparedSource(tokenizedSource);
