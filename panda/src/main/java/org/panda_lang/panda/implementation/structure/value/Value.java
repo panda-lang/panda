@@ -23,6 +23,10 @@ import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
  */
 public interface Value {
 
+    default boolean isNull() {
+        return getValue() == null && getType() == null;
+    }
+
     Object getValue();
 
     ClassPrototype getType();
