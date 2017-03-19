@@ -28,6 +28,11 @@ public abstract class EqualableToken implements Token {
     public abstract TokenType getType();
 
     @Override
+    public String getName() {
+        return getType().getTypeName();
+    }
+
+    @Override
     public int hashCode() {
         int result = getTokenValue().hashCode();
         result = 31 * result + getType().hashCode();

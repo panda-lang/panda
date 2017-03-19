@@ -20,12 +20,8 @@ public interface Token {
 
     String getTokenValue();
 
-    default String getName() {
-        return getType().getTypeName();
-    }
+    String getName();
 
-    default TokenType getType() {
-        return TokenType.UNKNOWN;
-    }
+    TokenType getType();
 
 }
