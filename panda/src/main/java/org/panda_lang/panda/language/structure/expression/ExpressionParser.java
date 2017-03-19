@@ -21,6 +21,7 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.structure.value.PandaValue;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 
@@ -33,16 +34,31 @@ public class ExpressionParser implements Parser {
             if (token.getType() == TokenType.LITERAL) {
                 switch (token.getTokenValue()) {
                     case "null":
-                        return new Expression(new PandaValue(GroupRegistry.forName("panda.lang:null"), null));
+                        return new Expression(new PandaValue(null, null));
                     case "true":
-                        return new Expression(null);
+                        return toSimpleKnownExpression("panda.lang:Boolean", true);
                     case "false":
-                        return new Expression(null);
+                        return toSimpleKnownExpression("panda.lang:Boolean", false);
+                    default:
+                        throw new PandaParserException("Unknown literal: " + token);
+                }
+            }
+
+            if (token.getType() == TokenType.SEQUENCE) {
+                switch (token.getName()) {
+                    case "String":
+                        return toSimpleKnownExpression("panda.lang:String", token.getTokenValue());
+                    default:
+                        throw new PandaParserException("Unknown sequence: " + token);
                 }
             }
         }
 
         return null;
+    }
+
+    private Expression toSimpleKnownExpression(String forName, Object value) {
+        return new Expression(new PandaValue(GroupRegistry.forName(forName), value));
     }
 
 }

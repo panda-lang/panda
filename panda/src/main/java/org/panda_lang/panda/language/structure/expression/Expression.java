@@ -67,4 +67,10 @@ public class Expression implements Executable {
         return type;
     }
 
+    @Override
+    public String toString() {
+        String s = type.name() + ":" + returnType.getClassName();
+        return ExpressionType.KNOWN == type ? s + ":" + value.getValue() : s;
+    }
+
 }
