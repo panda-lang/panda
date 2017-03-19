@@ -89,6 +89,7 @@ public class VariableParser implements UnifiedParser {
 
                 ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
                 Scope scope = linker.getCurrentScope();
+                delegatedInfo.setComponent("scope", scope);
 
                 Variable variable = new PandaVariable(type, variableName, 0);
                 delegatedInfo.setComponent("variable", variable);

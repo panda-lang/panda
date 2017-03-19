@@ -39,7 +39,7 @@ public class Parameter {
     }
 
     public Variable toVariable() {
-        return new PandaVariable(parameterType, parameterName);
+        return new PandaVariable(parameterType, parameterName, 0);
     }
 
 }
