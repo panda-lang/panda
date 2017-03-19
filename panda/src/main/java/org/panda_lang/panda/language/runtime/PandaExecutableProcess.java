@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.implementation.structure.Application;
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
@@ -34,9 +35,22 @@ public class PandaExecutableProcess implements ExecutableProcess {
 
     @Override
     public Value execute() {
-        ExecutableBridge bridge = new PandaExecutableBridge(this);
-        bridge.
-        return null;
+        PandaExecutableBridge bridge = new PandaExecutableBridge(this);
+        ScopeInstance instance = headScope.createInstance();
+        bridge.call(instance);
+        return bridge.getReturnedValue();
+    }
+
+    public String[] getParameters() {
+        return parameters;
+    }
+
+    public Scope getHeadScope() {
+        return headScope;
+    }
+
+    public Application getApplication() {
+        return application;
     }
 
 }

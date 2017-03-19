@@ -30,7 +30,7 @@ public class PandaExecutableBridge implements ExecutableBridge {
 
     @Override
     public void call(Executable executable) {
-
+        executable.execute(this);
     }
 
     @Override

@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.language.structure.main;
 
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.implementation.structure.util.StatementCell;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class MainInstance implements ScopeInstance {
 
@@ -31,8 +33,13 @@ public class MainInstance implements ScopeInstance {
     }
 
     @Override
-    public void execute(ExecutableBridge executiveProcess) {
-
+    public void execute(ExecutableBridge bridge) {
+        for (StatementCell statementCell : main.getStatementCells()) {
+            if (statementCell.isExecutable()) {
+                Executable executable = (Executable) statementCell.getStatement();
+                bridge.call(executable);
+            }
+        }
     }
 
     @Override

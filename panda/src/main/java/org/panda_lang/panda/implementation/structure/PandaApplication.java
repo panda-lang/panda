@@ -17,8 +17,9 @@
 package org.panda_lang.panda.implementation.structure;
 
 import org.panda_lang.panda.language.memory.Memory;
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.language.memory.PandaMemory;
+import org.panda_lang.panda.language.runtime.ExecutableProcess;
+import org.panda_lang.panda.language.runtime.PandaExecutableProcess;
 import org.panda_lang.panda.language.structure.main.Main;
 
 import java.util.ArrayList;
@@ -42,11 +43,19 @@ public class PandaApplication implements Application {
 
             if (mains.size() == 1) {
                 Main main = mains.get(0);
-                ScopeInstance instance = main.createInstance();
-                // TODO
+
+                System.out.println("[PandaApp] Launching application...");
+
+                ExecutableProcess process = new PandaExecutableProcess(this, main, arguments);
+                process.execute();
+
+                System.out.println("[PandaApp] Done");
+            }
+            else if (mains.size() == 0) {
+                throw new RuntimeException("Main statement not found");
             }
             else if (mains.size() > 1) {
-
+                throw new RuntimeException("Duplicated main statement");
             }
         }
     }
