@@ -16,20 +16,21 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
-import org.panda_lang.panda.implementation.structure.util.StatementCell;
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.implementation.structure.util.StatementCell;
+import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class MethodScopeInstance implements ScopeInstance {
 
     private final MethodScope methodWrapper;
-    private final Object[] variables;
+    private final Value[] variables;
 
     public MethodScopeInstance(MethodScope methodWrapper) {
         this.methodWrapper = methodWrapper;
-        this.variables = new Object[methodWrapper.getVariables().size()];
+        this.variables = new Value[methodWrapper.getVariables().size()];
     }
 
     @Override
@@ -45,7 +46,7 @@ public class MethodScopeInstance implements ScopeInstance {
     }
 
     @Override
-    public Object[] getVariables() {
+    public Value[] getVariables() {
         return variables;
     }
 

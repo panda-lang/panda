@@ -71,6 +71,16 @@ public class ClassPrototype {
     }
 
     @Override
+    public boolean equals(Object o) {
+        return o == null || super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return className.hashCode();
+    }
+
+    @Override
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("className", className)

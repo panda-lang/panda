@@ -104,9 +104,10 @@ public class MethodInvokerParser implements UnifiedParser {
 
                 Method prototypeMethod = prototype.getMethods().get(methodName);
                 MethodInvoker invoker = new MethodInvoker(prototypeMethod, null, parameters);
-                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
 
+                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
                 Scope currentScope = linker.getCurrentScope();
+
                 currentScope.addStatement(invoker);
             }
         }
