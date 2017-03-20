@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
+import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
 import java.util.ArrayList;
@@ -36,6 +37,10 @@ public class TokenPatternBuilder {
         return this;
     }
 
+    public TokenPatternBuilder unit(Token token) {
+        return unit(token.getType(), token.getTokenValue());
+    }
+
     public TokenPatternBuilder unit(TokenType type, String token) {
         TokenPatternUnit unit = new TokenPatternUnit(type, token);
         units.add(unit);
@@ -44,6 +49,12 @@ public class TokenPatternBuilder {
 
     public TokenPatternBuilder hollow() {
         units.add(TokenPatternUnit.HOLLOW);
+        return this;
+    }
+
+    public TokenPatternBuilder compile(String expression) {
+        TokenPatternCompiler compiler = new TokenPatternCompiler(this);
+        compiler.compile(expression);
         return this;
     }
 
