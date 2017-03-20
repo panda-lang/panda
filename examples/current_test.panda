@@ -11,9 +11,10 @@ class Test {
 }
 
 main {
-    Foo varFoo = true;
-    Foo varFoo2 = true;
-    varFoo = "Foo";
+    Foo varFoo = null;
 
-    System.print("Hello Panda", "Test", "X", true, false, null);
+    String s = null;
+    s = "Hello Panda x2";
+
+    System.print("Hello Panda", "Test", "X", true, false, varFoo, s);
 }
