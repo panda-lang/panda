@@ -83,6 +83,7 @@ public class MainParser implements UnifiedParser {
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
             Main main = delegatedInfo.getComponent("main");
+            delegatedInfo.setComponent("scope", main);
 
             ScopeLinker linker = new PandaScopeLinker(main);
             delegatedInfo.setComponent(Components.LINKER, linker);

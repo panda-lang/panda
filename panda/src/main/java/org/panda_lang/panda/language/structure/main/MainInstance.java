@@ -19,17 +19,18 @@ package org.panda_lang.panda.language.structure.main;
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.util.StatementCell;
+import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class MainInstance implements ScopeInstance {
 
     private final Main main;
-    private final Object[] variables;
+    private final Value[] variables;
 
     public MainInstance(Main main) {
         this.main = main;
-        this.variables = new Object[main.getVariables().size()];
+        this.variables = new Value[main.getVariables().size()];
     }
 
     @Override
@@ -43,7 +44,7 @@ public class MainInstance implements ScopeInstance {
     }
 
     @Override
-    public Object[] getVariables() {
+    public Value[] getVariables() {
         return variables;
     }
 
