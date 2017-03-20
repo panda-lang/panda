@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.implementation.structure.dynamic;
 
+import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
 public interface ScopeInstance extends Executable {
@@ -23,7 +24,7 @@ public interface ScopeInstance extends Executable {
     /**
      * @return array of variables which index is equals to order of fields
      */
-    Object[] getVariables();
+    Value[] getVariables();
 
     /**
      * @return the proper scope

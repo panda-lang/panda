@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.value.Value;
 
 public interface ExecutableBridge {
@@ -34,5 +35,10 @@ public interface ExecutableBridge {
      * @param value result
      */
     void returnValue(Value value);
+
+    /**
+     * @return instance of the current scope
+     */
+    ScopeInstance getCurrentScope();
 
 }

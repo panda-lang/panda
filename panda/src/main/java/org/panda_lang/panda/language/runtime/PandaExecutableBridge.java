@@ -17,11 +17,13 @@
 package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.value.Value;
 
 public class PandaExecutableBridge implements ExecutableBridge {
 
     private final ExecutableProcess process;
+    private ScopeInstance currentScope;
     private Value returnValue;
 
     public PandaExecutableBridge(ExecutableProcess process) {
@@ -30,6 +32,10 @@ public class PandaExecutableBridge implements ExecutableBridge {
 
     @Override
     public void call(Executable executable) {
+        if (executable instanceof ScopeInstance) {
+            this.currentScope = (ScopeInstance) executable;
+        }
+
         executable.execute(this);
     }
 
@@ -40,6 +46,15 @@ public class PandaExecutableBridge implements ExecutableBridge {
 
     public Value getReturnedValue() {
         return returnValue;
+    }
+
+    public ExecutableProcess getProcess() {
+        return process;
+    }
+
+    @Override
+    public ScopeInstance getCurrentScope() {
+        return currentScope;
     }
 
 }
