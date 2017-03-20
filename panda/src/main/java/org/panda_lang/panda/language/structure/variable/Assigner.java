@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.variable;
 
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.expression.Expression;
@@ -36,7 +37,9 @@ public class Assigner implements Executable {
         expression.execute(bridge);
 
         Value value = expression.getValue();
-        // TODO: find var in mem and assign value
+        ScopeInstance currentScope = bridge.getCurrentScope();
+
+        currentScope.getVariables()[memoryIndex] = value;
     }
 
     @Override

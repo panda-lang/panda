@@ -136,10 +136,13 @@ public class VariableParser implements UnifiedParser {
 
             Scope scope = delegatedInfo.getComponent("scope");
             Variable variable = delegatedInfo.getComponent("variable");
-            Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
 
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
-            script.addStatement(assigner);
+            if (!variable.getVariableType().equals(expression.getReturnType())) {
+                throw new PandaParserException("Return type is incompatible with the type of variable at line " + (right.get(0).getLine() + 1));
+            }
+
+            Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
+            scope.addStatement(assigner);
         }
 
     }
