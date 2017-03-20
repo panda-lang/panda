@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.implementation.structure.value;
 
-import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class PandaValue implements Value {
+
+    public static final Value NULL = new PandaValue(null, null);
 
     private final Object value;
     private final ClassPrototype type;
