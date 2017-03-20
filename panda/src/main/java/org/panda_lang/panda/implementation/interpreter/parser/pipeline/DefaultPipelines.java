@@ -27,6 +27,11 @@ public class DefaultPipelines {
     public static final String OVERALL = "overall";
 
     /**
+     * Used by {@link org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeParser}
+     */
+    public static final String PROTOTYPE = "prototype";
+
+    /**
      * Used by {@link org.panda_lang.panda.implementation.interpreter.parser.defaults.ScopeParser}
      */
     public static final String SCOPE = "scope";
