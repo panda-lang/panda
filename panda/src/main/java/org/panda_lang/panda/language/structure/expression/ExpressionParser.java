@@ -21,12 +21,15 @@ import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.value.PandaValue;
+import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.implementation.structure.value.Variable;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
+import org.panda_lang.panda.language.structure.variable.VariableParserUtils;
 
 public class ExpressionParser implements Parser {
 
@@ -61,8 +64,20 @@ public class ExpressionParser implements Parser {
                 return toSimpleKnownExpression("panda.lang:Integer", Integer.parseInt(value));
             }
 
-            ScopeLinker linker = info.getComponent(Components.LINKER);
-            Scope scope = linker.getCurrentScope();
+            Scope scope = info.getComponent("scope");
+            Variable variable = VariableParserUtils.getVariable(scope, value);
+
+            if (variable != null) {
+                int memoryIndex = VariableParserUtils.indexOf(scope, variable);
+
+                return new Expression(variable.getVariableType(), new ExpressionCallback() {
+                    @Override
+                    public Value call(Expression expression, ExecutableBridge bridge) {
+                        ScopeInstance currentScope = bridge.getCurrentScope();
+                        return currentScope.getVariables()[memoryIndex];
+                    }
+                });
+            }
         }
 
         return null;
