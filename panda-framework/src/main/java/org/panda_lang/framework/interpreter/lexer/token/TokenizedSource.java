@@ -50,4 +50,15 @@ public interface TokenizedSource {
 
     List<TokenRepresentation> getTokensRepresentations();
 
+    static String asString(TokenizedSource tokenizedSource) {
+        StringBuilder node = new StringBuilder();
+
+        for (TokenRepresentation representation : tokenizedSource.getTokensRepresentations()) {
+            Token token = representation.getToken();
+            node.append(token.getTokenValue());
+        }
+
+        return node.toString();
+    }
+
 }
