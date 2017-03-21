@@ -54,6 +54,7 @@ public class SourceParser implements Parser {
         ParserGeneration generation = new PandaParserGeneration();
 
         ParserInfo parserInfo = new PandaParserInfo();
+        parserInfo.setComponent(Components.PANDA, panda);
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
         parserInfo.setComponent(Components.PIPELINE_REGISTRY, pipelineRegistry);
         parserInfo.setComponent(Components.GENERATION, generation);

@@ -16,10 +16,12 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-public interface Constructor {
+public class ConstructorUtils {
 
-    ClassInstance createInstance();
+    public Constructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
+        return null;
+    }
 
 }

@@ -22,6 +22,11 @@ package org.panda_lang.panda.implementation.interpreter.parser.util;
 public class Components {
 
     /**
+     * Used by {@link org.panda_lang.panda.Panda}
+     */
+    public static final String PANDA = "panda";
+
+    /**
      * Used by {@link org.panda_lang.framework.interpreter.parser.ParserInfo}
      */
     public static final String FORKED = "forked";

@@ -20,14 +20,13 @@ import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.framework.interpreter.lexer.token.TokenUtils;
 import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.framework.interpreter.parser.Parser;
 import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.structure.value.PandaValue;
 import org.panda_lang.panda.implementation.structure.value.Variable;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.language.structure.expression.callbacks.CreateInstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.expression.callbacks.GetVariableExpressionCallback;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 import org.panda_lang.panda.language.structure.variable.VariableParserUtils;
@@ -74,8 +73,8 @@ public class ExpressionParser implements Parser {
             }
         }
         else if (TokenUtils.equals(expressionSource.get(0), TokenType.KEYWORD, "new")) {
-            TokenReader reader = new PandaTokenReader(expressionSource);
-
+            CreateInstanceExpressionCallback callback = new CreateInstanceExpressionCallback(expressionSource, info);
+            return new Expression(callback.getReturnType(), callback);
         }
 
         return null;
