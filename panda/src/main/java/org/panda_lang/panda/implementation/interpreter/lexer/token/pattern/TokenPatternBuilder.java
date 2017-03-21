@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
+import org.panda_lang.framework.composition.Syntax;
 import org.panda_lang.framework.interpreter.lexer.token.Token;
 import org.panda_lang.framework.interpreter.lexer.token.TokenType;
 
@@ -52,8 +53,8 @@ public class TokenPatternBuilder {
         return this;
     }
 
-    public TokenPatternBuilder compile(String expression) {
-        TokenPatternCompiler compiler = new TokenPatternCompiler(this);
+    public TokenPatternBuilder compile(Syntax syntax, String expression) {
+        TokenPatternCompiler compiler = new TokenPatternCompiler(this, syntax);
         compiler.compile(expression);
         return this;
     }

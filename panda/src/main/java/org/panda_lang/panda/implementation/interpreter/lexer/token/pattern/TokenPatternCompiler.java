@@ -16,16 +16,55 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
+import org.panda_lang.framework.composition.Syntax;
+import org.panda_lang.framework.interpreter.lexer.token.Token;
+import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaToken;
+
+import java.util.Collection;
+
 public class TokenPatternCompiler {
 
     private final TokenPatternBuilder builder;
+    private final Syntax syntax;
 
-    public TokenPatternCompiler(TokenPatternBuilder builder) {
+    public TokenPatternCompiler(TokenPatternBuilder builder, Syntax syntax) {
         this.builder = builder;
+        this.syntax = syntax;
     }
 
     public void compile(String expression) {
+        String[] fragments = expression.split(" ");
 
+        for (String fragment : fragments) {
+            if (fragment.equals("+*")) {
+                builder.hollow();
+                continue;
+            }
+
+            Token token = getToken(fragment, syntax.getSeparators(), syntax.getOperators(), syntax.getKeywords(), syntax.getLiterals());
+
+            if (token == null) {
+                token = new PandaToken(TokenType.UNKNOWN, fragment);
+            }
+
+            builder.unit(token);
+        }
+    }
+
+    @SafeVarargs
+    protected final Token getToken(String fragment, Collection<? extends Token>... tokensCollections) {
+        for (Collection<? extends Token> tokensCollection : tokensCollections) {
+            for (Token token : tokensCollection) {
+                if (!fragment.equals(token.getTokenValue())) {
+                    continue;
+                }
+
+                return token;
+            }
+        }
+
+        return null;
     }
 
 }
