@@ -1,4 +1,4 @@
-group example;
+group example.test;
 
 import panda.lang;
 
@@ -18,5 +18,5 @@ main {
     String s = null;
     s = "Hello Panda x2";
 
-    System.print("Hello Panda", "Test", "X", true, false, varFoo, s);
+    System.print("Hello Panda", "Test", "X", true, false, varFoo, s, test);
 }

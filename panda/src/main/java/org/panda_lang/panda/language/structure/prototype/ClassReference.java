@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.parser;
+package org.panda_lang.panda.language.structure.prototype;
 
 import org.panda_lang.framework.structure.Statement;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-public class ClassPrototypeReference implements Statement {
+public class ClassReference implements Statement {
 
     private final ClassPrototype classPrototype;
+    private final ClassScope classScope;
 
-    public ClassPrototypeReference(ClassPrototype classPrototype) {
+    public ClassReference(ClassPrototype classPrototype, ClassScope classScope) {
         this.classPrototype = classPrototype;
+        this.classScope = classScope;
+    }
+
+    public ClassScope getClassScope() {
+        return classScope;
     }
 
     public ClassPrototype getClassPrototype() {

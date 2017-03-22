@@ -16,22 +16,44 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
+import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
-public class ClassInstance  {
+public class ClassInstance implements ScopeInstance {
 
-    private final Object object;
+    private final ClassScope scope;
     private final ClassPrototype prototype;
     private final Value[] fieldValues;
 
-    public ClassInstance(ClassPrototype classPrototype) {
-        this.object = this;
+    public ClassInstance(ClassScope scope, ClassPrototype classPrototype) {
+        this.scope = scope;
         this.prototype = classPrototype;
         this.fieldValues = new Value[classPrototype.getFields().size()];
     }
 
+    @Override
+    public void execute(ExecutableBridge executionInfo) {
+        throw new RuntimeException("Cannot execute instance");
+    }
+
     public ClassPrototype getClassPrototype() {
         return prototype;
+    }
+
+    @Override
+    public Value[] getVariables() {
+        return fieldValues;
+    }
+
+    @Override
+    public ClassScope getScope() {
+        return scope;
+    }
+
+    @Override
+    public String toString() {
+        return "@(instance of " + prototype.getGroup().getObject().getName() + ":" + prototype.getClassName() + ")";
     }
 
 }

@@ -16,24 +16,13 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.field;
 
+import org.panda_lang.panda.implementation.structure.value.PandaVariable;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-public class Field {
+public class Field extends PandaVariable {
 
-    private final String name;
-    private final ClassPrototype type;
-
-    public Field(String name, ClassPrototype type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public ClassPrototype getType() {
-        return type;
-    }
-
-    public String getName() {
-        return name;
+    public Field(ClassPrototype type, String name) {
+        super(type, name, 0);
     }
 
 }

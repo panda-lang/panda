@@ -24,14 +24,20 @@ import org.panda_lang.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.implementation.structure.value.PandaValue;
 import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionCallback;
+import org.panda_lang.panda.language.structure.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.method.argument.ArgumentParser;
 
 import java.util.List;
@@ -39,6 +45,8 @@ import java.util.List;
 public class CreateInstanceExpressionCallback implements ExpressionCallback {
 
     private final ClassPrototype returnType;
+    private final Constructor constructor;
+    private final Expression[] arguments;
 
     public CreateInstanceExpressionCallback(TokenizedSource source, ParserInfo info) {
         TokenReader reader = new PandaTokenReader(source);
@@ -56,12 +64,21 @@ public class CreateInstanceExpressionCallback implements ExpressionCallback {
         this.returnType = importRegistry.forClass(className);
 
         ArgumentParser argumentParser = new ArgumentParser();
-        Expression[] expressions = argumentParser.parse(info, gaps.get(1));
+
+        this.arguments = argumentParser.parse(info, gaps.get(1));
+        this.constructor = ConstructorUtils.matchConstructor(returnType, arguments);
+
+        if (constructor == null) {
+            throw new PandaParserException("Cannot find constructor for the specified arguments");
+        }
     }
 
     @Override
     public Value call(Expression expression, ExecutableBridge bridge) {
-        return null;
+        Value[] values = ExpressionUtils.getValues(bridge, arguments);
+        ClassInstance instance = constructor.createInstance(values);
+
+        return new PandaValue(returnType, instance);
     }
 
     public ClassPrototype getReturnType() {

@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.constructor;
+package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+public class ExpressionParserUtils {
 
-public interface Constructor {
+    public static boolean isNumber(String s) {
+        for (char c : s.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
 
-    ClassInstance createInstance(Value... value);
+        return true;
+    }
 
-    ClassPrototype[] getParameterTypes();
+
 
 }

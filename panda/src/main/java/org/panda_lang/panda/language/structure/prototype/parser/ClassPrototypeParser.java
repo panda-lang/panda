@@ -35,7 +35,13 @@ import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPi
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.Script;
+import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.ClassReference;
+import org.panda_lang.panda.language.structure.prototype.ClassScope;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
 
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
@@ -73,15 +79,19 @@ public class ClassPrototypeParser implements UnifiedParser {
             String className = classDeclaration.getToken(0).getTokenValue();
 
             ClassPrototype classPrototype = new ClassPrototype(className);
-            delegatedInfo.setComponent("class", classPrototype);
+            delegatedInfo.setComponent("class-prototype", classPrototype);
+
+            ClassScope classScope = new ClassScope(classPrototype);
+            delegatedInfo.setComponent("class-scope", classScope);
+
+            ClassReference classReference = new ClassReference(classPrototype, classScope);
+            script.getStatements().add(classReference);
 
             if (classDeclaration.size() > 1) {
                 nextLayer.delegate(new ClassPrototypeDeclarationParserCallback(), delegatedInfo);
             }
             nextLayer.delegate(new ClassPrototypeBodyParserCallback(), delegatedInfo);
-
-            ClassPrototypeReference prototypeReference = new ClassPrototypeReference(classPrototype);
-            script.getStatements().add(prototypeReference);
+            nextLayer.delegateAfter(new ClassPrototypeAfterCallback(), delegatedInfo);
         }
 
     }
@@ -91,7 +101,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            ClassPrototype classPrototype = delegatedInfo.getComponent("class");
+            ClassPrototype classPrototype = delegatedInfo.getComponent("class-prototype");
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource classDeclaration = redactor.get("class-declaration");
@@ -136,6 +146,35 @@ public class ClassPrototypeParser implements UnifiedParser {
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
             // TODO: ScopeLinker linker = new PandaScopeLinker(null);
+        }
+
+    }
+
+    @LocalCallback
+    private static class ClassPrototypeAfterCallback implements ParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
+            ClassScope scope = delegatedInfo.getComponent("class-scope");
+
+            if (prototype.getConstructors().size() > 0) {
+                return;
+            }
+
+            Constructor defaultConstructor = new Constructor() {
+                @Override
+                public ClassInstance createInstance(Value... value) {
+                    return scope.createInstance();
+                }
+
+                @Override
+                public ClassPrototype[] getParameterTypes() {
+                    return ConstructorUtils.PARAMETERLESS;
+                }
+            };
+
+            prototype.getConstructors().add(defaultConstructor);
         }
 
     }

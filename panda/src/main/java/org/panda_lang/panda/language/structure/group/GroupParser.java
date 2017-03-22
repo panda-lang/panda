@@ -38,7 +38,7 @@ import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPi
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.parser.ClassPrototypeReference;
+import org.panda_lang.panda.language.structure.prototype.ClassReference;
 
 import java.util.List;
 
@@ -99,7 +99,7 @@ public class GroupParser implements UnifiedParser {
             Script script = delegatedInfo.getComponent(Components.SCRIPT);
 
             List<GroupStatement> groupStatements = script.select(GroupStatement.class);
-            List<ClassPrototypeReference> prototypeReferences = script.select(ClassPrototypeReference.class);
+            List<ClassReference> prototypeReferences = script.select(ClassReference.class);
 
             if (groupStatements.size() == 0) {
                 return;
@@ -111,7 +111,7 @@ public class GroupParser implements UnifiedParser {
 
             Group group = groupStatements.get(0).getGroup();
 
-            for (ClassPrototypeReference prototypeReference : prototypeReferences) {
+            for (ClassReference prototypeReference : prototypeReferences) {
                 ClassPrototype classPrototype = prototypeReference.getClassPrototype();
 
                 group.add(classPrototype);

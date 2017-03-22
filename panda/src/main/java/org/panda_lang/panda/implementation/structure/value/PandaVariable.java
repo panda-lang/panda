@@ -20,9 +20,9 @@ import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class PandaVariable implements Variable {
 
-    private final ClassPrototype variableType;
-    private final String variableName;
-    private final int nestingLevel;
+    protected final ClassPrototype variableType;
+    protected final String variableName;
+    protected final int nestingLevel;
 
     public PandaVariable(ClassPrototype variableType, String variableName, int nestingLevel) {
         this.variableType = variableType;

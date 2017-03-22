@@ -16,16 +16,22 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
+import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
+
 public class ExpressionUtils {
 
-    public static boolean isNumber(String s) {
-        for (char c : s.toCharArray()) {
-            if (!Character.isDigit(c)) {
-                return false;
-            }
+    public static Value[] getValues(ExecutableBridge bridge, Expression... expressions) {
+        Value[] values = new Value[expressions.length];
+
+        for (int i = 0; i < values.length; i++) {
+            Expression expression = expressions[i];
+
+            expression.execute(bridge);
+            values[i] = expression.getValue();
         }
 
-        return true;
+        return values;
     }
 
 }

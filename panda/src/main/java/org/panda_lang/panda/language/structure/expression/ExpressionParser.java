@@ -60,7 +60,7 @@ public class ExpressionParser implements Parser {
                 }
             }
 
-            if (ExpressionUtils.isNumber(value)) {
+            if (ExpressionParserUtils.isNumber(value)) {
                 return toSimpleKnownExpression("panda.lang:Integer", Integer.parseInt(value));
             }
 
