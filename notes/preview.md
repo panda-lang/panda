@@ -1,7 +1,6 @@
-Simple Preview
+##### Simple Preview
 
----------------------------------------------
-
+```
 Application:
     Sources => Interpreter,
     Interpreter => Scripts {
@@ -10,3 +9,4 @@ Application:
         Application <= Script
     }
     Launch
+```
