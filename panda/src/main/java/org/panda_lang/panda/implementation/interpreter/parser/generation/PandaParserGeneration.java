@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.generation;
 
-import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
 
 public class PandaParserGeneration implements ParserGeneration {
 

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.generation;
 
-import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationUnit;
+import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationUnit;
 
 public class PandaParserGenerationUnit implements ParserGenerationUnit {
 

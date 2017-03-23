@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer.token.reader;
 
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReaderIterator;
-import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
-import org.panda_lang.framework.tool.array.ArrayDistributor;
+import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReaderIterator;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.panda.framework.tool.array.ArrayDistributor;
 
 public class PandaTokenReaderIterator implements TokenReaderIterator {
 

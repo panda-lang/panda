@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
-import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.lexer.token.extractor.Extractor;
+import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.extractor.prepared.PreparedExtractor;
 
 import java.util.List;

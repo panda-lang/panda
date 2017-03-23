@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry;
 
-import org.panda_lang.framework.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.PandaParserPipeline;
 
 import java.util.HashMap;

@@ -16,8 +16,14 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.util;
 
+import org.panda_lang.panda.framework.interpreter.Interpreter;
+import org.panda_lang.panda.framework.interpreter.lexer.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
+
 /**
- * Default list of names used by {@link org.panda_lang.framework.interpreter.parser.ParserInfo} for components
+ * Default list of names used by {@link ParserInfo} for components
  */
 public class Components {
 
@@ -27,12 +33,12 @@ public class Components {
     public static final String PANDA = "panda";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.ParserInfo}
+     * Used by {@link ParserInfo}
      */
     public static final String FORKED = "forked";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.Interpreter}
+     * Used by {@link Interpreter}
      */
     public static final String INTERPRETER = "interpreter";
 
@@ -42,22 +48,22 @@ public class Components {
     public static final String SCRIPT = "script";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.pipeline.registry.PipelineRegistry}
+     * Used by {@link PipelineRegistry}
      */
     public static final String PIPELINE_REGISTRY = "pipeline";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.lexer.token.distributor.SourceStream}
+     * Used by {@link SourceStream}
      */
     public static final String SOURCE_STREAM = "source-stream";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.generation.ParserGeneration}
+     * Used by {@link ParserGeneration}
      */
     public static final String GENERATION = "generation";
 
     /**
-     * Used by {@link org.panda_lang.framework.interpreter.parser.generation.ParserGeneration}
+     * Used by {@link ParserGeneration}
      */
     public static final String CURRENT_PARSER_INFO = "current-parser-info";
 

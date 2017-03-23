@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.imports;
 
-import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.framework.structure.Statement;
 
 public class ImportStatement implements Statement {
 

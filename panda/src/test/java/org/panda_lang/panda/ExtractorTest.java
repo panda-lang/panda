@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.framework.interpreter.lexer.Lexer;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.framework.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.panda.composition.PandaComposition;
 import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;

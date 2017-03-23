@@ -16,8 +16,11 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Keyword;
+import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.Keyword;
 
+/**
+ * Default keywords
+ */
 public class Keywords {
 
     public static final Keyword ABSTRACT = new Keyword("abstract");

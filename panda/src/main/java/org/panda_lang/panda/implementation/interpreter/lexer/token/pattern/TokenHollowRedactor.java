@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer.token.pattern;
 
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 
 import java.util.HashMap;

@@ -16,14 +16,16 @@
 
 package org.panda_lang.panda.language;
 
-import org.panda_lang.framework.composition.Syntax;
-import org.panda_lang.framework.interpreter.lexer.token.Token;
-import org.panda_lang.framework.interpreter.lexer.token.defaults.*;
+import org.panda_lang.panda.framework.composition.Syntax;
+import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
+import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.*;
 import org.panda_lang.panda.language.syntax.*;
 
 import java.util.*;
 
 public class PandaSyntax implements Syntax {
+
+    private static final PandaSyntax INSTANCE = new PandaSyntax();
 
     private final List<Keyword> keywords;
     private final List<Literal> literals;
@@ -32,7 +34,7 @@ public class PandaSyntax implements Syntax {
     private final List<Sequence> sequences;
     private char[] specialCharacters;
 
-    public PandaSyntax() {
+    private PandaSyntax() {
         this.keywords = new ArrayList<>();
         this.literals = new ArrayList<>();
         this.separators = new ArrayList<>();
@@ -43,7 +45,7 @@ public class PandaSyntax implements Syntax {
         this.initialize();
     }
 
-    protected void initialize() {
+    private void initialize() {
         Collections.addAll(keywords, Keywords.values());
         Collections.addAll(literals, Literals.values());
         Collections.addAll(separators, Separators.values());
@@ -96,6 +98,10 @@ public class PandaSyntax implements Syntax {
     @Override
     public List<Keyword> getKeywords() {
         return keywords;
+    }
+
+    public static PandaSyntax getInstance() {
+        return INSTANCE;
     }
 
 }

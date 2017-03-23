@@ -16,21 +16,26 @@
 
 package org.panda_lang.panda.language.structure.prototype.parser;
 
-import org.panda_lang.framework.interpreter.lexer.token.Token;
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
-import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.lexer.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
@@ -87,6 +92,9 @@ public class ClassPrototypeParser implements UnifiedParser {
             ClassReference classReference = new ClassReference(classPrototype, classScope);
             script.getStatements().add(classReference);
 
+            ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
+            delegatedInfo.setComponent(Components.LINKER, classScopeLinker);
+
             if (classDeclaration.size() > 1) {
                 nextLayer.delegate(new ClassPrototypeDeclarationParserCallback(), delegatedInfo);
             }
@@ -101,41 +109,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            ClassPrototype classPrototype = delegatedInfo.getComponent("class-prototype");
-
-            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
-            TokenizedSource classDeclaration = redactor.get("class-declaration");
-            Token next = classDeclaration.getToken(1);
-
-            if (next.getType() != TokenType.KEYWORD) {
-                throw new PandaParserException("Unknown element " + next);
-            }
-
-            switch (next.getTokenValue()) {
-                case "extends":
-                    for (int i = 2; i < classDeclaration.size(); i++) {
-                        Token classNameToken = classDeclaration.getToken(i);
-
-                        if (classNameToken.getType() == TokenType.UNKNOWN) {
-                            ClassPrototype extendedPrototype = classPrototype.getGroup().getObject().get(classNameToken.getTokenValue());
-
-                            if (extendedPrototype == null) {
-                                throw new PandaParserException("Class " + classNameToken.getTokenValue() + " not found");
-                            }
-
-                            classPrototype.getExtended().add(extendedPrototype);
-                            continue;
-                        }
-                        else if (classNameToken.getType() == TokenType.SEPARATOR) {
-                            continue;
-                        }
-
-                        break;
-                    }
-                    break;
-                default:
-                    throw new PandaParserException("Illegal keyword " + next);
-            }
+            ClassPrototypeParserUtils.readDeclaration(delegatedInfo);
         }
 
     }
@@ -145,7 +119,18 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            // TODO: ScopeLinker linker = new PandaScopeLinker(null);
+            Panda panda = delegatedInfo.getComponent(Components.PANDA);
+            PipelineRegistry pipelineRegistry = panda.getPandaComposition().getPipelineRegistry();
+            ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.PROTOTYPE);
+
+            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            TokenizedSource bodySource = redactor.get("class-body");
+            SourceStream stream = new PandaSourceStream(bodySource);
+
+            while (stream.hasUnreadSource()) {
+                UnifiedParser parser = pipeline.handle(stream);
+                parser.parse(delegatedInfo);
+            }
         }
 
     }

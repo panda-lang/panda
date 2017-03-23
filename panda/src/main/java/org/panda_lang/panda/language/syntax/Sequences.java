@@ -16,8 +16,11 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Sequence;
+import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.Sequence;
 
+/**
+ * Default sequences
+ */
 public class Sequences {
 
     public static final Sequence STRING = new Sequence("String", '"');

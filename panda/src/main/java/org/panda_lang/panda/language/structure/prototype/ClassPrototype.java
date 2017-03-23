@@ -40,7 +40,7 @@ public class ClassPrototype {
     public ClassPrototype(String className) {
         this.className = className;
         this.group = new Container<>();
-        this.extended = new ArrayList<>(0);
+        this.extended = new ArrayList<>();
         this.constructors = new ArrayList<>();
         this.fields = new HashMap<>();
         this.methods = new HashMap<>();

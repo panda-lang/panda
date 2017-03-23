@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.field;
 
-import org.panda_lang.framework.structure.Statement;
+import org.panda_lang.panda.framework.structure.Statement;
 
 public class FieldStatement implements Statement {
 

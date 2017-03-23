@@ -28,7 +28,7 @@ public class PandaComposition {
     private final ClassPrototypeRegistry prototypeRegistry;
 
     public PandaComposition() {
-        this.syntax = new PandaSyntax();
+        this.syntax = PandaSyntax.getInstance();
 
         ParserRegistrationLoader parserRegistrationLoader = new ParserRegistrationLoader();
         this.pipelineRegistry = parserRegistrationLoader.load();

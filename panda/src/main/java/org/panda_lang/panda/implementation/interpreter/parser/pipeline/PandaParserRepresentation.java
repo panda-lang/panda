@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.pipeline;
 
-import org.panda_lang.framework.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.framework.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
 
 public class PandaParserRepresentation implements ParserRepresentation {
 

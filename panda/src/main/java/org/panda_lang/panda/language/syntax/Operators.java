@@ -16,8 +16,11 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Operator;
+import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.Operator;
 
+/**
+ * Default operators
+ */
 public class Operators {
 
     public static final Operator ASSIGNMENT = new Operator("=");

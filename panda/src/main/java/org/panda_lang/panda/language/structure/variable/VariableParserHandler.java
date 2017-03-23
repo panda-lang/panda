@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.variable;
 
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.lexer.token.extractor.Extractor;
-import org.panda_lang.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.framework.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.lexer.token.extractor.Extractor;
+import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserHandler;
 
 import java.util.List;
 

@@ -16,8 +16,11 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.Literal;
+import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.Literal;
 
+/**
+ * Default literals
+ */
 public class Literals {
 
     public static final Literal FALSE = new Literal("false");

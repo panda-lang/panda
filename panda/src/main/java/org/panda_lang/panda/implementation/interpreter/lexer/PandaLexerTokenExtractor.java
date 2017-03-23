@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.implementation.interpreter.lexer;
 
-import org.panda_lang.framework.composition.Syntax;
-import org.panda_lang.framework.interpreter.lexer.token.Token;
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.util.StringUtils;
+import org.panda_lang.panda.framework.composition.Syntax;
+import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.framework.util.StringUtils;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.PandaToken;
 
 import java.util.Collection;

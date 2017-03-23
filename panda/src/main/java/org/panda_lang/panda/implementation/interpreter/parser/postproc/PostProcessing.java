@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.implementation.interpreter.parser.postproc;
 
-import org.panda_lang.framework.interpreter.Interpreter;
+import org.panda_lang.panda.framework.interpreter.Interpreter;
 
 import java.util.ArrayList;
 import java.util.List;

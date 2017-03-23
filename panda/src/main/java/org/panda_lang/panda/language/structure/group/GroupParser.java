@@ -16,17 +16,17 @@
 
 package org.panda_lang.panda.language.structure.group;
 
-import org.panda_lang.framework.interpreter.lexer.token.Token;
-import org.panda_lang.framework.interpreter.lexer.token.TokenRepresentation;
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.framework.interpreter.parser.generation.ParserGenerationType;
-import org.panda_lang.framework.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenRepresentation;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.PandaScript;
 import org.panda_lang.panda.implementation.structure.Script;

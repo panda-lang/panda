@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.implementation.interpreter.source;
 
-import org.panda_lang.framework.interpreter.source.Source;
-import org.panda_lang.framework.interpreter.source.SourceSet;
+import org.panda_lang.panda.framework.interpreter.source.Source;
+import org.panda_lang.panda.framework.interpreter.source.SourceSet;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.implementation.interpreter.source;
 
-import org.panda_lang.framework.interpreter.source.SourceFile;
-import org.panda_lang.framework.util.FileUtils;
+import org.panda_lang.panda.framework.interpreter.source.SourceFile;
+import org.panda_lang.panda.framework.util.FileUtils;
 
 import java.io.File;
 

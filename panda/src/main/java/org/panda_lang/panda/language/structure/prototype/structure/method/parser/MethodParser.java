@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.parser;
 
-import org.panda_lang.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 
 //@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
