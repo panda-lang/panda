@@ -40,7 +40,7 @@ class Foo {
 #### Repository structure
 ```
 panda/
-+--exmaples/                 Example scripts written in Panda
++--examples/                 Example scripts written in Panda
 +--panda/                    Panda module
    +----/src                 All sources of Panda
    +----pom.xml              The main maven build script for Panda module
