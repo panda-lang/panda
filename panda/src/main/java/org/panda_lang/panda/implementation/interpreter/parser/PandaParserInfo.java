@@ -47,6 +47,12 @@ public class PandaParserInfo implements ParserInfo {
         this.components.put(componentName, component);
     }
 
+    /**
+     * Default list of components is available here: {@link Components}
+     *
+     * @param componentName a name of the specified component
+     * @return selected component
+     */
     @Override
     @SuppressWarnings({ "unchecked" })
     public <T> T getComponent(String componentName) {

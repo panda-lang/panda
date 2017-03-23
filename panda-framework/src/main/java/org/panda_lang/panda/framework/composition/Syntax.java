@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.composition;
 
-import org.panda_lang.framework.interpreter.lexer.token.defaults.*;
 import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.*;
 
 import java.util.List;

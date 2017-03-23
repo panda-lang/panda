@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.framework.interpreter.parser;
 
-import org.panda_lang.framework.interpreter.parser.util.Components;
-
 public interface ParserInfo {
 
     /**
@@ -25,9 +23,7 @@ public interface ParserInfo {
      */
     ParserInfo fork();
 
-    /**
-     * Default list of components is available here: {@link Components}
-     *
+    /***
      * @param componentName a name of the specified component
      * @return selected component
      */
