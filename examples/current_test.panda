@@ -8,11 +8,14 @@ class Foo extends Test {
 
 class Test {
 
+    constructor(String string) {
+        System.print(string);
+    }
 
 }
 
 main {
-    Test test = new Test();
+    Test test = new Test("Constructor");
     Foo varFoo = null;
 
     String s = null;
