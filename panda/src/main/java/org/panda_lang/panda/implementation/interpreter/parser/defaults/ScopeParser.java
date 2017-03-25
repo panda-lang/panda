@@ -44,13 +44,12 @@ public class ScopeParser implements Parser {
         ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
+        info.setComponent(Components.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
             UnifiedParser parser = pipeline.handle(stream);
 
-            info.setComponent(Components.SOURCE_STREAM, stream);
             parser.parse(info);
-
             generation.executeImmediately(info);
         }
     }
