@@ -38,7 +38,7 @@ import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
-import org.panda_lang.panda.language.structure.prototype.structure.method.argument.ArgumentParser;
+import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 
 import java.util.List;
 
@@ -76,7 +76,7 @@ public class CreateInstanceExpressionCallback implements ExpressionCallback {
     @Override
     public Value call(Expression expression, ExecutableBridge bridge) {
         Value[] values = ExpressionUtils.getValues(bridge, arguments);
-        ClassInstance instance = constructor.createInstance(values);
+        ClassInstance instance = constructor.createInstance(bridge, values);
 
         return new PandaValue(returnType, instance);
     }

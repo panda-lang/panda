@@ -16,15 +16,26 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
-import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.implementation.structure.util.AbstractScope;
+import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
-public interface Constructor {
+import java.util.List;
 
-    ClassInstance createInstance(ExecutableBridge bridge, Value... values);
+public class ConstructorScope extends AbstractScope {
 
-    ClassPrototype[] getParameterTypes();
+    private final List<Parameter> parameters;
+
+    public ConstructorScope(List<Parameter> parameters) {
+        this.parameters = parameters;
+    }
+
+    @Override
+    public ConstructorScopeInstance createInstance() {
+        return new ConstructorScopeInstance(this);
+    }
+
+    public List<Parameter> getParameters() {
+        return parameters;
+    }
 
 }
