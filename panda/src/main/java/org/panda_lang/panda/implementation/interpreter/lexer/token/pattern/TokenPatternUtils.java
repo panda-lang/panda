@@ -36,7 +36,7 @@ public class TokenPatternUtils {
         List<TokenizedSource> gaps = extractor.extract(reader);
 
         if (gaps == null) {
-            throw new PandaParserException("Cannot parse group at line " + (source.read().getLine() + 1));
+            throw new PandaParserException("Cannot parse source at line " + (source.read().getLine() + 1));
         }
 
         source.readDifference(reader);
