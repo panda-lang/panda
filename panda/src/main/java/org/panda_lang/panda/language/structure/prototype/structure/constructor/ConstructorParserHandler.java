@@ -16,14 +16,16 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenUtils;
 import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.language.syntax.Keywords;
 
 public class ConstructorParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        return false;
+        return TokenUtils.equals(tokenReader.next(), Keywords.CONSTRUCTOR);
     }
 
 }

@@ -34,6 +34,7 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
@@ -41,6 +42,7 @@ import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.Script;
 import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.ClassReference;
@@ -127,9 +129,19 @@ public class ClassPrototypeParser implements UnifiedParser {
             TokenizedSource bodySource = redactor.get("class-body");
             SourceStream stream = new PandaSourceStream(bodySource);
 
+            ParserGeneration generation = delegatedInfo.getComponent(Components.GENERATION);
+            ParserInfo bodyInfo = delegatedInfo.fork();
+            bodyInfo.setComponent(Components.SOURCE_STREAM, stream);
+
             while (stream.hasUnreadSource()) {
                 UnifiedParser parser = pipeline.handle(stream);
-                parser.parse(delegatedInfo);
+
+                if (parser == null) {
+                    throw new PandaParserException("Cannot parse the element of prototype at line " + (stream.toTokenizedSource().get(0).getLine() + 1));
+                }
+
+                parser.parse(bodyInfo);
+                generation.executeImmediately(delegatedInfo);
             }
         }
 
@@ -149,7 +161,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
             Constructor defaultConstructor = new Constructor() {
                 @Override
-                public ClassInstance createInstance(Value... value) {
+                public ClassInstance createInstance(ExecutableBridge bridge, Value... values) {
                     return scope.createInstance();
                 }
 

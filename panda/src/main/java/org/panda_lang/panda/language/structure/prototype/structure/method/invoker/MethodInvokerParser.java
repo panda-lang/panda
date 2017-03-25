@@ -39,7 +39,7 @@ import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.imports.ImportStatement;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
-import org.panda_lang.panda.language.structure.prototype.structure.method.argument.ArgumentParser;
+import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 
 import java.util.List;
 
