@@ -61,14 +61,13 @@ public class MainParser implements UnifiedParser {
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
             Main main = new Main();
+            delegatedInfo.setComponent("main", main);
 
             TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
-
-            delegatedInfo.setComponent("main", main);
             delegatedInfo.setComponent("redactor", redactor);
 
-            redactor.map("body");
+            redactor.map("main-body");
             nextLayer.delegate(new MainBodyParserCallback(), delegatedInfo.fork());
 
             Script script = delegatedInfo.getComponent(Components.SCRIPT);
@@ -89,7 +88,7 @@ public class MainParser implements UnifiedParser {
             delegatedInfo.setComponent(Components.LINKER, linker);
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
-            TokenizedSource body = redactor.get("body");
+            TokenizedSource body = redactor.get("main-body");
 
             ScopeParser scopeParser = new ScopeParser(main);
             scopeParser.parse(delegatedInfo, body);

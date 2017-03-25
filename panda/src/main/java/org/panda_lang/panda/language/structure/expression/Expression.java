@@ -49,9 +49,9 @@ public class Expression implements Executable {
     }
 
     @Override
-    public void execute(ExecutableBridge executionInfo) {
+    public void execute(ExecutableBridge bridge) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            this.value = callback.call(this, executionInfo);
+            this.value = callback.call(this, bridge);
         }
     }
 

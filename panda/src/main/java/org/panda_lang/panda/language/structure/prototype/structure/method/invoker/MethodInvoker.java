@@ -20,6 +20,7 @@ import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.expression.Expression;
+import org.panda_lang.panda.language.structure.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
@@ -36,17 +37,9 @@ public class MethodInvoker implements Executable {
     }
 
     @Override
-    public void execute(ExecutableBridge executionInfo) {
-        Value[] parameters = new Value[arguments.length];
-
-        for (int i = 0; i < parameters.length; i++) {
-            Expression expression = arguments[i];
-
-            expression.execute(executionInfo);
-            parameters[i] = expression.getValue();
-        }
-
-        method.invoke(instance, parameters);
+    public void execute(ExecutableBridge bridge) {
+        Value[] values = ExpressionUtils.getValues(bridge, arguments);
+        method.invoke(instance, values);
     }
 
 }

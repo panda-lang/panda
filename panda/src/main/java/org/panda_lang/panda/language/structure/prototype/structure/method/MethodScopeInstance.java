@@ -34,14 +34,14 @@ public class MethodScopeInstance implements ScopeInstance {
     }
 
     @Override
-    public void execute(ExecutableBridge executionInfo) {
+    public void execute(ExecutableBridge bridge) {
         for (StatementCell statementCell : methodWrapper.getStatementCells()) {
             if (!statementCell.isExecutable()) {
                 continue;
             }
 
             Executable executable = (Executable) statementCell.getStatement();
-            executionInfo.call(executable);
+            bridge.call(executable);
         }
     }
 

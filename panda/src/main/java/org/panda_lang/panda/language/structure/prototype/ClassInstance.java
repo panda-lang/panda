@@ -33,7 +33,7 @@ public class ClassInstance implements ScopeInstance {
     }
 
     @Override
-    public void execute(ExecutableBridge executionInfo) {
+    public void execute(ExecutableBridge bridge) {
         throw new RuntimeException("Cannot execute instance");
     }
 

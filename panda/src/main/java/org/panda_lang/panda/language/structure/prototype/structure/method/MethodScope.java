@@ -18,18 +18,16 @@ package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.util.AbstractScope;
-import org.panda_lang.panda.language.structure.prototype.structure.method.parameter.Parameter;
+import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
 import java.util.List;
 
 public class MethodScope extends AbstractScope {
 
-    private final int wrapperID;
     private final String methodName;
     private final List<Parameter> parameters;
 
-    public MethodScope(int wrapperID, String methodName, List<Parameter> parameters) {
-        this.wrapperID = wrapperID;
+    public MethodScope(String methodName, List<Parameter> parameters) {
         this.methodName = methodName;
         this.parameters = parameters;
     }
@@ -41,6 +39,10 @@ public class MethodScope extends AbstractScope {
 
     public List<Parameter> getParameters() {
         return parameters;
+    }
+
+    public String getMethodName() {
+        return methodName;
     }
 
 }

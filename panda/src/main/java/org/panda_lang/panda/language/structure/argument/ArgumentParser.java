@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method.argument;
+package org.panda_lang.panda.language.structure.argument;
 
 import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
 import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;

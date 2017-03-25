@@ -21,6 +21,6 @@ import org.panda_lang.panda.framework.structure.Statement;
 
 public interface Executable extends Statement {
 
-    void execute(ExecutableBridge executionInfo);
+    void execute(ExecutableBridge bridge);
 
 }

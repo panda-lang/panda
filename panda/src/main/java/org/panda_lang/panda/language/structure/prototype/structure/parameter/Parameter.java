@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method.parameter;
+package org.panda_lang.panda.language.structure.prototype.structure.parameter;
 
-import org.panda_lang.panda.implementation.structure.value.Variable;
 import org.panda_lang.panda.implementation.structure.value.PandaVariable;
+import org.panda_lang.panda.implementation.structure.value.Variable;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class Parameter {
@@ -38,8 +38,8 @@ public class Parameter {
         return parameterType;
     }
 
-    public Variable toVariable() {
-        return new PandaVariable(parameterType, parameterName, 0);
+    public Variable toVariable(int nestingLevel) {
+        return new PandaVariable(parameterType, parameterName, nestingLevel);
     }
 
 }
