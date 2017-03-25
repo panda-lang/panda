@@ -33,7 +33,13 @@ public class PandaExecutableBridge implements ExecutableBridge {
     @Override
     public void call(Executable executable) {
         if (executable instanceof ScopeInstance) {
+            ScopeInstance previousScope = currentScope;
+
             this.currentScope = (ScopeInstance) executable;
+            executable.execute(this);
+
+            this.currentScope = previousScope;
+            return;
         }
 
         executable.execute(this);
