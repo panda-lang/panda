@@ -22,8 +22,8 @@ import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
-import org.panda_lang.panda.language.structure.prototype.structure.method.VoidMethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
 @ClassPrototypeRegistrationCall
@@ -37,9 +37,9 @@ public class SystemPrototype {
         prototype.getGroup().setObject(defaultGroup);
         defaultGroup.add(prototype);
 
-        prototype.getMethods().put("print", new PandaMethod(prototype, "print", new VoidMethodCallback() {
+        prototype.getMethods().put("print", new PandaMethod(prototype, "print", new MethodCallback<System>() {
             @Override
-            public void invokeMethod(ExecutableBridge bridge, Object instance, Value... parameters) {
+            public void invoke(ExecutableBridge bridge, System instance, Value... parameters) {
                 StringBuilder node = new StringBuilder();
 
                 for (Value value : parameters) {
@@ -47,9 +47,10 @@ public class SystemPrototype {
                     node.append(", ");
                 }
 
-                System.out.println(node.substring(0, node.length() - 2));
+                String message = node.substring(0, node.length() - 2);
+                System.out.println(message);
             }
-        }, true, MethodVisibility.PUBLIC));
+        }, true, MethodVisibility.PUBLIC, null));
     }
 
 }

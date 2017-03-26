@@ -15,6 +15,7 @@ class Test {
     method echo(String message) {
         System.print(message);
     }
+
 }
 
 main {

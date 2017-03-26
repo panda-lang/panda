@@ -45,11 +45,7 @@ public class MethodInvoker implements Executable {
             instance = expression.getValue().getValue();
         }
 
-        Value value = method.invoke(bridge, instance, values);
-
-        if (value != null) {
-            bridge.returnValue(value);
-        }
+        method.invoke(bridge, instance, values);
     }
 
 }

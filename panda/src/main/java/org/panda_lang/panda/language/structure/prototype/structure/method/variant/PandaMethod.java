@@ -22,7 +22,6 @@ import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
-import org.panda_lang.panda.language.structure.prototype.structure.method.VoidMethodCallback;
 
 public class PandaMethod implements Method {
 
@@ -32,10 +31,6 @@ public class PandaMethod implements Method {
     private final MethodCallback methodBody;
     private final boolean isStatic;
     private MethodVisibility visibility;
-
-    public PandaMethod(ClassPrototype prototype, String methodName, VoidMethodCallback methodBody, boolean isStatic, MethodVisibility visibility) {
-        this(prototype, methodName, methodBody, isStatic, visibility, null);
-    }
 
     public PandaMethod(ClassPrototype prototype, String methodName, MethodCallback methodBody, boolean isStatic, MethodVisibility visibility, ClassPrototype returnType) {
         this.prototype = prototype;
@@ -47,8 +42,9 @@ public class PandaMethod implements Method {
     }
 
     @Override
-    public Value invoke(ExecutableBridge bridge, Object instance, Value... parameters) {
-        return methodBody.invoke(bridge, instance, parameters);
+    @SuppressWarnings({ "unchecked" })
+    public void invoke(ExecutableBridge bridge, Object instance, Value... parameters) {
+        methodBody.invoke(bridge, instance, parameters);
     }
 
     @Override
