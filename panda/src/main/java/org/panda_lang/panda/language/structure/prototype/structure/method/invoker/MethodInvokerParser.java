@@ -25,7 +25,6 @@ import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenera
 import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
@@ -33,15 +32,15 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.implementation.structure.Script;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.structure.PandaScript;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.expression.Expression;
-import org.panda_lang.panda.language.structure.imports.ImportStatement;
+import org.panda_lang.panda.language.structure.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
-import org.panda_lang.panda.language.structure.argument.ArgumentParser;
-
-import java.util.List;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
 public class MethodInvokerParser implements UnifiedParser {
@@ -86,30 +85,36 @@ public class MethodInvokerParser implements UnifiedParser {
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
 
-            TokenizedSource instance = redactor.get("instance");
-            TokenizedSource method = redactor.get("method-name");
-            TokenizedSource arguments = redactor.get("arguments");
+            TokenizedSource instanceSource = redactor.get("instance");
+            TokenizedSource methodSource = redactor.get("method-name");
+            TokenizedSource argumentsSource = redactor.get("arguments");
 
-            Script script = delegatedInfo.getComponent(Components.SCRIPT);
-            List<ImportStatement> importStatements = script.select(ImportStatement.class);
+            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            ImportRegistry registry = script.getImportRegistry();
 
-            String surmiseClassName = instance.getToken(0).getTokenValue();
-            ClassPrototype prototype = MethodInvokerUtils.find(importStatements, surmiseClassName);
+            String surmiseClassName = TokenizedSource.asString(instanceSource);
+            ClassPrototype prototype = registry.forClass(surmiseClassName);
 
-            if (prototype != null) {
-                String methodName = method.getToken(0).getTokenValue();
+            String methodName = TokenizedSource.asString(methodSource);
+            Expression instance = null;
 
-                ArgumentParser argumentParser = new ArgumentParser();
-                Expression[] parameters = argumentParser.parse(delegatedInfo, arguments);
+            if (prototype == null) {
+                ExpressionParser expressionParser = new ExpressionParser();
 
-                Method prototypeMethod = prototype.getMethods().get(methodName);
-                MethodInvoker invoker = new MethodInvoker(prototypeMethod, null, parameters);
-
-                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
-                Scope currentScope = linker.getCurrentScope();
-
-                currentScope.addStatement(invoker);
+                instance = expressionParser.parse(delegatedInfo, instanceSource);
+                prototype = instance.getReturnType();
             }
+
+            ArgumentParser argumentParser = new ArgumentParser();
+            Expression[] arguments = argumentParser.parse(delegatedInfo, argumentsSource);
+
+            Method prototypeMethod = prototype.getMethods().get(methodName);
+            MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
+
+            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+            Scope currentScope = linker.getCurrentScope();
+
+            currentScope.addStatement(invoker);
         }
 
     }

@@ -16,24 +16,41 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
-import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
 public class PandaMethodBuilder {
 
+    private ClassPrototype prototype;
     private String methodName;
-    private Executable methodBody;
-    private boolean isStatic;
     private MethodVisibility visibility;
+    private ClassPrototype returnType;
+    private MethodCallback methodBody;
+    private boolean isStatic;
 
+    public PandaMethodBuilder prototype(ClassPrototype prototype) {
+        this.prototype = prototype;
+        return this;
+    }
 
     public PandaMethodBuilder methodName(String methodName) {
         this.methodName = methodName;
         return this;
     }
 
-    public PandaMethodBuilder methodBody(Executable executable) {
-        this.methodBody = executable;
+    public PandaMethodBuilder returnType(ClassPrototype returnType) {
+        this.returnType = returnType;
+        return this;
+    }
+    
+    public PandaMethodBuilder visibility(MethodVisibility visibility) {
+        this.visibility = visibility;
+        return this;
+    }
+
+    public PandaMethodBuilder methodBody(MethodCallback callback) {
+        this.methodBody = callback;
         return this;
     }
 
@@ -42,9 +59,8 @@ public class PandaMethodBuilder {
         return this;
     }
 
-    public PandaMethodBuilder visibility(MethodVisibility visibility) {
-        this.visibility = visibility;
-        return this;
+    public PandaMethod build() {
+        return new PandaMethod(prototype, methodName, methodBody, isStatic, visibility, returnType);
     }
 
 }

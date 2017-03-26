@@ -19,7 +19,6 @@ package org.panda_lang.panda.language.structure.prototype.structure.method;
 public enum MethodVisibility {
 
     PUBLIC,
-    PROTECTED,
-    PRIVATE;
+    PRIVATE
 
 }

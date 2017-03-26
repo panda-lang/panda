@@ -29,6 +29,11 @@ import java.lang.annotation.Target;
 
 public @interface ParserRegistration {
 
+    /**
+     * Default pipelines: {@link org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines}
+     *
+     * @return an array of pipelines
+     */
     String[] target();
 
     Class<? extends UnifiedParser> parserClass();

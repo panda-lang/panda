@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
 import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
@@ -47,8 +47,8 @@ public class PandaMethod implements Method {
     }
 
     @Override
-    public Value invoke(ClassInstance instance, Value... parameters) {
-        return methodBody.invoke(instance, parameters);
+    public Value invoke(ExecutableBridge bridge, Object instance, Value... parameters) {
+        return methodBody.invoke(bridge, instance, parameters);
     }
 
     @Override

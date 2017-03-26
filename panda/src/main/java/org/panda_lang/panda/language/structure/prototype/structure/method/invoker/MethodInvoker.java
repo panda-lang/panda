@@ -21,25 +21,35 @@ import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionUtils;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
 public class MethodInvoker implements Executable {
 
     private final Method method;
-    private final ClassInstance instance;
+    private final Expression expression;
     private final Expression[] arguments;
 
-    public MethodInvoker(Method method, ClassInstance instance, Expression[] arguments) {
+    public MethodInvoker(Method method, Expression instance, Expression[] arguments) {
         this.method = method;
-        this.instance = instance;
+        this.expression = instance;
         this.arguments = arguments;
     }
 
     @Override
     public void execute(ExecutableBridge bridge) {
+        Object instance = null;
         Value[] values = ExpressionUtils.getValues(bridge, arguments);
-        method.invoke(instance, values);
+
+        if (expression != null) {
+            expression.execute(bridge);
+            instance = expression.getValue().getValue();
+        }
+
+        Value value = method.invoke(bridge, instance, values);
+
+        if (value != null) {
+            bridge.returnValue(value);
+        }
     }
 
 }

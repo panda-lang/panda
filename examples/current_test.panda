@@ -8,15 +8,21 @@ class Foo extends Test {
 
 class Test {
 
-    constructor(String string) {
-        System.print(string);
+    constructor(String message) {
+        System.print(message);
     }
 
+    method echo(String message) {
+        System.print(message);
+    }
 }
 
 main {
     Test test = new Test("Constructor");
+    test.echo("Method");
+
     Foo varFoo = null;
+    varFoo = new Foo();
 
     String s = null;
     s = "Hello Panda x2";

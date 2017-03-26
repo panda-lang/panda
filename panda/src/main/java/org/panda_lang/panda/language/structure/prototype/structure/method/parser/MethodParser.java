@@ -16,29 +16,171 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.parser;
 
+import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenRepresentation;
 import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.defaults.ScopeParser;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.ClassScope;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodScope;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
+import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
+import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethodCallback;
+import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
+import org.panda_lang.panda.language.structure.prototype.structure.parameter.ParameterParser;
+import org.panda_lang.panda.language.structure.prototype.structure.parameter.ParameterUtils;
 
-//@ParserRegistration(parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
+import java.util.List;
+
+@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
 public class MethodParser implements UnifiedParser {
 
-    private static final TokenPattern pattern;
+    private static final TokenPattern PATTERN = TokenPattern.builder()
+            .hollow()
+            .unit(TokenType.SEPARATOR, "(")
+            .hollow()
+            .unit(TokenType.SEPARATOR, ")")
+            .unit(TokenType.SEPARATOR, "{")
+            .hollow()
+            .unit(TokenType.SEPARATOR, "}")
+            .build();
 
-    static {
-        pattern = TokenPattern.builder()
-                .unit(TokenType.KEYWORD, "method")
-                .hollow()
-                .unit(TokenType.SEPARATOR, "(")
-                .hollow()
-                .unit(TokenType.SEPARATOR, ")")
-                .unit(TokenType.SEPARATOR, "{")
-                .hollow()
-                .unit(TokenType.SEPARATOR, "}")
-                .build();
+    @Override
+    public void parse(ParserInfo parserInfo) {
+        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+
+        generation.getLayer(ParserGenerationType.HIGHER)
+                .delegateImmediately(new MethodDeclarationParserCallback(), parserInfo.fork());
     }
 
+    @LocalCallback
+    private static class MethodDeclarationParserCallback implements ParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
+
+            redactor.map("method-declaration", "method-parameters", "method-body");
+            delegatedInfo.setComponent("redactor", redactor);
+
+            TokenizedSource methodDeclaration = redactor.get("method-declaration");
+            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
+
+            MethodVisibility visibility = null;
+            ClassPrototype returnType = null;
+            String methodName = null;
+            boolean isStatic = false;
+
+            for (int i = 0; i < methodDeclaration.size(); i++) {
+                TokenRepresentation representation = methodDeclaration.get(i);
+                Token token = representation.getToken();
+
+                if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 1) {
+                    methodName = token.getTokenValue();
+                    continue;
+                }
+
+                if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 2) {
+                    String returnTypeName = token.getTokenValue();
+
+                    PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+                    ImportRegistry registry = script.getImportRegistry();
+
+                    returnType = registry.forClass(returnTypeName);
+                    continue;
+                }
+
+                switch (token.getTokenValue()) {
+                    case "method":
+                        visibility = MethodVisibility.PUBLIC;
+                        continue;
+                    case "hidden":
+                        visibility = MethodVisibility.PRIVATE;
+                        continue;
+                    case "static":
+                        isStatic = true;
+                        visibility = visibility != null ? visibility : MethodVisibility.PUBLIC;
+                        continue;
+                    default:
+                        throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1));
+                }
+            }
+
+            TokenizedSource parametersSource = redactor.get("method-parameters");
+            ParameterParser parameterParser = new ParameterParser();
+            List<Parameter> parameters = parameterParser.parse(delegatedInfo, parametersSource);
+
+            MethodScope scope = new MethodScope(methodName, parameters);
+            ParameterUtils.addAll(scope.getVariables(), parameters, 0);
+            delegatedInfo.setComponent("method-scope", scope);
+
+            MethodCallback callback = new PandaMethodCallback(scope);
+            delegatedInfo.setComponent("method-callback", callback);
+
+            Method method = PandaMethod.builder()
+                    .prototype(prototype)
+                    .methodName(methodName)
+                    .visibility(visibility)
+                    .returnType(returnType)
+                    .methodBody(callback)
+                    .isStatic(isStatic)
+                    .build();
+
+            prototype.getMethods().put(method.getMethodName(), method);
+            delegatedInfo.setComponent("method", method);
+
+            nextLayer.delegate(new MethodBodyParserCallback(), delegatedInfo);
+        }
+
+    }
+
+    @LocalCallback
+    private static class MethodBodyParserCallback implements ParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+            ClassScope classScope = delegatedInfo.getComponent("class-scope");
+
+            MethodScope methodScope = delegatedInfo.getComponent("method-scope");
+            delegatedInfo.setComponent("scope", methodScope);
+
+            ScopeLinker linker = new PandaScopeLinker(classScope);
+            linker.pushScope(methodScope);
+            delegatedInfo.setComponent(Components.LINKER, linker);
+
+            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            TokenizedSource body = redactor.get("method-body");
+
+            ScopeParser scopeParser = new ScopeParser(methodScope);
+            scopeParser.parse(delegatedInfo, body);
+        }
+
+    }
+
+    /*
     @Override
     public void parse(ParserInfo parserInfo) {
         /*
@@ -80,7 +222,7 @@ public class MethodParser implements UnifiedParser {
                 .build();
 
         return method;
-        */
     }
+    */
 
 }

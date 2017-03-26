@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.implementation.structure.dynamic.Executable;
 import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.implementation.structure.value.PandaValue;
 import org.panda_lang.panda.implementation.structure.value.Value;
 
 public class PandaExecutableBridge implements ExecutableBridge {
@@ -47,6 +48,10 @@ public class PandaExecutableBridge implements ExecutableBridge {
 
     @Override
     public void returnValue(Value value) {
+        if (value == null) {
+            value = PandaValue.NULL;
+        }
+
         this.returnValue = value;
     }
 

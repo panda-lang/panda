@@ -74,7 +74,7 @@ public class ArgumentParser implements Parser {
         Expression expression = expressionParser.parse(info, argument);
 
         if (expression == null) {
-            throw new PandaParserException("Cannot parse argument " + argument);
+            throw new PandaParserException("Cannot parse argument " + argument + " at line " + (argument.get(0).getLine() + 1));
         }
 
         return expression;

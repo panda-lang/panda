@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-public interface Method extends MethodCallback {
+public interface Method extends MethodCallback<Object> {
 
     boolean isStatic();
 

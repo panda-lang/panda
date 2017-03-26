@@ -17,16 +17,16 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public abstract class VoidMethodCallback implements MethodCallback {
 
     @Override
-    public final Value invoke(ClassInstance instance, Value... parameters) {
-        invokeMethod(instance, parameters);
+    public final Value invoke(ExecutableBridge bridge, Object instance, Value... parameters) {
+        invokeMethod(bridge, instance, parameters);
         return null;
     }
 
-    protected abstract void invokeMethod(ClassInstance instance, Value... parameters);
+    protected abstract void invokeMethod(ExecutableBridge bridge, Object instance, Value... parameters);
 
 }

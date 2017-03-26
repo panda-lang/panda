@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.implementation.structure.util.AbstractScope;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
@@ -33,7 +32,7 @@ public class MethodScope extends AbstractScope {
     }
 
     @Override
-    public ScopeInstance createInstance() {
+    public MethodScopeInstance createInstance() {
         return new MethodScopeInstance(this);
     }
 
