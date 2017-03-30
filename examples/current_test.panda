@@ -29,4 +29,8 @@ main {
     s = "Hello Panda x2";
 
     System.print("Hello Panda", "Test", "X", true, false, varFoo, s, test);
+
+    if (true) {
+        System.print("True");
+    }
 }
