@@ -29,12 +29,12 @@ public class PandaEngineFactoryConstants {
     /**
      * Panda version
      */
-    public static final String VERSION = "indev-0.0.3-SNAPSHOT";
+    public static final String VERSION = "indev-0.1.0-SNAPSHOT";
 
     /**
      * Engine name
      */
-    public static final String ENGINE_NAME = "Panda Core";
+    public static final String ENGINE_NAME = "Panda";
 
     /**
      * Engine version
