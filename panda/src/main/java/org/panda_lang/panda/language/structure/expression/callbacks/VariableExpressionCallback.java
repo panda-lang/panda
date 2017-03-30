@@ -22,11 +22,11 @@ import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionCallback;
 
-public class GetVariableExpressionCallback implements ExpressionCallback {
+public class VariableExpressionCallback implements ExpressionCallback {
 
     private final int memoryIndex;
 
-    public GetVariableExpressionCallback(int memoryIndex) {
+    public VariableExpressionCallback(int memoryIndex) {
         this.memoryIndex = memoryIndex;
     }
 

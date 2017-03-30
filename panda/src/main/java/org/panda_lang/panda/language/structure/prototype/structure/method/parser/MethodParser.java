@@ -180,49 +180,4 @@ public class MethodParser implements UnifiedParser {
 
     }
 
-    /*
-    @Override
-    public void parse(ParserInfo parserInfo) {
-        /*
-        ParserContext parserContext = parserInfo.getComponent(Components.PARSER_CONTEXT);
-        TokenReader tokenReader = parserContext.getTokenReader();
-
-        TokenExtractor primitive = PATTERN.primitive();
-        primitive.extract(tokenReader);
-
-
-        List<TokensSet> hollows = primitive.getGaps();
-        TokensSet methodNameHollow = hollows.get(0);
-        TokensSet parametersHollow = hollows.get(1);
-        TokensSet bodyHollow = hollows.get(2);
-
-        ParameterParser parameterParser = new ParameterParser();
-        List<Parameter> parameters = parameterParser.parse(parserInfo, parametersHollow);
-        String methodName = TokenUtils.extractToken(methodNameHollow, 0);
-
-        WrapperLinker wrapperLinker = parserInfo.getComponent(Components.LINKER);
-        int id = wrapperLinker.getNextID();
-
-        MethodWrapper methodWrapper = new MethodWrapper(id, methodName, parameters);
-        wrapperLinker.pushScope(methodWrapper);
-
-        OverallParser overallParser = new OverallParser(parserInfo);
-        for (Statement statement : overallParser) {
-            methodWrapper.addStatement(statement);
-        }
-
-        // TODO
-
-        Method method = Method.builder()
-                .classPrototype(parserInfo.getComponent("class-prototype"))
-                .methodName(TokenUtils.extractToken(methodNameHollow, 0))
-                .methodBody(null)
-                .isStatic(true)
-                .visibility(MethodVisibility.PUBLIC)
-                .build();
-
-        return method;
-    }
-    */
-
 }

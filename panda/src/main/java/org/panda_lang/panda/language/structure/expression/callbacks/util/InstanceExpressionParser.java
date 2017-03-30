@@ -14,57 +14,55 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.expression.callbacks;
+package org.panda_lang.panda.language.structure.expression.callbacks.util;
 
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.composition.Syntax;
 import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.panda.framework.interpreter.lexer.token.extractor.Extractor;
 import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
 import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.PandaScript;
-import org.panda_lang.panda.implementation.structure.value.PandaValue;
-import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.expression.Expression;
-import org.panda_lang.panda.language.structure.expression.ExpressionCallback;
-import org.panda_lang.panda.language.structure.expression.ExpressionUtils;
+import org.panda_lang.panda.language.structure.expression.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
-import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 
 import java.util.List;
 
-public class CreateInstanceExpressionCallback implements ExpressionCallback {
+public class InstanceExpressionParser {
 
-    private final ClassPrototype returnType;
-    private final Constructor constructor;
-    private final Expression[] arguments;
+    private ClassPrototype returnType;
+    private Constructor constructor;
+    private Expression[] arguments;
 
-    public CreateInstanceExpressionCallback(TokenizedSource source, ParserInfo info) {
-        TokenReader reader = new PandaTokenReader(source);
+    public void parse(TokenizedSource source, ParserInfo info) {
         Panda panda = info.getComponent(Components.PANDA);
+        PandaScript script = info.getComponent(Components.SCRIPT);
+
+        TokenReader reader = new PandaTokenReader(source);
         Syntax syntax = panda.getPandaComposition().getSyntax();
 
         TokenPattern pattern = TokenPattern.builder().compile(syntax, "new +* ( +* )").build();
         Extractor extractor = pattern.extractor();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
-        String className = TokenizedSource.asString(gaps.get(0));
-        PandaScript script = info.getComponent(Components.SCRIPT);
-        ImportRegistry importRegistry = script.getImportRegistry();
+        if (gaps == null) {
+            throw new PandaParserException("Cannot parse expression::instance");
+        }
 
+        String className = TokenizedSource.asString(gaps.get(0));
+        ImportRegistry importRegistry = script.getImportRegistry();
         this.returnType = importRegistry.forClass(className);
 
         ArgumentParser argumentParser = new ArgumentParser();
-
         this.arguments = argumentParser.parse(info, gaps.get(1));
         this.constructor = ConstructorUtils.matchConstructor(returnType, arguments);
 
@@ -73,16 +71,20 @@ public class CreateInstanceExpressionCallback implements ExpressionCallback {
         }
     }
 
-    @Override
-    public Value call(Expression expression, ExecutableBridge bridge) {
-        Value[] values = ExpressionUtils.getValues(bridge, arguments);
-        ClassInstance instance = constructor.createInstance(bridge, values);
+    public Expression[] getArguments() {
+        return arguments;
+    }
 
-        return new PandaValue(returnType, instance);
+    public Constructor getConstructor() {
+        return constructor;
     }
 
     public ClassPrototype getReturnType() {
         return returnType;
+    }
+
+    public InstanceExpressionCallback toCallback() {
+        return new InstanceExpressionCallback(returnType, constructor, arguments);
     }
 
 }
