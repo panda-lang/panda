@@ -58,11 +58,11 @@ public class ConstructorParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ConstructorExtractorCallback(), parserInfo.fork());
+                .delegateImmediately(new ConstructorExtractorCallback(), info.fork());
     }
 
     @LocalCallback
@@ -108,7 +108,7 @@ public class ConstructorParser implements UnifiedParser {
 
             ScopeLinker linker = new PandaScopeLinker(classScope);
             linker.pushScope(constructorScope);
-            delegatedInfo.setComponent(Components.LINKER, linker);
+            delegatedInfo.setComponent(Components.SCOPE_LINKER, linker);
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource body = redactor.get("constructor-body");

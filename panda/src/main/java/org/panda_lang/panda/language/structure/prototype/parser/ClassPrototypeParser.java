@@ -62,11 +62,11 @@ public class ClassPrototypeParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ClassPrototypeExtractorCallback(), parserInfo.fork());
+                .delegateImmediately(new ClassPrototypeExtractorCallback(), info.fork());
     }
 
     @LocalCallback
@@ -95,7 +95,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             script.getStatements().add(classReference);
 
             ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
-            delegatedInfo.setComponent(Components.LINKER, classScopeLinker);
+            delegatedInfo.setComponent(Components.SCOPE_LINKER, classScopeLinker);
 
             if (classDeclaration.size() > 1) {
                 nextLayer.delegate(new ClassPrototypeDeclarationParserCallback(), delegatedInfo);

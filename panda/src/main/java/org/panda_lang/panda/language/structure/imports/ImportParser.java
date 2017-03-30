@@ -48,11 +48,11 @@ public class ImportParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ImportDeclarationParserCallback(), parserInfo);
+                .delegateImmediately(new ImportDeclarationParserCallback(), info);
     }
 
     @LocalCallback

@@ -70,7 +70,7 @@ public class Components {
     /**
      * Used by {@link org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker}
      */
-    public static final String LINKER = "linker";
+    public static final String SCOPE_LINKER = "scope-linker";
 
     /**
      * Array of the default names
@@ -84,7 +84,7 @@ public class Components {
         VALUES[3] = SOURCE_STREAM;
         VALUES[4] = GENERATION;
         VALUES[5] = CURRENT_PARSER_INFO;
-        VALUES[6] = LINKER;
+        VALUES[6] = SCOPE_LINKER;
     }
 
     public static String[] values() {

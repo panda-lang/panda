@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.interpreter.parser;
 public interface UnifiedParser extends Parser {
 
     /**
-     * @param parserInfo set of information about source and interpretation process
+     * @param info set of information about source and interpretation process
      */
-    void parse(ParserInfo parserInfo);
+    void parse(ParserInfo info);
 
 }

@@ -14,16 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.field;
+package org.panda_lang.panda.implementation.structure.util;
 
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.implementation.structure.dynamic.Executable;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
-public class FieldParser implements UnifiedParser {
+import java.util.Collection;
 
-    @Override
-    public void parse(ParserInfo info) {
+public class ExecutableBridgeUtils {
 
+    public static void execute(ExecutableBridge bridge, Collection<StatementCell> cells) {
+        for (StatementCell statementCell : cells) {
+            if (statementCell.isExecutable()) {
+                Executable executable = (Executable) statementCell.getStatement();
+                bridge.call(executable);
+            }
+        }
     }
 
 }

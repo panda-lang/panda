@@ -68,11 +68,11 @@ public class MethodParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new MethodDeclarationParserCallback(), parserInfo.fork());
+                .delegateImmediately(new MethodDeclarationParserCallback(), info.fork());
     }
 
     @LocalCallback
@@ -169,7 +169,7 @@ public class MethodParser implements UnifiedParser {
 
             ScopeLinker linker = new PandaScopeLinker(classScope);
             linker.pushScope(methodScope);
-            delegatedInfo.setComponent(Components.LINKER, linker);
+            delegatedInfo.setComponent(Components.SCOPE_LINKER, linker);
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource body = redactor.get("method-body");

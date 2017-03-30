@@ -56,11 +56,11 @@ public class MethodInvokerParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new MethodInvokerDeclarationParserCallback(), parserInfo.fork());
+                .delegateImmediately(new MethodInvokerDeclarationParserCallback(), info.fork());
     }
 
     @LocalCallback
@@ -111,7 +111,7 @@ public class MethodInvokerParser implements UnifiedParser {
             Method prototypeMethod = prototype.getMethods().get(methodName);
             MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
 
-            ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
             Scope currentScope = linker.getCurrentScope();
 
             currentScope.addStatement(invoker);

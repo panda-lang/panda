@@ -52,12 +52,12 @@ public class GroupParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new GroupDeclarationParserCallback(), parserInfo)
-                .delegateAfter(new GroupAfterParserCallback(), parserInfo.fork());
+                .delegateImmediately(new GroupDeclarationParserCallback(), info)
+                .delegateAfter(new GroupAfterParserCallback(), info.fork());
     }
 
     @LocalCallback

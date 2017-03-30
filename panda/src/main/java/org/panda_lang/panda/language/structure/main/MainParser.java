@@ -48,11 +48,11 @@ public class MainParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new MainDeclarationParserCallback(), parserInfo);
+                .delegateImmediately(new MainDeclarationParserCallback(), info);
     }
 
     @LocalCallback
@@ -85,7 +85,7 @@ public class MainParser implements UnifiedParser {
             delegatedInfo.setComponent("scope", main);
 
             ScopeLinker linker = new PandaScopeLinker(main);
-            delegatedInfo.setComponent(Components.LINKER, linker);
+            delegatedInfo.setComponent(Components.SCOPE_LINKER, linker);
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource body = redactor.get("main-body");

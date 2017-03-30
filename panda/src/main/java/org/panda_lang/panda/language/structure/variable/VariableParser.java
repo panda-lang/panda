@@ -55,11 +55,11 @@ public class VariableParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo parserInfo) {
-        ParserGeneration generation = parserInfo.getComponent(Components.GENERATION);
+    public void parse(ParserInfo info) {
+        ParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new VariableDeclarationCallback(), parserInfo.fork());
+                .delegateImmediately(new VariableDeclarationCallback(), info.fork());
     }
 
     @LocalCallback
@@ -87,7 +87,7 @@ public class VariableParser implements UnifiedParser {
                     throw new PandaParserException("Unknown type '" + variableType + "'");
                 }
 
-                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+                ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
                 Scope scope = linker.getCurrentScope();
                 delegatedInfo.setComponent("scope", scope);
 
@@ -103,7 +103,7 @@ public class VariableParser implements UnifiedParser {
             else if (left.size() == 1) {
                 String variableName = left.getToken(0).getTokenValue();
 
-                ScopeLinker linker = delegatedInfo.getComponent(Components.LINKER);
+                ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
                 Scope scope = linker.getCurrentScope();
                 delegatedInfo.setComponent("scope", scope);
 

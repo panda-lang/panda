@@ -23,6 +23,8 @@ import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
 import org.panda_lang.panda.framework.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.value.PandaValue;
 import org.panda_lang.panda.implementation.structure.value.Variable;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
@@ -65,7 +67,8 @@ public class ExpressionParser implements Parser {
                 return toSimpleKnownExpression("panda.lang:Integer", Integer.parseInt(value));
             }
 
-            Scope scope = info.getComponent("scope");
+            ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
+            Scope scope = scopeLinker.getCurrentScope();
             Variable variable = VariableParserUtils.getVariable(scope, value);
 
             if (variable != null) {
