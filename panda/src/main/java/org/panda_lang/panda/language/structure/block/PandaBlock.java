@@ -14,23 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser.pipeline;
+package org.panda_lang.panda.language.structure.block;
 
-public class DefaultPriorities {
+import org.panda_lang.panda.implementation.structure.dynamic.Block;
+import org.panda_lang.panda.implementation.structure.util.AbstractContainer;
 
-    /**
-     * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.method.parser.MethodParser}
-     */
-    public static final int METHOD_PARSER = 1;
-
-    /**
-     * Used by {@link org.panda_lang.panda.language.structure.variable.VariableParser}
-     */
-    public static final int VARIABLE_PARSER = 10;
-
-    /**
-     * Used by {@link org.panda_lang.panda.language.structure.block.BlockParser}
-     */
-    public static final int BLOCK_PARSER = 100;
+public abstract class PandaBlock extends AbstractContainer implements Block {
 
 }

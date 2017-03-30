@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.parser.pipeline;
+package org.panda_lang.panda.language.structure.block;
 
-public class DefaultPriorities {
+import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserHandler;
 
-    /**
-     * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.method.parser.MethodParser}
-     */
-    public static final int METHOD_PARSER = 1;
+public class BlockParserHandler implements ParserHandler {
 
-    /**
-     * Used by {@link org.panda_lang.panda.language.structure.variable.VariableParser}
-     */
-    public static final int VARIABLE_PARSER = 10;
-
-    /**
-     * Used by {@link org.panda_lang.panda.language.structure.block.BlockParser}
-     */
-    public static final int BLOCK_PARSER = 100;
+    @Override
+    public boolean handle(TokenReader tokenReader) {
+        return BlockParser.PATTERN.extractor().extract(tokenReader) != null;
+    }
 
 }

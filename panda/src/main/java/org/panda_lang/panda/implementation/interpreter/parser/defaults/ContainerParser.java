@@ -28,15 +28,8 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.P
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
-public class ScopeParser implements Parser {
-
-    private final Scope scope;
-
-    public ScopeParser(Scope scope) {
-        this.scope = scope;
-    }
+public class ContainerParser implements Parser {
 
     public void parse(ParserInfo info, TokenizedSource body) {
         ParserGeneration generation = info.getComponent(Components.GENERATION);
