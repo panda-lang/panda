@@ -30,7 +30,10 @@ main {
 
     System.print("Hello Panda", "Test", "X", true, false, varFoo, s, test);
 
-    if (true) {
-        System.print("True");
+    if (false) {
+        System.print("Nope");
+    }
+    else {
+        System.print("Yay");
     }
 }
