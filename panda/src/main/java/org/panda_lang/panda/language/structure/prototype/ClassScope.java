@@ -37,6 +37,11 @@ public class ClassScope implements Scope {
     }
 
     @Override
+    public StatementCell reserveCell() {
+        return addStatement(null);
+    }
+
+    @Override
     public StatementCell addStatement(Statement statement) {
         throw new RuntimeException("Cannot add element to the class scope");
     }

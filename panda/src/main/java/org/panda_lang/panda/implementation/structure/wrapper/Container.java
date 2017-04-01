@@ -24,6 +24,13 @@ import java.util.List;
 public interface Container extends Statement {
 
     /**
+     * Reserve empty cell in the container
+     *
+     * @return an empty cell
+     */
+    StatementCell reserveCell();
+
+    /**
      * Adds executable to the current scope
      *
      * @param statement proper statement

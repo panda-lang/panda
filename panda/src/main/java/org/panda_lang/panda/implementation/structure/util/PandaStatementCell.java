@@ -24,17 +24,17 @@ public class PandaStatementCell implements StatementCell {
     private Statement statement;
     private boolean manipulated;
 
-    public PandaStatementCell(Statement executable) {
-        this.statement = executable;
+    public PandaStatementCell(Statement statement) {
+        this.statement = statement;
     }
 
     @Override
-    public void setStatement(Statement executable) {
+    public void setStatement(Statement statement) {
         if (this.statement != null) {
             this.manipulated = true;
         }
 
-        this.statement = executable;
+        this.statement = statement;
     }
 
     public boolean isManipulated() {

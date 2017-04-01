@@ -31,6 +31,11 @@ public abstract class AbstractContainer implements Container {
     }
 
     @Override
+    public StatementCell reserveCell() {
+        return addStatement(null);
+    }
+
+    @Override
     public StatementCell addStatement(Statement executable) {
         StatementCell executableCell = new PandaStatementCell(executable);
         executableCells.add(executableCell);
