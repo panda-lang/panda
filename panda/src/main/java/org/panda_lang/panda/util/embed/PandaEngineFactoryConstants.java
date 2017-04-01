@@ -29,7 +29,7 @@ public class PandaEngineFactoryConstants {
     /**
      * Panda version
      */
-    public static final String VERSION = "indev-0.1.0-SNAPSHOT";
+    public static final String VERSION = "indev-0.1.1-SNAPSHOT";
 
     /**
      * Engine name
