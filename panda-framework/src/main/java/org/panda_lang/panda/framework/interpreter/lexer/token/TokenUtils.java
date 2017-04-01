@@ -27,6 +27,10 @@ public class TokenUtils {
         return token.getName();
     }
 
+    public static int getLine(TokenizedSource tokenizedSource) {
+        return tokenizedSource.size() > 0 ? tokenizedSource.get(0).getLine() + 1 : -1;
+    }
+
     public static boolean equals(TokenRepresentation tokenRepresentation, Token token) {
         return equals(tokenRepresentation, token.getType(), token.getTokenValue());
     }
