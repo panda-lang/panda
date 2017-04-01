@@ -29,12 +29,12 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.Token
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.PandaScript;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.implementation.structure.util.StatementCell;
+import org.panda_lang.panda.implementation.structure.wrapper.Container;
 import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionParser;
@@ -73,6 +73,11 @@ public class MethodInvokerParser implements UnifiedParser {
 
             redactor.map("instance", "method-name", "arguments");
             delegatedInfo.setComponent("redactor", redactor);
+
+            Container container = delegatedInfo.getComponent("container");
+            StatementCell cell = container.reserveCell();
+            delegatedInfo.setComponent("cell", cell);
+
             nextLayer.delegate(new MethodInvokerParserCallback(), delegatedInfo);
         }
 
@@ -111,10 +116,8 @@ public class MethodInvokerParser implements UnifiedParser {
             Method prototypeMethod = prototype.getMethods().get(methodName);
             MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
 
-            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
-            Scope currentScope = linker.getCurrentScope();
-
-            currentScope.addStatement(invoker);
+            StatementCell cell = delegatedInfo.getComponent("cell");
+            cell.setStatement(invoker);
         }
 
     }

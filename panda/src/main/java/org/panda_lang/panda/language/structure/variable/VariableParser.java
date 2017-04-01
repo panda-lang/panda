@@ -36,8 +36,10 @@ import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPi
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.implementation.structure.util.StatementCell;
 import org.panda_lang.panda.implementation.structure.value.PandaVariable;
 import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.implementation.structure.wrapper.Container;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionParser;
@@ -72,8 +74,11 @@ public class VariableParser implements UnifiedParser {
 
             redactor.map("left", "right");
             delegatedInfo.setComponent("redactor", redactor);
-
             TokenizedSource left = redactor.get("left");
+
+            Container container = delegatedInfo.getComponent("container");
+            StatementCell cell = container.reserveCell();
+            delegatedInfo.setComponent("cell", cell);
 
             if (left.size() == 2) {
                 String variableType = left.getToken(0).getTokenValue();
@@ -142,7 +147,8 @@ public class VariableParser implements UnifiedParser {
             }
 
             Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
-            scope.addStatement(assigner);
+            StatementCell cell = delegatedInfo.getComponent("cell");
+            cell.setStatement(assigner);
         }
 
     }

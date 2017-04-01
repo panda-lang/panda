@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.language.structure.block;
 
+import org.panda_lang.panda.framework.interpreter.lexer.token.TokenUtils;
 import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
+import org.panda_lang.panda.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
@@ -24,17 +26,21 @@ import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenera
 import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
 import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
 import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.defaults.ScopeParser;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.interpreter.parser.defaults.ContainerParser;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.implementation.structure.dynamic.Block;
+import org.panda_lang.panda.implementation.structure.wrapper.Container;
 import org.panda_lang.panda.language.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = BlockParser.class, handlerClass = BlockParserHandler.class, priority = DefaultPriorities.BLOCK_PARSER)
@@ -61,8 +67,39 @@ public class BlockParser implements UnifiedParser {
             redactor.map("block-declaration", "block-body");
             delegatedInfo.setComponent("redactor", redactor);
 
-            //
+            PipelineRegistry pipelineRegistry = delegatedInfo.getComponent(Components.PIPELINE_REGISTRY);
+            ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.BLOCK);
 
+            TokenizedSource blockDeclaration = redactor.get("block-declaration");
+            SourceStream declarationStream = new PandaSourceStream(blockDeclaration);
+            UnifiedParser blockParser = pipeline.handle(declarationStream);
+
+            if (blockParser == null) {
+                throw new PandaParserException("Cannot recognize block at line " + TokenUtils.getLine(blockDeclaration));
+            }
+
+            ParserInfo blockParserInfo = delegatedInfo.fork();
+            blockParserInfo.setComponent(Components.SOURCE_STREAM, declarationStream);
+
+            blockParser.parse(blockParserInfo);
+
+            Block block = blockParserInfo.getComponent("block");
+            Object o = blockParserInfo.getComponent("block-unlisted");
+            boolean unlisted = o != null && (boolean) o;
+
+            if (block == null) {
+                throw new PandaParserException("Cannot find the result of block parser (" + blockParser.getClass() + ")");
+            }
+
+            if (!unlisted) {
+                Container container = delegatedInfo.getComponent("container");
+                container.addStatement(block);
+            }
+
+            ParserInfo parentInfo = delegatedInfo.getComponent(Components.PARENT_INFO);
+            parentInfo.setComponent("previous-block", block);
+
+            delegatedInfo.setComponent("block", block);
             nextLayer.delegate(new BlockBodyParserCallback(), delegatedInfo);
         }
 
@@ -73,14 +110,13 @@ public class BlockParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
-            Scope currentScope = linker.getCurrentScope();
+            Container container = delegatedInfo.getComponent("block");
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource body = redactor.get("block-body");
 
-            ScopeParser scopeParser = new ScopeParser(currentScope);
-            scopeParser.parse(delegatedInfo, body);
+            ContainerParser containerParser = new ContainerParser(container);
+            containerParser.parse(delegatedInfo, body);
         }
 
     }
