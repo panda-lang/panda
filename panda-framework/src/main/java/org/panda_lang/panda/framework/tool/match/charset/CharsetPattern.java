@@ -44,11 +44,12 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         char[] string = s.toCharArray();
         int i = 0;
 
-        if (string.length == 0) {
+        if (string.length == 0 && getPattern().length() == 0) {
             return false;
         }
 
         CharArrayDistributor distributor = new CharArrayDistributor(getPattern().toCharArray());
+        distributor.next();
 
         while (distributor.hasNext() && i < string.length) {
             char current = distributor.current();
