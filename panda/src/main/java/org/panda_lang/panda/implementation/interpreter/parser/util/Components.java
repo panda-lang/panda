@@ -35,7 +35,7 @@ public class Components {
     /**
      * Used by {@link ParserInfo}
      */
-    public static final String FORKED = "forked";
+    public static final String PARENT_INFO = "parent-info";
 
     /**
      * Used by {@link Interpreter}
@@ -78,7 +78,7 @@ public class Components {
     private static final String[] VALUES = new String[7];
 
     static {
-        VALUES[0] = FORKED;
+        VALUES[0] = PARENT_INFO;
         VALUES[1] = INTERPRETER;
         VALUES[2] = PIPELINE_REGISTRY;
         VALUES[3] = SOURCE_STREAM;

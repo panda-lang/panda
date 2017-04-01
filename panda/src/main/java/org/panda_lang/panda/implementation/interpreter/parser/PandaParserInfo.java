@@ -37,7 +37,7 @@ public class PandaParserInfo implements ParserInfo {
     @Override
     public PandaParserInfo fork() {
         PandaParserInfo parserInfo = new PandaParserInfo(new HashMap<>(components));
-        parserInfo.setComponent(Components.FORKED, true);
+        parserInfo.setComponent(Components.PARENT_INFO, this);
 
         return parserInfo;
     }
