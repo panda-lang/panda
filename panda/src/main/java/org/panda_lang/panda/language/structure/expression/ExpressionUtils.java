@@ -28,7 +28,7 @@ public class ExpressionUtils {
             Expression expression = expressions[i];
 
             expression.execute(bridge);
-            values[i] = expression.getValue();
+            values[i] = expression.getExpressionValue();
         }
 
         return values;

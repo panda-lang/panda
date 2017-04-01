@@ -55,7 +55,7 @@ public class Expression implements Executable {
         }
     }
 
-    public Value getValue() {
+    public Value getExpressionValue() {
         return value;
     }
 

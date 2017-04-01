@@ -42,7 +42,8 @@ public class MethodInvoker implements Executable {
 
         if (expression != null) {
             expression.execute(bridge);
-            instance = expression.getValue().getValue();
+            Value value = expression.getExpressionValue();
+            instance = value.getValue();
         }
 
         method.invoke(bridge, instance, values);

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.block.conditional;
 
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.implementation.structure.dynamic.Block;
 import org.panda_lang.panda.implementation.structure.util.ExecutableBridgeUtils;
 import org.panda_lang.panda.implementation.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
@@ -26,7 +27,7 @@ import org.panda_lang.panda.language.structure.expression.Expression;
 public class ConditionalBlock extends PandaBlock {
 
     private final Expression condition;
-    private ConditionalBlock elseBlock;
+    private Block elseBlock;
 
     public ConditionalBlock(Expression condition) {
         if (!condition.getReturnType().getClassName().equals("Boolean")) {
@@ -40,7 +41,7 @@ public class ConditionalBlock extends PandaBlock {
     public void execute(ExecutableBridge bridge) {
         condition.execute(bridge);
 
-        Value value = condition.getValue();
+        Value value = condition.getExpressionValue();
         boolean flag = (boolean) value.getValue();
 
         if (flag) {
@@ -53,7 +54,7 @@ public class ConditionalBlock extends PandaBlock {
         }
     }
 
-    public void setElseBlock(ConditionalBlock elseBlock) {
+    public void setElseBlock(Block elseBlock) {
         this.elseBlock = elseBlock;
     }
 

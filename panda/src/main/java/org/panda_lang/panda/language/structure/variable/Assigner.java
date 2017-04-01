@@ -36,7 +36,7 @@ public class Assigner implements Executable {
     public void execute(ExecutableBridge bridge) {
         expression.execute(bridge);
 
-        Value value = expression.getValue();
+        Value value = expression.getExpressionValue();
         ScopeInstance currentScope = bridge.getCurrentScope();
 
         currentScope.getVariables()[memoryIndex] = value;
