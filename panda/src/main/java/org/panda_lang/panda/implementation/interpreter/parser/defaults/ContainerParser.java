@@ -28,8 +28,15 @@ import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.P
 import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
+import org.panda_lang.panda.implementation.structure.wrapper.Container;
 
 public class ContainerParser implements Parser {
+
+    private final Container container;
+
+    public ContainerParser(Container container) {
+        this.container = container;
+    }
 
     public void parse(ParserInfo info, TokenizedSource body) {
         ParserGeneration generation = info.getComponent(Components.GENERATION);
@@ -40,6 +47,9 @@ public class ContainerParser implements Parser {
         SourceStream stream = new PandaSourceStream(body);
         info.setComponent(Components.SOURCE_STREAM, stream);
 
+        Container previousContainer = info.getComponent("container");
+        info.setComponent("container", container);
+
         while (stream.hasUnreadSource()) {
             UnifiedParser parser = pipeline.handle(stream);
 
@@ -49,7 +59,10 @@ public class ContainerParser implements Parser {
 
             parser.parse(info);
             generation.executeImmediately(info);
+            info.setComponent("container", container);
         }
+
+        info.setComponent("container", previousContainer);
     }
 
 }

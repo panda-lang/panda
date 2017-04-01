@@ -17,17 +17,8 @@
 package org.panda_lang.panda.implementation.interpreter.parser.defaults;
 
 import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.lexer.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
 import org.panda_lang.panda.implementation.structure.wrapper.Scope;
 
 public class ScopeParser implements Parser {
@@ -39,24 +30,8 @@ public class ScopeParser implements Parser {
     }
 
     public void parse(ParserInfo info, TokenizedSource body) {
-        ParserGeneration generation = info.getComponent(Components.GENERATION);
-
-        PipelineRegistry pipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
-        ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
-
-        SourceStream stream = new PandaSourceStream(body);
-        info.setComponent(Components.SOURCE_STREAM, stream);
-
-        while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(stream);
-
-            if (parser == null) {
-                throw new PandaParserException("Unrecognized syntax at line " + (stream.read().getLine() + 1));
-            }
-
-            parser.parse(info);
-            generation.executeImmediately(info);
-        }
+        ContainerParser parser = new ContainerParser(scope);
+        parser.parse(info, body);
     }
 
 }
