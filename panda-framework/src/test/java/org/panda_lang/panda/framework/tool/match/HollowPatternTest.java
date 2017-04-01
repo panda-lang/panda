@@ -14,27 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.framework.tool.match;
 
-import org.panda_lang.panda.framework.tool.match.charset.CharsetPattern;
+import org.junit.Assert;
+import org.junit.Test;
 import org.panda_lang.panda.framework.tool.match.text.TextHollowPattern;
 
 public class HollowPatternTest {
 
     private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
 
-    public static void main(String[] args) {
+    @Test
+    public void testHollowPattern() {
         TextHollowPattern hollowPattern = TextHollowPattern.builder().compile("*.*(*)*").build();
         boolean matched = hollowPattern.match(EXPRESSION);
 
         System.out.println("[HollowPattern] Matched: " + matched);
         System.out.println("[HollowPattern] " + hollowPattern.getHollows());
 
-        CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
-        charsetPattern.setCharset(new char[]{ '.', '(', ')' });
-        matched = charsetPattern.match(EXPRESSION);
-
-        System.out.println("[CharsetPattern] Matched: " + matched);
+        Assert.assertEquals(matched, true);
     }
 
 }
