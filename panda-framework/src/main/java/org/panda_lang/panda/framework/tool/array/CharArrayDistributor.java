@@ -42,7 +42,7 @@ public class CharArrayDistributor {
     }
 
     public char current() {
-        return array[index];
+        return index < array.length || index > -1 ? array[index] : array[0];
     }
 
     public boolean hasNext() {
