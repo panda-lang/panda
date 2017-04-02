@@ -16,15 +16,18 @@
 
 package org.panda_lang.panda;
 
+import org.junit.Test;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 import java.io.File;
 
 public class DefaultTest {
 
-    private static final File SCRIPT = new File("examples/current_test.panda");
+    private static final String[] args = {};
+    private static final File SCRIPT = new File("../examples/current_test.panda");
 
-    public static void main(String[] args) {
+    @Test
+    public void testScriptFileExecution() {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
