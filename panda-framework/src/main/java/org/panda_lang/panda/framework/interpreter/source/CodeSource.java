@@ -17,8 +17,9 @@
 package org.panda_lang.panda.framework.interpreter.source;
 
 import java.io.File;
+import java.net.URL;
 
-public interface SourceFile {
+public interface CodeSource {
 
     /**
      * @return content of file
@@ -28,6 +29,6 @@ public interface SourceFile {
     /**
      * @return regular {@link File}
      */
-    File getFile();
+    URL getLocation();
 
 }
