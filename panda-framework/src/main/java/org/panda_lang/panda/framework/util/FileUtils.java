@@ -17,8 +17,9 @@
 package org.panda_lang.panda.framework.util;
 
 import java.io.*;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -44,21 +45,24 @@ public class FileUtils {
      */
     public static Collection<File> findFilesByExtension(File directory, String extension) {
         Collection<File> files = new ArrayList<>();
+        findFilesByExtension(directory, extension, files);
+        return files;
+    }
 
+    private static void findFilesByExtension(File directory, String extension, Collection<File> files) {
         if (directory.isFile()) {
-            return files;
+            return;
         }
 
         File[] filesList = directory.listFiles();
 
         if (filesList == null) {
-            return files;
+            return;
         }
 
         for (File file : filesList) {
             if (file.isDirectory()) {
-                Collection<File> directoryFiles = findFilesByExtension(file, extension);
-                files.addAll(directoryFiles);
+                findFilesByExtension(file, extension, files);
                 continue;
             }
 
@@ -68,23 +72,16 @@ public class FileUtils {
 
             files.add(file);
         }
-
-        return files;
     }
 
     /**
      * Override content of the specified file
      */
     public static void overrideFile(File file, String content) {
-        PrintWriter writer = null;
-
         try {
-            writer = new PrintWriter(file, "UTF-8");
-            writer.print(content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.close(writer);
+            Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException("Can't write contents to file: " + file, e);
         }
     }
 
@@ -92,29 +89,11 @@ public class FileUtils {
      * @return content of the specified file
      */
     public static String getContentOfFile(File file) {
-        StringBuilder sb = new StringBuilder();
-        BufferedReader br = null;
-
         try {
-            if (file == null || !file.exists()) {
-                return null;
-            }
-
-            br = new BufferedReader(new FileReader(file));
-            String line = br.readLine();
-
-            while (line != null) {
-                sb.append(line);
-                sb.append(System.lineSeparator());
-                line = br.readLine();
-            }
+            return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            IOUtils.close(br);
+            throw new RuntimeException("Can't read contents of file: " + file, e);
         }
-
-        return sb.toString();
     }
 
     /**
@@ -126,7 +105,7 @@ public class FileUtils {
         }
 
         try {
-            List<String> list = Files.readAllLines(file.toPath(), Charset.forName("UTF-8"));
+            List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
             String[] result = new String[list.size()];
 
             return list.toArray(result);
@@ -136,29 +115,4 @@ public class FileUtils {
 
         return null;
     }
-
-    /**
-     * @return number of lines in the specified file
-     */
-    public static int countLines(String fileName) throws IOException {
-        try (InputStream is = new BufferedInputStream(new FileInputStream(fileName))) {
-            byte[] c = new byte[1024];
-            boolean empty = true;
-            int count = 0;
-            int readChars;
-
-            while ((readChars = is.read(c)) != -1) {
-                empty = false;
-
-                for (int i = 0; i < readChars; ++i) {
-                    if (c[i] == '\n') {
-                        ++count;
-                    }
-                }
-            }
-
-            return (count == 0 && !empty) ? 1 : count;
-        }
-    }
-
 }
