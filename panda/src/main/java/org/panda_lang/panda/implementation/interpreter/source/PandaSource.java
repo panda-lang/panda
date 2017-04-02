@@ -17,15 +17,15 @@
 package org.panda_lang.panda.implementation.interpreter.source;
 
 import org.panda_lang.panda.framework.interpreter.source.Source;
-import org.panda_lang.panda.framework.interpreter.source.SourceFile;
+import org.panda_lang.panda.framework.interpreter.source.CodeSource;
 
 public class PandaSource implements Source {
 
     private final String title;
     private final String content;
 
-    public PandaSource(SourceFile sourceFile) {
-        this(sourceFile.getFile().getPath(), sourceFile.getContent());
+    public PandaSource(CodeSource codeSource) {
+        this(codeSource.getLocation().getPath(), codeSource.getContent());
     }
 
     public PandaSource(String title, String content) {

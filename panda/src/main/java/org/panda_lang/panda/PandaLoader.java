@@ -17,14 +17,16 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.interpreter.source.Source;
-import org.panda_lang.panda.framework.interpreter.source.SourceFile;
+import org.panda_lang.panda.framework.interpreter.source.SourceProvider;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
+import org.panda_lang.panda.implementation.interpreter.source.PandaCodeSource;
 import org.panda_lang.panda.implementation.interpreter.source.PandaSource;
-import org.panda_lang.panda.implementation.interpreter.source.PandaSourceFile;
 import org.panda_lang.panda.implementation.interpreter.source.PandaSourceSet;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class PandaLoader {
 
@@ -35,28 +37,51 @@ public class PandaLoader {
     }
 
     public PandaApplication loadFiles(File... files) {
-        if (files == null) {
-            System.out.println("[PandaLoader] File is null");
-            return null;
-        }
+        return this.load(new FileSourceProvider(files));
+    }
 
+    public PandaApplication load(SourceProvider provider) {
         PandaSourceSet pandaSourceSet = new PandaSourceSet();
-
-        for (File file : files) {
-            if (!file.exists()) {
-                System.out.println("[PandaLoader] File '" + file.getName() + "' doesn't exist.");
-                return null;
-            }
-
-            SourceFile sourceFile = new PandaSourceFile(file);
-            Source source = new PandaSource(sourceFile);
+        for (Source source : provider) {
             pandaSourceSet.addSource(source);
         }
-
-        PandaInterpreter interpreter = new PandaInterpreter(panda, pandaSourceSet);
+        if (pandaSourceSet.getSources().isEmpty()) {
+            throw new LoaderException("no sources provided.");
+        }
+        PandaInterpreter interpreter = new PandaInterpreter(this.panda, pandaSourceSet);
         interpreter.interpret();
 
         return interpreter.getApplication();
     }
 
+    class FileSourceProvider implements SourceProvider {
+        private final File[] files;
+
+        FileSourceProvider(File[] files) {
+            this.files = files;
+        }
+
+        @Override
+        public Iterator<Source> iterator() {
+            Iterator<File> iterator = Arrays.asList(this.files).iterator();
+            return new Iterator<Source>() {
+                @Override
+                public boolean hasNext() {
+                    return iterator.hasNext();
+                }
+
+                @Override
+                public Source next() {
+                    File next = iterator.next();
+                    if (!next.exists()) {
+                        throw new LoaderException("File '" + next.getName() + "' doesn't exist.");
+                    }
+                    if (next.isDirectory()) {
+                        throw new LoaderException("File '" + next.getName() + "' ia a directory.");
+                    }
+                    return new PandaSource(PandaCodeSource.fromFile(next));
+                }
+            };
+        }
+    }
 }
