@@ -19,14 +19,12 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.framework.interpreter.source.Source;
 import org.panda_lang.panda.framework.interpreter.source.SourceProvider;
 import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
-import org.panda_lang.panda.implementation.interpreter.source.PandaCodeSource;
-import org.panda_lang.panda.implementation.interpreter.source.PandaSource;
 import org.panda_lang.panda.implementation.interpreter.source.PandaSourceSet;
+import org.panda_lang.panda.implementation.interpreter.source.util.FileSourceProvider;
+import org.panda_lang.panda.implementation.interpreter.source.util.LoaderException;
 import org.panda_lang.panda.implementation.structure.PandaApplication;
 
 import java.io.File;
-import java.util.Arrays;
-import java.util.Iterator;
 
 public class PandaLoader {
 
@@ -37,51 +35,24 @@ public class PandaLoader {
     }
 
     public PandaApplication loadFiles(File... files) {
-        return this.load(new FileSourceProvider(files));
+        return load(new FileSourceProvider(files));
     }
 
     public PandaApplication load(SourceProvider provider) {
         PandaSourceSet pandaSourceSet = new PandaSourceSet();
+
         for (Source source : provider) {
             pandaSourceSet.addSource(source);
         }
+
         if (pandaSourceSet.getSources().isEmpty()) {
-            throw new LoaderException("no sources provided.");
+            throw new LoaderException("Sources are not provided");
         }
-        PandaInterpreter interpreter = new PandaInterpreter(this.panda, pandaSourceSet);
+
+        PandaInterpreter interpreter = new PandaInterpreter(panda, pandaSourceSet);
         interpreter.interpret();
 
         return interpreter.getApplication();
     }
 
-    class FileSourceProvider implements SourceProvider {
-        private final File[] files;
-
-        FileSourceProvider(File[] files) {
-            this.files = files;
-        }
-
-        @Override
-        public Iterator<Source> iterator() {
-            Iterator<File> iterator = Arrays.asList(this.files).iterator();
-            return new Iterator<Source>() {
-                @Override
-                public boolean hasNext() {
-                    return iterator.hasNext();
-                }
-
-                @Override
-                public Source next() {
-                    File next = iterator.next();
-                    if (!next.exists()) {
-                        throw new LoaderException("File '" + next.getName() + "' doesn't exist.");
-                    }
-                    if (next.isDirectory()) {
-                        throw new LoaderException("File '" + next.getName() + "' ia a directory.");
-                    }
-                    return new PandaSource(PandaCodeSource.fromFile(next));
-                }
-            };
-        }
-    }
 }
