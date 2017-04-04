@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.core.interpreter.lexer.pattern;
 
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
 
 import java.util.List;
 

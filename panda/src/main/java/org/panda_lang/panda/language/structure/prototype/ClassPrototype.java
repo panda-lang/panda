@@ -71,13 +71,13 @@ public class ClassPrototype {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o == null || super.equals(o);
+    public int hashCode() {
+        return className.hashCode();
     }
 
     @Override
-    public int hashCode() {
-        return className.hashCode();
+    public boolean equals(Object o) {
+        return o == null || super.equals(o);
     }
 
     @Override

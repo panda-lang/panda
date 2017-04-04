@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.implementation.token;
 
-import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 

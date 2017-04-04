@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.core.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 
 import java.util.ArrayList;
 import java.util.Comparator;

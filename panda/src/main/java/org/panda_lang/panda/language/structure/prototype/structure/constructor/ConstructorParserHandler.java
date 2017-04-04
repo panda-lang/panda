@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.language.syntax.Keywords;
 
 public class ConstructorParserHandler implements ParserHandler {

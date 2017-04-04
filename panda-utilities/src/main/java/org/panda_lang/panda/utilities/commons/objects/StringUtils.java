@@ -24,7 +24,7 @@ public class StringUtils {
     public static final String EMPTY = "";
 
     /**
-     * @param text to check
+     * @param text             to check
      * @param exceptionMessage the message is used by {@link IllegalArgumentException}
      * @return the checked text
      */

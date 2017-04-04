@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.implementation.token.reader;
 
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {

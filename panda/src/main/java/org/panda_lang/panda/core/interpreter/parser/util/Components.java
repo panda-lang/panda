@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.core.interpreter.parser.util;
 
+import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.core.structure.Script;
 import org.panda_lang.panda.framework.language.interpreter.Interpreter;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.core.structure.Script;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
 /**
  * Default list of names used by {@link ParserInfo} for components

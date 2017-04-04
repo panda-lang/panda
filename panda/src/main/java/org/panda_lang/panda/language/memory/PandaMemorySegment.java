@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.language.memory;
 
-import org.panda_lang.panda.language.memory.MemorySegment;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;

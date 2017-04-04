@@ -17,12 +17,12 @@
 package org.panda_lang.panda.core.interpreter.parser.pipeline.registry;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 

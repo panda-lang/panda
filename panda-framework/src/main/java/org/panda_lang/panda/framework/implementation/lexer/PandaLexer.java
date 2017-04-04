@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.framework.implementation.lexer;
 
-import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.implementation.token.PandaTokenRepresentation;
+import org.panda_lang.panda.framework.implementation.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.Indentation;
 import org.panda_lang.panda.utilities.commons.objects.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
-import org.panda_lang.panda.framework.implementation.token.PandaTokenRepresentation;
-import org.panda_lang.panda.framework.implementation.token.PandaTokenizedSource;
 
 import java.util.ArrayList;
 import java.util.Collection;

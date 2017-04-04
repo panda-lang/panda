@@ -16,15 +16,6 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
@@ -35,6 +26,15 @@ import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.core.structure.wrapper.Container;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionParser;

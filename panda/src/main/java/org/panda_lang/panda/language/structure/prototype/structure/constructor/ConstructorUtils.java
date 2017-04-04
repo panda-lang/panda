@@ -38,24 +38,24 @@ public class ConstructorUtils {
 
     public static Constructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
         MATCHER:
-            for (Constructor constructor : prototype.getConstructors()) {
-                ClassPrototype[] constructorTypes = constructor.getParameterTypes();
+        for (Constructor constructor : prototype.getConstructors()) {
+            ClassPrototype[] constructorTypes = constructor.getParameterTypes();
 
-                if (constructorTypes.length != types.length) {
-                    continue;
-                }
-
-                for (int i = 0; i < constructorTypes.length; i++) {
-                    ClassPrototype constructorType = constructorTypes[i];
-                    ClassPrototype type = types[i];
-
-                    if (!constructorType.equals(type)) {
-                        continue MATCHER;
-                    }
-                }
-
-                return constructor;
+            if (constructorTypes.length != types.length) {
+                continue;
             }
+
+            for (int i = 0; i < constructorTypes.length; i++) {
+                ClassPrototype constructorType = constructorTypes[i];
+                ClassPrototype type = types[i];
+
+                if (!constructorType.equals(type)) {
+                    continue MATCHER;
+                }
+            }
+
+            return constructor;
+        }
 
         return null;
     }

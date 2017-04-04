@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.core.interpreter.parser.defaults;
 
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.core.structure.wrapper.Scope;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 
 public class ScopeParser implements Parser {
 

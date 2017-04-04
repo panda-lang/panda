@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
+import org.panda_lang.panda.framework.implementation.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.implementation.token.reader.PandaTokenReader;
 
 public class MethodInvokerParserHandler implements ParserHandler {
 

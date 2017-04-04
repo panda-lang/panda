@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.core.interpreter.parser.pipeline.registry;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

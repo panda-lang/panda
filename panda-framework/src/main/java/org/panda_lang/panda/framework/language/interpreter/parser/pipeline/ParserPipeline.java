@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
 public interface ParserPipeline {
 

@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.core.interpreter;
 
-import org.panda_lang.panda.framework.language.interpreter.Interpreter;
-import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.interpreter.parser.defaults.SourceParser;
 import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.framework.language.interpreter.Interpreter;
+import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
 
 public class PandaInterpreter implements Interpreter {
 

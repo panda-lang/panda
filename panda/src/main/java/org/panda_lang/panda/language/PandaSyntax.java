@@ -21,7 +21,10 @@ import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 import org.panda_lang.panda.language.syntax.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class PandaSyntax implements Syntax {
 

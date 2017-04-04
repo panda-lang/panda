@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.core.interpreter.parser.defaults;
 
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.wrapper.Container;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.wrapper.Container;
-import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
 public class ContainerParser implements Parser {
 

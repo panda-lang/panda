@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.core.interpreter.parser.generation;
 
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationUnit;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
 
 import java.util.ArrayList;
 import java.util.List;

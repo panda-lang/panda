@@ -30,16 +30,16 @@ public class Parameter {
         this.parameterName = parameterName;
     }
 
+    public Variable toVariable(int nestingLevel) {
+        return new PandaVariable(parameterType, parameterName, nestingLevel);
+    }
+
     public String getParameterName() {
         return parameterName;
     }
 
     public ClassPrototype getParameterType() {
         return parameterType;
-    }
-
-    public Variable toVariable(int nestingLevel) {
-        return new PandaVariable(parameterType, parameterName, nestingLevel);
     }
 
 }

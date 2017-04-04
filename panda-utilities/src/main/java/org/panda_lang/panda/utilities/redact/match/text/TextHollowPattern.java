@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.utilities.redact.match.text;
 
-import org.panda_lang.panda.utilities.redact.match.Matcher;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.redact.match.Matcher;
 
 import java.util.ArrayList;
 import java.util.List;

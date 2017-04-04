@@ -16,24 +16,24 @@
 
 package org.panda_lang.panda.core.interpreter.parser.defaults;
 
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.interpreter.PandaInterpreter;
+import org.panda_lang.panda.core.interpreter.parser.PandaParserInfo;
+import org.panda_lang.panda.core.interpreter.parser.generation.PandaParserGeneration;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.core.structure.PandaScript;
+import org.panda_lang.panda.core.structure.Script;
+import org.panda_lang.panda.framework.implementation.lexer.PandaLexer;
+import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.core.interpreter.PandaInterpreter;
-import org.panda_lang.panda.core.interpreter.parser.PandaParserInfo;
-import org.panda_lang.panda.core.structure.PandaApplication;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.language.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
-import org.panda_lang.panda.core.structure.Script;
-import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.composition.PandaComposition;
-import org.panda_lang.panda.framework.implementation.lexer.PandaLexer;
-import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.core.interpreter.parser.generation.PandaParserGeneration;
 
 public class SourceParser implements Parser {
 
@@ -71,7 +71,7 @@ public class SourceParser implements Parser {
 
             OverallParser overallParser = new OverallParser(parserInfo);
 
-            while(overallParser.hasNext()) {
+            while (overallParser.hasNext()) {
                 overallParser.next();
             }
 

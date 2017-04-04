@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.core.interpreter.lexer.extractor.prepared;
 
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
 
 class PreparedSource {
 

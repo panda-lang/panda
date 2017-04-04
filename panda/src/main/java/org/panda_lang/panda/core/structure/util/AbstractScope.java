@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.core.structure.util;
 
-import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.core.structure.value.Variable;
+import org.panda_lang.panda.core.structure.wrapper.Scope;
 
 import java.util.ArrayList;
 import java.util.List;

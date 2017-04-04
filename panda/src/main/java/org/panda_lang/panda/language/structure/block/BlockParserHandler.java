@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.block;
 
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 
 public class BlockParserHandler implements ParserHandler {
 

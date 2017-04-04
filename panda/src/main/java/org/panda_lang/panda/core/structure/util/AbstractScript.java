@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.core.structure.util;
 
-import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.core.structure.Script;
+import org.panda_lang.panda.framework.language.structure.Statement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +33,7 @@ public abstract class AbstractScript implements Script {
     }
 
     @Override
-    @SuppressWarnings({ "unchecked "})
+    @SuppressWarnings({ "unchecked " })
     public <T extends Statement> List<T> select(Class<? extends T> statementClass) {
         List<T> selectedStatements = new ArrayList<>();
 

@@ -43,7 +43,7 @@ public class PandaMethodBuilder {
         this.returnType = returnType;
         return this;
     }
-    
+
     public PandaMethodBuilder visibility(MethodVisibility visibility) {
         this.visibility = visibility;
         return this;

@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.composition;
 
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.PandaPipelineRegistry;
-import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistrationLoader;
+import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistry;
 
 public class PandaComposition {

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.core.structure.dynamic;
 
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.framework.language.structure.Statement;
+import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public interface Executable extends Statement {
 

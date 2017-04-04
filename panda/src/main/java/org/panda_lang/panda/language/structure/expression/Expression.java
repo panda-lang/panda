@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
+import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
-import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class Expression implements Executable {
@@ -30,7 +30,7 @@ public class Expression implements Executable {
 
     public Expression(Value value) {
         this.type = ExpressionType.KNOWN;
-        this.returnType =  value.getType();
+        this.returnType = value.getType();
         this.callback = null;
         this.value = value;
     }

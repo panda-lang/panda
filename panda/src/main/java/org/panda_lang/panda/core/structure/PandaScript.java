@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.core.structure;
 
-import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.core.structure.util.AbstractScript;
+import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 
 public class PandaScript extends AbstractScript {

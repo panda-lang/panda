@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.implementation.token.distributor;
 
+import org.panda_lang.panda.framework.implementation.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.implementation.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.implementation.token.PandaTokenizedSource;
-import org.panda_lang.panda.framework.implementation.token.reader.PandaTokenReader;
 
 import java.util.ArrayList;
 import java.util.List;
