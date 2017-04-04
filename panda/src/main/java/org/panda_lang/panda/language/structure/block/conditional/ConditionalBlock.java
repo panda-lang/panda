@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.block.conditional;
 
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.structure.dynamic.Block;
-import org.panda_lang.panda.implementation.structure.util.ExecutableBridgeUtils;
-import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.core.structure.dynamic.Block;
+import org.panda_lang.panda.core.structure.util.ExecutableBridgeUtils;
+import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 import org.panda_lang.panda.language.structure.block.PandaBlock;
 import org.panda_lang.panda.language.structure.expression.Expression;

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language;
 
-import org.panda_lang.panda.framework.composition.Syntax;
-import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
-import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.*;
+import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 import org.panda_lang.panda.language.syntax.*;
 
 import java.util.*;

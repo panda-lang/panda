@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.panda.implementation.structure.dynamic.Executable;
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.implementation.structure.util.StatementCell;
-import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.core.structure.dynamic.Executable;
+import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.util.StatementCell;
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class MethodScopeInstance implements ScopeInstance {

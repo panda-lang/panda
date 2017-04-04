@@ -5,13 +5,17 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda_lang</groupId>
-        <version>indev-0.1.1-SNAPSHOT</version>
+        <version>indev-0.2.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda-framework</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>org.panda_lang</groupId>
+            <artifactId>panda-utilities</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.jetbrains</groupId>
             <artifactId>annotations</artifactId>

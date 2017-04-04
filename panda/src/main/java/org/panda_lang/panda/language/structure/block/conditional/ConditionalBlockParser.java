@@ -16,20 +16,20 @@
 
 package org.panda_lang.panda.language.structure.block.conditional;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenUtils;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.lexer.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.dynamic.Block;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.dynamic.Block;
 import org.panda_lang.panda.language.PandaSyntax;
 import org.panda_lang.panda.language.structure.block.conditional.variant.ElseBlock;
 import org.panda_lang.panda.language.structure.expression.Expression;

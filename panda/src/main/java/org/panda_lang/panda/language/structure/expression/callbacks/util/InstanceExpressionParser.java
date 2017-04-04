@@ -17,16 +17,16 @@
 package org.panda_lang.panda.language.structure.expression.callbacks.util;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.composition.Syntax;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.lexer.token.extractor.Extractor;
-import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.reader.PandaTokenReader;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
+import org.panda_lang.panda.framework.implementation.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.language.structure.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.callbacks.InstanceExpressionCallback;

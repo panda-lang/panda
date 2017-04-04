@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.tool.array;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
 
 public class ArrayDistributorTest {
 

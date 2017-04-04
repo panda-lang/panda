@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenUtils;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.value.PandaValue;
-import org.panda_lang.panda.implementation.structure.value.Variable;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.value.PandaValue;
+import org.panda_lang.panda.core.structure.value.Variable;
+import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.language.structure.expression.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.expression.callbacks.VariableExpressionCallback;
 import org.panda_lang.panda.language.structure.expression.callbacks.util.InstanceExpressionParser;

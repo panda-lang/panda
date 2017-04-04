@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class ExpressionUtils {

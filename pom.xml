@@ -5,7 +5,7 @@
     <name>Panda</name>
     <groupId>org.panda_lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-0.1.1-SNAPSHOT</version>
+    <version>indev-0.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <scm>
         <connection>scm:git:https://github.com/Panda-Programming-Language/Panda.git</connection>
@@ -13,6 +13,7 @@
         <url>https://github.com/Panda-Programming-Language/Panda</url>
     </scm>
     <modules>
+        <module>panda-utilities</module>
         <module>panda-framework</module>
         <module>panda</module>
     </modules>
@@ -42,12 +43,17 @@
             <!-- Panda -->
             <dependency>
                 <groupId>org.panda_lang</groupId>
-                <artifactId>panda-framework</artifactId>
+                <artifactId>panda</artifactId>
                 <version>${panda.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.panda_lang</groupId>
-                <artifactId>panda</artifactId>
+                <artifactId>panda-utilities</artifactId>
+                <version>${panda.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.panda_lang</groupId>
+                <artifactId>panda-framework</artifactId>
                 <version>${panda.version}</version>
             </dependency>
 

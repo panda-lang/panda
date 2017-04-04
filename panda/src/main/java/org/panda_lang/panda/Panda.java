@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.composition.PandaComposition;
+import org.panda_lang.panda.language.composition.PandaComposition;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 public class Panda {

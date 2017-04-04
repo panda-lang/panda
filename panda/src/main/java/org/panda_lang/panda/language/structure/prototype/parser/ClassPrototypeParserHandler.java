@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.prototype.parser;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.reader.TokenReader;
-import org.panda_lang.panda.framework.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 public class ClassPrototypeParserHandler implements ParserHandler {
 

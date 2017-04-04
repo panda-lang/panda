@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
-import org.panda_lang.panda.framework.structure.Statement;
-import org.panda_lang.panda.implementation.structure.util.StatementCell;
-import org.panda_lang.panda.implementation.structure.value.Variable;
-import org.panda_lang.panda.implementation.structure.wrapper.Scope;
+import org.panda_lang.panda.framework.language.structure.Statement;
+import org.panda_lang.panda.core.structure.util.StatementCell;
+import org.panda_lang.panda.core.structure.value.Variable;
+import org.panda_lang.panda.core.structure.wrapper.Scope;
 
 import java.util.List;
 

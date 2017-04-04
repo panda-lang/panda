@@ -16,26 +16,26 @@
 
 package org.panda_lang.panda.language.structure.main;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
-import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.defaults.ScopeParser;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.PandaScopeLinker;
-import org.panda_lang.panda.implementation.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.implementation.structure.Script;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
+import org.panda_lang.panda.core.interpreter.parser.defaults.ScopeParser;
+import org.panda_lang.panda.core.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.core.structure.Script;
 
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = MainParser.class, handlerClass = MainParserHandler.class)
 public class MainParser implements UnifiedParser {

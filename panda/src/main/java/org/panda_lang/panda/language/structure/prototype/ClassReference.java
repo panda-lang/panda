@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
-import org.panda_lang.panda.framework.structure.Statement;
+import org.panda_lang.panda.framework.language.structure.Statement;
 
 public class ClassReference implements Statement {
 

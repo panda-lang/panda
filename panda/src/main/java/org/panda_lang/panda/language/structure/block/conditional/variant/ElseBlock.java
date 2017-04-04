@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.block.conditional.variant;
 
-import org.panda_lang.panda.implementation.structure.dynamic.Block;
-import org.panda_lang.panda.implementation.structure.util.AbstractContainer;
-import org.panda_lang.panda.implementation.structure.util.ExecutableBridgeUtils;
+import org.panda_lang.panda.core.structure.dynamic.Block;
+import org.panda_lang.panda.core.structure.util.AbstractContainer;
+import org.panda_lang.panda.core.structure.util.ExecutableBridgeUtils;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class ElseBlock extends AbstractContainer implements Block {

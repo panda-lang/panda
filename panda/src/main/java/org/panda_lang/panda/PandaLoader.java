@@ -16,13 +16,12 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.interpreter.source.Source;
-import org.panda_lang.panda.framework.interpreter.source.SourceProvider;
-import org.panda_lang.panda.implementation.interpreter.PandaInterpreter;
-import org.panda_lang.panda.implementation.interpreter.source.PandaSourceSet;
-import org.panda_lang.panda.implementation.interpreter.source.util.FileSourceProvider;
-import org.panda_lang.panda.implementation.interpreter.source.util.LoaderException;
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+import org.panda_lang.panda.core.interpreter.PandaInterpreter;
+import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.framework.implementation.PandaFrameworkException;
+import org.panda_lang.panda.framework.implementation.source.providers.FileSourceProvider;
+import org.panda_lang.panda.framework.language.interpreter.source.SourceProvider;
+import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
 
 import java.io.File;
 
@@ -39,17 +38,13 @@ public class PandaLoader {
     }
 
     public PandaApplication load(SourceProvider provider) {
-        PandaSourceSet pandaSourceSet = new PandaSourceSet();
+        SourceSet sourceSet = provider.toSourceSet();
 
-        for (Source source : provider) {
-            pandaSourceSet.addSource(source);
+        if (sourceSet.getSources().isEmpty()) {
+            throw new PandaFrameworkException("Sources are not provided");
         }
 
-        if (pandaSourceSet.getSources().isEmpty()) {
-            throw new LoaderException("Sources are not provided");
-        }
-
-        PandaInterpreter interpreter = new PandaInterpreter(panda, pandaSourceSet);
+        PandaInterpreter interpreter = new PandaInterpreter(panda, sourceSet);
         interpreter.interpret();
 
         return interpreter.getApplication();

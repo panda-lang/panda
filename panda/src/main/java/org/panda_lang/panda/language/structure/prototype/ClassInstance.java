@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.prototype;
 
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBridge;
 
 public class ClassInstance implements ScopeInstance {

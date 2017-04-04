@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.tool.match;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.panda_lang.panda.framework.tool.match.charset.CharsetPattern;
+import org.panda_lang.panda.utilities.redact.match.charset.CharsetPattern;
 
 public class CharsetPatternTest {
 

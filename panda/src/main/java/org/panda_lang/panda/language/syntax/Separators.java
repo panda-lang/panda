@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
-import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.Separator;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.Separator;
 
 /**
  * Default separators

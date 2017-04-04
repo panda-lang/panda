@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.memory;
 
-import org.panda_lang.panda.framework.util.BitwiseUtils;
+import org.panda_lang.panda.utilities.commons.math.BitwiseUtils;
 
 public interface Memory {
 

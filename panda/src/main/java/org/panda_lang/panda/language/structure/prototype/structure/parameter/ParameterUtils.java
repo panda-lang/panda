@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.parameter;
 
-import org.panda_lang.panda.implementation.structure.value.Value;
-import org.panda_lang.panda.implementation.structure.value.Variable;
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.core.structure.value.Variable;
 
 import java.util.List;
 

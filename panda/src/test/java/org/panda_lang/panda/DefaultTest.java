@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.junit.Test;
-import org.panda_lang.panda.implementation.structure.PandaApplication;
+import org.panda_lang.panda.core.structure.PandaApplication;
 
 import java.io.File;
 

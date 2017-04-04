@@ -16,25 +16,25 @@
 
 package org.panda_lang.panda.language.structure.imports;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenRepresentation;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.interpreter.parser.generation.ParserGenerationType;
-import org.panda_lang.panda.framework.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.PandaScript;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPattern;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternHollows;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenPatternUtils;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.implementation.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.PandaScript;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.main;
 
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.implementation.structure.util.AbstractScope;
+import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.util.AbstractScope;
 
 public class Main extends AbstractScope {
 

@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.structure.prototype.parser;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.Token;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenType;
-import org.panda_lang.panda.framework.interpreter.lexer.token.TokenizedSource;
-import org.panda_lang.panda.framework.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.implementation.interpreter.lexer.token.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.implementation.interpreter.parser.util.Components;
-import org.panda_lang.panda.implementation.structure.PandaScript;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 

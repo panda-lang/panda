@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.panda.implementation.structure.util.AbstractScope;
+import org.panda_lang.panda.core.structure.util.AbstractScope;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
 import java.util.List;

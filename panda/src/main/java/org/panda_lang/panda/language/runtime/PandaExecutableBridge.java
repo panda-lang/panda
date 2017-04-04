@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.runtime;
 
-import org.panda_lang.panda.implementation.structure.dynamic.Executable;
-import org.panda_lang.panda.implementation.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.implementation.structure.value.PandaValue;
-import org.panda_lang.panda.implementation.structure.value.Value;
+import org.panda_lang.panda.core.structure.dynamic.Executable;
+import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.value.PandaValue;
+import org.panda_lang.panda.core.structure.value.Value;
 
 public class PandaExecutableBridge implements ExecutableBridge {
 

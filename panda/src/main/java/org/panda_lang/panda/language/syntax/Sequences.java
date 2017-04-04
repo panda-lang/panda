@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.panda.framework.interpreter.lexer.token.defaults.Sequence;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.Sequence;
 
 /**
  * Default sequences
