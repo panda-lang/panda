@@ -18,6 +18,7 @@ package org.panda_lang.panda.implementation.interpreter.source.util;
 
 import org.panda_lang.panda.framework.interpreter.source.Source;
 import org.panda_lang.panda.framework.interpreter.source.SourceProvider;
+import org.panda_lang.panda.implementation.PandaFrameworkException;
 import org.panda_lang.panda.implementation.interpreter.source.PandaCodeSource;
 import org.panda_lang.panda.implementation.interpreter.source.PandaSource;
 
@@ -48,11 +49,11 @@ public class FileSourceProvider implements SourceProvider {
                 File next = iterator.next();
 
                 if (!next.exists()) {
-                    throw new LoaderException("File '" + next.getName() + "' doesn't exist.");
+                    throw new PandaFrameworkException("File '" + next.getName() + "' doesn't exist.");
                 }
 
                 if (next.isDirectory()) {
-                    throw new LoaderException("File '" + next.getName() + "' ia a directory.");
+                    throw new PandaFrameworkException("File '" + next.getName() + "' ia a directory.");
                 }
 
                 return new PandaSource(PandaCodeSource.fromFile(next));

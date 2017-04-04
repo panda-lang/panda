@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.implementation.interpreter.source.util;
+package org.panda_lang.panda.implementation;
 
-public class LoaderException extends RuntimeException {
+public class PandaFrameworkException extends RuntimeException {
 
-    public LoaderException(String message) {
+    public PandaFrameworkException(String message) {
         super(message);
     }
 
-    public LoaderException(String message, Throwable cause) {
+    public PandaFrameworkException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public LoaderException(Throwable cause) {
+    public PandaFrameworkException(Throwable cause) {
         super(cause);
     }
 
