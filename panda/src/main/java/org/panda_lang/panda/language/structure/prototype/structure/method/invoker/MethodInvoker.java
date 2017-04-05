@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
-import org.panda_lang.panda.core.structure.dynamic.Executable;
+import org.panda_lang.panda.core.structure.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
-public class MethodInvoker implements Executable {
+public class MethodInvoker implements StandaloneExecutable {
 
     private final Method method;
     private final Expression expression;

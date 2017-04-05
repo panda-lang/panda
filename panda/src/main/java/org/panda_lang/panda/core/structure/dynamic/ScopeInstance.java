@@ -19,7 +19,7 @@ package org.panda_lang.panda.core.structure.dynamic;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
 
-public interface ScopeInstance extends Executable {
+public interface ScopeInstance extends StandaloneExecutable {
 
     /**
      * @return array of variables which index is equals to order of fields

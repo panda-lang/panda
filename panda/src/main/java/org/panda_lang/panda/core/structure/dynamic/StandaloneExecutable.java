@@ -14,22 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.core.structure.util;
+package org.panda_lang.panda.core.structure.dynamic;
 
-import org.panda_lang.panda.core.structure.dynamic.Executable;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-
-import java.util.Collection;
-
-public class ExecutableBridgeUtils {
-
-    public static void execute(ExecutableBranch bridge, Collection<StatementCell> cells) {
-        for (StatementCell statementCell : cells) {
-            if (statementCell.isExecutable()) {
-                Executable executable = (Executable) statementCell.getStatement();
-                bridge.call(executable);
-            }
-        }
-    }
+public interface StandaloneExecutable extends Executable {
 
 }
+

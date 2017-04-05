@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.structure.main;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.util.ExecutableBridgeUtils;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
@@ -34,7 +33,7 @@ public class MainInstance implements ScopeInstance {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        ExecutableBridgeUtils.execute(branch, main.getStatementCells());
+        branch.call(main.getStatementCells());
     }
 
     @Override

@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.core.structure.value.Value;
 
@@ -65,7 +66,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
             return this;
         }
 
-        if (executable instanceof ScopeInstance) {
+        if (executable instanceof StandaloneExecutable) {
             return callStandalone(executable);
         }
 
@@ -75,8 +76,16 @@ public class PandaExecutableBranch implements ExecutableBranch {
 
     @Override
     public ExecutableBranch callStandalone(Executable executable) {
-        ExecutableBranch branch = new PandaExecutableBranch(process, executable instanceof ScopeInstance ? (ScopeInstance) executable : currentScope);
-        branch.call();
+        boolean standaloneScope = executable instanceof ScopeInstance;
+        ExecutableBranch branch = new PandaExecutableBranch(process, standaloneScope ? (ScopeInstance) executable : currentScope);
+
+        if (standaloneScope) {
+            branch.call();
+        }
+        else {
+            executable.execute(branch);
+        }
+
         return branch;
     }
 
