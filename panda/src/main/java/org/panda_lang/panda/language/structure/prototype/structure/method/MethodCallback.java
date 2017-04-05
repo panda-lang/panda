@@ -17,10 +17,10 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public interface MethodCallback<T> {
 
-    void invoke(ExecutableBridge bridge, T instance, Value... parameters);
+    void invoke(ExecutableBranch bridge, T instance, Value... parameters);
 
 }

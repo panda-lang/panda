@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
@@ -43,7 +43,7 @@ public class PandaMethod implements Method {
 
     @Override
     @SuppressWarnings({ "unchecked" })
-    public void invoke(ExecutableBridge bridge, Object instance, Value... parameters) {
+    public void invoke(ExecutableBranch bridge, Object instance, Value... parameters) {
         methodBody.invoke(bridge, instance, parameters);
     }
 

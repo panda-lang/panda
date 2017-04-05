@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
@@ -39,7 +39,7 @@ public class SystemPrototype {
 
         prototype.getMethods().put("print", new PandaMethod(prototype, "print", new MethodCallback<System>() {
             @Override
-            public void invoke(ExecutableBridge bridge, System instance, Value... parameters) {
+            public void invoke(ExecutableBranch bridge, System instance, Value... parameters) {
                 StringBuilder node = new StringBuilder();
 
                 for (Value value : parameters) {

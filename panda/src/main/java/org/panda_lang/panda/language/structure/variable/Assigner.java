@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.variable;
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.expression.Expression;
 
 public class Assigner implements Executable {
@@ -33,11 +33,11 @@ public class Assigner implements Executable {
     }
 
     @Override
-    public void execute(ExecutableBridge bridge) {
-        expression.execute(bridge);
+    public void execute(ExecutableBranch branch) {
+        expression.execute(branch);
 
         Value value = expression.getExpressionValue();
-        ScopeInstance currentScope = bridge.getCurrentScope();
+        ScopeInstance currentScope = branch.getCurrentScope();
 
         currentScope.getVariables()[memoryIndex] = value;
     }

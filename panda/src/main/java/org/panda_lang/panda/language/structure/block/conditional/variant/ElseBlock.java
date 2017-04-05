@@ -19,13 +19,13 @@ package org.panda_lang.panda.language.structure.block.conditional.variant;
 import org.panda_lang.panda.core.structure.dynamic.Block;
 import org.panda_lang.panda.core.structure.util.AbstractContainer;
 import org.panda_lang.panda.core.structure.util.ExecutableBridgeUtils;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class ElseBlock extends AbstractContainer implements Block {
 
     @Override
-    public void execute(ExecutableBridge bridge) {
-        ExecutableBridgeUtils.execute(bridge, getStatementCells());
+    public void execute(ExecutableBranch branch) {
+        ExecutableBridgeUtils.execute(branch, getStatementCells());
     }
 
 }

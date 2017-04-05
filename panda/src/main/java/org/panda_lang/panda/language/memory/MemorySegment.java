@@ -26,20 +26,20 @@ public interface MemorySegment {
     int put(Object value);
 
     /**
-     * Get value from memory by pointer
-     *
-     * @param pointer pointer to value returned by {@link #put(Object)}
-     * @return value
-     */
-    <T> T get(int pointer);
-
-    /**
      * Remove value from memory and free pointer for reuse. Note that it won't destroy object because it is not possible.
      *
      * @param pointer pointer to value returned by {@link #put(Object)}
      * @return value
      */
     <T> T destroy(int pointer);
+
+    /**
+     * Get value from memory by pointer
+     *
+     * @param pointer pointer to value returned by {@link #put(Object)}
+     * @return value
+     */
+    <T> T get(int pointer);
 
     /**
      * @return name of the type associated with this memory segment

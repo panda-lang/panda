@@ -35,10 +35,12 @@ public class PandaExecutableProcess implements ExecutableProcess {
 
     @Override
     public Value execute() {
-        PandaExecutableBridge bridge = new PandaExecutableBridge(this);
         ScopeInstance instance = headScope.createInstance();
-        bridge.call(instance);
-        return bridge.getReturnedValue();
+
+        PandaExecutableBranch branch = new PandaExecutableBranch(this, instance);
+        branch.call();
+
+        return branch.getReturnedValue();
     }
 
     public String[] getParameters() {

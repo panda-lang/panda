@@ -20,7 +20,7 @@ import org.panda_lang.panda.core.structure.dynamic.Block;
 import org.panda_lang.panda.core.structure.util.ExecutableBridgeUtils;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.block.PandaBlock;
 import org.panda_lang.panda.language.structure.expression.Expression;
 
@@ -38,19 +38,19 @@ public class ConditionalBlock extends PandaBlock {
     }
 
     @Override
-    public void execute(ExecutableBridge bridge) {
-        condition.execute(bridge);
+    public void execute(ExecutableBranch branch) {
+        condition.execute(branch);
 
         Value value = condition.getExpressionValue();
         boolean flag = (boolean) value.getValue();
 
         if (flag) {
-            ExecutableBridgeUtils.execute(bridge, getStatementCells());
+            ExecutableBridgeUtils.execute(branch, getStatementCells());
             return;
         }
 
         if (elseBlock != null) {
-            bridge.call(elseBlock);
+            branch.call(elseBlock);
         }
     }
 

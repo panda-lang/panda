@@ -28,14 +28,6 @@ public interface TokenizedSource {
         getTokensRepresentations().add(tokenRepresentation);
     }
 
-    default TokenRepresentation get(int id) {
-        if (id >= size() || id < 0) {
-            return null;
-        }
-
-        return getTokensRepresentations().get(id);
-    }
-
     default Token getToken(int id) {
         TokenRepresentation tokenRepresentation = get(id);
 
@@ -47,6 +39,14 @@ public interface TokenizedSource {
     }
 
     TokenRepresentation[] toArray();
+
+    default TokenRepresentation get(int id) {
+        if (id >= size() || id < 0) {
+            return null;
+        }
+
+        return getTokensRepresentations().get(id);
+    }
 
     List<TokenRepresentation> getTokensRepresentations();
 

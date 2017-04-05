@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.expression;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public class Expression implements Executable {
@@ -49,9 +49,9 @@ public class Expression implements Executable {
     }
 
     @Override
-    public void execute(ExecutableBridge bridge) {
+    public void execute(ExecutableBranch branch) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            this.value = callback.call(this, bridge);
+            this.value = callback.call(this, branch);
         }
     }
 

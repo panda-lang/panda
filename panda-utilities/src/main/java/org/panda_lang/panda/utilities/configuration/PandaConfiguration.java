@@ -67,10 +67,6 @@ public class PandaConfiguration {
         return this.map.containsKey(path);
     }
 
-    public Object get(String path) {
-        return this.map.get(path);
-    }
-
     public String getString(String path) {
         Object co = map.get(path);
         if (co != null) {
@@ -146,6 +142,10 @@ public class PandaConfiguration {
     public void clear() {
         this.configuration = null;
         this.map = null;
+    }
+
+    public Object get(String path) {
+        return this.map.get(path);
     }
 
     public Collection<String> getKeys() {

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class ClassInstance implements ScopeInstance {
 
@@ -33,7 +33,7 @@ public class ClassInstance implements ScopeInstance {
     }
 
     @Override
-    public void execute(ExecutableBridge bridge) {
+    public void execute(ExecutableBranch branch) {
         throw new RuntimeException("Cannot execute instance");
     }
 

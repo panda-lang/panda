@@ -17,13 +17,13 @@
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
 public interface Constructor {
 
-    ClassInstance createInstance(ExecutableBridge bridge, Value... values);
+    ClassInstance createInstance(ExecutableBranch bridge, Value... values);
 
     ClassPrototype[] getParameterTypes();
 

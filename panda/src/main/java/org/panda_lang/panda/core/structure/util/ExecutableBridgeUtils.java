@@ -17,13 +17,13 @@
 package org.panda_lang.panda.core.structure.util;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 import java.util.Collection;
 
 public class ExecutableBridgeUtils {
 
-    public static void execute(ExecutableBridge bridge, Collection<StatementCell> cells) {
+    public static void execute(ExecutableBranch bridge, Collection<StatementCell> cells) {
         for (StatementCell statementCell : cells) {
             if (statementCell.isExecutable()) {
                 Executable executable = (Executable) statementCell.getStatement();

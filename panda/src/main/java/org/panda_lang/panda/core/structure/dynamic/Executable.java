@@ -17,10 +17,15 @@
 package org.panda_lang.panda.core.structure.dynamic;
 
 import org.panda_lang.panda.framework.language.structure.Statement;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public interface Executable extends Statement {
 
-    void execute(ExecutableBridge bridge);
+    /**
+     * Execute current executable
+     *
+     * @param branch the parent branch of current executable
+     */
+    void execute(ExecutableBranch branch);
 
 }

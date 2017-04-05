@@ -67,11 +67,6 @@ public class PandaEngine implements ScriptEngine {
     }
 
     @Override
-    public Object get(String s) {
-        return null;
-    }
-
-    @Override
     public Bindings getBindings(int i) {
         return null;
     }
@@ -89,6 +84,11 @@ public class PandaEngine implements ScriptEngine {
     @Override
     public void setContext(ScriptContext scriptContext) {
 
+    }
+
+    @Override
+    public Object get(String s) {
+        return null;
     }
 
     @Override

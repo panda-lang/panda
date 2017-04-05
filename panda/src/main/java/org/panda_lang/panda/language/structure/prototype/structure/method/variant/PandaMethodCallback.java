@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodScope;
@@ -33,7 +33,7 @@ public class PandaMethodCallback implements MethodCallback<ClassInstance> {
     }
 
     @Override
-    public void invoke(ExecutableBridge bridge, ClassInstance instance, Value... parameters) {
+    public void invoke(ExecutableBranch bridge, ClassInstance instance, Value... parameters) {
         MethodScopeInstance scopeInstance = scope.createInstance();
         ParameterUtils.assignValues(scopeInstance.getVariables(), parameters);
         bridge.call(scopeInstance);

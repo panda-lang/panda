@@ -31,12 +31,12 @@ public class Group {
         this.prototypes = new HashMap<>();
     }
 
-    public ClassPrototype get(String className) {
-        return prototypes.get(className);
-    }
-
     public void add(ClassPrototype prototype) {
         this.prototypes.put(prototype.getClassName(), prototype);
+    }
+
+    public ClassPrototype get(String className) {
+        return prototypes.get(className);
     }
 
     public Map<String, ClassPrototype> getPrototypes() {

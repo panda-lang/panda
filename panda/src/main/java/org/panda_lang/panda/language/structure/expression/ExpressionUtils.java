@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.structure.expression;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class ExpressionUtils {
 
-    public static Value[] getValues(ExecutableBridge bridge, Expression... expressions) {
+    public static Value[] getValues(ExecutableBranch bridge, Expression... expressions) {
         Value[] values = new Value[expressions.length];
 
         for (int i = 0; i < values.length; i++) {

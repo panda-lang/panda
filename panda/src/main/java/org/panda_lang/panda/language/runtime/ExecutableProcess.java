@@ -20,6 +20,11 @@ import org.panda_lang.panda.core.structure.value.Value;
 
 public interface ExecutableProcess {
 
+    /**
+     * Execute the process
+     *
+     * @return a result of the execution process
+     */
     Value execute();
 
 }

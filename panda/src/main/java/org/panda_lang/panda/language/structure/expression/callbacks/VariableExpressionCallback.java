@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.expression.callbacks;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionCallback;
 
@@ -31,7 +31,7 @@ public class VariableExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBridge bridge) {
+    public Value call(Expression expression, ExecutableBranch bridge) {
         ScopeInstance currentScope = bridge.getCurrentScope();
         return currentScope.getVariables()[memoryIndex];
     }

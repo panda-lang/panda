@@ -21,7 +21,7 @@ import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class ConstructorScopeInstance implements ScopeInstance {
 
@@ -34,14 +34,14 @@ public class ConstructorScopeInstance implements ScopeInstance {
     }
 
     @Override
-    public void execute(ExecutableBridge bridge) {
+    public void execute(ExecutableBranch branch) {
         for (StatementCell statementCell : scope.getStatementCells()) {
             if (!statementCell.isExecutable()) {
                 continue;
             }
 
             Executable executable = (Executable) statementCell.getStatement();
-            bridge.call(executable);
+            branch.call(executable);
         }
     }
 

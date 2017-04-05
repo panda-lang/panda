@@ -18,16 +18,45 @@ package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.core.structure.value.Value;
 
-public interface ExecutableBridge {
+import java.util.Collection;
+
+public interface ExecutableBranch {
 
     /**
-     * Call next executable by {@link ExecutableProcess}
-     *
-     * @param executable to call
+     * Call the current scope
      */
-    void call(Executable executable);
+    void call();
+
+    /**
+     * Call a collection of statements
+     *
+     * @param cells a collection of statement cells
+     */
+    void call(Collection<StatementCell> cells);
+
+    /**
+     * Call single executable by {@link ExecutableProcess}
+     *
+     * @param executable an executable to call
+     * @return the parent branch of called executable
+     */
+    ExecutableBranch call(Executable executable);
+
+    /**
+     * Call single executable in dedicated branch
+     *
+     * @param executable an executable to call
+     * @return the parent branch of called executable
+     */
+    ExecutableBranch callStandalone(Executable executable);
+
+    /**
+     * Interrupt the execution process
+     */
+    void interrupt();
 
     /**
      * Interrupt the execution process and return value
@@ -35,6 +64,11 @@ public interface ExecutableBridge {
      * @param value result
      */
     void returnValue(Value value);
+
+    /**
+     * @return a returned value
+     */
+    Value getReturnedValue();
 
     /**
      * @return instance of the current scope

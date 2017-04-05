@@ -17,10 +17,10 @@
 package org.panda_lang.panda.language.structure.expression;
 
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBridge;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public interface ExpressionCallback {
 
-    Value call(Expression expression, ExecutableBridge bridge);
+    Value call(Expression expression, ExecutableBranch bridge);
 
 }
