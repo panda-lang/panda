@@ -16,14 +16,42 @@
 
 package org.panda_lang.panda.language.structure.block.looping;
 
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.language.PandaSyntax;
+import org.panda_lang.panda.language.structure.block.looping.blocks.LoopBlock;
+import org.panda_lang.panda.language.structure.expression.Expression;
+import org.panda_lang.panda.language.structure.expression.ExpressionParser;
 
+@ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = LoopParser.class, handlerClass = LoopParserHandler.class)
 public class LoopParser implements UnifiedParser {
+
+    protected static final TokenPattern PATTERN = TokenPattern.builder().compile(PandaSyntax.getInstance(), "loop ( +* )").build();
 
     @Override
     public void parse(ParserInfo info) {
+        TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, info);
+        TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
 
+        redactor.map("loop-expression");
+        TokenizedSource expressionSource = redactor.get("loop-expression");
+
+        ExpressionParser expressionParser = new ExpressionParser();
+        Expression expression = expressionParser.parse(info, expressionSource);
+
+        if (!expression.getReturnType().getClassName().equals("Integer")) {
+            throw new PandaParserException("Loop requires number as an argument");
+        }
+
+        info.setComponent("block", new LoopBlock(expression));
     }
 
 }

@@ -14,7 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.block.looping.variant;
+package org.panda_lang.panda.language.structure.block.looping;
 
-public class LoopBlock {
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.language.syntax.Keywords;
+
+public class LoopParserHandler implements ParserHandler {
+
+    @Override
+    public boolean handle(TokenReader tokenReader) {
+        return TokenUtils.equals(tokenReader.read(), Keywords.LOOP);
+    }
+
 }
