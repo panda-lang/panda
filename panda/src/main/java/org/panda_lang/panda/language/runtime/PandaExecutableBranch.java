@@ -19,8 +19,11 @@ package org.panda_lang.panda.language.runtime;
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.dynamic.StandaloneExecutable;
-import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
+import org.panda_lang.panda.language.runtime.flow.ControlFlow;
+import org.panda_lang.panda.language.runtime.flow.ControlFlowCaller;
+import org.panda_lang.panda.language.runtime.flow.PandaControlFlow;
 
 import java.util.Collection;
 
@@ -28,6 +31,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
 
     private final PandaExecutableProcess process;
     private final ScopeInstance currentScope;
+    private PandaControlFlow currentFlow;
     private Value returnedValue;
     private boolean interrupted;
 
@@ -59,6 +63,17 @@ public class PandaExecutableBranch implements ExecutableBranch {
         }
     }
 
+
+    @Override
+    public ControlFlow callFlow(Collection<StatementCell> cells, ControlFlowCaller caller) {
+        PandaControlFlow parentFlow = currentFlow;
+
+        this.currentFlow = new PandaControlFlow(this, cells, caller);
+        currentFlow.execute(this);
+
+        this.currentFlow = parentFlow;
+        return currentFlow;
+    }
 
     @Override
     public ExecutableBranch call(Executable executable) {
@@ -100,6 +115,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
         interrupt();
     }
 
+    @Override
     public boolean isInterrupted() {
         return interrupted;
     }
@@ -107,6 +123,11 @@ public class PandaExecutableBranch implements ExecutableBranch {
     @Override
     public Value getReturnedValue() {
         return returnedValue;
+    }
+
+    @Override
+    public ControlFlow getCurrentControlFlow() {
+        return currentFlow;
     }
 
     @Override

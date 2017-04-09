@@ -18,8 +18,10 @@ package org.panda_lang.panda.language.runtime;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
+import org.panda_lang.panda.language.runtime.flow.ControlFlow;
+import org.panda_lang.panda.language.runtime.flow.ControlFlowCaller;
 
 import java.util.Collection;
 
@@ -36,6 +38,14 @@ public interface ExecutableBranch {
      * @param cells a collection of statement cells
      */
     void call(Collection<StatementCell> cells);
+
+    /**
+     * Call a collection of statements by ControlFlow
+     *
+     * @param cells a collection of statement cells
+     * @param caller a flow caller
+     */
+    ControlFlow callFlow(Collection<StatementCell> cells, ControlFlowCaller caller);
 
     /**
      * Call single executable by {@link ExecutableProcess}
@@ -66,9 +76,21 @@ public interface ExecutableBranch {
     void returnValue(Value value);
 
     /**
+     * @return true if branch has been interrupted
+     */
+    boolean isInterrupted();
+
+    /**
      * @return a returned value
      */
     Value getReturnedValue();
+
+    /**
+     * Returns null if executed code is not wrapped in ControlFlow
+     *
+     * @return currently executed control flow
+     */
+    ControlFlow getCurrentControlFlow();
 
     /**
      * @return instance of the current scope
