@@ -73,6 +73,8 @@ public class Keywords {
 
     public static final Keyword LONG = new Keyword("long");
 
+    public static final Keyword LOOP = new Keyword("loop");
+
     public static final Keyword MAIN = new Keyword("main");
 
     public static final Keyword METHOD = new Keyword("method");
@@ -103,7 +105,7 @@ public class Keywords {
 
     public static final Keyword WHILE = new Keyword("while");
 
-    private static final Keyword[] VALUES = new Keyword[40];
+    private static final Keyword[] VALUES = new Keyword[41];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -146,6 +148,7 @@ public class Keywords {
         VALUES[37] = PRIVATE;
         VALUES[38] = PUBLIC;
         VALUES[39] = HIDDEN;
+        VALUES[40] = LOOP;
     }
 
     public static Keyword[] values() {
