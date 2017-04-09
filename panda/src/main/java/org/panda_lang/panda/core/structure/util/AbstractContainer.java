@@ -17,6 +17,7 @@
 package org.panda_lang.panda.core.structure.util;
 
 import org.panda_lang.panda.core.structure.wrapper.Container;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.framework.language.structure.Statement;
 
 import java.util.ArrayList;

@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.util.StatementCell;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;

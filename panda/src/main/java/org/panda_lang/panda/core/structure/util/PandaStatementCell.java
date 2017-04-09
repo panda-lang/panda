@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.core.structure.util;
 
-import org.panda_lang.panda.core.structure.dynamic.Executable;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.framework.language.structure.Statement;
 
 public class PandaStatementCell implements StatementCell {
@@ -39,11 +39,6 @@ public class PandaStatementCell implements StatementCell {
 
     public boolean isManipulated() {
         return manipulated;
-    }
-
-    @Override
-    public boolean isExecutable() {
-        return statement != null && statement instanceof Executable;
     }
 
     @Override

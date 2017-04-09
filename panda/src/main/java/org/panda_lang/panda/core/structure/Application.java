@@ -25,7 +25,7 @@ public interface Application {
     /**
      * Launch application with the specified arguments
      */
-    void launch(String[] arguments);
+    void launch(String... arguments);
 
     /**
      * @return a list of belonging to the application scripts

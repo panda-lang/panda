@@ -27,7 +27,7 @@ public interface Value {
         return getValue() == null && getType() == null;
     }
 
-    Object getValue();
+    <T> T getValue();
 
     ClassPrototype getType();
 

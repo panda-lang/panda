@@ -45,7 +45,7 @@ public class ConditionalBlockParser implements UnifiedParser {
         SourceStream stream = info.getComponent(Components.SOURCE_STREAM);
         ParserInfo parentInfo = info.getComponent(Components.PARENT_INFO);
 
-        if (stream.toTokenizedSource().size() == 1) {
+        if (stream.getUnreadLength() == 1) {
             ElseBlock elseBlock = new ElseBlock();
             Block previousBlock = parentInfo.getComponent("previous-block");
 

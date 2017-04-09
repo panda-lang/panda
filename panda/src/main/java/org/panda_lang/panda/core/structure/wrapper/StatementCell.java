@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.core.structure.util;
+package org.panda_lang.panda.core.structure.wrapper;
 
+import org.panda_lang.panda.core.structure.dynamic.Block;
+import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.framework.language.structure.Statement;
 
 /**
@@ -25,7 +27,17 @@ public interface StatementCell {
 
     void setStatement(Statement statement);
 
-    boolean isExecutable();
+    default boolean isBlock() {
+        return getStatement() != null && getStatement() instanceof Block;
+    }
+
+    default boolean isExecutable() {
+        return getStatement() != null && getStatement() instanceof Executable;
+    }
+
+    default boolean isContainer() {
+        return getStatement() != null && getStatement() instanceof Container;
+    }
 
     Statement getStatement();
 

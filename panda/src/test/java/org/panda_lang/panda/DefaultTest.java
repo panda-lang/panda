@@ -23,7 +23,6 @@ import java.io.File;
 
 public class DefaultTest {
 
-    private static final String[] args = {};
     private static final File SCRIPT = new File("../examples/current_test.panda");
 
     @Test
@@ -34,7 +33,7 @@ public class DefaultTest {
         PandaLoader pandaLoader = panda.getPandaLoader();
         PandaApplication pandaApplication = pandaLoader.loadFiles(SCRIPT);
 
-        pandaApplication.launch(args);
+        pandaApplication.launch();
     }
 
 }

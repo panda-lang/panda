@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.core.structure.wrapper;
 
-import org.panda_lang.panda.core.structure.util.StatementCell;
 import org.panda_lang.panda.framework.language.structure.Statement;
 
 import java.util.List;

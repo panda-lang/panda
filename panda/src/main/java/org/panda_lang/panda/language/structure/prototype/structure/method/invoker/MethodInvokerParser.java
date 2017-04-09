@@ -24,7 +24,7 @@ import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.core.structure.util.StatementCell;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.core.structure.wrapper.Container;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
