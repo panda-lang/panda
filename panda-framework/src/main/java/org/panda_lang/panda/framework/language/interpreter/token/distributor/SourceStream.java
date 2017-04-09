@@ -28,7 +28,13 @@ public interface SourceStream {
 
     TokenRepresentation[] readDifference(TokenReader reader);
 
-    boolean hasUnreadSource();
+    default boolean hasUnreadSource() {
+        return toTokenizedSource().size() > 0;
+    }
+
+    default int getUnreadLength() {
+        return toTokenizedSource().size();
+    }
 
     TokenReader toTokenReader();
 

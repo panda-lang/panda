@@ -27,6 +27,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
@@ -57,9 +58,15 @@ public class ContainerParser implements Parser {
                 throw new PandaParserException("Unrecognized syntax at line " + (stream.read().getLine() + 1));
             }
 
+            int sourceLength = stream.getUnreadLength();
+
             parser.parse(info);
             generation.executeImmediately(info);
             info.setComponent("container", container);
+
+            if (sourceLength == stream.getUnreadLength()) {
+                throw new PandaParserException(parser.getClass().getSimpleName() + " did nothing with source at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+            }
         }
 
         info.setComponent("container", previousContainer);

@@ -34,6 +34,7 @@ public class PandaSourceStream implements SourceStream {
         this.tokenizedSource = tokenizedSource;
     }
 
+    @Override
     public TokenRepresentation read() {
         if (tokenizedSource.size() < 1) {
             return null;
@@ -46,6 +47,7 @@ public class PandaSourceStream implements SourceStream {
         return representation;
     }
 
+    @Override
     public TokenRepresentation[] read(int length) {
         TokenRepresentation[] array = new TokenRepresentation[length];
         List<TokenRepresentation> tokens = tokenizedSource.getTokensRepresentations();
@@ -65,11 +67,6 @@ public class PandaSourceStream implements SourceStream {
     public TokenRepresentation[] readDifference(TokenReader reader) {
         int length = reader.getIndex() + 1;
         return this.read(length);
-    }
-
-    @Override
-    public boolean hasUnreadSource() {
-        return tokenizedSource.size() > 0;
     }
 
     @Override
