@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.block.looping.variant;
+package org.panda_lang.panda.language.structure.block.looping.blocks;
 
 public class ForBlock {
 }
