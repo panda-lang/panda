@@ -34,9 +34,7 @@ public class Assigner implements Executable {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        expression.execute(branch);
-
-        Value value = expression.getExpressionValue();
+        Value value = expression.getExpressionValue(branch);
         ScopeInstance currentScope = branch.getCurrentScope();
 
         currentScope.getVariables()[memoryIndex] = value;

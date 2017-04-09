@@ -37,7 +37,7 @@ public class PandaApplication implements Application {
     }
 
     @Override
-    public void launch(String[] arguments) {
+    public void launch(String... arguments) {
         for (Script script : scripts) {
             List<Main> mains = script.select(Main.class);
 

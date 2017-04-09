@@ -21,14 +21,12 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class ExpressionUtils {
 
-    public static Value[] getValues(ExecutableBranch bridge, Expression... expressions) {
+    public static Value[] getValues(ExecutableBranch branch, Expression... expressions) {
         Value[] values = new Value[expressions.length];
 
         for (int i = 0; i < values.length; i++) {
             Expression expression = expressions[i];
-
-            expression.execute(bridge);
-            values[i] = expression.getExpressionValue();
+            values[i] = expression.getExpressionValue(branch);
         }
 
         return values;

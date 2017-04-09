@@ -38,9 +38,7 @@ public class ConditionalBlock extends PandaBlock {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        condition.execute(branch);
-
-        Value value = condition.getExpressionValue();
+        Value value = condition.getExpressionValue(branch);
         boolean flag = (boolean) value.getValue();
 
         if (flag) {

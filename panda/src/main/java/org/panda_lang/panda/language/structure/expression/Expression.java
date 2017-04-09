@@ -16,17 +16,16 @@
 
 package org.panda_lang.panda.language.structure.expression;
 
-import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
 
-public class Expression implements Executable {
+public class Expression {
 
     private final ExpressionType type;
     private final ClassPrototype returnType;
     private final ExpressionCallback callback;
-    private Value value;
+    private final Value value;
 
     public Expression(Value value) {
         this.type = ExpressionType.KNOWN;
@@ -39,23 +38,14 @@ public class Expression implements Executable {
         this.type = ExpressionType.UNKNOWN;
         this.returnType = returnType;
         this.callback = callback;
+        this.value = null;
     }
 
-    public Expression(Value value, ExpressionCallback callback) {
-        this.type = ExpressionType.BOTH;
-        this.returnType = value.getType();
-        this.callback = callback;
-        this.value = value;
-    }
-
-    @Override
-    public void execute(ExecutableBranch branch) {
+    public Value getExpressionValue(ExecutableBranch branch) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            this.value = callback.call(this, branch);
+            return callback.call(this, branch);
         }
-    }
 
-    public Value getExpressionValue() {
         return value;
     }
 

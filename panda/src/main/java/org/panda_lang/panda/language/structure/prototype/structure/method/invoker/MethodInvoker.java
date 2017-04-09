@@ -41,8 +41,7 @@ public class MethodInvoker implements StandaloneExecutable {
         Value[] values = ExpressionUtils.getValues(branch, arguments);
 
         if (expression != null) {
-            expression.execute(branch);
-            Value value = expression.getExpressionValue();
+            Value value = expression.getExpressionValue(branch);
             instance = value.getValue();
         }
 
