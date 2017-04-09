@@ -36,4 +36,21 @@ main {
     else {
         System.print("Yay");
     }
+
+    loop (2) {
+        System.print("Loop x1");
+
+        loop (2) {
+            System.print("Loop x2");
+            break;
+        }
+
+        continue;
+        System.print("Loop x3");
+    }
+
+    while (true) {
+        System.print("While x1");
+        break;
+    }
 }
