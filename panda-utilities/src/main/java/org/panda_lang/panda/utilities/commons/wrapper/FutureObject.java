@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.util;
+package org.panda_lang.panda.utilities.commons.wrapper;
 
-public class Container<T> {
+public class FutureObject<T> {
 
     private T object;
 
-    public Container() {
+    public FutureObject() {
     }
 
-    public Container(T object) {
+    public FutureObject(T object) {
         this.object = object;
     }
 

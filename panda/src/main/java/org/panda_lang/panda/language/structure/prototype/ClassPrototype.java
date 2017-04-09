@@ -21,7 +21,7 @@ import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
-import org.panda_lang.panda.language.structure.util.Container;
+import org.panda_lang.panda.utilities.commons.wrapper.FutureObject;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,7 +31,7 @@ import java.util.Map;
 public class ClassPrototype {
 
     private final String className;
-    private final Container<Group> group;
+    private final FutureObject<Group> group;
     private final Collection<ClassPrototype> extended;
     private final Collection<Constructor> constructors;
     private final Map<String, Field> fields;
@@ -39,7 +39,7 @@ public class ClassPrototype {
 
     public ClassPrototype(String className) {
         this.className = className;
-        this.group = new Container<>();
+        this.group = new FutureObject<>();
         this.extended = new ArrayList<>();
         this.constructors = new ArrayList<>();
         this.fields = new HashMap<>();
@@ -62,7 +62,7 @@ public class ClassPrototype {
         return extended;
     }
 
-    public Container<Group> getGroup() {
+    public FutureObject<Group> getGroup() {
         return group;
     }
 
