@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.core.interpreter.parser.pipeline.registry;
 
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.PandaParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
@@ -26,16 +27,20 @@ import java.util.Map;
 public class PandaPipelineRegistry implements PipelineRegistry {
 
     private final Map<String, ParserPipeline> pipelines;
+    private final PandaParserPipeline all;
 
     public PandaPipelineRegistry() {
         this.pipelines = new HashMap<>();
+        this.all = new PandaParserPipeline();
+
+        pipelines.put(DefaultPipelines.ALL, all);
     }
 
     protected ParserPipeline getOrCreate(String pipelineName) {
         ParserPipeline pipeline = getPipeline(pipelineName);
 
         if (pipeline == null) {
-            pipeline = new PandaParserPipeline();
+            pipeline = new PandaParserPipeline(all);
             pipelines.put(pipelineName, pipeline);
         }
 

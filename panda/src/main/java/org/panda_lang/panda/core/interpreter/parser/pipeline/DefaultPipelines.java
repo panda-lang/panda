@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.core.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.core.interpreter.parser.defaults.OverallParser;
-import org.panda_lang.panda.core.interpreter.parser.defaults.ScopeParser;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 
 /**
@@ -26,7 +24,12 @@ import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegi
 public class DefaultPipelines {
 
     /**
-     * Used by {@link OverallParser}
+     * All pipelines
+     */
+    public static final String ALL = "all";
+
+    /**
+     * Used by {@link org.panda_lang.panda.core.interpreter.parser.defaults.OverallParser}
      */
     public static final String OVERALL = "overall";
 
@@ -36,7 +39,7 @@ public class DefaultPipelines {
     public static final String PROTOTYPE = "prototype";
 
     /**
-     * Used by {@link ScopeParser}
+     * Used by {@link org.panda_lang.panda.core.interpreter.parser.defaults.ScopeParser}
      */
     public static final String SCOPE = "scope";
 

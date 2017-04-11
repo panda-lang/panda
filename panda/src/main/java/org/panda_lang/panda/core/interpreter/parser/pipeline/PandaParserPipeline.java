@@ -24,30 +24,49 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributor.Sou
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
 public class PandaParserPipeline implements ParserPipeline {
 
+    private final ParserPipeline parentPipeline;
     private final List<ParserRepresentation> representations;
     private final Comparator<ParserRepresentation> comparator;
     private int count;
 
     public PandaParserPipeline() {
+        this(null);
+    }
+
+    public PandaParserPipeline(ParserPipeline parentPipeline) {
+        this.parentPipeline = parentPipeline;
         this.representations = new ArrayList<>();
         this.comparator = new ParserRepresentationComparator();
     }
 
     @Override
-    public UnifiedParser handle(SourceStream sourceStream) {
+    public UnifiedParser handle(SourceStream stream) {
         if (count > 100) {
             count = 0;
             sort();
         }
 
+        if (parentPipeline != null) {
+            UnifiedParser parser = handle(stream, parentPipeline.getRepresentations());
+
+            if (parser != null) {
+                return parser;
+            }
+        }
+
+        return handle(stream, representations);
+    }
+
+    private UnifiedParser handle(SourceStream stream, Collection<ParserRepresentation> representations) {
         for (ParserRepresentation representation : representations) {
             ParserHandler parserHandler = representation.getHandler();
-            TokenReader tokenReader = sourceStream.toTokenReader();
+            TokenReader tokenReader = stream.toTokenReader();
 
             if (parserHandler.handle(tokenReader)) {
                 representation.increaseUsages();
@@ -70,6 +89,7 @@ public class PandaParserPipeline implements ParserPipeline {
         sort();
     }
 
+    @Override
     public List<ParserRepresentation> getRepresentations() {
         return representations;
     }

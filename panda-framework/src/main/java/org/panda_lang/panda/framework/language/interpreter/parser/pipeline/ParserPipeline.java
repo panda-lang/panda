@@ -19,17 +19,24 @@ package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
+import java.util.Collection;
+
 public interface ParserPipeline {
 
     /**
-     * @param sourceStream source
-     * @return parser which fits to source
+     * @param sourceStream the source
+     * @return parser which fits to the source
      */
     UnifiedParser handle(SourceStream sourceStream);
 
     /**
-     * @param parserRepresentation specified parser representation which will be registered in pipeline
+     * @param parserRepresentation specified parser representation which will be registered in the pipeline
      */
     void registerParserRepresentation(ParserRepresentation parserRepresentation);
+
+    /**
+     * @return a collection of registered parsers
+     */
+    Collection<ParserRepresentation> getRepresentations();
 
 }

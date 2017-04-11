@@ -32,6 +32,11 @@ public class PandaValue implements Value {
 
     @Override
     public Object getValue() {
+        return getObject();
+    }
+
+    @Override
+    public Object getObject() {
         return value;
     }
 

@@ -43,7 +43,7 @@ public class SystemPrototype {
                 StringBuilder node = new StringBuilder();
 
                 for (Value value : parameters) {
-                    node.append(value.getValue());
+                    node.append(value.getObject());
                     node.append(", ");
                 }
 

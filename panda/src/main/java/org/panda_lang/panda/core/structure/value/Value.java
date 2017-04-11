@@ -29,6 +29,8 @@ public interface Value {
 
     <T> T getValue();
 
+    Object getObject();
+
     ClassPrototype getType();
 
 }
