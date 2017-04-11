@@ -35,8 +35,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.Par
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.ClassScope;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.variant.PandaConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.ParameterParser;

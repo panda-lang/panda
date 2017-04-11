@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.core.structure.value;
+package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
-public interface Variable {
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-    int getNestingLevel();
+public class Methods {
 
-    String getVariableName();
+    private final ClassPrototype prototype;
+    private final Map<String, Collection<Method>> methodsMap;
 
-    ClassPrototype getVariableType();
+    public Methods(ClassPrototype prototype) {
+        this.prototype = prototype;
+        this.methodsMap = new HashMap<>();
+    }
+
+    public void registerMethod(Method method) {
+        Collection methods = methodsMap.get(method.getMethodName());
+    }
 
 }

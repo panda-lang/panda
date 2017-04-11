@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.imports;
 
 import org.panda_lang.panda.language.structure.group.Group;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype;
+package org.panda_lang.panda.language.structure.prototype.structure;
 
 import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.core.structure.value.Variable;

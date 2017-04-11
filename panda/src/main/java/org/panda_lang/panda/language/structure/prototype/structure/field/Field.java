@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.field;
 
 import org.panda_lang.panda.core.structure.value.PandaVariable;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 public class Field extends PandaVariable {
 

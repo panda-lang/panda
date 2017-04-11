@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.method.varia
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.prototype.ClassInstance;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodScope;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodScopeInstance;

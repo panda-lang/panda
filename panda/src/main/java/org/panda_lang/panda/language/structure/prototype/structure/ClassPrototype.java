@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype;
+package org.panda_lang.panda.language.structure.prototype.structure;
 
 import com.google.common.base.Objects;
 import org.panda_lang.panda.language.structure.group.Group;
@@ -72,7 +72,7 @@ public class ClassPrototype {
 
     @Override
     public int hashCode() {
-        return className.hashCode();
+        return Objects.hashCode(className);
     }
 
     @Override

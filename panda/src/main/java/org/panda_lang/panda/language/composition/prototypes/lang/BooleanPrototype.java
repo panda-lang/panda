@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.composition.prototypes.lang;
 
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 
 @ClassPrototypeRegistrationCall

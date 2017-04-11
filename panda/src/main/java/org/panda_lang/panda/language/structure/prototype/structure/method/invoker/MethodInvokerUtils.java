@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.method.invok
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.imports.Import;
 import org.panda_lang.panda.language.structure.imports.ImportStatement;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.List;
 

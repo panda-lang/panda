@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.core.structure.value;
 
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 /**
  * Wrapper for objects

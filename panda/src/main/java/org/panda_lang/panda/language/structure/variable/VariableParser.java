@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource
 import org.panda_lang.panda.language.structure.expression.Expression;
 import org.panda_lang.panda.language.structure.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {

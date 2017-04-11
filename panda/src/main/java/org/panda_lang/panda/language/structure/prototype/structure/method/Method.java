@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 public interface Method extends MethodCallback<Object> {
 
@@ -25,6 +25,8 @@ public interface Method extends MethodCallback<Object> {
     MethodVisibility getVisibility();
 
     ClassPrototype getReturnType();
+
+    ClassPrototype[] getParameterTypes();
 
     String getMethodName();
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
 import org.panda_lang.panda.language.structure.expression.Expression;
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
 import java.util.List;

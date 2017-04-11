@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.group;
 
-import org.panda_lang.panda.language.structure.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.HashMap;
 import java.util.Map;
