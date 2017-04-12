@@ -24,6 +24,7 @@ public class PandaMethodBuilder {
 
     private ClassPrototype prototype;
     private String methodName;
+    private String[] parameterTypes;
     private MethodVisibility visibility;
     private ClassPrototype returnType;
     private MethodCallback methodBody;
@@ -36,6 +37,11 @@ public class PandaMethodBuilder {
 
     public PandaMethodBuilder methodName(String methodName) {
         this.methodName = methodName;
+        return this;
+    }
+
+    public PandaMethodBuilder parameterTypes(String... parameterTypes){
+        this.parameterTypes = parameterTypes;
         return this;
     }
 
@@ -60,7 +66,7 @@ public class PandaMethodBuilder {
     }
 
     public PandaMethod build() {
-        return new PandaMethod(prototype, methodName, methodBody, isStatic, visibility, returnType);
+        return new PandaMethod(prototype, visibility, isStatic, returnType, methodName, methodBody, parameterTypes);
     }
 
 }

@@ -20,8 +20,9 @@ import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.group.Group;
 import org.panda_lang.panda.language.structure.group.GroupRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
@@ -33,24 +34,31 @@ public class SystemPrototype {
         GroupRegistry registry = GroupRegistry.getDefault();
         Group defaultGroup = registry.getOrCreate("panda.lang");
 
-        ClassPrototype prototype = new ClassPrototype("System");
-        prototype.getGroup().setObject(defaultGroup);
-        defaultGroup.add(prototype);
+        ClassPrototype systemPrototype = new ClassPrototype("System");
+        systemPrototype.getGroup().setObject(defaultGroup);
+        defaultGroup.add(systemPrototype);
 
-        prototype.getMethods().put("print", new PandaMethod(prototype, "print", new MethodCallback<System>() {
-            @Override
-            public void invoke(ExecutableBranch bridge, System instance, Value... parameters) {
-                StringBuilder node = new StringBuilder();
+        Method printMethod = PandaMethod.builder()
+                .methodName("print")
+                .prototype(systemPrototype)
+                .isStatic(true)
+                .visibility(MethodVisibility.PUBLIC)
+                .methodBody(new MethodCallback<System>() {
+                    @Override
+                    public void invoke(ExecutableBranch bridge, System instance, Value... parameters) {
+                        StringBuilder node = new StringBuilder();
 
-                for (Value value : parameters) {
-                    node.append(value.getObject());
-                    node.append(", ");
-                }
+                        for (Value value : parameters) {
+                            node.append(value.getObject());
+                            node.append(", ");
+                        }
 
-                String message = node.substring(0, node.length() - 2);
-                System.out.println(message);
-            }
-        }, true, MethodVisibility.PUBLIC, null));
+                        String message = node.substring(0, node.length() - 2);
+                        System.out.println(message);
+                    }})
+                .build();
+        
+        systemPrototype.getMethods().put("print", printMethod);
     }
 
 }
