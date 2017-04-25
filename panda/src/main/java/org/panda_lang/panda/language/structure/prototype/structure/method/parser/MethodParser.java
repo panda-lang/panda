@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
@@ -149,7 +149,7 @@ public class MethodParser implements UnifiedParser {
                     .isStatic(isStatic)
                     .build();
 
-            prototype.getMethods().put(method.getMethodName(), method);
+            prototype.getMethods().registerMethod(method);
             delegatedInfo.setComponent("method", method);
 
             nextLayer.delegate(new MethodBodyParserCallback(), delegatedInfo);

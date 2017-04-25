@@ -27,18 +27,20 @@ public class PandaMethod implements Method {
 
     private final ClassPrototype prototype;
     private final String methodName;
+    private final ClassPrototype[] parameterTypes;
     private final ClassPrototype returnType;
     private final MethodCallback methodBody;
     private final boolean isStatic;
     private MethodVisibility visibility;
 
-    public PandaMethod(ClassPrototype prototype, MethodVisibility visibility, boolean isStatic, ClassPrototype returnType, String methodName, MethodCallback methodBody,  String... parameterTypes) {
+    public PandaMethod(ClassPrototype prototype, MethodVisibility visibility, boolean isStatic, ClassPrototype returnType, String methodName, MethodCallback methodBody,  ClassPrototype... parameterTypes) {
         this.prototype = prototype;
         this.methodName = methodName;
         this.returnType = returnType;
         this.methodBody = methodBody;
         this.isStatic = isStatic;
         this.visibility = visibility;
+        this.parameterTypes = parameterTypes != null ? parameterTypes : new ClassPrototype[0];
     }
 
     @Override
@@ -64,7 +66,7 @@ public class PandaMethod implements Method {
 
     @Override
     public ClassPrototype[] getParameterTypes() {
-        return new ClassPrototype[0];
+        return parameterTypes;
     }
 
     @Override

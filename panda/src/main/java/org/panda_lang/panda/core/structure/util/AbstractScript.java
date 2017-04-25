@@ -49,6 +49,10 @@ public abstract class AbstractScript implements Script {
         return selectedStatements;
     }
 
+    public void addStatement(Statement statement) {
+        this.statements.add(statement);
+    }
+
     @Override
     public List<Statement> getStatements() {
         return statements;

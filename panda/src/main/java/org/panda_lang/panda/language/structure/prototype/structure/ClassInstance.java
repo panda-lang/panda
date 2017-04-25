@@ -53,7 +53,7 @@ public class ClassInstance implements ScopeInstance {
 
     @Override
     public String toString() {
-        return "@(instance of " + prototype.getGroup().getObject().getName() + ":" + prototype.getClassName() + ")";
+        return "@(instance of " + prototype.getModule().getName() + ":" + prototype.getClassName() + ")";
     }
 
 }

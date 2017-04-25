@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +34,18 @@ public class Methods {
     }
 
     public void registerMethod(Method method) {
-        Collection methods = methodsMap.get(method.getMethodName());
+        Collection<Method> methods = methodsMap.computeIfAbsent(method.getMethodName(), methodsContainer -> new ArrayList<>());
+        methods.add(method);
+    }
+
+    public Method getMethod(String name, ClassPrototype... parameterTypes) {
+        Collection<Method> methods = methodsMap.get(name);
+
+        if (methods == null) {
+            return null;
+        }
+
+        return MethodUtils.matchMethod(methods, parameterTypes);
     }
 
 }

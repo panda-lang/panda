@@ -22,6 +22,7 @@ import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
+@Deprecated
 public class ConfigurationFile {
 
     private final File file;

@@ -17,20 +17,25 @@
 package org.panda_lang.panda.core.structure;
 
 import org.panda_lang.panda.core.structure.util.AbstractScript;
-import org.panda_lang.panda.framework.language.structure.Statement;
-import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.overall.module.Module;
 
 public class PandaScript extends AbstractScript {
 
     protected final ImportRegistry importRegistry;
+    protected Module module;
 
     public PandaScript(String scriptName) {
         super(scriptName);
         this.importRegistry = new ImportRegistry();
     }
 
-    public void addStatement(Statement statement) {
-        this.statements.add(statement);
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    public Module getModule() {
+        return module;
     }
 
     public ImportRegistry getImportRegistry() {

@@ -44,7 +44,7 @@ public class DefaultPipelines {
     public static final String SCOPE = "scope";
 
     /**
-     * Used by {@link org.panda_lang.panda.language.structure.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.language.structure.scope.block.BlockParser}
      */
     public static final String BLOCK = "block";
 

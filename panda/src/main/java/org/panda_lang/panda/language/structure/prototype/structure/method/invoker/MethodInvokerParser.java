@@ -35,10 +35,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.Par
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.structure.argument.ArgumentParser;
-import org.panda_lang.panda.language.structure.expression.Expression;
-import org.panda_lang.panda.language.structure.expression.ExpressionParser;
-import org.panda_lang.panda.language.structure.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
@@ -113,7 +113,7 @@ public class MethodInvokerParser implements UnifiedParser {
             ArgumentParser argumentParser = new ArgumentParser();
             Expression[] arguments = argumentParser.parse(delegatedInfo, argumentsSource);
 
-            Method prototypeMethod = prototype.getMethods().get(methodName);
+            Method prototypeMethod = prototype.getMethods().getMethod(methodName);
             MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
 
             StatementCell cell = delegatedInfo.getComponent("cell");

@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.composition.prototypes.lang;
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.group.Group;
-import org.panda_lang.panda.language.structure.group.GroupRegistry;
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
@@ -31,12 +31,11 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.varian
 public class SystemPrototype {
 
     static {
-        GroupRegistry registry = GroupRegistry.getDefault();
-        Group defaultGroup = registry.getOrCreate("panda.lang");
+        ModuleRegistry registry = ModuleRegistry.getDefault();
+        Module defaultModule = registry.getOrCreate("panda.lang");
 
-        ClassPrototype systemPrototype = new ClassPrototype("System");
-        systemPrototype.getGroup().setObject(defaultGroup);
-        defaultGroup.add(systemPrototype);
+        ClassPrototype systemPrototype = new ClassPrototype(defaultModule, "System");
+        defaultModule.add(systemPrototype);
 
         Method printMethod = PandaMethod.builder()
                 .methodName("print")
@@ -58,7 +57,7 @@ public class SystemPrototype {
                     }})
                 .build();
         
-        systemPrototype.getMethods().put("print", printMethod);
+        systemPrototype.getMethods().registerMethod(printMethod);
     }
 
 }

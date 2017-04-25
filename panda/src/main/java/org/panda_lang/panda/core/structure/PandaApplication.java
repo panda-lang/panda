@@ -20,7 +20,7 @@ import org.panda_lang.panda.language.memory.Memory;
 import org.panda_lang.panda.language.memory.PandaMemory;
 import org.panda_lang.panda.language.runtime.ExecutableProcess;
 import org.panda_lang.panda.language.runtime.PandaExecutableProcess;
-import org.panda_lang.panda.language.structure.main.Main;
+import org.panda_lang.panda.language.structure.overall.main.Main;
 
 import java.util.ArrayList;
 import java.util.List;

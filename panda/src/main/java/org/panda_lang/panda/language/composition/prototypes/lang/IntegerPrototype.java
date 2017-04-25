@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
-import org.panda_lang.panda.language.structure.group.Group;
-import org.panda_lang.panda.language.structure.group.GroupRegistry;
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 
@@ -25,12 +25,11 @@ import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototype
 public class IntegerPrototype {
 
     static {
-        GroupRegistry registry = GroupRegistry.getDefault();
-        Group defaultGroup = registry.getOrCreate("panda.lang");
+        ModuleRegistry registry = ModuleRegistry.getDefault();
+        Module defaultModule = registry.getOrCreate("panda.lang");
 
-        ClassPrototype prototype = new ClassPrototype("Integer");
-        prototype.getGroup().setObject(defaultGroup);
-        defaultGroup.add(prototype);
+        ClassPrototype prototype = new ClassPrototype(defaultModule, "Integer");
+        defaultModule.add(prototype);
     }
 
 }

@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.structure.prototype.structure.method.invok
 import org.panda_lang.panda.core.structure.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.expression.Expression;
-import org.panda_lang.panda.language.structure.expression.ExpressionUtils;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
 public class MethodInvoker implements StandaloneExecutable {

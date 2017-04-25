@@ -79,6 +79,8 @@ public class Keywords {
 
     public static final Keyword METHOD = new Keyword("method");
 
+    public static final Keyword MODULE = new Keyword("module");
+
     public static final Keyword NATIVE = new Keyword("native");
 
     public static final Keyword NEW = new Keyword("new");
@@ -105,7 +107,7 @@ public class Keywords {
 
     public static final Keyword WHILE = new Keyword("while");
 
-    private static final Keyword[] VALUES = new Keyword[41];
+    private static final Keyword[] VALUES = new Keyword[42];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -149,6 +151,7 @@ public class Keywords {
         VALUES[38] = PUBLIC;
         VALUES[39] = HIDDEN;
         VALUES[40] = LOOP;
+        VALUES[41] = MODULE;
     }
 
     public static Keyword[] values() {

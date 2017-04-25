@@ -5,7 +5,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda_lang</groupId>
-        <version>indev-0.2.0-SNAPSHOT</version>
+        <version>indev-0.2.1-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda</artifactId>
@@ -14,7 +14,7 @@
     <dependencies>
         <dependency>
             <groupId>org.panda_lang</groupId>
-            <artifactId>panda-framework</artifactId>
+            <artifactId>panda-language</artifactId>
         </dependency>
         <dependency>
             <groupId>net.bytebuddy</groupId>
@@ -31,6 +31,10 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.panda_lang</groupId>
+            <artifactId>panda-framework</artifactId>
         </dependency>
     </dependencies>
 

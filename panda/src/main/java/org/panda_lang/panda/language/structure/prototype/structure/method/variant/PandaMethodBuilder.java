@@ -24,7 +24,7 @@ public class PandaMethodBuilder {
 
     private ClassPrototype prototype;
     private String methodName;
-    private String[] parameterTypes;
+    private ClassPrototype[] parameterTypes;
     private MethodVisibility visibility;
     private ClassPrototype returnType;
     private MethodCallback methodBody;
@@ -40,8 +40,14 @@ public class PandaMethodBuilder {
         return this;
     }
 
-    public PandaMethodBuilder parameterTypes(String... parameterTypes){
-        this.parameterTypes = parameterTypes;
+    public PandaMethodBuilder parameterTypes(String... parameterTypes) {
+        ClassPrototype[] prototypes = new ClassPrototype[parameterTypes.length];
+
+        for (int i = 0; i < prototypes.length; i++) {
+            prototypes[i] = ClassPrototype.forName(parameterTypes[i]);
+        }
+
+        this.parameterTypes = prototypes;
         return this;
     }
 

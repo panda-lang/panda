@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.core.interpreter.parser.pipeline;
 
+import org.panda_lang.panda.language.structure.scope.variable.VariableParser;
+
 public class DefaultPriorities {
 
     /**
@@ -24,12 +26,12 @@ public class DefaultPriorities {
     public static final int METHOD_PARSER = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.structure.variable.VariableParser}
+     * Used by {@link VariableParser}
      */
     public static final int VARIABLE_PARSER = 10;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.structure.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.language.structure.scope.block.BlockParser}
      */
     public static final int BLOCK_PARSER = 100;
 

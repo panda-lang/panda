@@ -26,7 +26,7 @@ import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.Script;
+import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
 import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
@@ -43,6 +43,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassReference;
@@ -74,7 +75,8 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
-            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            Module module = script.getModule();
 
             TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
@@ -85,7 +87,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             TokenizedSource classDeclaration = redactor.get("class-declaration");
             String className = classDeclaration.getToken(0).getTokenValue();
 
-            ClassPrototype classPrototype = new ClassPrototype(className);
+            ClassPrototype classPrototype = module.createPrototype(className);
             delegatedInfo.setComponent("class-prototype", classPrototype);
 
             ClassScope classScope = new ClassScope(classPrototype);

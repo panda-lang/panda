@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.structure.prototype.structure;
 
 import com.google.common.base.Objects;
-import org.panda_lang.panda.language.structure.group.Group;
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
-import org.panda_lang.panda.utilities.commons.wrapper.FutureObject;
+import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,23 +30,23 @@ import java.util.Map;
 
 public class ClassPrototype {
 
+    private final Module module;
     private final String className;
-    private final FutureObject<Group> group;
     private final Collection<ClassPrototype> extended;
     private final Collection<Constructor> constructors;
     private final Map<String, Field> fields;
-    private final Map<String, Method> methods;
+    private final Methods methods;
 
-    public ClassPrototype(String className) {
+    public ClassPrototype(Module module, String className) {
+        this.module = module;
         this.className = className;
-        this.group = new FutureObject<>();
         this.extended = new ArrayList<>();
         this.constructors = new ArrayList<>();
         this.fields = new HashMap<>();
-        this.methods = new HashMap<>();
+        this.methods = new Methods(this);
     }
 
-    public Map<String, Method> getMethods() {
+    public Methods getMethods() {
         return methods;
     }
 
@@ -62,8 +62,8 @@ public class ClassPrototype {
         return extended;
     }
 
-    public FutureObject<Group> getGroup() {
-        return group;
+    public Module getModule() {
+        return module;
     }
 
     public String getClassName() {
@@ -84,12 +84,16 @@ public class ClassPrototype {
     public String toString() {
         return Objects.toStringHelper(this)
                 .add("className", className)
-                .add("group", group)
+                .add("module", module)
                 .add("extended", extended)
                 .add("constructors", constructors)
                 .add("fields", fields)
                 .add("methods", methods)
                 .toString();
+    }
+
+    public static ClassPrototype forName(String prototype) {
+        return ModuleRegistry.forName(prototype);
     }
 
 }
