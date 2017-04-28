@@ -31,14 +31,7 @@ public class ModuleRegistry {
     }
 
     public Module getOrCreate(String groupName) {
-        Module module = groups.get(groupName);
-
-        if (module == null) {
-            module = new Module(groupName);
-            groups.put(groupName, module);
-        }
-
-        return module;
+        return groups.computeIfAbsent(groupName, Module::new);
     }
 
     public Module get(String groupName) {

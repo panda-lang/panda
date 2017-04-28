@@ -102,6 +102,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             if (classDeclaration.size() > 1) {
                 nextLayer.delegate(new ClassPrototypeDeclarationParserCallback(), delegatedInfo);
             }
+
             nextLayer.delegate(new ClassPrototypeBodyParserCallback(), delegatedInfo);
             nextLayer.delegateAfter(new ClassPrototypeAfterCallback(), delegatedInfo);
         }

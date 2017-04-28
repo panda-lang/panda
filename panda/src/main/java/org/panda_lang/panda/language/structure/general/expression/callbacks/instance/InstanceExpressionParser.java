@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression.callbacks.util;
+package org.panda_lang.panda.language.structure.general.expression.callbacks.instance;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
@@ -29,7 +29,6 @@ import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extra
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;

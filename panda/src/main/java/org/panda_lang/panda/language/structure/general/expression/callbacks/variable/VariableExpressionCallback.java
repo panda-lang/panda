@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression.callbacks;
+package org.panda_lang.panda.language.structure.general.expression.callbacks.variable;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Value;

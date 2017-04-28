@@ -14,19 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression;
+package org.panda_lang.panda.language.structure.general.expression.callbacks.number;
 
-public class ExpressionParserUtils {
+import org.panda_lang.panda.utilities.commons.objects.CharacterUtils;
+
+public class NumberUtils {
+
+    private static final char[] NUMBER_EXTENSIONS = new char[]{ 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
 
     public static boolean isNumber(String s) {
+        if (s == null || s.length() == 0) {
+            return false;
+        }
+
+        if (CharacterUtils.belongsTo(s.charAt(s.length()), NUMBER_EXTENSIONS)) {
+            s = s.substring(0, s.length() - 1);
+        }
+
         for (char c : s.toCharArray()) {
-            if (!Character.isDigit(c)) {
+            if (!Character.isDigit(c) && c != '.' && c != '_' && c != ',') {
                 return false;
             }
         }
 
         return true;
     }
-
 
 }

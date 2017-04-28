@@ -28,10 +28,11 @@ import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.InstanceExpressionCallback;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.VariableExpressionCallback;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.util.InstanceExpressionParser;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.variable.VariableExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
 
 public class ExpressionParser implements Parser {
@@ -63,7 +64,7 @@ public class ExpressionParser implements Parser {
                 }
             }
 
-            if (ExpressionParserUtils.isNumber(value)) {
+            if (NumberUtils.isNumber(value)) {
                 return toSimpleKnownExpression("panda.lang:Integer", Integer.parseInt(value));
             }
 
@@ -89,7 +90,7 @@ public class ExpressionParser implements Parser {
     }
 
     private Expression toSimpleKnownExpression(String forName, Object value) {
-        return new Expression(new PandaValue(ModuleRegistry.forName(forName), value));
+        return new Expression(new PandaValue(ClassPrototype.forName(forName), value));
     }
 
 }

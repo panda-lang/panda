@@ -14,7 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.defaults;
+package org.panda_lang.panda.language.composition.prototypes.lang;
+
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 public class ObjectPrototype {
+
+    private static final ClassPrototype INSTANCE;
+
+    static {
+        ModuleRegistry registry = ModuleRegistry.getDefault();
+        Module defaultModule = registry.getOrCreate("panda.lang");
+
+        INSTANCE = defaultModule.createPrototype("Object");
+        defaultModule.add(INSTANCE);
+    }
+
 }

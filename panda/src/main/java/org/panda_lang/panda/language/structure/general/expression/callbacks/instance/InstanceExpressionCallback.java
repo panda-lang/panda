@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression.callbacks;
+package org.panda_lang.panda.language.structure.general.expression.callbacks.instance;
 
 import org.panda_lang.panda.core.structure.value.PandaValue;
 import org.panda_lang.panda.core.structure.value.Value;

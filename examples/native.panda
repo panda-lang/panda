@@ -1,7 +1,0 @@
-group panda-lang;
-
-native java.lang.String as String {
-
-    native trim();
-
-}
