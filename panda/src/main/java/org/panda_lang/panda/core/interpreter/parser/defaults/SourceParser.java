@@ -19,7 +19,7 @@ package org.panda_lang.panda.core.interpreter.parser.defaults;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.interpreter.PandaInterpreter;
 import org.panda_lang.panda.core.interpreter.parser.PandaParserInfo;
-import org.panda_lang.panda.core.interpreter.parser.generation.PandaParserGeneration;
+import org.panda_lang.panda.core.interpreter.parser.generation.PandaCasualParserGeneration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaApplication;
 import org.panda_lang.panda.core.structure.PandaScript;
@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.implementation.lexer.PandaLexer;
 import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
@@ -51,7 +51,7 @@ public class SourceParser implements Parser {
         PandaComposition pandaComposition = panda.getPandaComposition();
         PipelineRegistry pipelineRegistry = pandaComposition.getPipelineRegistry();
 
-        ParserGeneration generation = new PandaParserGeneration();
+        CasualParserGeneration generation = new PandaCasualParserGeneration();
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.PANDA, panda);

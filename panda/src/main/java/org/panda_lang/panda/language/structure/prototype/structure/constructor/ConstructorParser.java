@@ -28,10 +28,10 @@ import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegi
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
@@ -59,17 +59,17 @@ public class ConstructorParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        ParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
 
-        generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new ConstructorExtractorCallback(), info.fork());
+        generation.getLayer(CasualParserGenerationType.HIGHER)
+                .delegateImmediately(new ConstructorExtractorCallbackCasual(), info.fork());
     }
 
     @LocalCallback
-    private static class ConstructorExtractorCallback implements ParserGenerationCallback {
+    private static class ConstructorExtractorCallbackCasual implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
 
@@ -91,16 +91,16 @@ public class ConstructorParser implements UnifiedParser {
             delegatedInfo.setComponent("constructor", constructor);
             prototype.getConstructors().add(constructor);
 
-            nextLayer.delegate(new ConstructorBodyCallback(), delegatedInfo);
+            nextLayer.delegate(new ConstructorBodyCallbackCasual(), delegatedInfo);
         }
 
     }
 
     @LocalCallback
-    private static class ConstructorBodyCallback implements ParserGenerationCallback {
+    private static class ConstructorBodyCallbackCasual implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             ClassScope classScope = delegatedInfo.getComponent("class-scope");
 
             ConstructorScope constructorScope = delegatedInfo.getComponent("constructor-scope");

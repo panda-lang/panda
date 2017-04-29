@@ -17,18 +17,18 @@
 package org.panda_lang.panda.core.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 
-public class PandaParserGeneration implements ParserGeneration {
+public class PandaCasualParserGeneration implements CasualParserGeneration {
 
-    private ParserGenerationLayer currentLayer;
-    private ParserGenerationLayer nextLayer;
+    private CasualParserGenerationLayer currentLayer;
+    private CasualParserGenerationLayer nextLayer;
 
-    public PandaParserGeneration() {
-        this.currentLayer = new PandaParserGenerationLayer();
-        this.nextLayer = new PandaParserGenerationLayer();
+    public PandaCasualParserGeneration() {
+        this.currentLayer = new PandaCasualParserGenerationLayer();
+        this.nextLayer = new PandaCasualParserGenerationLayer();
     }
 
     @Override
@@ -46,13 +46,13 @@ public class PandaParserGeneration implements ParserGeneration {
             }
 
             currentLayer = nextLayer;
-            nextLayer = new PandaParserGenerationLayer();
+            nextLayer = new PandaCasualParserGenerationLayer();
         }
     }
 
     @Override
-    public ParserGenerationLayer getLayer(ParserGenerationType generationType) {
-        return generationType == ParserGenerationType.HIGHER ? currentLayer : nextLayer;
+    public CasualParserGenerationLayer getLayer(CasualParserGenerationType generationType) {
+        return generationType == CasualParserGenerationType.HIGHER ? currentLayer : nextLayer;
     }
 
 }

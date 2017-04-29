@@ -31,10 +31,10 @@ import org.panda_lang.panda.framework.implementation.parser.PandaParserException
 import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
@@ -50,17 +50,17 @@ public class BlockParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        ParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
 
-        generation.getLayer(ParserGenerationType.HIGHER)
-                .delegateImmediately(new BlockDeclarationParserCallback(), info.fork());
+        generation.getLayer(CasualParserGenerationType.HIGHER)
+                .delegateImmediately(new BlockDeclarationCasualParserCallback(), info.fork());
     }
 
     @LocalCallback
-    private static class BlockDeclarationParserCallback implements ParserGenerationCallback {
+    private static class BlockDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
 
@@ -100,16 +100,16 @@ public class BlockParser implements UnifiedParser {
             parentInfo.setComponent("previous-block", block);
 
             delegatedInfo.setComponent("block", block);
-            nextLayer.delegate(new BlockBodyParserCallback(), delegatedInfo);
+            nextLayer.delegate(new BlockBodyCasualParserCallback(), delegatedInfo);
         }
 
     }
 
     @LocalCallback
-    private static class BlockBodyParserCallback implements ParserGenerationCallback {
+    private static class BlockBodyCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, ParserGenerationLayer nextLayer) {
+        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             Container container = delegatedInfo.getComponent("block");
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");

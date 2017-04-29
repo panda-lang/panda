@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.implementation.token.distributor.PandaSour
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
@@ -40,7 +40,7 @@ public class ContainerParser implements Parser {
     }
 
     public void parse(ParserInfo info, TokenizedSource body) {
-        ParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
 
         PipelineRegistry pipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.SCOPE);

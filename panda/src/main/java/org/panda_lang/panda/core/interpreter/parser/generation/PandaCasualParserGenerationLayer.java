@@ -18,21 +18,21 @@ package org.panda_lang.panda.core.interpreter.parser.generation;
 
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGenerationUnit;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationUnit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaParserGenerationLayer implements ParserGenerationLayer {
+public class PandaCasualParserGenerationLayer implements CasualParserGenerationLayer {
 
-    private final List<ParserGenerationUnit> immediately;
-    private final List<ParserGenerationUnit> before;
-    private final List<ParserGenerationUnit> delegates;
-    private final List<ParserGenerationUnit> after;
+    private final List<CasualParserGenerationUnit> immediately;
+    private final List<CasualParserGenerationUnit> before;
+    private final List<CasualParserGenerationUnit> delegates;
+    private final List<CasualParserGenerationUnit> after;
 
-    public PandaParserGenerationLayer() {
+    public PandaCasualParserGenerationLayer() {
         this.immediately = new ArrayList<>();
         this.before = new ArrayList<>(1);
         this.delegates = new ArrayList<>();
@@ -40,20 +40,20 @@ public class PandaParserGenerationLayer implements ParserGenerationLayer {
     }
 
     @Override
-    public void callImmediately(ParserInfo currentInfo, ParserGenerationLayer nextLayer) {
+    public void callImmediately(ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
         call(immediately, currentInfo, nextLayer);
     }
 
     @Override
-    public void call(ParserInfo currentInfo, ParserGenerationLayer nextLayer) {
+    public void call(ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
         call(before, currentInfo, nextLayer);
         call(delegates, currentInfo, nextLayer);
         call(after, currentInfo, nextLayer);
     }
 
-    private void call(List<ParserGenerationUnit> units, ParserInfo currentInfo, ParserGenerationLayer nextLayer) {
-        for (ParserGenerationUnit unit : units) {
-            ParserGenerationCallback callback = unit.getCallback();
+    private void call(List<CasualParserGenerationUnit> units, ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
+        for (CasualParserGenerationUnit unit : units) {
+            CasualParserGenerationCallback callback = unit.getCallback();
             ParserInfo delegatedInfo = unit.getDelegated();
 
             delegatedInfo.setComponent(Components.CURRENT_PARSER_INFO, currentInfo);
@@ -64,27 +64,27 @@ public class PandaParserGenerationLayer implements ParserGenerationLayer {
     }
 
     @Override
-    public ParserGenerationLayer delegateImmediately(ParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegateImmediately(CasualParserGenerationCallback callback, ParserInfo delegated) {
         return delegate(immediately, callback, delegated);
     }
 
     @Override
-    public ParserGenerationLayer delegateBefore(ParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserInfo delegated) {
         return delegate(before, callback, delegated);
     }
 
     @Override
-    public ParserGenerationLayer delegate(ParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegate(CasualParserGenerationCallback callback, ParserInfo delegated) {
         return delegate(delegates, callback, delegated);
     }
 
     @Override
-    public ParserGenerationLayer delegateAfter(ParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserInfo delegated) {
         return delegate(after, callback, delegated);
     }
 
-    public ParserGenerationLayer delegate(List<ParserGenerationUnit> units, ParserGenerationCallback callback, ParserInfo delegated) {
-        ParserGenerationUnit unit = new PandaParserGenerationUnit(callback, delegated);
+    public CasualParserGenerationLayer delegate(List<CasualParserGenerationUnit> units, CasualParserGenerationCallback callback, ParserInfo delegated) {
+        CasualParserGenerationUnit unit = new PandaCasualParserGenerationUnit(callback, delegated);
         units.add(unit);
         return this;
     }

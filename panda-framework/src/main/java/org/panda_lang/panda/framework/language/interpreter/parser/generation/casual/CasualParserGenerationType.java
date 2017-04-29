@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.generation;
+package org.panda_lang.panda.framework.language.interpreter.parser.generation.casual;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+public enum CasualParserGenerationType {
 
-public interface ParserGenerationUnit {
+    HIGHER(0),
+    LOWER(1);
 
-    ParserInfo getDelegated();
+    private final int index;
 
-    ParserGenerationCallback getCallback();
+    CasualParserGenerationType(int index) {
+        this.index = index;
+    }
+
+    public int getIndex() {
+        return index;
+    }
 
 }

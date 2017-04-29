@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.generation;
+package org.panda_lang.panda.framework.language.interpreter.parser.generation.casual;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 
-public interface ParserGeneration {
+public interface CasualParserGenerationCallback {
 
-    void executeImmediately(ParserInfo currentInfo);
-
-    void execute(ParserInfo currentInfo);
-
-    ParserGenerationLayer getLayer(ParserGenerationType generationType);
+    void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer);
 
 }

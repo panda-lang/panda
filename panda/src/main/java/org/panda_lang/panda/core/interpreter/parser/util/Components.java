@@ -20,7 +20,7 @@ import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.structure.Script;
 import org.panda_lang.panda.framework.language.interpreter.Interpreter;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
@@ -60,12 +60,12 @@ public class Components {
     public static final String SOURCE_STREAM = "source-stream";
 
     /**
-     * Used by {@link ParserGeneration}
+     * Used by {@link CasualParserGeneration}
      */
     public static final String GENERATION = "generation";
 
     /**
-     * Used by {@link ParserGeneration}
+     * Used by {@link CasualParserGeneration}
      */
     public static final String CURRENT_PARSER_INFO = "current-parser-info";
 

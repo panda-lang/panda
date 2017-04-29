@@ -21,7 +21,7 @@ import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.ParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
@@ -32,7 +32,7 @@ public class OverallParser {
     private final ParserInfo parserInfo;
     private final ParserPipeline pipeline;
     private final SourceStream stream;
-    private final ParserGeneration generation;
+    private final CasualParserGeneration generation;
 
     public OverallParser(ParserInfo parserInfo) {
         this.parserInfo = parserInfo;
