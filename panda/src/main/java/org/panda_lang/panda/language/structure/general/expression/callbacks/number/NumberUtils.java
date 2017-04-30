@@ -27,17 +27,26 @@ public class NumberUtils {
             return false;
         }
 
-        if (CharacterUtils.belongsTo(s.charAt(s.length()), NUMBER_EXTENSIONS)) {
+        if (CharacterUtils.belongsTo(s.charAt(s.length() - 1), NUMBER_EXTENSIONS)) {
             s = s.substring(0, s.length() - 1);
         }
 
+        if (s.isEmpty()) {
+            return false;
+        }
+
+        boolean digit = false;
+
         for (char c : s.toCharArray()) {
-            if (!Character.isDigit(c) && c != '.' && c != '_' && c != ',') {
+            if (Character.isDigit(c)) {
+                digit = true;
+            }
+            else if (c != '.' && c != '_' && c != ',') {
                 return false;
             }
         }
 
-        return true;
+        return digit;
     }
 
 }
