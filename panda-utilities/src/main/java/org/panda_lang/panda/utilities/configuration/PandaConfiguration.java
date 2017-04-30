@@ -39,6 +39,13 @@ public class PandaConfiguration {
         this.map = configurationParser.getMap();
     }
 
+    public PandaConfiguration(String content) {
+        String[] source = content.split("\n");
+        ConfigurationParser configurationParser = new ConfigurationParser(source);
+
+        this.map = configurationParser.getMap();
+    }
+
     public ConfigurationFile save() {
         if (configuration == null) {
             return null;
@@ -119,11 +126,14 @@ public class PandaConfiguration {
 
     @SuppressWarnings("unchecked")
     public List<String> getStringList(String path) {
-        Object co = map.get(path);
-        if (co != null) {
-            if (co instanceof List) {
+        if (map.containsKey(path)) {
+            Object co = map.get(path);
+
+            if (co != null && co instanceof List) {
                 return (List<String>) co;
             }
+
+            return new ArrayList<>();
         }
         return null;
     }

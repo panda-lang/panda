@@ -191,10 +191,12 @@ public class ConfigurationParser {
                             ConfigurationObject lo = new ConfigurationObject(ConfigurationType.LIST);
                             lo.setObject(entry.getValue());
                             lo.setPosition(position);
-                            this.addEntry(entry.getKey(), lo);
+                            addEntry(entry.getKey(), lo);
+
                             entry = new ConfigurationEntry<>();
                             entry.setValue(new ArrayList<>());
                         }
+
                         break;
                     default:
                         operators.push(c);
@@ -217,27 +219,32 @@ public class ConfigurationParser {
                 case ':':
                     String key = keys.pop();
                     patchPosition(position, lastPosition, keys);
+
                     if (!entry.getValue().isEmpty()) {
                         ConfigurationObject lo = new ConfigurationObject(ConfigurationType.LIST);
                         lo.setObject(entry.getValue());
                         lo.setPosition(position);
-                        this.addEntry(entry.getKey(), lo);
+                        addEntry(ConfigurationUtils.getPath(keys), lo);
+
                         if (keys.size() != 0) {
                             keys.pop();
                         }
+
                         entry = new ConfigurationEntry<>();
                         entry.setValue(new ArrayList<>());
                     }
+
                     keys.push(key);
                     ConfigurationObject co = new ConfigurationObject(ConfigurationType.STRING);
                     co.setObject(string);
                     co.setPosition(position);
-                    this.addEntry(ConfigurationUtils.getPath(keys), co);
+                    addEntry(ConfigurationUtils.getPath(keys), co);
                     keys.pop();
                     break;
             }
             lastPosition = position;
         }
+
         if (!entry.getValue().isEmpty()) {
             ConfigurationObject lo = new ConfigurationObject(ConfigurationType.LIST);
             lo.setObject(entry.getValue());
@@ -263,7 +270,7 @@ public class ConfigurationParser {
     }
 
     @SuppressWarnings("unchecked")
-    protected void print() {
+    public void print() {
         for (Entry<String, ConfigurationObject> entry : this.map.entrySet()) {
             if (entry.getValue().getType() == ConfigurationType.STRING) {
                 String s = (String) entry.getValue().getObject();
