@@ -22,13 +22,13 @@ import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototyp
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 
 @ClassPrototypeRegistrationCall
-public class IntegerPrototype {
+public class IntPrototype {
 
     static {
         ModuleRegistry registry = ModuleRegistry.getDefault();
         Module defaultModule = registry.getOrCreate("panda.lang");
 
-        ClassPrototype prototype = new ClassPrototype(defaultModule, "Integer");
+        ClassPrototype prototype = new ClassPrototype(defaultModule, "Int");
         defaultModule.add(prototype);
     }
 

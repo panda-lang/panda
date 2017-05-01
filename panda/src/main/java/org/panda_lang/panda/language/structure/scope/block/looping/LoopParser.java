@@ -47,7 +47,7 @@ public class LoopParser implements UnifiedParser {
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(info, expressionSource);
 
-        if (!expression.getReturnType().getClassName().equals("Integer")) {
+        if (!expression.getReturnType().getClassName().equals("Int")) {
             throw new PandaParserException("Loop requires number as an argument");
         }
 

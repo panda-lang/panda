@@ -65,7 +65,7 @@ public class ExpressionParser implements Parser {
             }
 
             if (NumberUtils.isNumber(value)) {
-                return toSimpleKnownExpression("panda.lang:Integer", Integer.parseInt(value));
+                return toSimpleKnownExpression("panda.lang:Int", Integer.parseInt(value));
             }
 
             ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);

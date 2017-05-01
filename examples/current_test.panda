@@ -28,7 +28,10 @@ main {
     String s = null;
     s = "Hello Panda x2";
 
-    System.print("Hello Panda", "Test", "X", true, false, varFoo, s, test);
+    Int i = 2;
+    Boolean flag = true;
+
+    System.print("Hello Panda", flag, varFoo, s, test, i);
 
     if (false) {
         System.print("Nope");
@@ -37,10 +40,10 @@ main {
         System.print("Yay");
     }
 
-    loop (2) {
+    loop (i) {
         System.print("Loop x1");
 
-        loop (2) {
+        loop (i) {
             System.print("Loop x2");
             break;
         }
@@ -49,7 +52,7 @@ main {
         System.print("Loop x3");
     }
 
-    while (true) {
+    while (flag) {
         System.print("While x1");
         break;
     }
