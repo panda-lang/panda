@@ -13,10 +13,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.panda_lang</groupId>
-            <artifactId>panda-language</artifactId>
-        </dependency>
-        <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
         </dependency>
