@@ -44,10 +44,10 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.overall.module.Module;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassInstance;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassReference;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassScope;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassReference;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
 
@@ -164,7 +164,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
             Constructor defaultConstructor = new Constructor() {
                 @Override
-                public ClassInstance createInstance(ExecutableBranch bridge, Value... values) {
+                public ClassScopeInstance createInstance(ExecutableBranch bridge, Value... values) {
                     return scope.createInstance();
                 }
 

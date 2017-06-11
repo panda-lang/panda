@@ -18,9 +18,9 @@ package org.panda_lang.panda.language.structure.prototype.structure.constructor.
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassInstance;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassScope;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorScope;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorScopeInstance;
@@ -42,8 +42,8 @@ public class PandaConstructor implements Constructor {
     }
 
     @Override
-    public ClassInstance createInstance(ExecutableBranch bridge, Value... values) {
-        ClassInstance classInstance = classScope.createInstance();
+    public ClassScopeInstance createInstance(ExecutableBranch bridge, Value... values) {
+        ClassScopeInstance classInstance = classScope.createInstance();
         ConstructorScopeInstance constructorInstance = constructorScope.createInstance();
 
         ParameterUtils.assignValues(constructorInstance.getVariables(), values);

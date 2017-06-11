@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure;
+package org.panda_lang.panda.language.structure.prototype.scope;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
-public class ClassInstance implements ScopeInstance {
+public class ClassScopeInstance implements ScopeInstance {
 
     private final ClassScope scope;
     private final ClassPrototype prototype;
     private final Value[] fieldValues;
 
-    public ClassInstance(ClassScope scope, ClassPrototype classPrototype) {
+    public ClassScopeInstance(ClassScope scope, ClassPrototype classPrototype) {
         this.scope = scope;
         this.prototype = classPrototype;
         this.fieldValues = new Value[classPrototype.getFields().size()];

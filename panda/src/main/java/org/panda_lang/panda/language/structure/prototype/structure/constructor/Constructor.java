@@ -18,12 +18,11 @@ package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 public interface Constructor {
 
-    ClassInstance createInstance(ExecutableBranch bridge, Value... values);
+    Object createInstance(ExecutableBranch bridge, Value... values);
 
     ClassPrototype[] getParameterTypes();
 

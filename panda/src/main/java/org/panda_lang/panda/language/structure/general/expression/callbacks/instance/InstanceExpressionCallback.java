@@ -22,7 +22,6 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 
@@ -41,7 +40,7 @@ public class InstanceExpressionCallback implements ExpressionCallback {
     @Override
     public Value call(Expression expression, ExecutableBranch bridge) {
         Value[] values = ExpressionUtils.getValues(bridge, arguments);
-        ClassInstance instance = constructor.createInstance(bridge, values);
+        Object instance = constructor.createInstance(bridge, values);
 
         return new PandaValue(returnType, instance);
     }

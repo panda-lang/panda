@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure;
+package org.panda_lang.panda.language.structure.prototype.scope;
 
 import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.framework.language.structure.Statement;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class ClassScope implements Scope {
     }
 
     @Override
-    public ClassInstance createInstance() {
-        return new ClassInstance(this, prototype);
+    public ClassScopeInstance createInstance() {
+        return new ClassScopeInstance(this, prototype);
     }
 
     @Override
