@@ -32,7 +32,7 @@ public class PandaLauncher {
         Panda panda = pandaFactory.createPanda();
 
         PandaLoader pandaLoader = panda.getPandaLoader();
-        Collection<File> files = FileUtils.findFilesByExtension(new File(System.getProperty("user.dir")), ".panda");
+        Collection<File> files = FileUtils.findFilesByExtension(System.getProperty("user.dir"), ".panda");
 
         for (File file : files) {
             Application application = pandaLoader.loadFiles(file);

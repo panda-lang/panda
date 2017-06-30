@@ -44,6 +44,13 @@ public class FileUtils {
     /**
      * @return collection of file with the specified extension
      */
+    public static Collection<File> findFilesByExtension(String directory, String extension) {
+        return findFilesByExtension(new File(directory), extension);
+    }
+
+    /**
+     * @return collection of file with the specified extension
+     */
     public static Collection<File> findFilesByExtension(File directory, String extension) {
         Collection<File> files = new ArrayList<>();
         findFilesByExtension(directory, extension, files);
