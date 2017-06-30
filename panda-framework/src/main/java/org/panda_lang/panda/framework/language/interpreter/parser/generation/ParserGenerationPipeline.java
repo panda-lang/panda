@@ -20,19 +20,19 @@ import java.util.List;
 
 public interface ParserGenerationPipeline {
 
-    void addAfter(String baseName, String name, ParserGenerationLayer handler);
+    void addAfter(String baseName, String name, ParserGenerationHandler handler);
 
-    void addBefore(String baseName, String name, ParserGenerationLayer handler);
+    void addBefore(String baseName, String name, ParserGenerationHandler handler);
 
-    void addFirst(String name, ParserGenerationLayer handler);
+    void addFirst(String name, ParserGenerationHandler handler);
 
-    void addLast(String name, ParserGenerationLayer handler);
+    void addLast(String name, ParserGenerationHandler handler);
 
-    ParserGenerationLayer get(String name);
+    ParserGenerationHandler get(String name);
 
-    ParserGenerationLayer first();
+    ParserGenerationHandler first();
 
-    ParserGenerationLayer last();
+    ParserGenerationHandler last();
 
     List<String> names();
 

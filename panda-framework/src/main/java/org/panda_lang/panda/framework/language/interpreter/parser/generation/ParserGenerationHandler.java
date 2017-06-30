@@ -18,15 +18,15 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 
-public interface ParserGenerationLayer {
+public interface ParserGenerationHandler {
 
     void callDelegates(ParserGenerationPipeline pipeline, ParserInfo info);
 
-    ParserGenerationLayer delegateBefore(ParserGenerationCallback callback, ParserInfo delegated);
+    ParserGenerationHandler delegateBefore(ParserGenerationCallback callback, ParserInfo delegated);
 
-    ParserGenerationLayer delegate(ParserGenerationCallback callback, ParserInfo delegated);
+    ParserGenerationHandler delegate(ParserGenerationCallback callback, ParserInfo delegated);
 
-    ParserGenerationLayer delegateAfter(ParserGenerationCallback callback, ParserInfo delegated);
+    ParserGenerationHandler delegateAfter(ParserGenerationCallback callback, ParserInfo delegated);
 
     int countDelegates();
 
