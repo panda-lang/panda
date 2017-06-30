@@ -57,16 +57,16 @@ public class PandaSyntax implements Syntax {
 
         Comparator<Token> tokenComparator = new Comparator<Token>() {
             @Override
-            public int compare(Token t, Token t1) {
-                return Integer.compare(t1.getTokenValue().length(), t.getTokenValue().length());
+            public int compare(Token x, Token y) {
+                return Integer.compare(y.getTokenValue().length(), x.getTokenValue().length());
             }
         };
 
-        Collections.sort(keywords, tokenComparator);
-        Collections.sort(literals, tokenComparator);
-        Collections.sort(separators, tokenComparator);
-        Collections.sort(operators, tokenComparator);
-        Collections.sort(sequences, tokenComparator);
+        keywords.sort(tokenComparator);
+        literals.sort(tokenComparator);
+        separators.sort(tokenComparator);
+        operators.sort(tokenComparator);
+        sequences.sort(tokenComparator);
     }
 
     public void setSpecialCharacters(char[] specialCharacters) {
