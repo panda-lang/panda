@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.implementation.token.distributor.PandaSour
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
@@ -74,7 +75,7 @@ public class ArgumentParser implements Parser {
         Expression expression = expressionParser.parse(info, argument);
 
         if (expression == null) {
-            throw new PandaParserException("Cannot parse argument " + argument + " at line " + (argument.get(0).getLine() + 1));
+            throw new PandaParserException("Cannot parse argument " + argument + " at line " + TokenUtils.getLine(argument));
         }
 
         return expression;

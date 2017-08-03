@@ -40,6 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.uti
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
@@ -140,7 +141,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 UnifiedParser parser = pipeline.handle(stream);
 
                 if (parser == null) {
-                    throw new PandaParserException("Cannot parse the element of prototype at line " + (stream.toTokenizedSource().get(0).getLine() + 1));
+                    throw new PandaParserException("Cannot parse the element of prototype at line " + TokenUtils.getLine(stream.toTokenizedSource()));
                 }
 
                 parser.parse(bodyInfo);

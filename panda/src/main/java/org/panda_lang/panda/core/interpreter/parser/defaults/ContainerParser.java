@@ -55,7 +55,7 @@ public class ContainerParser implements Parser {
             UnifiedParser parser = pipeline.handle(stream);
 
             if (parser == null) {
-                throw new PandaParserException("Unrecognized syntax at line " + (stream.read().getLine() + 1));
+                throw new PandaParserException("Unrecognized syntax at line " + TokenUtils.getLine(stream.toTokenizedSource()));
             }
 
             int sourceLength = stream.getUnreadLength();

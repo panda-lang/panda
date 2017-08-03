@@ -40,6 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.cas
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
@@ -143,7 +144,7 @@ public class VariableParser implements UnifiedParser {
             Variable variable = delegatedInfo.getComponent("variable");
 
             if (!variable.getVariableType().equals(expression.getReturnType())) {
-                throw new PandaParserException("Return type is incompatible with the type of variable at line " + (right.get(0).getLine() + 1));
+                throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
             }
 
             Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
