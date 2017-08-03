@@ -1,4 +1,4 @@
-# Panda
+# Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda)
 Panda is a lightweight and powerful programming language written in Java<br>
 Project website: https://panda-lang.org/
 
