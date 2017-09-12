@@ -1,4 +1,4 @@
-# Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda)
+# Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/78f7e7778c894a30a7c59d8e7680be24)](https://www.codacy.com/app/dzikoysk/Panda?utm_source=github.com&utm_medium=referral&utm_content=Panda-Programming-Language/Panda&utm_campaign=badger)
 Panda is a lightweight and powerful programming language written in Java<br>
 Project website: https://panda-lang.org/
 
