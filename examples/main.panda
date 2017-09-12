@@ -1,4 +1,4 @@
-module example;
+module example.test;
 
 main {
     App app = new App();
@@ -7,7 +7,7 @@ main {
 
 class App {
 
-    static String version = "indev-0.2.1-SNAPSHOT";
+    static String version = "indev-0.2.2-SNAPSHOT";
 
     constructor App() {
         System.print(getVersion());

@@ -1,0 +1,7 @@
+module example.test;
+
+class Foo {
+
+    constructor() { }
+
+}

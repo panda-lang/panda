@@ -50,14 +50,14 @@ public class PandaApplication implements Application {
                 process.execute();
 
                 System.out.println("[PandaApp] Done");
-            }
-            else if (mains.size() == 0) {
-                throw new RuntimeException("Main statement not found");
+                return;
             }
             else if (mains.size() > 1) {
                 throw new RuntimeException("Duplicated main statement");
             }
         }
+
+        throw new RuntimeException("Main statement not found");
     }
 
     public void addScript(Script script) {

@@ -33,6 +33,16 @@ public class PandaLoader {
         this.panda = panda;
     }
 
+    public PandaApplication loadFiles(String... paths) {
+        File[] files = new File[paths.length];
+
+        for (int i = 0; i < files.length; i++) {
+            files[i] = new File(paths[i]);
+        }
+
+        return load(new FileSourceProvider(files));
+    }
+
     public PandaApplication loadFiles(File... files) {
         return load(new FileSourceProvider(files));
     }

@@ -86,7 +86,7 @@ public class ExpressionParser implements Parser {
             return new Expression(callback.getReturnType(), callback);
         }
 
-        return null;
+        throw new RuntimeException("Cannot recognize expression: " + expressionSource.toString());
     }
 
     private Expression toSimpleKnownExpression(String forName, Object value) {

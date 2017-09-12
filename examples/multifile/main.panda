@@ -1,0 +1,8 @@
+module example.test;
+
+import panda.lang;
+
+main {
+    Foo foo = new Foo();
+    System.print(foo);
+}

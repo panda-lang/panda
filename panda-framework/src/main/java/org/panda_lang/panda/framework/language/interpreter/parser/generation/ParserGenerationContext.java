@@ -18,26 +18,8 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 
-import java.util.List;
+public interface ParserGenerationContext {
 
-public interface ParserGenerationPipeline {
-
-    void execute(ParserInfo info);
-
-    void addAfter(String baseName, String name, ParserGenerationHandler handler);
-
-    void addBefore(String baseName, String name, ParserGenerationHandler handler);
-
-    void addFirst(String name, ParserGenerationHandler handler);
-
-    void addLast(String name, ParserGenerationHandler handler);
-
-    ParserGenerationHandler get(String name);
-
-    ParserGenerationHandler first();
-
-    ParserGenerationHandler last();
-
-    List<String> names();
+    void fireHandle(ParserGenerationCallback callback, ParserInfo delegated);
 
 }

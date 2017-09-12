@@ -4,6 +4,10 @@ import panda.lang;
 
 class Foo extends Test {
 
+    method anotherEcho(String message) {
+        System.print(message);
+    }
+
 }
 
 class Test {
