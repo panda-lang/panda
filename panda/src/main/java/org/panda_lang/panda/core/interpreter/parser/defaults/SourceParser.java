@@ -47,16 +47,15 @@ public class SourceParser implements Parser {
 
     public void parse(SourceSet sourceSet) {
         Panda panda = interpreter.getPanda();
-
         PandaComposition pandaComposition = panda.getPandaComposition();
         ParserPipelineRegistry parserPipelineRegistry = pandaComposition.getPipelineRegistry();
-
-        CasualParserGeneration generation = new PandaCasualParserGeneration();
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.PANDA, panda);
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
         parserInfo.setComponent(Components.PIPELINE_REGISTRY, parserPipelineRegistry);
+
+        CasualParserGeneration generation = new PandaCasualParserGeneration();
         parserInfo.setComponent(Components.GENERATION, generation);
 
         for (Source source : sourceSet.getSources()) {
@@ -66,9 +65,9 @@ public class SourceParser implements Parser {
             TokenizedSource tokenizedSource = lexer.convert();
             PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
 
+            parserInfo = parserInfo.fork();
             parserInfo.setComponent(Components.SOURCE_STREAM, sourceStream);
             parserInfo.setComponent(Components.SCRIPT, pandaScript);
-
             OverallParser overallParser = new OverallParser(parserInfo);
 
             while (overallParser.hasNext()) {
@@ -80,6 +79,7 @@ public class SourceParser implements Parser {
 
         generation.execute(parserInfo);
 
+        // debug
         for (Script script : application.getScripts()) {
             System.out.println(script.toString());
         }

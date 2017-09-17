@@ -16,12 +16,29 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.PandaParserPipelineRegistry;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
+import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 
 public class PandaBootstrap {
 
-    private PandaSyntax syntax;
-    private PandaParserPipelineRegistry registry;
+    protected Syntax syntax;
+    protected ParserPipelineRegistry registry;
+    protected GenerationInitializer generationInitializer;
+
+    public PandaBootstrap syntax(Syntax syntax) {
+        this.syntax = syntax;
+        return this;
+    }
+
+    public PandaBootstrap addGenerationHandler(GenerationInitializer initializer) {
+        this.generationInitializer = initializer;
+        return this;
+    }
+
+    public PandaApplication createApplication() {
+        PandaBootstrapBuilder applicationBuilder = new PandaBootstrapBuilder(this);
+        return applicationBuilder.build();
+    }
 
 }

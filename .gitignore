@@ -47,6 +47,7 @@ buildNumber.properties
 # IntelliJ
 /out/
 /bin/
+/notes
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/

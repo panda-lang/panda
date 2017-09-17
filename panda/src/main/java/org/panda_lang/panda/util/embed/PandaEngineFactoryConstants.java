@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.util.embed;
 
+import org.panda_lang.panda.PandaConstants;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +31,12 @@ public class PandaEngineFactoryConstants {
     /**
      * Panda version
      */
-    public static final String VERSION = "indev-0.2.1-SNAPSHOT";
+    public static final String VERSION = PandaConstants.VERSION;
 
     /**
      * Engine name
      */
-    public static final String ENGINE_NAME = "Panda";
+    public static final String ENGINE_NAME = "Panda Engine";
 
     /**
      * Engine version
