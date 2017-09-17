@@ -24,12 +24,12 @@ import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaApplication;
 import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.core.structure.Script;
-import org.panda_lang.panda.framework.implementation.lexer.PandaLexer;
-import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.implementation.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
@@ -49,14 +49,14 @@ public class SourceParser implements Parser {
         Panda panda = interpreter.getPanda();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
-        PipelineRegistry pipelineRegistry = pandaComposition.getPipelineRegistry();
+        ParserPipelineRegistry parserPipelineRegistry = pandaComposition.getPipelineRegistry();
 
         CasualParserGeneration generation = new PandaCasualParserGeneration();
 
         ParserInfo parserInfo = new PandaParserInfo();
         parserInfo.setComponent(Components.PANDA, panda);
         parserInfo.setComponent(Components.INTERPRETER, interpreter);
-        parserInfo.setComponent(Components.PIPELINE_REGISTRY, pipelineRegistry);
+        parserInfo.setComponent(Components.PIPELINE_REGISTRY, parserPipelineRegistry);
         parserInfo.setComponent(Components.GENERATION, generation);
 
         for (Source source : sourceSet.getSources()) {

@@ -21,7 +21,7 @@ import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.value.PandaValue;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.Token;

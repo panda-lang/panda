@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.scope.branching;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.language.syntax.Keywords;
+import org.panda_lang.panda.language.syntax.tokens.Keywords;
 
 public class ReturnParserHandler implements ParserHandler {
 

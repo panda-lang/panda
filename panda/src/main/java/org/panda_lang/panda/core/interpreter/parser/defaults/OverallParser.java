@@ -18,12 +18,12 @@ package org.panda_lang.panda.core.interpreter.parser.defaults;
 
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 
@@ -37,8 +37,8 @@ public class OverallParser {
     public OverallParser(ParserInfo parserInfo) {
         this.parserInfo = parserInfo;
 
-        PipelineRegistry pipelineRegistry = parserInfo.getComponent(Components.PIPELINE_REGISTRY);
-        this.pipeline = pipelineRegistry.getPipeline(DefaultPipelines.OVERALL);
+        ParserPipelineRegistry parserPipelineRegistry = parserInfo.getComponent(Components.PIPELINE_REGISTRY);
+        this.pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.OVERALL);
 
         this.stream = parserInfo.getComponent(Components.SOURCE_STREAM);
         this.generation = parserInfo.getComponent(Components.GENERATION);

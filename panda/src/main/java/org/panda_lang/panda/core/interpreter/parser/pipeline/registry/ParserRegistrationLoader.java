@@ -30,8 +30,8 @@ import java.util.Set;
 
 public class ParserRegistrationLoader {
 
-    public PandaPipelineRegistry load() {
-        PandaPipelineRegistry registry = new PandaPipelineRegistry();
+    public PandaParserPipelineRegistry load() {
+        PandaParserPipelineRegistry registry = new PandaParserPipelineRegistry();
 
         try {
             load(registry);
@@ -42,7 +42,7 @@ public class ParserRegistrationLoader {
         return registry;
     }
 
-    protected void load(PandaPipelineRegistry registry) throws Exception {
+    protected void load(PandaParserPipelineRegistry registry) throws Exception {
         ConfigurationBuilder config = new ConfigurationBuilder();
         config.setClassLoaders(new ClassLoader[]{ getClass().getClassLoader() });
         config.addUrls(Panda.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());

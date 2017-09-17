@@ -27,8 +27,8 @@ import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegi
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.dynamic.Block;
 import org.panda_lang.panda.core.structure.wrapper.Container;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -37,11 +37,11 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.cas
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.language.PandaSyntax;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = BlockParser.class, handlerClass = BlockParserHandler.class, priority = DefaultPriorities.BLOCK_PARSER)
 public class BlockParser implements UnifiedParser {
@@ -67,8 +67,8 @@ public class BlockParser implements UnifiedParser {
             redactor.map("block-declaration", "block-body");
             delegatedInfo.setComponent("redactor", redactor);
 
-            PipelineRegistry pipelineRegistry = delegatedInfo.getComponent(Components.PIPELINE_REGISTRY);
-            ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.BLOCK);
+            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(Components.PIPELINE_REGISTRY);
+            ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.BLOCK);
 
             TokenizedSource blockDeclaration = redactor.get("block-declaration");
             SourceStream declarationStream = new PandaSourceStream(blockDeclaration);

@@ -19,14 +19,14 @@ package org.panda_lang.panda.core.interpreter.parser.defaults;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.wrapper.Container;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
@@ -42,8 +42,8 @@ public class ContainerParser implements Parser {
     public void parse(ParserInfo info, TokenizedSource body) {
         CasualParserGeneration generation = info.getComponent(Components.GENERATION);
 
-        PipelineRegistry pipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
-        ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
+        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
+        ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
         info.setComponent(Components.SOURCE_STREAM, stream);

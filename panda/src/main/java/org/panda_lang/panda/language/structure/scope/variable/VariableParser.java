@@ -31,7 +31,7 @@ import org.panda_lang.panda.core.structure.value.PandaVariable;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Container;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;

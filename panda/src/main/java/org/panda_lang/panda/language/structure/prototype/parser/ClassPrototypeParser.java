@@ -28,8 +28,8 @@ import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegi
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.framework.implementation.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.cas
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
@@ -126,8 +126,8 @@ public class ClassPrototypeParser implements UnifiedParser {
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             Panda panda = delegatedInfo.getComponent(Components.PANDA);
-            PipelineRegistry pipelineRegistry = panda.getPandaComposition().getPipelineRegistry();
-            ParserPipeline pipeline = pipelineRegistry.getPipeline(DefaultPipelines.PROTOTYPE);
+            ParserPipelineRegistry parserPipelineRegistry = panda.getPandaComposition().getPipelineRegistry();
+            ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.PROTOTYPE);
 
             TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource bodySource = redactor.get("class-body");

@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.cas
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.language.PandaSyntax;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Return;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;

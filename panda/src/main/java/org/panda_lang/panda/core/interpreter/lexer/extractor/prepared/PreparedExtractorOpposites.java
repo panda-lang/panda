@@ -18,7 +18,7 @@ package org.panda_lang.panda.core.interpreter.lexer.extractor.prepared;
 
 import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.Separator;
-import org.panda_lang.panda.language.syntax.Separators;
+import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 import java.util.Stack;
 
