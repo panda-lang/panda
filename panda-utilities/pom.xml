@@ -4,14 +4,19 @@
 
     <parent>
         <artifactId>panda-parent</artifactId>
-        <groupId>org.panda_lang</groupId>
-        <version>indev-0.2.2-SNAPSHOT</version>
+        <groupId>org.panda-lang</groupId>
+        <version>indev-0.2.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda-utilities</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+        </dependency>
+
         <!-- Logging -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

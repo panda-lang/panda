@@ -4,25 +4,25 @@
 
     <parent>
         <artifactId>panda-parent</artifactId>
-        <groupId>org.panda_lang</groupId>
-        <version>indev-0.2.2-SNAPSHOT</version>
+        <groupId>org.panda-lang</groupId>
+        <version>indev-0.2.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda-framework</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- Panda Utilities -->
         <dependency>
-            <groupId>org.panda_lang</groupId>
+            <groupId>org.panda-lang</groupId>
             <artifactId>panda-utilities</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains</groupId>
-            <artifactId>annotations</artifactId>
-        </dependency>
+
+        <!-- Tests -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

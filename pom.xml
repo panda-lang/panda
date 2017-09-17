@@ -3,9 +3,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <name>Panda</name>
-    <groupId>org.panda_lang</groupId>
+    <groupId>org.panda-lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-0.2.2-SNAPSHOT</version>
+    <version>indev-0.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <scm>
         <connection>scm:git:https://github.com/Panda-Programming-Language/Panda.git</connection>
@@ -42,17 +42,17 @@
         <dependencies>
             <!-- Panda -->
             <dependency>
-                <groupId>org.panda_lang</groupId>
+                <groupId>org.panda-lang</groupId>
                 <artifactId>panda</artifactId>
                 <version>${panda.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.panda_lang</groupId>
+                <groupId>org.panda-lang</groupId>
                 <artifactId>panda-framework</artifactId>
                 <version>${panda.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.panda_lang</groupId>
+                <groupId>org.panda-lang</groupId>
                 <artifactId>panda-utilities</artifactId>
                 <version>${panda.version}</version>
             </dependency>

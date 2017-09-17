@@ -4,14 +4,21 @@
 
     <parent>
         <artifactId>panda-parent</artifactId>
-        <groupId>org.panda_lang</groupId>
-        <version>indev-0.2.2-SNAPSHOT</version>
+        <groupId>org.panda-lang</groupId>
+        <version>indev-0.2.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- Panda Framework -->
+        <dependency>
+            <groupId>org.panda-lang</groupId>
+            <artifactId>panda-framework</artifactId>
+        </dependency>
+
+        <!-- Runtime -->
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
@@ -24,13 +31,12 @@
             <groupId>com.esotericsoftware</groupId>
             <artifactId>reflectasm</artifactId>
         </dependency>
+
+        <!-- Tests -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.panda_lang</groupId>
-            <artifactId>panda-framework</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
