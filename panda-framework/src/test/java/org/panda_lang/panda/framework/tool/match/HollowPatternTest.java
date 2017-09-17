@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.tool.match;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.panda_lang.panda.framework.implementation.PandaFramework;
 import org.panda_lang.panda.utilities.redact.match.text.TextHollowPattern;
 
 public class HollowPatternTest {
@@ -29,8 +30,8 @@ public class HollowPatternTest {
         TextHollowPattern hollowPattern = TextHollowPattern.builder().compile("*.*(*)*").build();
         boolean matched = hollowPattern.match(EXPRESSION);
 
-        System.out.println("[HollowPattern] Matched: " + matched);
-        System.out.println("[HollowPattern] " + hollowPattern.getHollows());
+        PandaFramework.getLogger().info("[HollowPattern] Matched: " + matched);
+        PandaFramework.getLogger().info("[HollowPattern] " + hollowPattern.getHollows());
 
         Assert.assertEquals(matched, true);
     }
