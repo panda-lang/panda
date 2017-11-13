@@ -19,6 +19,7 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.core.interpreter.PandaInterpreter;
 import org.panda_lang.panda.core.structure.PandaApplication;
 import org.panda_lang.panda.framework.implementation.PandaFrameworkException;
+import org.panda_lang.panda.framework.implementation.interpreter.source.providers.DirectorySourceProvider;
 import org.panda_lang.panda.framework.implementation.interpreter.source.providers.FileSourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.SourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
@@ -45,6 +46,10 @@ public class PandaLoader {
 
     public PandaApplication loadFiles(File... files) {
         return load(new FileSourceProvider(files));
+    }
+
+    public PandaApplication loadDirectory(File directory) {
+        return load(new DirectorySourceProvider(directory));
     }
 
     public PandaApplication load(SourceProvider provider) {

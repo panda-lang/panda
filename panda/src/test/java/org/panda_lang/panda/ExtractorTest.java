@@ -21,11 +21,11 @@ import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
 import org.panda_lang.panda.language.composition.PandaComposition;
 
 import java.util.List;
@@ -40,7 +40,7 @@ public class ExtractorTest {
         Panda panda = pandaFactory.createPanda();
 
         PandaComposition pandaComposition = panda.getPandaComposition();
-        PandaSyntax syntaxComposition = pandaComposition.getSyntax();
+        Syntax syntaxComposition = pandaComposition.getSyntax();
 
         Lexer lexer = new PandaLexer(syntaxComposition, SOURCE);
         TokenizedSource tokenizedSource = lexer.convert();

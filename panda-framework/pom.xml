@@ -5,7 +5,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-0.2.3-SNAPSHOT</version>
+        <version>indev-0.2.4-SNAPSHOT</version>
     </parent>
 
     <artifactId>panda-framework</artifactId>
@@ -16,6 +16,10 @@
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda-utilities</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
 
         <!-- Tests -->

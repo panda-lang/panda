@@ -18,14 +18,15 @@ package org.panda_lang.panda.language.composition;
 
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.PandaParserPipelineRegistry;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistrationLoader;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistry;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 public class PandaComposition {
 
-    private final PandaSyntax syntax;
     private final PandaParserPipelineRegistry pipelineRegistry;
     private final ClassPrototypeRegistry prototypeRegistry;
+    private Syntax syntax;
 
     public PandaComposition() {
         this.syntax = PandaSyntax.getInstance();
@@ -36,6 +37,10 @@ public class PandaComposition {
         this.prototypeRegistry = new ClassPrototypeRegistry();
     }
 
+    public void setSyntax(Syntax syntax) {
+        this.syntax = syntax;
+    }
+
     public ClassPrototypeRegistry getPrototypeRegistry() {
         return prototypeRegistry;
     }
@@ -44,7 +49,7 @@ public class PandaComposition {
         return pipelineRegistry;
     }
 
-    public PandaSyntax getSyntax() {
+    public Syntax getSyntax() {
         return syntax;
     }
 

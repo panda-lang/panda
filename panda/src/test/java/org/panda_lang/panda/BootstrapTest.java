@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.junit.Test;
-import org.panda_lang.panda.bootstrap.GenerationInitializer;
+import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.core.structure.PandaApplication;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
@@ -26,17 +26,15 @@ public class BootstrapTest {
 
     @Test
     public void testBootstrap() {
-        PandaApplication application = new PandaBootstrap()
+        Panda panda = new PandaBootstrap()
                 .syntax(PandaSyntax.getInstance())
-                .addGenerationHandler(new GenerationInitializer() {
-                    @Override
-                    public void initGeneration() {
+                .get();
 
-                    }
-                })
+        PandaApplication application = new PandaApplicationBootstrap(panda)
+                .source("../examples/multifile/")
                 .createApplication();
 
-        // application.launch();
+        application.launch();
     }
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 
@@ -36,9 +36,11 @@ public class PandaBootstrap {
         return this;
     }
 
-    public PandaApplication createApplication() {
-        PandaBootstrapBuilder applicationBuilder = new PandaBootstrapBuilder(this);
-        return applicationBuilder.build();
+    public Panda get() {
+        Panda panda = new Panda();
+        panda.getPandaComposition().setSyntax(syntax);
+        // init
+        return panda;
     }
 
 }

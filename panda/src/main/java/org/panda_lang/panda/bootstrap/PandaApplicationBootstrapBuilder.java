@@ -16,18 +16,27 @@
 
 package org.panda_lang.panda.bootstrap;
 
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.core.structure.PandaApplication;
 
-public class PandaBootstrapBuilder {
+public class PandaApplicationBootstrapBuilder {
 
-    private final PandaBootstrap bootstrap;
+    private final PandaApplicationBootstrap applicationBootstrap;
 
-    protected PandaBootstrapBuilder(PandaBootstrap bootstrap) {
-        this.bootstrap = bootstrap;
+    protected PandaApplicationBootstrapBuilder(PandaApplicationBootstrap applicationBootstrap) {
+        this.applicationBootstrap = applicationBootstrap;
     }
 
     protected PandaApplication build() {
-        return null;
+        Panda panda = applicationBootstrap.panda;
+        PandaLoader loader = panda.getPandaLoader();
+
+        if (applicationBootstrap.source.isDirectory()) {
+            return loader.loadDirectory(applicationBootstrap.source);
+        }
+
+        return loader.loadFiles(applicationBootstrap.source);
     }
 
 }
