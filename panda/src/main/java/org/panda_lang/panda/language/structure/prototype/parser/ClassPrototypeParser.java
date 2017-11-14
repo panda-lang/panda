@@ -68,11 +68,11 @@ public class ClassPrototypeParser implements UnifiedParser {
         CasualParserGeneration generation = info.getComponent(Components.GENERATION);
 
         generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new ClassPrototypeExtractorCallbackCasual(), info.fork());
+                .delegateImmediately(new ClassPrototypeExtractorCasualCallback(), info.fork());
     }
 
     @LocalCallback
-    private static class ClassPrototypeExtractorCallbackCasual implements CasualParserGenerationCallback {
+    private static class ClassPrototypeExtractorCasualCallback implements CasualParserGenerationCallback {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
@@ -105,7 +105,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             }
 
             nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(), delegatedInfo);
-            nextLayer.delegateAfter(new ClassPrototypeAfterCallbackCasual(), delegatedInfo);
+            nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), delegatedInfo);
         }
 
     }
@@ -141,7 +141,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 UnifiedParser parser = pipeline.handle(stream);
 
                 if (parser == null) {
-                    throw new PandaParserException("Cannot parse the element of prototype at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+                    throw new PandaParserException("Cannot parse the element of the prototype at line " + TokenUtils.getLine(stream.toTokenizedSource()));
                 }
 
                 parser.parse(bodyInfo);
@@ -152,7 +152,7 @@ public class ClassPrototypeParser implements UnifiedParser {
     }
 
     @LocalCallback
-    private static class ClassPrototypeAfterCallbackCasual implements CasualParserGenerationCallback {
+    private static class ClassPrototypeAfterCasualCallback implements CasualParserGenerationCallback {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {

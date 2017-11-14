@@ -20,6 +20,7 @@ import org.junit.Test;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 public class BootstrapTest {
@@ -28,6 +29,7 @@ public class BootstrapTest {
     public void testBootstrap() {
         Panda panda = new PandaBootstrap()
                 .syntax(PandaSyntax.getInstance())
+                .mapModels(ClassPrototypeModel.of("panda.lang"))
                 .get();
 
         PandaApplication application = new PandaApplicationBootstrap(panda)

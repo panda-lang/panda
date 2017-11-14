@@ -17,17 +17,29 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModelLoader;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class PandaBootstrap {
 
     protected Syntax syntax;
     protected ParserPipelineRegistry registry;
+    protected Collection<Collection<Class<? extends ClassPrototypeModel>>> modelsCollection = new ArrayList<>();
     protected GenerationInitializer generationInitializer;
 
     public PandaBootstrap syntax(Syntax syntax) {
         this.syntax = syntax;
+        return this;
+    }
+
+    public PandaBootstrap mapModels(Collection<Class<? extends ClassPrototypeModel>> models) {
+        this.modelsCollection.add(models);
         return this;
     }
 
@@ -37,9 +49,16 @@ public class PandaBootstrap {
     }
 
     public Panda get() {
-        Panda panda = new Panda();
+        PandaFactory factory = new PandaFactory();
+
+        Panda panda = factory.createPanda();
         panda.getPandaComposition().setSyntax(syntax);
-        // init
+
+        ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(panda);
+        for (Collection<Class<? extends ClassPrototypeModel>> models : modelsCollection) {
+            modelLoader.load(models);
+        }
+
         return panda;
     }
 
