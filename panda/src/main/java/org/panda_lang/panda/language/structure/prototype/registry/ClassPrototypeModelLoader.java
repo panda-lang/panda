@@ -16,8 +16,24 @@
 
 package org.panda_lang.panda.language.structure.prototype.registry;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.MethodDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
+import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.Collection;
 
 public class ClassPrototypeModelLoader {
@@ -28,8 +44,72 @@ public class ClassPrototypeModelLoader {
         this.panda = panda;
     }
 
-    public void load(Collection<Class<? extends ClassPrototypeModel>> models) {
+    public void load(Collection<Class<? extends ClassPrototypeModel>> models)  {
+        try {
+            loadModels(models);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @SuppressWarnings("unchecked")
+    private void loadModels(Collection<Class<? extends ClassPrototypeModel>> models) throws Exception {
+        ClassPool pool = ClassPool.getDefault();
+
+        CtClass objectCtClass = pool.getCtClass(Object.class.getName());
+        CtClass methodCallbackCtClass = pool.get(MethodCallback.class.getName());
+        CtClass executableBranchCtClass = pool.get(ExecutableBranch.class.getName());
+        CtClass valueArrayCtClass = pool.get(Value[].class.getName());
+
+        for (Class<? extends ClassPrototypeModel> modelClass : models) {
+            ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
+
+            ModuleRegistry registry = ModuleRegistry.getDefault();
+            Module defaultModule = registry.getOrCreate(moduleDeclaration.value());
+
+            ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
+            ClassPrototype prototype = new ClassPrototype(defaultModule, classDeclaration.value());
+            defaultModule.add(prototype);
+
+
+            for (Method method : modelClass.getMethods()) {
+                MethodDeclaration methodInfo = method.getAnnotation(MethodDeclaration.class);
+
+                if (methodInfo == null) {
+                    continue;
+                }
+
+                String methodCallbackClassName = modelClass.getSimpleName() + StringUtils.capitalize(method.getName()) + "MethodCallback";
+                CtClass generatedMethodCallbackClass = pool.makeClass(methodCallbackClassName);
+                generatedMethodCallbackClass.addInterface(generatedMethodCallbackClass);
+
+                Parameter parameter = method.getParameters()[1];
+                CtClass parameterCtClass = pool.getCtClass(parameter.getType().getName());
+
+                CtMethod callbackImplementation = new CtMethod(objectCtClass, "invoke", new CtClass[] { executableBranchCtClass, objectCtClass, valueArrayCtClass}, generatedMethodCallbackClass);
+                if (methodInfo.isStatic()) {
+                    callbackImplementation.setBody("return " + modelClass.getName() + "." + method.getName() + "($1, $2, $3);");
+                } else {
+                    callbackImplementation.setBody("{ " +
+                            modelClass.getName() + " typedInstance = (" + modelClass.getName() + ") $2;" +
+                            "return typedInstance." + method.getName() + "($1, typedInstance, $3);"
+                    + " }");
+                }
+                generatedMethodCallbackClass.addMethod(callbackImplementation);
+
+                Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
+                MethodCallback<?> methodCallback = methodCallbackClass.newInstance();
+
+                PandaMethod pandaMethod = PandaMethod.builder()
+                        .methodName(method.getName())
+                        .prototype(prototype)
+                        .isStatic(methodInfo.isStatic())
+                        .visibility(methodInfo.visibility())
+                        .methodBody(methodCallback)
+                        .build();
+                prototype.getMethods().registerMethod(pandaMethod);
+            }
+        }
     }
 
 }

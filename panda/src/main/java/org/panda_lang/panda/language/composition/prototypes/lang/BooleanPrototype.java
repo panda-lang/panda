@@ -16,20 +16,13 @@
 
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
-import org.panda_lang.panda.language.structure.overall.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
 
-@ClassPrototypeRegistrationCall
-public class BooleanPrototype {
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 
-    static {
-        ModuleRegistry registry = ModuleRegistry.getDefault();
-        Module defaultModule = registry.getOrCreate("panda.lang");
-
-        ClassPrototype prototype = new ClassPrototype(defaultModule, "Boolean");
-        defaultModule.add(prototype);
-    }
+@ClassDeclaration("Boolean")
+@ModuleDeclaration("panda.lang")
+public class BooleanPrototype implements ClassPrototypeModel {
 
 }

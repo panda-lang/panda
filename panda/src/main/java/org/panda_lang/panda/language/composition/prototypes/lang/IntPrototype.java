@@ -19,13 +19,15 @@ package org.panda_lang.panda.language.composition.prototypes.lang;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
-@ClassPrototypeModel.PandaClass("Int")
-@ClassPrototypeModel.PandaModule("panda.lang")
+@ClassDeclaration("Int")
+@ModuleDeclaration("panda.lang")
 public class IntPrototype implements ClassPrototypeModel {
 
-    @ClassPrototypeModel.PandaMethod(visibility = MethodVisibility.PUBLIC, isStatic = false, returnType = "panda.lang:String")
+    @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = false, returnType = "panda.lang:String")
     public String asString(ExecutableBranch bridge, int instance, Value... parameters) {
         return Integer.toString(instance);
     }

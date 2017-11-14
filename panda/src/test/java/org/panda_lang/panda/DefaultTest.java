@@ -33,7 +33,7 @@ public class DefaultTest {
         PandaLoader pandaLoader = panda.getPandaLoader();
         PandaApplication pandaApplication = pandaLoader.loadFiles(SCRIPT);
 
-        pandaApplication.launch();
+        // pandaApplication.launch(); mute
     }
 
 }

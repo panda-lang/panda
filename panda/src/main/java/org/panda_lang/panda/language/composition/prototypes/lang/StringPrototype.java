@@ -16,20 +16,11 @@
 
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
-import org.panda_lang.panda.language.structure.overall.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 
-@ClassPrototypeRegistrationCall
+@ClassDeclaration("String")
+@ModuleDeclaration("panda.lang")
 public class StringPrototype {
-
-    static {
-        ModuleRegistry registry = ModuleRegistry.getDefault();
-        Module defaultModule = registry.getOrCreate("panda.lang");
-
-        ClassPrototype prototype = new ClassPrototype(defaultModule, "String");
-        defaultModule.add(prototype);
-    }
 
 }

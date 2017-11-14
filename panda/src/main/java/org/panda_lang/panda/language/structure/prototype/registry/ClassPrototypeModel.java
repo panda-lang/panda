@@ -29,19 +29,19 @@ public interface ClassPrototypeModel {
 
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
-    @interface PandaModule {
+    @interface ModuleDeclaration {
         String value();
     }
 
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
-    @interface PandaClass {
+    @interface ClassDeclaration {
         String value();
     }
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
-    @interface PandaMethod {
+    @interface MethodDeclaration {
         MethodVisibility visibility();
         boolean isStatic();
         String returnType();
@@ -54,7 +54,7 @@ public interface ClassPrototypeModel {
         Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
 
         for (Class<? extends ClassPrototypeModel> clazz : annotated) {
-            PandaModule module = clazz.getAnnotation(PandaModule.class);
+            ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);
 
             if (!module.value().equals(moduleName)) {
                 continue;

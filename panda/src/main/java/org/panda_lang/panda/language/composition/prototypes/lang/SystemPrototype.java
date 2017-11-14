@@ -18,46 +18,26 @@ package org.panda_lang.panda.language.composition.prototypes.lang;
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.overall.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeRegistrationCall;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
-import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.MethodDeclaration;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
-import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
-@ClassPrototypeRegistrationCall
+@ClassDeclaration("System")
+@ModuleDeclaration("panda.lang")
 public class SystemPrototype {
 
-    static {
-        ModuleRegistry registry = ModuleRegistry.getDefault();
-        Module defaultModule = registry.getOrCreate("panda.lang");
+    @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = true, returnType = "void")
+    public static void print(ExecutableBranch bridge, int instance, Value... parameters) {
+        StringBuilder node = new StringBuilder();
 
-        ClassPrototype systemPrototype = new ClassPrototype(defaultModule, "System");
-        defaultModule.add(systemPrototype);
+        for (Value value : parameters) {
+            node.append(value.getObject());
+            node.append(", ");
+        }
 
-        Method printMethod = PandaMethod.builder()
-                .methodName("print")
-                .prototype(systemPrototype)
-                .isStatic(true)
-                .visibility(MethodVisibility.PUBLIC)
-                .methodBody(new MethodCallback<System>() {
-                    @Override
-                    public void invoke(ExecutableBranch bridge, System instance, Value... parameters) {
-                        StringBuilder node = new StringBuilder();
-
-                        for (Value value : parameters) {
-                            node.append(value.getObject());
-                            node.append(", ");
-                        }
-
-                        String message = node.substring(0, node.length() - 2);
-                        System.out.println(message);
-                    }})
-                .build();
-        
-        systemPrototype.getMethods().registerMethod(printMethod);
+        String message = node.substring(0, node.length() - 2);
+        System.out.println(message);
     }
 
 }
