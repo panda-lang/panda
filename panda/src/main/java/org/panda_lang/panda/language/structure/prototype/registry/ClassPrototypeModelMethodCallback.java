@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.language.structure.prototype.registry;
 
-import org.junit.Test;
-import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 
-public class MultiFileTest {
+public abstract class ClassPrototypeModelMethodCallback implements MethodCallback<Object> {
 
-    @Test
-    public void testMultipleFiles() {
-        PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda();
-        PandaLoader loader = panda.getPandaLoader();
-
-        PandaApplication application = loader.loadFiles("../examples/multifile/dependency.panda", "../examples/multifile/main.panda");
-        application.launch();
-    }
+    public abstract void invoke(ExecutableBranch bridge, Object instance, Value[] parameters);
 
 }

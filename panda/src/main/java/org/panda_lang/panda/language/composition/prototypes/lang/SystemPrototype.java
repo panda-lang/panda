@@ -18,18 +18,24 @@ package org.panda_lang.panda.language.composition.prototypes.lang;
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.MethodDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
+import java.security.InvalidParameterException;
+
 @ClassDeclaration("System")
 @ModuleDeclaration("panda.lang")
-public class SystemPrototype {
+public class SystemPrototype implements ClassPrototypeModel {
 
     @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = true, returnType = "void")
-    public static void print(ExecutableBranch bridge, int instance, Value... parameters) {
+    public static void print(ExecutableBranch bridge, System instance, @TypeDeclaration("Objects") Value[] parameters) {
         StringBuilder node = new StringBuilder();
+
+        if (parameters.length == 0) {
+            throw new InvalidParameterException("Values are not specified");
+        }
 
         for (Value value : parameters) {
             node.append(value.getObject());

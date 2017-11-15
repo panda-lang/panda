@@ -18,14 +18,18 @@ package org.panda_lang.panda.language.structure.prototype.registry;
 
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 import org.panda_lang.panda.util.ReflectionsUtils;
-import org.reflections.Reflections;
 
-import java.lang.annotation.*;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Set;
 
 public interface ClassPrototypeModel {
+
+    Set<Class<? extends ClassPrototypeModel>> models = ReflectionsUtils.REFLECTIONS.getSubTypesOf(ClassPrototypeModel.class);
 
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
@@ -47,13 +51,17 @@ public interface ClassPrototypeModel {
         String returnType();
     }
 
+    @Target(ElementType.PARAMETER)
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface TypeDeclaration {
+        String value();
+    }
+
     @SuppressWarnings("unchecked")
     static Collection<Class<? extends ClassPrototypeModel>> of(String moduleName) {
-        Reflections reflections = new Reflections(ReflectionsUtils.REFLECTIONS_CONFIG);
-        Set<Class<? extends ClassPrototypeModel>> annotated = reflections.getSubTypesOf(ClassPrototypeModel.class);
         Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
 
-        for (Class<? extends ClassPrototypeModel> clazz : annotated) {
+        for (Class<? extends ClassPrototypeModel> clazz : models) {
             ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);
 
             if (!module.value().equals(moduleName)) {

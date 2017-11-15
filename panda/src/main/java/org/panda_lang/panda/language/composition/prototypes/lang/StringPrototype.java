@@ -16,11 +16,12 @@
 
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 
 @ClassDeclaration("String")
 @ModuleDeclaration("panda.lang")
-public class StringPrototype {
+public class StringPrototype implements ClassPrototypeModel {
 
 }

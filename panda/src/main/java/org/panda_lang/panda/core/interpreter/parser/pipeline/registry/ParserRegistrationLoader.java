@@ -17,14 +17,13 @@
 package org.panda_lang.panda.core.interpreter.parser.pipeline.registry;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.util.ReflectionsUtils;
 import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Set;
 
@@ -43,11 +42,7 @@ public class ParserRegistrationLoader {
     }
 
     protected void load(PandaParserPipelineRegistry registry) throws Exception {
-        ConfigurationBuilder config = new ConfigurationBuilder();
-        config.setClassLoaders(new ClassLoader[]{ getClass().getClassLoader() });
-        config.addUrls(Panda.class.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());
-
-        Reflections reflections = new Reflections(config);
+        Reflections reflections = ReflectionsUtils.REFLECTIONS;
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {

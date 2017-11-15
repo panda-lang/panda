@@ -17,6 +17,7 @@
 package org.panda_lang.panda.util;
 
 import org.panda_lang.panda.Panda;
+import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
 public class ReflectionsUtils {
@@ -31,5 +32,7 @@ public class ReflectionsUtils {
             e.printStackTrace();
         }
     }
+
+    public static final Reflections REFLECTIONS = new Reflections(ReflectionsUtils.REFLECTIONS_CONFIG);
 
 }

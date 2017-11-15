@@ -33,7 +33,6 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Method
 import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
 import java.util.Collection;
 
 public class ClassPrototypeModelLoader {
@@ -57,9 +56,10 @@ public class ClassPrototypeModelLoader {
         ClassPool pool = ClassPool.getDefault();
 
         CtClass objectCtClass = pool.getCtClass(Object.class.getName());
-        CtClass methodCallbackCtClass = pool.get(MethodCallback.class.getName());
+        CtClass methodCallbackCtClass = pool.get(ClassPrototypeModelMethodCallback.class.getName());
         CtClass executableBranchCtClass = pool.get(ExecutableBranch.class.getName());
         CtClass valueArrayCtClass = pool.get(Value[].class.getName());
+        CtClass valueCtClass = pool.get(Value.class.getName());
 
         for (Class<? extends ClassPrototypeModel> modelClass : models) {
             ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
@@ -71,7 +71,6 @@ public class ClassPrototypeModelLoader {
             ClassPrototype prototype = new ClassPrototype(defaultModule, classDeclaration.value());
             defaultModule.add(prototype);
 
-
             for (Method method : modelClass.getMethods()) {
                 MethodDeclaration methodInfo = method.getAnnotation(MethodDeclaration.class);
 
@@ -81,20 +80,46 @@ public class ClassPrototypeModelLoader {
 
                 String methodCallbackClassName = modelClass.getSimpleName() + StringUtils.capitalize(method.getName()) + "MethodCallback";
                 CtClass generatedMethodCallbackClass = pool.makeClass(methodCallbackClassName);
-                generatedMethodCallbackClass.addInterface(generatedMethodCallbackClass);
+                generatedMethodCallbackClass.setSuperclass(methodCallbackCtClass);
 
-                Parameter parameter = method.getParameters()[1];
-                CtClass parameterCtClass = pool.getCtClass(parameter.getType().getName());
+                CtMethod callbackImplementation = new CtMethod(CtClass.voidType, "invoke", new CtClass[] { executableBranchCtClass, objectCtClass, valueArrayCtClass}, generatedMethodCallbackClass);
+                boolean array = method.getParameters()[method.getParameters().length - 1].getType().isArray();
+                StringBuilder values = new StringBuilder("");
+                int valuesCount = 0;
 
-                CtMethod callbackImplementation = new CtMethod(objectCtClass, "invoke", new CtClass[] { executableBranchCtClass, objectCtClass, valueArrayCtClass}, generatedMethodCallbackClass);
-                if (methodInfo.isStatic()) {
-                    callbackImplementation.setBody("return " + modelClass.getName() + "." + method.getName() + "($1, $2, $3);");
-                } else {
-                    callbackImplementation.setBody("{ " +
-                            modelClass.getName() + " typedInstance = (" + modelClass.getName() + ") $2;" +
-                            "return typedInstance." + method.getName() + "($1, typedInstance, $3);"
-                    + " }");
+                for (int i = 2; i < method.getParameters().length; ++i) {
+                    values.append(",");
+
+                    if (array && i == method.getParameterCount() - 1) {
+                        values.append("values");
+                        break;
+                    }
+
+                    values.append("(").append(Value.class.getName()).append(")"); // typed: values.append("(").append(parameter.getType().getName()).append(")");
+                    values.append("$3[").append(i - 2).append("]");
+                    ++valuesCount;
                 }
+
+                String instanceType = method.getParameters()[1].getType().getName();
+                StringBuilder bodyBuilder = new StringBuilder("{");
+
+                if (array) {
+                    bodyBuilder.append(String.format("%s[] values = new %s[$3.length - %d];", valueCtClass.getName(), valueCtClass.getName(), valuesCount));
+                    bodyBuilder.append("for (int i = 0; i < values.length; ++i) {");
+                    bodyBuilder.append(String.format("values[i] = $3[%d + i];", valuesCount));
+                    bodyBuilder.append("}");
+                }
+
+                if (methodInfo.isStatic()) {
+                    bodyBuilder.append(String.format("%s.%s($1, (%s) null %s);", modelClass.getName(), method.getName(), instanceType, values.toString()));
+                } else {
+                    bodyBuilder.append(String.format("%s typedInstance = (%s) $2;", modelClass.getName(), modelClass.getName()));
+                    bodyBuilder.append(String.format("typedInstance.%s($1, (%s) $2 %s);", method.getName(), instanceType, values.toString()));
+                }
+                bodyBuilder.append("}");
+
+                String body = bodyBuilder.toString();
+                callbackImplementation.setBody(body);
                 generatedMethodCallbackClass.addMethod(callbackImplementation);
 
                 Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
