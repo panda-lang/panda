@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.prototype.registry;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import org.apache.commons.lang3.StringUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
