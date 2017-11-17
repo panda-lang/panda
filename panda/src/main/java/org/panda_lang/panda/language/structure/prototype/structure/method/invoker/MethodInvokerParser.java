@@ -45,7 +45,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Method
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = 1)
 public class MethodInvokerParser implements UnifiedParser {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder()
+    public static final TokenPattern PATTERN = TokenPattern.builder()
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
             .hollow()

@@ -29,9 +29,9 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.variable.VariableExpressionCallback;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
 
@@ -85,6 +85,8 @@ public class ExpressionParser implements Parser {
 
             return new Expression(callback.getReturnType(), callback);
         }
+
+        // TODO: Impl parser pipeline
 
         throw new RuntimeException("Cannot recognize expression: " + expressionSource.toString());
     }

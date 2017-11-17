@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
@@ -23,5 +24,10 @@ import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototype
 @ClassDeclaration("String")
 @ModuleDeclaration("panda.lang")
 public class StringPrototype implements ClassPrototypeModel {
+
+    @MethodDeclaration(returnType = "panda.lang:Int")
+    public int length(ExecutableBranch branch, String instance) {
+        return instance.length();
+    }
 
 }

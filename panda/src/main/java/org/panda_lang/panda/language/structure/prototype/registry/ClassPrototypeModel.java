@@ -43,12 +43,17 @@ public interface ClassPrototypeModel {
         String value();
     }
 
+    @Target(ElementType.CONSTRUCTOR)
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface ConstructorDeclaration {
+    }
+
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     @interface MethodDeclaration {
-        MethodVisibility visibility();
-        boolean isStatic();
-        String returnType();
+        MethodVisibility visibility() default MethodVisibility.PUBLIC;
+        boolean isStatic() default false;
+        String returnType() default "void";
     }
 
     @Target(ElementType.PARAMETER)
