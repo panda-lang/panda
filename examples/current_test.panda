@@ -16,11 +16,11 @@ class Test {
 
     constructor(String message) {
         System.print(message);
-        this.testField = message;
+        //this.testField = message;
     }
 
     method echo(String message) {
-        System.print(testField);
+        //System.print(testField);
     }
 
 }

@@ -23,7 +23,7 @@ public class FieldParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        return false;
+        return FieldParser.PATTERN.match(tokenReader) != null;
     }
 
 }

@@ -16,22 +16,47 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.field.parser;
 
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
-//@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class)
 public class FieldParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
-            .simpleHollow()
-            .unit(Separators.SEMICOLON)
             .hollow()
+            .unit(Separators.SEMICOLON)
             .build();
 
     @Override
     public void parse(ParserInfo info) {
+        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
+
+        generation.getLayer(CasualParserGenerationType.HIGHER)
+                .delegateImmediately(new FieldDeclarationCasualParserCallback(), info.fork());
+    }
+
+    private static class FieldDeclarationCasualParserCallback implements CasualParserGenerationCallback {
+
+        @Override
+        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
+            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
+
+            redactor.map("field-declaration");
+            delegatedInfo.setComponent("redactor", redactor);
+        }
 
     }
 
