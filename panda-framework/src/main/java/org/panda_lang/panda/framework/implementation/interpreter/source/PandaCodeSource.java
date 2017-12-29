@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.implementation.interpreter.source;
 
+import org.panda_lang.panda.framework.implementation.PandaFrameworkException;
 import org.panda_lang.panda.framework.language.interpreter.source.CodeSource;
 import org.panda_lang.panda.utilities.commons.io.IOUtils;
 
@@ -38,7 +39,7 @@ public class PandaCodeSource implements CodeSource {
         try (InputStream inputStream = this.location.openStream()) {
             return IOUtils.convertStreamToString(inputStream);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new PandaFrameworkException(e);
         }
     }
 
@@ -51,7 +52,7 @@ public class PandaCodeSource implements CodeSource {
         try {
             return fromUrl(file.toURI().toURL());
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            throw new PandaFrameworkException(e);
         }
     }
 

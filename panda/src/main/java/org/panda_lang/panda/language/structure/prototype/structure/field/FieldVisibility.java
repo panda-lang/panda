@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.prototype.structure.field;
 public enum FieldVisibility {
 
     PUBLIC,
-    PROTECTED,
-    PRIVATE;
+    LOCAL,
+    HIDDEN
 
 }

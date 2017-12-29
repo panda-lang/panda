@@ -21,8 +21,22 @@ import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototyp
 
 public class Field extends PandaVariable {
 
-    public Field(ClassPrototype type, String name) {
+    private FieldVisibility visibility;
+    private boolean isStatic;
+
+    public Field(ClassPrototype type, String name, FieldVisibility visibility, boolean isStatic) {
         super(type, name, 0);
+
+        this.visibility = visibility;
+        this.isStatic = isStatic;
+    }
+
+    public boolean isStatic() {
+        return isStatic;
+    }
+
+    public FieldVisibility getVisibility() {
+        return visibility;
     }
 
 }

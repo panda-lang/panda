@@ -23,12 +23,22 @@ import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.PandaScript;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 @ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class)
@@ -56,6 +66,59 @@ public class FieldParser implements UnifiedParser {
 
             redactor.map("field-declaration");
             delegatedInfo.setComponent("redactor", redactor);
+
+            TokenizedSource fieldDeclaration = redactor.get("field-declaration");
+            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
+
+            FieldVisibility visibility = null;
+            ClassPrototype type = null;
+            String name = null;
+            boolean isStatic = false;
+
+            for (int i = 0; i < fieldDeclaration.size(); i++) {
+                TokenRepresentation representation = fieldDeclaration.get(i);
+                Token token = representation.getToken();
+
+                if (token.getType() == TokenType.UNKNOWN && i == fieldDeclaration.size() - 1) {
+                    name = token.getTokenValue();
+                    continue;
+                }
+
+                if (token.getType() == TokenType.UNKNOWN && i == fieldDeclaration.size() - 2) {
+                    String returnTypeName = token.getTokenValue();
+
+                    PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+                    ImportRegistry registry = script.getImportRegistry();
+
+                    type = registry.forClass(returnTypeName);
+                    continue;
+                }
+
+                switch (token.getTokenValue()) {
+                    case "method":
+                        visibility = FieldVisibility.PUBLIC;
+                        continue;
+                    case "local":
+                        visibility = FieldVisibility.LOCAL;
+                        continue;
+                    case "hidden":
+                        visibility = FieldVisibility.HIDDEN;
+                        continue;
+                    case "static":
+                        isStatic = true;
+                        visibility = visibility != null ? visibility : FieldVisibility.PUBLIC;
+                        continue;
+                    default:
+                        throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1) + ": " + token.getTokenValue());
+                }
+            }
+
+            if (visibility == null) {
+                visibility = FieldVisibility.LOCAL;
+            }
+
+            Field field = new Field(type, name, visibility, isStatic);
+            prototype.getFields().put(field.getVariableName(), field);
         }
 
     }

@@ -117,8 +117,11 @@ public class MethodParser implements UnifiedParser {
                     case "method":
                         visibility = MethodVisibility.PUBLIC;
                         continue;
+                    case "local":
+                        visibility = MethodVisibility.LOCAL;
+                        continue;
                     case "hidden":
-                        visibility = MethodVisibility.PRIVATE;
+                        visibility = MethodVisibility.HIDDEN;
                         continue;
                     case "static":
                         isStatic = true;
