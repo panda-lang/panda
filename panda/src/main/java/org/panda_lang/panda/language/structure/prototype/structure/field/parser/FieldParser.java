@@ -21,6 +21,7 @@ import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
@@ -41,7 +42,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
-@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class, priority = DefaultPriorities.FIELD_PARSER)
 public class FieldParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()

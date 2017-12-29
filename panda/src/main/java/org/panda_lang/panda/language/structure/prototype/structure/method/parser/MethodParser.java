@@ -24,6 +24,7 @@ import org.panda_lang.panda.core.interpreter.parser.defaults.ScopeParser;
 import org.panda_lang.panda.core.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
@@ -54,7 +55,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.parameter.Par
 
 import java.util.List;
 
-@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = MethodParser.class, handlerClass = MethodParserHandler.class, priority = DefaultPriorities.METHOD_PARSER)
 public class MethodParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()

@@ -21,9 +21,14 @@ import org.panda_lang.panda.language.structure.scope.variable.VariableParser;
 public class DefaultPriorities {
 
     /**
+     * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.field.parser.FieldParser}
+     */
+    public static final int FIELD_PARSER = 1;
+
+    /**
      * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.method.parser.MethodParser}
      */
-    public static final int METHOD_PARSER = 1;
+    public static final int METHOD_PARSER = 2;
 
     /**
      * Used by {@link VariableParser}
