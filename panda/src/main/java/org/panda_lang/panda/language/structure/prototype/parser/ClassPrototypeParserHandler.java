@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.structure.prototype.parser;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.language.syntax.tokens.Keywords;
 
 public class ClassPrototypeParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "class");
+        return TokenUtils.equals(tokenReader.read(), Keywords.CLASS);
     }
 
 }

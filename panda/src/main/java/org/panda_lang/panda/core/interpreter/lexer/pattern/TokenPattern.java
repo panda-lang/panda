@@ -35,6 +35,7 @@ public class TokenPattern {
 
     public List<TokenizedSource> match(TokenReader tokenReader) {
         int index = tokenReader.getIndex();
+
         Extractor extractor = extractor();
         List<TokenizedSource> result = extractor.extract(tokenReader);
 

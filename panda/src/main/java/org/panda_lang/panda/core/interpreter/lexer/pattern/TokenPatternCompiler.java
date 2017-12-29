@@ -37,6 +37,11 @@ public class TokenPatternCompiler {
         String[] fragments = expression.split(" ");
 
         for (String fragment : fragments) {
+            if (fragment.equals("+**")) {
+                builder.hollow();
+                continue;
+            }
+
             if (fragment.equals("+*")) {
                 builder.hollow();
                 continue;

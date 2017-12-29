@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresenta
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +49,20 @@ public class PreparedExtractor implements Extractor {
         int hardTypedUnits = PreparedSourceUtils.countHardTypedUnits(units);
         int[] positions = new int[hardTypedUnits];
         int[] indexes = new int[hardTypedUnits];
+        boolean fissure = false;
 
         for (int i = 0, j = 0; i < units.length; i++) {
             TokenPatternUnit unit = units[i];
 
             if (unit.isGap()) {
+                if (unit.isFissure()) {
+                    fissure = true;
+                }
+
                 continue;
             }
 
-            int lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j]);
+            int lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], fissure ? Separators.SEMICOLON : null);
 
             if (lastIndexOfUnit == -1) {
                 return null;
@@ -65,6 +71,7 @@ public class PreparedExtractor implements Extractor {
             int index = j++;
             indexes[index] = i;
             positions[index] = lastIndexOfUnit;
+            fissure = false;
         }
 
         for (int i = 0, previousIndex = -1; i < positions.length; i++) {

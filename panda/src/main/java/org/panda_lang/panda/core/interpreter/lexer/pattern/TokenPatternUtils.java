@@ -30,8 +30,10 @@ import java.util.List;
 public class TokenPatternUtils {
 
     public static TokenPatternHollows extract(TokenPattern pattern, ParserInfo parserInfo) {
-        SourceStream source = parserInfo.getComponent(Components.SOURCE_STREAM);
+        return extract(pattern, parserInfo.<SourceStream> getComponent(Components.SOURCE_STREAM));
+    }
 
+    public static TokenPatternHollows extract(TokenPattern pattern, SourceStream source) {
         Extractor extractor = pattern.extractor();
         TokenReader reader = source.toTokenReader();
         List<TokenizedSource> gaps = extractor.extract(reader);

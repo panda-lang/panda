@@ -21,7 +21,17 @@ import org.panda_lang.panda.framework.language.interpreter.token.defaults.Equala
 
 public class TokenPatternUnit extends EqualableToken {
 
-    public static final TokenPatternUnit HOLLOW = new TokenPatternUnit(new TokenType("HOLLOW"), "*");
+    private static final TokenType HOLLOW_TYPE = new TokenType("HOLLOW");
+
+    /**
+     * Multiline gap
+     */
+    public static final TokenPatternUnit HOLLOW = new TokenPatternUnit(HOLLOW_TYPE, "*");
+
+    /**
+     * Inline gap
+     */
+    public static final TokenPatternUnit SIMPLE_HOLLOW = new TokenPatternUnit(HOLLOW_TYPE, "**");
 
     private final TokenType tokenType;
     private final String token;
@@ -31,8 +41,18 @@ public class TokenPatternUnit extends EqualableToken {
         this.token = token;
     }
 
+    /**
+     * @return true if unit is a gap of any type
+     */
     public boolean isGap() {
-        return HOLLOW.getType().equals(tokenType);
+        return HOLLOW.equals(this) || SIMPLE_HOLLOW.equals(this);
+    }
+
+    /**
+     * @return true if unit is a gap in inline scope
+     */
+    public boolean isFissure() {
+        return SIMPLE_HOLLOW.equals(this);
     }
 
     @Override

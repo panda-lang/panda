@@ -22,6 +22,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresenta
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 
+import javax.annotation.Nullable;
+
 /**
  * Utils for {@link TokenizedSource} based on {@link PreparedSource}
  */
@@ -48,7 +50,17 @@ public class PreparedSourceUtils {
         return indexOf(preparedSource, search, 0);
     }
 
+    /**
+     * @return index of the specified token in array with a defined start-index, returns -1 if the token was not found
+     */
     public static int indexOf(PreparedSource preparedSource, Token search, int minIndex) {
+        return indexOf(preparedSource, search, minIndex, null);
+    }
+
+    /**
+     * @return index of the specified token in array with a defined start-index, returns -1 if the token was not found or a specified before-token was reached
+     */
+    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex, @Nullable Token before) {
         PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
 
         for (int i = minIndex; i < representations.length; i++) {
@@ -59,6 +71,10 @@ public class PreparedSourceUtils {
             }
 
             Token token = representation.getTokenRepresentation().getToken();
+
+            if (before != null && before.equals(token)) {
+                break;
+            }
 
             if (search.equals(token)) {
                 return i;

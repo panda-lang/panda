@@ -57,10 +57,10 @@ import java.util.List;
 @ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = MethodParser.class, handlerClass = MethodParserHandler.class)
 public class MethodParser implements UnifiedParser {
 
-    private static final TokenPattern PATTERN = TokenPattern.builder()
-            .hollow()
+    protected static final TokenPattern PATTERN = TokenPattern.builder()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
-            .hollow()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, ")")
             .unit(TokenType.SEPARATOR, "{")
             .hollow()
@@ -125,7 +125,7 @@ public class MethodParser implements UnifiedParser {
                         visibility = visibility != null ? visibility : MethodVisibility.PUBLIC;
                         continue;
                     default:
-                        throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1));
+                        throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1) + ": " + token.getTokenValue());
                 }
             }
 

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.field;
+package org.panda_lang.panda.language.structure.prototype.structure.field.parser;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 
-public class FieldParser implements UnifiedParser {
+public class FieldParserHandler implements ParserHandler {
 
     @Override
-    public void parse(ParserInfo info) {
-
+    public boolean handle(TokenReader tokenReader) {
+        return false;
     }
 
 }

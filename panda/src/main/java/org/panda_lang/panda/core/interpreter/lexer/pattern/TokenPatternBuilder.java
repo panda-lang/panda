@@ -48,6 +48,11 @@ public class TokenPatternBuilder {
         return this;
     }
 
+    public TokenPatternBuilder simpleHollow() {
+        units.add(TokenPatternUnit.SIMPLE_HOLLOW);
+        return this;
+    }
+
     public TokenPatternBuilder hollow() {
         units.add(TokenPatternUnit.HOLLOW);
         return this;

@@ -17,17 +17,17 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.parser;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.language.syntax.tokens.Keywords;
+
+import java.util.List;
 
 public class MethodParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader tokenReader) {
-        TokenRepresentation token = tokenReader.read();
-        return TokenUtils.equals(token, Keywords.METHOD) || TokenUtils.equals(token, Keywords.HIDDEN);
+        List<TokenizedSource> content = MethodParser.PATTERN.match(tokenReader);
+        return content != null && content.size() == 3;
     }
 
 }

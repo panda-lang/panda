@@ -12,12 +12,15 @@ class Foo extends Test {
 
 class Test {
 
+    hidden String testField;
+
     constructor(String message) {
         System.print(message);
+        this.testField = message;
     }
 
     method echo(String message) {
-        System.print(message);
+        System.print(testField);
     }
 
 }
@@ -25,6 +28,7 @@ class Test {
 main {
     Test test = new Test("Constructor");
     test.echo("Method");
+
 
     Foo varFoo = null;
     varFoo = new Foo();

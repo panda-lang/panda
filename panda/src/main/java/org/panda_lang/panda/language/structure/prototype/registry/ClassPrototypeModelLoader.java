@@ -60,6 +60,7 @@ public class ClassPrototypeModelLoader {
         CtClass executableBranchCtClass = pool.get(ExecutableBranch.class.getName());
         CtClass valueArrayCtClass = pool.get(Value[].class.getName());
         CtClass valueCtClass = pool.get(Value.class.getName());
+        CtClass[] implementationTypes = new CtClass[] { executableBranchCtClass, objectCtClass, valueArrayCtClass };
 
         for (Class<? extends ClassPrototypeModel> modelClass : models) {
             ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
@@ -82,7 +83,7 @@ public class ClassPrototypeModelLoader {
                 CtClass generatedMethodCallbackClass = pool.makeClass(methodCallbackClassName);
                 generatedMethodCallbackClass.setSuperclass(methodCallbackCtClass);
 
-                CtMethod callbackImplementation = new CtMethod(CtClass.voidType, "invoke", new CtClass[] { executableBranchCtClass, objectCtClass, valueArrayCtClass}, generatedMethodCallbackClass);
+                CtMethod callbackImplementation = new CtMethod(CtClass.voidType, "invoke", implementationTypes, generatedMethodCallbackClass);
                 boolean array = method.getParameters()[method.getParameters().length - 1].getType().isArray();
                 StringBuilder values = new StringBuilder("");
                 int valuesCount = 0;
@@ -95,7 +96,7 @@ public class ClassPrototypeModelLoader {
                         break;
                     }
 
-                    values.append("(").append(Value.class.getName()).append(")"); // typed: values.append("(").append(parameter.getType().getName()).append(")");
+                    values.append("(").append(Value.class.getName()).append(")");
                     values.append("$3[").append(i - 2).append("]");
                     ++valuesCount;
                 }
