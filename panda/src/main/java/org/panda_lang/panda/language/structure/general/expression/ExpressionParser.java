@@ -87,8 +87,9 @@ public class ExpressionParser implements Parser {
         }
 
         // TODO: Impl parser pipeline
+        // TODO: Impl fields
 
-        throw new RuntimeException("Cannot recognize expression: " + expressionSource.toString());
+        throw new PandaParserException("Cannot recognize variable: " + expressionSource.toString());
     }
 
     private Expression toSimpleKnownExpression(String forName, Object value) {
