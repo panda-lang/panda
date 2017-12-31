@@ -46,7 +46,7 @@ import org.panda_lang.panda.language.syntax.PandaSyntax;
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = BlockParser.class, handlerClass = BlockParserHandler.class, priority = DefaultPriorities.BLOCK_PARSER)
 public class BlockParser implements UnifiedParser {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder().compile(PandaSyntax.getInstance(), "+* { +* }").build();
+    protected static final TokenPattern PATTERN = TokenPattern.builder().compile(PandaSyntax.getInstance(), "+** { +* }").build();
 
     @Override
     public void parse(ParserInfo info) {
@@ -80,7 +80,6 @@ public class BlockParser implements UnifiedParser {
 
             ParserInfo blockParserInfo = delegatedInfo.fork();
             blockParserInfo.setComponent(Components.SOURCE_STREAM, declarationStream);
-
             blockParser.parse(blockParserInfo);
 
             Block block = blockParserInfo.getComponent("block");

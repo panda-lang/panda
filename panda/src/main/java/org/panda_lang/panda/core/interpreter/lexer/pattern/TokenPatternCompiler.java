@@ -38,7 +38,7 @@ public class TokenPatternCompiler {
 
         for (String fragment : fragments) {
             if (fragment.equals("+**")) {
-                builder.hollow();
+                builder.simpleHollow();
                 continue;
             }
 

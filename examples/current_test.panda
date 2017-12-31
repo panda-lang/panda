@@ -26,6 +26,8 @@ class Test {
 }
 
 main {
+    String init;
+
     Test test = new Test("Constructor");
     test.echo("Method");
 
