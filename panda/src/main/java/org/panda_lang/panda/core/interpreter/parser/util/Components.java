@@ -75,6 +75,11 @@ public class Components {
     public static final String SCOPE_LINKER = "scope-linker";
 
     /**
+     * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype}
+     */
+    public static final String CLASS_PROTOTYPE = "class-prototype";
+
+    /**
      * Array of the default names
      */
     private static final String[] VALUES = new String[7];

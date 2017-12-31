@@ -23,10 +23,10 @@ public class VariableParserUtils {
 
     public static boolean checkDuplicates(Scope scope, Variable variable) {
         for (Variable var : scope.getVariables()) {
-            String variableName = var.getVariableName();
+            String variableName = var.getName();
             int nestingLevel = var.getNestingLevel();
 
-            if (variableName.equals(variable.getVariableName()) && nestingLevel <= variable.getNestingLevel()) {
+            if (variableName.equals(variable.getName()) && nestingLevel <= variable.getNestingLevel()) {
                 return true;
             }
         }
@@ -40,7 +40,7 @@ public class VariableParserUtils {
 
     public static Variable getVariable(Scope scope, String variableName) {
         for (Variable var : scope.getVariables()) {
-            if (var.getVariableName().equals(variableName)) {
+            if (var.getName().equals(variableName)) {
                 return var;
             }
         }

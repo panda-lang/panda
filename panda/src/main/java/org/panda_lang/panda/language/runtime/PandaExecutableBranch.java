@@ -34,6 +34,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     private PandaControlFlow currentFlow;
     private Value returnedValue;
     private boolean interrupted;
+    private Object instance;
 
     public PandaExecutableBranch(PandaExecutableProcess process, ScopeInstance currentScope) {
         this.process = process;
@@ -92,7 +93,10 @@ public class PandaExecutableBranch implements ExecutableBranch {
     @Override
     public ExecutableBranch callStandalone(Executable executable) {
         boolean standaloneScope = executable instanceof ScopeInstance;
-        ExecutableBranch branch = new PandaExecutableBranch(process, standaloneScope ? (ScopeInstance) executable : currentScope);
+        ScopeInstance scope = standaloneScope ? (ScopeInstance) executable : currentScope;
+
+        ExecutableBranch branch = new PandaExecutableBranch(process, scope);
+        branch.instance(instance);
 
         if (standaloneScope) {
             branch.call();
@@ -102,6 +106,11 @@ public class PandaExecutableBranch implements ExecutableBranch {
         }
 
         return branch;
+    }
+
+    @Override
+    public void instance(Object instance) {
+        this.instance = instance;
     }
 
     @Override
@@ -133,6 +142,11 @@ public class PandaExecutableBranch implements ExecutableBranch {
     @Override
     public ScopeInstance getCurrentScope() {
         return currentScope;
+    }
+
+    @Override
+    public Object getInstance() {
+        return instance;
     }
 
 }

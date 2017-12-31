@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.core.structure.value;
+package org.panda_lang.panda.language.runtime;
 
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+public class PandaRuntimeException extends RuntimeException {
 
-public interface Variable {
+    public PandaRuntimeException() {
+        super();
+    }
 
-    int getNestingLevel();
-
-    ClassPrototype getType();
-
-    String getName();
+    public PandaRuntimeException(String message) {
+        super(message);
+    }
 
 }

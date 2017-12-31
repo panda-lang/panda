@@ -23,10 +23,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.constructor.C
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class ClassPrototype {
 
@@ -34,7 +31,7 @@ public class ClassPrototype {
     private final String className;
     private final Collection<ClassPrototype> extended;
     private final Collection<Constructor> constructors;
-    private final Map<String, Field> fields;
+    private final List<Field> fields;
     private final Methods methods;
 
     public ClassPrototype(Module module, String className) {
@@ -42,15 +39,27 @@ public class ClassPrototype {
         this.className = className;
         this.extended = new ArrayList<>();
         this.constructors = new ArrayList<>();
-        this.fields = new HashMap<>();
+        this.fields = new ArrayList<>();
         this.methods = new Methods(this);
+    }
+
+    public Field getField(String fieldName) {
+        for (Field field : fields) {
+            if (!field.getName().equals(fieldName)) {
+                continue;
+            }
+
+            return field;
+        }
+
+        return null;
     }
 
     public Methods getMethods() {
         return methods;
     }
 
-    public Map<String, Field> getFields() {
+    public List<Field> getFields() {
         return fields;
     }
 

@@ -28,6 +28,13 @@ import java.util.Collection;
 public interface ExecutableBranch {
 
     /**
+     * Define `this` for execution process
+     *
+     * @param instance current object
+     */
+    void instance(Object instance);
+
+    /**
      * Call the current scope
      */
     void call();
@@ -96,5 +103,10 @@ public interface ExecutableBranch {
      * @return instance of the current scope
      */
     ScopeInstance getCurrentScope();
+
+    /**
+     * @return current object
+     */
+    Object getInstance();
 
 }

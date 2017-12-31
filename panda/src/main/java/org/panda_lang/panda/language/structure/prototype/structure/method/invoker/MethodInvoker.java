@@ -38,13 +38,14 @@ public class MethodInvoker implements StandaloneExecutable {
     @Override
     public void execute(ExecutableBranch branch) {
         Object instance = null;
-        Value[] values = ExpressionUtils.getValues(branch, arguments);
 
         if (expression != null) {
             Value value = expression.getExpressionValue(branch);
             instance = value.getValue();
+            branch.instance(instance);
         }
 
+        Value[] values = ExpressionUtils.getValues(branch, arguments);
         method.invoke(branch, instance, values);
     }
 

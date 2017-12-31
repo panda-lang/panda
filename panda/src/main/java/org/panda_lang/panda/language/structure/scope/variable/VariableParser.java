@@ -114,6 +114,19 @@ public class VariableParser implements UnifiedParser {
                 delegatedInfo.setComponent("scope", scope);
 
                 Variable variable = VariableParserUtils.getVariable(scope, variableName);
+
+                if (variable == null) {
+                    ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
+
+                    if (prototype != null) {
+                        variable = prototype.getField(variableName);
+                    }
+                }
+
+                if (variable == null) {
+                    throw new PandaParserException("Variable " + variableName + " + is not defined");
+                }
+
                 delegatedInfo.setComponent("variable", variable);
             }
             else {
@@ -143,7 +156,7 @@ public class VariableParser implements UnifiedParser {
             Scope scope = delegatedInfo.getComponent("scope");
             Variable variable = delegatedInfo.getComponent("variable");
 
-            if (!variable.getVariableType().equals(expression.getReturnType())) {
+            if (!variable.getType().equals(expression.getReturnType())) {
                 throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
             }
 

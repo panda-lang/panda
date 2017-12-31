@@ -30,9 +30,11 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.variable.VariableExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
 
 public class ExpressionParser implements Parser {
@@ -74,7 +76,15 @@ public class ExpressionParser implements Parser {
 
             if (variable != null) {
                 int memoryIndex = VariableParserUtils.indexOf(scope, variable);
-                return new Expression(variable.getVariableType(), new VariableExpressionCallback(memoryIndex));
+                return new Expression(variable.getType(), new VariableExpressionCallback(memoryIndex));
+            }
+
+            ClassPrototype prototype = info.getComponent(Components.CLASS_PROTOTYPE);
+            Field field = prototype.getField(value);
+
+            if (field != null) {
+                int memoryIndex = prototype.getFields().indexOf(field);
+                return new Expression(field.getType(), new FieldExpressionCallback(field, memoryIndex));
             }
         }
         else if (TokenUtils.equals(expressionSource.get(0), TokenType.KEYWORD, "new")) {
@@ -87,9 +97,8 @@ public class ExpressionParser implements Parser {
         }
 
         // TODO: Impl parser pipeline
-        // TODO: Impl fields
 
-        throw new PandaParserException("Cannot recognize variable: " + expressionSource.toString());
+        throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());
     }
 
     private Expression toSimpleKnownExpression(String forName, Object value) {

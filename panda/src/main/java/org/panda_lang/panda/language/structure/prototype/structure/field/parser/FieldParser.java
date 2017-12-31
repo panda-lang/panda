@@ -20,6 +20,7 @@ import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
+import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
@@ -39,6 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.FieldStatement;
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
@@ -119,7 +121,13 @@ public class FieldParser implements UnifiedParser {
             }
 
             Field field = new Field(type, name, visibility, isStatic);
-            prototype.getFields().put(field.getVariableName(), field);
+            prototype.getFields().add(field);
+
+            int fieldIndex = prototype.getFields().indexOf(field);
+            FieldStatement statement = new FieldStatement(fieldIndex, field);
+
+            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
+            // linker.getCurrentScope().addStatement(statement); class scope [without statements]
         }
 
     }

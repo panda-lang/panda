@@ -42,6 +42,10 @@ public class ClassScopeInstance implements ScopeInstance {
         return prototype;
     }
 
+    public Value[] getFieldValues() {
+        return getVariables();
+    }
+
     @Override
     public Value[] getVariables() {
         return fieldValues;

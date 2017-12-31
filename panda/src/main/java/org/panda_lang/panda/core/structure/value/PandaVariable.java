@@ -36,18 +36,18 @@ public class PandaVariable implements Variable {
     }
 
     @Override
-    public String getVariableName() {
-        return variableName;
-    }
-
-    @Override
-    public ClassPrototype getVariableType() {
+    public ClassPrototype getType() {
         return variableType;
     }
 
     @Override
+    public String getName() {
+        return variableName;
+    }
+
+    @Override
     public String toString() {
-        return "'" + getVariableName() + "': '" + getVariableType() + "'";
+        return "'" + getName() + "': '" + getType() + "'";
     }
 
 }
