@@ -151,4 +151,14 @@ public class StringUtils {
         return stringBuilder.toString();
     }
 
+    public static String gapOf(int spaces) {
+        StringBuilder gapBuilder = new StringBuilder();
+
+        for (int i = 0; i < spaces; ++i) {
+            gapBuilder.append(" ");
+        }
+
+        return gapBuilder.toString();
+    }
+
 }

@@ -47,6 +47,7 @@ public class PandaConstructor implements Constructor {
         ConstructorScopeInstance constructorInstance = constructorScope.createInstance();
 
         ParameterUtils.assignValues(constructorInstance.getVariables(), values);
+        bridge.instance(classInstance);
         bridge.call(constructorInstance);
 
         return classInstance;

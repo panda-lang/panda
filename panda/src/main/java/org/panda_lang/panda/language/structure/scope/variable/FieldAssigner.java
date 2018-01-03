@@ -17,32 +17,44 @@
 package org.panda_lang.panda.language.structure.scope.variable;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
-import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 
-public class Assigner implements Executable {
+public class FieldAssigner implements Executable {
 
     private final int memoryIndex;
     private final Expression expression;
 
-    public Assigner(int memoryIndex, Expression expression) {
+    public FieldAssigner(int memoryIndex, Expression expression) {
         this.memoryIndex = memoryIndex;
         this.expression = expression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        Value value = expression.getExpressionValue(branch);
-        ScopeInstance currentScope = branch.getCurrentScope();
+        if (memoryIndex == -1) {
+            throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
+        }
 
-        currentScope.getVariables()[memoryIndex] = value;
+        Object instance = branch.getInstance();
+
+        if (instance == null) {
+            throw new PandaRuntimeException("Instance is not defined");
+        }
+
+        if (!(instance instanceof ClassScopeInstance)) {
+            throw new PandaRuntimeException("Cannot get field value of external object");
+        }
+
+        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance;
+        pandaInstance.getFieldValues()[memoryIndex] = expression.getExpressionValue(branch);
     }
 
     @Override
     public String toString() {
-        return "'memory'[" + memoryIndex + "] << " + expression.toString();
+        return "'f_memory'[" + memoryIndex + "] << " + expression.toString();
     }
 
 }

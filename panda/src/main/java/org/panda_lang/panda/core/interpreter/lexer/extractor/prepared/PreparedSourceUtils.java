@@ -72,7 +72,7 @@ public class PreparedSourceUtils {
 
             Token token = representation.getTokenRepresentation().getToken();
 
-            if (before != null && before.equals(token)) {
+            if (before != null && before.equals(token) && !before.equals(search)) {
                 break;
             }
 

@@ -14,45 +14,40 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.constructor;
+package org.panda_lang.panda.language.structure.scope.variable;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
 
-public class ConstructorScopeInstance implements ScopeInstance {
+public class VariableAssigner implements Executable {
 
-    private final ConstructorScope scope;
-    private final Value[] variables;
+    private final int memoryIndex;
+    private final Expression expression;
 
-    public ConstructorScopeInstance(ConstructorScope scope) {
-        this.scope = scope;
-        this.variables = new Value[scope.getVariables().size()];
+    public VariableAssigner(int memoryIndex, Expression expression) {
+        this.memoryIndex = memoryIndex;
+        this.expression = expression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        for (StatementCell statementCell : scope.getStatementCells()) {
-            if (!statementCell.isExecutable()) {
-                continue;
-            }
-
-            Executable executable = (Executable) statementCell.getStatement();
-            branch.call(executable);
+        if (memoryIndex == -1) {
+            throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
+
+        Value value = expression.getExpressionValue(branch);
+        ScopeInstance currentScope = branch.getCurrentScope();
+
+        currentScope.getVariables()[memoryIndex] = value;
     }
 
     @Override
-    public Value[] getVariables() {
-        return variables;
-    }
-
-    @Override
-    public Scope getScope() {
-        return scope;
+    public String toString() {
+        return "'v_memory'[" + memoryIndex + "] << " + expression.toString();
     }
 
 }

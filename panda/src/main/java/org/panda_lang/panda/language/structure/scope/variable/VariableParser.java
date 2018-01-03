@@ -26,12 +26,14 @@ import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
+import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.value.PandaVariable;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Container;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -42,16 +44,25 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.uti
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
-@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.VARIABLE_PARSER)
+import java.util.List;
+
+@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.SCOPE_VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
-            .hollow()
+            .simpleHollow()
+            .unit(TokenType.SEPARATOR, ";")
+            .build();
+
+    protected static final TokenPattern SPECIFIED_PATTERN = TokenPattern.builder()
+            .simpleHollow()
             .unit(TokenType.OPERATOR, "=")
             .hollow()
             .unit(TokenType.SEPARATOR, ";")
@@ -60,20 +71,44 @@ public class VariableParser implements UnifiedParser {
     @Override
     public void parse(ParserInfo info) {
         CasualParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGenerationCallback callback;
 
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new VariableDeclarationCallbackCasual(), info.fork());
+        Extractor extractor = VariableParser.SPECIFIED_PATTERN.extractor();
+        SourceStream stream = info.getComponent(Components.SOURCE_STREAM);
+        SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
+        List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
+
+        if (hollows == null || hollows.size() < 2) {
+            callback = new VariableDeclarationCallbackCasual(false);
+        }
+        else {
+            callback = new VariableDeclarationCallbackCasual(true);
+        }
+
+        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, info.fork());
     }
 
     @LocalCallback
     private static class VariableDeclarationCallbackCasual implements CasualParserGenerationCallback {
 
+        private final boolean assignation;
+
+        private VariableDeclarationCallbackCasual(boolean assignation) {
+            this.assignation = assignation;
+        }
+
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
+            TokenPatternHollows hollows = TokenPatternUtils.extract(assignation ? SPECIFIED_PATTERN : PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
 
-            redactor.map("left", "right");
+            if (assignation) {
+                redactor.map("left", "right");
+            }
+            else {
+                redactor.map("left");
+            }
+
             delegatedInfo.setComponent("redactor", redactor);
             TokenizedSource left = redactor.get("left");
 
@@ -120,6 +155,7 @@ public class VariableParser implements UnifiedParser {
 
                     if (prototype != null) {
                         variable = prototype.getField(variableName);
+                        delegatedInfo.setComponent("f_variable", true);
                     }
                 }
 
@@ -133,13 +169,15 @@ public class VariableParser implements UnifiedParser {
                 throw new PandaParserException("Unknown left side: " + left);
             }
 
-            nextLayer.delegate(new VariableCasualParserCallback(), delegatedInfo);
+            if (assignation) {
+                nextLayer.delegate(new VariableAssignationCasualParserCallback(), delegatedInfo);
+            }
         }
 
     }
 
     @LocalCallback
-    private static class VariableCasualParserCallback implements CasualParserGenerationCallback {
+    private static class VariableAssignationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
@@ -160,7 +198,17 @@ public class VariableParser implements UnifiedParser {
                 throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
             }
 
-            Assigner assigner = new Assigner(VariableParserUtils.indexOf(scope, variable), expression);
+            Boolean variableType = delegatedInfo.getComponent("f_variable");
+            Executable assigner;
+
+            if (variableType != null && variableType) {
+                ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
+                assigner = new FieldAssigner(prototype.getFields().indexOf(variable), expression);
+            }
+            else {
+                assigner = new VariableAssigner(VariableParserUtils.indexOf(scope, variable), expression);
+            }
+
             StatementCell cell = delegatedInfo.getComponent("cell");
             cell.setStatement(assigner);
         }

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.core.interpreter.lexer.extractor.prepared;
 
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 public class PreparedRepresentation {
 
@@ -34,6 +35,11 @@ public class PreparedRepresentation {
 
     public TokenRepresentation getTokenRepresentation() {
         return tokenRepresentation;
+    }
+
+    @Override
+    public String toString() {
+        return StringUtils.gapOf(nestingLevel * 2) + tokenRepresentation + " //" + nestingLevel;
     }
 
 }

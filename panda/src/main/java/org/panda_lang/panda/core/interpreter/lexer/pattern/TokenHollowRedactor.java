@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.core.interpreter.lexer.pattern;
 
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 
 import java.util.HashMap;
@@ -33,7 +34,7 @@ public class TokenHollowRedactor {
 
     public void map(String... names) {
         if (names.length != hollows.getGaps().size()) {
-            throw new RuntimeException("Cannot map the mismatched hollows");
+            throw new PandaParserException("Cannot map mismatched hollows");
         }
 
         for (int i = 0; i < names.length; i++) {

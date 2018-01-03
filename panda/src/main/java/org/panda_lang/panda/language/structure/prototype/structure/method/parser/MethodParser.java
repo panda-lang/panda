@@ -55,7 +55,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.parameter.Par
 
 import java.util.List;
 
-@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = MethodParser.class, handlerClass = MethodParserHandler.class, priority = DefaultPriorities.METHOD_PARSER)
+@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = MethodParser.class, handlerClass = MethodParserHandler.class, priority = DefaultPriorities.PROTOTYPE_METHOD_PARSER)
 public class MethodParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()

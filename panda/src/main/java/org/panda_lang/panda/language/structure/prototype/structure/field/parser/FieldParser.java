@@ -44,7 +44,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.FieldSt
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
-@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class, priority = DefaultPriorities.FIELD_PARSER)
+@ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class, priority = DefaultPriorities.PROTOTYPE_FIELD_PARSER)
 public class FieldParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()

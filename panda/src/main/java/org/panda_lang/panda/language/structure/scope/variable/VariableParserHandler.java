@@ -29,8 +29,7 @@ public class VariableParserHandler implements ParserHandler {
     public boolean handle(TokenReader tokenReader) {
         Extractor extractor = VariableParser.PATTERN.extractor();
         List<TokenizedSource> hollows = extractor.extract(tokenReader);
-
-        return hollows != null;
+        return hollows != null && hollows.size() > 0;
     }
 
 }
