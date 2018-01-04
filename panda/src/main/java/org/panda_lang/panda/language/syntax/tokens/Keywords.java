@@ -103,9 +103,9 @@ public class Keywords {
 
     public static final Keyword SWITCH = new Keyword("switch");
 
-    public static final Keyword THIS = new Keyword("this");
-
     public static final Keyword WHILE = new Keyword("while");
+
+    public static final Keyword LOCAL = new Keyword("local");
 
     private static final Keyword[] VALUES = new Keyword[42];
 
@@ -142,7 +142,7 @@ public class Keywords {
         VALUES[29] = SUPER;
         VALUES[30] = SYNCHRONIZED;
         VALUES[31] = SWITCH;
-        VALUES[32] = THIS;
+        VALUES[32] = LOCAL;
         VALUES[33] = WHILE;
         VALUES[34] = MAIN;
         VALUES[35] = IMPORT;

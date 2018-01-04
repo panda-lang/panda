@@ -31,8 +31,9 @@ public class PandaValue implements Value {
     }
 
     @Override
-    public Object getValue() {
-        return getObject();
+    @SuppressWarnings("unchecked")
+    public <T> T getValue() {
+        return (T) getObject();
     }
 
     @Override

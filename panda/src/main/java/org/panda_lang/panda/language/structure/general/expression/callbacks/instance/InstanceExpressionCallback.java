@@ -38,9 +38,9 @@ public class InstanceExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch bridge) {
-        Value[] values = ExpressionUtils.getValues(bridge, arguments);
-        Object instance = constructor.createInstance(bridge, values);
+    public Value call(Expression expression, ExecutableBranch branch) {
+        Value[] values = ExpressionUtils.getValues(branch, arguments);
+        Object instance = constructor.createInstance(branch, values);
 
         return new PandaValue(returnType, instance);
     }

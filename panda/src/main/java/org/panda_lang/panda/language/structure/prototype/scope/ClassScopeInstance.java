@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.scope;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
+import org.panda_lang.panda.core.structure.value.PandaValue;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
@@ -54,6 +55,10 @@ public class ClassScopeInstance implements ScopeInstance {
     @Override
     public ClassScope getScope() {
         return scope;
+    }
+
+    public Value toValue() {
+        return new PandaValue(prototype, this);
     }
 
     @Override

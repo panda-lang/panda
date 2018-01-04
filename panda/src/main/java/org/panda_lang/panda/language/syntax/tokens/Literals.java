@@ -29,12 +29,15 @@ public class Literals {
 
     public static final Literal NULL = new Literal("null");
 
-    private static final Literal[] VALUES = new Literal[3];
+    public static final Literal THIS = new Literal("this");
+
+    private static final Literal[] VALUES = new Literal[4];
 
     static {
         VALUES[0] = FALSE;
         VALUES[1] = TRUE;
         VALUES[2] = NULL;
+        VALUES[3] = THIS;
     }
 
     public static Literal[] values() {

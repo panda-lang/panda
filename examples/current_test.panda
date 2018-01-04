@@ -12,11 +12,11 @@ class Foo extends Test {
 
 class Test {
 
-    hidden String testField;
+    hidden Test testField;
 
     constructor(String message) {
         System.print(message);
-        testField = message;
+        testField = this;
     }
 
     method echo(String message) {

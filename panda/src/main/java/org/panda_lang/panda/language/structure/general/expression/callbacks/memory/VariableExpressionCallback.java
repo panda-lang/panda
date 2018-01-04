@@ -31,8 +31,8 @@ public class VariableExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch bridge) {
-        ScopeInstance currentScope = bridge.getCurrentScope();
+    public Value call(Expression expression, ExecutableBranch branch) {
+        ScopeInstance currentScope = branch.getCurrentScope();
         return currentScope.getVariables()[memoryIndex];
     }
 

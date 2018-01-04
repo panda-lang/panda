@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.scope.variable;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
+import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
@@ -38,18 +39,21 @@ public class FieldAssigner implements Executable {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
 
-        Object instance = branch.getInstance();
+        Value instance = branch.getInstance();
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        if (!(instance instanceof ClassScopeInstance)) {
+        if (!(instance.getObject() instanceof ClassScopeInstance)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance;
-        pandaInstance.getFieldValues()[memoryIndex] = expression.getExpressionValue(branch);
+        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance.getObject();
+        branch.instance(pandaInstance.toValue());
+
+        Value value = expression.getExpressionValue(branch);
+        pandaInstance.getFieldValues()[memoryIndex] = value;
     }
 
     @Override

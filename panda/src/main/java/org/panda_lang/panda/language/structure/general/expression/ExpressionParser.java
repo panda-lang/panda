@@ -30,9 +30,10 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.FieldExpressionCallback;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
@@ -52,6 +53,9 @@ public class ExpressionParser implements Parser {
                         return toSimpleKnownExpression("panda.lang:Boolean", true);
                     case "false":
                         return toSimpleKnownExpression("panda.lang:Boolean", false);
+                    case "this":
+                        ClassPrototype type = info.getComponent(Components.CLASS_PROTOTYPE);
+                        return new Expression(type, new ThisExpressionCallback());
                     default:
                         throw new PandaParserException("Unknown literal: " + token);
                 }

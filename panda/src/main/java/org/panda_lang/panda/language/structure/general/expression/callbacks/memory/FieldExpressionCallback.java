@@ -35,18 +35,18 @@ public class FieldExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch bridge) {
-        Object instance = bridge.getInstance();
+    public Value call(Expression expression, ExecutableBranch branch) {
+        Value instance = branch.getInstance();
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        if (!(instance instanceof ClassScopeInstance)) {
+        if (!(instance.getObject() instanceof ClassScopeInstance)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance;
+        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance.getObject();
         Value value = pandaInstance.getFieldValues()[fieldIndex];
 
         if (value == null) {

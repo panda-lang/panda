@@ -32,7 +32,7 @@ public interface ExecutableBranch {
      *
      * @param instance current object
      */
-    void instance(Object instance);
+    void instance(Value instance);
 
     /**
      * Call the current scope
@@ -107,6 +107,6 @@ public interface ExecutableBranch {
     /**
      * @return current object
      */
-    Object getInstance();
+    Value getInstance();
 
 }

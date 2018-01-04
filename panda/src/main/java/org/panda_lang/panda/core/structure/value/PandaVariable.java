@@ -47,7 +47,7 @@ public class PandaVariable implements Variable {
 
     @Override
     public String toString() {
-        return "'" + getName() + "': '" + getType() + "'";
+        return "'" + getName() + "': '" + getType().getClassName() + "'";
     }
 
 }

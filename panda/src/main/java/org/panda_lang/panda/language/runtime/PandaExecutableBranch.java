@@ -34,7 +34,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     private PandaControlFlow currentFlow;
     private Value returnedValue;
     private boolean interrupted;
-    private Object instance;
+    private Value instance;
 
     public PandaExecutableBranch(PandaExecutableProcess process, ScopeInstance currentScope) {
         this.process = process;
@@ -109,7 +109,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public void instance(Object instance) {
+    public void instance(Value instance) {
         this.instance = instance;
     }
 
@@ -145,7 +145,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public Object getInstance() {
+    public Value getInstance() {
         return instance;
     }
 

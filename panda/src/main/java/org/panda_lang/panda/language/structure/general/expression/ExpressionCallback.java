@@ -21,6 +21,6 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public interface ExpressionCallback {
 
-    Value call(Expression expression, ExecutableBranch bridge);
+    Value call(Expression expression, ExecutableBranch branch);
 
 }

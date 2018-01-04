@@ -23,30 +23,31 @@ import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 
+import javax.annotation.Nullable;
+
 public class MethodInvoker implements StandaloneExecutable {
 
     private final Method method;
-    private final Expression expression;
+    private final Expression instanceExpression;
     private final Expression[] arguments;
 
-    public MethodInvoker(Method method, Expression instance, Expression[] arguments) {
+    public MethodInvoker(Method method, @Nullable Expression instance, Expression[] arguments) {
         this.method = method;
-        this.expression = instance;
+        this.instanceExpression = instance;
         this.arguments = arguments;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        Object instance = null;
+        Value instance = null;
 
-        if (expression != null) {
-            Value value = expression.getExpressionValue(branch);
-            instance = value.getValue();
+        if (instanceExpression != null) {
+            instance = instanceExpression.getExpressionValue(branch);
             branch.instance(instance);
         }
 
         Value[] values = ExpressionUtils.getValues(branch, arguments);
-        method.invoke(branch, instance, values);
+        method.invoke(branch, instance != null ? instance.getObject() : null, values);
     }
 
 }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.constructor.variant;
 
+import org.panda_lang.panda.core.structure.value.PandaValue;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
@@ -44,10 +45,12 @@ public class PandaConstructor implements Constructor {
     @Override
     public ClassScopeInstance createInstance(ExecutableBranch bridge, Value... values) {
         ClassScopeInstance classInstance = classScope.createInstance();
-        ConstructorScopeInstance constructorInstance = constructorScope.createInstance();
+        Value instance = new PandaValue(classPrototype, classInstance);
 
+        ConstructorScopeInstance constructorInstance = constructorScope.createInstance();
         ParameterUtils.assignValues(constructorInstance.getVariables(), values);
-        bridge.instance(classInstance);
+
+        bridge.instance(instance);
         bridge.call(constructorInstance);
 
         return classInstance;
