@@ -20,7 +20,11 @@ class Test {
     }
 
     method echo(String message) {
-        System.print(testField);
+        System.print(message);
+    }
+
+    method testField() {
+        this.echo(testField);
     }
 
 }
@@ -30,6 +34,7 @@ main {
 
     Test test = new Test("Constructor");
     test.echo("Method");
+    test.testField();
 
     Foo varFoo = null;
     varFoo = new Foo();
