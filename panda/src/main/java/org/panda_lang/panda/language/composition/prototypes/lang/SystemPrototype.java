@@ -30,7 +30,7 @@ import java.security.InvalidParameterException;
 public class SystemPrototype implements ClassPrototypeModel {
 
     @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = true, returnType = "void")
-    public static void print(ExecutableBranch bridge, System instance, @TypeDeclaration("Objects") Value[] parameters) {
+    public static void print(ExecutableBranch branch, System instance, @TypeDeclaration("panda.lang:Array<Object>") Value[] parameters) {
         StringBuilder node = new StringBuilder();
 
         if (parameters.length == 0) {
@@ -38,7 +38,7 @@ public class SystemPrototype implements ClassPrototypeModel {
         }
 
         for (Value value : parameters) {
-            node.append(value.getObject());
+            node.append(value == null ? "null" : value.getObject());
             node.append(", ");
         }
 

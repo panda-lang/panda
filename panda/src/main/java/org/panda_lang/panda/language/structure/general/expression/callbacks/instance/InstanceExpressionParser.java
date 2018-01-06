@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extra
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
@@ -36,12 +37,13 @@ import org.panda_lang.panda.language.structure.prototype.structure.constructor.C
 
 import java.util.List;
 
-public class InstanceExpressionParser {
+public class InstanceExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
 
     private ClassPrototype returnType;
     private Constructor constructor;
     private Expression[] arguments;
 
+    @Override
     public void parse(TokenizedSource source, ParserInfo info) {
         Panda panda = info.getComponent(Components.PANDA);
         PandaScript script = info.getComponent(Components.SCRIPT);
@@ -49,7 +51,7 @@ public class InstanceExpressionParser {
         TokenReader reader = new PandaTokenReader(source);
         Syntax syntax = panda.getPandaComposition().getSyntax();
 
-        TokenPattern pattern = TokenPattern.builder().compile(syntax, "new +* ( +* )").build();
+        TokenPattern pattern = TokenPattern.builder().compile(syntax, "new +** ( +* )").build();
         Extractor extractor = pattern.extractor();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
@@ -70,6 +72,7 @@ public class InstanceExpressionParser {
         }
     }
 
+    @Override
     public InstanceExpressionCallback toCallback() {
         return new InstanceExpressionCallback(returnType, constructor, arguments);
     }

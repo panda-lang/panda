@@ -14,26 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method;
+package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 
-public interface Method extends MethodCallback<Object> {
+public interface ExpressionCallbackParser<T> {
 
-    default boolean isVoid() {
-        return getReturnType() == null;
-    }
+    void parse(TokenizedSource source, ParserInfo info);
 
-    boolean isStatic();
-
-    MethodVisibility getVisibility();
-
-    ClassPrototype getReturnType();
-
-    ClassPrototype[] getParameterTypes();
-
-    String getMethodName();
-
-    ClassPrototype getClassPrototype();
+    T toCallback();
 
 }

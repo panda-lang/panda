@@ -38,8 +38,6 @@ public interface TokenizedSource {
         return tokenRepresentation.getToken();
     }
 
-    TokenRepresentation[] toArray();
-
     default TokenRepresentation get(int id) {
         if (id >= size() || id < 0) {
             return null;
@@ -47,8 +45,6 @@ public interface TokenizedSource {
 
         return getTokensRepresentations().get(id);
     }
-
-    List<TokenRepresentation> getTokensRepresentations();
 
     static String asString(TokenizedSource tokenizedSource) {
         StringBuilder node = new StringBuilder();
@@ -60,5 +56,13 @@ public interface TokenizedSource {
 
         return node.toString();
     }
+
+    default TokenRepresentation getLast() {
+        return get(size() - 1);
+    }
+
+    List<TokenRepresentation> getTokensRepresentations();
+
+    TokenRepresentation[] toArray();
 
 }

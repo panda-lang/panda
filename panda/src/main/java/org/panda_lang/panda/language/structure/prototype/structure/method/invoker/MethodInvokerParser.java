@@ -49,7 +49,7 @@ public class MethodInvokerParser implements UnifiedParser {
     public static final TokenPattern PATTERN = TokenPattern.builder()
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
-            .hollow()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
             .hollow()
             .unit(TokenType.SEPARATOR, ")")

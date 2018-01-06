@@ -22,6 +22,7 @@ import org.panda_lang.panda.core.structure.value.PandaValue;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.Token;
@@ -31,12 +32,17 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.parser.FieldParser;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
+
+import java.util.List;
 
 public class ExpressionParser implements Parser {
 
@@ -100,7 +106,23 @@ public class ExpressionParser implements Parser {
             return new Expression(callback.getReturnType(), callback);
         }
 
-        // TODO: Impl parser pipeline
+        PandaTokenReader expressionReader = new PandaTokenReader(expressionSource);
+        List<TokenizedSource> methodMatches = MethodInvokerExpressionParser.PATTERN.match(expressionReader);
+
+        if (methodMatches != null && methodMatches.size() > 0) {
+            MethodInvokerExpressionParser callbackParser = new MethodInvokerExpressionParser(methodMatches);
+
+            callbackParser.parse(expressionSource, info);
+            MethodInvokerExpressionCallback callback = callbackParser.toCallback();
+
+            return new Expression(callback.getReturnType(), callback);
+        }
+
+        List<TokenizedSource> fieldMatches = FieldParser.PATTERN.match(expressionReader);
+
+        if (fieldMatches != null && fieldMatches.size() > 0) {
+
+        }
 
         throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());
     }

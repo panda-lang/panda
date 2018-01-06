@@ -125,6 +125,11 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
+    public void setReturnValue(Value value) {
+        this.returnedValue = value;
+    }
+
+    @Override
     public boolean isInterrupted() {
         return interrupted;
     }

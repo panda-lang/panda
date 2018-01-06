@@ -16,5 +16,29 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
-public class MethodInvokerExpressionCallback {
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.method.invoker.MethodInvoker;
+
+public class MethodInvokerExpressionCallback implements ExpressionCallback {
+
+    private final MethodInvoker invoker;
+
+    public MethodInvokerExpressionCallback(MethodInvoker invoker) {
+        this.invoker = invoker;
+    }
+
+    @Override
+    public Value call(Expression expression, ExecutableBranch branch) {
+        invoker.execute(branch);
+        return branch.getReturnedValue();
+    }
+
+    public ClassPrototype getReturnType() {
+        return invoker.getMethod().getReturnType();
+    }
+
 }

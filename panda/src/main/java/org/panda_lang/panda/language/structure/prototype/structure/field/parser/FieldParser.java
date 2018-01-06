@@ -47,7 +47,7 @@ import org.panda_lang.panda.language.syntax.tokens.Separators;
 @ParserRegistration(target = DefaultPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class, priority = DefaultPriorities.PROTOTYPE_FIELD_PARSER)
 public class FieldParser implements UnifiedParser {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder()
+    public static final TokenPattern PATTERN = TokenPattern.builder()
             .hollow()
             .unit(Separators.SEMICOLON)
             .build();

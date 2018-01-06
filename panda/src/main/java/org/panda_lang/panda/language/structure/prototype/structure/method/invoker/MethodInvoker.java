@@ -50,4 +50,8 @@ public class MethodInvoker implements StandaloneExecutable {
         method.invoke(branch, instance != null ? instance.getObject() : null, values);
     }
 
+    public Method getMethod() {
+        return method;
+    }
+
 }

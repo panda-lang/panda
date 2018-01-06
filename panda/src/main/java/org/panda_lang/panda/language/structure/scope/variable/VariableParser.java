@@ -165,6 +165,10 @@ public class VariableParser implements UnifiedParser {
 
                 delegatedInfo.setComponent("variable", variable);
             }
+            else if (left.size() > 2) {
+                // TODO: impl
+                throw new PandaParserException("Not implemented");
+            }
             else {
                 throw new PandaParserException("Unknown left side: " + left);
             }

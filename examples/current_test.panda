@@ -24,10 +24,14 @@ class Test {
     }
 
     method testField() {
-        this.echo(testField);
+        this.echo(this.getTestField());
     }
 
-}
+    method Test getTestField() {
+        return testField;
+    }
+
+ }
 
 main {
     String init;

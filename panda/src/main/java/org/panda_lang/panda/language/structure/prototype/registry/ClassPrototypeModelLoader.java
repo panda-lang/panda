@@ -132,7 +132,9 @@ public class ClassPrototypeModelLoader {
                         .isStatic(methodInfo.isStatic())
                         .visibility(methodInfo.visibility())
                         .methodBody(methodCallback)
+                        .parameterTypes()
                         .build();
+
                 prototype.getMethods().registerMethod(pandaMethod);
             }
         }

@@ -83,6 +83,13 @@ public interface ExecutableBranch {
     void returnValue(Value value);
 
     /**
+     * Return value without breaking a flow
+     *
+     * @param value result
+     */
+    void setReturnValue(Value value);
+
+    /**
      * @return true if branch has been interrupted
      */
     boolean isInterrupted();
