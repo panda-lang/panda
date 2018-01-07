@@ -18,6 +18,6 @@ package org.panda_lang.panda;
 
 public class PandaConstants {
 
-    public static final String VERSION = "indev-0.2.4-SNAPSHOT";
+    public static final String VERSION = "indev-0.2.10-SNAPSHOT";
 
 }
