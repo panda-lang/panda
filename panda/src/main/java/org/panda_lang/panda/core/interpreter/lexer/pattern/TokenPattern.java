@@ -47,6 +47,10 @@ public class TokenPattern {
         return new PreparedExtractor(this);
     }
 
+    public boolean endsWithGap() {
+        return units[units.length - 1].isGap();
+    }
+
     public boolean isKeepingOpposites() {
         return keepingOpposites;
     }

@@ -20,6 +20,17 @@ import java.util.List;
 
 public interface TokenizedSource {
 
+    static String asString(TokenizedSource tokenizedSource) {
+        StringBuilder node = new StringBuilder();
+
+        for (TokenRepresentation representation : tokenizedSource.getTokensRepresentations()) {
+            Token token = representation.getToken();
+            node.append(token.getTokenValue());
+        }
+
+        return node.toString();
+    }
+
     default int size() {
         return getTokensRepresentations().size();
     }
@@ -46,20 +57,11 @@ public interface TokenizedSource {
         return getTokensRepresentations().get(id);
     }
 
-    static String asString(TokenizedSource tokenizedSource) {
-        StringBuilder node = new StringBuilder();
-
-        for (TokenRepresentation representation : tokenizedSource.getTokensRepresentations()) {
-            Token token = representation.getToken();
-            node.append(token.getTokenValue());
-        }
-
-        return node.toString();
-    }
-
     default TokenRepresentation getLast() {
         return get(size() - 1);
     }
+
+    TokenizedSource subSource(int fromIndex, int toIndex);
 
     List<TokenRepresentation> getTokensRepresentations();
 

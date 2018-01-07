@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.variable;
+package org.panda_lang.panda.language.structure.scope.variable.assigners;
 
 import org.panda_lang.panda.core.structure.dynamic.Executable;
 import org.panda_lang.panda.core.structure.value.Value;
@@ -25,12 +25,14 @@ import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstanc
 
 public class FieldAssigner implements Executable {
 
+    private final Expression instanceExpression;
     private final int memoryIndex;
-    private final Expression expression;
+    private final Expression valueExpression;
 
-    public FieldAssigner(int memoryIndex, Expression expression) {
+    public FieldAssigner(Expression instanceExpression, int memoryIndex, Expression valueExpression) {
+        this.instanceExpression = instanceExpression;
         this.memoryIndex = memoryIndex;
-        this.expression = expression;
+        this.valueExpression = valueExpression;
     }
 
     @Override
@@ -39,7 +41,7 @@ public class FieldAssigner implements Executable {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
 
-        Value instance = branch.getInstance();
+        Value instance = instanceExpression.getExpressionValue(branch);
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");
@@ -52,13 +54,13 @@ public class FieldAssigner implements Executable {
         ClassScopeInstance pandaInstance = (ClassScopeInstance) instance.getObject();
         branch.instance(pandaInstance.toValue());
 
-        Value value = expression.getExpressionValue(branch);
+        Value value = valueExpression.getExpressionValue(branch);
         pandaInstance.getFieldValues()[memoryIndex] = value;
     }
 
     @Override
     public String toString() {
-        return "'f_memory'[" + memoryIndex + "] << " + expression.toString();
+        return instanceExpression.getReturnType().getClassName() + "@f_memory[" + memoryIndex + "] << " + valueExpression.toString();
     }
 
 }

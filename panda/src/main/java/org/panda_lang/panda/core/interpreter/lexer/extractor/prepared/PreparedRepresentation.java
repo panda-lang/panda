@@ -39,7 +39,7 @@ public class PreparedRepresentation {
 
     @Override
     public String toString() {
-        return StringUtils.gapOf(nestingLevel * 2) + tokenRepresentation + " //" + nestingLevel;
+        return StringUtils.gapOf(nestingLevel * 2) + tokenRepresentation + " [" + nestingLevel + "]";
     }
 
 }

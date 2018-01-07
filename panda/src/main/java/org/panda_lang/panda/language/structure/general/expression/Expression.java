@@ -20,6 +20,8 @@ import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
+import java.security.InvalidParameterException;
+
 public class Expression {
 
     private final ExpressionType type;
@@ -28,17 +30,30 @@ public class Expression {
     private final Value value;
 
     public Expression(Value value) {
-        this.type = ExpressionType.KNOWN;
-        this.returnType = value.getType();
-        this.callback = null;
-        this.value = value;
+        this(ExpressionType.KNOWN, value.getType(), null, value);
     }
 
     public Expression(ClassPrototype returnType, ExpressionCallback callback) {
-        this.type = ExpressionType.UNKNOWN;
+        this(ExpressionType.UNKNOWN, returnType, callback, null);
+    }
+
+    private Expression(ExpressionType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
+        if (type == null) {
+            throw new InvalidParameterException("ExpressionType cannot be null");
+        }
+
+        if (callback == null && value == null) {
+            throw new InvalidParameterException("Callback and Value cannot be null at the same time");
+        }
+
+        this.type = type;
         this.returnType = returnType;
         this.callback = callback;
-        this.value = null;
+        this.value = value;
+    }
+
+    public boolean isNull() {
+        return returnType == null;
     }
 
     public Value getExpressionValue(ExecutableBranch branch) {

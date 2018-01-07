@@ -26,17 +26,19 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 
 public class FieldExpressionCallback implements ExpressionCallback {
 
+    private final Expression instanceExpression;
     private final Field field;
     private final int fieldIndex;
 
-    public FieldExpressionCallback(Field field, int fieldIndex) {
+    public FieldExpressionCallback(Expression instanceExpression, Field field, int fieldIndex) {
+        this.instanceExpression = instanceExpression;
         this.field = field;
         this.fieldIndex = fieldIndex;
     }
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        Value instance = branch.getInstance();
+        Value instance = instanceExpression.getExpressionValue(branch);
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");

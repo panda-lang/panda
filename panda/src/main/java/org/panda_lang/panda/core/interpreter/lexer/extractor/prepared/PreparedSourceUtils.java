@@ -43,6 +43,18 @@ public class PreparedSourceUtils {
         return i;
     }
 
+    public static int countGaps(TokenPatternUnit[] units) {
+        int i = 0;
+
+        for (TokenPatternUnit unit : units) {
+            if (unit.isGap()) {
+                i++;
+            }
+        }
+
+        return i;
+    }
+
     /**
      * @return index of the specified token in array, returns -1 if the token was not found
      */

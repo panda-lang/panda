@@ -16,5 +16,20 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.number;
 
-public class NumberExpressionParser {
+import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
+
+public class NumberExpressionParser implements ExpressionCallbackParser<NumberExpressionCallback> {
+
+    @Override
+    public void parse(TokenizedSource source, ParserInfo info) {
+
+    }
+
+    @Override
+    public NumberExpressionCallback toCallback() {
+        return null;
+    }
+
 }

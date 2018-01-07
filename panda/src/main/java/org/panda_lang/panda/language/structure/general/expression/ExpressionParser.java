@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
+import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.value.PandaValue;
@@ -39,12 +40,18 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.memo
 import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
-import org.panda_lang.panda.language.structure.prototype.structure.field.parser.FieldParser;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
+import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 import java.util.List;
 
 public class ExpressionParser implements Parser {
+
+    protected static final TokenPattern FIELD_PATTERN = TokenPattern.builder()
+            .hollow()
+            .unit(Separators.PERIOD)
+            .hollow()
+            .build();
 
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
         if (expressionSource.size() == 1) {
@@ -94,7 +101,7 @@ public class ExpressionParser implements Parser {
 
             if (field != null) {
                 int memoryIndex = prototype.getFields().indexOf(field);
-                return new Expression(field.getType(), new FieldExpressionCallback(field, memoryIndex));
+                return new Expression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
             }
         }
         else if (TokenUtils.equals(expressionSource.get(0), TokenType.KEYWORD, "new")) {
@@ -118,10 +125,19 @@ public class ExpressionParser implements Parser {
             return new Expression(callback.getReturnType(), callback);
         }
 
-        List<TokenizedSource> fieldMatches = FieldParser.PATTERN.match(expressionReader);
+        List<TokenizedSource> fieldMatches = FIELD_PATTERN.match(expressionReader);
 
-        if (fieldMatches != null && fieldMatches.size() > 0) {
+        if (fieldMatches != null && fieldMatches.size() == 2) {
+            Expression instanceExpression = parse(info, fieldMatches.get(0));
+            ClassPrototype instanceType = instanceExpression.getReturnType();
+            Field instanceField = instanceType.getField(fieldMatches.get(1).getLast().getToken().getTokenValue());
 
+            if (instanceField == null) {
+
+            }
+
+            int memoryIndex = instanceType.getFields().indexOf(instanceField);
+            return new Expression(instanceType, new FieldExpressionCallback(instanceExpression, instanceField, memoryIndex));
         }
 
         throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());

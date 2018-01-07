@@ -118,6 +118,11 @@ public class PreparedExtractor implements Extractor {
             gaps.add(gap);
         }
 
+        if (pattern.endsWithGap()) {
+            TokenizedSource lastGap = tokenizedSource.subSource(indexes[indexes.length - 1] + 1, tokenizedSource.size());
+            gaps.add(lastGap);
+        }
+
         return gaps;
     }
 

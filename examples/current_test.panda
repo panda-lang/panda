@@ -16,6 +16,7 @@ class Test {
 
     constructor(String message) {
         System.print(message);
+        this.testField = this;
         testField = this;
     }
 
@@ -28,7 +29,7 @@ class Test {
     }
 
     method Test getTestField() {
-        return testField;
+        return this.testField;
     }
 
  }

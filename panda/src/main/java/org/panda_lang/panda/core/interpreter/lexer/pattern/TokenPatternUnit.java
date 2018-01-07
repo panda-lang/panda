@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.defaults.Equala
 
 public class TokenPatternUnit extends EqualableToken {
 
-    private static final TokenType HOLLOW_TYPE = new TokenType("HOLLOW");
+    public static final TokenType HOLLOW_TYPE = new TokenType("HOLLOW");
 
     /**
      * Multiline gap

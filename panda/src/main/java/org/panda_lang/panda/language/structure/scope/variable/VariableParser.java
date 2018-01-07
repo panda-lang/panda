@@ -48,8 +48,12 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributor.Sou
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.scope.variable.assigners.FieldAssigner;
+import org.panda_lang.panda.language.structure.scope.variable.assigners.VariableAssigner;
 
 import java.util.List;
 
@@ -61,7 +65,7 @@ public class VariableParser implements UnifiedParser {
             .unit(TokenType.SEPARATOR, ";")
             .build();
 
-    protected static final TokenPattern SPECIFIED_PATTERN = TokenPattern.builder()
+    protected static final TokenPattern ASSIGNATION_PATTERN = TokenPattern.builder()
             .simpleHollow()
             .unit(TokenType.OPERATOR, "=")
             .hollow()
@@ -73,7 +77,7 @@ public class VariableParser implements UnifiedParser {
         CasualParserGeneration generation = info.getComponent(Components.GENERATION);
         CasualParserGenerationCallback callback;
 
-        Extractor extractor = VariableParser.SPECIFIED_PATTERN.extractor();
+        Extractor extractor = VariableParser.ASSIGNATION_PATTERN.extractor();
         SourceStream stream = info.getComponent(Components.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
@@ -99,7 +103,7 @@ public class VariableParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenPatternHollows hollows = TokenPatternUtils.extract(assignation ? SPECIFIED_PATTERN : PATTERN, delegatedInfo);
+            TokenPatternHollows hollows = TokenPatternUtils.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedInfo);
             TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
 
             if (assignation) {
@@ -116,6 +120,10 @@ public class VariableParser implements UnifiedParser {
             StatementCell cell = container.reserveCell();
             delegatedInfo.setComponent("cell", cell);
 
+            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
+            Scope scope = linker.getCurrentScope();
+            delegatedInfo.setComponent("scope", scope);
+
             if (left.size() == 2) {
                 String variableType = left.getToken(0).getTokenValue();
                 String variableName = left.getToken(1).getTokenValue();
@@ -128,10 +136,6 @@ public class VariableParser implements UnifiedParser {
                     throw new PandaParserException("Unknown type '" + variableType + "'");
                 }
 
-                ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
-                Scope scope = linker.getCurrentScope();
-                delegatedInfo.setComponent("scope", scope);
-
                 Variable variable = new PandaVariable(type, variableName, 0);
                 delegatedInfo.setComponent("variable", variable);
 
@@ -142,32 +146,28 @@ public class VariableParser implements UnifiedParser {
                 scope.getVariables().add(variable);
             }
             else if (left.size() == 1) {
-                String variableName = left.getToken(0).getTokenValue();
+                Variable variable = VariableParserUtils.getVariable(scope, left.getLast().getToken().getTokenValue());
 
-                ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
-                Scope scope = linker.getCurrentScope();
-                delegatedInfo.setComponent("scope", scope);
-
-                Variable variable = VariableParserUtils.getVariable(scope, variableName);
-
-                if (variable == null) {
+                if (variable != null) {
+                    delegatedInfo.setComponent("variable", variable);
+                }
+                else {
                     ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
 
-                    if (prototype != null) {
-                        variable = prototype.getField(variableName);
-                        delegatedInfo.setComponent("f_variable", true);
+                    if (prototype == null) {
+                        throw new PandaParserException("Cannot get field from non-prototype scope");
                     }
-                }
 
-                if (variable == null) {
-                    throw new PandaParserException("Variable " + variableName + " + is not defined");
+                    delegatedInfo.setComponent("instance-expression", new Expression(prototype, new ThisExpressionCallback()));
+                    delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
                 }
-
-                delegatedInfo.setComponent("variable", variable);
             }
             else if (left.size() > 2) {
-                // TODO: impl
-                throw new PandaParserException("Not implemented");
+                ExpressionParser expressionParser = new ExpressionParser();
+                Expression instanceExpression = expressionParser.parse(delegatedInfo, left.subSource(0, left.size() - 2));
+
+                delegatedInfo.setComponent("instance-expression", instanceExpression);
+                delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
             }
             else {
                 throw new PandaParserException("Unknown left side: " + left);
@@ -189,28 +189,40 @@ public class VariableParser implements UnifiedParser {
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
-            Expression expression = expressionParser.parse(delegatedInfo, right);
+            Expression expressionValue = expressionParser.parse(delegatedInfo, right);
 
-            if (expression == null) {
+            if (expressionValue == null) {
                 throw new PandaParserException("Cannot parse expression '" + right + "'");
             }
 
             Scope scope = delegatedInfo.getComponent("scope");
             Variable variable = delegatedInfo.getComponent("variable");
-
-            if (!variable.getType().equals(expression.getReturnType())) {
-                throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
-            }
-
-            Boolean variableType = delegatedInfo.getComponent("f_variable");
             Executable assigner;
 
-            if (variableType != null && variableType) {
-                ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
-                assigner = new FieldAssigner(prototype.getFields().indexOf(variable), expression);
+            if (variable != null) {
+                if (!variable.getType().equals(expressionValue.getReturnType())) {
+                    throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
+                }
+
+                assigner = new VariableAssigner(VariableParserUtils.indexOf(scope, variable), expressionValue);
             }
             else {
-                assigner = new VariableAssigner(VariableParserUtils.indexOf(scope, variable), expression);
+                Expression instanceExpression = delegatedInfo.getComponent("instance-expression");
+                String fieldName = delegatedInfo.getComponent("instance-field");
+
+                ClassPrototype type = instanceExpression.getReturnType();
+                Field field = type.getField(fieldName);
+
+                if (field == null) {
+                    throw new PandaParserException("Field '" + fieldName + "' does not belong to " + type.getClassName());
+                }
+
+                if (!field.getType().equals(expressionValue.getReturnType())) {
+                    throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
+                }
+
+                int memoryIndex = type.getFields().indexOf(field);
+                assigner = new FieldAssigner(instanceExpression, memoryIndex, expressionValue);
             }
 
             StatementCell cell = delegatedInfo.getComponent("cell");
