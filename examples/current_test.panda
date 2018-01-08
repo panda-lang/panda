@@ -13,11 +13,13 @@ class Foo extends Test {
 class Test {
 
     hidden Test testField;
+    hidden Int i;
 
     constructor(String message) {
         System.print(message);
         this.testField = this;
         testField = this;
+        // this.i = 1.0;
     }
 
     method echo(String message) {

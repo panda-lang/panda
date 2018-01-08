@@ -37,6 +37,7 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.invo
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
@@ -127,23 +128,31 @@ public class ExpressionParser implements Parser {
 
         List<TokenizedSource> fieldMatches = FIELD_PATTERN.match(expressionReader);
 
-        if (fieldMatches != null && fieldMatches.size() == 2) {
+        if (fieldMatches != null && fieldMatches.size() == 2 && !NumberExpressionParser.isNumeric(fieldMatches.get(1))) {
             Expression instanceExpression = parse(info, fieldMatches.get(0));
             ClassPrototype instanceType = instanceExpression.getReturnType();
-            Field instanceField = instanceType.getField(fieldMatches.get(1).getLast().getToken().getTokenValue());
+            String instanceFieldName = fieldMatches.get(1).getLast().getToken().getTokenValue();
+            Field instanceField = instanceType.getField(instanceFieldName);
 
             if (instanceField == null) {
-
+                throw new PandaParserException("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName);
             }
 
             int memoryIndex = instanceType.getFields().indexOf(instanceField);
             return new Expression(instanceType, new FieldExpressionCallback(instanceExpression, instanceField, memoryIndex));
         }
 
+        NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
+        numberExpressionParser.parse(expressionSource, info);
+
+        if (numberExpressionParser.getValue() != null) {
+            throw new PandaParserException("Numbers not implemented");
+        }
+
         throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());
     }
 
-    private Expression toSimpleKnownExpression(String forName, Object value) {
+    public static Expression toSimpleKnownExpression(String forName, Object value) {
         return new Expression(new PandaValue(ClassPrototype.forName(forName), value));
     }
 

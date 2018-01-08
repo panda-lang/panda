@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+
 public class TokenUtils {
 
     public static String extractToken(TokenizedSource tokenizedSource, int i) {
@@ -25,6 +27,10 @@ public class TokenUtils {
 
         Token token = tokenizedSource.getToken(0);
         return token.getName();
+    }
+
+    public static boolean isNumber(Token token) {
+        return StringUtils.isNumber(token.getTokenValue());
     }
 
     public static int getLine(TokenizedSource tokenizedSource) {

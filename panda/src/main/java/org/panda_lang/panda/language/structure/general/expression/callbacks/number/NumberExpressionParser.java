@@ -16,20 +16,40 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.number;
 
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 
-public class NumberExpressionParser implements ExpressionCallbackParser<NumberExpressionCallback> {
+public class NumberExpressionParser implements Parser {
 
-    @Override
+    private Value value;
+
     public void parse(TokenizedSource source, ParserInfo info) {
+        /*
+        0x001
+        10B
+        10.0
+        4.2D
+         */
 
+        System.out.println("xx");
     }
 
-    @Override
-    public NumberExpressionCallback toCallback() {
-        return null;
+    public static boolean isNumeric(TokenizedSource source) {
+        for (TokenRepresentation tokenRepresentation : source.getTokensRepresentations()) {
+            if (!TokenUtils.isNumber(tokenRepresentation.getToken())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public Value getValue() {
+        return value;
     }
 
 }
