@@ -59,7 +59,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
             throw new PandaParserException("Cannot parse expression::instance");
         }
 
-        String className = TokenizedSource.asString(gaps.get(0));
+        String className = gaps.get(0).asString();
         ImportRegistry importRegistry = script.getImportRegistry();
         this.returnType = importRegistry.forClass(className);
 

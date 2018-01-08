@@ -140,9 +140,15 @@ public class StringUtils {
 
     public static boolean isNumber(String str) {
         for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) {
-                return false;
+            if (Character.isDigit(c)) {
+                continue;
             }
+
+            if (c == 'x' || c == '.') {
+                continue;
+            }
+
+            return false;
         }
 
         return true;

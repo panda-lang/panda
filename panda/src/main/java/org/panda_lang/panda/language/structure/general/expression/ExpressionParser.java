@@ -37,8 +37,8 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.invo
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberExpressionParser;
-import org.panda_lang.panda.language.structure.general.expression.callbacks.number.NumberUtils;
+import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
+import org.panda_lang.panda.language.structure.general.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
@@ -84,9 +84,13 @@ public class ExpressionParser implements Parser {
                 }
             }
 
-            if (NumberUtils.isNumber(value)) {
-                return toSimpleKnownExpression("panda.lang:Int", Integer.parseInt(value));
+            NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
+            numberExpressionParser.parse(expressionSource, info);
+
+            if (numberExpressionParser.getValue() != null) {
+                return new Expression(numberExpressionParser.getValue());
             }
+
 
             ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
@@ -128,7 +132,7 @@ public class ExpressionParser implements Parser {
 
         List<TokenizedSource> fieldMatches = FIELD_PATTERN.match(expressionReader);
 
-        if (fieldMatches != null && fieldMatches.size() == 2 && !NumberExpressionParser.isNumeric(fieldMatches.get(1))) {
+        if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
             Expression instanceExpression = parse(info, fieldMatches.get(0));
             ClassPrototype instanceType = instanceExpression.getReturnType();
             String instanceFieldName = fieldMatches.get(1).getLast().getToken().getTokenValue();
@@ -146,7 +150,7 @@ public class ExpressionParser implements Parser {
         numberExpressionParser.parse(expressionSource, info);
 
         if (numberExpressionParser.getValue() != null) {
-            throw new PandaParserException("Numbers not implemented");
+            return new Expression(numberExpressionParser.getValue());
         }
 
         throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());

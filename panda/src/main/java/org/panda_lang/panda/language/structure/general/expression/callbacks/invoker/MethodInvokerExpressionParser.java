@@ -68,10 +68,10 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         PandaScript script = info.getComponent(Components.SCRIPT);
         ImportRegistry registry = script.getImportRegistry();
 
-        String surmiseClassName = TokenizedSource.asString(instanceSource);
+        String surmiseClassName = instanceSource.asString();
         ClassPrototype prototype = registry.forClass(surmiseClassName);
 
-        String methodName = TokenizedSource.asString(methodSource);
+        String methodName = methodSource.asString();
         Expression instance = null;
 
         if (prototype == null) {

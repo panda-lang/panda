@@ -98,10 +98,10 @@ public class MethodInvokerParser implements UnifiedParser {
             PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
             ImportRegistry registry = script.getImportRegistry();
 
-            String surmiseClassName = TokenizedSource.asString(instanceSource);
+            String surmiseClassName = instanceSource.asString();
             ClassPrototype prototype = registry.forClass(surmiseClassName);
 
-            String methodName = TokenizedSource.asString(methodSource);
+            String methodName = methodSource.asString();
             Expression instance = null;
 
             if (prototype == null) {

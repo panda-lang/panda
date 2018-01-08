@@ -74,7 +74,7 @@ public class ConditionalBlockParser implements UnifiedParser {
         ConditionalBlock conditionalBlock = new ConditionalBlock(expression);
         info.setComponent("block", conditionalBlock);
 
-        switch (TokenizedSource.asString(conditionType)) {
+        switch (conditionType.asString()) {
             case "if":
                 break;
             case "else if":
