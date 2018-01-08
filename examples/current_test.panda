@@ -49,7 +49,7 @@ main {
     String s = null;
     s = "Hello Panda x2";
 
-    Int i = 3.14I;
+    Int i = 0x000001;
     Boolean flag = true;
 
     System.print("Hello Panda", flag, varFoo, s, test, i);

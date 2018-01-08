@@ -52,7 +52,7 @@ public class NumberExpressionParser implements Parser {
         }
         else if (number.contains("x")) {
             numberType = NumberType.INT;
-            parsedNumber = Long.parseLong(number, 16);
+            parsedNumber = Long.parseLong(number.substring(2, number.length()), 16);
         }
         else {
             numberType = NumberType.INT;

@@ -45,7 +45,7 @@ public class NumberUtils {
                 continue;
             }
 
-            if (c == '.' || c == '_') {
+            if (c == '.' || c == '_' || c == 'x') {
                 continue;
             }
 
