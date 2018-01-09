@@ -70,6 +70,12 @@ public class PandaLexerTokenExtractor {
                     continue;
                 }
 
+                if (token.getType() == TokenType.KEYWORD || token.getType() == TokenType.LITERAL) {
+                    if (tokenPreview.length() > token.getTokenValue().length()) {
+                        continue;
+                    }
+                }
+
                 return token;
             }
         }

@@ -33,6 +33,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Method
 import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class ClassPrototypeModelLoader {
@@ -53,6 +54,7 @@ public class ClassPrototypeModelLoader {
 
     @SuppressWarnings("unchecked")
     private void loadModels(Collection<Class<? extends ClassPrototypeModel>> models) throws Exception {
+        Collection<ClassPrototypeModelMethodRegister> methodRegisters = new ArrayList<>();
         ClassPool pool = ClassPool.getDefault();
 
         CtClass objectCtClass = pool.getCtClass(Object.class.getName());
@@ -114,6 +116,7 @@ public class ClassPrototypeModelLoader {
                 if (methodInfo.isStatic()) {
                     bodyBuilder.append(String.format("%s.%s($1, (%s) null %s);", modelClass.getName(), method.getName(), instanceType, values.toString()));
                 } else {
+                    // TODO: Improve prototype mapping concept
                     bodyBuilder.append(String.format("%s typedInstance = (%s) $2;", modelClass.getName(), modelClass.getName()));
                     bodyBuilder.append(String.format("typedInstance.%s($1, (%s) $2 %s);", method.getName(), instanceType, values.toString()));
                 }
@@ -126,17 +129,24 @@ public class ClassPrototypeModelLoader {
                 Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
                 MethodCallback<?> methodCallback = methodCallbackClass.newInstance();
 
-                PandaMethod pandaMethod = PandaMethod.builder()
-                        .methodName(method.getName())
-                        .prototype(prototype)
-                        .isStatic(methodInfo.isStatic())
-                        .visibility(methodInfo.visibility())
-                        .methodBody(methodCallback)
-                        .parameterTypes()
-                        .build();
+                methodRegisters.add(() -> {
+                    PandaMethod pandaMethod = PandaMethod.builder()
+                            .methodName(method.getName())
+                            .prototype(prototype)
+                            .returnType(ClassPrototype.forName(methodInfo.returnType()))
+                            .isStatic(methodInfo.isStatic())
+                            .visibility(methodInfo.visibility())
+                            .methodBody(methodCallback)
+                            .parameterTypes()
+                            .build();
 
-                prototype.getMethods().registerMethod(pandaMethod);
+                    prototype.getMethods().registerMethod(pandaMethod);
+                });
             }
+        }
+
+        for (ClassPrototypeModelMethodRegister methodRegister : methodRegisters) {
+            methodRegister.register();
         }
     }
 

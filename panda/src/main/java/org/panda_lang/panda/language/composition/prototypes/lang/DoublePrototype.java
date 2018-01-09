@@ -16,12 +16,20 @@
 
 package org.panda_lang.panda.language.composition.prototypes.lang;
 
+import org.panda_lang.panda.core.structure.value.PandaValue;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 @ClassDeclaration("Double")
 @ModuleDeclaration("panda.lang")
 public class DoublePrototype implements ClassPrototypeModel {
+
+    @MethodDeclaration(returnType = "panda.lang:Int")
+    public void intValue(ExecutableBranch branch, Double instance) {
+        branch.returnValue(new PandaValue(ClassPrototype.forName("panda.lang:Int"), instance.intValue()));
+    }
 
 }
