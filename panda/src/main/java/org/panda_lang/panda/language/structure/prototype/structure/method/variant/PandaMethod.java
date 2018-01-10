@@ -33,7 +33,7 @@ public class PandaMethod implements Method {
     private final boolean isStatic;
     private MethodVisibility visibility;
 
-    public PandaMethod(ClassPrototype prototype, MethodVisibility visibility, boolean isStatic, ClassPrototype returnType, String methodName, MethodCallback methodBody,  ClassPrototype... parameterTypes) {
+    public PandaMethod(ClassPrototype prototype, MethodVisibility visibility, boolean isStatic, ClassPrototype returnType, String methodName, MethodCallback methodBody, ClassPrototype... parameterTypes) {
         this.prototype = prototype;
         this.methodName = methodName;
         this.returnType = returnType;

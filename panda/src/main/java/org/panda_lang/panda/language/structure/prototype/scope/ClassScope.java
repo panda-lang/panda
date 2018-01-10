@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype.scope;
 
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
+import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 

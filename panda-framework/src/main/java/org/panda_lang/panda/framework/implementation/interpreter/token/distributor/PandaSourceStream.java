@@ -81,7 +81,7 @@ public class PandaSourceStream implements SourceStream {
 
     @Override
     public String toString() {
-        return "PandaSourceStream['" + this.tokenizedSource.toString() + "']" ;
+        return "PandaSourceStream['" + this.tokenizedSource.toString() + "']";
     }
 
 }

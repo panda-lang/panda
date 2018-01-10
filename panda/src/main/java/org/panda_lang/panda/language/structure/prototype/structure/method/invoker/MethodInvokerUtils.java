@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
 
-import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.imports.Import;
 import org.panda_lang.panda.language.structure.overall.imports.ImportStatement;
+import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.List;

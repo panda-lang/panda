@@ -44,7 +44,7 @@ public class ClassPrototypeModelLoader {
         this.panda = panda;
     }
 
-    public void load(Collection<Class<? extends ClassPrototypeModel>> models)  {
+    public void load(Collection<Class<? extends ClassPrototypeModel>> models) {
         try {
             loadModels(models);
         } catch (Exception e) {
@@ -62,7 +62,7 @@ public class ClassPrototypeModelLoader {
         CtClass executableBranchCtClass = pool.get(ExecutableBranch.class.getName());
         CtClass valueArrayCtClass = pool.get(Value[].class.getName());
         CtClass valueCtClass = pool.get(Value.class.getName());
-        CtClass[] implementationTypes = new CtClass[] { executableBranchCtClass, objectCtClass, valueArrayCtClass };
+        CtClass[] implementationTypes = new CtClass[]{ executableBranchCtClass, objectCtClass, valueArrayCtClass };
 
         for (Class<? extends ClassPrototypeModel> modelClass : models) {
             ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
@@ -115,7 +115,8 @@ public class ClassPrototypeModelLoader {
 
                 if (methodInfo.isStatic()) {
                     bodyBuilder.append(String.format("%s.%s($1, (%s) null %s);", modelClass.getName(), method.getName(), instanceType, values.toString()));
-                } else {
+                }
+                else {
                     // TODO: Improve prototype mapping concept
                     bodyBuilder.append(String.format("%s typedInstance = (%s) $2;", modelClass.getName(), modelClass.getName()));
                     bodyBuilder.append(String.format("typedInstance.%s($1, (%s) $2 %s);", method.getName(), instanceType, values.toString()));

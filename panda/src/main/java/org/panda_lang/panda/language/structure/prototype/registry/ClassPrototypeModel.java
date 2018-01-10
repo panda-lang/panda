@@ -34,32 +34,43 @@ public interface ClassPrototypeModel {
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
     @interface ModuleDeclaration {
+
         String value();
+
     }
 
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
     @interface ClassDeclaration {
+
         String value();
+
     }
 
     @Target(ElementType.CONSTRUCTOR)
     @Retention(RetentionPolicy.RUNTIME)
     @interface ConstructorDeclaration {
+
     }
 
     @Target(ElementType.METHOD)
     @Retention(RetentionPolicy.RUNTIME)
     @interface MethodDeclaration {
+
         MethodVisibility visibility() default MethodVisibility.PUBLIC;
+
         boolean isStatic() default false;
+
         String returnType() default "void";
+
     }
 
     @Target(ElementType.PARAMETER)
     @Retention(RetentionPolicy.RUNTIME)
     @interface TypeDeclaration {
+
         String value();
+
     }
 
     @SuppressWarnings("unchecked")

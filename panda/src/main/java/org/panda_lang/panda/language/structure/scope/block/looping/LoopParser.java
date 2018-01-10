@@ -26,10 +26,10 @@ import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaPar
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
-import org.panda_lang.panda.language.structure.scope.block.looping.blocks.LoopBlock;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.scope.block.looping.blocks.LoopBlock;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = LoopParser.class, handlerClass = LoopParserHandler.class)
 public class LoopParser implements UnifiedParser {

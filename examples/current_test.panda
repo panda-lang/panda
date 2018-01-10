@@ -21,6 +21,7 @@ class Test {
         testField = this;
         this.i = 1.0D;
         //this.echo(i.intValue());
+        echo(this.i.intValue());
     }
 
     method echo(String message) {

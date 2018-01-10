@@ -45,10 +45,10 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.overall.module.Module;
-import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassReference;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
+import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
 

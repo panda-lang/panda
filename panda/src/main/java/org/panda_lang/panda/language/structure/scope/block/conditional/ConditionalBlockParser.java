@@ -30,10 +30,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
-import org.panda_lang.panda.language.structure.scope.block.conditional.variant.ElseBlock;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.scope.block.conditional.variant.ElseBlock;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = ConditionalBlockParser.class, handlerClass = ConditionalBlockParserHandler.class)
 public class ConditionalBlockParser implements UnifiedParser {

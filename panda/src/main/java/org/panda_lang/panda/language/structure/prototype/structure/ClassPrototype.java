@@ -23,7 +23,9 @@ import org.panda_lang.panda.language.structure.prototype.structure.constructor.C
 import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 public class ClassPrototype {
 

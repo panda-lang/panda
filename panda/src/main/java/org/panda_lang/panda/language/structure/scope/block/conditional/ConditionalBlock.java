@@ -20,8 +20,8 @@ import org.panda_lang.panda.core.structure.dynamic.Block;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
 
 public class ConditionalBlock extends PandaBlock {
 
@@ -39,7 +39,7 @@ public class ConditionalBlock extends PandaBlock {
     @Override
     public void execute(ExecutableBranch branch) {
         Value value = condition.getExpressionValue(branch);
-        boolean flag = (boolean) value.getValue();
+        boolean flag = value.getValue();
 
         if (flag) {
             branch.call(super.getStatementCells());

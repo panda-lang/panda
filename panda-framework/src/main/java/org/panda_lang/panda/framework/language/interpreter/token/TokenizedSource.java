@@ -31,7 +31,7 @@ public interface TokenizedSource {
     }
 
     default TokenRepresentation getFirst() {
-        return size() > 1 ? get(0): null;
+        return size() > 1 ? get(0) : null;
     }
 
     default TokenRepresentation getLast() {
