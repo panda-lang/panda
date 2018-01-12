@@ -16,6 +16,16 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper;
 
-public class ClassPrototypeMappingLoader {
+public class ClassPrototypeMappingGenerator {
+
+    private final ClassPrototypeMappingManager mappingManager;
+
+    public ClassPrototypeMappingGenerator(ClassPrototypeMappingManager mappingManager) {
+        this.mappingManager = mappingManager;
+    }
+
+    public void generate() {
+
+    }
 
 }

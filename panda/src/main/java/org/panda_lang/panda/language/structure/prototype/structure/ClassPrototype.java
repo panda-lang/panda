@@ -31,6 +31,7 @@ public class ClassPrototype {
 
     private final Module module;
     private final String className;
+    private final Collection<Class<?>> associated;
     private final Collection<ClassPrototype> extended;
     private final Collection<Constructor> constructors;
     private final List<Field> fields;
@@ -39,8 +40,9 @@ public class ClassPrototype {
     public ClassPrototype(Module module, String className) {
         this.module = module;
         this.className = className;
-        this.extended = new ArrayList<>();
-        this.constructors = new ArrayList<>();
+        this.associated = new ArrayList<>(1);
+        this.extended = new ArrayList<>(1);
+        this.constructors = new ArrayList<>(1);
         this.fields = new ArrayList<>();
         this.methods = new Methods(this);
     }
@@ -73,8 +75,16 @@ public class ClassPrototype {
         return extended;
     }
 
+    public Collection<Class<?>> getAssociated() {
+        return associated;
+    }
+
     public Module getModule() {
         return module;
+    }
+
+    public String getName() {
+        return module.getName() + ":" + this.getClassName();
     }
 
     public String getClassName() {
