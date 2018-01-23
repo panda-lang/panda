@@ -35,6 +35,9 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.inst
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathExpressionCallback;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathExpressionUtils;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
@@ -151,6 +154,12 @@ public class ExpressionParser implements Parser {
 
         if (numberExpressionParser.getValue() != null) {
             return new Expression(numberExpressionParser.getValue());
+        }
+
+        if (MathExpressionUtils.isMathExpression(expressionSource)) {
+            MathParser mathParser = new MathParser();
+            MathExpressionCallback expression = mathParser.parse(expressionSource, info);
+            return new Expression(expression.getReturnType(), expression);
         }
 
         throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());

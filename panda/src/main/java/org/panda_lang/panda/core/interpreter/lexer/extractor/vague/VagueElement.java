@@ -16,10 +16,41 @@
 
 package org.panda_lang.panda.core.interpreter.lexer.extractor.vague;
 
+import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 
 public class VagueElement {
 
-    private TokenizedSource output;
+    private TokenRepresentation operator;
+    private TokenizedSource expression;
+
+    public VagueElement(TokenRepresentation operator) {
+        this.operator = operator;
+    }
+
+    public VagueElement(TokenizedSource expression) {
+        this.expression = expression;
+    }
+
+    public boolean isExpression() {
+        return expression != null;
+    }
+
+    public boolean isOperator() {
+        return operator != null;
+    }
+
+    public TokenizedSource getExpression() {
+        return expression;
+    }
+
+    public TokenRepresentation getOperator() {
+        return operator;
+    }
+
+    @Override
+    public String toString() {
+        return (isOperator() ? operator.toString() : expression.toString());
+    }
 
 }

@@ -57,7 +57,7 @@ Latest build. Remember, API is not stable yet :o:
 <dependency>
     <groupId>org.panda_lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-0.2.3-SNAPSHOT</version>
+    <version>indev-0.2.11-SNAPSHOT</version>
 </dependency>
 ```
 

@@ -16,19 +16,38 @@
 
 package org.panda_lang.panda.core.interpreter.lexer.extractor.vague;
 
+import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.Separator;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 
 public class VagueExtractor {
 
+    private final Separator[] separators;
     private final Token[] dividers;
 
-    public VagueExtractor(Token... dividers) {
+    public VagueExtractor(Separator[] separators, Token[] dividers) {
+        this.separators = separators;
         this.dividers = dividers;
     }
 
+    public VagueResult extract(TokenizedSource source) {
+        VagueWorker worker = new VagueWorker(this, new VagueResult(), new PandaTokenReader(source));
+        return worker.extract();
+    }
+
     public VagueResult extract(TokenReader reader) {
-        return null;
+        VagueWorker worker = new VagueWorker(this, new VagueResult(), reader);
+        return worker.extract();
+    }
+
+    protected Token[] getDividers() {
+        return dividers;
+    }
+
+    public Token[] getSeparators() {
+        return separators;
     }
 
 }

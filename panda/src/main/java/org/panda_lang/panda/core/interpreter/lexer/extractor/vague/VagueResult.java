@@ -16,18 +16,32 @@
 
 package org.panda_lang.panda.core.interpreter.lexer.extractor.vague;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class VagueResult {
 
     private final List<VagueElement> elements;
+    private boolean succeeded;
 
-    public VagueResult(List<VagueElement> elements) {
-        this.elements = elements;
+    public VagueResult() {
+        this.elements = new ArrayList<>(3);
+    }
+
+    public void succeed() {
+        this.succeeded = true;
+    }
+
+    public int size() {
+        return elements.size();
+    }
+
+    protected void addElement(VagueElement element) {
+        this.elements.add(element);
     }
 
     public boolean isSucceeded() {
-        return elements != null;
+        return succeeded;
     }
 
     public List<VagueElement> getElements() {

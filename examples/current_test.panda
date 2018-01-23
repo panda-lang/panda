@@ -20,8 +20,8 @@ class Test {
         this.testField = this;
         testField = this;
         this.i = 1.0D;
-        //this.echo(i.intValue());
-        //echo(this.i.intValue());
+        // this.echo(i.intValue());
+        // echo(this.i.intValue());
     }
 
     method echo(String message) {
@@ -52,9 +52,10 @@ main {
     s = "Hello Panda x2";
 
     Int i = 0x000001;
+    Int math = 10 + (3 + 4) * 2;
     Boolean flag = true;
 
-    System.print("Hello Panda", flag, varFoo, s, test, i);
+    System.print("Hello Panda", flag, varFoo, s, test, i, math);
 
     if (false) {
         System.print("Nope");
