@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
 import org.panda_lang.panda.core.structure.util.AbstractScope;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ConstructorScope extends AbstractScope {
     }
 
     @Override
-    public ConstructorScopeInstance createInstance() {
+    public ConstructorScopeInstance createInstance(ExecutableBranch branch) {
         return new ConstructorScopeInstance(this);
     }
 

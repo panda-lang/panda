@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method;
 
 import org.panda_lang.panda.core.structure.util.AbstractScope;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class MethodScope extends AbstractScope {
     }
 
     @Override
-    public MethodScopeInstance createInstance() {
+    public MethodScopeInstance createInstance(ExecutableBranch branch) {
         return new MethodScopeInstance(this);
     }
 

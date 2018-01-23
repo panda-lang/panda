@@ -18,6 +18,7 @@ package org.panda_lang.panda.core.structure.wrapper;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.value.Variable;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ public interface Scope extends Container {
      *
      * @return instance of the current wrapper
      */
-    ScopeInstance createInstance();
+    ScopeInstance createInstance(ExecutableBranch branch);
 
     /**
      * @return list of variables in the proper order

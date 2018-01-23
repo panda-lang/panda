@@ -35,7 +35,7 @@ public class PandaExecutableProcess implements ExecutableProcess {
 
     @Override
     public Value execute() {
-        ScopeInstance instance = headScope.createInstance();
+        ScopeInstance instance = headScope.createInstance(null); // TODO: check behaviour of branch after applying the 'null' value
 
         PandaExecutableBranch branch = new PandaExecutableBranch(this, instance);
         branch.call();

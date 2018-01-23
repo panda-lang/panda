@@ -18,11 +18,12 @@ package org.panda_lang.panda.language.structure.overall.main;
 
 import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
 import org.panda_lang.panda.core.structure.util.AbstractScope;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class Main extends AbstractScope {
 
     @Override
-    public ScopeInstance createInstance() {
+    public ScopeInstance createInstance(ExecutableBranch branch) {
         return new MainInstance(this);
     }
 

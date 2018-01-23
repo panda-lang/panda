@@ -43,15 +43,15 @@ public class PandaConstructor implements Constructor {
     }
 
     @Override
-    public ClassScopeInstance createInstance(ExecutableBranch bridge, Value... values) {
-        ClassScopeInstance classInstance = classScope.createInstance();
+    public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+        ClassScopeInstance classInstance = classScope.createInstance(branch);
         Value instance = new PandaValue(classPrototype, classInstance);
 
-        ConstructorScopeInstance constructorInstance = constructorScope.createInstance();
+        ConstructorScopeInstance constructorInstance = constructorScope.createInstance(branch);
         ParameterUtils.assignValues(constructorInstance.getVariables(), values);
 
-        bridge.instance(instance);
-        bridge.call(constructorInstance);
+        branch.instance(instance);
+        branch.call(constructorInstance);
 
         return classInstance;
     }

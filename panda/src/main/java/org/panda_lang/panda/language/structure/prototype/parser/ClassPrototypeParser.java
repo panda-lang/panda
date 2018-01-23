@@ -165,8 +165,8 @@ public class ClassPrototypeParser implements UnifiedParser {
 
             Constructor defaultConstructor = new Constructor() {
                 @Override
-                public ClassScopeInstance createInstance(ExecutableBranch bridge, Value... values) {
-                    return scope.createInstance();
+                public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+                    return scope.createInstance(branch);
                 }
 
                 @Override
