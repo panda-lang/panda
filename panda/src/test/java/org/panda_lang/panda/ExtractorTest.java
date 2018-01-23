@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.junit.Test;
 import org.panda_lang.panda.core.interpreter.lexer.extractor.prepared.PreparedExtractor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
@@ -35,7 +36,8 @@ public class ExtractorTest {
     //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
     private static final String SOURCE = "class A {} class B {}";
 
-    public static void main(String[] args) {
+    @Test
+    public void testExtractor() {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 

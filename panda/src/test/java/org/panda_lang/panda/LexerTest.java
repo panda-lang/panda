@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.junit.Test;
 import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Lexer;
@@ -32,7 +33,8 @@ public class LexerTest {
 
     private static final File SOURCE_FILE = new File("examples/hello_world.panda");
 
-    public static void main(String[] args) {
+    @Test
+    public void testLexer() {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
