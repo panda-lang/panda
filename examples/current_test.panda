@@ -13,13 +13,12 @@ class Foo extends Test {
 class Test {
 
     hidden Test testField;
-    hidden Double i;
+    hidden Double i = 1.0D;
 
     constructor(String message) {
         System.print(message);
         this.testField = this;
         testField = this;
-        this.i = 1.0D;
         // this.echo(i.intValue());
         // echo(this.i.intValue());
     }
