@@ -29,13 +29,13 @@ public class ArrayDistributorTest {
         ArrayDistributor<String> distributor = new ArrayDistributor<>(array);
         distributor.setIndex(2);
 
-        Assert.assertEquals(distributor.getPrevious(2), "a");
-        Assert.assertEquals(distributor.getPrevious(), "b");
+        Assert.assertEquals("a", distributor.getPrevious(2));
+        Assert.assertEquals("b", distributor.getPrevious());
 
-        Assert.assertEquals(distributor.current(), "c");
+        Assert.assertEquals("c", distributor.current());
 
-        Assert.assertEquals(distributor.further(), "d");
-        Assert.assertEquals(distributor.future(), "e");
+        Assert.assertEquals("d", distributor.further());
+        Assert.assertEquals("e", distributor.future());
 
     }
 

@@ -44,6 +44,14 @@ public class VagueResult {
         return succeeded;
     }
 
+    public String get(int index) {
+        if (index < 0 || index > size() - 1) {
+            return null;
+        }
+
+        return elements.get(index).toString();
+    }
+
     public List<VagueElement> getElements() {
         return elements;
     }

@@ -33,7 +33,7 @@ public class HollowPatternTest {
         PandaFramework.getLogger().info("[HollowPattern] Matched: " + matched);
         PandaFramework.getLogger().info("[HollowPattern] " + hollowPattern.getHollows());
 
-        Assert.assertEquals(matched, true);
+        Assert.assertEquals(true, matched);
     }
 
 }

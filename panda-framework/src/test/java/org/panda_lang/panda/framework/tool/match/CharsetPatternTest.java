@@ -33,6 +33,6 @@ public class CharsetPatternTest {
         boolean matched = charsetPattern.match(EXPRESSION);
         PandaFramework.getLogger().info("[CharsetPattern] Matched: " + matched);
 
-        Assert.assertEquals(matched, true);
+        Assert.assertEquals(true, matched);
     }
 }

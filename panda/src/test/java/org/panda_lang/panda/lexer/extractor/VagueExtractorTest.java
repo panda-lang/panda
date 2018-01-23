@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.lexer.extractor;
 
+import org.junit.Assert;
 import org.junit.Test;
-import org.panda_lang.panda.core.interpreter.lexer.extractor.vague.VagueElement;
 import org.panda_lang.panda.core.interpreter.lexer.extractor.vague.VagueExtractor;
 import org.panda_lang.panda.core.interpreter.lexer.extractor.vague.VagueResult;
 import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
@@ -31,7 +31,7 @@ import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 public class VagueExtractorTest {
 
-    private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
+    private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[] {
             Separators.LEFT_PARENTHESIS_DELIMITER,
             Separators.RIGHT_PARENTHESIS_DELIMITER
     }, new Token[] {
@@ -43,13 +43,16 @@ public class VagueExtractorTest {
     @Test
     public void testVagueExtractor() {
         Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), "(new Integer(5).intValue() + 3)");
-        TokenizedSource source = lexer.convert();
 
+        TokenizedSource source = lexer.convert();
         VagueResult result = EXTRACTOR.extract(source);
 
-        for (VagueElement element : result.getElements()) {
-            System.out.println(element);
-        }
+        Assert.assertEquals(true, result.isSucceeded());
+        Assert.assertEquals(5, result.size());
+        Assert.assertEquals("(", result.get(0));
+        Assert.assertEquals("+", result.get(2));
+        Assert.assertEquals("3", result.get(3));
+        Assert.assertEquals(")", result.get(4));
     }
 
 }
