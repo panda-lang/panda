@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-0.2.11-SNAPSHOT</version>
+        <version>indev-0.2.11</version>
     </parent>
 
     <artifactId>panda-framework</artifactId>
@@ -49,6 +49,13 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <repository>
+            <id>panda-repository</id>
+            <url>https://repo.panda-lang.org/releases</url>
+        </repository>
+    </distributionManagement>
 
     <build>
         <defaultGoal>clean install</defaultGoal>
