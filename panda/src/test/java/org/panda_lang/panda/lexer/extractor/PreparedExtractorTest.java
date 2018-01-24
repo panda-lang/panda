@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.lexer.extractor;
 
 import org.junit.Test;
 import org.panda_lang.panda.core.interpreter.lexer.extractor.prepared.PreparedExtractor;
@@ -22,36 +22,31 @@ import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.language.composition.PandaComposition;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.List;
 
-public class ExtractorTest {
+public class PreparedExtractorTest {
 
     //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
-    private static final String SOURCE = "class A {} class B {}";
+    // private static final String SOURCE = "class A {} class B {}";
+    private static final String SOURCE = "constructor () { System.print( getVersion() ); }";
 
     @Test
     public void testExtractor() {
-        PandaFactory pandaFactory = new PandaFactory();
-        Panda panda = pandaFactory.createPanda();
-
-        PandaComposition pandaComposition = panda.getPandaComposition();
-        Syntax syntaxComposition = pandaComposition.getSyntax();
-
-        Lexer lexer = new PandaLexer(syntaxComposition, SOURCE);
+        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), SOURCE);
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
         TokenPattern pattern = TokenPattern.builder()
-                .keepOpposites(true)
-                .unit(TokenType.KEYWORD, "class")
-                .hollow()
+                .unit(TokenType.KEYWORD, "constructor")
+                .unit(TokenType.SEPARATOR, "(")
+                .simpleHollow()
+                .unit(TokenType.SEPARATOR, ")")
                 .unit(TokenType.SEPARATOR, "{")
                 .hollow()
                 .unit(TokenType.SEPARATOR, "}")

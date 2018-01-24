@@ -6,7 +6,7 @@ import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexe
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
-public class LexerTest {
+public class SimpleLexerTest {
 
     @Test
     public void testKeywordsInUnknown() {

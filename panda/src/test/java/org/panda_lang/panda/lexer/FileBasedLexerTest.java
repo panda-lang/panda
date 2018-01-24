@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.lexer;
 
 import org.junit.Test;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.Lexer;
@@ -29,7 +31,7 @@ import org.panda_lang.panda.language.composition.PandaComposition;
 
 import java.io.File;
 
-public class LexerTest {
+public class FileBasedLexerTest {
 
     private static final File SOURCE_FILE = new File("examples/hello_world.panda");
 
