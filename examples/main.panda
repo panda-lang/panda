@@ -11,7 +11,7 @@ class App {
 
     static String version = "indev-0.2.11";
 
-    constructor App() {
+    constructor () {
         System.print(getVersion());
     }
 
