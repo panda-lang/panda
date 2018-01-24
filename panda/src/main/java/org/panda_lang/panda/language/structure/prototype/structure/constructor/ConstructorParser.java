@@ -50,7 +50,7 @@ public class ConstructorParser implements UnifiedParser {
     protected static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "constructor")
             .unit(TokenType.SEPARATOR, "(")
-            .hollow()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, ")")
             .unit(TokenType.SEPARATOR, "{")
             .hollow()

@@ -37,6 +37,10 @@ public class ParameterParser implements Parser {
         TokenRepresentation[] tokenRepresentations = tokenizedSource.toArray();
         List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
 
+        if (tokenizedSource.size() == 0) {
+            return parameters;
+        }
+
         for (int i = 0; i < tokenRepresentations.length; i += 3) {
             TokenRepresentation parameterTypeRepresentation = tokenRepresentations[i];
             TokenRepresentation parameterNameRepresentation = tokenRepresentations[i + 1];

@@ -43,7 +43,7 @@ public class ImportParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "import")
-            .hollow()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, ";")
             .build();
 
