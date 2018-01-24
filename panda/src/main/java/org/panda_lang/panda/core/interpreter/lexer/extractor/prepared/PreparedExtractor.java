@@ -20,6 +20,7 @@ import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUnit;
 import org.panda_lang.panda.framework.implementation.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
@@ -96,7 +97,13 @@ public class PreparedExtractor implements Extractor {
                 TokenPatternUnit unit = units[previousIndex];
 
                 if (!unit.isGap()) {
-                    tokenReader.read();
+                    TokenPatternUnit currentUnit = units[currentIndex];
+                    TokenRepresentation sourceToken = tokenReader.read();
+
+                    if (!TokenUtils.equals(sourceToken, currentUnit)) {
+                        return null;
+                    }
+
                     continue;
                 }
             }
