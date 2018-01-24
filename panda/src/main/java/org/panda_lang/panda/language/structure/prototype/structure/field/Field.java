@@ -17,12 +17,14 @@
 package org.panda_lang.panda.language.structure.prototype.structure.field;
 
 import org.panda_lang.panda.core.structure.value.PandaVariable;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 public class Field extends PandaVariable {
 
     private FieldVisibility visibility;
     private boolean isStatic;
+    private Expression defaultValue;
 
     public Field(ClassPrototype type, String name, FieldVisibility visibility, boolean isStatic) {
         super(type, name, 0);
@@ -31,8 +33,20 @@ public class Field extends PandaVariable {
         this.isStatic = isStatic;
     }
 
+    public void setDefaultValue(Expression defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
     public boolean isStatic() {
         return isStatic;
+    }
+
+    public boolean hasDefaultValue() {
+        return defaultValue != null;
+    }
+
+    public Expression getDefaultValue() {
+        return defaultValue;
     }
 
     public FieldVisibility getVisibility() {
