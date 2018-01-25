@@ -22,8 +22,8 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVi
 
 public class ClassPrototypeFieldMapping extends Field {
 
-    public ClassPrototypeFieldMapping(ClassPrototype type, String name, FieldVisibility visibility, boolean isStatic) {
-        super(type, name, visibility, isStatic);
+    public ClassPrototypeFieldMapping(ClassPrototype type, int fieldIndex, String name, FieldVisibility visibility, boolean isStatic) {
+        super(type, fieldIndex, name, visibility, isStatic);
     }
 
 }

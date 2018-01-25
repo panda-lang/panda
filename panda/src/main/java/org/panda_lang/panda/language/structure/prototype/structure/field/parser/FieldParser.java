@@ -155,7 +155,8 @@ public class FieldParser implements UnifiedParser {
                 visibility = FieldVisibility.LOCAL;
             }
 
-            Field field = new Field(type, name, visibility, isStatic);
+            int fieldIndex = prototype.getFields().size();
+            Field field = new Field(type, fieldIndex, name, visibility, isStatic);
             prototype.getFields().add(field);
 
             // int fieldIndex = prototype.getFields().indexOf(field);
@@ -165,7 +166,7 @@ public class FieldParser implements UnifiedParser {
             // linker.getCurrentScope().addStatement(statement); class scope [without statements]
 
             if (assignation) {
-                nextLayer.delegate(new FieldAssignationCasualParserCallback(), delegatedInfo);
+                nextLayer.delegate(new FieldAssignationCasualParserCallback(field), delegatedInfo);
             }
         }
 
@@ -173,6 +174,12 @@ public class FieldParser implements UnifiedParser {
 
     @LocalCallback
     private static class FieldAssignationCasualParserCallback implements CasualParserGenerationCallback {
+
+        private final Field field;
+
+        public FieldAssignationCasualParserCallback(Field field) {
+            this.field = field;
+        }
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
@@ -185,6 +192,8 @@ public class FieldParser implements UnifiedParser {
             if (expressionValue == null) {
                 throw new PandaParserException("Cannot parse expression '" + right + "'");
             }
+
+            field.setDefaultValue(expressionValue);
         }
 
     }

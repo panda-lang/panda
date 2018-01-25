@@ -21,7 +21,9 @@ import org.panda_lang.panda.core.structure.wrapper.Scope;
 import org.panda_lang.panda.core.structure.wrapper.StatementCell;
 import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 
 import java.util.List;
 
@@ -35,7 +37,18 @@ public class ClassScope implements Scope {
 
     @Override
     public ClassScopeInstance createInstance(ExecutableBranch branch) {
-        return new ClassScopeInstance(this, prototype);
+        ClassScopeInstance instance = new ClassScopeInstance(this, prototype);
+
+        for (Field field : prototype.getFields()) {
+            if (!field.hasDefaultValue()) {
+                continue;
+            }
+
+            Expression expression = field.getDefaultValue();
+            instance.getFieldValues()[field.getFieldIndex()] = expression.getExpressionValue(branch);
+        }
+
+        return instance;
     }
 
     @Override

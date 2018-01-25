@@ -22,13 +22,15 @@ import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototyp
 
 public class Field extends PandaVariable {
 
+    private final int fieldIndex;
     private FieldVisibility visibility;
     private boolean isStatic;
     private Expression defaultValue;
 
-    public Field(ClassPrototype type, String name, FieldVisibility visibility, boolean isStatic) {
+    public Field(ClassPrototype type, int fieldIndex, String name, FieldVisibility visibility, boolean isStatic) {
         super(type, name, 0);
 
+        this.fieldIndex = fieldIndex;
         this.visibility = visibility;
         this.isStatic = isStatic;
     }
@@ -51,6 +53,10 @@ public class Field extends PandaVariable {
 
     public FieldVisibility getVisibility() {
         return visibility;
+    }
+
+    public int getFieldIndex() {
+        return fieldIndex;
     }
 
 }
