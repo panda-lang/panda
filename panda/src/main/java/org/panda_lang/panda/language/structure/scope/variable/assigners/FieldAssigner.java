@@ -22,23 +22,31 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
+import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
 
 public class FieldAssigner implements Executable {
 
+    private final Field field;
     private final Expression instanceExpression;
-    private final int memoryIndex;
     private final Expression valueExpression;
 
-    public FieldAssigner(Expression instanceExpression, int memoryIndex, Expression valueExpression) {
+    public FieldAssigner(Expression instanceExpression, Field field, Expression valueExpression) {
         this.instanceExpression = instanceExpression;
-        this.memoryIndex = memoryIndex;
+        this.field = field;
         this.valueExpression = valueExpression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
+        int memoryIndex = field.getFieldIndex();
+
         if (memoryIndex == -1) {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
+        }
+
+        if (field.isStatic()) {
+            field.setStaticValue(valueExpression.getExpressionValue(branch));
+            return;
         }
 
         Value instance = instanceExpression.getExpressionValue(branch);
@@ -60,7 +68,7 @@ public class FieldAssigner implements Executable {
 
     @Override
     public String toString() {
-        return instanceExpression.getReturnType().getClassName() + "@f_memory[" + memoryIndex + "] << " + valueExpression.toString();
+        return instanceExpression.getReturnType().getClassName() + "@f_memory[" + field.getFieldIndex() + "] << " + valueExpression.toString();
     }
 
 }

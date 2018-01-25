@@ -37,10 +37,11 @@ public class ClassScope implements Scope {
 
     @Override
     public ClassScopeInstance createInstance(ExecutableBranch branch) {
+        prototype._initialize();
         ClassScopeInstance instance = new ClassScopeInstance(this, prototype);
 
         for (Field field : prototype.getFields()) {
-            if (!field.hasDefaultValue()) {
+            if (!field.hasDefaultValue() || field.isStatic()) {
                 continue;
             }
 

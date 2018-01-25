@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure;
 
 import com.google.common.base.Objects;
+import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
@@ -36,6 +37,7 @@ public class ClassPrototype {
     private final Collection<Constructor> constructors;
     private final List<Field> fields;
     private final Methods methods;
+    private boolean initialized;
 
     public ClassPrototype(Module module, String className) {
         this.module = module;
@@ -45,6 +47,24 @@ public class ClassPrototype {
         this.constructors = new ArrayList<>(1);
         this.fields = new ArrayList<>();
         this.methods = new Methods(this);
+        this.initialized = false;
+    }
+
+    public synchronized void _initialize() {
+        if (initialized) {
+            return;
+        }
+
+        initialized = true;
+
+        for (Field field : this.getFields()) {
+            if (!field.hasDefaultValue() || !field.isStatic()) {
+                continue;
+            }
+
+            Expression expression = field.getDefaultValue();
+            field.setStaticValue(expression.getExpressionValue(null));
+        }
     }
 
     public Field getField(String fieldName) {

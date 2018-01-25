@@ -221,8 +221,7 @@ public class VariableParser implements UnifiedParser {
                     throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
                 }
 
-                int memoryIndex = type.getFields().indexOf(field);
-                assigner = new FieldAssigner(instanceExpression, memoryIndex, expressionValue);
+                assigner = new FieldAssigner(instanceExpression, field, expressionValue);
             }
 
             StatementCell cell = delegatedInfo.getComponent("cell");

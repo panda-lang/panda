@@ -5,6 +5,8 @@ import panda.lang;
 main {
     App app = new App();
     app.start();
+
+    System.print(App.getVersion());
 }
 
 class App {

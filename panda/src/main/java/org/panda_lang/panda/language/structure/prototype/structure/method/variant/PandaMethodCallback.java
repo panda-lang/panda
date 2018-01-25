@@ -34,7 +34,7 @@ public class PandaMethodCallback implements MethodCallback<ClassScopeInstance> {
 
     @Override
     public void invoke(ExecutableBranch branch, ClassScopeInstance instance, Value... parameters) {
-        branch.instance(instance.toValue());
+        branch.instance(instance != null ? instance.toValue() : null);
 
         MethodScopeInstance scopeInstance = scope.createInstance(branch);
         ParameterUtils.assignValues(scopeInstance.getVariables(), parameters);
