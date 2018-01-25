@@ -17,6 +17,7 @@
 package org.panda_lang.panda.core.interpreter.lexer.pattern;
 
 import org.panda_lang.panda.core.interpreter.lexer.extractor.prepared.PreparedExtractor;
+import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
@@ -31,6 +32,10 @@ public class TokenPattern {
     protected TokenPattern(TokenPatternUnit[] units, boolean keepOpposites) {
         this.units = units;
         this.keepingOpposites = keepOpposites;
+    }
+
+    public List<TokenizedSource> match(TokenizedSource source) {
+        return match(new PandaTokenReader(source));
     }
 
     public List<TokenizedSource> match(TokenReader tokenReader) {

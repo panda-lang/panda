@@ -35,6 +35,10 @@ public class ImportRegistry {
     }
 
     public ClassPrototype forClass(String className) {
+        if (className == null || className.isEmpty()) {
+            return null;
+        }
+
         for (Module module : importedModules) {
             ClassPrototype prototype = module.get(className);
 
