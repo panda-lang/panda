@@ -30,11 +30,13 @@ import org.panda_lang.panda.framework.language.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathExpressionUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathParser;
@@ -121,18 +123,16 @@ public class ExpressionParser implements Parser {
             return new Expression(callback.getReturnType(), callback);
         }
 
-        PandaTokenReader expressionReader = new PandaTokenReader(expressionSource);
-        List<TokenizedSource> methodMatches = MethodInvokerExpressionParser.PATTERN.match(expressionReader);
+        MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(expressionSource);
 
-        if (methodMatches != null && methodMatches.size() > 0) {
-            MethodInvokerExpressionParser callbackParser = new MethodInvokerExpressionParser(methodMatches);
-
-            callbackParser.parse(expressionSource, info);
-            MethodInvokerExpressionCallback callback = callbackParser.toCallback();
+        if (methodInvokerParser != null) {
+            methodInvokerParser.parse(expressionSource, info);
+            MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
 
             return new Expression(callback.getReturnType(), callback);
         }
 
+        TokenReader expressionReader = new PandaTokenReader(expressionSource);
         List<TokenizedSource> fieldMatches = FIELD_PATTERN.match(expressionReader);
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {

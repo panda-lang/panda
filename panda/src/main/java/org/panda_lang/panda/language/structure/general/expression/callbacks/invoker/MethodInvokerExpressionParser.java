@@ -16,9 +16,7 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
@@ -29,61 +27,66 @@ import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
 import org.panda_lang.panda.language.structure.prototype.structure.method.invoker.MethodInvoker;
 
-import java.util.List;
-
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
-    public static final TokenPattern PATTERN = TokenPattern.builder()
-            .hollow()
-            .unit(TokenType.SEPARATOR, ".")
+    protected static final TokenPattern PATTERN = TokenPattern.builder()
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
             .hollow()
             .unit(TokenType.SEPARATOR, ")")
             .build();
 
-    private final List<TokenizedSource> methodMatches;
+    protected static final TokenPattern CALL_PATTERN = TokenPattern.builder()
+            .hollow()
+            .unit(TokenType.SEPARATOR, ".")
+            .simpleHollow()
+            .build();
+
+    private final TokenizedSource instanceSource;
+    private final TokenizedSource methodNameSource;
+    private final TokenizedSource argumentsSource;
     private MethodInvoker invoker;
 
-    public MethodInvokerExpressionParser(List<TokenizedSource> methodMatches) {
-        this.methodMatches = methodMatches;
+    public MethodInvokerExpressionParser(TokenizedSource instanceSource, TokenizedSource methodNameSource, TokenizedSource argumentsSource) {
+        this.instanceSource = instanceSource;
+        this.methodNameSource = methodNameSource;
+        this.argumentsSource = argumentsSource;
     }
 
     @Override
     public void parse(TokenizedSource source, ParserInfo info) {
-        TokenPatternHollows hollows = new TokenPatternHollows(methodMatches);
-
-        TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
-        redactor.map("instance", "method-name", "arguments");
-
-        TokenizedSource instanceSource = redactor.get("instance");
-        TokenizedSource methodSource = redactor.get("method-name");
-        TokenizedSource argumentsSource = redactor.get("arguments");
-
         PandaScript script = info.getComponent(Components.SCRIPT);
         ImportRegistry registry = script.getImportRegistry();
 
-        String surmiseClassName = instanceSource.asString();
-        ClassPrototype prototype = registry.forClass(surmiseClassName);
-
-        String methodName = methodSource.asString();
         Expression instance = null;
+        ClassPrototype prototype;
 
-        if (prototype == null) {
-            ExpressionParser expressionParser = new ExpressionParser();
+        if (instanceSource != null) {
+            String surmiseClassName = instanceSource.asString();
+            prototype = registry.forClass(surmiseClassName);
 
-            instance = expressionParser.parse(info, instanceSource);
-            prototype = instance.getReturnType();
+            if (prototype == null) {
+                ExpressionParser expressionParser = new ExpressionParser();
+
+                instance = expressionParser.parse(info, instanceSource);
+                prototype = instance.getReturnType();
+            }
+        }
+        else {
+            prototype = info.getComponent(Components.CLASS_PROTOTYPE);
+            instance = new Expression(prototype, new ThisExpressionCallback());
         }
 
         ArgumentParser argumentParser = new ArgumentParser();
         Expression[] arguments = argumentParser.parse(info, argumentsSource);
 
+        String methodName = methodNameSource.asString();
         Method prototypeMethod = prototype.getMethods().getMethod(methodName);
 
         if (prototypeMethod == null) {
