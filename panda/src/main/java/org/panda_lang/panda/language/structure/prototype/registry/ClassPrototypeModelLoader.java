@@ -82,7 +82,13 @@ public class ClassPrototypeModelLoader {
                 }
 
                 String methodCallbackClassName = modelClass.getSimpleName() + StringUtils.capitalize(method.getName()) + "MethodCallback";
-                CtClass generatedMethodCallbackClass = pool.makeClass(methodCallbackClassName);
+                CtClass generatedMethodCallbackClass = pool.getOrNull(methodCallbackClassName);
+
+                if (generatedMethodCallbackClass != null) {
+                    continue;
+                }
+
+                generatedMethodCallbackClass = pool.makeClass(methodCallbackClassName);
                 generatedMethodCallbackClass.setSuperclass(methodCallbackCtClass);
 
                 CtMethod callbackImplementation = new CtMethod(CtClass.voidType, "invoke", implementationTypes, generatedMethodCallbackClass);
