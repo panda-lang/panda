@@ -14,22 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.mapper.loaders;
+package org.panda_lang.panda.mapper;
 
+import org.junit.Test;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
-import java.util.Collection;
+public class ClassPrototypeMapperTest {
 
-public class ClassPrototypeMappingAnnotationLoader {
+    @Test
+    public void testMapper() {
+        Panda panda = new PandaBootstrap()
+                .syntax(PandaSyntax.getInstance())
+                .get();
 
-    private final ClassPrototypeMappingManager mappingManager;
-
-    public ClassPrototypeMappingAnnotationLoader(ClassPrototypeMappingManager mappingManager) {
-        this.mappingManager = mappingManager;
-    }
-
-    public Collection<Class<?>> load() {
-        return null;
+        ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager(panda);
+        mappingManager.generate();
     }
 
 }

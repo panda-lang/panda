@@ -33,7 +33,7 @@ public class BootstrapTest {
                 .get();
 
         PandaApplication application = new PandaApplicationBootstrap(panda)
-                .source("../examples/multifile")
+                .source("../examples/current_test.panda")
                 .createApplication();
 
         application.launch();

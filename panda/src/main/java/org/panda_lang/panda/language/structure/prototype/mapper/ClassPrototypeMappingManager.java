@@ -35,7 +35,11 @@ public class ClassPrototypeMappingManager {
 
     public void loadAnnotatedMappings() {
         ClassPrototypeMappingAnnotationLoader loader = new ClassPrototypeMappingAnnotationLoader(this);
-        loader.load();
+        Collection<Class<?>> classes = loader.load();
+
+        for (Class<?> clazz : classes) {
+            this.loadClass(clazz);
+        }
     }
 
     private void loadPackageMappings(String packageName) {

@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.mapper.loaders;
+package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
-import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
+public class ClassPrototypeGenerator {
 
-import java.util.Collection;
+    public void generate() {
 
-public class ClassPrototypeMappingAnnotationLoader {
-
-    private final ClassPrototypeMappingManager mappingManager;
-
-    public ClassPrototypeMappingAnnotationLoader(ClassPrototypeMappingManager mappingManager) {
-        this.mappingManager = mappingManager;
-    }
-
-    public Collection<Class<?>> load() {
-        return null;
     }
 
 }
