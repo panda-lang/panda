@@ -31,7 +31,12 @@ public class ClassPrototypeMapperTest {
                 .get();
 
         ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager(panda);
+        mappingManager.loadClass(TestClass.class);
         mappingManager.generate();
+    }
+
+    class TestClass {
+
     }
 
 }

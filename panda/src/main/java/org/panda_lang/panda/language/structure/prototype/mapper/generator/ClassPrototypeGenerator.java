@@ -16,10 +16,19 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
+import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+
 public class ClassPrototypeGenerator {
 
-    public void generate() {
+    private final ClassPrototypeMappingGenerator mappingGenerator;
 
+    public ClassPrototypeGenerator(ClassPrototypeMappingGenerator mappingGenerator) {
+        this.mappingGenerator = mappingGenerator;
+    }
+
+    public ClassPrototype generate(Class<?> clazz) {
+        return null;
     }
 
 }

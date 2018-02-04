@@ -46,7 +46,7 @@ public class ClassPrototypeMappingManager {
         throw new PandaRuntimeException("Not implemented");
     }
 
-    private void loadClass(Class<?> clazz) {
+    public void loadClass(Class<?> clazz) {
         loadedClasses.add(clazz);
     }
 
