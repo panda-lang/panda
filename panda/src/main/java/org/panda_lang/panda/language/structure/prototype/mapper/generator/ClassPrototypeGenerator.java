@@ -16,8 +16,14 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class ClassPrototypeGenerator {
 
@@ -28,7 +34,23 @@ public class ClassPrototypeGenerator {
     }
 
     public ClassPrototype generate(Class<?> clazz) {
-        return null;
+        Module module = ModuleRegistry.getDefault().getOrCreate(clazz.getPackage().getName());
+        ClassPrototype classPrototype = new ClassPrototype(module, clazz.getSimpleName());
+
+        for (Field field : clazz.getFields()) {
+            // TODO: Impl fields
+        }
+
+        for (Constructor<?> constructor : clazz.getConstructors()) {
+            ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(clazz, classPrototype, constructor);
+
+        }
+
+        for (Method method : clazz.getMethods()) {
+            // TODO: Impl methods
+        }
+
+        return classPrototype;
     }
 
 }

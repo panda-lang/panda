@@ -17,10 +17,10 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.structure;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
 
-public class ClassPrototypeFieldMapping extends Field {
+public class ClassPrototypeFieldMapping extends PrototypeField {
 
     public ClassPrototypeFieldMapping(ClassPrototype type, int fieldIndex, String name, FieldVisibility visibility, boolean isStatic) {
         super(type, fieldIndex, name, visibility, isStatic);

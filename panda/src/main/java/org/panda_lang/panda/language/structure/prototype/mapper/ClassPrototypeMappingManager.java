@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.structure.prototype.mapper;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.prototype.mapper.loaders.ClassPrototypeMappingAnnotationLoader;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -55,8 +56,15 @@ public class ClassPrototypeMappingManager {
     }
 
     public void generate() {
+        Collection<Class<?>> queuedClasses = new ArrayList<>(loadedClasses);
+        loadedClasses.clear();
+
         ClassPrototypeMappingGenerator generator = new ClassPrototypeMappingGenerator(this);
-        generator.generate();
+        Collection<ClassPrototype> prototypes = generator.generate(queuedClasses);
+
+        if (prototypes.size() != queuedClasses.size()) {
+            throw new PandaRuntimeException("Something went wrong (sizeof queuedClass != sizeof generatedPrototypes");
+        }
     }
 
     public Panda getPanda() {

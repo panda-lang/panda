@@ -19,9 +19,9 @@ package org.panda_lang.panda.language.structure.prototype.mapper.structure;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 
-public class ClassPrototypeConstructorMapping implements Constructor {
+public class ClassPrototypeConstructorMapping implements PrototypeConstructor {
 
     @Override
     public Object createInstance(ExecutableBranch bridge, Value... values) {

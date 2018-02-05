@@ -16,6 +16,12 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper;
 
+import org.panda_lang.panda.language.structure.prototype.mapper.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+
+import java.util.ArrayList;
+import java.util.Collection;
+
 public class ClassPrototypeMappingGenerator {
 
     private final ClassPrototypeMappingManager mappingManager;
@@ -24,8 +30,20 @@ public class ClassPrototypeMappingGenerator {
         this.mappingManager = mappingManager;
     }
 
-    public void generate() {
+    public Collection<ClassPrototype> generate(Collection<Class<?>> classes) {
+        ClassPrototypeGenerator generator = new ClassPrototypeGenerator(this);
+        Collection<ClassPrototype> prototypes = new ArrayList<>(classes.size());
 
+        for (Class<?> clazz : classes) {
+            ClassPrototype prototype = generator.generate(clazz);
+            prototypes.add(prototype);
+        }
+
+        return prototypes;
+    }
+
+    protected ClassPrototypeMappingManager getMappingManager() {
+        return mappingManager;
     }
 
 }
