@@ -20,6 +20,9 @@ import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
+import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -33,24 +36,31 @@ public class ClassPrototypeGenerator {
         this.mappingGenerator = mappingGenerator;
     }
 
-    public ClassPrototype generate(Class<?> clazz) {
-        Module module = ModuleRegistry.getDefault().getOrCreate(clazz.getPackage().getName());
-        ClassPrototype classPrototype = new ClassPrototype(module, clazz.getSimpleName());
+    public ClassPrototype generate(Class<?> type) {
+        Module module = ModuleRegistry.getDefault().getOrCreate(type.getPackage().getName());
 
-        for (Field field : clazz.getFields()) {
-            // TODO: Impl fields
+        ClassPrototype prototype = new ClassPrototype(module, type.getSimpleName());
+        prototype.getAssociated().add(type);
+
+        for (Field field : type.getFields()) {
+            ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(type, prototype, field);
+            PrototypeField prototypeField = generator.generate();
+            prototype.getFields().add(prototypeField);
         }
 
-        for (Constructor<?> constructor : clazz.getConstructors()) {
-            ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(clazz, classPrototype, constructor);
-
+        for (Constructor<?> constructor : type.getConstructors()) {
+            ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(type, prototype, constructor);
+            PrototypeConstructor prototypeField = generator.generate();
+            prototype.getConstructors().add(prototypeField);
         }
 
-        for (Method method : clazz.getMethods()) {
-            // TODO: Impl methods
+        for (Method method : type.getMethods()) {
+            ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(type, prototype, method);
+            PrototypeMethod prototypeMethod = generator.generate();
+            prototype.getMethods().registerMethod(prototypeMethod);
         }
 
-        return classPrototype;
+        return prototype;
     }
 
 }

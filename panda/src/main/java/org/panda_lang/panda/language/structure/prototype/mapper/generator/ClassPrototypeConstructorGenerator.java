@@ -1,6 +1,7 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 
 import java.lang.reflect.Constructor;
 
@@ -16,6 +17,8 @@ public class ClassPrototypeConstructorGenerator {
         this.constructor = constructor;
     }
 
-
+    public PrototypeConstructor generate() {
+        return null;
+    }
 
 }
