@@ -22,15 +22,15 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 
 public class FieldAssigner implements Executable {
 
-    private final Field field;
+    private final PrototypeField field;
     private final Expression instanceExpression;
     private final Expression valueExpression;
 
-    public FieldAssigner(Expression instanceExpression, Field field, Expression valueExpression) {
+    public FieldAssigner(Expression instanceExpression, PrototypeField field, Expression valueExpression) {
         this.instanceExpression = instanceExpression;
         this.field = field;
         this.valueExpression = valueExpression;

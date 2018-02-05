@@ -21,17 +21,17 @@ import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 
 import javax.annotation.Nullable;
 
 public class MethodInvoker implements StandaloneExecutable {
 
-    private final Method method;
+    private final PrototypeMethod method;
     private final Expression instanceExpression;
     private final Expression[] arguments;
 
-    public MethodInvoker(Method method, @Nullable Expression instance, Expression[] arguments) {
+    public MethodInvoker(PrototypeMethod method, @Nullable Expression instance, Expression[] arguments) {
         this.method = method;
         this.instanceExpression = instance;
         this.arguments = arguments;
@@ -50,7 +50,7 @@ public class MethodInvoker implements StandaloneExecutable {
         method.invoke(branch, instance != null ? instance.getObject() : null, values);
     }
 
-    public Method getMethod() {
+    public PrototypeMethod getMethod() {
         return method;
     }
 

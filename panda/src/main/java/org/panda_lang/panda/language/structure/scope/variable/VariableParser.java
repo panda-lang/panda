@@ -51,7 +51,7 @@ import org.panda_lang.panda.language.structure.general.expression.ExpressionPars
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.scope.variable.assigners.FieldAssigner;
 import org.panda_lang.panda.language.structure.scope.variable.assigners.VariableAssigner;
 
@@ -211,7 +211,7 @@ public class VariableParser implements UnifiedParser {
                 String fieldName = delegatedInfo.getComponent("instance-field");
 
                 ClassPrototype type = instanceExpression.getReturnType();
-                Field field = type.getField(fieldName);
+                PrototypeField field = type.getField(fieldName);
 
                 if (field == null) {
                     throw new PandaParserException("Field '" + fieldName + "' does not belong to " + type.getClassName());

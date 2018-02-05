@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
 
 import java.util.List;
@@ -40,7 +40,7 @@ import java.util.List;
 public class InstanceExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
 
     private ClassPrototype returnType;
-    private Constructor constructor;
+    private PrototypeConstructor constructor;
     private Expression[] arguments;
 
     @Override
@@ -81,7 +81,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
         return arguments;
     }
 
-    public Constructor getConstructor() {
+    public PrototypeConstructor getConstructor() {
         return constructor;
     }
 

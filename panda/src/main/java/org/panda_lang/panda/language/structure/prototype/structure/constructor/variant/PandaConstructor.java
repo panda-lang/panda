@@ -22,13 +22,13 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorScope;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.ParameterUtils;
 
-public class PandaConstructor implements Constructor {
+public class PandaConstructor implements PrototypeConstructor {
 
     private final ClassPrototype classPrototype;
     private final ClassScope classScope;

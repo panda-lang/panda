@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ public class ClassScope implements Scope {
         prototype._initialize();
         ClassScopeInstance instance = new ClassScopeInstance(this, prototype);
 
-        for (Field field : prototype.getFields()) {
+        for (PrototypeField field : prototype.getFields()) {
             if (!field.hasDefaultValue() || field.isStatic()) {
                 continue;
             }

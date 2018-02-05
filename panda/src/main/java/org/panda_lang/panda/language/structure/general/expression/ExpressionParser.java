@@ -45,7 +45,7 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.memo
 import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
 import org.panda_lang.panda.language.structure.general.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
@@ -107,7 +107,7 @@ public class ExpressionParser implements Parser {
             }
 
             ClassPrototype prototype = info.getComponent(Components.CLASS_PROTOTYPE);
-            Field field = prototype.getField(value);
+            PrototypeField field = prototype.getField(value);
 
             if (field != null) {
                 int memoryIndex = prototype.getFields().indexOf(field);
@@ -139,7 +139,7 @@ public class ExpressionParser implements Parser {
             Expression instanceExpression = parse(info, fieldMatches.get(0));
             ClassPrototype instanceType = instanceExpression.getReturnType();
             String instanceFieldName = fieldMatches.get(1).getLast().getToken().getTokenValue();
-            Field instanceField = instanceType.getField(instanceFieldName);
+            PrototypeField instanceField = instanceType.getField(instanceFieldName);
 
             if (instanceField == null) {
                 throw new PandaParserException("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName);

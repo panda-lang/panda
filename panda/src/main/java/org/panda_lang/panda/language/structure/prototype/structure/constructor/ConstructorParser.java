@@ -87,7 +87,7 @@ public class ConstructorParser implements UnifiedParser {
             ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
             ClassScope classScope = delegatedInfo.getComponent("class-scope");
 
-            Constructor constructor = new PandaConstructor(prototype, classScope, constructorScope);
+            PrototypeConstructor constructor = new PandaConstructor(prototype, classScope, constructorScope);
             delegatedInfo.setComponent("constructor", constructor);
             prototype.getConstructors().add(constructor);
 

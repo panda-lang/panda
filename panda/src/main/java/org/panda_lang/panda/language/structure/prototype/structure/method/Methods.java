@@ -26,20 +26,20 @@ import java.util.Map;
 public class Methods {
 
     private final ClassPrototype prototype;
-    private final Map<String, Collection<Method>> methodsMap;
+    private final Map<String, Collection<PrototypeMethod>> methodsMap;
 
     public Methods(ClassPrototype prototype) {
         this.prototype = prototype;
         this.methodsMap = new HashMap<>();
     }
 
-    public void registerMethod(Method method) {
-        Collection<Method> methods = methodsMap.computeIfAbsent(method.getMethodName(), methodsContainer -> new ArrayList<>());
+    public void registerMethod(PrototypeMethod method) {
+        Collection<PrototypeMethod> methods = methodsMap.computeIfAbsent(method.getMethodName(), methodsContainer -> new ArrayList<>());
         methods.add(method);
     }
 
-    public Method getMethod(String name, ClassPrototype... parameterTypes) {
-        Collection<Method> methods = methodsMap.get(name);
+    public PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes) {
+        Collection<PrototypeMethod> methods = methodsMap.get(name);
 
         if (methods == null) {
             return null;

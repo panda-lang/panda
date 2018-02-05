@@ -30,7 +30,7 @@ import org.panda_lang.panda.language.structure.general.expression.ExpressionPars
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 import org.panda_lang.panda.language.structure.prototype.structure.method.invoker.MethodInvoker;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
@@ -87,7 +87,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         Expression[] arguments = argumentParser.parse(info, argumentsSource);
 
         String methodName = methodNameSource.asString();
-        Method prototypeMethod = prototype.getMethods().getMethod(methodName);
+        PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName);
 
         if (prototypeMethod == null) {
             throw new PandaParserException("Class " + prototype.getClassName() + " does not have method " + methodName);

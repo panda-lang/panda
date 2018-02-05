@@ -41,7 +41,7 @@ import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = DefaultPriorities.SCOPE_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser {
@@ -114,7 +114,7 @@ public class MethodInvokerParser implements UnifiedParser {
             ArgumentParser argumentParser = new ArgumentParser();
             Expression[] arguments = argumentParser.parse(delegatedInfo, argumentsSource);
 
-            Method prototypeMethod = prototype.getMethods().getMethod(methodName);
+            PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName);
             MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
 
             StatementCell cell = delegatedInfo.getComponent("cell");

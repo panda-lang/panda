@@ -23,15 +23,15 @@ import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 
 public class InstanceExpressionCallback implements ExpressionCallback {
 
     private final ClassPrototype returnType;
-    private final Constructor constructor;
+    private final PrototypeConstructor constructor;
     private final Expression[] arguments;
 
-    public InstanceExpressionCallback(ClassPrototype returnType, Constructor constructor, Expression... arguments) {
+    public InstanceExpressionCallback(ClassPrototype returnType, PrototypeConstructor constructor, Expression... arguments) {
         this.returnType = returnType;
         this.constructor = constructor;
         this.arguments = arguments;

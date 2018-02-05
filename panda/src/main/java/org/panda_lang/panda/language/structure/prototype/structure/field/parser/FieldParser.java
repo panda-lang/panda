@@ -44,7 +44,7 @@ import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
 
 import java.util.List;
@@ -156,7 +156,7 @@ public class FieldParser implements UnifiedParser {
             }
 
             int fieldIndex = prototype.getFields().size();
-            Field field = new Field(type, fieldIndex, name, visibility, isStatic);
+            PrototypeField field = new PrototypeField(type, fieldIndex, name, visibility, isStatic);
             prototype.getFields().add(field);
 
             // int fieldIndex = prototype.getFields().indexOf(field);
@@ -175,9 +175,9 @@ public class FieldParser implements UnifiedParser {
     @LocalCallback
     private static class FieldAssignationCasualParserCallback implements CasualParserGenerationCallback {
 
-        private final Field field;
+        private final PrototypeField field;
 
-        public FieldAssignationCasualParserCallback(Field field) {
+        public FieldAssignationCasualParserCallback(PrototypeField field) {
             this.field = field;
         }
 

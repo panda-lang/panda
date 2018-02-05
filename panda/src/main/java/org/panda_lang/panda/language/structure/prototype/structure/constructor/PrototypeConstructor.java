@@ -14,26 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method;
+package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
-public interface Method extends MethodCallback<Object> {
+public interface PrototypeConstructor {
 
-    default boolean isVoid() {
-        return getReturnType() == null;
-    }
-
-    boolean isStatic();
-
-    MethodVisibility getVisibility();
-
-    ClassPrototype getReturnType();
+    Object createInstance(ExecutableBranch bridge, Value... values);
 
     ClassPrototype[] getParameterTypes();
-
-    String getMethodName();
-
-    ClassPrototype getClassPrototype();
 
 }

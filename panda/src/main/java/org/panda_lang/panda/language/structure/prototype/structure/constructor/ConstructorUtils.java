@@ -26,7 +26,7 @@ public class ConstructorUtils {
 
     public static final ClassPrototype[] PARAMETERLESS = new ClassPrototype[0];
 
-    public static Constructor matchConstructor(ClassPrototype prototype, Expression... types) {
+    public static PrototypeConstructor matchConstructor(ClassPrototype prototype, Expression... types) {
         ClassPrototype[] expressionTypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < expressionTypes.length; i++) {
@@ -36,9 +36,9 @@ public class ConstructorUtils {
         return matchConstructor(prototype, expressionTypes);
     }
 
-    public static Constructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
+    public static PrototypeConstructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
         MATCHER:
-        for (Constructor constructor : prototype.getConstructors()) {
+        for (PrototypeConstructor constructor : prototype.getConstructors()) {
             ClassPrototype[] constructorTypes = constructor.getParameterTypes();
 
             if (constructorTypes.length != types.length) {

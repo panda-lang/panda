@@ -22,9 +22,9 @@ import java.util.Collection;
 
 public class MethodUtils {
 
-    public static Method matchMethod(Collection<Method> methods, ClassPrototype... types) {
+    public static PrototypeMethod matchMethod(Collection<PrototypeMethod> methods, ClassPrototype... types) {
         MATCHER:
-        for (Method method : methods) {
+        for (PrototypeMethod method : methods) {
             ClassPrototype[] methodTypes = method.getParameterTypes();
 
             if (methodTypes.length != types.length) {

@@ -20,10 +20,10 @@ import org.panda_lang.panda.framework.language.structure.Statement;
 
 public class FieldStatement implements Statement {
 
-    private final Field field;
+    private final PrototypeField field;
     private final int fieldID;
 
-    public FieldStatement(int fieldID, Field field) {
+    public FieldStatement(int fieldID, PrototypeField field) {
         this.field = field;
         this.fieldID = fieldID;
     }
@@ -32,7 +32,7 @@ public class FieldStatement implements Statement {
         return fieldID;
     }
 
-    public Field getField() {
+    public PrototypeField getField() {
         return field;
     }
 

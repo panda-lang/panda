@@ -49,9 +49,9 @@ import org.panda_lang.panda.language.structure.prototype.scope.ClassReference;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
@@ -164,7 +164,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 return;
             }
 
-            for (Field field : prototype.getFields()) {
+            for (PrototypeField field : prototype.getFields()) {
                 if (!field.hasDefaultValue()) {
                     continue;
                 }
@@ -172,7 +172,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
             }
 
-            Constructor defaultConstructor = new Constructor() {
+            PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
                 @Override
                 public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
                     ClassScopeInstance instance = scope.createInstance(branch);

@@ -20,8 +20,8 @@ import com.google.common.base.Objects;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.Constructor;
-import org.panda_lang.panda.language.structure.prototype.structure.field.Field;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
 import java.util.ArrayList;
@@ -34,8 +34,8 @@ public class ClassPrototype {
     private final String className;
     private final Collection<Class<?>> associated;
     private final Collection<ClassPrototype> extended;
-    private final Collection<Constructor> constructors;
-    private final List<Field> fields;
+    private final Collection<PrototypeConstructor> constructors;
+    private final List<PrototypeField> fields;
     private final Methods methods;
     private boolean initialized;
 
@@ -57,7 +57,7 @@ public class ClassPrototype {
 
         initialized = true;
 
-        for (Field field : this.getFields()) {
+        for (PrototypeField field : this.getFields()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {
                 continue;
             }
@@ -67,8 +67,8 @@ public class ClassPrototype {
         }
     }
 
-    public Field getField(String fieldName) {
-        for (Field field : fields) {
+    public PrototypeField getField(String fieldName) {
+        for (PrototypeField field : fields) {
             if (!field.getName().equals(fieldName)) {
                 continue;
             }
@@ -83,11 +83,11 @@ public class ClassPrototype {
         return methods;
     }
 
-    public List<Field> getFields() {
+    public List<PrototypeField> getFields() {
         return fields;
     }
 
-    public Collection<Constructor> getConstructors() {
+    public Collection<PrototypeConstructor> getConstructors() {
         return constructors;
     }
 

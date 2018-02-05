@@ -19,11 +19,11 @@ package org.panda_lang.panda.language.structure.prototype.structure.method.varia
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.method.Method;
+import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
-public class PandaMethod implements Method {
+public class PandaMethod implements PrototypeMethod {
 
     private final ClassPrototype prototype;
     private final String methodName;
