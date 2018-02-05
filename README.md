@@ -55,7 +55,7 @@ Latest build. Remember, API is not stable yet :o:
 
 ```xml
 <dependency>
-    <groupId>org.panda_lang</groupId>
+    <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
     <version>indev-0.2.11</version>
 </dependency>
