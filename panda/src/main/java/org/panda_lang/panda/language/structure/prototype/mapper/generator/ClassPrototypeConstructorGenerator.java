@@ -1,5 +1,7 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
+import org.panda_lang.panda.core.structure.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 
@@ -18,7 +20,35 @@ public class ClassPrototypeConstructorGenerator {
     }
 
     public PrototypeConstructor generate() {
-        return null;
+        ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
+
+        for (int i = 0; i < parameters.length; i++) {
+            parameters[i] = ClassPrototype.forClass(constructor.getParameterTypes()[i]);
+        }
+
+        return new PrototypeConstructor() {
+            @Override
+            public Object createInstance(ExecutableBranch bridge, Value... values) {
+                try {
+                    Object[] args = new Object[values.length];
+
+                    for (int i = 0; i < values.length; i++) {
+                        args[i] = values[i].getValue();
+                    }
+
+                    return constructor.newInstance(args);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+            @Override
+            public ClassPrototype[] getParameterTypes() {
+                return parameters;
+            }
+        };
     }
 
 }

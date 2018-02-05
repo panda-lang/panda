@@ -26,4 +26,8 @@ public class PandaRuntimeException extends RuntimeException {
         super(message);
     }
 
+    public PandaRuntimeException(Exception e) {
+        super(e);
+    }
+
 }
