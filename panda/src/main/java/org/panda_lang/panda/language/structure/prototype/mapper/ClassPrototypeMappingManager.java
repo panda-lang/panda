@@ -55,7 +55,7 @@ public class ClassPrototypeMappingManager {
         return loadedClasses;
     }
 
-    public void generate() {
+    public Collection<ClassPrototype> generate() {
         Collection<Class<?>> queuedClasses = new ArrayList<>(loadedClasses);
         loadedClasses.clear();
 
@@ -65,6 +65,8 @@ public class ClassPrototypeMappingManager {
         if (prototypes.size() != queuedClasses.size()) {
             throw new PandaRuntimeException("Something went wrong (sizeof queuedClass != sizeof generatedPrototypes");
         }
+
+        return prototypes;
     }
 
     public Panda getPanda() {

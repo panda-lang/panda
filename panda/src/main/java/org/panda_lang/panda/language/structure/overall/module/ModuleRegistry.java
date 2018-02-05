@@ -58,4 +58,22 @@ public class ModuleRegistry {
         return module.get(parts[1]);
     }
 
+    public static ClassPrototype forClass(Class<?> clazz) {
+        ModuleRegistry registry = ModuleRegistry.getDefault();
+        Package clazzPackage = clazz.getPackage();
+
+        if (clazzPackage == null) {
+            System.out.println("[static-indev-debug] ModuleRegistry.forClass called for class without package: " + clazz.getName());
+            return null;
+        }
+
+        Module module = registry.get(clazzPackage.getName());
+
+        if (module == null) {
+            return null;
+        }
+
+        return module.get(clazz.getSimpleName());
+    }
+
 }

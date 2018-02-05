@@ -19,8 +19,12 @@ package org.panda_lang.panda.mapper;
 import org.junit.Test;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
+import org.panda_lang.panda.framework.implementation.PandaFramework;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
+
+import java.util.Collection;
 
 public class ClassPrototypeMapperTest {
 
@@ -32,7 +36,12 @@ public class ClassPrototypeMapperTest {
 
         ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager(panda);
         mappingManager.loadClass(TestClass.class);
-        mappingManager.generate();
+
+        Collection<ClassPrototype> prototypes = mappingManager.generate();
+
+        for (ClassPrototype prototype : prototypes) {
+            PandaFramework.getLogger().info(prototype.toString());
+        }
     }
 
     class TestClass {

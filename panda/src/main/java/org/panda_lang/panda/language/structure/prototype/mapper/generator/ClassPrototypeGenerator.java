@@ -38,8 +38,13 @@ public class ClassPrototypeGenerator {
 
     public ClassPrototype generate(Class<?> type) {
         Module module = ModuleRegistry.getDefault().getOrCreate(type.getPackage().getName());
+        ClassPrototype prototype = module.get(type.getSimpleName());
 
-        ClassPrototype prototype = new ClassPrototype(module, type.getSimpleName());
+        if (prototype != null) {
+            return prototype;
+        }
+
+        prototype = new ClassPrototype(module, type.getSimpleName());
         prototype.getAssociated().add(type);
 
         for (Field field : type.getFields()) {
@@ -55,6 +60,14 @@ public class ClassPrototypeGenerator {
         }
 
         for (Method method : type.getMethods()) {
+            switch (method.getName()) {
+                case "finalize":
+                case "notify":
+                case "notifyAll":
+                case "wait":
+                    continue;
+            }
+
             ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(type, prototype, method);
             PrototypeMethod prototypeMethod = generator.generate();
             prototype.getMethods().registerMethod(prototypeMethod);

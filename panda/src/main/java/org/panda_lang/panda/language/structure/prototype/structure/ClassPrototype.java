@@ -137,4 +137,8 @@ public class ClassPrototype {
         return ModuleRegistry.forName(prototype);
     }
 
+    public static ClassPrototype forClass(Class<?> clazz) {
+        return ModuleRegistry.forClass(clazz);
+    }
+
 }

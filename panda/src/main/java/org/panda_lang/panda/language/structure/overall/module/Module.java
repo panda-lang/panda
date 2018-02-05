@@ -53,4 +53,9 @@ public class Module {
         return name;
     }
 
+    @Override
+    public String toString() {
+        return this.getName() + "[" + prototypes.size() + "]";
+    }
+
 }
