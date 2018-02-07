@@ -16,129 +16,32 @@
 
 package org.panda_lang.panda.language.structure.prototype.structure;
 
-import com.google.common.base.Objects;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.overall.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ClassPrototype {
+public interface ClassPrototype {
 
-    private final Module module;
-    private final String className;
-    private final Collection<Class<?>> associated;
-    private final Collection<ClassPrototype> extended;
-    private final Collection<PrototypeConstructor> constructors;
-    private final List<PrototypeField> fields;
-    private final Methods methods;
-    private boolean initialized;
+    PrototypeField getField(String fieldName);
 
-    public ClassPrototype(Module module, String className) {
-        this.module = module;
-        this.className = className;
-        this.associated = new ArrayList<>(1);
-        this.extended = new ArrayList<>(1);
-        this.constructors = new ArrayList<>(1);
-        this.fields = new ArrayList<>();
-        this.methods = new Methods(this);
-        this.initialized = false;
-    }
+    Methods getMethods();
 
-    public synchronized void _initialize() {
-        if (initialized) {
-            return;
-        }
+    List<PrototypeField> getFields();
 
-        initialized = true;
+    Collection<PrototypeConstructor> getConstructors();
 
-        for (PrototypeField field : this.getFields()) {
-            if (!field.hasDefaultValue() || !field.isStatic()) {
-                continue;
-            }
+    Collection<ClassPrototype> getExtended();
 
-            Expression expression = field.getDefaultValue();
-            field.setStaticValue(expression.getExpressionValue(null));
-        }
-    }
+    Collection<Class<?>> getAssociated();
 
-    public PrototypeField getField(String fieldName) {
-        for (PrototypeField field : fields) {
-            if (!field.getName().equals(fieldName)) {
-                continue;
-            }
+    Module getModule();
 
-            return field;
-        }
+    String getName();
 
-        return null;
-    }
-
-    public Methods getMethods() {
-        return methods;
-    }
-
-    public List<PrototypeField> getFields() {
-        return fields;
-    }
-
-    public Collection<PrototypeConstructor> getConstructors() {
-        return constructors;
-    }
-
-    public Collection<ClassPrototype> getExtended() {
-        return extended;
-    }
-
-    public Collection<Class<?>> getAssociated() {
-        return associated;
-    }
-
-    public Module getModule() {
-        return module;
-    }
-
-    public String getName() {
-        return module.getName() + ":" + this.getClassName();
-    }
-
-    public String getClassName() {
-        return className;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(className);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        return o == null || super.equals(o);
-    }
-
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("className", className)
-                .add("module", module)
-                .add("extended", extended)
-                .add("constructors", constructors)
-                .add("fields", fields)
-                .add("methods", methods)
-                .toString();
-    }
-
-    public static ClassPrototype forName(String prototype) {
-        return ModuleRegistry.forName(prototype);
-    }
-
-    public static ClassPrototype forClass(Class<?> clazz) {
-        return ModuleRegistry.forClass(clazz);
-    }
+    String getClassName();
 
 }

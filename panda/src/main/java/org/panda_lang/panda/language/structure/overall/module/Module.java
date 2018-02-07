@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.overall.module;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class Module {
     }
 
     public ClassPrototype createPrototype(String prototypeName) {
-        ClassPrototype prototype = new ClassPrototype(this, prototypeName);
+        ClassPrototype prototype = new PandaClassPrototype(this, prototypeName);
         return add(prototype);
     }
 

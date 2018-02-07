@@ -20,6 +20,7 @@ import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
@@ -44,7 +45,7 @@ public class ClassPrototypeGenerator {
             return prototype;
         }
 
-        prototype = new ClassPrototype(module, type.getSimpleName());
+        prototype = new PandaClassPrototype(module, type.getSimpleName());
         prototype.getAssociated().add(type);
 
         for (Field field : type.getFields()) {
@@ -60,14 +61,6 @@ public class ClassPrototypeGenerator {
         }
 
         for (Method method : type.getMethods()) {
-            switch (method.getName()) {
-                case "finalize":
-                case "notify":
-                case "notifyAll":
-                case "wait":
-                    continue;
-            }
-
             ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(type, prototype, method);
             PrototypeMethod prototypeMethod = generator.generate();
             prototype.getMethods().registerMethod(prototypeMethod);

@@ -45,6 +45,7 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.memo
 import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
 import org.panda_lang.panda.language.structure.general.number.NumberUtils;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
@@ -166,7 +167,7 @@ public class ExpressionParser implements Parser {
     }
 
     public static Expression toSimpleKnownExpression(String forName, Object value) {
-        return new Expression(new PandaValue(ClassPrototype.forName(forName), value));
+        return new Expression(new PandaValue(PandaClassPrototype.forName(forName), value));
     }
 
 }

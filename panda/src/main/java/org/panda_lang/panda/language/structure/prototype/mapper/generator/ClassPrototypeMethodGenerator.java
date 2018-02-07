@@ -1,6 +1,7 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
@@ -21,7 +22,7 @@ public class ClassPrototypeMethodGenerator {
     }
 
     public PrototypeMethod generate() {
-        ClassPrototype returnType = ClassPrototype.forClass(method.getReturnType());
+        ClassPrototype returnType = PandaClassPrototype.forClass(method.getReturnType());
 
         MethodCallback<Object> methodBody = (bridge, instance, parameters) -> {
             Object[] args = new Object[parameters.length];
@@ -40,7 +41,7 @@ public class ClassPrototypeMethodGenerator {
         ClassPrototype[] parameters = new ClassPrototype[method.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = ClassPrototype.forClass(method.getParameterTypes()[i]);
+            parameters[i] = PandaClassPrototype.forClass(method.getParameterTypes()[i]);
         }
 
         return new PandaMethod(prototype, MethodVisibility.PUBLIC, false, returnType, method.getName(), methodBody, parameters);

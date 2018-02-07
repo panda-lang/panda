@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.structure.method.variant;
 
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
 
@@ -44,7 +45,7 @@ public class PandaMethodBuilder {
         ClassPrototype[] prototypes = new ClassPrototype[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
-            prototypes[i] = ClassPrototype.forName(parameterTypes[i]);
+            prototypes[i] = PandaClassPrototype.forName(parameterTypes[i]);
         }
 
         this.parameterTypes = prototypes;

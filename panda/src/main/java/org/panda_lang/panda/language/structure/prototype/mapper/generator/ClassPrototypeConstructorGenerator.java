@@ -3,6 +3,7 @@ package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 
 import java.lang.reflect.Constructor;
@@ -23,7 +24,7 @@ public class ClassPrototypeConstructorGenerator {
         ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = ClassPrototype.forClass(constructor.getParameterTypes()[i]);
+            parameters[i] = PandaClassPrototype.forClass(constructor.getParameterTypes()[i]);
         }
 
         return new PrototypeConstructor() {

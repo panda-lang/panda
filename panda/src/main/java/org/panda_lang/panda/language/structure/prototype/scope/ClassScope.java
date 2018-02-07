@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.language.structure.Statement;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 
 import java.util.List;
@@ -37,7 +38,10 @@ public class ClassScope implements Scope {
 
     @Override
     public ClassScopeInstance createInstance(ExecutableBranch branch) {
-        prototype._initialize();
+        if (prototype instanceof PandaClassPrototype) {
+            ((PandaClassPrototype) prototype).initialize();
+        }
+
         ClassScopeInstance instance = new ClassScopeInstance(this, prototype);
 
         for (PrototypeField field : prototype.getFields()) {

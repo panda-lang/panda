@@ -48,4 +48,9 @@ public class Methods {
         return MethodUtils.matchMethod(methods, parameterTypes);
     }
 
+    @Override
+    public String toString() {
+        return prototype.getName() + "::Methods[" + methodsMap.size() + "]";
+    }
+
 }

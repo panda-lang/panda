@@ -24,6 +24,7 @@ import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 
 import java.util.Stack;
 
@@ -69,7 +70,7 @@ public class MathExpressionCallback implements ExpressionCallback {
                         throw new PandaRuntimeException("Unknown operator");
                 }
 
-                Value c = new PandaValue(ClassPrototype.forName("panda.lang:Int"), cValue);
+                Value c = new PandaValue(PandaClassPrototype.forName("panda.lang:Int"), cValue);
                 values.push(c);
             }
             else {
@@ -82,7 +83,7 @@ public class MathExpressionCallback implements ExpressionCallback {
     }
 
     public ClassPrototype getReturnType() {
-        return ClassPrototype.forName("panda.lang:Int");
+        return PandaClassPrototype.forName("panda.lang:Int");
     }
 
 }

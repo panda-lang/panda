@@ -29,6 +29,7 @@ import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototype
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.MethodDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
@@ -71,7 +72,7 @@ public class ClassPrototypeModelLoader {
             Module defaultModule = registry.getOrCreate(moduleDeclaration.value());
 
             ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
-            ClassPrototype prototype = new ClassPrototype(defaultModule, classDeclaration.value());
+            ClassPrototype prototype = new PandaClassPrototype(defaultModule, classDeclaration.value());
             defaultModule.add(prototype);
 
             for (Method method : modelClass.getMethods()) {
@@ -140,7 +141,7 @@ public class ClassPrototypeModelLoader {
                     PandaMethod pandaMethod = PandaMethod.builder()
                             .methodName(method.getName())
                             .prototype(prototype)
-                            .returnType(ClassPrototype.forName(methodInfo.returnType()))
+                            .returnType(PandaClassPrototype.forName(methodInfo.returnType()))
                             .isStatic(methodInfo.isStatic())
                             .visibility(methodInfo.visibility())
                             .methodBody(methodCallback)

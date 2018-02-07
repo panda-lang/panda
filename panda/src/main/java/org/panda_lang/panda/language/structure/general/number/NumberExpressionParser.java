@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaPar
 import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 
 public class NumberExpressionParser implements Parser {
 
@@ -65,22 +65,22 @@ public class NumberExpressionParser implements Parser {
 
         switch (numberType) {
             case BYTE:
-                this.value = new PandaValue(ClassPrototype.forName("panda.lang:Byte"), parsedNumber.byteValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Byte"), parsedNumber.byteValue());
                 break;
             case SHORT:
-                this.value = new PandaValue(ClassPrototype.forName("panda.lang:Short"), parsedNumber.shortValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Short"), parsedNumber.shortValue());
                 break;
             case INT:
-                this.value = new PandaValue(ClassPrototype.forName("panda.lang:Int"), parsedNumber.intValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Int"), parsedNumber.intValue());
                 break;
             case LONG:
-                this.value = new PandaValue(ClassPrototype.forName("panda.lang:Long"), parsedNumber.longValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Long"), parsedNumber.longValue());
                 break;
             case FLOAT:
-                this.value = new PandaValue(ClassPrototype.forName("panda.lang:Float"), parsedNumber.floatValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Float"), parsedNumber.floatValue());
                 break;
             case DOUBLE:
-                this.value = new PandaValue(ClassPrototype.forName("panda.lang:Double"), parsedNumber.doubleValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Double"), parsedNumber.doubleValue());
                 break;
         }
 
