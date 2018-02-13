@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.language.structure.overall.module;
 
+import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,10 +26,15 @@ import java.util.Map;
 public class ModuleRegistry {
 
     private static final ModuleRegistry instance = new ModuleRegistry();
+    private static final String DEFAULT_MODULE = StringUtils.EMPTY;
+
     private final Map<String, Module> groups;
+    private final Module defaultModule;
 
     public ModuleRegistry() {
         this.groups = new HashMap<>();
+        this.defaultModule = new Module(DEFAULT_MODULE);
+        this.groups.put(DEFAULT_MODULE, this.defaultModule);
     }
 
     public Module getOrCreate(String groupName) {
@@ -36,6 +43,10 @@ public class ModuleRegistry {
 
     public Module get(String groupName) {
         return groups.get(groupName);
+    }
+
+    public Module getDefaultModule() {
+        return defaultModule;
     }
 
     public Map<String, Module> getGroups() {
@@ -49,25 +60,28 @@ public class ModuleRegistry {
     public static ClassPrototype forName(String prototypePath) {
         ModuleRegistry registry = getDefault();
         String[] parts = prototypePath.split(":");
-        Module module = registry.get(parts[0]);
 
-        if (module == null) {
-            return null;
+        switch (parts.length) {
+            case 1:
+                return registry.getDefaultModule().get(parts[0]);
+            case 2:
+                Module module = registry.get(parts[0]);
+
+                if (module == null) {
+                    return null;
+                }
+
+                return module.get(parts[1]);
+            default:
+                throw new PandaRuntimeException("Invalid prototype path: " + prototypePath);
         }
-
-        return module.get(parts[1]);
     }
 
     public static ClassPrototype forClass(Class<?> clazz) {
         ModuleRegistry registry = ModuleRegistry.getDefault();
-        Package clazzPackage = clazz.getPackage();
 
-        if (clazzPackage == null) {
-            System.out.println("[static-indev-debug] ModuleRegistry.forClass called for class without package: " + clazz.getName());
-            return null;
-        }
-
-        Module module = registry.get(clazzPackage.getName());
+        String clazzPackage = clazz.getPackage() == null ? "" : clazz.getPackage().getName();
+        Module module = registry.get(clazzPackage);
 
         if (module == null) {
             return null;
