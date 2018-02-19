@@ -42,12 +42,15 @@ public class TokenUtils {
     }
 
     public static boolean equals(TokenRepresentation tokenRepresentation, TokenType tokenType, String tokenValue) {
-        if (tokenRepresentation == null) {
-            return false;
-        }
+        return tokenRepresentation != null && equals(tokenRepresentation.getToken(), tokenType, tokenValue);
+    }
 
-        Token token = tokenRepresentation.getToken();
-        return token.getType() == tokenType && token.getTokenValue().equals(tokenValue);
+    public static boolean equals(Token token, Token another) {
+        return equals(another, token.getType(), token.getTokenValue());
+    }
+
+    public static boolean equals(Token anotherToken, TokenType tokenType, String tokenValue) {
+        return anotherToken.getType() == tokenType && anotherToken.getTokenValue().equals(tokenValue);
     }
 
 }

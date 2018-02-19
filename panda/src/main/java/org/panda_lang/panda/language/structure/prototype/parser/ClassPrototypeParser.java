@@ -58,7 +58,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "class")
-            .hollow()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, "{")
             .hollow()
             .unit(TokenType.SEPARATOR, "}")

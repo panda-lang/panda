@@ -27,6 +27,7 @@ public class TokenPatternBuilder {
 
     private final List<TokenPatternUnit> units;
     private boolean keepOpposites;
+    private boolean lastIndexAlgorithm;
 
     public TokenPatternBuilder() {
         this.units = new ArrayList<>();
@@ -35,6 +36,11 @@ public class TokenPatternBuilder {
 
     public TokenPatternBuilder keepOpposites(boolean keepOpposites) {
         this.keepOpposites = keepOpposites;
+        return this;
+    }
+
+    public TokenPatternBuilder lastIndexAlgorithm(boolean lastIndexAlgorithm) {
+        this.lastIndexAlgorithm = lastIndexAlgorithm;
         return this;
     }
 
@@ -68,7 +74,7 @@ public class TokenPatternBuilder {
         TokenPatternUnit[] unitsArray = new TokenPatternUnit[units.size()];
         units.toArray(unitsArray);
 
-        return new TokenPattern(unitsArray, keepOpposites);
+        return new TokenPattern(unitsArray, keepOpposites, lastIndexAlgorithm);
     }
 
 }

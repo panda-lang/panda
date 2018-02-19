@@ -18,8 +18,6 @@ package org.panda_lang.panda.core.interpreter.lexer.extractor.prepared;
 
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.token.Token;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 
 import javax.annotation.Nullable;
@@ -96,22 +94,29 @@ public class PreparedSourceUtils {
         return -1;
     }
 
+    public static int lastIndexOf(PreparedSource preparedSource, Token search) {
+        return lastIndexOf(preparedSource, search, 0, null);
+    }
+
     /**
      * @return last index of the specified token in array, returns -1 if the token was not found
      */
-    public static int lastIndexOf(PreparedSource preparedSource, Token search) {
+    public static int lastIndexOf(PreparedSource preparedSource, Token search, int minIndex, @Nullable Token before) {
         PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
 
-        for (int i = representations.length - 1; i > -1; i--) {
+        int indexOfBefore = before != null ? indexOf(preparedSource, before) : -1;
+        int startIndex = indexOfBefore != -1 ? indexOfBefore - 1 : representations.length - 1;
+
+        for (int i = startIndex; i > minIndex - 1; i--) {
             PreparedRepresentation representation = representations[i];
 
             if (representation.getNestingLevel() > 0) {
                 continue;
             }
 
-            TokenRepresentation tokenRepresentation = representation.getTokenRepresentation();
+            Token token = representation.getTokenRepresentation().getToken();
 
-            if (TokenUtils.equals(tokenRepresentation, search)) {
+            if (search.equals(token)) {
                 return i;
             }
         }

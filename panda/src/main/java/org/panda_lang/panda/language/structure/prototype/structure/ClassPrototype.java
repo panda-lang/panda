@@ -26,6 +26,8 @@ import java.util.List;
 
 public interface ClassPrototype {
 
+    boolean isClassOf(String className);
+
     PrototypeField getField(String fieldName);
 
     Methods getMethods();
@@ -37,6 +39,8 @@ public interface ClassPrototype {
     Collection<ClassPrototype> getExtended();
 
     Collection<Class<?>> getAssociated();
+
+    Collection<String> getAliases();
 
     Module getModule();
 

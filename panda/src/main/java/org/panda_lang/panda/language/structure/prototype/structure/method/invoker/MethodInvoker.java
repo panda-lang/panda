@@ -32,6 +32,10 @@ public class MethodInvoker implements StandaloneExecutable {
     private final Expression[] arguments;
 
     public MethodInvoker(PrototypeMethod method, @Nullable Expression instance, Expression[] arguments) {
+        if (method == null) {
+            throw new IllegalArgumentException("PrototypeMethod cannot be null");
+        }
+
         this.method = method;
         this.instanceExpression = instance;
         this.arguments = arguments;

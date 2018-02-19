@@ -37,6 +37,11 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+
+import java.util.Set;
 
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
@@ -76,7 +81,18 @@ public class ImportParser implements UnifiedParser {
             Module module = registry.get(importedGroupName);
 
             if (module == null) {
-                throw new PandaParserException("Unknown group " + importedGroupName);
+                Reflections reflections = new Reflections(importedGroupName, new SubTypesScanner(false));
+                Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
+
+                ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager(delegatedInfo.getComponent(Components.PANDA));
+                mappingManager.loadClasses(classes);
+                mappingManager.generate();
+
+                module = registry.get(importedGroupName);
+
+                if (module == null) {
+                    throw new PandaParserException("Unknown module " + importedGroupName);
+                }
             }
 
             Import anImport = new Import(module);

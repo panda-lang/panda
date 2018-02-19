@@ -29,7 +29,7 @@ public class ConditionalBlock extends PandaBlock {
     private Block elseBlock;
 
     public ConditionalBlock(Expression condition) {
-        if (!condition.getReturnType().getClassName().equals("Boolean")) {
+        if (!condition.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Condition has to return boolean");
         }
 

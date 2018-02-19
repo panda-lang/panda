@@ -19,17 +19,17 @@ package org.panda_lang.panda.language.structure.overall.module;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class Module {
 
     private final String name;
-    private final Map<String, ClassPrototype> prototypes;
+    private final Collection<ClassPrototype> prototypes;
 
     public Module(String name) {
         this.name = name;
-        this.prototypes = new HashMap<>();
+        this.prototypes = new ArrayList<>();
     }
 
     public ClassPrototype createPrototype(String prototypeName) {
@@ -38,15 +38,21 @@ public class Module {
     }
 
     public ClassPrototype add(ClassPrototype prototype) {
-        this.prototypes.put(prototype.getClassName(), prototype);
+        this.prototypes.add(prototype);
         return prototype;
     }
 
     public ClassPrototype get(String className) {
-        return prototypes.get(className);
+        for (ClassPrototype prototype : prototypes) {
+            if (prototype.isClassOf(className)) {
+                return prototype;
+            }
+        }
+
+        return null;
     }
 
-    public Map<String, ClassPrototype> getPrototypes() {
+    public Collection<ClassPrototype> getPrototypes() {
         return prototypes;
     }
 

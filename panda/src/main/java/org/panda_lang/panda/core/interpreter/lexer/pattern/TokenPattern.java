@@ -28,10 +28,12 @@ public class TokenPattern {
 
     private final TokenPatternUnit[] units;
     private boolean keepingOpposites;
+    private boolean lastIndexAlgorithm;
 
-    protected TokenPattern(TokenPatternUnit[] units, boolean keepOpposites) {
+    protected TokenPattern(TokenPatternUnit[] units, boolean keepOpposites, boolean lastIndexAlgorithm) {
         this.units = units;
         this.keepingOpposites = keepOpposites;
+        this.lastIndexAlgorithm = lastIndexAlgorithm;
     }
 
     public List<TokenizedSource> match(TokenizedSource source) {
@@ -56,7 +58,11 @@ public class TokenPattern {
         return units[units.length - 1].isGap();
     }
 
-    public boolean isKeepingOpposites() {
+    public boolean hasLastIndexAlgorithmEnabled() {
+        return lastIndexAlgorithm;
+    }
+
+    public boolean hasKeepingOppositesEnabled() {
         return keepingOpposites;
     }
 

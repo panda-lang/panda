@@ -25,7 +25,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Method
 
 import java.security.InvalidParameterException;
 
-@ClassDeclaration("System")
+@ClassDeclaration("Console")
 @ModuleDeclaration("panda.lang")
 public class SystemPrototype implements ClassPrototypeModel {
 

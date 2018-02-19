@@ -27,6 +27,7 @@ import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.core.structure.wrapper.Container;
 import org.panda_lang.panda.core.structure.wrapper.StatementCell;
+import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -41,12 +42,14 @@ import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = DefaultPriorities.SCOPE_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser {
 
     public static final TokenPattern PATTERN = TokenPattern.builder()
+            //.lastIndexAlgorithm(true)
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
             .simpleHollow()
@@ -115,6 +118,15 @@ public class MethodInvokerParser implements UnifiedParser {
             Expression[] arguments = argumentParser.parse(delegatedInfo, argumentsSource);
 
             PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName);
+
+            if (prototypeMethod == null) {
+                PrototypeField field = prototype.getField(methodName);
+
+                if (field == null) {
+                    throw new PandaParserException("Method " + methodName + " not found in class ");
+                }
+            }
+
             MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
 
             StatementCell cell = delegatedInfo.getComponent("cell");

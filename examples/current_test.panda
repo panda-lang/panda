@@ -1,11 +1,12 @@
 module example.test;
 
+import java.lang;
 import panda.lang;
 
 class Foo extends Test {
 
     method anotherEcho(String message) {
-        System.print(message);
+        Console.print(message);
     }
 
 }
@@ -16,7 +17,7 @@ class Test {
     hidden Double i = 1.0D;
 
     constructor(String message) {
-        System.print(message);
+        Console.print(message);
         this.testField = this;
         testField = this;
         // this.echo(i.intValue());
@@ -24,7 +25,7 @@ class Test {
     }
 
     method echo(String message) {
-        System.print(message);
+        Console.print(message);
     }
 
     method testField() {
@@ -54,29 +55,29 @@ main {
     Int math = 10 + (3 + 4) * 2;
     Boolean flag = true;
 
-    System.print("Hello Panda", flag, varFoo, s, test, i, math);
+    //System.out.print("Hello Panda", flag, varFoo, s, test, i, math);
 
     if (false) {
-        System.print("Nope");
+        Console.print("Nope");
     }
     else {
-        System.print("Yay");
+        Console.print("Yay");
     }
 
     loop (i) {
-        System.print("Loop x1");
+        Console.print("Loop x1");
 
         loop (i) {
-            System.print("Loop x2");
+            Console.print("Loop x2");
             break;
         }
 
         continue;
-        System.print("Loop x3");
+        Console.print("Loop x3");
     }
 
     while (flag) {
-        System.print("While x1");
+        Console.print("While x1");
         break;
     }
 }

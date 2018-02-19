@@ -25,6 +25,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.Prototy
 import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class PandaClassPrototype implements ClassPrototype {
 
     private final Module module;
     private final String className;
+    private final Collection<String> aliases;
     private final Collection<Class<?>> associated;
     private final Collection<ClassPrototype> extended;
     private final Collection<PrototypeConstructor> constructors;
@@ -39,15 +41,21 @@ public class PandaClassPrototype implements ClassPrototype {
     private final Methods methods;
     private boolean initialized;
 
-    public PandaClassPrototype(Module module, String className) {
+    public PandaClassPrototype(Module module, String className, String... aliases) {
         this.module = module;
         this.className = className;
+        this.aliases = Arrays.asList(aliases);
         this.associated = new ArrayList<>(1);
         this.extended = new ArrayList<>(1);
         this.constructors = new ArrayList<>(1);
         this.fields = new ArrayList<>();
         this.methods = new Methods(this);
         this.initialized = false;
+    }
+
+    public PandaClassPrototype(Module module, Class<?> clazz, String... aliases) {
+        this(module, clazz.getSimpleName(), aliases);
+        this.associated.add(clazz);
     }
 
     public synchronized void initialize() {
@@ -65,6 +73,21 @@ public class PandaClassPrototype implements ClassPrototype {
             Expression expression = field.getDefaultValue();
             field.setStaticValue(expression.getExpressionValue(null));
         }
+    }
+
+    @Override
+    public boolean isClassOf(String className) {
+        if (this.getClassName().equals(className)) {
+            return true;
+        }
+
+        for (String alias : this.getAliases()) {
+            if (alias.equals(className)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     @Override
@@ -103,6 +126,11 @@ public class PandaClassPrototype implements ClassPrototype {
     @Override
     public Collection<Class<?>> getAssociated() {
         return associated;
+    }
+
+    @Override
+    public Collection<String> getAliases() {
+        return aliases;
     }
 
     @Override

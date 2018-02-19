@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.overall.imports;
 
 import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ImportRegistry {
 
     public ImportRegistry() {
         this.importedModules = new ArrayList<>();
+        this.include(ModuleRegistry.getDefault().getDefaultModule());
     }
 
     public void include(Module module) {

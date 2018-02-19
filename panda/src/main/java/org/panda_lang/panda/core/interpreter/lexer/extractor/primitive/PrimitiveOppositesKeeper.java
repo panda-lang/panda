@@ -29,7 +29,7 @@ class PrimitiveOppositesKeeper {
 
     protected PrimitiveOppositesKeeper(PrimitiveExtractor tokenExtractor) {
         this.separators = new Stack<>();
-        this.active = tokenExtractor.getPattern().isKeepingOpposites();
+        this.active = tokenExtractor.getPattern().hasKeepingOppositesEnabled();
     }
 
     protected void report(Token token) {

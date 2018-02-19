@@ -70,7 +70,7 @@ public class MathExpressionCallback implements ExpressionCallback {
                         throw new PandaRuntimeException("Unknown operator");
                 }
 
-                Value c = new PandaValue(PandaClassPrototype.forName("panda.lang:Int"), cValue);
+                Value c = new PandaValue(PandaClassPrototype.forName("int"), cValue);
                 values.push(c);
             }
             else {
@@ -83,7 +83,7 @@ public class MathExpressionCallback implements ExpressionCallback {
     }
 
     public ClassPrototype getReturnType() {
-        return PandaClassPrototype.forName("panda.lang:Int");
+        return PandaClassPrototype.forName("int");
     }
 
 }

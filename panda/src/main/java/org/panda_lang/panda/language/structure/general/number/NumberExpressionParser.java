@@ -65,22 +65,22 @@ public class NumberExpressionParser implements Parser {
 
         switch (numberType) {
             case BYTE:
-                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Byte"), parsedNumber.byteValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("byte"), parsedNumber.byteValue());
                 break;
             case SHORT:
-                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Short"), parsedNumber.shortValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("short"), parsedNumber.shortValue());
                 break;
             case INT:
-                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Int"), parsedNumber.intValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("int"), parsedNumber.intValue());
                 break;
             case LONG:
-                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Long"), parsedNumber.longValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("long"), parsedNumber.longValue());
                 break;
             case FLOAT:
-                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Float"), parsedNumber.floatValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("float"), parsedNumber.floatValue());
                 break;
             case DOUBLE:
-                this.value = new PandaValue(PandaClassPrototype.forName("panda.lang:Double"), parsedNumber.doubleValue());
+                this.value = new PandaValue(PandaClassPrototype.forName("double"), parsedNumber.doubleValue());
                 break;
         }
 

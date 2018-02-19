@@ -34,7 +34,13 @@ public class PreparedExtractorTest {
 
     //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
     // private static final String SOURCE = "class A {} class B {}";
-    private static final String SOURCE = "constructor () { System.print( getVersion() ); }";
+    private static final String SOURCE = "module java.lang; import panda.lang;";
+
+    private static final TokenPattern PATTERN = TokenPattern.builder()
+            .unit(TokenType.KEYWORD, "module")
+            .simpleHollow()
+            .unit(TokenType.SEPARATOR, ";")
+            .build();
 
     @Test
     public void testExtractor() {
@@ -42,21 +48,11 @@ public class PreparedExtractorTest {
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
-        TokenPattern pattern = TokenPattern.builder()
-                .unit(TokenType.KEYWORD, "constructor")
-                .unit(TokenType.SEPARATOR, "(")
-                .simpleHollow()
-                .unit(TokenType.SEPARATOR, ")")
-                .unit(TokenType.SEPARATOR, "{")
-                .hollow()
-                .unit(TokenType.SEPARATOR, "}")
-                .build();
-
-        PreparedExtractor extractor = new PreparedExtractor(pattern);
+        PreparedExtractor extractor = new PreparedExtractor(PATTERN);
         List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
         if (gaps == null) {
-            System.out.println("Cannot extract gaps for PATTERN '" + pattern.toString() + "' and source '" + SOURCE + "'");
+            System.out.println("Cannot extract gaps for PATTERN '" + PATTERN.toString() + "' and source '" + SOURCE + "'");
             return;
         }
 

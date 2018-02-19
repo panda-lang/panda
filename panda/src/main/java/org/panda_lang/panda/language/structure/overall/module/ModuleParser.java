@@ -45,7 +45,7 @@ public class ModuleParser implements UnifiedParser {
 
     private static final TokenPattern PATTERN = TokenPattern.builder()
             .unit(TokenType.KEYWORD, "module")
-            .hollow()
+            .simpleHollow()
             .unit(TokenType.SEPARATOR, ";")
             .build();
 

@@ -66,6 +66,7 @@ public class ClassPrototypeGenerator {
             prototype.getMethods().registerMethod(prototypeMethod);
         }
 
+        module.add(prototype);
         return prototype;
     }
 

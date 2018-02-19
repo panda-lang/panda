@@ -95,6 +95,11 @@
                 <artifactId>reflectasm</artifactId>
                 <version>1.11.3</version>
             </dependency>
+            <dependency>
+                <groupId>io.github.lukehutch</groupId>
+                <artifactId>fast-classpath-scanner</artifactId>
+                <version>2.18.1</version>
+            </dependency>
 
             <!-- Utilities -->
             <dependency>

@@ -63,7 +63,14 @@ public class PreparedExtractor implements Extractor {
                 continue;
             }
 
-            int lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], fissure ? Separators.SEMICOLON : null);
+            int lastIndexOfUnit;
+
+            if (!pattern.hasLastIndexAlgorithmEnabled() || (fissure && TokenUtils.equals(unit, Separators.SEMICOLON))) {
+                lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], fissure ? Separators.SEMICOLON : null);
+            }
+            else {
+                lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit, positions[j], fissure ? Separators.SEMICOLON : null);
+            }
 
             if (lastIndexOfUnit == -1) {
                 return null;

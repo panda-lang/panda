@@ -47,7 +47,7 @@ public class WhileParser implements UnifiedParser {
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(info, expressionSource);
 
-        if (!expression.getReturnType().getClassName().equals("Boolean")) {
+        if (!expression.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 

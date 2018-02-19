@@ -70,9 +70,9 @@ public class ExpressionParser implements Parser {
                     case "null":
                         return new Expression(new PandaValue(null, null));
                     case "true":
-                        return toSimpleKnownExpression("panda.lang:Boolean", true);
+                        return toSimpleKnownExpression("boolean", true);
                     case "false":
-                        return toSimpleKnownExpression("panda.lang:Boolean", false);
+                        return toSimpleKnownExpression("boolean", false);
                     case "this":
                         ClassPrototype type = info.getComponent(Components.CLASS_PROTOTYPE);
                         return new Expression(type, new ThisExpressionCallback());
@@ -84,7 +84,7 @@ public class ExpressionParser implements Parser {
             if (token.getType() == TokenType.SEQUENCE) {
                 switch (token.getName()) {
                     case "String":
-                        return toSimpleKnownExpression("panda.lang:String", value);
+                        return toSimpleKnownExpression("java.lang:String", value);
                     default:
                         throw new PandaParserException("Unknown sequence: " + token);
                 }

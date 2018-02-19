@@ -16,10 +16,25 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
+
 public class PandaFactory {
 
     public Panda createPanda() {
-        return new Panda();
+        Panda panda = new Panda();
+
+        Module defaultModule = ModuleRegistry.getDefault().getDefaultModule();
+        defaultModule.add(new PandaClassPrototype(defaultModule, boolean.class, "Boolean"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, char.class, "Char"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, byte.class, "Byte"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, short.class, "Short"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, int.class, "Int"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, float.class, "Float"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, double.class, "Double"));
+
+        return panda;
     }
 
 }
