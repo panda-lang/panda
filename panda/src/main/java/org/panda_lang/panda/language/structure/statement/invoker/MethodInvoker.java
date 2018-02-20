@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
+package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.core.structure.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.core.structure.value.Value;

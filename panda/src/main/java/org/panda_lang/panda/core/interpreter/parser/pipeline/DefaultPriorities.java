@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.core.interpreter.parser.pipeline;
 
+import org.panda_lang.panda.language.structure.statement.invoker.MethodInvokerParser;
+
 public class DefaultPriorities {
 
     /**
@@ -30,18 +32,23 @@ public class DefaultPriorities {
 
 
     /**
-     * Used by {@link org.panda_lang.panda.language.structure.prototype.structure.method.invoker.MethodInvokerParser}
-     */
-    public static final int SCOPE_METHOD_INVOKER_PARSER = 1;
-
-    /**
      * Used by {@link org.panda_lang.panda.language.structure.scope.block.BlockParser}
      */
-    public static final int SCOPE_BLOCK_PARSER = 10;
+    public static final int SCOPE_BLOCK_PARSER = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.language.structure.scope.variable.VariableParser}
+     * Used by {@link org.panda_lang.panda.language.structure.statement.StatementParser}
      */
-    public static final int SCOPE_VARIABLE_PARSER = 100;
+    public static final int SCOPE_STATEMENT_PARSER = 2;
+
+    /**
+     * Used by {@link MethodInvokerParser}
+     */
+    public static final int STATEMENT_METHOD_INVOKER_PARSER = 1;
+
+    /**
+     * Used by {@link org.panda_lang.panda.language.structure.statement.variable.VariableParser}
+     */
+    public static final int STATEMENT_VARIABLE_PARSER = 2;
 
 }

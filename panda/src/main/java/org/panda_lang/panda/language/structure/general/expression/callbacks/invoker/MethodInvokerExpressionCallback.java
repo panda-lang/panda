@@ -21,7 +21,7 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.method.invoker.MethodInvoker;
+import org.panda_lang.panda.language.structure.statement.invoker.MethodInvoker;
 
 public class MethodInvokerExpressionCallback implements ExpressionCallback {
 

@@ -38,7 +38,7 @@ public class ClassPrototypeGenerator {
     }
 
     public ClassPrototype generate(Class<?> type) {
-        Module module = ModuleRegistry.getDefault().getOrCreate(type.getPackage().getName());
+        Module module = ModuleRegistry.getDefault().getOrCreate(type.getPackage() == null ? "" : type.getPackage().getName());
         ClassPrototype prototype = module.get(type.getSimpleName());
 
         if (prototype != null) {
@@ -47,6 +47,7 @@ public class ClassPrototypeGenerator {
 
         prototype = new PandaClassPrototype(module, type.getSimpleName());
         prototype.getAssociated().add(type);
+        module.add(prototype);
 
         for (Field field : type.getFields()) {
             ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(type, prototype, field);
@@ -66,7 +67,6 @@ public class ClassPrototypeGenerator {
             prototype.getMethods().registerMethod(prototypeMethod);
         }
 
-        module.add(prototype);
         return prototype;
     }
 

@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.structure.general.expression;
 
 import org.panda_lang.panda.core.structure.value.Value;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 
 public class ExpressionUtils {
 
@@ -30,6 +31,17 @@ public class ExpressionUtils {
         }
 
         return values;
+    }
+
+    public static ClassPrototype[] toTypes(Expression... expressions) {
+        ClassPrototype[] prototypes = new ClassPrototype[expressions.length];
+
+        for (int i = 0; i < prototypes.length; i++) {
+            Expression expression = expressions[i];
+            prototypes[i] = expression.getReturnType();
+        }
+
+        return prototypes;
     }
 
 }

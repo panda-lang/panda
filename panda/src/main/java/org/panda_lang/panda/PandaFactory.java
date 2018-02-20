@@ -33,6 +33,7 @@ public class PandaFactory {
         defaultModule.add(new PandaClassPrototype(defaultModule, int.class, "Int"));
         defaultModule.add(new PandaClassPrototype(defaultModule, float.class, "Float"));
         defaultModule.add(new PandaClassPrototype(defaultModule, double.class, "Double"));
+        defaultModule.add(new PandaClassPrototype(defaultModule, Object.class, "Object"));
 
         return panda;
     }

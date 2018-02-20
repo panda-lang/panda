@@ -48,4 +48,9 @@ public class DefaultPipelines {
      */
     public static final String BLOCK = "block";
 
+    /**
+     * Used by {@link org.panda_lang.panda.language.structure.statement.StatementParser}
+     */
+    public static final String STATEMENT = "statement";
+
 }

@@ -84,7 +84,7 @@ public class ImportParser implements UnifiedParser {
                 Reflections reflections = new Reflections(importedGroupName, new SubTypesScanner(false));
                 Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
-                ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager(delegatedInfo.getComponent(Components.PANDA));
+                ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
                 mappingManager.loadClasses(classes);
                 mappingManager.generate();
 

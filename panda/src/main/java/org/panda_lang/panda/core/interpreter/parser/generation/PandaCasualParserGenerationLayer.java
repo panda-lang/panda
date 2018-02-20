@@ -52,15 +52,16 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
     }
 
     private void call(List<CasualParserGenerationUnit> units, ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
-        for (CasualParserGenerationUnit unit : units) {
+        List<CasualParserGenerationUnit> unitList = new ArrayList<>(units);
+        units.clear();
+
+        for (CasualParserGenerationUnit unit : unitList) {
             CasualParserGenerationCallback callback = unit.getCallback();
             ParserInfo delegatedInfo = unit.getDelegated();
 
             delegatedInfo.setComponent(Components.CURRENT_PARSER_INFO, currentInfo);
             callback.call(delegatedInfo, nextLayer);
         }
-
-        units.clear();
     }
 
     @Override

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.variable;
+package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
@@ -52,24 +52,22 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.inst
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
-import org.panda_lang.panda.language.structure.scope.variable.assigners.FieldAssigner;
-import org.panda_lang.panda.language.structure.scope.variable.assigners.VariableAssigner;
+import org.panda_lang.panda.language.structure.statement.variable.assigners.FieldAssigner;
+import org.panda_lang.panda.language.structure.statement.variable.assigners.VariableAssigner;
 
 import java.util.List;
 
-@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.SCOPE_VARIABLE_PARSER)
+@ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.STATEMENT_VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
 
     protected static final TokenPattern PATTERN = TokenPattern.builder()
             .simpleHollow()
-            .unit(TokenType.SEPARATOR, ";")
             .build();
 
     protected static final TokenPattern ASSIGNATION_PATTERN = TokenPattern.builder()
             .simpleHollow()
             .unit(TokenType.OPERATOR, "=")
             .hollow()
-            .unit(TokenType.SEPARATOR, ";")
             .build();
 
     @Override
@@ -82,7 +80,7 @@ public class VariableParser implements UnifiedParser {
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
 
-        if (hollows == null || hollows.size() < 2) {
+        if (hollows == null || hollows.size() != 2) {
             callback = new VariableDeclarationCallbackCasual(false);
         }
         else {

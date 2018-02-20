@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.structure.general.expression;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
+import org.panda_lang.panda.core.structure.PandaScript;
 import org.panda_lang.panda.core.structure.value.PandaValue;
 import org.panda_lang.panda.core.structure.value.Variable;
 import org.panda_lang.panda.core.structure.wrapper.Scope;
@@ -44,10 +45,11 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.memo
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
 import org.panda_lang.panda.language.structure.general.number.NumberUtils;
+import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
-import org.panda_lang.panda.language.structure.scope.variable.VariableParserUtils;
+import org.panda_lang.panda.language.structure.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 import java.util.List;
@@ -57,7 +59,7 @@ public class ExpressionParser implements Parser {
     protected static final TokenPattern FIELD_PATTERN = TokenPattern.builder()
             .hollow()
             .unit(Separators.PERIOD)
-            .hollow()
+            .simpleHollow()
             .build();
 
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
@@ -97,7 +99,6 @@ public class ExpressionParser implements Parser {
                 return new Expression(numberExpressionParser.getValue());
             }
 
-
             ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
             Variable variable = VariableParserUtils.getVariable(scope, value);
@@ -108,11 +109,14 @@ public class ExpressionParser implements Parser {
             }
 
             ClassPrototype prototype = info.getComponent(Components.CLASS_PROTOTYPE);
-            PrototypeField field = prototype.getField(value);
 
-            if (field != null) {
-                int memoryIndex = prototype.getFields().indexOf(field);
-                return new Expression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
+            if (prototype != null) {
+                PrototypeField field = prototype.getField(value);
+
+                if (field != null) {
+                    int memoryIndex = prototype.getFields().indexOf(field);
+                    return new Expression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
+                }
             }
         }
         else if (TokenUtils.equals(expressionSource.get(0), TokenType.KEYWORD, "new")) {
@@ -137,17 +141,35 @@ public class ExpressionParser implements Parser {
         List<TokenizedSource> fieldMatches = FIELD_PATTERN.match(expressionReader);
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
-            Expression instanceExpression = parse(info, fieldMatches.get(0));
-            ClassPrototype instanceType = instanceExpression.getReturnType();
-            String instanceFieldName = fieldMatches.get(1).getLast().getToken().getTokenValue();
+            PandaScript script = info.getComponent(Components.SCRIPT);
+            ImportRegistry importRegistry = script.getImportRegistry();
+
+            TokenizedSource instanceSource = fieldMatches.get(0);
+            ClassPrototype instanceType = null;
+            Expression fieldLocationExpression = null;
+
+            if (instanceSource.size() == 1) {
+                instanceType = importRegistry.forClass(fieldMatches.get(0).asString());
+            }
+
+            if (instanceType == null) {
+                fieldLocationExpression = parse(info, fieldMatches.get(0));
+                instanceType = fieldLocationExpression.getReturnType();
+            }
+
+            if (instanceType == null) {
+                throw new PandaParserException("Unknown instance source at line " + TokenUtils.getLine(instanceSource));
+            }
+
+            String instanceFieldName = fieldMatches.get(1).getLast().getTokenValue();
             PrototypeField instanceField = instanceType.getField(instanceFieldName);
 
             if (instanceField == null) {
-                throw new PandaParserException("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName);
+                throw new PandaParserException("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName + " at " + TokenUtils.getLine(expressionSource));
             }
 
             int memoryIndex = instanceType.getFields().indexOf(instanceField);
-            return new Expression(instanceType, new FieldExpressionCallback(instanceExpression, instanceField, memoryIndex));
+            return new Expression(instanceField.getType(), new FieldExpressionCallback(fieldLocationExpression, instanceField, memoryIndex));
         }
 
         NumberExpressionParser numberExpressionParser = new NumberExpressionParser();

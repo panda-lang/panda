@@ -17,16 +17,20 @@
 package org.panda_lang.panda.language.structure.overall.module;
 
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ModuleRegistry {
 
-    private static final ModuleRegistry instance = new ModuleRegistry();
     private static final String DEFAULT_MODULE = StringUtils.EMPTY;
+
+    private static final ModuleRegistry instance = new ModuleRegistry();
+    private static final ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
 
     private final Map<String, Module> groups;
     private final Module defaultModule;
@@ -57,6 +61,17 @@ public class ModuleRegistry {
         return instance;
     }
 
+    private static ClassPrototype mapClass(Class<?> clazz) {
+        mappingManager.loadClass(clazz);
+        Collection<ClassPrototype> prototypes = mappingManager.generate();
+
+        if (prototypes == null || prototypes.size() == 0) {
+            throw new PandaRuntimeException("Cannot map class " + clazz);
+        }
+
+        return prototypes.iterator().next();
+    }
+
     public static ClassPrototype forName(String prototypePath) {
         ModuleRegistry registry = getDefault();
         String[] parts = prototypePath.split(":");
@@ -84,10 +99,16 @@ public class ModuleRegistry {
         Module module = registry.get(clazzPackage);
 
         if (module == null) {
-            return null;
+            return mapClass(clazz);
         }
 
-        return module.get(clazz.getSimpleName());
+        ClassPrototype prototype = module.get(clazz.getSimpleName());
+
+        if (prototype == null) {
+            return mapClass(clazz);
+        }
+
+        return prototype;
     }
 
 }

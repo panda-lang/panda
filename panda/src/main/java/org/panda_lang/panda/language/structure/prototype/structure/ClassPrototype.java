@@ -28,6 +28,8 @@ public interface ClassPrototype {
 
     boolean isClassOf(String className);
 
+    boolean isAssociatedWith(ClassPrototype prototype);
+
     PrototypeField getField(String fieldName);
 
     Methods getMethods();

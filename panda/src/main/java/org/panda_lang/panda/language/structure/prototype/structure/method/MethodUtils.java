@@ -35,7 +35,7 @@ public class MethodUtils {
                 ClassPrototype methodType = methodTypes[i];
                 ClassPrototype type = types[i];
 
-                if (!methodType.equals(type)) {
+                if (!methodType.isAssociatedWith(type)) {
                     continue MATCHER;
                 }
             }

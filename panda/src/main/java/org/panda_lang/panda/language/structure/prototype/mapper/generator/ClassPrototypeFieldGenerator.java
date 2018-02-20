@@ -10,6 +10,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVi
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public class ClassPrototypeFieldGenerator {
 
@@ -24,8 +25,8 @@ public class ClassPrototypeFieldGenerator {
     }
 
     public PrototypeField generate() {
-        PrototypeField prototypeField = new PrototypeField(prototype, prototype.getFields().size(), field.getName(), FieldVisibility.PUBLIC, false);
         ClassPrototype returnType = ModuleRegistry.forClass(field.getType());
+        PrototypeField prototypeField = new PrototypeField(returnType, prototype.getFields().size(), field.getName(), FieldVisibility.PUBLIC, Modifier.isStatic(field.getModifiers()));
 
         Expression fieldExpression = new Expression(returnType, (expression, branch) -> {
             Value instance = branch.getInstance();

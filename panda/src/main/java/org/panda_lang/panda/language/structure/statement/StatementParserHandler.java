@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token;
+package org.panda_lang.panda.language.structure.statement;
 
-public interface TokenRepresentation {
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
 
-    int getLine();
+public class StatementParserHandler implements ParserHandler {
 
-    Token getToken();
-
-    default String getTokenValue() {
-        return getToken().getTokenValue();
+    @Override
+    public boolean handle(TokenReader tokenReader) {
+        return StatementParser.PATTERN.match(tokenReader) != null;
     }
 
 }

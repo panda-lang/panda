@@ -45,6 +45,10 @@ public class Methods {
             return null;
         }
 
+        if (methods.size() == 1) {
+            return methods.iterator().next();
+        }
+
         return MethodUtils.matchMethod(methods, parameterTypes);
     }
 

@@ -34,11 +34,17 @@ public class PreparedExtractorTest {
 
     //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
     // private static final String SOURCE = "class A {} class B {}";
-    private static final String SOURCE = "module java.lang; import panda.lang;";
+    // private static final String SOURCE = "module java.lang; import panda.lang;";
+    private static final String SOURCE = "System.out.print(\"Hello Panda\", flag, varFoo, s, test, i, math);";
 
     private static final TokenPattern PATTERN = TokenPattern.builder()
-            .unit(TokenType.KEYWORD, "module")
+            .lastIndexAlgorithm(true)
+            .hollow()
+            .unit(TokenType.SEPARATOR, ".")
             .simpleHollow()
+            .unit(TokenType.SEPARATOR, "(")
+            .hollow()
+            .unit(TokenType.SEPARATOR, ")")
             .unit(TokenType.SEPARATOR, ";")
             .build();
 

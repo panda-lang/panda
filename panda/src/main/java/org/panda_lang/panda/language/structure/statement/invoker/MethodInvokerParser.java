@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.structure.method.invoker;
+package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
 import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
@@ -36,27 +36,28 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.cas
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
 
-@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = DefaultPriorities.SCOPE_METHOD_INVOKER_PARSER)
+@ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = DefaultPriorities.STATEMENT_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser {
 
     public static final TokenPattern PATTERN = TokenPattern.builder()
-            //.lastIndexAlgorithm(true)
+            .lastIndexAlgorithm(true)
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
             .hollow()
             .unit(TokenType.SEPARATOR, ")")
-            .unit(TokenType.SEPARATOR, ";")
             .build();
 
     @Override
@@ -117,13 +118,14 @@ public class MethodInvokerParser implements UnifiedParser {
             ArgumentParser argumentParser = new ArgumentParser();
             Expression[] arguments = argumentParser.parse(delegatedInfo, argumentsSource);
 
-            PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName);
+            ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
+            PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
             if (prototypeMethod == null) {
                 PrototypeField field = prototype.getField(methodName);
 
                 if (field == null) {
-                    throw new PandaParserException("Method " + methodName + " not found in class ");
+                    throw new PandaParserException("Method " + methodName + " not found in class " + prototype.getClassName() + " at line " + TokenUtils.getLine(instanceSource));
                 }
             }
 

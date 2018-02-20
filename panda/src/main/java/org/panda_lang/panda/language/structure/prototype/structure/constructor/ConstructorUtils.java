@@ -18,9 +18,6 @@ package org.panda_lang.panda.language.structure.prototype.structure.constructor;
 
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.parameter.Parameter;
-
-import java.util.List;
 
 public class ConstructorUtils {
 
@@ -58,17 +55,6 @@ public class ConstructorUtils {
         }
 
         return null;
-    }
-
-    public static ClassPrototype[] toTypes(List<Parameter> parameters) {
-        ClassPrototype[] prototypes = new ClassPrototype[parameters.size()];
-
-        for (int i = 0; i < prototypes.length; i++) {
-            Parameter parameter = parameters.get(i);
-            prototypes[i] = parameter.getParameterType();
-        }
-
-        return prototypes;
     }
 
 }

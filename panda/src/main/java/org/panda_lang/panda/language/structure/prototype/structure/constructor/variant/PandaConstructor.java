@@ -22,10 +22,9 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorScope;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorScopeInstance;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
+import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.parameter.ParameterUtils;
 
 public class PandaConstructor implements PrototypeConstructor {
@@ -39,7 +38,7 @@ public class PandaConstructor implements PrototypeConstructor {
         this.classPrototype = classPrototype;
         this.classScope = classScope;
         this.constructorScope = constructorScope;
-        this.types = ConstructorUtils.toTypes(constructorScope.getParameters());
+        this.types = ParameterUtils.toTypes(constructorScope.getParameters());
     }
 
     @Override

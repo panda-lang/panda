@@ -91,6 +91,11 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
+    public boolean isAssociatedWith(ClassPrototype prototype) {
+        return PandaClassPrototypeUtils.hasCommonClasses(this.associated, prototype.getAssociated()) || PandaClassPrototypeUtils.hasCommonPrototypes(this.extended, prototype.getExtended());
+    }
+
+    @Override
     public PrototypeField getField(String fieldName) {
         for (PrototypeField field : fields) {
             if (!field.getName().equals(fieldName)) {

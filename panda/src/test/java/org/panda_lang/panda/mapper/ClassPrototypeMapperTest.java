@@ -34,7 +34,7 @@ public class ClassPrototypeMapperTest {
                 .syntax(PandaSyntax.getInstance())
                 .get();
 
-        ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager(panda);
+        ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
         mappingManager.loadClass(TestClass.class);
 
         Collection<ClassPrototype> prototypes = mappingManager.generate();

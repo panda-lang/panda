@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper;
 
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.prototype.mapper.loaders.ClassPrototypeMappingAnnotationLoader;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
@@ -26,11 +25,9 @@ import java.util.Collection;
 
 public class ClassPrototypeMappingManager {
 
-    private final Panda panda;
     private final Collection<Class<?>> loadedClasses;
 
-    public ClassPrototypeMappingManager(Panda panda) {
-        this.panda = panda;
+    public ClassPrototypeMappingManager() {
         this.loadedClasses = new ArrayList<>();
     }
 
@@ -71,10 +68,6 @@ public class ClassPrototypeMappingManager {
         }
 
         return prototypes;
-    }
-
-    public Panda getPanda() {
-        return panda;
     }
 
 }

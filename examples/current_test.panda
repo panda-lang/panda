@@ -55,7 +55,7 @@ main {
     Int math = 10 + (3 + 4) * 2;
     Boolean flag = true;
 
-    //System.out.print("Hello Panda", flag, varFoo, s, test, i, math);
+    // System.out.print("Hello Panda", flag, varFoo, s, test, i, math);
 
     if (false) {
         Console.print("Nope");

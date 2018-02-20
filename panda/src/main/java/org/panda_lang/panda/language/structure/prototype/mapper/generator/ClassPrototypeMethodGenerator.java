@@ -8,6 +8,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Protot
 import org.panda_lang.panda.language.structure.prototype.structure.method.variant.PandaMethod;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 public class ClassPrototypeMethodGenerator {
 
@@ -44,7 +45,7 @@ public class ClassPrototypeMethodGenerator {
             parameters[i] = PandaClassPrototype.forClass(method.getParameterTypes()[i]);
         }
 
-        return new PandaMethod(prototype, MethodVisibility.PUBLIC, false, returnType, method.getName(), methodBody, parameters);
+        return new PandaMethod(prototype, MethodVisibility.PUBLIC, Modifier.isStatic(method.getModifiers()), returnType, method.getName(), methodBody, parameters);
     }
 
 }
