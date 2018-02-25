@@ -156,7 +156,7 @@ public class FieldParser implements UnifiedParser {
             }
 
             int fieldIndex = prototype.getFields().size();
-            PrototypeField field = new PrototypeField(type, fieldIndex, name, visibility, isStatic);
+            PrototypeField field = new PrototypeField(type, fieldIndex, name, visibility, isStatic, false);
             prototype.getFields().add(field);
 
             // int fieldIndex = prototype.getFields().indexOf(field);

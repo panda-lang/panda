@@ -22,6 +22,6 @@ import org.panda_lang.panda.language.structure.prototype.structure.method.Method
 
 public abstract class ClassPrototypeModelMethodCallback implements MethodCallback<Object> {
 
-    public abstract void invoke(ExecutableBranch bridge, Object instance, Value[] parameters);
+    public abstract void invoke(ExecutableBranch branch, Object instance, Value[] parameters);
 
 }

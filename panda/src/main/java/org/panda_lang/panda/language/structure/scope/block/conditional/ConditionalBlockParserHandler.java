@@ -25,8 +25,8 @@ import org.panda_lang.panda.language.syntax.tokens.Keywords;
 public class ConditionalBlockParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        TokenRepresentation representation = tokenReader.read();
+    public boolean handle(TokenReader reader) {
+        TokenRepresentation representation = reader.read();
         return TokenUtils.equals(representation, Keywords.IF) || TokenUtils.equals(representation, Keywords.ELSE);
     }
 

@@ -21,9 +21,9 @@ import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenRea
 public interface ParserHandler {
 
     /**
-     * @param tokenReader source
+     * @param reader source
      * @return returns true if parser fits to source
      */
-    boolean handle(TokenReader tokenReader);
+    boolean handle(TokenReader reader);
 
 }

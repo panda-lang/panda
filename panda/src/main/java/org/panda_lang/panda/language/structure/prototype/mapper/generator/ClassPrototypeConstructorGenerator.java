@@ -27,7 +27,8 @@ public class ClassPrototypeConstructorGenerator {
             parameters[i] = PandaClassPrototype.forClass(constructor.getParameterTypes()[i]);
         }
 
-        return new PrototypeConstructor() {
+        // TODO: Generate bytecode
+        PrototypeConstructor generatedConstructor = new PrototypeConstructor() {
             @Override
             public Object createInstance(ExecutableBranch bridge, Value... values) {
                 try {
@@ -50,6 +51,8 @@ public class ClassPrototypeConstructorGenerator {
                 return parameters;
             }
         };
+
+        return generatedConstructor;
     }
 
 }

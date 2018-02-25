@@ -27,6 +27,7 @@ import java.util.List;
 public class TokenPattern {
 
     private final TokenPatternUnit[] units;
+    private final int amountOfHollows;
     private boolean keepingOpposites;
     private boolean lastIndexAlgorithm;
 
@@ -34,6 +35,7 @@ public class TokenPattern {
         this.units = units;
         this.keepingOpposites = keepOpposites;
         this.lastIndexAlgorithm = lastIndexAlgorithm;
+        this.amountOfHollows = TokenPatternUtils.countGaps(units);
     }
 
     public List<TokenizedSource> match(TokenizedSource source) {
@@ -64,6 +66,10 @@ public class TokenPattern {
 
     public boolean hasKeepingOppositesEnabled() {
         return keepingOpposites;
+    }
+
+    public int getAmountOfHollows() {
+        return amountOfHollows;
     }
 
     public TokenPatternUnit[] getUnits() {

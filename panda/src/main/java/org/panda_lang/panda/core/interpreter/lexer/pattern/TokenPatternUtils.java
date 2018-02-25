@@ -18,6 +18,7 @@ package org.panda_lang.panda.core.interpreter.lexer.pattern;
 
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
@@ -44,6 +45,26 @@ public class TokenPatternUtils {
 
         source.readDifference(reader);
         return new TokenPatternHollows(gaps);
+    }
+
+    public static boolean match(TokenPattern pattern, TokenReader reader) {
+        TokenReader copyOfReader = new PandaTokenReader(reader);
+        Extractor extractor = pattern.extractor();
+
+        List<TokenizedSource> hollows = extractor.extract(copyOfReader);
+        return hollows != null && hollows.size() == pattern.getAmountOfHollows();
+    }
+
+    public static int countGaps(TokenPatternUnit[] units) {
+        int gaps = 0;
+
+        for (TokenPatternUnit unit : units) {
+            if (unit.isGap()) {
+                ++gaps;
+            }
+        }
+
+        return gaps;
     }
 
 }

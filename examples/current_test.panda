@@ -2,6 +2,11 @@ module example.test;
 
 import java.lang;
 import panda.lang;
+import org.panda_lang.panda;
+import org.panda_lang.panda.bootstrap;
+import org.panda_lang.panda.language.syntax;
+import org.panda_lang.panda.language.structure.prototype.registry;
+import org.panda_lang.panda.core.structure;
 
 class Foo extends Test {
 
@@ -55,7 +60,8 @@ main {
     Int math = 10 + (3 + 4) * 2;
     Boolean flag = true;
 
-    // System.out.print("Hello Panda", flag, varFoo, s, test, i, math);
+    Console.print("Hello Panda", flag, varFoo, s, test, i);
+    System.out.println(math);
 
     if (false) {
         Console.print("Nope");
@@ -80,4 +86,17 @@ main {
         Console.print("While x1");
         break;
     }
+
+    Console.print("Calling mapped Panda from Panda");
+    Panda panda = new PandaBootstrap()
+            .syntax(PandaSyntax.getInstance())
+            .mapModels(ClassPrototypeModel.of("panda.lang"))
+            .get();
+
+    PandaApplication application = new PandaApplicationBootstrap(panda)
+            .source("../examples/main.panda")
+            .createApplication();
+
+    Console.print("Launching mapped Panda from Panda");
+    application.launch();
 }

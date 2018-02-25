@@ -71,6 +71,11 @@ public interface ExecutableBranch {
     ExecutableBranch callStandalone(Executable executable);
 
     /**
+     * @return an independent duplicate of branch
+     */
+    ExecutableBranch duplicate();
+
+    /**
      * Interrupt the execution process
      */
     void interrupt();

@@ -60,11 +60,11 @@ import java.util.List;
 @ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.STATEMENT_VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder()
+    public static final TokenPattern PATTERN = TokenPattern.builder()
             .simpleHollow()
             .build();
 
-    protected static final TokenPattern ASSIGNATION_PATTERN = TokenPattern.builder()
+    public static final TokenPattern ASSIGNATION_PATTERN = TokenPattern.builder()
             .simpleHollow()
             .unit(TokenType.OPERATOR, "=")
             .hollow()
@@ -199,7 +199,8 @@ public class VariableParser implements UnifiedParser {
 
             if (variable != null) {
                 if (!variable.getType().equals(expressionValue.getReturnType())) {
-                    throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
+                    throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right)
+                            + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")");
                 }
 
                 assigner = new VariableAssigner(VariableParserUtils.indexOf(scope, variable), expressionValue);

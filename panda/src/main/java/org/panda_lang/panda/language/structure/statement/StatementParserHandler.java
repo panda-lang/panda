@@ -22,8 +22,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenRea
 public class StatementParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return StatementParser.PATTERN.match(tokenReader) != null;
+    public boolean handle(TokenReader reader) {
+        return StatementParser.PATTERN.match(reader) != null;
     }
 
 }

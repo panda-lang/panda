@@ -24,8 +24,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenRea
 public class ModuleParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), TokenType.KEYWORD, "module");
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), TokenType.KEYWORD, "module");
     }
 
 }

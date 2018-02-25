@@ -24,8 +24,8 @@ import org.panda_lang.panda.language.syntax.tokens.Keywords;
 public class ReturnParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), Keywords.RETURN);
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), Keywords.RETURN);
     }
 
 }

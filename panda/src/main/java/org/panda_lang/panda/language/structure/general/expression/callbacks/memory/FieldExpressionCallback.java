@@ -38,14 +38,20 @@ public class FieldExpressionCallback implements ExpressionCallback {
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        Value instance = instanceExpression.getExpressionValue(branch);
-
         if (field.isStatic()) {
-            return field.getStaticValue();
+            return field.getStaticValue().getValue();
         }
+
+        Value instance = instanceExpression.getExpressionValue(branch);
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");
+        }
+
+        branch.instance(instance);
+
+        if (field.isNative()) {
+            return field.getDefaultValue().getExpressionValue(branch);
         }
 
         if (!(instance.getObject() instanceof ClassScopeInstance)) {

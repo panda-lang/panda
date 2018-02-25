@@ -21,6 +21,6 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public interface MethodCallback<T> {
 
-    void invoke(ExecutableBranch bridge, T instance, Value... parameters);
+    void invoke(ExecutableBranch branch, T instance, Value... parameters);
 
 }

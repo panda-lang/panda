@@ -22,6 +22,7 @@ import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
+import org.panda_lang.panda.language.structure.prototype.structure.field.StaticValue;
 import org.panda_lang.panda.language.structure.prototype.structure.method.Methods;
 
 import java.util.ArrayList;
@@ -71,7 +72,8 @@ public class PandaClassPrototype implements ClassPrototype {
             }
 
             Expression expression = field.getDefaultValue();
-            field.setStaticValue(expression.getExpressionValue(null));
+            StaticValue staticValue = StaticValue.of(expression.getExpressionValue(null));
+            field.setStaticValue(staticValue);
         }
     }
 

@@ -25,8 +25,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenRea
 public class CommentParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        TokenRepresentation representation = tokenReader.read();
+    public boolean handle(TokenReader reader) {
+        TokenRepresentation representation = reader.read();
         Token token = representation.getToken();
 
         return token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment");

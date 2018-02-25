@@ -24,8 +24,8 @@ import org.panda_lang.panda.language.syntax.tokens.Keywords;
 public class ConstructorParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.next(), Keywords.CONSTRUCTOR);
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.next(), Keywords.CONSTRUCTOR);
     }
 
 }

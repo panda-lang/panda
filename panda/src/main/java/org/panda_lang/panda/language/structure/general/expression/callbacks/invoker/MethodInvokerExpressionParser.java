@@ -27,6 +27,7 @@ import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
@@ -40,12 +41,14 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             .unit(TokenType.SEPARATOR, "(")
             .hollow()
             .unit(TokenType.SEPARATOR, ")")
+            .lastIndexAlgorithm(true)
             .build();
 
     protected static final TokenPattern CALL_PATTERN = TokenPattern.builder()
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
             .simpleHollow()
+            .lastIndexAlgorithm(true)
             .build();
 
     private final TokenizedSource instanceSource;
@@ -85,9 +88,10 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
 
         ArgumentParser argumentParser = new ArgumentParser();
         Expression[] arguments = argumentParser.parse(info, argumentsSource);
+        ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
 
         String methodName = methodNameSource.asString();
-        PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName);
+        PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
         if (prototypeMethod == null) {
             throw new PandaParserException("Class " + prototype.getClassName() + " does not have method " + methodName);

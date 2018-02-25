@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
 import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.core.interpreter.parser.util.Components;
 import org.panda_lang.panda.core.structure.PandaScript;
@@ -50,17 +49,10 @@ import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototyp
 import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.statement.variable.VariableParserUtils;
-import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 import java.util.List;
 
 public class ExpressionParser implements Parser {
-
-    protected static final TokenPattern FIELD_PATTERN = TokenPattern.builder()
-            .hollow()
-            .unit(Separators.PERIOD)
-            .simpleHollow()
-            .build();
 
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
         if (expressionSource.size() == 1) {
@@ -119,14 +111,6 @@ public class ExpressionParser implements Parser {
                 }
             }
         }
-        else if (TokenUtils.equals(expressionSource.get(0), TokenType.KEYWORD, "new")) {
-            InstanceExpressionParser callbackParser = new InstanceExpressionParser();
-
-            callbackParser.parse(expressionSource, info);
-            InstanceExpressionCallback callback = callbackParser.toCallback();
-
-            return new Expression(callback.getReturnType(), callback);
-        }
 
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(expressionSource);
 
@@ -138,7 +122,18 @@ public class ExpressionParser implements Parser {
         }
 
         TokenReader expressionReader = new PandaTokenReader(expressionSource);
-        List<TokenizedSource> fieldMatches = FIELD_PATTERN.match(expressionReader);
+        List<TokenizedSource> constructorMatches = ExpressionPatterns.INSTANCE_PATTERN.match(expressionReader);
+
+        if (constructorMatches != null && constructorMatches.size() == 3 && constructorMatches.get(2).size() == 0) {
+            InstanceExpressionParser callbackParser = new InstanceExpressionParser();
+
+            callbackParser.parse(expressionSource, info);
+            InstanceExpressionCallback callback = callbackParser.toCallback();
+
+            return new Expression(callback.getReturnType(), callback);
+        }
+
+        List<TokenizedSource> fieldMatches = ExpressionPatterns.FIELD_PATTERN.match(expressionReader);
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
             PandaScript script = info.getComponent(Components.SCRIPT);
@@ -161,7 +156,7 @@ public class ExpressionParser implements Parser {
                 throw new PandaParserException("Unknown instance source at line " + TokenUtils.getLine(instanceSource));
             }
 
-            String instanceFieldName = fieldMatches.get(1).getLast().getTokenValue();
+            String instanceFieldName = fieldMatches.get(1).asString();
             PrototypeField instanceField = instanceType.getField(instanceFieldName);
 
             if (instanceField == null) {

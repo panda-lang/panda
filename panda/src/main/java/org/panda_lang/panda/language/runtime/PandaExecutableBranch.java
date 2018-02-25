@@ -109,6 +109,16 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
+    public ExecutableBranch duplicate() {
+        PandaExecutableBranch duplicatedBranch = new PandaExecutableBranch(process, currentScope);
+        duplicatedBranch.currentFlow = this.currentFlow;
+        duplicatedBranch.instance = this.instance;
+        duplicatedBranch.returnedValue = this.returnedValue;
+        duplicatedBranch.interrupted = this.interrupted;
+        return duplicatedBranch;
+    }
+
+    @Override
     public void instance(Value instance) {
         this.instance = instance;
     }

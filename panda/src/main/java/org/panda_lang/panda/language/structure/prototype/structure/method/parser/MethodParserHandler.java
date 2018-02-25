@@ -25,8 +25,8 @@ import java.util.List;
 public class MethodParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        List<TokenizedSource> content = MethodParser.PATTERN.match(tokenReader);
+    public boolean handle(TokenReader reader) {
+        List<TokenizedSource> content = MethodParser.PATTERN.match(reader);
         return content != null && content.size() == 3;
     }
 

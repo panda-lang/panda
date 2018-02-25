@@ -45,8 +45,8 @@ public class PandaMethod implements PrototypeMethod {
 
     @Override
     @SuppressWarnings({ "unchecked" })
-    public void invoke(ExecutableBranch bridge, Object instance, Value... parameters) {
-        methodBody.invoke(bridge, instance, parameters);
+    public void invoke(ExecutableBranch branch, Object instance, Value... parameters) {
+        methodBody.invoke(branch, instance, parameters);
     }
 
     @Override

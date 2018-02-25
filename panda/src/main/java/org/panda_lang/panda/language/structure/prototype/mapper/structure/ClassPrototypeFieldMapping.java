@@ -23,7 +23,7 @@ import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVi
 public class ClassPrototypeFieldMapping extends PrototypeField {
 
     public ClassPrototypeFieldMapping(ClassPrototype type, int fieldIndex, String name, FieldVisibility visibility, boolean isStatic) {
-        super(type, fieldIndex, name, visibility, isStatic);
+        super(type, fieldIndex, name, visibility, isStatic, true);
     }
 
 }

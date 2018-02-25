@@ -22,8 +22,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenRea
 public class BlockParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return BlockParser.PATTERN.extractor().extract(tokenReader) != null;
+    public boolean handle(TokenReader reader) {
+        return BlockParser.PATTERN.extractor().extract(reader) != null;
     }
 
 }

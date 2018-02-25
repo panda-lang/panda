@@ -23,6 +23,7 @@ import org.panda_lang.panda.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
+import org.panda_lang.panda.language.structure.prototype.structure.field.StaticValue;
 
 public class FieldAssigner implements Executable {
 
@@ -45,7 +46,8 @@ public class FieldAssigner implements Executable {
         }
 
         if (field.isStatic()) {
-            field.setStaticValue(valueExpression.getExpressionValue(branch));
+            StaticValue staticValue = StaticValue.of(valueExpression.getExpressionValue(branch));
+            field.setStaticValue(staticValue);
             return;
         }
 

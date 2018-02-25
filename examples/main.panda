@@ -1,12 +1,13 @@
 module example.test;
 
 import panda.lang;
+import java.lang;
 
 main {
     App app = new App();
     app.start();
 
-    System.print(App.getVersion());
+    Console.print(App.getVersion());
 }
 
 class App {
@@ -14,7 +15,7 @@ class App {
     static String version = "indev-0.2.11";
 
     constructor () {
-        System.print(getVersion());
+        Console.print(getVersion());
     }
 
     method start() {

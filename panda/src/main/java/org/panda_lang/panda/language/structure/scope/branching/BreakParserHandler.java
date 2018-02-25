@@ -24,8 +24,8 @@ import org.panda_lang.panda.language.syntax.tokens.Keywords;
 public class BreakParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(TokenReader tokenReader) {
-        return TokenUtils.equals(tokenReader.read(), Keywords.BREAK);
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), Keywords.BREAK);
     }
 
 }
