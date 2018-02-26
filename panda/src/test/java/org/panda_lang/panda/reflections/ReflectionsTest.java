@@ -19,7 +19,7 @@ public class ReflectionsTest {
     @Test
     public void testReflectionsLibrary() throws Exception {
         String bootClassPath = ManagementFactory.getRuntimeMXBean().getBootClassPath();
-        String[] bootClassPathUrls = bootClassPath.split(";");
+        String[] bootClassPathUrls = bootClassPath.split(Character.toString(File.pathSeparatorChar));
         Collection<URL> urls = new ArrayList<>(bootClassPathUrls.length);
 
         for (String bootClassPathUrl : bootClassPathUrls) {

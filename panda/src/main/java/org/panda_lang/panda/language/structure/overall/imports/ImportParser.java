@@ -123,7 +123,7 @@ public class ImportParser implements UnifiedParser {
 
     static {
         String bootClassPath = ManagementFactory.getRuntimeMXBean().getBootClassPath();
-        String[] bootClassPathUrls = bootClassPath.split(";");
+        String[] bootClassPathUrls = bootClassPath.split(Character.toString(File.pathSeparatorChar));
         BOOT_CLASS_PATH = new ArrayList<>(bootClassPathUrls.length);
 
         for (String bootClassPathUrl : bootClassPathUrls) {
