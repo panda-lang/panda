@@ -38,9 +38,17 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
+import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
+import org.reflections.util.ConfigurationBuilder;
 
+import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
@@ -51,6 +59,8 @@ public class ImportParser implements UnifiedParser {
             .simpleHollow()
             .unit(TokenType.SEPARATOR, ";")
             .build();
+
+    private static final Collection<URL> BOOT_CLASS_PATH;
 
     @Override
     public void parse(ParserInfo info) {
@@ -81,7 +91,11 @@ public class ImportParser implements UnifiedParser {
             Module module = registry.get(importedGroupName);
 
             if (module == null) {
-                Reflections reflections = new Reflections(importedGroupName, new SubTypesScanner(false));
+                Configuration configuration = ConfigurationBuilder
+                        .build(importedGroupName, new SubTypesScanner(false))
+                        .addUrls(BOOT_CLASS_PATH);
+
+                Reflections reflections = new Reflections(configuration);
                 Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
                 ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
@@ -105,6 +119,27 @@ public class ImportParser implements UnifiedParser {
             importRegistry.include(anImport.getModule());
         }
 
+    }
+
+    static {
+        String bootClassPath = ManagementFactory.getRuntimeMXBean().getBootClassPath();
+        String[] bootClassPathUrls = bootClassPath.split(";");
+        BOOT_CLASS_PATH = new ArrayList<>(bootClassPathUrls.length);
+
+        for (String bootClassPathUrl : bootClassPathUrls) {
+            System.out.println(bootClassPathUrl);
+            File file = new File(bootClassPathUrl);
+
+            if (!file.exists()) {
+                continue;
+            }
+
+            try {
+                BOOT_CLASS_PATH.add(file.toURI().toURL());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
