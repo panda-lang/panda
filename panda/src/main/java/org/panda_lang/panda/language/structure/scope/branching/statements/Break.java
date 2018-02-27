@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.scope.branching.statements;
 
-import org.panda_lang.panda.core.structure.dynamic.Executable;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.runtime.flow.ControlFlow;
+import org.panda_lang.panda.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.runtime.flow.ControlFlow;
 
 public class Break implements Executable {
 

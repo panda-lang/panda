@@ -16,21 +16,25 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.core.structure.value.PandaValue;
-import org.panda_lang.panda.core.structure.value.Variable;
-import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.architecture.value.Variable;
+import org.panda_lang.panda.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
@@ -45,15 +49,13 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.memo
 import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
 import org.panda_lang.panda.language.structure.general.number.NumberUtils;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.statement.variable.VariableParserUtils;
 
 import java.util.List;
 
-public class ExpressionParser implements Parser {
+public class ExpressionParser implements ParticularParser<Expression> {
 
+    @Override
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
         if (expressionSource.size() == 1) {
             Token token = expressionSource.getToken(0);
@@ -85,10 +87,10 @@ public class ExpressionParser implements Parser {
             }
 
             NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
-            numberExpressionParser.parse(expressionSource, info);
+            Value numericValue = numberExpressionParser.parse(info, expressionSource);
 
-            if (numberExpressionParser.getValue() != null) {
-                return new Expression(numberExpressionParser.getValue());
+            if (numericValue != null) {
+                return new Expression(numericValue);
             }
 
             ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
@@ -168,10 +170,10 @@ public class ExpressionParser implements Parser {
         }
 
         NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
-        numberExpressionParser.parse(expressionSource, info);
+        Value numericValue = numberExpressionParser.parse(info, expressionSource);
 
-        if (numberExpressionParser.getValue() != null) {
-            return new Expression(numberExpressionParser.getValue());
+        if (numericValue != null) {
+            return new Expression(numericValue);
         }
 
         if (MathExpressionUtils.isMathExpression(expressionSource)) {

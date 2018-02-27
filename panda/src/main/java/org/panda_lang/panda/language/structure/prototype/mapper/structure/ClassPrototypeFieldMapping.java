@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.structure;
 
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
-import org.panda_lang.panda.language.structure.prototype.structure.field.FieldVisibility;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.design.architecture.prototype.field.implementation.PandaPrototypeField;
 
-public class ClassPrototypeFieldMapping extends PrototypeField {
+public class ClassPrototypeFieldMapping extends PandaPrototypeField {
 
     public ClassPrototypeFieldMapping(ClassPrototype type, int fieldIndex, String name, FieldVisibility visibility, boolean isStatic) {
         super(type, fieldIndex, name, visibility, isStatic, true);

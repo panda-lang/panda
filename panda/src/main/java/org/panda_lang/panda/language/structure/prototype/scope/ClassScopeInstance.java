@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.structure.prototype.scope;
 
-import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.value.PandaValue;
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 
 public class ClassScopeInstance implements ScopeInstance {
 

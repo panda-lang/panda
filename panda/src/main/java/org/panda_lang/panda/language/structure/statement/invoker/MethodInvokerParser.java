@@ -16,48 +16,43 @@
 
 package org.panda_lang.panda.language.structure.statement.invoker;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPriorities;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.core.structure.wrapper.Container;
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.design.architecture.wrapper.Container;
+import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
-import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = DefaultPriorities.STATEMENT_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser {
 
-    public static final TokenPattern PATTERN = TokenPattern.builder()
+    public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "+** . +** ( +* )")
             .lastIndexAlgorithm(true)
-            .simpleHollow()
-            .unit(TokenType.SEPARATOR, ".")
-            .simpleHollow()
-            .unit(TokenType.SEPARATOR, "(")
-            .hollow()
-            .unit(TokenType.SEPARATOR, ")")
             .build();
 
     @Override
@@ -73,10 +68,7 @@ public class MethodInvokerParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
-            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
-
-            redactor.map("instance", "method-name", "arguments");
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "instance", "method-name", "arguments");
             delegatedInfo.setComponent("redactor", redactor);
 
             Container container = delegatedInfo.getComponent("container");
@@ -93,8 +85,7 @@ public class MethodInvokerParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
-
+            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource instanceSource = redactor.get("instance");
             TokenizedSource methodSource = redactor.get("method-name");
             TokenizedSource argumentsSource = redactor.get("arguments");
@@ -127,10 +118,11 @@ public class MethodInvokerParser implements UnifiedParser {
                 if (field == null) {
                     throw new PandaParserException("Method " + methodName + " not found in class " + prototype.getClassName() + " at line " + TokenUtils.getLine(instanceSource));
                 }
+
+                throw new PandaParserException("Not implemented");
             }
 
             MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
-
             StatementCell cell = delegatedInfo.getComponent("cell");
             cell.setStatement(invoker);
         }

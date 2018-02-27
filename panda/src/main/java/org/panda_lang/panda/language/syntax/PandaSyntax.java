@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.syntax;
 
-import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
+import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
 import org.panda_lang.panda.language.syntax.tokens.*;
 
 import java.util.ArrayList;
@@ -55,12 +55,7 @@ public class PandaSyntax implements Syntax {
         Collections.addAll(operators, Operators.values());
         Collections.addAll(sequences, Sequences.values());
 
-        Comparator<Token> tokenComparator = new Comparator<Token>() {
-            @Override
-            public int compare(Token x, Token y) {
-                return Integer.compare(y.getTokenValue().length(), x.getTokenValue().length());
-            }
-        };
+        Comparator<Token> tokenComparator = (x, y) -> Integer.compare(y.getTokenValue().length(), x.getTokenValue().length());
 
         keywords.sort(tokenComparator);
         literals.sort(tokenComparator);

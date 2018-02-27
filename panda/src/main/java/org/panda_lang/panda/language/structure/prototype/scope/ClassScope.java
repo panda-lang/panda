@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.structure.prototype.scope;
 
-import org.panda_lang.panda.core.structure.value.Variable;
-import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
-import org.panda_lang.panda.framework.language.structure.Statement;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.architecture.value.Variable;
+import org.panda_lang.panda.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
 
 import java.util.List;
 

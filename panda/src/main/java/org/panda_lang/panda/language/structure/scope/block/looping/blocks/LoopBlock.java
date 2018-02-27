@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
 
-import org.panda_lang.panda.core.structure.dynamic.Block;
-import org.panda_lang.panda.core.structure.util.AbstractContainer;
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.runtime.flow.ControlFlow;
-import org.panda_lang.panda.language.runtime.flow.ControlFlowCaller;
+import org.panda_lang.panda.design.architecture.dynamic.Block;
+import org.panda_lang.panda.design.architecture.util.AbstractContainer;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.runtime.flow.ControlFlow;
+import org.panda_lang.panda.design.runtime.flow.ControlFlowCaller;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 
 public class LoopBlock extends AbstractContainer implements Block, ControlFlowCaller {

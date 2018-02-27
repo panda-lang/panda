@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.statement;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 
 public class StatementParserHandler implements ParserHandler {
 

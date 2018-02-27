@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
 
 public interface ExpressionCallback {
 

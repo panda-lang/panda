@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.syntax.tokens;
 
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.Literal;
+import org.panda_lang.panda.framework.design.interpreter.token.defaults.Literal;
 
 /**
  * Default literals

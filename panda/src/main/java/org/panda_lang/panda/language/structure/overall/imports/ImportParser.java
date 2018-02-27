@@ -16,28 +16,29 @@
 
 package org.panda_lang.panda.language.structure.overall.imports;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactorHollows;
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 import org.reflections.Configuration;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -54,10 +55,8 @@ import java.util.Set;
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder()
-            .unit(TokenType.KEYWORD, "import")
-            .simpleHollow()
-            .unit(TokenType.SEPARATOR, ";")
+    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "import +** ;")
             .build();
 
     private static final Collection<URL> BOOT_CLASS_PATH;
@@ -75,9 +74,9 @@ public class ImportParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
-            TokenizedSource hollow = hollows.getGap(0);
+            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedInfo);
 
+            TokenizedSource hollow = hollows.getGap(0);
             StringBuilder groupNameBuilder = new StringBuilder();
 
             for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
@@ -127,7 +126,6 @@ public class ImportParser implements UnifiedParser {
         BOOT_CLASS_PATH = new ArrayList<>(bootClassPathUrls.length);
 
         for (String bootClassPathUrl : bootClassPathUrls) {
-            System.out.println(bootClassPathUrl);
             File file = new File(bootClassPathUrl);
 
             if (!file.exists()) {

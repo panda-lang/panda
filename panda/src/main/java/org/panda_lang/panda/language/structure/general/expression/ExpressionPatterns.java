@@ -16,19 +16,20 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
 public class ExpressionPatterns {
 
-    protected static final TokenPattern FIELD_PATTERN = TokenPattern.builder()
+    protected static final AbyssPattern FIELD_PATTERN = new AbyssPatternBuilder()
             .hollow()
             .unit(Separators.PERIOD)
             .simpleHollow()
             .build();
 
-    protected static final TokenPattern INSTANCE_PATTERN = TokenPattern.builder()
+    protected static final AbyssPattern INSTANCE_PATTERN = new AbyssPatternBuilder()
             .unit(TokenType.KEYWORD, "new")
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")

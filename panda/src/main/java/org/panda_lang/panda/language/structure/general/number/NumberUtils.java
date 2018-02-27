@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.general.number;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 public class NumberUtils {
 

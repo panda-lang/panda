@@ -16,28 +16,32 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.instance;
 
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
-import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorUtils;
+import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.ConstructorUtils;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.List;
 
 public class InstanceExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
+
+    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "new +** ( +* )")
+            .build();
 
     private ClassPrototype returnType;
     private PrototypeConstructor constructor;
@@ -45,14 +49,10 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
 
     @Override
     public void parse(TokenizedSource source, ParserInfo info) {
-        Panda panda = info.getComponent(Components.PANDA);
         PandaScript script = info.getComponent(Components.SCRIPT);
-
         TokenReader reader = new PandaTokenReader(source);
-        Syntax syntax = panda.getPandaComposition().getSyntax();
 
-        TokenPattern pattern = TokenPattern.builder().compile(syntax, "new +** ( +* )").build();
-        Extractor extractor = pattern.extractor();
+        Extractor extractor = PATTERN.extractor();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
         if (gaps == null) {

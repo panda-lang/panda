@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.core.interpreter.PandaInterpreter;
-import org.panda_lang.panda.core.structure.PandaApplication;
-import org.panda_lang.panda.framework.implementation.PandaFrameworkException;
-import org.panda_lang.panda.framework.implementation.interpreter.source.providers.DirectorySourceProvider;
-import org.panda_lang.panda.framework.implementation.interpreter.source.providers.FileSourceProvider;
-import org.panda_lang.panda.framework.language.interpreter.source.SourceProvider;
-import org.panda_lang.panda.framework.language.interpreter.source.SourceSet;
+import org.panda_lang.panda.design.interpreter.PandaInterpreter;
+import org.panda_lang.panda.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.language.PandaFrameworkException;
+import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
+import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
 import java.io.File;
 

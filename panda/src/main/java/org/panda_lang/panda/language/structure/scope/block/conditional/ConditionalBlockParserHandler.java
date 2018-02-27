@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.scope.block.conditional;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.syntax.tokens.Keywords;
 
 public class ConditionalBlockParserHandler implements ParserHandler {

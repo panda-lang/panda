@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.variable;
 
-import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
 

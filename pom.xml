@@ -20,7 +20,7 @@
     <name>Panda</name>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-0.2.11</version>
+    <version>indev-0.5.0</version>
     <packaging>pom</packaging>
     <scm>
         <connection>scm:git:https://github.com/Panda-Programming-Language/Panda.git</connection>

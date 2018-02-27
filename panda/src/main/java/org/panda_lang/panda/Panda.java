@@ -16,25 +16,25 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.language.composition.PandaComposition;
+import org.panda_lang.panda.elements.PandaElements;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 public class Panda {
 
     private final PandaLoader pandaLoader;
-    private final PandaComposition pandaComposition;
+    private final PandaElements pandaElements;
 
     public Panda() {
         this.pandaLoader = new PandaLoader(this);
-        this.pandaComposition = new PandaComposition();
+        this.pandaElements = new PandaElements();
     }
 
     public String getVersion() {
         return PandaEngineFactoryConstants.VERSION;
     }
 
-    public PandaComposition getPandaComposition() {
-        return pandaComposition;
+    public PandaElements getPandaElements() {
+        return pandaElements;
     }
 
     public PandaLoader getPandaLoader() {

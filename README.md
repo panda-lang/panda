@@ -1,6 +1,6 @@
 # Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda)
 Panda is a lightweight and powerful programming language written in Java<br>
-Project website: https://panda-lang.org/
+Project website: [panda-lang.org](https://panda-lang.org/)
 
 #### Example
 ```javascript
@@ -47,6 +47,9 @@ panda/
 +--panda-framework/          Panda Framework module
    +----/src                 All sources of Panda Framework
    +----pom.xml              The main maven build script for Panda Framework module
++--panda-utilities/          Panda Utilities module
+   +----/src                 All sources of Panda Utilities
+   +----pom.xml              The main maven build script for Panda Utilities module
 +--pom.xml                   The main maven build script
 ```
 
@@ -57,7 +60,7 @@ Latest build. Remember, API is not stable yet :o:
 <dependency>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-0.2.11</version>
+    <version>indev-0.5.0</version>
 </dependency>
 ```
 
@@ -71,7 +74,7 @@ The latest build of the previous edition. Remember, this is deprecated!
 </dependency>
 ```
 
-Repository: https://repo.panda-lang.org/
+Repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 
 ```xml
 <repositories>
@@ -84,5 +87,6 @@ Repository: https://repo.panda-lang.org/
 ```
 
 #### Other
+- Manual download the latest version of Panda: [panda-indev-0.5.0.jar](https://repo.panda-lang.org/org/panda-lang/panda/indev-0.5.0/panda-indev-0.5.0.jar)
 - Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
 - Light: https://github.com/dzikoysk/Light

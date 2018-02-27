@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.syntax.tokens;
 
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.Operator;
+import org.panda_lang.panda.framework.design.interpreter.token.defaults.Operator;
 
 /**
  * Default operators

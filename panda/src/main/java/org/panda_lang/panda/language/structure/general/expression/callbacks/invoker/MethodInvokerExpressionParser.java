@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
@@ -30,13 +31,13 @@ import org.panda_lang.panda.language.structure.general.expression.ExpressionPars
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.language.structure.statement.invoker.MethodInvoker;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder()
+    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
             .hollow()
@@ -44,7 +45,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             .lastIndexAlgorithm(true)
             .build();
 
-    protected static final TokenPattern CALL_PATTERN = TokenPattern.builder()
+    protected static final AbyssPattern CALL_PATTERN = new AbyssPatternBuilder()
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
             .simpleHollow()

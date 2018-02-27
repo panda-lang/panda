@@ -18,8 +18,8 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.framework.language.interpreter.lexer.Syntax;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModelLoader;
 
@@ -52,7 +52,7 @@ public class PandaBootstrap {
         PandaFactory factory = new PandaFactory();
 
         Panda panda = factory.createPanda();
-        panda.getPandaComposition().setSyntax(syntax);
+        panda.getPandaElements().setSyntax(syntax);
 
         ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(panda);
         for (Collection<Class<? extends ClassPrototypeModel>> models : modelsCollection) {

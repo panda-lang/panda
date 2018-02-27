@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.overall.main;
 
-import org.panda_lang.panda.core.structure.dynamic.ScopeInstance;
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
 
 public class MainInstance implements ScopeInstance {
 

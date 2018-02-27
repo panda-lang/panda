@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.overall.module;
 
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,8 +32,8 @@ public class Module {
         this.prototypes = new ArrayList<>();
     }
 
-    public ClassPrototype createPrototype(String prototypeName) {
-        ClassPrototype prototype = new PandaClassPrototype(this, prototypeName);
+    public ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName) {
+        ClassPrototype prototype = new PandaClassPrototype(this, prototypeName, associatedClass);
         return add(prototype);
     }
 
@@ -50,6 +50,10 @@ public class Module {
         }
 
         return null;
+    }
+
+    public int getPrototypeCount() {
+        return prototypes.size();
     }
 
     public Collection<ClassPrototype> getPrototypes() {

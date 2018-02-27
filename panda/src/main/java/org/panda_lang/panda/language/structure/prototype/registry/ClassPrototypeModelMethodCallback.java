@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.prototype.registry;
 
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.prototype.structure.method.MethodCallback;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.architecture.prototype.method.MethodCallback;
 
 public abstract class ClassPrototypeModelMethodCallback implements MethodCallback<Object> {
 

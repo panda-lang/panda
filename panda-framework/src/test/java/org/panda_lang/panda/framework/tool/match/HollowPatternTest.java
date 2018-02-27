@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.tool.match;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.panda_lang.panda.framework.implementation.PandaFramework;
+import org.panda_lang.panda.framework.language.PandaFramework;
 import org.panda_lang.panda.utilities.redact.match.text.TextHollowPattern;
 
 public class HollowPatternTest {

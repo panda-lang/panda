@@ -1,16 +1,16 @@
 package org.panda_lang.panda.language.structure.general.expression.callbacks.math;
 
-import org.panda_lang.panda.core.interpreter.lexer.extractor.vague.VagueElement;
-import org.panda_lang.panda.core.interpreter.lexer.extractor.vague.VagueExtractor;
-import org.panda_lang.panda.core.interpreter.lexer.extractor.vague.VagueResult;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.Separator;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueElement;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueExtractor;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueResult;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.syntax.tokens.Operators;

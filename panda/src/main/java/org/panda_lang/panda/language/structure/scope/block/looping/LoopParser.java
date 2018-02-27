@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.language.structure.scope.block.looping;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.scope.block.looping.blocks.LoopBlock;
@@ -34,14 +34,13 @@ import org.panda_lang.panda.language.syntax.PandaSyntax;
 @ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = LoopParser.class, handlerClass = LoopParserHandler.class)
 public class LoopParser implements UnifiedParser {
 
-    protected static final TokenPattern PATTERN = TokenPattern.builder().compile(PandaSyntax.getInstance(), "loop ( +* )").build();
+    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "loop ( +* )")
+            .build();
 
     @Override
     public void parse(ParserInfo info) {
-        TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, info);
-        TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
-
-        redactor.map("loop-expression");
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, info, "loop-expression");
         TokenizedSource expressionSource = redactor.get("loop-expression");
 
         ExpressionParser expressionParser = new ExpressionParser();

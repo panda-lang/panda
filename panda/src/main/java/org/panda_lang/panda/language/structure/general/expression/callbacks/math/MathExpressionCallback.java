@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.math;
 
-import org.panda_lang.panda.core.structure.value.PandaValue;
-import org.panda_lang.panda.core.structure.value.Value;
-import org.panda_lang.panda.framework.language.interpreter.token.Token;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 
 import java.util.Stack;
 

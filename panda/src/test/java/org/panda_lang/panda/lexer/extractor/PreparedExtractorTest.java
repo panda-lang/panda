@@ -17,15 +17,16 @@
 package org.panda_lang.panda.lexer.extractor;
 
 import org.junit.Test;
-import org.panda_lang.panda.core.interpreter.lexer.extractor.prepared.PreparedExtractor;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.framework.implementation.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.implementation.interpreter.token.reader.PandaTokenReader;
-import org.panda_lang.panda.framework.language.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared.PreparedExtractor;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public class PreparedExtractorTest {
     // private static final String SOURCE = "module java.lang; import panda.lang;";
     private static final String SOURCE = "System.out.print(\"Hello Panda\", flag, varFoo, s, test, i, math);";
 
-    private static final TokenPattern PATTERN = TokenPattern.builder()
+    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .lastIndexAlgorithm(true)
             .hollow()
             .unit(TokenType.SEPARATOR, ".")

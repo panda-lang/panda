@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.mapper;
 
 import org.panda_lang.panda.language.structure.prototype.mapper.generator.ClassPrototypeGenerator;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 
 import java.util.ArrayList;
 import java.util.Collection;

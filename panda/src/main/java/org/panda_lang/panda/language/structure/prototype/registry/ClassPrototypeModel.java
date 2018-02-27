@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.registry;
 
-import org.panda_lang.panda.language.structure.prototype.structure.method.MethodVisibility;
+import org.panda_lang.panda.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.util.ReflectionsUtils;
 
 import java.lang.annotation.ElementType;
@@ -62,6 +62,8 @@ public interface ClassPrototypeModel {
         boolean isStatic() default false;
 
         String returnType() default "void";
+
+        boolean catchAllParameters() default false;
 
     }
 

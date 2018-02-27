@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 import java.util.List;
 
@@ -31,8 +31,8 @@ public class MethodInvokerExpressionUtils {
             return null;
         }
 
-        TokenPatternHollows hollows = new TokenPatternHollows(methodMatches);
-        TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
+        AbyssRedactorHollows hollows = new AbyssRedactorHollows(methodMatches);
+        AbyssRedactor redactor = new AbyssRedactor(hollows);
         redactor.map("method-call", "arguments");
 
         TokenizedSource methodCallSource = redactor.get("method-call");
@@ -43,8 +43,8 @@ public class MethodInvokerExpressionUtils {
         TokenizedSource instanceSource = null;
 
         if (methodCallMatches != null && methodCallMatches.size() > 0) {
-            TokenPatternHollows methodCallHollows = new TokenPatternHollows(methodCallMatches);
-            TokenHollowRedactor methodCallRedactor = new TokenHollowRedactor(methodCallHollows);
+            AbyssRedactorHollows methodCallHollows = new AbyssRedactorHollows(methodCallMatches);
+            AbyssRedactor methodCallRedactor = new AbyssRedactor(methodCallHollows);
 
             methodCallRedactor.map("instance", "method-name");
             instanceSource = methodCallRedactor.get("instance");

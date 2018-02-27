@@ -18,7 +18,7 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 
 public class PandaFactory {
 

@@ -19,7 +19,7 @@ package org.panda_lang.panda.launcher;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.PandaLoader;
-import org.panda_lang.panda.core.structure.Application;
+import org.panda_lang.panda.framework.language.architecture.Application;
 import org.panda_lang.panda.utilities.commons.io.FileUtils;
 
 import java.io.File;
@@ -36,7 +36,8 @@ public class PandaLauncher {
 
         for (File file : files) {
             Application application = pandaLoader.loadFiles(file);
-            application.launch(args);
+            application.setApplicationArguments(args);
+            application.launch();
         }
     }
 

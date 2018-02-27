@@ -19,7 +19,7 @@ package org.panda_lang.panda;
 import org.junit.Test;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
-import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.design.architecture.PandaApplication;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 

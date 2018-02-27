@@ -19,11 +19,11 @@ package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 import org.panda_lang.panda.language.structure.overall.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.PandaClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.constructor.PrototypeConstructor;
-import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
-import org.panda_lang.panda.language.structure.prototype.structure.method.PrototypeMethod;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -45,8 +45,7 @@ public class ClassPrototypeGenerator {
             return prototype;
         }
 
-        prototype = new PandaClassPrototype(module, type.getSimpleName());
-        prototype.getAssociated().add(type);
+        prototype = new PandaClassPrototype(module, type.getSimpleName(), type);
         module.add(prototype);
 
         for (Field field : type.getFields()) {

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 public interface ExpressionCallbackParser<T> {
 

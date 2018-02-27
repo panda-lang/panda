@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaLoader;
-import org.panda_lang.panda.core.structure.PandaApplication;
+import org.panda_lang.panda.design.architecture.PandaApplication;
 
 public class PandaApplicationBootstrapBuilder {
 

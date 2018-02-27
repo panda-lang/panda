@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.language.structure.statement.invoker;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPatternUtils;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.language.structure.statement.variable.VariableParser;
 
 public class MethodInvokerParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader reader) {
-        return TokenPatternUtils.match(MethodInvokerParser.PATTERN, reader) && !TokenPatternUtils.match(VariableParser.ASSIGNATION_PATTERN, reader);
+        return AbyssPatternUtils.match(MethodInvokerParser.PATTERN, reader) && !AbyssPatternUtils.match(VariableParser.ASSIGNATION_PATTERN, reader);
     }
 
 }

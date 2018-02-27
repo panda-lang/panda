@@ -16,24 +16,24 @@
 
 package org.panda_lang.panda.language.structure.scope.branching;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.wrapper.Container;
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.design.architecture.wrapper.Container;
+import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Return;
@@ -42,7 +42,9 @@ import org.panda_lang.panda.language.syntax.PandaSyntax;
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = ReturnParser.class, handlerClass = ReturnParserHandler.class)
 public class ReturnParser implements UnifiedParser {
 
-    private static final TokenPattern PATTERN = TokenPattern.builder().compile(PandaSyntax.getInstance(), "return +* ;").build();
+    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "return +* ;")
+            .build();
 
     @Override
     public void parse(ParserInfo info) {
@@ -71,10 +73,7 @@ public class ReturnParser implements UnifiedParser {
             StatementCell cell = container.reserveCell();
             delegatedInfo.setComponent("return-cell", cell);
 
-            TokenPatternHollows hollows = TokenPatternUtils.extract(PATTERN, delegatedInfo);
-            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
-
-            redactor.map("return-expression");
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "return-expression");
             delegatedInfo.setComponent("redactor", redactor);
 
             nextLayer.delegate(new ReturnExpressionCasualParserCallback(), delegatedInfo);
@@ -88,7 +87,7 @@ public class ReturnParser implements UnifiedParser {
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             StatementCell cell = delegatedInfo.getComponent("return-cell");
-            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
 
             TokenizedSource expressionSource = redactor.get("return-expression");
             ExpressionParser expressionParser = new ExpressionParser();

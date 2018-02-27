@@ -16,58 +16,56 @@
 
 package org.panda_lang.panda.language.structure.statement.variable;
 
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenHollowRedactor;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPattern;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternHollows;
-import org.panda_lang.panda.core.interpreter.lexer.pattern.TokenPatternUtils;
-import org.panda_lang.panda.core.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.DefaultPriorities;
-import org.panda_lang.panda.core.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.core.interpreter.parser.util.Components;
-import org.panda_lang.panda.core.structure.PandaScript;
-import org.panda_lang.panda.core.structure.dynamic.Executable;
-import org.panda_lang.panda.core.structure.value.PandaVariable;
-import org.panda_lang.panda.core.structure.value.Variable;
-import org.panda_lang.panda.core.structure.wrapper.Container;
-import org.panda_lang.panda.core.structure.wrapper.Scope;
-import org.panda_lang.panda.core.structure.wrapper.StatementCell;
-import org.panda_lang.panda.framework.implementation.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.implementation.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.language.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.Extractor;
+import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.design.architecture.value.PandaVariable;
+import org.panda_lang.panda.design.architecture.value.Variable;
+import org.panda_lang.panda.design.architecture.wrapper.Container;
+import org.panda_lang.panda.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.language.structure.prototype.structure.ClassPrototype;
-import org.panda_lang.panda.language.structure.prototype.structure.field.PrototypeField;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.FieldAssigner;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.VariableAssigner;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.List;
 
 @ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = DefaultPriorities.STATEMENT_VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
 
-    public static final TokenPattern PATTERN = TokenPattern.builder()
-            .simpleHollow()
+    public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "+*")
             .build();
 
-    public static final TokenPattern ASSIGNATION_PATTERN = TokenPattern.builder()
-            .simpleHollow()
-            .unit(TokenType.OPERATOR, "=")
-            .hollow()
+    public static final AbyssPattern ASSIGNATION_PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "+** = +*")
             .build();
 
     @Override
@@ -101,14 +99,13 @@ public class VariableParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenPatternHollows hollows = TokenPatternUtils.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedInfo);
-            TokenHollowRedactor redactor = new TokenHollowRedactor(hollows);
+            AbyssRedactor redactor;
 
             if (assignation) {
-                redactor.map("left", "right");
+                redactor = AbyssPatternAssistant.traditionalMapping(ASSIGNATION_PATTERN, delegatedInfo, "left", "right");
             }
             else {
-                redactor.map("left");
+                redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "left");
             }
 
             delegatedInfo.setComponent("redactor", redactor);
@@ -183,7 +180,7 @@ public class VariableParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            TokenHollowRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
