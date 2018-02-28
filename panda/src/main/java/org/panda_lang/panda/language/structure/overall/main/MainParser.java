@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.overall.main;
 
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
+import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
@@ -26,10 +27,8 @@ import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.architecture.Script;
@@ -46,10 +45,7 @@ public class MainParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
-
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new MainDeclarationCasualParserCallback(), info);
+        CasualParserGenerationAssistant.delegateImmediately(info, new MainDeclarationCasualParserCallback());
     }
 
     @LocalCallback

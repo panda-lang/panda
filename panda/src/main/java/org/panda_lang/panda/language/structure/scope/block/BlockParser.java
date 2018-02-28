@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.structure.scope.block;
 import org.panda_lang.panda.design.architecture.dynamic.Block;
 import org.panda_lang.panda.design.architecture.wrapper.Container;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ContainerParser;
+import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
@@ -27,10 +28,8 @@ import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
@@ -52,10 +51,7 @@ public class BlockParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
-
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new BlockDeclarationCasualParserCallback(), info.fork());
+        CasualParserGenerationAssistant.delegateImmediately(info, new BlockDeclarationCasualParserCallback());
     }
 
     @LocalCallback

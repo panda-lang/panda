@@ -24,6 +24,7 @@ import org.panda_lang.panda.design.architecture.prototype.constructor.Constructo
 import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
@@ -37,7 +38,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
@@ -63,10 +63,7 @@ public class ClassPrototypeParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
-
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new ClassPrototypeExtractorCasualCallback(), info.fork());
+        CasualParserGenerationAssistant.delegateImmediately(info, new ClassPrototypeExtractorCasualCallback());
     }
 
     @LocalCallback

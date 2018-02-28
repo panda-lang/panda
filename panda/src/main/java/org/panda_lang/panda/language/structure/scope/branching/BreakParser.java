@@ -16,16 +16,15 @@
 
 package org.panda_lang.panda.language.structure.scope.branching;
 
+import org.panda_lang.panda.design.architecture.wrapper.Container;
+import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
-import org.panda_lang.panda.design.architecture.wrapper.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Break;
@@ -35,10 +34,7 @@ public class BreakParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
-
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new BreakDeclarationCasualParserCallback(), info.fork());
+        CasualParserGenerationAssistant.delegateImmediately(info, new BreakDeclarationCasualParserCallback());
     }
 
     @LocalCallback

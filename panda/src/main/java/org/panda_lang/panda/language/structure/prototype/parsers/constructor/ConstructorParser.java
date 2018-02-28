@@ -23,6 +23,7 @@ import org.panda_lang.panda.design.architecture.prototype.constructor.implementa
 import org.panda_lang.panda.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
+import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
@@ -32,10 +33,8 @@ import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
@@ -55,10 +54,7 @@ public class ConstructorParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
-
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new ConstructorExtractorCallbackCasual(), info.fork());
+        CasualParserGenerationAssistant.delegateImmediately(info, new ConstructorExtractorCallbackCasual());
     }
 
     @LocalCallback
