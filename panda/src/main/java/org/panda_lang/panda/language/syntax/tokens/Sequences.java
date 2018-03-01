@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.syntax.tokens;
 
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.Sequence;
 
 /**
@@ -31,7 +33,7 @@ public class Sequences {
 
     public static final Sequence BLOCK_ORIENTED_COMMENT = new Sequence("Comment", "/*", "*/");
 
-    public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("Comment", "/**", "*/");
+    public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("Documentation", "/**", "*/");
 
     private static final Sequence[] VALUES = new Sequence[5];
 
@@ -45,6 +47,28 @@ public class Sequences {
 
     public static Sequence[] values() {
         return VALUES;
+    }
+
+    public static Sequence valueOf(Token token) {
+        if (token.getType() != TokenType.SEQUENCE) {
+            return null;
+        }
+
+        String value = token.getTokenValue();
+
+        for (Sequence sequence : values()) {
+            if (!sequence.getName().equals(token.getName())) {
+                continue;
+            }
+
+            if (!sequence.getSequenceStart().equals(value) && !sequence.getSequenceEnd().equals(value)) {
+                continue;
+            }
+
+            return sequence;
+        }
+
+        return null;
     }
 
 }

@@ -57,7 +57,7 @@ main {
     s = "Hello Panda x2";
 
     Int i = 0x000001;
-    Int math = 10 + (3 + 4) * 2;
+    Int math = 10 + (3 + 4) * 2 /*+ "test" */;
     Boolean flag = true;
 
     Console.print("Hello Panda", flag, varFoo, s, test, i);
