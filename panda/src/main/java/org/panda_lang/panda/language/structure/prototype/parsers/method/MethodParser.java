@@ -46,8 +46,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.prototype.parsers.parameter.ParameterParser;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;

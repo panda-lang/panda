@@ -31,8 +31,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Return;

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.extractor.primitive;
 
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;

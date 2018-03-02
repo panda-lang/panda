@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.token.extractor.prep
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
 
 /**
  * Utils for {@link TokenizedSource} based on {@link PreparedSource}

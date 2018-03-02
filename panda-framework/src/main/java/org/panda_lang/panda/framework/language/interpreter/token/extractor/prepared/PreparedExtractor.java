@@ -22,8 +22,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
 
 import java.util.ArrayList;
 import java.util.List;

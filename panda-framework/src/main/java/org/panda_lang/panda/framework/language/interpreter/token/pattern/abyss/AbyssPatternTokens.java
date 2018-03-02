@@ -14,22 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.lexer;
+package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 
-public class SimpleLexerTest {
+public class AbyssPatternTokens {
 
-    @Test
-    public void testKeywordsInUnknown() {
-        PandaLexer lexer = new PandaLexer(PandaSyntax.getInstance(), "this.intValue()");
-        TokenizedSource source = lexer.convert();
+    /**
+     * Hollow type
+     */
+    public static final TokenType HOLLOW_TYPE = new TokenType("HOLLOW");
 
-        Assert.assertEquals("this . intValue ( )", source.toString());
-    }
+    /**
+     * Multiline gap
+     */
+    public static final AbyssPatternUnit HOLLOW = new AbyssPatternUnit(HOLLOW_TYPE, "*");
+
+    /**
+     * Inline gap
+     */
+    public static final AbyssPatternUnit SIMPLE_HOLLOW = new AbyssPatternUnit(HOLLOW_TYPE, "**");
 
 }

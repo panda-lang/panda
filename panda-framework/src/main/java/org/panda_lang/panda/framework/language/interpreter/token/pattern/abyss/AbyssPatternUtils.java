@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern;
+package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.distributor.Sourc
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 
 import java.util.List;

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.parsers.prototype;
 
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;

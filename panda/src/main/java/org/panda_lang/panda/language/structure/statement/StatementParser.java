@@ -34,8 +34,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = StatementParser.class, handlerClass = StatementParserHandler.class, priority = DefaultPriorities.STATEMENT_VARIABLE_PARSER)

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.general.expression;
 
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
 
