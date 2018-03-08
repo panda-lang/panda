@@ -20,6 +20,8 @@ import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 
 public interface Variable {
 
+    boolean isMutable();
+
     int getNestingLevel();
 
     ClassPrototype getType();

@@ -107,7 +107,9 @@ public class Keywords {
 
     public static final Keyword LOCAL = new Keyword("local");
 
-    private static final Keyword[] VALUES = new Keyword[42];
+    public static final Keyword MUTABLE = new Keyword("mutable");
+
+    private static final Keyword[] VALUES = new Keyword[43];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -152,6 +154,7 @@ public class Keywords {
         VALUES[39] = HIDDEN;
         VALUES[40] = LOOP;
         VALUES[41] = MODULE;
+        VALUES[42] = MUTABLE;
     }
 
     public static Keyword[] values() {

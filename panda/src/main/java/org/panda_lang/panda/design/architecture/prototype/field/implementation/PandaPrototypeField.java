@@ -33,7 +33,7 @@ public class PandaPrototypeField extends PandaVariable implements PrototypeField
     private StaticValue staticValue;
 
     public PandaPrototypeField(ClassPrototype type, int fieldIndex, String name, FieldVisibility visibility, boolean isStatic, boolean isNative) {
-        super(type, name, 0);
+        super(type, name, 0, true);
 
         this.fieldIndex = fieldIndex;
         this.visibility = visibility;

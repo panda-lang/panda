@@ -35,7 +35,12 @@ public interface TokenizedSource {
     }
 
     default TokenRepresentation getLast() {
-        return get(size() - 1);
+        return getLast(0);
+    }
+
+    default TokenRepresentation getLast(int i) {
+        int index = size() - i - 1;
+        return index > -1 ? get(index) : null;
     }
 
     default void addToken(TokenRepresentation tokenRepresentation) {

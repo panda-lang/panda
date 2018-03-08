@@ -46,14 +46,14 @@ class Test {
 main {
     String init;
 
-    Test test = new Test("Constructor");
+    Test test = new Test('"Constructor"');
     test.echo("Method");
     test.testField();
 
-    Foo varFoo = null;
+    mutable Foo varFoo = null;
     varFoo = new Foo();
 
-    String s = null;
+    mutable String s = null;
     s = "Hello Panda x2";
 
     Int i = 0x000001;

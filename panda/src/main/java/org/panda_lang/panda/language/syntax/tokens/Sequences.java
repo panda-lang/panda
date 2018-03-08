@@ -27,7 +27,7 @@ public class Sequences {
 
     public static final Sequence STRING = new Sequence("String", '"');
 
-    public static final Sequence CHARACTER = new Sequence("Character", "'");
+    public static final Sequence RAW_STRING = new Sequence("String", "'");
 
     public static final Sequence LINE_ORIENTED_COMMENT = new Sequence("Comment", "//", System.lineSeparator());
 
@@ -39,7 +39,7 @@ public class Sequences {
 
     static {
         VALUES[0] = STRING;
-        VALUES[1] = CHARACTER;
+        VALUES[1] = RAW_STRING;
         VALUES[2] = LINE_ORIENTED_COMMENT;
         VALUES[3] = BLOCK_ORIENTED_COMMENT;
         VALUES[4] = DOCUMENTATION_ORIENTED_COMMENT;

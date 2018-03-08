@@ -54,6 +54,7 @@ import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.FieldAssigner;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.VariableAssigner;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
+import org.panda_lang.panda.language.syntax.tokens.Keywords;
 
 import java.util.List;
 
@@ -119,19 +120,41 @@ public class VariableParser implements UnifiedParser {
             Scope scope = linker.getCurrentScope();
             delegatedInfo.setComponent("scope", scope);
 
-            if (left.size() == 2) {
-                String variableType = left.getToken(0).getTokenValue();
-                String variableName = left.getToken(1).getTokenValue();
+            if (!parseLeft(delegatedInfo, left, scope)) {
+                throw new PandaParserException("Cannot parse variable: " + left.asString());
+            }
+
+            if (assignation) {
+                nextLayer.delegate(new VariableAssignationCasualParserCallback(), delegatedInfo);
+            }
+        }
+
+        private boolean parseLeft(ParserInfo delegatedInfo, TokenizedSource left, Scope scope) {
+            if (left.size() > 2) {
+                ExpressionParser expressionParser = new ExpressionParser();
+                Expression instanceExpression = expressionParser.parse(delegatedInfo, left.subSource(0, left.size() - 2), true);
+
+                if (instanceExpression != null) {
+                    delegatedInfo.setComponent("instance-expression", instanceExpression);
+                    delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
+                    return true;
+                }
+            }
+
+            if (left.size() >= 2) {
+                String variableName = left.getLast().getTokenValue();
+                String variableType = left.getLast(1).getTokenValue();
 
                 PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
                 ImportRegistry importRegistry = script.getImportRegistry();
                 ClassPrototype type = importRegistry.forClass(variableType);
+                boolean mutable = TokenUtils.equals(left.getFirst(), Keywords.MUTABLE);
 
                 if (type == null) {
                     throw new PandaParserException("Unknown type '" + variableType + "'");
                 }
 
-                Variable variable = new PandaVariable(type, variableName, 0);
+                Variable variable = new PandaVariable(type, variableName, 0, mutable);
                 delegatedInfo.setComponent("variable", variable);
 
                 if (VariableParserUtils.checkDuplicates(scope, variable)) {
@@ -139,12 +162,18 @@ public class VariableParser implements UnifiedParser {
                 }
 
                 scope.getVariables().add(variable);
+                return true;
             }
-            else if (left.size() == 1) {
+
+            if (left.size() == 1) {
                 Variable variable = VariableParserUtils.getVariable(scope, left.getLast().getToken().getTokenValue());
 
                 if (variable != null) {
                     delegatedInfo.setComponent("variable", variable);
+
+                    if (!variable.isMutable()) {
+                        throw new PandaParserException("Cannot change value of immutable variable '" + variable.getName() + "' at line " + TokenUtils.getLine(left));
+                    }
                 }
                 else {
                     ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
@@ -156,21 +185,11 @@ public class VariableParser implements UnifiedParser {
                     delegatedInfo.setComponent("instance-expression", new Expression(prototype, new ThisExpressionCallback()));
                     delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
                 }
-            }
-            else if (left.size() > 2) {
-                ExpressionParser expressionParser = new ExpressionParser();
-                Expression instanceExpression = expressionParser.parse(delegatedInfo, left.subSource(0, left.size() - 2));
 
-                delegatedInfo.setComponent("instance-expression", instanceExpression);
-                delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
-            }
-            else {
-                throw new PandaParserException("Unknown left side: " + left);
+                return true;
             }
 
-            if (assignation) {
-                nextLayer.delegate(new VariableAssignationCasualParserCallback(), delegatedInfo);
-            }
+            throw new PandaParserException("Unknown left side: " + left);
         }
 
     }
@@ -200,7 +219,7 @@ public class VariableParser implements UnifiedParser {
                             + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")");
                 }
 
-                assigner = new VariableAssigner(VariableParserUtils.indexOf(scope, variable), expressionValue);
+                assigner = new VariableAssigner(variable, VariableParserUtils.indexOf(scope, variable), expressionValue);
             }
             else {
                 Expression instanceExpression = delegatedInfo.getComponent("instance-expression");

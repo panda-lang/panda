@@ -57,6 +57,10 @@ public class ExpressionParser implements ParticularParser<Expression> {
 
     @Override
     public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
+        return parse(info, expressionSource, false);
+    }
+
+    public Expression parse(ParserInfo info, TokenizedSource expressionSource, boolean silence) {
         if (expressionSource.size() == 1) {
             Token token = expressionSource.getToken(0);
             String value = token.getTokenValue();
@@ -182,7 +186,11 @@ public class ExpressionParser implements ParticularParser<Expression> {
             return new Expression(expression.getReturnType(), expression);
         }
 
-        throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());
+        if (!silence) {
+            throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());
+        }
+
+        return null;
     }
 
     public static Expression toSimpleKnownExpression(String forName, Object value) {

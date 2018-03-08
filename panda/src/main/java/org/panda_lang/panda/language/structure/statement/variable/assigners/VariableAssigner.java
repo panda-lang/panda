@@ -19,16 +19,19 @@ package org.panda_lang.panda.language.structure.statement.variable.assigners;
 import org.panda_lang.panda.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.design.architecture.value.Variable;
 import org.panda_lang.panda.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
 
 public class VariableAssigner implements Executable {
 
+    private final Variable variable;
     private final int memoryIndex;
     private final Expression expression;
 
-    public VariableAssigner(int memoryIndex, Expression expression) {
+    public VariableAssigner(Variable variable, int memoryIndex, Expression expression) {
+        this.variable = variable;
         this.memoryIndex = memoryIndex;
         this.expression = expression;
     }
@@ -41,6 +44,10 @@ public class VariableAssigner implements Executable {
 
         Value value = expression.getExpressionValue(branch);
         ScopeInstance currentScope = branch.getCurrentScope();
+
+        if (!variable.isMutable() && currentScope.getVariables()[memoryIndex] != null) {
+            throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");
+        }
 
         currentScope.getVariables()[memoryIndex] = value;
     }
