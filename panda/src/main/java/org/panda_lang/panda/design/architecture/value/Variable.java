@@ -20,6 +20,8 @@ import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 
 public interface Variable {
 
+    boolean isNullable();
+
     boolean isMutable();
 
     int getNestingLevel();

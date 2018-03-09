@@ -24,7 +24,7 @@ import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 public interface Value {
 
     default boolean isNull() {
-        return getValue() == null && getType() == null;
+        return getObject() == null;
     }
 
     <T> T getValue();

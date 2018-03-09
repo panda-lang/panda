@@ -18,7 +18,7 @@ class Foo extends Test {
 
 class Test {
 
-    hidden Test testField;
+    hidden mutable Test testField;
     hidden Double i = 1.0D;
 
     constructor(String message) {
@@ -45,16 +45,17 @@ class Test {
 
 main {
     String init;
+    nullable Object req = null;
 
     Test test = new Test('"Constructor"');
     test.echo("Method");
     test.testField();
 
-    mutable Foo varFoo = null;
+    nullable mutable Foo varFoo = null;
     varFoo = new Foo();
 
-    mutable String s = null;
-    s = "Hello Panda x2";
+    mutable String s = "Hello Panda v1";
+    s = "Hello Panda v2";
 
     Int i = 0x000001;
     Int math = 10 + (3 + 4) * 2 /*+ "test" */;

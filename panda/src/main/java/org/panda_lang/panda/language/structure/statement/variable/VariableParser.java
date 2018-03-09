@@ -148,13 +148,14 @@ public class VariableParser implements UnifiedParser {
                 PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
                 ImportRegistry importRegistry = script.getImportRegistry();
                 ClassPrototype type = importRegistry.forClass(variableType);
-                boolean mutable = TokenUtils.equals(left.getFirst(), Keywords.MUTABLE);
+                boolean mutable = TokenUtils.contains(left, Keywords.MUTABLE);
+                boolean nullable = TokenUtils.contains(left, Keywords.NULLABLE);
 
                 if (type == null) {
                     throw new PandaParserException("Unknown type '" + variableType + "'");
                 }
 
-                Variable variable = new PandaVariable(type, variableName, 0, mutable);
+                Variable variable = new PandaVariable(type, variableName, 0, mutable, nullable);
                 delegatedInfo.setComponent("variable", variable);
 
                 if (VariableParserUtils.checkDuplicates(scope, variable)) {

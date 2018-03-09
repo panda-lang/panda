@@ -65,6 +65,15 @@ public class FieldAssigner implements Executable {
         branch.instance(pandaInstance.toValue());
 
         Value value = valueExpression.getExpressionValue(branch);
+
+        if (value.isNull() && !field.isNullable()) {
+            throw new PandaRuntimeException("Cannot assign null to variable '" + field.getName() + "' without nullable modifier");
+        }
+
+        if (!field.isMutable() && pandaInstance.getVariables()[memoryIndex] != null) {
+            throw new PandaRuntimeException("Cannot change value of immutable variable '" + field.getName() + "'");
+        }
+
         pandaInstance.getFieldValues()[memoryIndex] = value;
     }
 

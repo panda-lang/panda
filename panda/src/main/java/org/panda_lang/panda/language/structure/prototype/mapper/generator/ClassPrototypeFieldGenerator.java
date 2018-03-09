@@ -43,7 +43,15 @@ public class ClassPrototypeFieldGenerator {
 
     public PrototypeField generate() {
         ClassPrototype returnType = ModuleRegistry.forClass(field.getType());
-        PrototypeField prototypeField = new PandaPrototypeField(returnType, prototype.getFields().size(), field.getName(), FieldVisibility.PUBLIC, Modifier.isStatic(field.getModifiers()), true);
+        PrototypeField prototypeField = PandaPrototypeField.builder()
+                .fieldIndex(prototype.getFields().size())
+                .type(returnType)
+                .name(field.getName())
+                .visibility(FieldVisibility.PUBLIC)
+                .isStatic(Modifier.isStatic(field.getModifiers()))
+                .mutable(true)
+                .nullable(true)
+                .build();
 
         // TODO: Generate bytecode
         Expression fieldExpression = new Expression(returnType, (expression, branch) -> {

@@ -24,12 +24,19 @@ public class PandaVariable implements Variable {
     protected final String variableName;
     protected final int nestingLevel;
     protected final boolean mutable;
+    protected final boolean nullable;
 
-    public PandaVariable(ClassPrototype variableType, String variableName, int nestingLevel, boolean mutable) {
+    public PandaVariable(ClassPrototype variableType, String variableName, int nestingLevel, boolean mutable, boolean nullable) {
         this.variableType = variableType;
         this.variableName = variableName;
         this.nestingLevel = nestingLevel;
         this.mutable = mutable;
+        this.nullable = nullable;
+    }
+
+    @Override
+    public boolean isNullable() {
+        return nullable;
     }
 
     @Override

@@ -107,10 +107,12 @@ public class FieldParser implements UnifiedParser {
             TokenizedSource left = redactor.get("left");
             ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
 
+            String name = null;
             FieldVisibility visibility = null;
             ClassPrototype type = null;
-            String name = null;
             boolean isStatic = false;
+            boolean mutable = false;
+            boolean nullable = false;
 
             for (int i = 0; i < left.size(); i++) {
                 TokenRepresentation representation = left.get(i);
@@ -145,17 +147,33 @@ public class FieldParser implements UnifiedParser {
                         isStatic = true;
                         visibility = visibility != null ? visibility : FieldVisibility.PUBLIC;
                         continue;
+                    case "mutable":
+                        mutable = true;
+                        continue;
+                    case "nullable":
+                        nullable = true;
+                        continue;
                     default:
                         throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1) + ": " + token.getTokenValue());
                 }
             }
 
+            int fieldIndex = prototype.getFields().size();
+
             if (visibility == null) {
                 visibility = FieldVisibility.LOCAL;
             }
 
-            int fieldIndex = prototype.getFields().size();
-            PrototypeField field = new PandaPrototypeField(type, fieldIndex, name, visibility, isStatic, false);
+            PrototypeField field = PandaPrototypeField.builder()
+                    .fieldIndex(fieldIndex)
+                    .type(type)
+                    .name(name)
+                    .visibility(visibility)
+                    .isStatic(isStatic)
+                    .mutable(mutable)
+                    .nullable(nullable)
+                    .build();
+
             prototype.getFields().add(field);
 
             // int fieldIndex = prototype.getFields().indexOf(field);

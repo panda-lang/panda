@@ -33,7 +33,7 @@ public class PandaParameter implements Parameter {
 
     @Override
     public Variable toVariable(int nestingLevel) {
-        return new PandaVariable(parameterType, parameterName, nestingLevel, false);
+        return new PandaVariable(parameterType, parameterName, nestingLevel, false, false);
     }
 
     @Override

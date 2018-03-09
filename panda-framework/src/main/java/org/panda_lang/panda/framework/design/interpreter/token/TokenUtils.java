@@ -29,6 +29,20 @@ public class TokenUtils {
         return token.getName();
     }
 
+    public static boolean contains(TokenizedSource source, Token token) {
+        return contains(source, token.getType(), token.getTokenValue());
+    }
+
+    public static boolean contains(TokenizedSource source, TokenType type, String value) {
+        for (TokenRepresentation representation : source.getTokensRepresentations()) {
+            if (equals(representation, type, value)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean isNumber(Token token) {
         return StringUtils.isNumber(token.getTokenValue());
     }

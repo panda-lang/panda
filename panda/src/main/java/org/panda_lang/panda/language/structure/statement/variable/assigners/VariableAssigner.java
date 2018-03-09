@@ -45,6 +45,14 @@ public class VariableAssigner implements Executable {
         Value value = expression.getExpressionValue(branch);
         ScopeInstance currentScope = branch.getCurrentScope();
 
+        if (value == null) {
+            throw new PandaRuntimeException("Cannot assign not existing value to variable '" + variable.getName() + "'");
+        }
+
+        if (value.isNull() && !variable.isNullable()) {
+            throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nullable modifier");
+        }
+
         if (!variable.isMutable() && currentScope.getVariables()[memoryIndex] != null) {
             throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");
         }
