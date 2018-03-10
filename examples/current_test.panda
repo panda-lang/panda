@@ -79,8 +79,8 @@ main {
             break;
         }
 
-        continue;
         Console.print("Loop x3");
+        continue;
     }
 
     while (flag) {

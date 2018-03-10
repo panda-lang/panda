@@ -16,19 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture;
 
-/**
- * Generalized interface for language elements
- */
-public interface Statement {
+public interface StatementData {
 
-    /*
-    default boolean hasStatementData() {
-        return getStatementData() != null;
-    }
-
-    void setStatementData(StatementData statementData);
-
-    StatementData getStatementData();
-    */
+    int getSourceLine();
 
 }

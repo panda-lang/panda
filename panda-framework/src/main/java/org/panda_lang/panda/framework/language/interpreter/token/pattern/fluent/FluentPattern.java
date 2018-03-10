@@ -18,4 +18,6 @@ package org.panda_lang.panda.framework.language.interpreter.token.pattern.fluent
 
 public class FluentPattern {
 
+
+
 }
