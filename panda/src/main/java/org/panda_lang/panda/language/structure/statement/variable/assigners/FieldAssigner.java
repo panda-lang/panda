@@ -47,6 +47,15 @@ public class FieldAssigner implements Executable {
 
         if (field.isStatic()) {
             StaticValue staticValue = StaticValue.of(valueExpression.getExpressionValue(branch));
+
+            if ((staticValue.getValue() == null || staticValue.getValue().isNull()) && !field.isNullable()) {
+                throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nullable modifier");
+            }
+
+            if (!field.isMutable() && field.getStaticValue() != null) {
+                throw new PandaRuntimeException("Cannot change value of immutable static field '" + field.getName() + "'");
+            }
+
             field.setStaticValue(staticValue);
             return;
         }
@@ -67,11 +76,11 @@ public class FieldAssigner implements Executable {
         Value value = valueExpression.getExpressionValue(branch);
 
         if (value.isNull() && !field.isNullable()) {
-            throw new PandaRuntimeException("Cannot assign null to variable '" + field.getName() + "' without nullable modifier");
+            throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nullable modifier");
         }
 
         if (!field.isMutable() && pandaInstance.getVariables()[memoryIndex] != null) {
-            throw new PandaRuntimeException("Cannot change value of immutable variable '" + field.getName() + "'");
+            throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getName() + "'");
         }
 
         pandaInstance.getFieldValues()[memoryIndex] = value;
