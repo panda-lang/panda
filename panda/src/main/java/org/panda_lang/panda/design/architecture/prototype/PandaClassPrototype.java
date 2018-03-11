@@ -17,6 +17,7 @@
 package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
+import org.panda_lang.panda.design.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethods;
@@ -73,7 +74,7 @@ public class PandaClassPrototype implements ClassPrototype {
             }
 
             Expression expression = field.getDefaultValue();
-            StaticValue staticValue = StaticValue.of(expression.getExpressionValue(null));
+            StaticValue staticValue = PandaStaticValue.of(expression.getExpressionValue(null));
             field.setStaticValue(staticValue);
         }
     }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.statement.variable.assigners;
 
+import org.panda_lang.panda.design.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -46,7 +47,7 @@ public class FieldAssigner implements Executable {
         }
 
         if (field.isStatic()) {
-            StaticValue staticValue = StaticValue.of(valueExpression.getExpressionValue(branch));
+            StaticValue staticValue = PandaStaticValue.of(valueExpression.getExpressionValue(branch));
 
             if ((staticValue.getValue() == null || staticValue.getValue().isNull()) && !field.isNullable()) {
                 throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nullable modifier");

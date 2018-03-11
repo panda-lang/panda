@@ -16,47 +16,12 @@
 
 package org.panda_lang.panda.framework.design.architecture.value;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public class StaticValue {
+public interface StaticValue {
 
-    private final boolean external;
-    private final Value value;
-    private final Expression expression;
-    private final ExecutableBranch copyOfBranch;
+    Value getValue();
 
-    private StaticValue(Value value) {
-        this(false, value, null, null);
-    }
-
-    private StaticValue(Expression expression, ExecutableBranch copyOfBranch) {
-        this(true, null, expression, copyOfBranch);
-    }
-
-    private StaticValue(boolean external, Value value, Expression expression, ExecutableBranch copyOfBranch) {
-        this.external = external;
-        this.value = value;
-        this.expression = expression;
-        this.copyOfBranch = copyOfBranch;
-    }
-
-    public Value getValue() {
-        return external ? expression.getExpressionValue(copyOfBranch) : value;
-    }
-
-    public ClassPrototype getReturnType() {
-        return external ? expression.getReturnType() : value.getType();
-    }
-
-    public static StaticValue of(Expression expression, @Nullable ExecutableBranch branch) {
-        return new StaticValue(expression, branch != null ? branch.duplicate() : null);
-    }
-
-    public static StaticValue of(Value value) {
-        return new StaticValue(value);
-    }
+    ClassPrototype getReturnType();
 
 }

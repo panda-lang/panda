@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
+import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeField;
+import org.panda_lang.panda.design.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
-import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
-import org.panda_lang.panda.design.architecture.value.PandaValue;
-import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 
@@ -67,7 +67,7 @@ public class ClassPrototypeFieldGenerator {
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(StaticValue.of(fieldExpression, null));
+        prototypeField.setStaticValue(PandaStaticValue.of(fieldExpression, null));
         return prototypeField;
     }
 
