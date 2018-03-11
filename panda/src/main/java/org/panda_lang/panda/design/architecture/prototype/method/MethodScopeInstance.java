@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 public class MethodScopeInstance implements ScopeInstance {
 

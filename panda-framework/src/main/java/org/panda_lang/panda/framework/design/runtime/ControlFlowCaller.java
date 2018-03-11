@@ -14,25 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.util;
+package org.panda_lang.panda.framework.design.runtime;
 
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+public interface ControlFlowCaller {
 
-import java.util.ArrayList;
-import java.util.List;
-
-public abstract class AbstractScope extends AbstractContainer implements Scope {
-
-    protected final List<Variable> variables;
-
-    public AbstractScope() {
-        this.variables = new ArrayList<>();
-    }
-
-    @Override
-    public List<Variable> getVariables() {
-        return variables;
-    }
+    void call(ExecutableBranch branch, ControlFlow flow);
 
 }

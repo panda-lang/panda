@@ -14,38 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.design.architecture.wrapper;
 
-public interface ControlFlow {
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 
-    /**
-     * Call the flow
-     */
-    void call();
+import java.util.ArrayList;
+import java.util.List;
 
-    /**
-     * Skip next statements (Most commonly used by loops)
-     */
-    void skip();
+public abstract class AbstractScope extends AbstractContainer implements Scope {
 
-    /**
-     * Escape the flow
-     */
-    void escape();
+    protected final List<Variable> variables;
 
-    /**
-     * Reset the flow
-     */
-    void reset();
+    public AbstractScope() {
+        this.variables = new ArrayList<>();
+    }
 
-    /**
-     * @return true if {@link ControlFlow#skip()} was called
-     */
-    boolean isSkipped();
-
-    /**
-     * @return true if {@link ControlFlow#escape()} was called
-     */
-    boolean isEscaped();
+    @Override
+    public List<Variable> getVariables() {
+        return variables;
+    }
 
 }

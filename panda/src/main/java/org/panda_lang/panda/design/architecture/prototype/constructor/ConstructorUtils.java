@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.architecture.prototype.constructor;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class ConstructorUtils {

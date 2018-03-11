@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.runtime;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableProcess;
+import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;

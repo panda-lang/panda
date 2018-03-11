@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.structure.scope.block.conditional;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
 
 public class ConditionalBlock extends PandaBlock {

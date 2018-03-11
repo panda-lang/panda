@@ -17,7 +17,6 @@
 package org.panda_lang.panda.language.structure.general.expression;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.detach.*;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
@@ -34,6 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.InstanceExpressionCallback;

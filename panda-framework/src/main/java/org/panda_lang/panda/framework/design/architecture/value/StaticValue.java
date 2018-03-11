@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.design.architecture.value;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class StaticValue {

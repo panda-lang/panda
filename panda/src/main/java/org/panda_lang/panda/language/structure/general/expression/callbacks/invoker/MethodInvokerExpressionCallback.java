@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
-import org.panda_lang.panda.framework.design.architecture.detach.ExpressionCallback;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Expression;
+import org.panda_lang.panda.framework.design.runtime.ExpressionCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.language.structure.statement.invoker.MethodInvoker;
 

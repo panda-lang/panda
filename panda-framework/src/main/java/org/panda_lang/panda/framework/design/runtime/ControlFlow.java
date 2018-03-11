@@ -14,12 +14,38 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.runtime;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+public interface ControlFlow {
 
-public interface ExpressionCallback {
+    /**
+     * Call the flow
+     */
+    void call();
 
-    Value call(Expression expression, ExecutableBranch branch);
+    /**
+     * Skip next statements (Most commonly used by loops)
+     */
+    void skip();
+
+    /**
+     * Escape the flow
+     */
+    void escape();
+
+    /**
+     * Reset the flow
+     */
+    void reset();
+
+    /**
+     * @return true if {@link ControlFlow#skip()} was called
+     */
+    boolean isSkipped();
+
+    /**
+     * @return true if {@link ControlFlow#escape()} was called
+     */
+    boolean isEscaped();
 
 }

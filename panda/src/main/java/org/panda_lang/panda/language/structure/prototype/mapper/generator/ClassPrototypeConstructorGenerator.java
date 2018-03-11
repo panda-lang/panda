@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;

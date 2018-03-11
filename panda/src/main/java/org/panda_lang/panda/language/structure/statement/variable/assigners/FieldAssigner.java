@@ -18,9 +18,9 @@ package org.panda_lang.panda.language.structure.statement.variable.assigners;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;

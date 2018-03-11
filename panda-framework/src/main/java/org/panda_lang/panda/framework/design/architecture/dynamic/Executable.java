@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.Statement;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 public interface Executable extends Statement {
 

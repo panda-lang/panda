@@ -32,7 +32,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;

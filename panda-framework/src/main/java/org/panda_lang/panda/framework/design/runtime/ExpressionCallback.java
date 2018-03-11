@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.runtime;
 
-public enum ExpressionType {
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 
-    KNOWN,
-    UNKNOWN,
-    BOTH
+public interface ExpressionCallback {
+
+    Value call(Expression expression, ExecutableBranch branch);
 
 }

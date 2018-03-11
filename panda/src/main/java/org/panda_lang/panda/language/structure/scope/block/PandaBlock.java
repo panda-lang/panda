@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.scope.block;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.design.architecture.util.AbstractContainer;
+import org.panda_lang.panda.design.architecture.wrapper.AbstractContainer;
 
 public abstract class PandaBlock extends AbstractContainer implements Block {
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.util;
+package org.panda_lang.panda.design.architecture.wrapper;
 
 import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.Statement;

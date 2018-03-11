@@ -20,9 +20,9 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 
 public class VariableAssigner implements Executable {
 

@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.runtime;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+public enum ExpressionType {
 
-public interface ExecutableProcess {
-
-    /**
-     * Execute the process
-     *
-     * @return a result of the execution process
-     */
-    Value execute();
+    KNOWN,
+    UNKNOWN,
+    BOTH
 
 }

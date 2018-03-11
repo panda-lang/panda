@@ -23,7 +23,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;

@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.structure.scope.branching.statements;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Expression;
 
 public class Return implements Executable {
 

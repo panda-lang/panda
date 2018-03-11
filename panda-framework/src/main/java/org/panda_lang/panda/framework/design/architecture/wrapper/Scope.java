@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.wrapper;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
