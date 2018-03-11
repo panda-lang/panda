@@ -20,62 +20,12 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-import java.security.InvalidParameterException;
+public interface Expression {
+    
+    Value getExpressionValue(ExecutableBranch branch);
 
-public class Expression {
+    ClassPrototype getReturnType();
 
-    private final ExpressionType type;
-    private final ClassPrototype returnType;
-    private final ExpressionCallback callback;
-    private final Value value;
-
-    public Expression(Value value) {
-        this(ExpressionType.KNOWN, value.getType(), null, value);
-    }
-
-    public Expression(ClassPrototype returnType, ExpressionCallback callback) {
-        this(ExpressionType.UNKNOWN, returnType, callback, null);
-    }
-
-    private Expression(ExpressionType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
-        if (type == null) {
-            throw new InvalidParameterException("ExpressionType cannot be null");
-        }
-
-        if (callback == null && value == null) {
-            throw new InvalidParameterException("Callback and Value cannot be null at the same time");
-        }
-
-        this.type = type;
-        this.returnType = returnType;
-        this.callback = callback;
-        this.value = value;
-    }
-
-    public boolean isNull() {
-        return returnType == null;
-    }
-
-    public Value getExpressionValue(ExecutableBranch branch) {
-        if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            return callback.call(this, branch);
-        }
-
-        return value;
-    }
-
-    public ClassPrototype getReturnType() {
-        return returnType;
-    }
-
-    public ExpressionType getType() {
-        return type;
-    }
-
-    @Override
-    public String toString() {
-        String s = type.name() + ":" + returnType.getClassName();
-        return ExpressionType.KNOWN == type ? s + ":" + value.getValue() : s;
-    }
+    ExpressionType getType();
 
 }

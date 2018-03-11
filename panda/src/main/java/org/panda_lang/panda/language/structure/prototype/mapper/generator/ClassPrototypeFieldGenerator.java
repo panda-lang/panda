@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
+import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeField;
@@ -54,7 +55,7 @@ public class ClassPrototypeFieldGenerator {
                 .build();
 
         // TODO: Generate bytecode
-        Expression fieldExpression = new Expression(returnType, (expression, branch) -> {
+        Expression fieldExpression = new PandaExpression(returnType, (expression, branch) -> {
             Object instance = branch != null ? branch.getInstance().getValue() : null;
 
             try {

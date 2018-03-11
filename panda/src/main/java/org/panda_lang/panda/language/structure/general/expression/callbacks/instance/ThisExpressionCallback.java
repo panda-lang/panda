@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.instance;
 
+import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -30,7 +31,7 @@ public class ThisExpressionCallback implements ExpressionCallback {
     }
 
     public static Expression asExpression(ClassPrototype type) {
-        return new Expression(type, new ThisExpressionCallback());
+        return new PandaExpression(type, new ThisExpressionCallback());
     }
 
 }

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.architecture.PandaScript;
@@ -84,7 +85,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         }
         else {
             prototype = info.getComponent(Components.CLASS_PROTOTYPE);
-            instance = new Expression(prototype, new ThisExpressionCallback());
+            instance = new PandaExpression(prototype, new ThisExpressionCallback());
         }
 
         ArgumentParser argumentParser = new ArgumentParser();

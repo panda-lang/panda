@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
@@ -183,7 +184,7 @@ public class VariableParser implements UnifiedParser {
                         throw new PandaParserException("Cannot get field from non-prototype scope");
                     }
 
-                    delegatedInfo.setComponent("instance-expression", new Expression(prototype, new ThisExpressionCallback()));
+                    delegatedInfo.setComponent("instance-expression", new PandaExpression(prototype, new ThisExpressionCallback()));
                     delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
                 }
 

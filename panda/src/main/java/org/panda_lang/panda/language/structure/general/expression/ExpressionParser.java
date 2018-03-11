@@ -19,13 +19,14 @@ package org.panda_lang.panda.language.structure.general.expression;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -69,14 +70,14 @@ public class ExpressionParser implements ParticularParser<Expression> {
             if (token.getType() == TokenType.LITERAL) {
                 switch (token.getTokenValue()) {
                     case "null":
-                        return new Expression(new PandaValue(null, null));
+                        return new PandaExpression(new PandaValue(null, null));
                     case "true":
                         return toSimpleKnownExpression("boolean", true);
                     case "false":
                         return toSimpleKnownExpression("boolean", false);
                     case "this":
                         ClassPrototype type = info.getComponent(Components.CLASS_PROTOTYPE);
-                        return new Expression(type, new ThisExpressionCallback());
+                        return new PandaExpression(type, new ThisExpressionCallback());
                     default:
                         throw new PandaParserException("Unknown literal: " + token);
                 }
@@ -95,7 +96,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
             Value numericValue = numberExpressionParser.parse(info, expressionSource);
 
             if (numericValue != null) {
-                return new Expression(numericValue);
+                return new PandaExpression(numericValue);
             }
 
             ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
@@ -104,7 +105,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
 
             if (variable != null) {
                 int memoryIndex = VariableParserUtils.indexOf(scope, variable);
-                return new Expression(variable.getType(), new VariableExpressionCallback(memoryIndex));
+                return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
             }
 
             ClassPrototype prototype = info.getComponent(Components.CLASS_PROTOTYPE);
@@ -114,7 +115,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
 
                 if (field != null) {
                     int memoryIndex = prototype.getFields().indexOf(field);
-                    return new Expression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
+                    return new PandaExpression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
                 }
             }
         }
@@ -125,7 +126,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
             methodInvokerParser.parse(expressionSource, info);
             MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
 
-            return new Expression(callback.getReturnType(), callback);
+            return new PandaExpression(callback.getReturnType(), callback);
         }
 
         TokenReader expressionReader = new PandaTokenReader(expressionSource);
@@ -137,7 +138,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
             callbackParser.parse(expressionSource, info);
             InstanceExpressionCallback callback = callbackParser.toCallback();
 
-            return new Expression(callback.getReturnType(), callback);
+            return new PandaExpression(callback.getReturnType(), callback);
         }
 
         List<TokenizedSource> fieldMatches = ExpressionPatterns.FIELD_PATTERN.match(expressionReader);
@@ -171,20 +172,20 @@ public class ExpressionParser implements ParticularParser<Expression> {
             }
 
             int memoryIndex = instanceType.getFields().indexOf(instanceField);
-            return new Expression(instanceField.getType(), new FieldExpressionCallback(fieldLocationExpression, instanceField, memoryIndex));
+            return new PandaExpression(instanceField.getType(), new FieldExpressionCallback(fieldLocationExpression, instanceField, memoryIndex));
         }
 
         NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
         Value numericValue = numberExpressionParser.parse(info, expressionSource);
 
         if (numericValue != null) {
-            return new Expression(numericValue);
+            return new PandaExpression(numericValue);
         }
 
         if (MathExpressionUtils.isMathExpression(expressionSource)) {
             MathParser mathParser = new MathParser();
             MathExpressionCallback expression = mathParser.parse(expressionSource, info);
-            return new Expression(expression.getReturnType(), expression);
+            return new PandaExpression(expression.getReturnType(), expression);
         }
 
         if (!silence) {
@@ -195,7 +196,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
     }
 
     public static Expression toSimpleKnownExpression(String forName, Object value) {
-        return new Expression(new PandaValue(PandaClassPrototype.forName(forName), value));
+        return new PandaExpression(new PandaValue(PandaClassPrototype.forName(forName), value));
     }
 
 }
