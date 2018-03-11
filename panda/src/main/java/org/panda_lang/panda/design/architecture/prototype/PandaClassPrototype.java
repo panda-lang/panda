@@ -17,13 +17,14 @@
 package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethods;
+import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethods;
 import org.panda_lang.panda.language.structure.general.expression.Expression;
-import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.prototype.field.StaticValue;
-import org.panda_lang.panda.design.architecture.prototype.method.Methods;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +40,7 @@ public class PandaClassPrototype implements ClassPrototype {
     private final Collection<ClassPrototype> extended;
     private final Collection<PrototypeConstructor> constructors;
     private final List<PrototypeField> fields;
-    private final Methods methods;
+    private final PrototypeMethods methods;
     private boolean initialized;
 
     public PandaClassPrototype(Module module, String className, Class<?> associated, String... aliases) {
@@ -50,7 +51,7 @@ public class PandaClassPrototype implements ClassPrototype {
         this.extended = new ArrayList<>(1);
         this.constructors = new ArrayList<>(1);
         this.fields = new ArrayList<>();
-        this.methods = new Methods(this);
+        this.methods = new PandaMethods(this);
         this.initialized = false;
     }
 
@@ -111,7 +112,7 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public Methods getMethods() {
+    public PrototypeMethods getMethods() {
         return methods;
     }
 

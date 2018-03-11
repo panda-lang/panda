@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.imports;
+package org.panda_lang.panda.design.architecture.prototype.module;
 
-import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 
-public class Import {
+import java.util.Collection;
 
-    private final Module module;
+public interface Module {
 
-    public Import(Module module) {
-        this.module = module;
-    }
+    ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName);
 
-    public Module getModule() {
-        return module;
-    }
+    ClassPrototype add(ClassPrototype prototype);
+
+    ClassPrototype get(String className);
+
+    int getPrototypeCount();
+
+    Collection<ClassPrototype> getPrototypes();
+
+    String getName();
 
 }

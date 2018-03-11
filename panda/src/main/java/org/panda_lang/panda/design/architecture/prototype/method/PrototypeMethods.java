@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.imports;
+package org.panda_lang.panda.design.architecture.prototype.method;
 
-import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 
-public class Import {
+public interface PrototypeMethods {
 
-    private final Module module;
+    void registerMethod(PrototypeMethod method);
 
-    public Import(Module module) {
-        this.module = module;
-    }
-
-    public Module getModule() {
-        return module;
-    }
+    PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes);
 
 }

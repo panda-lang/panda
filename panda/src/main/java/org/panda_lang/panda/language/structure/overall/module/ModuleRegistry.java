@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.language.structure.overall.module;
 
+import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.design.architecture.prototype.module.PandaModule;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.util.Collection;
@@ -37,7 +39,7 @@ public class ModuleRegistry {
 
     public ModuleRegistry() {
         this.groups = new HashMap<>();
-        this.defaultModule = new Module(DEFAULT_MODULE);
+        this.defaultModule = new PandaModule(DEFAULT_MODULE);
         this.groups.put(DEFAULT_MODULE, this.defaultModule);
     }
 
@@ -52,7 +54,7 @@ public class ModuleRegistry {
     }
 
     public Module getOrCreate(String groupName) {
-        return groups.computeIfAbsent(groupName, Module::new);
+        return groups.computeIfAbsent(groupName, PandaModule::new);
     }
 
     public Module get(String groupName) {

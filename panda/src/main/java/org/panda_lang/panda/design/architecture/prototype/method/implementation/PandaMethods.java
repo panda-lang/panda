@@ -14,30 +14,35 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.method;
+package org.panda_lang.panda.design.architecture.prototype.method.implementation;
 
 import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.prototype.method.MethodUtils;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethods;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Methods {
+public class PandaMethods implements PrototypeMethods {
 
     private final ClassPrototype prototype;
     private final Map<String, Collection<PrototypeMethod>> methodsMap;
 
-    public Methods(ClassPrototype prototype) {
+    public PandaMethods(ClassPrototype prototype) {
         this.prototype = prototype;
         this.methodsMap = new HashMap<>();
     }
 
+    @Override
     public void registerMethod(PrototypeMethod method) {
         Collection<PrototypeMethod> methods = methodsMap.computeIfAbsent(method.getMethodName(), methodsContainer -> new ArrayList<>());
         methods.add(method);
     }
 
+    @Override
     public PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes) {
         Collection<PrototypeMethod> methods = methodsMap.get(name);
 
@@ -50,7 +55,7 @@ public class Methods {
 
     @Override
     public String toString() {
-        return prototype.getName() + "::Methods[" + methodsMap.size() + "]";
+        return prototype.getName() + "::PrototypeMethods[" + methodsMap.size() + "]";
     }
 
 }

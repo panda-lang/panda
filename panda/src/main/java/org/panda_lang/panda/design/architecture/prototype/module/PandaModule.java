@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.module;
+package org.panda_lang.panda.design.architecture.prototype.module;
 
 import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
@@ -22,26 +22,29 @@ import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class Module {
+public class PandaModule implements Module{
 
     private final String name;
     private final Collection<ClassPrototype> prototypes;
 
-    public Module(String name) {
+    public PandaModule(String name) {
         this.name = name;
         this.prototypes = new ArrayList<>();
     }
 
+    @Override
     public ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName) {
         ClassPrototype prototype = new PandaClassPrototype(this, prototypeName, associatedClass);
         return add(prototype);
     }
 
+    @Override
     public ClassPrototype add(ClassPrototype prototype) {
         this.prototypes.add(prototype);
         return prototype;
     }
 
+    @Override
     public ClassPrototype get(String className) {
         for (ClassPrototype prototype : prototypes) {
             if (prototype.isClassOf(className)) {
@@ -52,14 +55,17 @@ public class Module {
         return null;
     }
 
+    @Override
     public int getPrototypeCount() {
         return prototypes.size();
     }
 
+    @Override
     public Collection<ClassPrototype> getPrototypes() {
         return prototypes;
     }
 
+    @Override
     public String getName() {
         return name;
     }

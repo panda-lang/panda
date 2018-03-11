@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
-import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
 import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;

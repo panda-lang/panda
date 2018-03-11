@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.design.architecture.prototype;
 
-import org.panda_lang.panda.language.structure.overall.module.Module;
+import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethods;
+import org.panda_lang.panda.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.design.architecture.prototype.method.Methods;
 
 import java.util.Collection;
 import java.util.List;
@@ -32,7 +32,7 @@ public interface ClassPrototype {
 
     PrototypeField getField(String fieldName);
 
-    Methods getMethods();
+    PrototypeMethods getMethods();
 
     List<PrototypeField> getFields();
 
