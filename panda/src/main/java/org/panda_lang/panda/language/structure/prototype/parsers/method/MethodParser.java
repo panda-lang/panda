@@ -22,8 +22,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Metho
 import org.panda_lang.panda.design.architecture.prototype.method.MethodScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethod;
-import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethodCallback;
+import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.design.architecture.prototype.method.PandaMethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
