@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.scope;
 
 import org.panda_lang.panda.framework.design.architecture.Statement;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class ClassReference implements Statement {
 

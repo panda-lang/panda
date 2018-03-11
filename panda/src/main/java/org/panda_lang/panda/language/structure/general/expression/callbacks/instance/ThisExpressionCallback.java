@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.framework.design.architecture.detach.ExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class ThisExpressionCallback implements ExpressionCallback {
 

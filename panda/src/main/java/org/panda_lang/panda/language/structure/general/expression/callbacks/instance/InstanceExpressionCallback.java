@@ -22,8 +22,8 @@ import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranc
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.framework.design.architecture.detach.ExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 
 public class InstanceExpressionCallback implements ExpressionCallback {
 

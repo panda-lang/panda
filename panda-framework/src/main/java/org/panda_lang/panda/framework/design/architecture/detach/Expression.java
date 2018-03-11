@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture.detach;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+
 import java.security.InvalidParameterException;
 
 public class Expression {

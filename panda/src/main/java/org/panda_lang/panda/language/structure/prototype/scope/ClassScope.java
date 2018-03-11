@@ -22,9 +22,9 @@ import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 
 import java.util.List;
 

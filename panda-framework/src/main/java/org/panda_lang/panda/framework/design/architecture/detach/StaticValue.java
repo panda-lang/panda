@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.detach;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class StaticValue {
 

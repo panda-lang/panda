@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.registry;
 
 import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 
 public abstract class ClassPrototypeModelMethodCallback implements MethodCallback<Object> {
 

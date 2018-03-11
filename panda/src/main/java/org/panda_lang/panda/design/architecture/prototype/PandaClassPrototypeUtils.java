@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 import java.util.Collection;
 

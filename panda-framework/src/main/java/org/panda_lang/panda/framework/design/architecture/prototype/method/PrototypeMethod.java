@@ -14,22 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-import java.util.Collection;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public interface Module {
+public interface PrototypeMethod extends MethodCallback<Object> {
 
-    ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName);
+    boolean isCatchingAllParameters();
 
-    ClassPrototype add(ClassPrototype prototype);
+    default boolean isVoid() {
+        return getReturnType() == null || getReturnType().getClassName().equals("void");
+    }
 
-    ClassPrototype get(String className);
+    boolean isStatic();
 
-    int getPrototypeCount();
+    MethodVisibility getVisibility();
 
-    Collection<ClassPrototype> getPrototypes();
+    ClassPrototype getReturnType();
 
-    String getName();
+    ClassPrototype[] getParameterTypes();
+
+    String getMethodName();
+
+    ClassPrototype getClassPrototype();
 
 }

@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranc
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.framework.design.architecture.detach.ExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 
 import java.util.Stack;

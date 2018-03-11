@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 /**
  * Wrapper for objects

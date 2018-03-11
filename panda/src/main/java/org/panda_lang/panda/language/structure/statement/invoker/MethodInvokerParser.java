@@ -17,9 +17,9 @@
 package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.detach.Container;
 import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;

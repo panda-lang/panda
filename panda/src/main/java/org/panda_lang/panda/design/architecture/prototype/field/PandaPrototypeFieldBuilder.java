@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.design.architecture.prototype.field;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 
 public class PandaPrototypeFieldBuilder {
 

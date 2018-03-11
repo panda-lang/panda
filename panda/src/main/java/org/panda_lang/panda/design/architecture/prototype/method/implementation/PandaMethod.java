@@ -18,10 +18,10 @@ package org.panda_lang.panda.design.architecture.prototype.method.implementation
 
 import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodCallback;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 
 public class PandaMethod implements PrototypeMethod {
 

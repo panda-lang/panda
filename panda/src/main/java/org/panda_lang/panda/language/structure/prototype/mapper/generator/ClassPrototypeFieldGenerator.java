@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeField;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.detach.StaticValue;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;

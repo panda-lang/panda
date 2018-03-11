@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranc
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 
 import java.security.InvalidParameterException;
 

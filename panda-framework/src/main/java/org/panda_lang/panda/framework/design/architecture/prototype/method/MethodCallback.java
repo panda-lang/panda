@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-public enum FieldVisibility {
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
 
-    PUBLIC,
-    LOCAL,
-    HIDDEN
+public interface MethodCallback<T> {
+
+    void invoke(ExecutableBranch branch, T instance, Value... parameters);
 
 }

@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.prototype.module;
 
-public interface Parameter {
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-    Variable toVariable(int nestingLevel);
+import java.util.Collection;
 
-    ClassPrototype getParameterType();
+public interface Module {
 
-    String getParameterName();
+    ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName);
+
+    ClassPrototype add(ClassPrototype prototype);
+
+    ClassPrototype get(String className);
+
+    int getPrototypeCount();
+
+    Collection<ClassPrototype> getPrototypes();
+
+    String getName();
 
 }

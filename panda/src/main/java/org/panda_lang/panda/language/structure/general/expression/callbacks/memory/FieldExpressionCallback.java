@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.framework.design.architecture.detach.ExpressionCallback;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 
 public class FieldExpressionCallback implements ExpressionCallback {
 

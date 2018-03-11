@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-public interface PrototypeConstructor {
+public enum MethodVisibility {
 
-    Object createInstance(ExecutableBranch bridge, Value... values);
-
-    ClassPrototype[] getParameterTypes();
+    PUBLIC,
+    LOCAL,
+    HIDDEN
 
 }

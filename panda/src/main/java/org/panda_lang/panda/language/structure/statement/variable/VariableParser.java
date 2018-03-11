@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.detach.Executable;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.design.architecture.detach.Variable;
 import org.panda_lang.panda.framework.design.architecture.detach.Container;

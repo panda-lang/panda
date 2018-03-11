@@ -14,7 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.prototype;
+
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
+import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 
 import java.util.Collection;
 import java.util.List;

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.registry;
 
-import org.panda_lang.panda.framework.design.architecture.detach.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.util.ReflectionsUtils;
 
 import java.lang.annotation.ElementType;

@@ -20,11 +20,11 @@ import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUti
 import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodCallback;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodVisibility;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethod;
 
 import java.lang.reflect.Array;

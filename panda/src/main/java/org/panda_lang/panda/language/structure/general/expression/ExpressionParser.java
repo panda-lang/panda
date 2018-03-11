@@ -23,6 +23,8 @@ import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.detach.Scope;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;

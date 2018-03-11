@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.design.architecture.prototype.module;
 
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.Module;
+import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 
 import java.util.ArrayList;
 import java.util.Collection;

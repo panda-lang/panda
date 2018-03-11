@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 
 import javax.annotation.Nullable;
 

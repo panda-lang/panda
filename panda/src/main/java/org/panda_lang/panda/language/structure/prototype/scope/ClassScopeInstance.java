@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.detach.ScopeInstance;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class ClassScopeInstance implements ScopeInstance {
 

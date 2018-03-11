@@ -21,10 +21,10 @@ import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorScope;
 import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.detach.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.design.architecture.prototype.parameter.ParameterUtils;
 
 public class PandaConstructor implements PrototypeConstructor {

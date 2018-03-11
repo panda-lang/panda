@@ -24,14 +24,14 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.detach.Module;
+import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.MethodDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.detach.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethod;
 
 import java.lang.reflect.Method;
