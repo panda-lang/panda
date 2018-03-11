@@ -3,39 +3,7 @@ Panda is a lightweight and powerful programming language written in Java<br>
 Project website: [panda-lang.org](https://panda-lang.org/)
 
 #### Example
-```javascript
-// The main block, called when the script starts
-main {
-    // Prints "Hello Panda" in console
-    System.print("Hello Panda");
-
-    // Create new thread called "Thread-Test"
-    Thread testThread = new Thread("Thread-Test");
-    // Thread block associated with 'testThread', executed when the thread starts
-    thread (testThread) {
-        // Print the name of the thread
-        System.print(testThread.getName());
-    }
-    // Start the thread
-    testThread.start();
-
-    // Math
-    Int result = ((10 + 4)*2)^2;
-    // Display result
-    System.print(result);
-
-    Foo foo = new Foo();
-    foo.goodbye();
-}
-
-class Foo {
-
-    method goodbye() {
-        System.print("Goodbye!");
-    }
-
-}
-```
+![current_test.panda preview](https://panda-lang.org/screenshot/RnIjTjpq.png)
 
 #### Repository structure
 ```
