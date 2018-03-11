@@ -18,6 +18,7 @@ package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
@@ -213,7 +214,7 @@ public class VariableParser implements UnifiedParser {
 
             Scope scope = delegatedInfo.getComponent("scope");
             Variable variable = delegatedInfo.getComponent("variable");
-            Executable assigner;
+            Statement assigner;
 
             if (variable != null) {
                 if (!variable.getType().equals(expressionValue.getReturnType())) {

@@ -14,18 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.branching.statements;
+package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
+import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.StatementData;
 
-public class Break extends ExecutableStatement {
+public abstract class ExecutableStatement implements Executable, Statement {
+
+    protected StatementData statementData;
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        ControlFlow flow = branch.getCurrentControlFlow();
-        flow.escape();
+    public void setStatementData(StatementData statementData) {
+        this.statementData = statementData;
+    }
+
+    @Override
+    public StatementData getStatementData() {
+        return statementData;
     }
 
 }

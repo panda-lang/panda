@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.design.architecture.prototype.field;
 
+import org.panda_lang.panda.design.architecture.wrapper.AbstractStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.Statement;
 
-public class FieldStatement implements Statement {
+public class FieldStatement extends AbstractStatement {
 
     private final PrototypeField field;
     private final int fieldID;

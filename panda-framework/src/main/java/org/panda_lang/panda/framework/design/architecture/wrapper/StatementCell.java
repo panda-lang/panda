@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.design.architecture.wrapper;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 
 /**
  * StatementCell is a mutable container for {@link Statement}
@@ -29,6 +30,10 @@ public interface StatementCell {
 
     default boolean isBlock() {
         return getStatement() != null && getStatement() instanceof Block;
+    }
+
+    default boolean isStandaloneExecutable() {
+        return getStatement() != null && getStatement() instanceof StandaloneExecutable;
     }
 
     default boolean isExecutable() {

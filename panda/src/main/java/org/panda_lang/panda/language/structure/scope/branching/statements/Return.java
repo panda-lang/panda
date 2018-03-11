@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.structure.scope.branching.statements;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class Return implements Executable {
+public class Return extends ExecutableStatement {
 
     private final Expression value;
 

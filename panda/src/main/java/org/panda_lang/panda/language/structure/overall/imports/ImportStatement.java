@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.overall.imports;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.design.architecture.wrapper.AbstractStatement;
 
-public class ImportStatement implements Statement {
+public class ImportStatement extends AbstractStatement {
 
     private final Import associatedImport;
 

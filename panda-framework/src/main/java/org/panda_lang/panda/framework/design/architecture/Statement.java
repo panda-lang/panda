@@ -21,7 +21,6 @@ package org.panda_lang.panda.framework.design.architecture;
  */
 public interface Statement {
 
-    /*
     default boolean hasStatementData() {
         return getStatementData() != null;
     }
@@ -29,6 +28,5 @@ public interface Statement {
     void setStatementData(StatementData statementData);
 
     StatementData getStatementData();
-    */
 
 }

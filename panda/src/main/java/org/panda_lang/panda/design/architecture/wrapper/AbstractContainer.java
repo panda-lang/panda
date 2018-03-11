@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractContainer implements Container {
+public abstract class AbstractContainer extends AbstractStatement implements Container {
 
     protected final List<StatementCell> executableCells;
 

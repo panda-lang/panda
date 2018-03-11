@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
@@ -118,7 +119,7 @@ public class MethodInvokerParser implements UnifiedParser {
                 throw new PandaParserException("Not implemented");
             }
 
-            MethodInvoker invoker = new MethodInvoker(prototypeMethod, instance, arguments);
+            Statement invoker = new MethodInvoker(prototypeMethod, instance, arguments);
             StatementCell cell = delegatedInfo.getComponent("cell");
             cell.setStatement(invoker);
         }

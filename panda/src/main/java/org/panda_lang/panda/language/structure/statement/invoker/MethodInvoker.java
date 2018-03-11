@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.statement.invoker;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -25,7 +26,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 
 import javax.annotation.Nullable;
 
-public class MethodInvoker implements StandaloneExecutable {
+public class MethodInvoker extends ExecutableStatement implements StandaloneExecutable {
 
     private final PrototypeMethod method;
     private final Expression instanceExpression;

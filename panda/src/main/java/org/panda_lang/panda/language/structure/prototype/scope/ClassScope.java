@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.scope;
 
+import org.panda_lang.panda.framework.design.architecture.StatementData;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
@@ -31,6 +32,7 @@ import java.util.List;
 public class ClassScope implements Scope {
 
     private final ClassPrototype prototype;
+    protected StatementData statementData;
 
     public ClassScope(ClassPrototype prototype) {
         this.prototype = prototype;
@@ -64,6 +66,16 @@ public class ClassScope implements Scope {
     @Override
     public StatementCell addStatement(Statement statement) {
         throw new RuntimeException("Cannot add element to the class scope");
+    }
+
+    @Override
+    public void setStatementData(StatementData statementData) {
+        this.statementData = statementData;
+    }
+
+    @Override
+    public StatementData getStatementData() {
+        return statementData;
     }
 
     @Override

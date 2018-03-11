@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public interface Executable extends Statement {
+public interface Executable {
 
     /**
      * Execute current executable

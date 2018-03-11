@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.language.structure.prototype.scope;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.design.architecture.wrapper.AbstractStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public class ClassReference implements Statement {
+public class ClassReference extends AbstractStatement {
 
     private final ClassPrototype classPrototype;
     private final ClassScope classScope;
