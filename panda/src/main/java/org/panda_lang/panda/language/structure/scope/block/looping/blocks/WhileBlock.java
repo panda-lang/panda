@@ -19,8 +19,8 @@ package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.design.architecture.wrapper.AbstractContainer;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.ControlFlowCaller;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
 import org.panda_lang.panda.framework.design.runtime.Expression;
 
 public class WhileBlock extends AbstractContainer implements Block, ControlFlowCaller {

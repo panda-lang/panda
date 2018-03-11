@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime;
+package org.panda_lang.panda.framework.design.runtime.flow;
+
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 public interface ControlFlowCaller {
 
