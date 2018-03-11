@@ -14,20 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
 
-public interface ScopeInstance extends StandaloneExecutable {
-
-    /**
-     * @return array of variables which index is equals to order of fields
-     */
-    Value[] getVariables();
-
-    /**
-     * @return the proper scope
-     */
-    Scope getScope();
+public interface Block extends Container, Executable {
 
 }

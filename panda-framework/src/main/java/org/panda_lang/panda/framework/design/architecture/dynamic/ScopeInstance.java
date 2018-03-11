@@ -14,32 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 
-import java.util.List;
-
-public interface Container extends Statement {
-
-    /**
-     * Reserve empty cell in the container
-     *
-     * @return an empty cell
-     */
-    StatementCell reserveCell();
+public interface ScopeInstance extends StandaloneExecutable {
 
     /**
-     * Adds executable to the current scope
-     *
-     * @param statement proper statement
-     * @return executable cell where executable was placed
+     * @return array of variables which index is equals to order of fields
      */
-    StatementCell addStatement(Statement statement);
+    Value[] getVariables();
 
     /**
-     * @return list of all cells in correct order
+     * @return the proper scope
      */
-    List<StatementCell> getStatementCells();
+    Scope getScope();
 
 }

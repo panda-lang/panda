@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.wrapper;
 
 import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 
 /**
  * StatementCell is a mutable container for {@link Statement}

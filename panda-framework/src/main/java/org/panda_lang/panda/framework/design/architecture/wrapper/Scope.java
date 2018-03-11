@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.util;
+package org.panda_lang.panda.framework.design.architecture.wrapper;
 
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractScope extends AbstractContainer implements Scope {
+/**
+ * Specific type of scope which contains own memory, independence, etc.
+ */
+public interface Scope extends Container {
 
-    protected final List<Variable> variables;
+    /**
+     * Creates new instance of the current wrapper for individual values for fields, etc.
+     *
+     * @return instance of the current wrapper
+     */
+    ScopeInstance createInstance(ExecutableBranch branch);
 
-    public AbstractScope() {
-        this.variables = new ArrayList<>();
-    }
-
-    @Override
-    public List<Variable> getVariables() {
-        return variables;
-    }
+    /**
+     * @return list of variables in the proper order
+     */
+    List<Variable> getVariables();
 
 }

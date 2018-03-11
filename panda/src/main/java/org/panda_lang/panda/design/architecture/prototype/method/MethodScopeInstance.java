@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.design.architecture.prototype.method;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Executable;
-import org.panda_lang.panda.framework.design.architecture.detach.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.Scope;
-import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 
 public class MethodScopeInstance implements ScopeInstance {

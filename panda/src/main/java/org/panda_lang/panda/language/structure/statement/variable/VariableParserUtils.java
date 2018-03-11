@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.detach.Scope;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 
 public class VariableParserUtils {
 

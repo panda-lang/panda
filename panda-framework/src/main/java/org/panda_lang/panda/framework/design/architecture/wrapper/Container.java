@@ -14,27 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.wrapper;
 
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.Statement;
 
 import java.util.List;
 
-/**
- * Specific type of scope which contains own memory, independence, etc.
- */
-public interface Scope extends Container {
+public interface Container extends Statement {
 
     /**
-     * Creates new instance of the current wrapper for individual values for fields, etc.
+     * Reserve empty cell in the container
      *
-     * @return instance of the current wrapper
+     * @return an empty cell
      */
-    ScopeInstance createInstance(ExecutableBranch branch);
+    StatementCell reserveCell();
 
     /**
-     * @return list of variables in the proper order
+     * Adds executable to the current scope
+     *
+     * @param statement proper statement
+     * @return executable cell where executable was placed
      */
-    List<Variable> getVariables();
+    StatementCell addStatement(Statement statement);
+
+    /**
+     * @return list of all cells in correct order
+     */
+    List<StatementCell> getStatementCells();
 
 }

@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.detach.Executable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.detach.Container;
-import org.panda_lang.panda.framework.design.architecture.detach.Scope;
-import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;

@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.design.runtime;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Executable;
-import org.panda_lang.panda.framework.design.architecture.detach.ScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.detach.StandaloneExecutable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.detach.ControlFlow;
 import org.panda_lang.panda.framework.design.architecture.detach.ControlFlowCaller;
 import org.panda_lang.panda.design.runtime.flow.PandaControlFlow;

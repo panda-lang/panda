@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.scope.block.conditional;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Block;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
