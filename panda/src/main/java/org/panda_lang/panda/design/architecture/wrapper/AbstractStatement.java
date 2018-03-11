@@ -19,7 +19,7 @@ package org.panda_lang.panda.design.architecture.wrapper;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.architecture.StatementData;
 
-public class AbstractStatement implements Statement {
+public abstract class AbstractStatement implements Statement {
 
     protected StatementData statementData;
 
