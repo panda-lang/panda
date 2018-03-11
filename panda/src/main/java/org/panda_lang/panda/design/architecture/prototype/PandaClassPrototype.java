@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.module.Modul
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.detach.StaticValue;
+import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;

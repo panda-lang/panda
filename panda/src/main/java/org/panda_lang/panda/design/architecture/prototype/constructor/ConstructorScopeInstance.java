@@ -18,7 +18,7 @@ package org.panda_lang.panda.design.architecture.prototype.constructor;
 
 import org.panda_lang.panda.framework.design.architecture.detach.Executable;
 import org.panda_lang.panda.framework.design.architecture.detach.ScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.Scope;
 import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;

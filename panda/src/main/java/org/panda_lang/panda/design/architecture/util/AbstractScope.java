@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.util;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Variable;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.detach.Scope;
 
 import java.util.ArrayList;

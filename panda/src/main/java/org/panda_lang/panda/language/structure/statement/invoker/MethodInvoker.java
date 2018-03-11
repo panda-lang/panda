@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.framework.design.architecture.detach.StandaloneExecutable;
-import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;

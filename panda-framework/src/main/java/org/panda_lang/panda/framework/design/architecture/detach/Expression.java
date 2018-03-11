@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.detach;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 
 import java.security.InvalidParameterException;
 

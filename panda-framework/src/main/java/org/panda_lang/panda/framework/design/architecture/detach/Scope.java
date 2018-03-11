@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture.detach;
 
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+
 import java.util.List;
 
 /**

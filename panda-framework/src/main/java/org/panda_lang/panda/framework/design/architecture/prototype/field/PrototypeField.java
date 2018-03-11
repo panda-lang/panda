@@ -17,9 +17,8 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.field;
 
 import org.panda_lang.panda.framework.design.architecture.detach.Expression;
-import org.panda_lang.panda.framework.design.architecture.detach.StaticValue;
-import org.panda_lang.panda.framework.design.architecture.detach.Variable;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
 public interface PrototypeField extends Variable {
 

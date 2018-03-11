@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype.method.implementation;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 
 public interface ExecutableProcess {
 

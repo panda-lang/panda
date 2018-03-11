@@ -17,8 +17,8 @@
 package org.panda_lang.panda.design.architecture.prototype.parameter;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.architecture.detach.Value;
-import org.panda_lang.panda.framework.design.architecture.detach.Variable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 import java.util.List;

@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.detach.Executable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.value.PandaVariable;
-import org.panda_lang.panda.framework.design.architecture.detach.Variable;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.detach.Container;
 import org.panda_lang.panda.framework.design.architecture.detach.Scope;
 import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;

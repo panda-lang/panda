@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.detach;
+package org.panda_lang.panda.framework.design.architecture.value;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 

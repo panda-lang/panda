@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.prototype.scope;
 
 import org.panda_lang.panda.framework.design.architecture.detach.ScopeInstance;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
