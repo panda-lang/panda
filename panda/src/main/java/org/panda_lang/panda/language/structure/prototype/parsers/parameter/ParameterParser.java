@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.prototype.parsers.parameter;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.design.architecture.prototype.parameter.implementation.PandaParameter;
+import org.panda_lang.panda.design.architecture.prototype.parameter.PandaParameter;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;

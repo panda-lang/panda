@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.constructor.implementation;
+package org.panda_lang.panda.design.architecture.prototype.constructor;
 
 import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;

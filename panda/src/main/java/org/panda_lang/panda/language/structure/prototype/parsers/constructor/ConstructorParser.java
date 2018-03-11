@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.prototype.parsers.constructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.design.architecture.prototype.constructor.implementation.PandaConstructor;
+import org.panda_lang.panda.design.architecture.prototype.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
