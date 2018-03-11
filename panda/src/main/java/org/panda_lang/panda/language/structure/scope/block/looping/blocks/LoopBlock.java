@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
-import org.panda_lang.panda.framework.design.runtime.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class LoopBlock extends AbstractContainer implements Block, ControlFlowCaller {
 

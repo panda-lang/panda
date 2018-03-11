@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldV
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.design.architecture.value.PandaVariable;
-import org.panda_lang.panda.framework.design.runtime.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class PandaPrototypeField extends PandaVariable implements PrototypeField {
 

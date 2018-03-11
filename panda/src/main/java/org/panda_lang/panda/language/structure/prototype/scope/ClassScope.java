@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
 import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;

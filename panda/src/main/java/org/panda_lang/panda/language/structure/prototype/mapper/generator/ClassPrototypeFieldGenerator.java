@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.framework.design.runtime.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 
 import java.lang.reflect.Field;
