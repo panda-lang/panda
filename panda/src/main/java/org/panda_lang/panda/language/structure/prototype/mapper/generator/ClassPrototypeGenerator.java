@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
-import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.detach.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;

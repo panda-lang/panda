@@ -14,12 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.field;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-public enum FieldVisibility {
-
-    PUBLIC,
-    LOCAL,
-    HIDDEN
+public interface StandaloneExecutable extends Executable {
 
 }
+

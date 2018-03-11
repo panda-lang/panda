@@ -14,23 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.value;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+public interface MethodCallback<T> {
 
-/**
- * Wrapper for objects
- */
-public interface Value {
-
-    default boolean isNull() {
-        return getObject() == null;
-    }
-
-    <T> T getValue();
-
-    Object getObject();
-
-    ClassPrototype getType();
+    void invoke(ExecutableBranch branch, T instance, Value... parameters);
 
 }

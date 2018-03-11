@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.design.runtime.flow;
 
-import org.panda_lang.panda.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.Executable;
+import org.panda_lang.panda.framework.design.architecture.detach.ControlFlow;
+import org.panda_lang.panda.framework.design.architecture.detach.ControlFlowCaller;
+import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 
 import java.util.Collection;
 

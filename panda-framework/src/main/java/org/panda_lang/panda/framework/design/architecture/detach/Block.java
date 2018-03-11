@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.interpreter.parser.linker;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Scope;
-
-public interface ScopeLinker {
-
-    void pushScope(Scope scope);
-
-    Scope popScope();
-
-    Scope getCurrentScope();
-
-    int getNextID();
+public interface Block extends Container, Executable {
 
 }

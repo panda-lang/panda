@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.util;
 
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
@@ -75,7 +76,7 @@ public class Components {
     public static final String SCOPE_LINKER = "scope-linker";
 
     /**
-     * Used by {@link org.panda_lang.panda.design.architecture.prototype.ClassPrototype}
+     * Used by {@link ClassPrototype}
      */
     public static final String CLASS_PROTOTYPE = "class-prototype";
 

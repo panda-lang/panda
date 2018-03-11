@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.design.architecture.util;
 
-import org.panda_lang.panda.design.architecture.wrapper.Container;
-import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.detach.Container;
+import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 
 import java.util.ArrayList;

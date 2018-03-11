@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.language.structure.statement.variable.assigners;
 
-import org.panda_lang.panda.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.Executable;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.design.architecture.prototype.field.StaticValue;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.detach.StaticValue;
 
 public class FieldAssigner implements Executable {
 

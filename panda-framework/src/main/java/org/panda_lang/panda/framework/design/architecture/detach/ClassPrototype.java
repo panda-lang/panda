@@ -14,20 +14,35 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.value;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import java.util.Collection;
+import java.util.List;
 
-public interface Variable {
+public interface ClassPrototype {
 
-    boolean isNullable();
+    boolean isClassOf(String className);
 
-    boolean isMutable();
+    boolean isAssociatedWith(ClassPrototype prototype);
 
-    int getNestingLevel();
+    PrototypeField getField(String fieldName);
 
-    ClassPrototype getType();
+    PrototypeMethods getMethods();
+
+    List<PrototypeField> getFields();
+
+    Collection<PrototypeConstructor> getConstructors();
+
+    Collection<ClassPrototype> getExtended();
+
+    Class<?> getAssociated();
+
+    Collection<String> getAliases();
+
+    Module getModule();
 
     String getName();
+
+    String getClassName();
 
 }

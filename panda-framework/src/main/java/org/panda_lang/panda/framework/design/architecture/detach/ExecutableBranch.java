@@ -14,14 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.runtime;
-
-import org.panda_lang.panda.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.design.architecture.dynamic.ScopeInstance;
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
-import org.panda_lang.panda.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.design.runtime.flow.ControlFlowCaller;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
 import java.util.Collection;
 

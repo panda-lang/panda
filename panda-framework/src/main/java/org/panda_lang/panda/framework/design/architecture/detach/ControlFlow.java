@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.runtime.flow;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
 public interface ControlFlow {
 

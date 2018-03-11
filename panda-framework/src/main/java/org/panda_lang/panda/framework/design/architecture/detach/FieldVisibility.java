@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.parameter;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.value.Variable;
+public enum FieldVisibility {
 
-public interface Parameter {
-
-    Variable toVariable(int nestingLevel);
-
-    ClassPrototype getParameterType();
-
-    String getParameterName();
+    PUBLIC,
+    LOCAL,
+    HIDDEN
 
 }

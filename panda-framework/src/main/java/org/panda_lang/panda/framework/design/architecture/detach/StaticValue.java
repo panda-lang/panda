@@ -14,14 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.field;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class StaticValue {
 

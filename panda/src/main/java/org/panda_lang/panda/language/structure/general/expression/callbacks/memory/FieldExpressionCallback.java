@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.memory;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
-import org.panda_lang.panda.language.structure.general.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.ExpressionCallback;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
 
 public class FieldExpressionCallback implements ExpressionCallback {
 

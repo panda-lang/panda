@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.interpreter.parser.linker;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.framework.design.architecture.detach.Scope;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 
-public interface ScopeLinker {
+public interface Variable {
 
-    void pushScope(Scope scope);
+    boolean isNullable();
 
-    Scope popScope();
+    boolean isMutable();
 
-    Scope getCurrentScope();
+    int getNestingLevel();
 
-    int getNextID();
+    ClassPrototype getType();
+
+    String getName();
 
 }

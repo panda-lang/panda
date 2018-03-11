@@ -18,7 +18,7 @@ package org.panda_lang.panda.design.interpreter.parser.defaults;
 
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
-import org.panda_lang.panda.design.architecture.wrapper.Container;
+import org.panda_lang.panda.framework.design.architecture.detach.Container;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;

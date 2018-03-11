@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.design.architecture.prototype.module;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.Module;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaModule implements Module{
+public class PandaModule implements Module {
 
     private final String name;
     private final Collection<ClassPrototype> prototypes;

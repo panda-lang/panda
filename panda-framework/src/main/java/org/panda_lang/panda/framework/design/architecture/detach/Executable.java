@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.method;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 
-public interface MethodCallback<T> {
+public interface Executable extends Statement {
 
-    void invoke(ExecutableBranch branch, T instance, Value... parameters);
+    /**
+     * Execute current executable
+     *
+     * @param branch the parent branch of current executable
+     */
+    void execute(ExecutableBranch branch);
 
 }

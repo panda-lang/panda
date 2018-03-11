@@ -14,24 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.module;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+public interface PrototypeField extends Variable {
 
-import java.util.Collection;
+    void setDefaultValue(Expression defaultValue);
 
-public interface Module {
+    void setStaticValue(StaticValue staticValue);
 
-    ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName);
+    boolean isStatic();
 
-    ClassPrototype add(ClassPrototype prototype);
+    boolean isNative();
 
-    ClassPrototype get(String className);
+    boolean hasDefaultValue();
 
-    int getPrototypeCount();
+    StaticValue getStaticValue();
 
-    Collection<ClassPrototype> getPrototypes();
+    Expression getDefaultValue();
 
-    String getName();
+    FieldVisibility getVisibility();
+
+    int getFieldIndex();
 
 }

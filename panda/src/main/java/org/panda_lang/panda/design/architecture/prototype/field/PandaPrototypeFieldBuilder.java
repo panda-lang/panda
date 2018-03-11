@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.field.implementation;
+package org.panda_lang.panda.design.architecture.prototype.field;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.FieldVisibility;
 
 public class PandaPrototypeFieldBuilder {
 

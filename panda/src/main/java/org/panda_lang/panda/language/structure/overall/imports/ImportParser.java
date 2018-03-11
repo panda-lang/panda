@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.detach.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
 import org.panda_lang.panda.language.syntax.PandaSyntax;

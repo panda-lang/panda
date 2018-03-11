@@ -14,18 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+public interface ControlFlowCaller {
 
-public interface Executable extends Statement {
-
-    /**
-     * Execute current executable
-     *
-     * @param branch the parent branch of current executable
-     */
-    void execute(ExecutableBranch branch);
+    void call(ExecutableBranch branch, ControlFlow flow);
 
 }

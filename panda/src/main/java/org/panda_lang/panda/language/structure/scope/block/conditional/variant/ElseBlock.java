@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.structure.scope.block.conditional.variant;
 
-import org.panda_lang.panda.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.design.architecture.detach.Block;
 import org.panda_lang.panda.design.architecture.util.AbstractContainer;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 
 public class ElseBlock extends AbstractContainer implements Block {
 

@@ -25,14 +25,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
 import org.panda_lang.panda.language.structure.statement.invoker.MethodInvoker;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {

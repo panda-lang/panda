@@ -21,7 +21,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.language.PandaFramework;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.Collection;

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-public enum ExpressionType {
+public interface PrototypeMethods {
 
-    KNOWN,
-    UNKNOWN,
-    BOTH
+    void registerMethod(PrototypeMethod method);
+
+    PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes);
 
 }

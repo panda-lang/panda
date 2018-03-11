@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.general.number;
 
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
-import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;

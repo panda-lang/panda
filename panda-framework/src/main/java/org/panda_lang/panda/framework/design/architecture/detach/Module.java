@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.runtime;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Value;
+import java.util.Collection;
 
-public interface ExecutableProcess {
+public interface Module {
 
-    /**
-     * Execute the process
-     *
-     * @return a result of the execution process
-     */
-    Value execute();
+    ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName);
+
+    ClassPrototype add(ClassPrototype prototype);
+
+    ClassPrototype get(String className);
+
+    int getPrototypeCount();
+
+    Collection<ClassPrototype> getPrototypes();
+
+    String getName();
 
 }

@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.runtime.flow;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+public interface Parameter {
 
-public interface ControlFlowCaller {
+    Variable toVariable(int nestingLevel);
 
-    void call(ExecutableBranch branch, ControlFlow flow);
+    ClassPrototype getParameterType();
+
+    String getParameterName();
 
 }

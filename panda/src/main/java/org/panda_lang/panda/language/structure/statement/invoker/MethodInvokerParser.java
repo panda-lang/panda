@@ -17,11 +17,11 @@
 package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.design.architecture.wrapper.Container;
-import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.detach.Container;
+import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
@@ -40,7 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;

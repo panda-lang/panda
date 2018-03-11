@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.language.structure.general.expression;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 
 public class ExpressionUtils {
 

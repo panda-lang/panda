@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype.field;
 
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 
 public class FieldStatement implements Statement {

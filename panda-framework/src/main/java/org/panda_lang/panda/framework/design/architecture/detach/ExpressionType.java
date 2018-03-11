@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.architecture.wrapper.Scope;
+public enum ExpressionType {
 
-public interface ScopeInstance extends StandaloneExecutable {
-
-    /**
-     * @return array of variables which index is equals to order of fields
-     */
-    Value[] getVariables();
-
-    /**
-     * @return the proper scope
-     */
-    Scope getScope();
+    KNOWN,
+    UNKNOWN,
+    BOTH
 
 }

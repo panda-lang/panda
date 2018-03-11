@@ -17,14 +17,15 @@
 package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
-import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethods;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethods;
 import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethods;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
-import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
-import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.design.architecture.prototype.field.StaticValue;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.detach.StaticValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;

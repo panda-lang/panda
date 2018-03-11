@@ -14,11 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression;
-
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
 import java.security.InvalidParameterException;
 

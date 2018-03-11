@@ -17,13 +17,10 @@
 package org.panda_lang.panda.language.structure.general.expression;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.*;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.value.PandaValue;
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.architecture.value.Variable;
-import org.panda_lang.panda.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.detach.Scope;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;

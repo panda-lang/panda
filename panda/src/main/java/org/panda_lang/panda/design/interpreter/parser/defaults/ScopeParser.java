@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
-import org.panda_lang.panda.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.detach.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;

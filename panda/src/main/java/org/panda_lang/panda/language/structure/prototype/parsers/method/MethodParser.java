@@ -17,14 +17,14 @@
 package org.panda_lang.panda.language.structure.prototype.parsers.method;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.method.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.MethodCallback;
 import org.panda_lang.panda.design.architecture.prototype.method.MethodScope;
-import org.panda_lang.panda.design.architecture.prototype.method.MethodVisibility;
-import org.panda_lang.panda.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.detach.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeMethod;
 import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethod;
 import org.panda_lang.panda.design.architecture.prototype.method.implementation.PandaMethodCallback;
-import org.panda_lang.panda.design.architecture.prototype.parameter.Parameter;
+import org.panda_lang.panda.framework.design.architecture.detach.Parameter;
 import org.panda_lang.panda.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;

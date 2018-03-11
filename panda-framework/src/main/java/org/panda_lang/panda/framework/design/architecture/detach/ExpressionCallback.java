@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.method;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+public interface ExpressionCallback {
 
-public interface PrototypeMethods {
-
-    void registerMethod(PrototypeMethod method);
-
-    PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes);
+    Value call(Expression expression, ExecutableBranch branch);
 
 }

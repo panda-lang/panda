@@ -14,12 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.method;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-public enum MethodVisibility {
+import java.util.List;
 
-    PUBLIC,
-    LOCAL,
-    HIDDEN
+/**
+ * Specific type of scope which contains own memory, independence, etc.
+ */
+public interface Scope extends Container {
+
+    /**
+     * Creates new instance of the current wrapper for individual values for fields, etc.
+     *
+     * @return instance of the current wrapper
+     */
+    ScopeInstance createInstance(ExecutableBranch branch);
+
+    /**
+     * @return list of variables in the proper order
+     */
+    List<Variable> getVariables();
 
 }

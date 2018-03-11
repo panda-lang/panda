@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.wrapper.Container;
+public interface PrototypeConstructor {
 
-public interface Block extends Container, Executable {
+    Object createInstance(ExecutableBranch bridge, Value... values);
+
+    ClassPrototype[] getParameterTypes();
 
 }

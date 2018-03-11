@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-public interface StandaloneExecutable extends Executable {
+public enum MethodVisibility {
+
+    PUBLIC,
+    LOCAL,
+    HIDDEN
 
 }
-

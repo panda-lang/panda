@@ -14,13 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.general.expression;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+public interface PrototypeMethod extends MethodCallback<Object> {
 
-public interface ExpressionCallback {
+    boolean isCatchingAllParameters();
 
-    Value call(Expression expression, ExecutableBranch branch);
+    default boolean isVoid() {
+        return getReturnType() == null || getReturnType().getClassName().equals("void");
+    }
+
+    boolean isStatic();
+
+    MethodVisibility getVisibility();
+
+    ClassPrototype getReturnType();
+
+    ClassPrototype[] getParameterTypes();
+
+    String getMethodName();
+
+    ClassPrototype getClassPrototype();
 
 }

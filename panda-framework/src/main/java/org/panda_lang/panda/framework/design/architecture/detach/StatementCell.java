@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.wrapper;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.dynamic.Block;
-import org.panda_lang.panda.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.Statement;
 
 /**

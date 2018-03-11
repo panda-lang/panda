@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.scope.block.conditional;
 
-import org.panda_lang.panda.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.design.architecture.detach.Block;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.distributor.Sourc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.scope.block.conditional.variant.ElseBlock;
 import org.panda_lang.panda.language.syntax.PandaSyntax;

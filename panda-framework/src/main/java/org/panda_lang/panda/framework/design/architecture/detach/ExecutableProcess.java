@@ -14,28 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.method;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
 
-public interface PrototypeMethod extends MethodCallback<Object> {
+public interface ExecutableProcess {
 
-    boolean isCatchingAllParameters();
-
-    default boolean isVoid() {
-        return getReturnType() == null || getReturnType().getClassName().equals("void");
-    }
-
-    boolean isStatic();
-
-    MethodVisibility getVisibility();
-
-    ClassPrototype getReturnType();
-
-    ClassPrototype[] getParameterTypes();
-
-    String getMethodName();
-
-    ClassPrototype getClassPrototype();
+    /**
+     * Execute the process
+     *
+     * @return a result of the execution process
+     */
+    Value execute();
 
 }

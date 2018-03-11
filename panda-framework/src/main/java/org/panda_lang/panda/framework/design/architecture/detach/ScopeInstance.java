@@ -14,29 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.field;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Variable;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
+public interface ScopeInstance extends StandaloneExecutable {
 
-public interface PrototypeField extends Variable {
+    /**
+     * @return array of variables which index is equals to order of fields
+     */
+    Value[] getVariables();
 
-    void setDefaultValue(Expression defaultValue);
-
-    void setStaticValue(StaticValue staticValue);
-
-    boolean isStatic();
-
-    boolean isNative();
-
-    boolean hasDefaultValue();
-
-    StaticValue getStaticValue();
-
-    Expression getDefaultValue();
-
-    FieldVisibility getVisibility();
-
-    int getFieldIndex();
+    /**
+     * @return the proper scope
+     */
+    Scope getScope();
 
 }

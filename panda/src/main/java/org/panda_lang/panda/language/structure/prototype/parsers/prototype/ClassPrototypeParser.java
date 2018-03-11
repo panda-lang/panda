@@ -18,12 +18,12 @@ package org.panda_lang.panda.language.structure.prototype.parsers.prototype;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorUtils;
-import org.panda_lang.panda.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.detach.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.detach.Value;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.detach.ExecutableBranch;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -48,7 +48,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.detach.Module;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassReference;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScope;
 import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;

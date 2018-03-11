@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.structure.scope.branching;
 
-import org.panda_lang.panda.design.architecture.wrapper.Container;
-import org.panda_lang.panda.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.detach.Container;
+import org.panda_lang.panda.framework.design.architecture.detach.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.structure.general.expression.Expression;
+import org.panda_lang.panda.framework.design.architecture.detach.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Return;
 import org.panda_lang.panda.language.syntax.PandaSyntax;

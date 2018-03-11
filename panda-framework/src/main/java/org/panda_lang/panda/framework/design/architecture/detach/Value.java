@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.prototype.constructor;
+package org.panda_lang.panda.framework.design.architecture.detach;
 
-import org.panda_lang.panda.design.architecture.value.Value;
-import org.panda_lang.panda.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.detach.ClassPrototype;
 
-public interface PrototypeConstructor {
+/**
+ * Wrapper for objects
+ */
+public interface Value {
 
-    Object createInstance(ExecutableBranch bridge, Value... values);
+    default boolean isNull() {
+        return getObject() == null;
+    }
 
-    ClassPrototype[] getParameterTypes();
+    <T> T getValue();
+
+    Object getObject();
+
+    ClassPrototype getType();
 
 }
