@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
 
-public class ForBlock extends PandaBlock {
+public class ForEachBlock extends PandaBlock {
 
     @Override
     public void execute(ExecutableBranch branch) {

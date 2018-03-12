@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
+package org.panda_lang.panda.language.structure.scope.block.conditional.blocks;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.panda.design.architecture.wrapper.AbstractContainer;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
 
-public class ForBlock extends PandaBlock {
+public class ElseBlock extends AbstractContainer implements Block {
 
     @Override
     public void execute(ExecutableBranch branch) {
-
+        branch.call(super.getStatementCells());
     }
 
 }
