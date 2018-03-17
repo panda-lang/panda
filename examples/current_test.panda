@@ -1,6 +1,7 @@
 module example.test;
 
 import java.lang;
+import java.util;
 import panda.lang;
 import org.panda_lang.panda;
 import org.panda_lang.panda.bootstrap;
@@ -64,27 +65,34 @@ main {
     Console.print("Hello Panda", flag, varFoo, s, test, i);
     System.out.println(math);
 
-    if (false) {
+    if (!flag) {
         Console.print("Nope");
     }
     else {
         Console.print("Yay");
     }
 
+    List list = new ArrayList();
+    list.add("val1");
+    list.add("val2");
+
+    StringBuilder builder = new StringBuilder();
+    builder.append(list);
+
     loop (i) {
-        Console.print("Loop x1");
+        builder.append(" Loop x1 ");
 
         loop (i) {
-            Console.print("Loop x2");
+            builder.append(" Loop x2 ");
             break;
         }
 
-        Console.print("Loop x3");
+        builder.append(" Loop x3 ");
         continue;
     }
 
     while (flag) {
-        Console.print("While x1");
+        Console.print(builder.toString());
         break;
     }
 

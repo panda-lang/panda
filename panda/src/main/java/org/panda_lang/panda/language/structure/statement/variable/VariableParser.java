@@ -17,16 +17,7 @@
 package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.runtime.expression.PandaExpression;
-import org.panda_lang.panda.framework.design.architecture.Statement;
-import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.value.PandaVariable;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
-import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
@@ -34,6 +25,14 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.design.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
+import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -45,11 +44,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
@@ -217,7 +216,7 @@ public class VariableParser implements UnifiedParser {
             Statement assigner;
 
             if (variable != null) {
-                if (!variable.getType().equals(expressionValue.getReturnType())) {
+                if (!expressionValue.isNull() && !expressionValue.getReturnType().isAssociatedWith(variable.getType())) {
                     throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right)
                             + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")");
                 }

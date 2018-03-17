@@ -96,8 +96,8 @@ public class PandaClassPrototype implements ClassPrototype {
 
     @Override
     public boolean isAssociatedWith(ClassPrototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
-        return PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
-                || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended());
+        return prototype != null && (PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
+                || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended()));
     }
 
     @Override

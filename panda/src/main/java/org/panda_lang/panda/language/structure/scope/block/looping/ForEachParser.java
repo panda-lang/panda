@@ -14,22 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime.expression;
+package org.panda_lang.panda.language.structure.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-
-public interface Expression {
-
-    default boolean isNull() {
-        return getReturnType() == null;
-    }
-
-    Value getExpressionValue(ExecutableBranch branch);
-
-    ClassPrototype getReturnType();
-
-    ExpressionType getType();
+public class ForEachParser {
 
 }

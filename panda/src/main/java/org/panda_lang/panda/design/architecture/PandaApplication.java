@@ -43,12 +43,14 @@ public class PandaApplication implements Application {
 
             if (mains.size() == 1) {
                 Main main = mains.get(0);
-
-                PandaFramework.getLogger().info("[PandaApp] Launching application...");
                 ExecutableProcess process = new PandaExecutableProcess(this, main, this.arguments);
-                process.execute();
+                PandaFramework.getLogger().info("[PandaApp] Launching application...");
 
-                PandaFramework.getLogger().info("[PandaApp] Done");
+                long initTime = System.nanoTime();
+                process.execute();
+                long uptime = System.nanoTime() - initTime;
+
+                PandaFramework.getLogger().info("[PandaApp] Done (" + uptime + "ns)");
                 return;
             }
             else if (mains.size() > 1) {

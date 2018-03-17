@@ -23,6 +23,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
@@ -34,7 +35,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
@@ -83,9 +83,8 @@ public class ImportParser implements UnifiedParser {
             String importedGroupName = groupNameBuilder.toString();
 
             ModuleRegistry registry = ModuleRegistry.getDefault();
-            Module module = registry.get(importedGroupName);
 
-            if (module == null) {
+            if (Package.getPackage(importedGroupName) != null) {
                 Configuration configuration = ConfigurationBuilder
                         .build(importedGroupName, new SubTypesScanner(false))
                         .addUrls(BOOT_CLASS_PATH);
@@ -96,12 +95,12 @@ public class ImportParser implements UnifiedParser {
                 ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
                 mappingManager.loadClasses(classes);
                 mappingManager.generate();
+            }
 
-                module = registry.get(importedGroupName);
+            Module module = registry.get(importedGroupName);
 
-                if (module == null) {
-                    throw new PandaParserException("Unknown module " + importedGroupName);
-                }
+            if (module == null) {
+                throw new PandaParserException("Unknown module " + importedGroupName);
             }
 
             Import anImport = new Import(module);

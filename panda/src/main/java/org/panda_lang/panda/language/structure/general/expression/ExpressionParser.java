@@ -43,6 +43,7 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.inst
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.invoker.MethodInvokerExpressionUtils;
+import org.panda_lang.panda.language.structure.general.expression.callbacks.logic.NotLogicalExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathExpressionCallback;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathExpressionUtils;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.math.MathParser;
@@ -52,6 +53,7 @@ import org.panda_lang.panda.language.structure.general.number.NumberExpressionPa
 import org.panda_lang.panda.language.structure.general.number.NumberUtils;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.structure.statement.variable.VariableParserUtils;
+import org.panda_lang.panda.language.syntax.tokens.Operators;
 
 import java.util.List;
 
@@ -118,6 +120,11 @@ public class ExpressionParser implements ParticularParser<Expression> {
                     return new PandaExpression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
                 }
             }
+        }
+
+        if (TokenUtils.equals(expressionSource.getFirst(), Operators.NOT)) {
+            Expression expression = parse(info, expressionSource.subSource(1, expressionSource.size()));
+            return new PandaExpression(expression.getReturnType(), new NotLogicalExpressionCallback(expression));
         }
 
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(expressionSource);

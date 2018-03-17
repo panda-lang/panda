@@ -63,6 +63,10 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
         ImportRegistry importRegistry = script.getImportRegistry();
         this.returnType = importRegistry.forClass(className);
 
+        if (returnType == null) {
+            throw new PandaParserException("Unknown return type '" + className + "'");
+        }
+
         ArgumentParser argumentParser = new ArgumentParser();
         this.arguments = argumentParser.parse(info, gaps.get(1));
         this.constructor = ConstructorUtils.matchConstructor(returnType, arguments);
