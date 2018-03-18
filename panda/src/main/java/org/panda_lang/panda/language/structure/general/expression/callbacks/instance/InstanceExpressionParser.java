@@ -35,6 +35,7 @@ import org.panda_lang.panda.language.structure.general.expression.ExpressionCall
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class InstanceExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
@@ -73,7 +74,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
 
         if (constructor == null) {
             throw new PandaParserException("Cannot find " + className +
-                    " constructor for the specified arguments " + this.arguments.toString());
+                    " constructor for the specified arguments " + Arrays.toString(this.arguments));
         }
     }
 
