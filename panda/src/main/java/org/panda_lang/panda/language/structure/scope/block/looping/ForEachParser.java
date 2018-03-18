@@ -16,6 +16,47 @@
 
 package org.panda_lang.panda.language.structure.scope.block.looping;
 
-public class ForEachParser {
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
+import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.structure.scope.block.looping.blocks.ForEachBlock;
+import org.panda_lang.panda.language.syntax.PandaSyntax;
+
+@ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = ForEachParser.class, handlerClass = ForEachHandler.class)
+public class ForEachParser implements UnifiedParser {
+
+    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "foreach ( +* : +* )")
+            .build();
+
+    @Override
+    public void parse(ParserInfo info) {
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, info, "foreach-var", "foreach-iterable");
+        TokenizedSource varSource = redactor.get("foreach-var");
+        TokenizedSource iterableSource = redactor.get("foreach-iterable");
+
+        // TODO: Create var
+
+        ExpressionParser expressionParser = new ExpressionParser();
+        Expression expression = expressionParser.parse(info, iterableSource);
+        ClassPrototype iterable = PandaClassPrototype.forClass(Iterable.class);
+
+        if (!expression.getReturnType().isAssociatedWith(iterable)) {
+            throw new PandaParserException("ForEach requires Iterable value");
+        }
+
+        info.setComponent("block", new ForEachBlock(expression));
+    }
 
 }

@@ -29,7 +29,7 @@ public class BootstrapTest {
     public void testBootstrap() {
         Panda panda = new PandaBootstrap()
                 .syntax(PandaSyntax.getInstance())
-                .mapModels(ClassPrototypeModel.of("panda.lang"))
+                .mapModels(ClassPrototypeModel.of("panda-lang"))
                 .get();
 
         PandaApplication application = new PandaApplicationBootstrap(panda)

@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
+package org.panda_lang.panda.language.structure.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.language.syntax.tokens.Keywords;
 
-public class ForEachBlock extends PandaBlock {
-
-    private final Expression expression;
-
-    public ForEachBlock(Expression expression) {
-        this.expression = expression;
-    }
+public class ForEachHandler implements ParserHandler {
 
     @Override
-    public void execute(ExecutableBranch branch) {
-
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), Keywords.FOREACH);
     }
 
 }

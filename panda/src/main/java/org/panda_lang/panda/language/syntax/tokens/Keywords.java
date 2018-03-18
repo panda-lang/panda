@@ -113,7 +113,9 @@ public class Keywords {
 
     public static final Keyword ATTACH = new Keyword("attach");
 
-    private static final Keyword[] VALUES = new Keyword[45];
+    public static final Keyword FOREACH = new Keyword("foreach");
+
+    private static final Keyword[] VALUES = new Keyword[46];
 
     static {
         VALUES[0] = ABSTRACT;
@@ -161,6 +163,7 @@ public class Keywords {
         VALUES[42] = MUTABLE;
         VALUES[43] = NULLABLE;
         VALUES[44] = ATTACH;
+        VALUES[45] = FOREACH;
     }
 
     public static Keyword[] values() {
