@@ -52,7 +52,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 @ParserRegistration(target = DefaultPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
@@ -100,10 +99,19 @@ public class ImportParser implements UnifiedParser {
                             .addUrls(BOOT_CLASS_PATH);
 
                     Reflections reflections = new Reflections(configuration);
-                    Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
+                    Collection<Class<?>> classes = reflections.getSubTypesOf(Object.class);
+                    Collection<Class<?>> selectedClasses = new ArrayList<>(classes.size());
+
+                    for (Class<?> clazz : classes) {
+                        if (clazz.getEnclosingClass() != null) {
+                            continue;
+                        }
+
+                        selectedClasses.add(clazz);
+                    }
 
                     ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
-                    mappingManager.loadClasses(classes);
+                    mappingManager.loadClasses(selectedClasses);
                     mappingManager.generate();
                 }
                 else {
