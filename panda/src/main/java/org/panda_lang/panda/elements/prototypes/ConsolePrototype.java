@@ -26,11 +26,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Metho
 import java.security.InvalidParameterException;
 
 @ClassDeclaration("Console")
-@ModuleDeclaration("panda.lang")
+@ModuleDeclaration("panda-lang")
 public class ConsolePrototype implements ClassPrototypeModel {
 
     @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = true, catchAllParameters = true)
-    public static void print(ExecutableBranch branch, System instance, @TypeDeclaration("panda.lang:Array<Object>") Value[] parameters) {
+    public static void print(ExecutableBranch branch, System instance, @TypeDeclaration("panda-lang:Array<Object>") Value[] parameters) {
         StringBuilder node = new StringBuilder();
 
         if (parameters.length == 0) {

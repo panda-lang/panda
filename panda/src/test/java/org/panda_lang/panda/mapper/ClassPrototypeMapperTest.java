@@ -36,7 +36,6 @@ public class ClassPrototypeMapperTest {
 
         ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
         mappingManager.loadClass(TestClass.class);
-
         Collection<ClassPrototype> prototypes = mappingManager.generate();
 
         for (ClassPrototype prototype : prototypes) {

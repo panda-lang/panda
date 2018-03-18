@@ -38,15 +38,15 @@ public class ClassPrototypeGenerator {
     }
 
     public ClassPrototype generate(Class<?> type) {
-        Module module = ModuleRegistry.getDefault().getOrCreate(type.getPackage() == null ? "" : type.getPackage().getName());
-        ClassPrototype prototype = module.get(type.getSimpleName());
+        Module rootModule = ModuleRegistry.getDefault().getOrCreate(type.getPackage() == null ? "" : type.getPackage().getName());
+        ClassPrototype prototype = rootModule.get(type.getSimpleName());
 
         if (prototype != null) {
             return prototype;
         }
 
-        prototype = new PandaClassPrototype(module, type.getSimpleName(), type);
-        module.add(prototype);
+        prototype = new PandaClassPrototype(rootModule, type.getSimpleName(), type);
+        rootModule.add(prototype);
 
         for (Field field : type.getFields()) {
             ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(type, prototype, field);
@@ -67,6 +67,10 @@ public class ClassPrototypeGenerator {
         }
 
         return prototype;
+    }
+
+    public ClassPrototypeMappingGenerator getMappingGenerator() {
+        return mappingGenerator;
     }
 
 }

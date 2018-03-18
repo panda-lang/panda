@@ -1,7 +1,7 @@
 module example.test;
 
-import panda.lang;
-import java.lang;
+import panda-lang;
+attach java.lang;
 
 main {
     App app = new App();

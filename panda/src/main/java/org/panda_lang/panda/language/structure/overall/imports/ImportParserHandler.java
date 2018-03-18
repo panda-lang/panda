@@ -17,15 +17,17 @@
 package org.panda_lang.panda.language.structure.overall.imports;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.language.syntax.tokens.Keywords;
 
 public class ImportParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), TokenType.KEYWORD, "import");
+        TokenRepresentation first = reader.read();
+        return TokenUtils.equals(first, Keywords.IMPORT) || TokenUtils.equals(first, Keywords.ATTACH);
     }
 
 }
