@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.structure.scope.branching;
 
+import org.panda_lang.panda.design.architecture.PandaStatementData;
+import org.panda_lang.panda.framework.design.architecture.StatementData;
 import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
@@ -26,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Break;
 
@@ -45,11 +48,14 @@ public class BreakParser implements UnifiedParser {
             SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
             Container container = delegatedInfo.getComponent("container");
 
-            stream.read();
+            TokenRepresentation breakToken = stream.read();
             stream.read();
 
             Break breakStatement = new Break();
             container.addStatement(breakStatement);
+
+            StatementData statementData = new PandaStatementData(breakToken.getLine());
+            breakStatement.setStatementData(statementData);
         }
 
     }

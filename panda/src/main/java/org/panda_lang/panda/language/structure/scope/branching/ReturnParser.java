@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.structure.scope.branching;
 
+import org.panda_lang.panda.design.architecture.PandaStatementData;
+import org.panda_lang.panda.framework.design.architecture.StatementData;
 import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
 import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
@@ -29,6 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
@@ -59,10 +62,14 @@ public class ReturnParser implements UnifiedParser {
             Container container = delegatedInfo.getComponent("container");
 
             if (stream.getUnreadLength() == 2) {
+                TokenRepresentation returnToken = stream.read();
+                stream.read();
+
                 Return returnStatement = new Return(null);
                 container.addStatement(returnStatement);
-                stream.read();
-                stream.read();
+
+                StatementData statementData = new PandaStatementData(returnToken.getLine());
+                returnStatement.setStatementData(statementData);
                 return;
             }
 
@@ -87,11 +94,13 @@ public class ReturnParser implements UnifiedParser {
 
             TokenizedSource expressionSource = redactor.get("return-expression");
             ExpressionParser expressionParser = new ExpressionParser();
-
             Expression expression = expressionParser.parse(delegatedInfo, expressionSource);
-            Return returnStatement = new Return(expression);
 
+            Return returnStatement = new Return(expression);
             cell.setStatement(returnStatement);
+
+            StatementData statementData = new PandaStatementData(expressionSource.getFirst().getLine());
+            returnStatement.setStatementData(statementData);
         }
 
     }

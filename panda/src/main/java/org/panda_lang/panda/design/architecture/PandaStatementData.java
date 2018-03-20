@@ -14,17 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser;
+package org.panda_lang.panda.design.architecture;
 
-public interface UnifiedParser extends Parser {
+import org.panda_lang.panda.framework.design.architecture.StatementData;
 
-    /*
-    void reboot(ParserBoot boot);
-    */
-    
-    /**
-     * @param info set of information about source and interpretation process
-     */
-    void parse(ParserInfo info);
+public class PandaStatementData implements StatementData {
+
+    private final int sourceLine;
+
+    public PandaStatementData(int sourceLine) {
+        this.sourceLine = sourceLine;
+    }
+
+    @Override
+    public int getSourceLine() {
+        return sourceLine;
+    }
 
 }
