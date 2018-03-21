@@ -27,8 +27,8 @@ class Test {
         Console.print(message);
         this.testField = this;
         testField = this;
-        // this.echo(i.intValue());
-        // echo(this.i.intValue());
+        this.echo(String.valueOf(i));
+        //echo(this.i);
     }
 
     method echo(Object message) {

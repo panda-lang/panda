@@ -52,6 +52,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.r
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.language.structure.statement.invoker.MethodInvokerParser;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.FieldAssigner;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.VariableAssigner;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
@@ -77,10 +78,16 @@ public class VariableParser implements UnifiedParser {
 
         Extractor extractor = VariableParser.ASSIGNATION_PATTERN.extractor();
         SourceStream stream = info.getComponent(Components.SOURCE_STREAM);
+
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
 
         if (hollows == null || hollows.size() != 2) {
+            // TODO
+            Extractor invokerExtractor = MethodInvokerParser.PATTERN.extractor();
+            SourceStream invokerStream = new PandaSourceStream(stream.toTokenizedSource());
+            List<TokenizedSource> invokerHollows = extractor.extract(copyOfStream.toTokenReader());
+
             callback = new VariableDeclarationCallbackCasual(false);
         }
         else {

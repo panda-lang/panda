@@ -80,7 +80,7 @@ public class ConstructorParser implements UnifiedParser {
             delegatedInfo.setComponent("constructor", constructor);
             prototype.getConstructors().add(constructor);
 
-            nextLayer.delegate(new ConstructorBodyCallbackCasual(), delegatedInfo);
+            nextLayer.delegateAfter(new ConstructorBodyCallbackCasual(), delegatedInfo);
         }
 
     }
