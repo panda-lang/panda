@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.design.architecture.wrapper.AbstractContainer;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;

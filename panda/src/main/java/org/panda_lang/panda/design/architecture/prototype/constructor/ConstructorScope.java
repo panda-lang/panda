@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype.constructor;
 
-import org.panda_lang.panda.design.architecture.wrapper.AbstractScope;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 

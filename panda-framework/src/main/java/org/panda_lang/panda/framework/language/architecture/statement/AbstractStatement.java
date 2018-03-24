@@ -14,36 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.wrapper;
+package org.panda_lang.panda.framework.language.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 
-public class PandaStatementCell implements StatementCell {
+public abstract class AbstractStatement implements Statement {
 
-    private Statement statement;
-    private boolean manipulated;
+    protected StatementData statementData;
 
-    public PandaStatementCell(Statement statement) {
-        this.statement = statement;
+    @Override
+    public void setStatementData(StatementData statementData) {
+        this.statementData = statementData;
     }
 
     @Override
-    public void setStatement(Statement statement) {
-        if (this.statement != null) {
-            this.manipulated = true;
-        }
-
-        this.statement = statement;
-    }
-
-    public boolean isManipulated() {
-        return manipulated;
-    }
-
-    @Override
-    public Statement getStatement() {
-        return statement;
+    public StatementData getStatementData() {
+        return statementData;
     }
 
 }

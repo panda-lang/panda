@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture;
 
+import org.panda_lang.panda.framework.language.architecture.AbstractScript;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
 

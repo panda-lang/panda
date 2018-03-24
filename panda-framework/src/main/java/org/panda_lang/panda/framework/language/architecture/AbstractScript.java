@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture;
+package org.panda_lang.panda.framework.language.architecture;
 
-import org.panda_lang.panda.framework.language.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 import java.util.ArrayList;

@@ -19,7 +19,7 @@ package org.panda_lang.panda.launcher;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.PandaLoader;
-import org.panda_lang.panda.framework.language.architecture.Application;
+import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.utilities.commons.io.FileUtils;
 
 import java.io.File;

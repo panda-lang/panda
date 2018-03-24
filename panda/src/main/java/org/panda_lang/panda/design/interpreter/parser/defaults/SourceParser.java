@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registr
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.language.structure.general.comment.CommentAssistant;

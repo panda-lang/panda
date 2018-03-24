@@ -14,25 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.imports;
+package org.panda_lang.panda.framework.design.architecture;
 
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
+import java.util.List;
 
-public class ImportStatement extends AbstractStatement {
+public interface Application {
 
-    private final Import associatedImport;
+    /**
+     * Launch application with a specified arguments
+     */
+    void launch();
 
-    public ImportStatement(Import associatedImport) {
-        this.associatedImport = associatedImport;
-    }
+    /**
+     * @param arguments used by application
+     */
+    void setApplicationArguments(String... arguments);
 
-    public Import getAssociatedImport() {
-        return associatedImport;
-    }
+    /**
+     * @return a list of belonging to the application scripts
+     */
+    List<Script> getScripts();
 
-    @Override
-    public String toString() {
-        return "'import': '" + associatedImport.getModule().getName() + "'";
-    }
+    /**
+     * @return directory where application was called
+     */
+    String getWorkingDirectory();
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype.field;
 
-import org.panda_lang.panda.design.architecture.AbstractStatement;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 
 public class FieldStatement extends AbstractStatement {

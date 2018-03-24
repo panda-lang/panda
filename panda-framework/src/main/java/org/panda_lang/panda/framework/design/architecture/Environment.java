@@ -14,25 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.wrapper;
+package org.panda_lang.panda.framework.design.architecture;
 
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 
-import java.util.ArrayList;
-import java.util.List;
+public interface Environment {
 
-public abstract class AbstractScope extends AbstractContainer implements Scope {
-
-    protected final List<Variable> variables;
-
-    public AbstractScope() {
-        this.variables = new ArrayList<>();
-    }
-
-    @Override
-    public List<Variable> getVariables() {
-        return variables;
-    }
+    Interpreter getInterpreter();
 
 }

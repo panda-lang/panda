@@ -14,30 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture;
+package org.panda_lang.panda.framework.language.architecture.statement;
 
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public interface Application {
+public abstract class AbstractScope extends AbstractContainer implements Scope {
 
-    /**
-     * Launch application with a specified arguments
-     */
-    void launch();
+    protected final List<Variable> variables;
 
-    /**
-     * @param arguments used by application
-     */
-    void setApplicationArguments(String... arguments);
+    public AbstractScope() {
+        this.variables = new ArrayList<>();
+    }
 
-    /**
-     * @return a list of belonging to the application scripts
-     */
-    List<Script> getScripts();
-
-    /**
-     * @return directory where application was called
-     */
-    String getWorkingDirectory();
+    @Override
+    public List<Variable> getVariables() {
+        return variables;
+    }
 
 }

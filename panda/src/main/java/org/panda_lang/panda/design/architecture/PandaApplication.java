@@ -19,8 +19,8 @@ package org.panda_lang.panda.design.architecture;
 import org.panda_lang.panda.design.runtime.PandaExecutableProcess;
 import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.PandaFramework;
-import org.panda_lang.panda.framework.language.architecture.Application;
-import org.panda_lang.panda.framework.language.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.language.structure.overall.main.Main;
 
 import java.util.ArrayList;
