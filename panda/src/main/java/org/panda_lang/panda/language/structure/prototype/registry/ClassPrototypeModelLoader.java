@@ -56,6 +56,8 @@ public class ClassPrototypeModelLoader {
 
     @SuppressWarnings("unchecked")
     private void loadModels(Collection<Class<? extends ClassPrototypeModel>> models) throws Exception {
+        ModuleRegistry registry = ModuleRegistry.getDefault();
+
         Collection<ClassPrototypeModelMethodRegister> methodRegisters = new ArrayList<>();
         ClassPool pool = ClassPool.getDefault();
 
@@ -68,11 +70,13 @@ public class ClassPrototypeModelLoader {
 
         for (Class<? extends ClassPrototypeModel> modelClass : models) {
             ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
-
-            ModuleRegistry registry = ModuleRegistry.getDefault();
+            ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
             Module defaultModule = registry.getOrCreate(moduleDeclaration.value());
 
-            ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
+            if (defaultModule.get(classDeclaration.value()) != null) {
+                continue;
+            }
+
             ClassPrototype prototype = new PandaClassPrototype(defaultModule, classDeclaration.value(), modelClass);
             defaultModule.add(prototype);
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.parsers.prototype;
+package org.panda_lang.panda.language.structure.prototype.parsers;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.design.architecture.PandaScript;

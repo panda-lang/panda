@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.prototype.parsers.prototype;
+package org.panda_lang.panda.language.structure.prototype.parsers;
 
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
