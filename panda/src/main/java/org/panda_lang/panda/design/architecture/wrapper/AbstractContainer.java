@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.wrapper;
 
+import org.panda_lang.panda.design.architecture.AbstractStatement;
 import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
 import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.Statement;
