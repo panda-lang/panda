@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.scope.branching;
 
-import org.panda_lang.panda.design.architecture.PandaStatementData;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;

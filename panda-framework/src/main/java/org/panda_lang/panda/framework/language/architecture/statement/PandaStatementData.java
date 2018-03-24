@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture;
+package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 
 public class PandaStatementData implements StatementData {
 
-    private final int sourceLine;
+    protected final int sourceLine;
 
     public PandaStatementData(int sourceLine) {
         this.sourceLine = sourceLine;
