@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture;
+package org.panda_lang.panda.framework.design.architecture.statement;
 
 public interface StatementData {
 

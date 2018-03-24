@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 
 public interface ScopeInstance extends StandaloneExecutable {
 

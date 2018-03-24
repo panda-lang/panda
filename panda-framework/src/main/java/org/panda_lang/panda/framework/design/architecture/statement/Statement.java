@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture;
+package org.panda_lang.panda.framework.design.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+/**
+ * Generalized interface for language elements
+ */
+public interface Statement {
 
-public class PandaStatementData implements StatementData {
-
-    private final int sourceLine;
-
-    public PandaStatementData(int sourceLine) {
-        this.sourceLine = sourceLine;
+    default boolean hasStatementData() {
+        return getStatementData() != null;
     }
 
-    @Override
-    public int getSourceLine() {
-        return sourceLine;
-    }
+    void setStatementData(StatementData statementData);
+
+    StatementData getStatementData();
 
 }

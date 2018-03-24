@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.scope.block;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ContainerParser;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;

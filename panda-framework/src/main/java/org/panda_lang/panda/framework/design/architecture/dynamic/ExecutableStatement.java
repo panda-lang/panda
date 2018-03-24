@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
-import org.panda_lang.panda.framework.design.architecture.StatementData;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 
 public abstract class ExecutableStatement implements Executable, Statement {
 

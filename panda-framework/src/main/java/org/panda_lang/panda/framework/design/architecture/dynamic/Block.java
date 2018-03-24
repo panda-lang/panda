@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
 
 public interface Block extends Container, Executable {
 

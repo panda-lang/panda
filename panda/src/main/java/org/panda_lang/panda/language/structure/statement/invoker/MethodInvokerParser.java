@@ -17,12 +17,12 @@
 package org.panda_lang.panda.language.structure.statement.invoker;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
-import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;

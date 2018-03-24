@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.architecture;
 
 import org.panda_lang.panda.framework.language.architecture.Script;
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 import java.util.ArrayList;
 import java.util.List;

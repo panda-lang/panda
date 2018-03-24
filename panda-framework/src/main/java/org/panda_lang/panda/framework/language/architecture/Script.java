@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture;
 
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 import java.util.List;
 

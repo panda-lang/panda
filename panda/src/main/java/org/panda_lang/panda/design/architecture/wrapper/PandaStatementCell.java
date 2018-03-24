@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.design.architecture.wrapper;
 
-import org.panda_lang.panda.framework.design.architecture.wrapper.StatementCell;
-import org.panda_lang.panda.framework.design.architecture.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 public class PandaStatementCell implements StatementCell {
 

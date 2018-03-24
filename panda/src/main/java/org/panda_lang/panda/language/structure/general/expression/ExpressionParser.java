@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;

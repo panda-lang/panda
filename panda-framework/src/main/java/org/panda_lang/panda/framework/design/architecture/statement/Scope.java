@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.wrapper;
+package org.panda_lang.panda.framework.design.architecture.statement;
 
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;

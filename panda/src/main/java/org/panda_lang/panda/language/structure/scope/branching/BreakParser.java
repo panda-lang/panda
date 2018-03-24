@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.structure.scope.branching;
 
 import org.panda_lang.panda.design.architecture.PandaStatementData;
-import org.panda_lang.panda.framework.design.architecture.StatementData;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;

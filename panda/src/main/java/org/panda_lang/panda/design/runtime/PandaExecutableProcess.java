@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.wrapper.Scope;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 
 public class PandaExecutableProcess implements ExecutableProcess {
 
