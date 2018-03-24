@@ -26,7 +26,14 @@ import org.panda_lang.panda.language.syntax.PandaSyntax;
 public class BootstrapTest {
 
     @Test
-    public void testBootstrap() {
+    public void testBootstraps() {
+        // TODO: Remove static components for multiple calls
+        for (int i = 0; i < 1; i++) {
+            this.testBootstrap();
+        }
+    }
+
+    private void testBootstrap() {
         Panda panda = new PandaBootstrap()
                 .syntax(PandaSyntax.getInstance())
                 .mapModels(ClassPrototypeModel.of("panda-lang"))
