@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Continue;
 
-@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = ContinueParser.class, handlerClass = ContinueParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = ContinueParser.class, handlerClass = ContinueParserHandler.class)
 public class ContinueParser implements UnifiedParser {
 
     @Override
@@ -48,12 +48,10 @@ public class ContinueParser implements UnifiedParser {
             SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
             Container container = delegatedInfo.getComponent("container");
 
-            TokenRepresentation continueToken = stream.read();
-            stream.read();
-
             Continue continueStatement = new Continue();
             container.addStatement(continueStatement);
 
+            TokenRepresentation continueToken = stream.read();
             StatementData statementData = new PandaStatementData(continueToken.getLine());
             continueStatement.setStatementData(statementData);
         }

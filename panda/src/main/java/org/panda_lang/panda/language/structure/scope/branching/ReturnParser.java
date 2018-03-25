@@ -41,11 +41,11 @@ import org.panda_lang.panda.language.structure.general.expression.ExpressionPars
 import org.panda_lang.panda.language.structure.scope.branching.statements.Return;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
-@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = ReturnParser.class, handlerClass = ReturnParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = ReturnParser.class, handlerClass = ReturnParserHandler.class)
 public class ReturnParser implements UnifiedParser {
 
     private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "return +* ;")
+            .compile(PandaSyntax.getInstance(), "return +*")
             .build();
 
     @Override
@@ -61,15 +61,14 @@ public class ReturnParser implements UnifiedParser {
             SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
             Container container = delegatedInfo.getComponent("container");
 
-            if (stream.getUnreadLength() == 2) {
-                TokenRepresentation returnToken = stream.read();
-                stream.read();
-
+            if (stream.getUnreadLength() == 1) {
                 Return returnStatement = new Return(null);
                 container.addStatement(returnStatement);
 
+                TokenRepresentation returnToken = stream.read();
                 StatementData statementData = new PandaStatementData(returnToken.getLine());
                 returnStatement.setStatementData(statementData);
+
                 return;
             }
 

@@ -25,6 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReade
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class PandaSourceStream implements SourceStream {
 
@@ -37,7 +38,7 @@ public class PandaSourceStream implements SourceStream {
     @Override
     public TokenRepresentation read() {
         if (tokenizedSource.size() < 1) {
-            return null;
+            throw new NoSuchElementException("SourceStream is empty, cannot read next TokenRepresentation");
         }
 
         TokenRepresentation representation = tokenizedSource.get(0);

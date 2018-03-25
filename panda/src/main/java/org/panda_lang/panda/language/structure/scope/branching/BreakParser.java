@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.language.structure.scope.branching.statements.Break;
 
-@ParserRegistration(target = DefaultPipelines.SCOPE, parserClass = BreakParser.class, handlerClass = BreakParserHandler.class)
+@ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = BreakParser.class, handlerClass = BreakParserHandler.class)
 public class BreakParser implements UnifiedParser {
 
     @Override
@@ -48,12 +48,10 @@ public class BreakParser implements UnifiedParser {
             SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
             Container container = delegatedInfo.getComponent("container");
 
-            TokenRepresentation breakToken = stream.read();
-            stream.read();
-
             Break breakStatement = new Break();
             container.addStatement(breakStatement);
 
+            TokenRepresentation breakToken = stream.read();
             StatementData statementData = new PandaStatementData(breakToken.getLine());
             breakStatement.setStatementData(statementData);
         }
