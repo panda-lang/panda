@@ -77,6 +77,7 @@ public class ImportParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
+            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
             SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
             TokenizedSource source = stream.toTokenizedSource();
             boolean attach = TokenUtils.equals(source.getFirst(), Keywords.ATTACH);
@@ -126,14 +127,11 @@ public class ImportParser implements UnifiedParser {
                 throw new PandaParserException("Unknown module " + importedGroupName);
             }
 
-            Import anImport = new Import(module);
-            ImportStatement importStatement = new ImportStatement(anImport);
-
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            ImportStatement importStatement = new ImportStatement(module);
             script.getStatements().add(importStatement);
 
             ImportRegistry importRegistry = script.getImportRegistry();
-            importRegistry.include(anImport.getModule());
+            importRegistry.include(module);
         }
 
     }

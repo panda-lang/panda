@@ -16,23 +16,24 @@
 
 package org.panda_lang.panda.language.structure.overall.imports;
 
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 
 public class ImportStatement extends AbstractStatement {
 
-    private final Import associatedImport;
+    private final Module associatedModule;
 
-    public ImportStatement(Import associatedImport) {
-        this.associatedImport = associatedImport;
+    public ImportStatement(Module associatedImport) {
+        this.associatedModule = associatedImport;
     }
 
-    public Import getAssociatedImport() {
-        return associatedImport;
+    public Module getImportedModule() {
+        return associatedModule;
     }
 
     @Override
     public String toString() {
-        return "'import': '" + associatedImport.getModule().getName() + "'";
+        return "'import': '" + associatedModule.getName() + "'";
     }
 
 }

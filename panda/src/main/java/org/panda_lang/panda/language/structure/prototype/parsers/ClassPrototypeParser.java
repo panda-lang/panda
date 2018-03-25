@@ -80,9 +80,10 @@ public class ClassPrototypeParser implements UnifiedParser {
             TokenizedSource classDeclaration = redactor.get("class-declaration");
             String className = classDeclaration.getToken(0).getTokenValue();
 
-            ClassPrototype classPrototype = module.createPrototype(Object.class, className);
+            ClassPrototype classPrototype = new PandaClassPrototype(module, Object.class, className);
             classPrototype.getExtended().add(PandaClassPrototype.forClass(Object.class));
             delegatedInfo.setComponent("class-prototype", classPrototype);
+            module.add(classPrototype);
 
             ClassScope classScope = new ClassScope(classPrototype);
             delegatedInfo.setComponent("class-scope", classScope);

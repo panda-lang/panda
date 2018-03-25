@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.language.structure.statement.invoker;
 
-import org.panda_lang.panda.language.structure.overall.imports.Import;
 import org.panda_lang.panda.language.structure.overall.imports.ImportStatement;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -27,8 +26,7 @@ public class MethodInvokerUtils {
 
     public static ClassPrototype find(List<ImportStatement> importStatements, String className) {
         for (ImportStatement importStatement : importStatements) {
-            Import anImport = importStatement.getAssociatedImport();
-            Module module = anImport.getModule();
+            Module module = importStatement.getImportedModule();
             ClassPrototype prototype = module.get(className);
 
             if (prototype != null) {
