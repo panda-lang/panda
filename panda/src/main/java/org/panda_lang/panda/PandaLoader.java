@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.PandaFrameworkException;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
+import org.panda_lang.panda.utilities.commons.io.FileUtils;
 
 import java.io.File;
 
@@ -36,13 +37,7 @@ public class PandaLoader {
     }
 
     public PandaApplication loadFiles(String... paths) {
-        File[] files = new File[paths.length];
-
-        for (int i = 0; i < files.length; i++) {
-            files[i] = new File(paths[i]);
-        }
-
-        return load(new FileSourceProvider(files));
+        return load(new FileSourceProvider(FileUtils.toFiles(paths)));
     }
 
     public PandaApplication loadFiles(File... files) {
@@ -56,7 +51,7 @@ public class PandaLoader {
     public PandaApplication load(SourceProvider provider) {
         SourceSet sourceSet = provider.toSourceSet();
 
-        if (sourceSet.getSources().isEmpty()) {
+        if (sourceSet.isEmpty()) {
             throw new PandaFrameworkException("Sources are not provided");
         }
 

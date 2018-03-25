@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.source;
 
+import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 
 import java.util.Collection;
@@ -28,6 +29,10 @@ public interface SourceSet extends Iterable<Source> {
     /**
      * @return collection of sources
      */
-    Collection<Source> getSources();
+    @NotNull Collection<Source> getSources();
+
+    default boolean isEmpty() {
+        return getSources().isEmpty();
+    }
 
 }

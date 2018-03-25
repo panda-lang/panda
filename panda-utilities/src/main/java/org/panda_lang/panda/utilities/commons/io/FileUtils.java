@@ -28,20 +28,6 @@ import java.util.List;
 public class FileUtils {
 
     /**
-     * @return file name without extension
-     */
-    public static String getFileName(File file) {
-        String fileName = file.getName();
-        int pos = fileName.lastIndexOf(".");
-
-        if (pos == -1) {
-            return fileName;
-        }
-
-        return fileName.substring(0, pos);
-    }
-
-    /**
      * @return collection of file with the specified extension
      */
     public static Collection<File> findFilesByExtension(String directory, String extension) {
@@ -123,4 +109,35 @@ public class FileUtils {
 
         return null;
     }
+
+    /**
+     * @return file name without extension
+     */
+    public static String getFileName(File file) {
+        String fileName = file.getName();
+        int pos = fileName.lastIndexOf(".");
+
+        if (pos == -1) {
+            return fileName;
+        }
+
+        return fileName.substring(0, pos);
+    }
+
+    /**
+     * Get vararg paths as array of {@link File}
+     *
+     * @param paths array of paths
+     * @return array of files
+     */
+    public static File[] toFiles(String... paths) {
+        File[] files = new File[paths.length];
+
+        for (int i = 0; i < files.length; i++) {
+            files[i] = new File(paths[i]);
+        }
+
+        return files;
+    }
+
 }
