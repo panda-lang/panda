@@ -44,7 +44,7 @@ import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
-import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = DefaultPriorities.STATEMENT_METHOD_INVOKER_PARSER)

@@ -51,7 +51,7 @@ import org.panda_lang.panda.language.structure.general.expression.callbacks.memo
 import org.panda_lang.panda.language.structure.general.expression.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.language.structure.general.number.NumberExpressionParser;
 import org.panda_lang.panda.language.structure.general.number.NumberUtils;
-import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.structure.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.language.syntax.tokens.Operators;
 

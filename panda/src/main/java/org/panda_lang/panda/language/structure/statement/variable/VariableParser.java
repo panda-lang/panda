@@ -51,7 +51,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.structure.statement.invoker.MethodInvokerParser;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.FieldAssigner;
 import org.panda_lang.panda.language.structure.statement.variable.assigners.VariableAssigner;

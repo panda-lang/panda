@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTok
 import org.panda_lang.panda.language.structure.general.argument.ArgumentParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionCallbackParser;
-import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.Arrays;

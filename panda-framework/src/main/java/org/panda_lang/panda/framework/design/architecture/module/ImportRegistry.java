@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.imports;
+package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public interface ImportRegistry {

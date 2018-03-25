@@ -22,8 +22,6 @@ import java.util.Collection;
 
 public interface Module {
 
-    ClassPrototype createPrototype(Class<?> associatedClass, String prototypeName);
-
     ClassPrototype add(ClassPrototype prototype);
 
     ClassPrototype get(String className);
