@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.overall.module;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.design.architecture.prototype.module.PandaModule;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;

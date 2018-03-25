@@ -23,7 +23,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.module;
+package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 

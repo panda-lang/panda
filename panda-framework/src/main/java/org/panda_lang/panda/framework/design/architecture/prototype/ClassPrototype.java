@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 
 import java.util.Collection;
 import java.util.List;

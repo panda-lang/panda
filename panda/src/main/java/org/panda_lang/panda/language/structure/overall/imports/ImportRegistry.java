@@ -16,40 +16,14 @@
 
 package org.panda_lang.panda.language.structure.overall.imports;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-import java.util.ArrayList;
-import java.util.Collection;
+public interface ImportRegistry {
 
-public class ImportRegistry {
+    void include(Module module);
 
-    private final Collection<Module> importedModules;
+    ClassPrototype forClass(String className);
 
-    public ImportRegistry() {
-        this.importedModules = new ArrayList<>();
-        this.include(ModuleRegistry.getDefault().getDefaultModule());
-    }
-
-    public void include(Module module) {
-        this.importedModules.add(module);
-    }
-
-    public ClassPrototype forClass(String className) {
-        if (className == null || className.isEmpty()) {
-            return null;
-        }
-
-        for (Module module : importedModules) {
-            ClassPrototype prototype = module.get(className);
-
-            if (prototype != null) {
-                return prototype;
-            }
-        }
-
-        return null;
-    }
 
 }

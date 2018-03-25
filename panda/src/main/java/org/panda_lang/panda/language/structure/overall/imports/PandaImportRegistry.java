@@ -14,21 +14,34 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.statement.invoker;
+package org.panda_lang.panda.language.structure.overall.imports;
 
-import org.panda_lang.panda.language.structure.overall.imports.Import;
-import org.panda_lang.panda.language.structure.overall.imports.ImportStatement;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class MethodInvokerUtils {
+public class PandaImportRegistry implements ImportRegistry {
 
-    public static ClassPrototype find(List<ImportStatement> importStatements, String className) {
-        for (ImportStatement importStatement : importStatements) {
-            Import anImport = importStatement.getAssociatedImport();
-            Module module = anImport.getModule();
+    private final Collection<Module> importedModules;
+
+    public PandaImportRegistry() {
+        this.importedModules = new ArrayList<>();
+        this.include(ModuleRegistry.getDefault().getDefaultModule());
+    }
+
+    public void include(Module module) {
+        this.importedModules.add(module);
+    }
+
+    public ClassPrototype forClass(String className) {
+        if (className == null || className.isEmpty()) {
+            return null;
+        }
+
+        for (Module module : importedModules) {
             ClassPrototype prototype = module.get(className);
 
             if (prototype != null) {

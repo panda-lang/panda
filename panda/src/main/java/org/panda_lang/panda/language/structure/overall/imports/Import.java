@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.overall.imports;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 
 public class Import {
 

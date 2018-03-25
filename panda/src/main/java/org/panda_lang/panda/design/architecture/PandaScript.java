@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.design.architecture;
 
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.language.architecture.AbstractScript;
 import org.panda_lang.panda.language.structure.overall.imports.ImportRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.module.Module;
+import org.panda_lang.panda.language.structure.overall.imports.PandaImportRegistry;
 
 public class PandaScript extends AbstractScript {
 
@@ -27,7 +28,7 @@ public class PandaScript extends AbstractScript {
 
     public PandaScript(String scriptName) {
         super(scriptName);
-        this.importRegistry = new ImportRegistry();
+        this.importRegistry = new PandaImportRegistry();
     }
 
     public void setModule(Module module) {
