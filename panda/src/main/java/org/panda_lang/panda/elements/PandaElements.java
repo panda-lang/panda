@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.elements;
 
-import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.PandaParserPipelineRegistry;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 public class PandaElements {
 
-    private final PandaParserPipelineRegistry pipelineRegistry;
+    private final ParserPipelineRegistry pipelineRegistry;
     private Syntax syntax;
 
     public PandaElements() {
@@ -37,7 +37,7 @@ public class PandaElements {
         this.syntax = syntax;
     }
 
-    public PandaParserPipelineRegistry getPipelineRegistry() {
+    public ParserPipelineRegistry getPipelineRegistry() {
         return pipelineRegistry;
     }
 

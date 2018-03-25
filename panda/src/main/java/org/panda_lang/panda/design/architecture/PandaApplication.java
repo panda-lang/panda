@@ -28,9 +28,9 @@ import java.util.List;
 
 public class PandaApplication implements Application {
 
-    private final List<Script> scripts;
-    private String workingDirectory;
-    private String[] arguments;
+    protected final List<Script> scripts;
+    protected String workingDirectory;
+    protected String[] arguments;
 
     public PandaApplication() {
         this.scripts = new ArrayList<>();

@@ -16,36 +16,32 @@
 
 package org.panda_lang.panda.design.interpreter;
 
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.design.interpreter.parser.defaults.SourceParser;
 import org.panda_lang.panda.design.architecture.PandaApplication;
+import org.panda_lang.panda.design.interpreter.parser.defaults.ApplicationParser;
+import org.panda_lang.panda.elements.PandaElements;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
 public class PandaInterpreter implements Interpreter {
 
-    private final Panda panda;
-    private final SourceSet sourceSet;
-    private final PandaApplication application;
+    private PandaElements pandaElements;
 
-    public PandaInterpreter(Panda panda, SourceSet sourceSet) {
-        this.panda = panda;
-        this.sourceSet = sourceSet;
-        this.application = new PandaApplication();
+    protected PandaInterpreter(PandaInterpreterBuilder builder) {
+        this.pandaElements = builder.elements;
     }
 
     @Override
-    public void interpret() {
-        SourceParser parser = new SourceParser(this);
-        parser.parse(sourceSet);
+    public PandaApplication interpret(SourceSet sources) {
+        ApplicationParser parser = new ApplicationParser(this);
+        return parser.parse(sources);
     }
 
-    public PandaApplication getApplication() {
-        return application;
+    public PandaElements getPandaElements() {
+        return pandaElements;
     }
 
-    public Panda getPanda() {
-        return panda;
+    public static PandaInterpreterBuilder builder() {
+        return new PandaInterpreterBuilder();
     }
 
 }

@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.util.ReflectionsUtils;
 import org.reflections.Reflections;
 
@@ -29,7 +30,7 @@ import java.util.Set;
 
 public class ParserRegistrationLoader {
 
-    public PandaParserPipelineRegistry load() {
+    public ParserPipelineRegistry load() {
         PandaParserPipelineRegistry registry = new PandaParserPipelineRegistry();
 
         try {

@@ -14,16 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter;
+package org.panda_lang.panda.design.interpreter;
 
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
+import org.panda_lang.panda.elements.PandaElements;
 
-public interface Interpreter {
+public class PandaInterpreterBuilder {
 
-    /**
-     * Starts the process of interpretation
-     */
-    Application interpret(SourceSet sources);
+    protected PandaElements elements;
+
+    public PandaInterpreterBuilder elements(PandaElements elements) {
+        this.elements = elements;
+        return this;
+    }
+
+    public PandaInterpreter build() {
+        return new PandaInterpreter(this);
+    }
 
 }

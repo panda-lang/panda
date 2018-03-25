@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.design.architecture.PandaApplication;
+import org.panda_lang.panda.design.architecture.PandaEnvironment;
+import org.panda_lang.panda.design.interpreter.PandaInterpreter;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.PandaFrameworkException;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
 import java.io.File;
 
@@ -59,10 +60,17 @@ public class PandaLoader {
             throw new PandaFrameworkException("Sources are not provided");
         }
 
-        PandaInterpreter interpreter = new PandaInterpreter(panda, sourceSet);
-        interpreter.interpret();
+        PandaEnvironment environment = new PandaEnvironment(panda);
+        environment.initialize();
 
-        return interpreter.getApplication();
+        PandaInterpreter interpreter = environment.getInterpreter();
+        PandaApplication application = interpreter.interpret(sourceSet);
+
+        if (application == null) {
+            throw new RuntimeException("Application does not exist");
+        }
+
+        return application;
     }
 
 }
