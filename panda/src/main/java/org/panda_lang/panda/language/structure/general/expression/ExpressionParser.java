@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.general.expression;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;

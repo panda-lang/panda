@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
-import org.panda_lang.panda.design.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethods;

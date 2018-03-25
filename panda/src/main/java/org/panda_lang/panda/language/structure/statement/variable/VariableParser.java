@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.statement.variable;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.value.PandaVariable;
+import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;

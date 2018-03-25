@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.math;
 
-import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;

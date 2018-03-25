@@ -18,7 +18,7 @@ package org.panda_lang.panda.design.architecture.prototype.parameter;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.design.architecture.value.PandaVariable;
+import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
 public class PandaParameter implements Parameter {

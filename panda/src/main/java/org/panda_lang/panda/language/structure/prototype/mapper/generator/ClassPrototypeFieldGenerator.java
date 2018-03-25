@@ -17,8 +17,8 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
 import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeField;
-import org.panda_lang.panda.design.architecture.value.PandaStaticValue;
-import org.panda_lang.panda.design.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;

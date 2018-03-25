@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.statement.variable.assigners;
 
-import org.panda_lang.panda.design.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
