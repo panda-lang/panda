@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.Script;
-import org.panda_lang.panda.language.structure.overall.main.Main;
+import org.panda_lang.panda.language.structure.scope.main.Main;
 
 import java.util.ArrayList;
 import java.util.List;

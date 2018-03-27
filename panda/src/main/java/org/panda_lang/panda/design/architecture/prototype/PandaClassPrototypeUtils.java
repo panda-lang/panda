@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype;
 
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 import java.util.Collection;
@@ -54,11 +55,11 @@ public class PandaClassPrototypeUtils {
         return false;
     }
 
-    public static ClassPrototype[] toTypes(Class<?>... types) {
+    public static ClassPrototype[] toTypes(ModuleRegistry registry, Class<?>... types) {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = PandaClassPrototype.forClass(types[i]);
+            prototypes[i] = registry.forClass(types[i]);
         }
 
         return prototypes;

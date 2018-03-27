@@ -17,12 +17,16 @@
 package org.panda_lang.panda.language.structure.overall.module;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -33,11 +37,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 import java.util.Collection;
@@ -63,6 +65,7 @@ public class ModuleParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
+            Environment environment = delegatedInfo.getComponent(Components.ENVIRONMENT);
             PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
 
             AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedInfo);
@@ -77,7 +80,7 @@ public class ModuleParser implements UnifiedParser {
 
             String groupName = groupNameBuilder.toString();
 
-            ModuleRegistry registry = ModuleRegistry.getDefault();
+            ModuleRegistry registry = environment.getModuleRegistry();
             Module module = registry.getOrCreate(groupName);
             script.setModule(module);
 

@@ -23,7 +23,10 @@ import org.panda_lang.panda.design.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.design.interpreter.parser.generation.PandaCasualParserGeneration;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.elements.PandaElements;
+import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
@@ -46,6 +49,10 @@ public class ApplicationParser implements Parser {
     public PandaApplication parse(SourceSet sourceSet) {
         PandaApplication application = new PandaApplication();
 
+        Environment environment = interpreter.getEnvironment();
+        ModuleRegistry registry = environment.getModuleRegistry();
+        Module defaultModule = registry.getOrCreate(null);
+
         PandaElements elements = interpreter.getPandaElements();
         ParserPipelineRegistry pipelineRegistry = elements.getPipelineRegistry();
 
@@ -53,12 +60,13 @@ public class ApplicationParser implements Parser {
         CommentAssistant commentAssistant = new CommentAssistant();
 
         ParserInfo parserInfo = new PandaParserInfo();
-        parserInfo.setComponent(Components.INTERPRETER, interpreter);
+        parserInfo.setComponent(Components.ENVIRONMENT, environment);
         parserInfo.setComponent(Components.PIPELINE_REGISTRY, pipelineRegistry);
         parserInfo.setComponent(Components.GENERATION, generation);
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
+            pandaScript.getImportRegistry().include(defaultModule);
 
             PandaLexer lexer = new PandaLexer(elements.getSyntax(), source.getContent());
             TokenizedSource tokenizedSource = lexer.convert();

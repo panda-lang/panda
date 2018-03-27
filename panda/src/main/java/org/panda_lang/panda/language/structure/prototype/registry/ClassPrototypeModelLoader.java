@@ -20,30 +20,31 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import org.apache.commons.lang3.StringUtils;
-import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUtils;
+import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.MethodDeclaration;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
-import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClassPrototypeModelLoader {
 
-    private final Panda panda;
+    private static final AtomicInteger idAssigner = new AtomicInteger();
+    private final ModuleRegistry registry;
 
-    public ClassPrototypeModelLoader(Panda panda) {
-        this.panda = panda;
+    public ClassPrototypeModelLoader(ModuleRegistry registry) {
+        this.registry = registry;
     }
 
     public void load(Collection<Class<? extends ClassPrototypeModel>> models) {
@@ -56,8 +57,6 @@ public class ClassPrototypeModelLoader {
 
     @SuppressWarnings("unchecked")
     private void loadModels(Collection<Class<? extends ClassPrototypeModel>> models) throws Exception {
-        ModuleRegistry registry = ModuleRegistry.getDefault();
-
         Collection<ClassPrototypeModelMethodRegister> methodRegisters = new ArrayList<>();
         ClassPool pool = ClassPool.getDefault();
 
@@ -71,14 +70,14 @@ public class ClassPrototypeModelLoader {
         for (Class<? extends ClassPrototypeModel> modelClass : models) {
             ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
             ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
-            Module defaultModule = registry.getOrCreate(moduleDeclaration.value());
+            Module module = registry.getOrCreate(moduleDeclaration.value());
 
-            if (defaultModule.get(classDeclaration.value()) != null) {
+            if (module.get(classDeclaration.value()) != null) {
                 continue;
             }
 
-            ClassPrototype prototype = new PandaClassPrototype(defaultModule, classDeclaration.value(), modelClass);
-            defaultModule.add(prototype);
+            ClassPrototype prototype = new PandaClassPrototype(module, classDeclaration.value(), modelClass);
+            module.add(prototype);
 
             for (Method method : modelClass.getMethods()) {
                 MethodDeclaration methodInfo = method.getAnnotation(MethodDeclaration.class);
@@ -87,7 +86,7 @@ public class ClassPrototypeModelLoader {
                     continue;
                 }
 
-                String methodCallbackClassName = modelClass.getSimpleName() + StringUtils.capitalize(method.getName()) + "MethodCallback";
+                String methodCallbackClassName = modelClass.getSimpleName() + StringUtils.capitalize(method.getName()) + "MethodCallback" + idAssigner.incrementAndGet();
                 CtClass generatedMethodCallbackClass = pool.getOrNull(methodCallbackClassName);
 
                 if (generatedMethodCallbackClass != null) {
@@ -141,13 +140,13 @@ public class ClassPrototypeModelLoader {
 
                 Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
                 MethodCallback<?> methodCallback = methodCallbackClass.newInstance();
-                ClassPrototype[] parameterTypes = PandaClassPrototypeUtils.toTypes(method.getParameterTypes());
+                ClassPrototype[] parameterTypes = PandaClassPrototypeUtils.toTypes(registry, method.getParameterTypes());
 
                 methodRegisters.add(() -> {
                     PandaMethod pandaMethod = PandaMethod.builder()
                             .methodName(method.getName())
                             .prototype(prototype)
-                            .returnType(PandaClassPrototype.forName(methodInfo.returnType()))
+                            .returnType(registry.forName(methodInfo.returnType()))
                             .isStatic(methodInfo.isStatic())
                             .visibility(methodInfo.visibility())
                             .methodBody(methodCallback)

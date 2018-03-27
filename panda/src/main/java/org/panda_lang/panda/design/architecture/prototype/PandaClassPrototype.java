@@ -17,16 +17,15 @@
 package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethods;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,7 +95,7 @@ public class PandaClassPrototype implements ClassPrototype {
 
     @Override
     public boolean isAssociatedWith(ClassPrototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
-        return prototype != null && (PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
+        return prototype != null && (prototype.equals(this) || PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
                 || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended()));
     }
 
@@ -178,14 +177,6 @@ public class PandaClassPrototype implements ClassPrototype {
                 .add("fields", fields)
                 .add("methods", methods)
                 .toString();
-    }
-
-    public static ClassPrototype forName(String prototype) {
-        return ModuleRegistry.forName(prototype);
-    }
-
-    public static ClassPrototype forClass(Class<?> clazz) {
-        return ModuleRegistry.forClass(clazz);
     }
 
 }

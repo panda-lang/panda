@@ -23,6 +23,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -38,7 +39,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.distributor.Sourc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingManager;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 import org.panda_lang.panda.language.syntax.tokens.Keywords;
@@ -79,6 +80,10 @@ public class ImportParser implements UnifiedParser {
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
             PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
             SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
+
+            Environment environment = delegatedInfo.getComponent(Components.ENVIRONMENT);
+            ModuleRegistry registry = environment.getModuleRegistry();
+
             TokenizedSource source = stream.toTokenizedSource();
             boolean attach = TokenUtils.equals(source.getFirst(), Keywords.ATTACH);
 
@@ -92,7 +97,6 @@ public class ImportParser implements UnifiedParser {
             }
 
             String importedGroupName = groupNameBuilder.toString();
-            ModuleRegistry registry = ModuleRegistry.getDefault();
 
             if (attach) {
                 if (Package.getPackage(importedGroupName) != null) {
@@ -114,7 +118,7 @@ public class ImportParser implements UnifiedParser {
 
                     ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
                     mappingManager.loadClasses(selectedClasses);
-                    mappingManager.generate();
+                    mappingManager.generate(registry);
                 }
                 else {
                     throw new PandaParserException("Cannot attach " + importedGroupName + " [package does not exist]");

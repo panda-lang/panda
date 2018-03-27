@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -42,8 +42,8 @@ public class ClassPrototypeFieldGenerator {
         this.field = field;
     }
 
-    public PrototypeField generate() {
-        ClassPrototype returnType = ModuleRegistry.forClass(field.getType());
+    public PrototypeField generate(ModuleRegistry registry) {
+        ClassPrototype returnType = registry.forClass(field.getType());
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .fieldIndex(prototype.getFields().size())
                 .type(returnType)

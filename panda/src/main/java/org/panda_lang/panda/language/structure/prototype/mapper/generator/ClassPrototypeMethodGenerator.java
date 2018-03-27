@@ -17,15 +17,15 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUtils;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
@@ -48,9 +48,9 @@ public class ClassPrototypeMethodGenerator {
         this.method = method;
     }
 
-    public PrototypeMethod generate() {
-        ClassPrototype returnType = PandaClassPrototype.forClass(method.getReturnType());
-        ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(method.getParameterTypes());
+    public PrototypeMethod generate(ModuleRegistry registry) {
+        ClassPrototype returnType = registry.forClass(method.getReturnType());
+        ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(registry, method.getParameterTypes());
         boolean isVoid = returnType.getClassName().equals("void");
 
         // TODO: Generate bytecode

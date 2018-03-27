@@ -16,12 +16,14 @@
 
 package org.panda_lang.panda.language.structure.general.number;
 
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 public class NumberExpressionParser implements ParticularParser<Value> {
@@ -31,6 +33,9 @@ public class NumberExpressionParser implements ParticularParser<Value> {
         if (!NumberUtils.isNumeric(source)) {
             return null;
         }
+
+        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        ModuleRegistry registry = environment.getModuleRegistry();
 
         String unknownNumber = source.asString();
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
@@ -66,22 +71,22 @@ public class NumberExpressionParser implements ParticularParser<Value> {
 
         switch (numberType) {
             case BYTE:
-                value = new PandaValue(PandaClassPrototype.forName("byte"), parsedNumber.byteValue());
+                value = new PandaValue(registry.forName("byte"), parsedNumber.byteValue());
                 break;
             case SHORT:
-                value = new PandaValue(PandaClassPrototype.forName("short"), parsedNumber.shortValue());
+                value = new PandaValue(registry.forName("short"), parsedNumber.shortValue());
                 break;
             case INT:
-                value = new PandaValue(PandaClassPrototype.forName("int"), parsedNumber.intValue());
+                value = new PandaValue(registry.forName("int"), parsedNumber.intValue());
                 break;
             case LONG:
-                value = new PandaValue(PandaClassPrototype.forName("long"), parsedNumber.longValue());
+                value = new PandaValue(registry.forName("long"), parsedNumber.longValue());
                 break;
             case FLOAT:
-                value = new PandaValue(PandaClassPrototype.forName("float"), parsedNumber.floatValue());
+                value = new PandaValue(registry.forName("float"), parsedNumber.floatValue());
                 break;
             case DOUBLE:
-                value = new PandaValue(PandaClassPrototype.forName("double"), parsedNumber.doubleValue());
+                value = new PandaValue(registry.forName("double"), parsedNumber.doubleValue());
                 break;
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);

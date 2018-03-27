@@ -16,11 +16,9 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueElement;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueExtractor;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueResult;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -28,6 +26,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueElement;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueExtractor;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueResult;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.syntax.tokens.Operators;
 import org.panda_lang.panda.language.syntax.tokens.Separators;
@@ -46,6 +49,9 @@ public class MathParser implements Parser {
             Operators.MULTIPLICATION });
 
     public MathExpressionCallback parse(TokenizedSource source, ParserInfo info) {
+        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        ModuleRegistry registry = environment.getModuleRegistry();
+
         TokenReader reader = new PandaTokenReader(source);
         VagueResult result = EXTRACTOR.extract(reader);
 
@@ -94,7 +100,7 @@ public class MathParser implements Parser {
             math.push(operators.pop());
         }
 
-        return new MathExpressionCallback(math);
+        return new MathExpressionCallback(registry, math);
     }
 
     public boolean compare(Token prev, Token current) {

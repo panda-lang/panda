@@ -24,19 +24,19 @@ import org.panda_lang.panda.language.structure.overall.imports.PandaImportRegist
 public class PandaScript extends AbstractScript {
 
     protected final ImportRegistry importRegistry;
-    protected Module module;
+    protected Module currentModule;
 
     public PandaScript(String scriptName) {
         super(scriptName);
         this.importRegistry = new PandaImportRegistry();
     }
 
-    public void setModule(Module module) {
-        this.module = module;
+    public void setModule(Module currentModule) {
+        this.currentModule = currentModule;
     }
 
     public Module getModule() {
-        return module;
+        return currentModule;
     }
 
     public ImportRegistry getImportRegistry() {

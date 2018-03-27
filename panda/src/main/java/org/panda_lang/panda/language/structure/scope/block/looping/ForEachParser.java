@@ -16,11 +16,13 @@
 
 package org.panda_lang.panda.language.structure.scope.block.looping;
 
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
@@ -46,11 +48,14 @@ public class ForEachParser implements UnifiedParser {
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");
 
+        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        ModuleRegistry registry = environment.getModuleRegistry();
+
         // TODO: Create var
 
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(info, iterableSource);
-        ClassPrototype iterable = PandaClassPrototype.forClass(Iterable.class);
+        ClassPrototype iterable = registry.forClass(Iterable.class);
 
         if (!expression.getReturnType().isAssociatedWith(iterable)) {
             throw new PandaParserException("ForEach requires Iterable value");

@@ -27,7 +27,9 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
@@ -70,6 +72,9 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
+            Environment environment = delegatedInfo.getComponent(Components.ENVIRONMENT);
+            ModuleRegistry registry = environment.getModuleRegistry();
+
             PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
             Module module = script.getModule();
 
@@ -80,7 +85,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             String className = classDeclaration.getToken(0).getTokenValue();
 
             ClassPrototype classPrototype = new PandaClassPrototype(module, Object.class, className);
-            classPrototype.getExtended().add(PandaClassPrototype.forClass(Object.class));
+            classPrototype.getExtended().add(registry.forClass(Object.class));
             delegatedInfo.setComponent("class-prototype", classPrototype);
             module.add(classPrototype);
 

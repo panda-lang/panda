@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.main;
+package org.panda_lang.panda.language.structure.scope.main;
 
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;

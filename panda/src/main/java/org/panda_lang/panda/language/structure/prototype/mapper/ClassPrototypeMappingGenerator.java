@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper;
 
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
@@ -30,8 +31,8 @@ public class ClassPrototypeMappingGenerator {
         this.mappingManager = mappingManager;
     }
 
-    public Collection<ClassPrototype> generate(Collection<Class<?>> classes) {
-        ClassPrototypeGenerator generator = new ClassPrototypeGenerator(this);
+    public Collection<ClassPrototype> generate(ModuleRegistry registry, Collection<Class<?>> classes) {
+        ClassPrototypeGenerator generator = new ClassPrototypeGenerator(registry, this);
         Collection<ClassPrototype> prototypes = new ArrayList<>(classes.size());
 
         for (Class<?> clazz : classes) {

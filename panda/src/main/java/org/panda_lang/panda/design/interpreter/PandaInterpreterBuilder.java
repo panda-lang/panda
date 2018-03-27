@@ -17,10 +17,17 @@
 package org.panda_lang.panda.design.interpreter;
 
 import org.panda_lang.panda.elements.PandaElements;
+import org.panda_lang.panda.framework.design.architecture.Environment;
 
 public class PandaInterpreterBuilder {
 
+    protected Environment environment;
     protected PandaElements elements;
+
+    public PandaInterpreterBuilder environment(Environment environment) {
+        this.environment = environment;
+        return this;
+    }
 
     public PandaInterpreterBuilder elements(PandaElements elements) {
         this.elements = elements;

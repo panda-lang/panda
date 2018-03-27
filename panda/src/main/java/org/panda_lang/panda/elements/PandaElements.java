@@ -19,12 +19,16 @@ package org.panda_lang.panda.elements;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
+
+import java.util.Collection;
 
 public class PandaElements {
 
     private final ParserPipelineRegistry pipelineRegistry;
     private Syntax syntax;
+    private Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings;
 
     public PandaElements() {
         this.syntax = PandaSyntax.getInstance();
@@ -33,8 +37,16 @@ public class PandaElements {
         this.pipelineRegistry = parserRegistrationLoader.load();
     }
 
+    public void setMappings(Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings) {
+        this.mappings = mappings;
+    }
+
     public void setSyntax(Syntax syntax) {
         this.syntax = syntax;
+    }
+
+    public Collection<Collection<Class<? extends ClassPrototypeModel>>> getMappings() {
+        return mappings;
     }
 
     public ParserPipelineRegistry getPipelineRegistry() {

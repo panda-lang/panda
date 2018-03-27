@@ -31,6 +31,9 @@ public class ReflectionsUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Disable logging
+        Reflections.log = null;
     }
 
     public static final Reflections REFLECTIONS = new Reflections(ReflectionsUtils.REFLECTIONS_CONFIG);

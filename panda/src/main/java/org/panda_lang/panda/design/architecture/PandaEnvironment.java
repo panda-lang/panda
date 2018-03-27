@@ -17,22 +17,39 @@
 package org.panda_lang.panda.design.architecture;
 
 import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.design.architecture.module.PandaModuleRegistry;
+import org.panda_lang.panda.design.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModelLoader;
 
 public class PandaEnvironment implements Environment {
 
     protected final Panda panda;
+    protected final ModuleRegistry moduleRegistry;
     protected PandaInterpreter interpreter;
 
     public PandaEnvironment(Panda panda) {
         this.panda = panda;
+        this.moduleRegistry = new PandaModuleRegistry();
     }
 
     public void initialize() {
+        PrimitivePrototypeLiquid liquid = new PrimitivePrototypeLiquid();
+        liquid.fill(moduleRegistry);
+
+        ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(moduleRegistry);
+        panda.getPandaElements().getMappings().forEach((modelLoader::load));
+
         this.interpreter = PandaInterpreter.builder()
+            .environment(this)
             .elements(panda.getPandaElements())
             .build();
+    }
+
+    public ModuleRegistry getModuleRegistry() {
+        return moduleRegistry;
     }
 
     @Override

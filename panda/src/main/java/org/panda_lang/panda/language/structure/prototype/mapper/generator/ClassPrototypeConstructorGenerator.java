@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 
 import java.lang.reflect.Constructor;
 
@@ -36,11 +36,11 @@ public class ClassPrototypeConstructorGenerator {
         this.constructor = constructor;
     }
 
-    public PrototypeConstructor generate() {
+    public PrototypeConstructor generate(ModuleRegistry registry) {
         ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = PandaClassPrototype.forClass(constructor.getParameterTypes()[i]);
+            parameters[i] = registry.forClass(constructor.getParameterTypes()[i]);
         }
 
         // TODO: Generate bytecode

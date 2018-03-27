@@ -16,24 +16,26 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.design.runtime.PandaRuntimeException;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 import java.util.Stack;
 
 public class MathExpressionCallback implements ExpressionCallback {
 
+    private final ModuleRegistry registry;
     private final Stack<Object> mathStack;
 
-    public MathExpressionCallback(Stack<Object> mathStack) {
+    public MathExpressionCallback(ModuleRegistry registry, Stack<Object> mathStack) {
         this.mathStack = mathStack;
+        this.registry = registry;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class MathExpressionCallback implements ExpressionCallback {
                         throw new PandaRuntimeException("Unknown operator");
                 }
 
-                Value c = new PandaValue(PandaClassPrototype.forName("int"), cValue);
+                Value c = new PandaValue(registry.forName("int"), cValue);
                 values.push(c);
             }
             else {
@@ -83,7 +85,7 @@ public class MathExpressionCallback implements ExpressionCallback {
     }
 
     public ClassPrototype getReturnType() {
-        return PandaClassPrototype.forName("int");
+        return registry.forName("int");
     }
 
 }

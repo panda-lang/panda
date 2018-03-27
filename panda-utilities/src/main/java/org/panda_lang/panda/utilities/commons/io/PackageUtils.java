@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.overall.module;
+package org.panda_lang.panda.utilities.commons.io;
 
-import org.panda_lang.panda.framework.design.architecture.module.Module;
+public class PackageUtils {
 
-import java.util.Collection;
-
-public interface ModuleRegistry {
-
-    default int countPrototypes() {
-        int count = 0;
-
-        for (Module module : this.getModules()) {
-            count += module.getPrototypeCount();
-        }
-
-        return count;
+    public static String toString(Package pckg, String defaultValue) {
+        return pckg != null ? pckg.getName() : defaultValue;
     }
 
-    Module getOrCreate(String groupName);
-
-    Module get(String groupName);
-
-    Collection<Module> getModules();
+    public static String toString(Package pckg) {
+        return pckg != null ? pckg.getName() : null;
+    }
 
 }

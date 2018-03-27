@@ -16,17 +16,8 @@
 
 package org.panda_lang.panda.design.interpreter.parser.util;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.architecture.Script;
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-
 /**
- * Default list of names used by {@link ParserInfo} for components
+ * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo} for components
  */
 public class Components {
 
@@ -36,63 +27,77 @@ public class Components {
     public static final String PANDA = "panda";
 
     /**
-     * Used by {@link ParserInfo}
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo}
      */
     public static final String PARENT_INFO = "parent-info";
 
     /**
-     * Used by {@link Interpreter}
+     * Used by {@link org.panda_lang.panda.framework.design.architecture.Environment}
      */
-    public static final String INTERPRETER = "interpreter";
+    public static final String ENVIRONMENT = "environment";
 
     /**
-     * Used by {@link Script}
+     * Used by {@link org.panda_lang.panda.framework.design.architecture.Application}
+     */
+    public static final String APPLICATION = "application";
+
+    /**
+     * Used by {@link org.panda_lang.panda.framework.design.architecture.Script}
      */
     public static final String SCRIPT = "script";
 
     /**
-     * Used by {@link ParserPipelineRegistry}
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry}
      */
     public static final String PIPELINE_REGISTRY = "pipeline";
 
     /**
-     * Used by {@link SourceStream}
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream}
      */
     public static final String SOURCE_STREAM = "source-stream";
 
     /**
-     * Used by {@link CasualParserGeneration}
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration}
      */
     public static final String GENERATION = "generation";
 
     /**
-     * Used by {@link CasualParserGeneration}
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration}
      */
     public static final String CURRENT_PARSER_INFO = "current-parsers-info";
 
     /**
-     * Used by {@link ScopeLinker}
+     * Used by {@link org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker}
      */
     public static final String SCOPE_LINKER = "scope-linker";
 
     /**
-     * Used by {@link ClassPrototype}
+     * Used by {@link org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype}
      */
     public static final String CLASS_PROTOTYPE = "class-prototype";
 
     /**
+     * USed by {@link org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry}
+     */
+    public static final String MODULE_REGISTRY = "module-registry";
+
+    /**
      * Array of the default names
      */
-    private static final String[] VALUES = new String[7];
+    private static final String[] VALUES = new String[11];
 
     static {
-        VALUES[0] = PARENT_INFO;
-        VALUES[1] = INTERPRETER;
-        VALUES[2] = PIPELINE_REGISTRY;
-        VALUES[3] = SOURCE_STREAM;
-        VALUES[4] = GENERATION;
-        VALUES[5] = CURRENT_PARSER_INFO;
-        VALUES[6] = SCOPE_LINKER;
+        VALUES[0] = PANDA;
+        VALUES[1] = PARENT_INFO;
+        VALUES[2] = ENVIRONMENT;
+        VALUES[3] = APPLICATION;
+        VALUES[4] = SCRIPT;
+        VALUES[5] = PIPELINE_REGISTRY;
+        VALUES[6] = SOURCE_STREAM;
+        VALUES[7] = GENERATION;
+        VALUES[8] = CURRENT_PARSER_INFO;
+        VALUES[9] = SCOPE_LINKER;
+        VALUES[10] = CLASS_PROTOTYPE;
     }
 
     public static String[] values() {

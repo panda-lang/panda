@@ -17,13 +17,14 @@
 package org.panda_lang.panda.language.structure.prototype.mapper.generator;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.language.structure.overall.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.language.structure.prototype.mapper.ClassPrototypeMappingGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.utilities.commons.io.PackageUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -31,14 +32,16 @@ import java.lang.reflect.Method;
 
 public class ClassPrototypeGenerator {
 
+    private final ModuleRegistry registry;
     private final ClassPrototypeMappingGenerator mappingGenerator;
 
-    public ClassPrototypeGenerator(ClassPrototypeMappingGenerator mappingGenerator) {
+    public ClassPrototypeGenerator(ModuleRegistry registry, ClassPrototypeMappingGenerator mappingGenerator) {
+        this.registry = registry;
         this.mappingGenerator = mappingGenerator;
     }
 
     public ClassPrototype generate(Class<?> type) {
-        Module rootModule = ModuleRegistry.getDefault().getOrCreate(type.getPackage() == null ? "" : type.getPackage().getName());
+        Module rootModule = registry.getOrCreate(PackageUtils.toString(type.getPackage()));
         ClassPrototype prototype = rootModule.get(type.getSimpleName());
 
         if (prototype != null) {
@@ -50,19 +53,19 @@ public class ClassPrototypeGenerator {
 
         for (Field field : type.getFields()) {
             ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(type, prototype, field);
-            PrototypeField prototypeField = generator.generate();
+            PrototypeField prototypeField = generator.generate(registry);
             prototype.getFields().add(prototypeField);
         }
 
         for (Constructor<?> constructor : type.getConstructors()) {
             ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(type, prototype, constructor);
-            PrototypeConstructor prototypeField = generator.generate();
+            PrototypeConstructor prototypeField = generator.generate(registry);
             prototype.getConstructors().add(prototypeField);
         }
 
         for (Method method : type.getMethods()) {
             ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(type, prototype, method);
-            PrototypeMethod prototypeMethod = generator.generate();
+            PrototypeMethod prototypeMethod = generator.generate(registry);
             prototype.getMethods().registerMethod(prototypeMethod);
         }
 

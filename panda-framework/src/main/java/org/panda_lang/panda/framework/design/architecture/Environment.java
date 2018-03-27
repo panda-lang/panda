@@ -16,9 +16,12 @@
 
 package org.panda_lang.panda.framework.design.architecture;
 
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 
 public interface Environment {
+
+    ModuleRegistry getModuleRegistry();
 
     Interpreter getInterpreter();
 
