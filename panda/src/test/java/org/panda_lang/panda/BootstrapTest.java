@@ -19,7 +19,7 @@ package org.panda_lang.panda;
 import org.junit.Test;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
-import org.panda_lang.panda.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
@@ -28,7 +28,7 @@ public class BootstrapTest {
     @Test
     public void testBootstraps() {
         // TODO: Remove static components for multiple calls
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 2; i++) {
             this.testBootstrap();
         }
     }
@@ -39,7 +39,7 @@ public class BootstrapTest {
                 .mapModels(ClassPrototypeModel.of("panda-lang"))
                 .get();
 
-        PandaApplication application = new PandaApplicationBootstrap(panda)
+        Application application = new PandaApplicationBootstrap(panda)
                 .source("../examples/current_test.panda")
                 .createApplication();
 

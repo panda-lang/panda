@@ -16,26 +16,38 @@
 
 package org.panda_lang.panda.language.structure.overall.module;
 
+import org.panda_lang.panda.design.architecture.prototype.module.PandaModule;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public interface ModuleRegistry {
+public class PandaModuleRegistry implements ModuleRegistry {
 
-    default int countPrototypes() {
-        int count = 0;
+    private final Map<String, Module> groups;
 
-        for (Module module : this.getModules()) {
-            count += module.getPrototypeCount();
-        }
-
-        return count;
+    public PandaModuleRegistry() {
+        this.groups = new HashMap<>();
     }
 
-    Module getOrCreate(String groupName);
+    @Override
+    public Module getOrCreate(String groupName) {
+        return this.getGroups().computeIfAbsent(groupName, PandaModule::new);
+    }
 
-    Module get(String groupName);
+    @Override
+    public Module get(String groupName) {
+        return this.getGroups().get(groupName);
+    }
 
-    Collection<Module> getModules();
+    @Override
+    public Collection<Module> getModules() {
+        return this.groups.values();
+    }
+
+    public Map<String, Module> getGroups() {
+        return groups;
+    }
 
 }
