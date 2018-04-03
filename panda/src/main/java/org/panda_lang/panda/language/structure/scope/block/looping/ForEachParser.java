@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.scope.block.looping;
 
+import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.util.Components;
@@ -24,6 +25,7 @@ import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -33,6 +35,9 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
 import org.panda_lang.panda.language.structure.scope.block.looping.blocks.ForEachBlock;
+import org.panda_lang.panda.language.structure.statement.variable.parser.VarParser;
+import org.panda_lang.panda.language.structure.statement.variable.parser.VarParserData;
+import org.panda_lang.panda.language.structure.statement.variable.parser.VarParserResult;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = ForEachParser.class, handlerClass = ForEachHandler.class)
@@ -40,6 +45,7 @@ public class ForEachParser implements UnifiedParser {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "foreach ( +* : +* )")
+            .maxNestingLevel(1)
             .build();
 
     @Override
@@ -52,6 +58,13 @@ public class ForEachParser implements UnifiedParser {
         ModuleRegistry registry = environment.getModuleRegistry();
 
         // TODO: Create var
+        VarParser varParser = new VarParser();
+        VarParserData varData = varParser.toVarParserData(varSource);
+        VarParserResult result = varParser.parseVariable(varData, info);
+
+        ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
+        Scope scope = scopeLinker.getCurrentScope();
+        int variableId = scope.addVariable(result.getVariable());
 
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(info, iterableSource);
@@ -61,7 +74,7 @@ public class ForEachParser implements UnifiedParser {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
-        info.setComponent("block", new ForEachBlock(expression));
+        info.setComponent("block", new ForEachBlock(variableId, result.getVariable().getType(), expression));
     }
 
 }

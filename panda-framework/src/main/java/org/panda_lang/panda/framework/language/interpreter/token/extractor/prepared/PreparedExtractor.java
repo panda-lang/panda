@@ -65,10 +65,10 @@ public class PreparedExtractor implements Extractor {
             int lastIndexOfUnit;
 
             if (!pattern.hasLastIndexAlgorithmEnabled() || (fissure && TokenUtils.equals(unit, pattern.getFissureToken()))) {
-                lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], fissure ? pattern.getFissureToken() : null);
+                lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), fissure ? pattern.getFissureToken() : null);
             }
             else {
-                lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit, positions[j], fissure ? pattern.getFissureToken() : null);
+                lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), fissure ? pattern.getFissureToken() : null);
             }
 
             if (lastIndexOfUnit == -1) {

@@ -35,6 +35,18 @@ public interface Scope extends Container {
     ScopeInstance createInstance(ExecutableBranch branch);
 
     /**
+     * Adds variable to the scope
+     *
+     * @param variable variable to add
+     * @return position of the variable in the scope
+     */
+    default int addVariable(Variable variable) {
+        int variableId = getVariables().size();
+        this.getVariables().add(variable);
+        return variableId;
+    }
+
+    /**
      * @return list of variables in the proper order
      */
     List<Variable> getVariables();

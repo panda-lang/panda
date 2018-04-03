@@ -16,15 +16,14 @@
 
 package org.panda_lang.panda.language.structure.scope.block.looping.blocks;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
 
-public class LoopBlock extends AbstractContainer implements Block, ControlFlowCaller {
+public class LoopBlock extends PandaBlock implements ControlFlowCaller {
 
     private final Expression expression;
 

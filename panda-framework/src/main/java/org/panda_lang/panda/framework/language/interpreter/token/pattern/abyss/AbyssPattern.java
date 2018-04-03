@@ -30,12 +30,14 @@ public class AbyssPattern {
     private final AbyssPatternUnit[] units;
     private final Token fissureToken;
     private final int amountOfHollows;
+    private final int maxNestingLevel;
     private final boolean keepingOpposites;
     private final boolean lastIndexAlgorithm;
 
-    public AbyssPattern(AbyssPatternUnit[] units, Token fissureToken, boolean keepOpposites, boolean lastIndexAlgorithm) {
+    public AbyssPattern(AbyssPatternUnit[] units, Token fissureToken, int maxNestingLevel, boolean keepOpposites, boolean lastIndexAlgorithm) {
         this.units = units;
         this.fissureToken = fissureToken;
+        this.maxNestingLevel = maxNestingLevel;
         this.keepingOpposites = keepOpposites;
         this.lastIndexAlgorithm = lastIndexAlgorithm;
         this.amountOfHollows = AbyssPatternUtils.countGaps(units);
@@ -69,6 +71,10 @@ public class AbyssPattern {
 
     public boolean hasKeepingOppositesEnabled() {
         return keepingOpposites;
+    }
+
+    public int getMaxNestingLevel() {
+        return maxNestingLevel;
     }
 
     public int getAmountOfHollows() {

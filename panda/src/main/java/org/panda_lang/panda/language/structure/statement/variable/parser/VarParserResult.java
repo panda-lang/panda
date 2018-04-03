@@ -21,12 +21,20 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class VarParserResult {
 
-    private final Expression instanceExpression;
     private final Variable variable;
+    private final Expression instanceExpression;
 
     public VarParserResult(Expression instanceExpression, Variable variable) {
         this.instanceExpression = instanceExpression;
         this.variable = variable;
+    }
+
+    public Expression getInstanceExpression() {
+        return instanceExpression;
+    }
+
+    public Variable getVariable() {
+        return variable;
     }
 
 }

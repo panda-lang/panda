@@ -46,7 +46,7 @@ import java.util.List;
 public class VarParser {
 
     public static final AbyssPattern ASSIGNATION_PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "+** = +*")
+            .compile(PandaSyntax.getInstance(), "+**")
             .build();
 
     public VarParserData toVarParserData(TokenizedSource source) {

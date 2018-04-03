@@ -69,7 +69,9 @@ public class Operators {
 
     public static final Operator BITWISE_RIGHT_SHIFT = new Operator(">>");
 
-    private static final Operator[] VALUES = new Operator[23];
+    public static final Operator COLON = new Operator(":");
+
+    private static final Operator[] VALUES = new Operator[24];
 
     static {
         VALUES[0] = ASSIGNMENT;
@@ -95,6 +97,7 @@ public class Operators {
         VALUES[20] = BITWISE_XOR;
         VALUES[21] = BITWISE_LEFT_SHIFT;
         VALUES[22] = BITWISE_RIGHT_SHIFT;
+        VALUES[23] = COLON;
     }
 
     public static Operator[] values() {

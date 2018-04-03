@@ -83,9 +83,8 @@ main {
     loop (i) {
         builder.append(" Loop x1 ");
 
-        loop (i) {
-            builder.append(" Loop x2 ");
-            break;
+        foreach (String var : list) {
+            builder.append(var);
         }
 
         builder.append(" Loop x3 ");

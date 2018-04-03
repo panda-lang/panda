@@ -56,26 +56,26 @@ public class PreparedSourceUtils {
      * @return index of the specified token in array, returns -1 if the token was not found
      */
     public static int indexOf(PreparedSource preparedSource, Token search) {
-        return indexOf(preparedSource, search, 0);
+        return indexOf(preparedSource, search, 0, 0);
     }
 
     /**
      * @return index of the specified token in array with a defined start-index, returns -1 if the token was not found
      */
-    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex) {
-        return indexOf(preparedSource, search, minIndex, null);
+    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex, int maxNestingLevel) {
+        return indexOf(preparedSource, search, minIndex, maxNestingLevel, null);
     }
 
     /**
      * @return index of the specified token in array with a defined start-index, returns -1 if the token was not found or a specified before-token was reached
      */
-    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex, @Nullable Token before) {
+    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex, int maxNestingLevel, @Nullable Token before) {
         PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
 
         for (int i = minIndex; i < representations.length; i++) {
             PreparedRepresentation representation = representations[i];
 
-            if (representation.getNestingLevel() > 0) {
+            if (representation.getNestingLevel() > maxNestingLevel) {
                 continue;
             }
 
@@ -94,13 +94,13 @@ public class PreparedSourceUtils {
     }
 
     public static int lastIndexOf(PreparedSource preparedSource, Token search) {
-        return lastIndexOf(preparedSource, search, 0, null);
+        return lastIndexOf(preparedSource, search, 0, 0, null);
     }
 
     /**
      * @return last index of the specified token in array, returns -1 if the token was not found
      */
-    public static int lastIndexOf(PreparedSource preparedSource, Token search, int minIndex, @Nullable Token before) {
+    public static int lastIndexOf(PreparedSource preparedSource, Token search, int minIndex, int maxNestingLevel, @Nullable Token before) {
         PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
 
         int indexOfBefore = before != null ? indexOf(preparedSource, before) : -1;
@@ -109,7 +109,7 @@ public class PreparedSourceUtils {
         for (int i = startIndex; i > minIndex - 1; i--) {
             PreparedRepresentation representation = representations[i];
 
-            if (representation.getNestingLevel() > 0) {
+            if (representation.getNestingLevel() > maxNestingLevel) {
                 continue;
             }
 

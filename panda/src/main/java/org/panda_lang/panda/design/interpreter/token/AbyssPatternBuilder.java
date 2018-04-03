@@ -31,6 +31,7 @@ public class AbyssPatternBuilder {
 
     private final List<AbyssPatternUnit> units;
     private Token fissureToken;
+    private int maxNestingLevel;
     private boolean keepOpposites;
     private boolean lastIndexAlgorithm;
 
@@ -38,6 +39,11 @@ public class AbyssPatternBuilder {
         this.units = new ArrayList<>();
         this.fissureToken = Separators.SEMICOLON;
         this.keepOpposites = true;
+    }
+
+    public AbyssPatternBuilder maxNestingLevel(int maxNestingLevel) {
+        this.maxNestingLevel = maxNestingLevel;
+        return this;
     }
 
     public AbyssPatternBuilder keepOpposites(boolean keepOpposites) {
@@ -85,7 +91,7 @@ public class AbyssPatternBuilder {
         AbyssPatternUnit[] unitsArray = new AbyssPatternUnit[units.size()];
         units.toArray(unitsArray);
 
-        return new AbyssPattern(unitsArray, fissureToken, keepOpposites, lastIndexAlgorithm);
+        return new AbyssPattern(unitsArray, fissureToken, maxNestingLevel, keepOpposites, lastIndexAlgorithm);
     }
 
 }
