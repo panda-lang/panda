@@ -45,7 +45,7 @@ public class AutomatedDataSpaceTest {
 
                         @Override
                         public Class<Integer> getQueryType() {
-                            return int.class;
+                            return Integer.class;
                         }
 
                         @Override
@@ -65,7 +65,7 @@ public class AutomatedDataSpaceTest {
 
     public static class StringCollectionService implements ADSCollectionService<String> {
 
-        private static final Map<Integer, String> strings = new HashMap<>();
+        private final Map<Integer, String> strings = new HashMap<>();
 
         public void put(String element) {
             strings.put(element.hashCode(), element);
