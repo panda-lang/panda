@@ -33,9 +33,17 @@ public class AutomatedDataInterface {
         return (T) collection.get(query);
     }
 
-    public void put(Object element) {
+    public void post(Object element) {
         ADSCollection collection = this.selectCollection(element.getClass());
-        collection.put(element);
+        collection.post(element);
+    }
+
+    public void loadAll() {
+
+    }
+
+    public void saveAll() {
+
     }
 
     @NotNull

@@ -56,7 +56,7 @@ public class ADSCollection<T> implements AutomatedDataRest<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void put(Object element) {
+    public void post(Object element) {
         for (Entry<Class<?>, ADSCollectionHandler> entry : handlers.entrySet()) {
             ADSCollectionHandler handler = entry.getValue();
 
@@ -69,7 +69,12 @@ public class ADSCollection<T> implements AutomatedDataRest<T> {
     }
 
     @Override
-    public T patch(Object element) {
+    public void patch(Object element) {
+
+    }
+
+    @Override
+    public T put(Object element) {
         return null;
     }
 

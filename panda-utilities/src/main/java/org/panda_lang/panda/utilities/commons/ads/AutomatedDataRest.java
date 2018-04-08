@@ -18,11 +18,13 @@ package org.panda_lang.panda.utilities.commons.ads;
 
 public interface AutomatedDataRest<T> {
 
-    void put(Object element);
+    void post(Object element);
+
+    void patch(Object element);
+
+    T put(Object element);
 
     T get(Object query);
-
-    T patch(Object element);
 
     T delete(Object query);
 

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.commons.ads;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionHandler;
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionService;
@@ -34,8 +35,8 @@ public class AutomatedDataSpaceTest {
                     .service(new StringCollectionService())
                     .handler(new ADSCollectionHandler<StringCollectionService, String, Integer>() {
                         @Override
-                        public void save(StringCollectionService service, String object) {
-                            service.put(object);
+                        public void save(StringCollectionService service, String element) {
+                            service.put(element);
                         }
 
                         @Override
@@ -57,10 +58,12 @@ public class AutomatedDataSpaceTest {
                 .build();
 
         AutomatedDataInterface dataInterface = pde.createInterface();
-        dataInterface.put("var");
+        dataInterface.post("var");
 
-        System.out.println(dataInterface.get(String.class, "var"));
-        System.out.println(dataInterface.get(String.class, "var".hashCode()));
+        Assert.assertNull(dataInterface.get(String.class, "var"));
+        Assert.assertEquals(dataInterface.get(String.class, "var".hashCode()), "var");
+
+        dataInterface.loadAll();
     }
 
     public static class StringCollectionService implements ADSCollectionService<String> {

@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.commons.ads.collection;
 
 public interface ADSCollectionHandler<Service extends ADSCollectionService, DataType, QueryType> {
 
-    void save(Service service, DataType object);
+    void save(Service service, DataType element);
 
     DataType get(Service service, QueryType query);
 
