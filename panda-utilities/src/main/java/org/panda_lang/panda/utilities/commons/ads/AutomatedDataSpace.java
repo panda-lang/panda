@@ -17,23 +17,30 @@
 package org.panda_lang.panda.utilities.commons.ads;
 
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollection;
+import org.panda_lang.panda.utilities.commons.ads.database.ADSDatabase;
 
 import java.util.Map;
 
 public class AutomatedDataSpace {
 
-    private final Map<Class<?>, ADSCollection> collections;
+    private final Map<String, ADSCollection> collections;
+    private final Map<String, ADSDatabase> databases;
 
     public AutomatedDataSpace(AutomatedDataSpaceBuilder builder) {
         this.collections = builder.collections;
+        this.databases = builder.databases;
     }
 
     public AutomatedDataInterface createInterface() {
         return new AutomatedDataInterface(this);
     }
 
-    public ADSCollection getCollection(Class<?> type) {
-        return this.collections.get(type);
+    public ADSDatabase getDatabase(String databaseName) {
+        return this.databases.get(databaseName);
+    }
+
+    public ADSCollection getCollection(String collectionName) {
+        return this.collections.get(collectionName);
     }
 
     public static AutomatedDataSpaceBuilder builder() {

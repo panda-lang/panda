@@ -23,7 +23,7 @@ import java.util.Map;
 
 public class ADSCollectionBuilder {
 
-    protected final AutomatedDataSpaceBuilder builder;
+    private final AutomatedDataSpaceBuilder builder;
     protected final Map<Class<?>, ADSCollectionHandler> handlers;
     protected Class<?> type;
     protected String name;

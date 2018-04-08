@@ -29,7 +29,7 @@ public class AutomatedDataSpaceTest {
     @Test
     public void test() {
         AutomatedDataSpace pde = AutomatedDataSpace.builder()
-                .addCollection()
+                .createCollection()
                     .name("strings")
                     .type(String.class)
                     .service(new StringCollectionService())
@@ -55,13 +55,16 @@ public class AutomatedDataSpaceTest {
                         }
                     })
                     .append()
+                .createDatabase()
+                    .name("strings")
+                    .append()
                 .build();
 
         AutomatedDataInterface dataInterface = pde.createInterface();
-        dataInterface.post("var");
+        dataInterface.post("strings", "var");
 
-        Assert.assertNull(dataInterface.get(String.class, "var"));
-        Assert.assertEquals(dataInterface.get(String.class, "var".hashCode()), "var");
+        Assert.assertNull(dataInterface.get("strings", String.class, "var"));
+        Assert.assertEquals(dataInterface.get("strings", String.class, "var".hashCode()), "var");
 
         dataInterface.loadAll();
     }

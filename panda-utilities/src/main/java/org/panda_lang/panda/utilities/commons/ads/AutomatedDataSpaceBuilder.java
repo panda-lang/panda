@@ -18,24 +18,37 @@ package org.panda_lang.panda.utilities.commons.ads;
 
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollection;
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionBuilder;
+import org.panda_lang.panda.utilities.commons.ads.database.ADSDatabase;
+import org.panda_lang.panda.utilities.commons.ads.database.ADSDatabaseBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class AutomatedDataSpaceBuilder {
 
-    protected final Map<Class<?>, ADSCollection> collections;
+    protected final Map<String, ADSCollection> collections;
+    protected final Map<String, ADSDatabase> databases;
 
     public AutomatedDataSpaceBuilder() {
         this.collections = new HashMap<>();
+        this.databases = new HashMap<>();
     }
 
-    public ADSCollectionBuilder addCollection() {
+    public ADSCollectionBuilder createCollection() {
         return new ADSCollectionBuilder(this);
     }
 
     public AutomatedDataSpaceBuilder addCollection(ADSCollection collection) {
-        this.collections.put(collection.getType(), collection);
+        this.collections.put(collection.getName(), collection);
+        return this;
+    }
+
+    public ADSDatabaseBuilder createDatabase() {
+        return new ADSDatabaseBuilder(this);
+    }
+
+    public AutomatedDataSpaceBuilder addDatabase(ADSDatabase database) {
+        this.databases.put(database.getName(), database);
         return this;
     }
 

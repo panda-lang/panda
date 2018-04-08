@@ -28,13 +28,13 @@ public class AutomatedDataInterface {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T get(Class<T> type, Object query) {
-        ADSCollection collection = this.selectCollection(type);
+    public <T> T get(String collectionName, Class<T> type, Object query) {
+        ADSCollection collection = this.selectCollection(collectionName, type);
         return (T) collection.get(query);
     }
 
-    public void post(Object element) {
-        ADSCollection collection = this.selectCollection(element.getClass());
+    public void post(String collectionName, Object element) {
+        ADSCollection collection = this.selectCollection(collectionName, element.getClass());
         collection.post(element);
     }
 
@@ -47,14 +47,14 @@ public class AutomatedDataInterface {
     }
 
     @NotNull
-    private ADSCollection<?> selectCollection(Class<?> type) {
-        ADSCollection collection = automatedDataSpace.getCollection(type);
+    private ADSCollection<?> selectCollection(String collectionName, Class<?> type) {
+        ADSCollection collection = automatedDataSpace.getCollection(collectionName);
 
         if (collection == null) {
             throw new AutomatedDataException("Collection of " + type + " does not exist");
         }
 
-        if (collection.getType() != type) {
+        if (type != null && collection.getType() != type) {
             throw new AutomatedDataException("Cannot get " + type + " from collection of " + collection.getType());
         }
 
