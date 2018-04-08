@@ -14,20 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.ads.database;
+package org.panda_lang.panda.utilities.commons.ads.serialization;
 
-public class ADSDatabase<T>  {
-
-    private final String name;
-    private final ADSDatabaseRepository repository;
-
-    protected ADSDatabase(ADSDatabaseBuilder builder) {
-        this.name = builder.name;
-        this.repository = builder.repository;
-    }
-
-    public String getName() {
-        return name;
-    }
+public class DeserializationResult {
 
 }

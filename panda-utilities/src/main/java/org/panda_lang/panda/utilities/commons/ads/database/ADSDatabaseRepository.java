@@ -16,18 +16,6 @@
 
 package org.panda_lang.panda.utilities.commons.ads.database;
 
-public class ADSDatabase<T>  {
-
-    private final String name;
-    private final ADSDatabaseRepository repository;
-
-    protected ADSDatabase(ADSDatabaseBuilder builder) {
-        this.name = builder.name;
-        this.repository = builder.repository;
-    }
-
-    public String getName() {
-        return name;
-    }
+public interface ADSDatabaseRepository<T> {
 
 }

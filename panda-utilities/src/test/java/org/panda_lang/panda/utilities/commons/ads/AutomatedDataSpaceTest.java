@@ -20,6 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionHandler;
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionService;
+import org.panda_lang.panda.utilities.commons.ads.database.ADSDatabaseRepository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -57,6 +58,7 @@ public class AutomatedDataSpaceTest {
                     .append()
                 .createDatabase()
                     .name("strings")
+                    .repository(new StringDatabaseRepository())
                     .append()
                 .build();
 
@@ -80,6 +82,10 @@ public class AutomatedDataSpaceTest {
         public String get(int hashCode) {
             return strings.get(hashCode);
         }
+
+    }
+
+    public static class StringDatabaseRepository implements ADSDatabaseRepository<String> {
 
     }
 

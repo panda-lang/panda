@@ -22,6 +22,7 @@ public class ADSDatabaseBuilder {
 
     private final AutomatedDataSpaceBuilder builder;
     protected String name;
+    protected ADSDatabaseRepository repository;
 
     public ADSDatabaseBuilder(AutomatedDataSpaceBuilder builder) {
         this.builder = builder;
@@ -32,8 +33,13 @@ public class ADSDatabaseBuilder {
         return this;
     }
 
+    public ADSDatabaseBuilder repository(ADSDatabaseRepository repository) {
+        this.repository = repository;
+        return this;
+    }
+
     public AutomatedDataSpaceBuilder append() {
-        return builder;
+        return builder.addDatabase(new ADSDatabase(this));
     }
 
 }
