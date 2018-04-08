@@ -81,11 +81,6 @@
 
             <!-- Reflections -->
             <dependency>
-                <groupId>net.bytebuddy</groupId>
-                <artifactId>byte-buddy</artifactId>
-                <version>1.5.4</version>
-            </dependency>
-            <dependency>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>0.9.10</version>
@@ -94,11 +89,6 @@
                 <groupId>com.esotericsoftware</groupId>
                 <artifactId>reflectasm</artifactId>
                 <version>1.11.3</version>
-            </dependency>
-            <dependency>
-                <groupId>io.github.lukehutch</groupId>
-                <artifactId>fast-classpath-scanner</artifactId>
-                <version>2.18.1</version>
             </dependency>
 
             <!-- Utilities -->
