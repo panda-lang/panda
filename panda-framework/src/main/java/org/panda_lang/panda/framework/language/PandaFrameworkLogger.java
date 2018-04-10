@@ -21,6 +21,10 @@ import org.slf4j.LoggerFactory;
 
 public class PandaFrameworkLogger {
 
-    public static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
+    protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
+
+    public static void setLogger(Logger logger) {
+        PANDA_FRAMEWORK_LOGGER = logger;
+    }
 
 }
