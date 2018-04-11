@@ -24,7 +24,7 @@ import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.architecture.Environment;
@@ -72,10 +72,10 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedInfo.getComponent(Components.ENVIRONMENT);
+            Environment environment = delegatedInfo.getComponent(PandaComponents.ENVIRONMENT);
             ModuleRegistry registry = environment.getModuleRegistry();
 
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
             Module module = script.getModule();
 
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "class-declaration", "class-body");
@@ -96,7 +96,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             script.getStatements().add(classReference);
 
             ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
-            delegatedInfo.setComponent(Components.SCOPE_LINKER, classScopeLinker);
+            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
 
             if (classDeclaration.size() > 1) {
                 nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), delegatedInfo);
@@ -123,16 +123,16 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(Components.PIPELINE_REGISTRY);
+            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
             ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.PROTOTYPE);
 
             AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource bodySource = redactor.get("class-body");
             SourceStream stream = new PandaSourceStream(bodySource);
 
-            CasualParserGeneration generation = delegatedInfo.getComponent(Components.GENERATION);
+            CasualParserGeneration generation = delegatedInfo.getComponent(PandaComponents.GENERATION);
             ParserInfo bodyInfo = delegatedInfo.fork();
-            bodyInfo.setComponent(Components.SOURCE_STREAM, stream);
+            bodyInfo.setComponent(PandaComponents.SOURCE_STREAM, stream);
 
             while (stream.hasUnreadSource()) {
                 UnifiedParser parser = pipeline.handle(stream);

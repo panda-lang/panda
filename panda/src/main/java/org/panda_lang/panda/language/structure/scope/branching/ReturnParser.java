@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.StatementCel
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -58,7 +58,7 @@ public class ReturnParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
+            SourceStream stream = delegatedInfo.getComponent(PandaComponents.SOURCE_STREAM);
             Container container = delegatedInfo.getComponent("container");
 
             if (stream.getUnreadLength() == 1) {

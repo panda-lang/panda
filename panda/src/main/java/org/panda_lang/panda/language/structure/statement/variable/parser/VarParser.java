@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.statement.variable.parser;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
@@ -76,7 +76,7 @@ public class VarParser {
             String variableName = left.getLast().getTokenValue();
             String variableType = left.getLast(1).getTokenValue();
 
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
             ImportRegistry importRegistry = script.getImportRegistry();
             ClassPrototype type = importRegistry.forClass(variableType);
 
@@ -92,12 +92,12 @@ public class VarParser {
         }
 
         if (left.size() == 1) {
-            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
+            ScopeLinker linker = delegatedInfo.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = linker.getCurrentScope();
             Variable variable = VariableParserUtils.getVariable(scope, left.getLast().getToken().getTokenValue());
 
             if (variable == null) {
-                ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
+                ClassPrototype prototype = delegatedInfo.getComponent(PandaComponents.CLASS_PROTOTYPE);
 
                 if (prototype == null) {
                     throw new PandaParserException("Cannot get field from non-prototype scope");

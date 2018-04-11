@@ -20,7 +20,7 @@ import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.architecture.Environment;
@@ -78,10 +78,10 @@ public class ImportParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
-            SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
+            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+            SourceStream stream = delegatedInfo.getComponent(PandaComponents.SOURCE_STREAM);
 
-            Environment environment = delegatedInfo.getComponent(Components.ENVIRONMENT);
+            Environment environment = delegatedInfo.getComponent(PandaComponents.ENVIRONMENT);
             ModuleRegistry registry = environment.getModuleRegistry();
 
             TokenizedSource source = stream.toTokenizedSource();

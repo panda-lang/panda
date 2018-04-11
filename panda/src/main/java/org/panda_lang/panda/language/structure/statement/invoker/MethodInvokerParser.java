@@ -27,7 +27,7 @@ import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGen
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -87,7 +87,7 @@ public class MethodInvokerParser implements UnifiedParser {
             TokenizedSource methodSource = redactor.get("method-name");
             TokenizedSource argumentsSource = redactor.get("arguments");
 
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
             ImportRegistry registry = script.getImportRegistry();
 
             String surmiseClassName = instanceSource.asString();

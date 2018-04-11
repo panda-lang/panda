@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.general.expression.callbacks.math;
 
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -49,7 +49,7 @@ public class MathParser implements Parser {
             Operators.MULTIPLICATION });
 
     public MathExpressionCallback parse(TokenizedSource source, ParserInfo info) {
-        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         TokenReader reader = new PandaTokenReader(source);

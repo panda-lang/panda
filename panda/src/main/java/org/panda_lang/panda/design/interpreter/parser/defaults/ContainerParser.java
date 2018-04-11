@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
@@ -40,13 +40,13 @@ public class ContainerParser implements Parser {
     }
 
     public void parse(ParserInfo info, TokenizedSource body) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
 
-        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
+        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(PandaComponents.PIPELINE_REGISTRY);
         ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
-        info.setComponent(Components.SOURCE_STREAM, stream);
+        info.setComponent(PandaComponents.SOURCE_STREAM, stream);
 
         Container previousContainer = info.getComponent("container");
         info.setComponent("container", container);

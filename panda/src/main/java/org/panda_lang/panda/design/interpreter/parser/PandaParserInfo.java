@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.design.interpreter.parser;
 
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 
 import java.util.HashMap;
@@ -37,7 +36,7 @@ public class PandaParserInfo implements ParserInfo {
     @Override
     public PandaParserInfo fork() {
         PandaParserInfo parserInfo = new PandaParserInfo(new HashMap<>(components));
-        parserInfo.setComponent(Components.PARENT_INFO, this);
+        parserInfo.setComponent(PandaComponents.PARENT_INFO, this);
 
         return parserInfo;
     }
@@ -48,7 +47,7 @@ public class PandaParserInfo implements ParserInfo {
     }
 
     /**
-     * Default list of components is available here: {@link Components}
+     * Default list of components is available here: {@link PandaComponents}
      *
      * @param componentName a name of the specified component
      * @return selected component

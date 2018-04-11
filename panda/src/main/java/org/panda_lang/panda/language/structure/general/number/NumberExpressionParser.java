@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.language.structure.general.number;
 
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
@@ -34,7 +34,7 @@ public class NumberExpressionParser implements ParticularParser<Value> {
             return null;
         }
 
-        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         String unknownNumber = source.asString();

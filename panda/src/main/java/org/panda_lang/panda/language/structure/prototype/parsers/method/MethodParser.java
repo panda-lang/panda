@@ -33,7 +33,7 @@ import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -93,7 +93,7 @@ public class MethodParser implements UnifiedParser {
                 }
 
                 if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 2) {
-                    PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+                    PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
                     ImportRegistry registry = script.getImportRegistry();
 
                     String returnTypeName = token.getTokenValue();
@@ -161,7 +161,7 @@ public class MethodParser implements UnifiedParser {
 
             ScopeLinker linker = new PandaScopeLinker(classScope);
             linker.pushScope(methodScope);
-            delegatedInfo.setComponent(Components.SCOPE_LINKER, linker);
+            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, linker);
 
             AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource body = redactor.get("method-body");

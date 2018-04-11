@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -59,7 +59,7 @@ public class MainParser implements UnifiedParser {
             Main main = new Main();
             delegatedInfo.setComponent("main", main);
 
-            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            Script script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
             script.getStatements().add(main);
 
             nextLayer.delegate(new MainBodyCasualParserCallback(), delegatedInfo.fork());
@@ -76,7 +76,7 @@ public class MainParser implements UnifiedParser {
             delegatedInfo.setComponent("scope", main);
 
             ScopeLinker linker = new PandaScopeLinker(main);
-            delegatedInfo.setComponent(Components.SCOPE_LINKER, linker);
+            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, linker);
 
             AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
             TokenizedSource body = redactor.get("main-body");

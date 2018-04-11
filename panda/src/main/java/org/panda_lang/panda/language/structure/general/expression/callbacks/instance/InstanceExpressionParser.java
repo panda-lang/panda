@@ -20,7 +20,7 @@ import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -50,7 +50,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
 
     @Override
     public void parse(TokenizedSource source, ParserInfo info) {
-        PandaScript script = info.getComponent(Components.SCRIPT);
+        PandaScript script = info.getComponent(PandaComponents.SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 
         Extractor extractor = PATTERN.extractor();

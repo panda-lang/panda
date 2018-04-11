@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.structure.general.expression;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
@@ -66,7 +66,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
     }
 
     public Expression parse(ParserInfo info, TokenizedSource expressionSource, boolean silence) {
-        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         if (expressionSource.size() == 1) {
@@ -82,7 +82,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                     case "false":
                         return toSimpleKnownExpression(registry, "boolean", false);
                     case "this":
-                        ClassPrototype type = info.getComponent(Components.CLASS_PROTOTYPE);
+                        ClassPrototype type = info.getComponent(PandaComponents.CLASS_PROTOTYPE);
                         return new PandaExpression(type, new ThisExpressionCallback());
                     default:
                         throw new PandaParserException("Unknown literal: " + token);
@@ -105,7 +105,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                 return new PandaExpression(numericValue);
             }
 
-            ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
+            ScopeLinker scopeLinker = info.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
             Variable variable = VariableParserUtils.getVariable(scope, value);
 
@@ -114,7 +114,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                 return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
             }
 
-            ClassPrototype prototype = info.getComponent(Components.CLASS_PROTOTYPE);
+            ClassPrototype prototype = info.getComponent(PandaComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
                 PrototypeField field = prototype.getField(value);
@@ -155,7 +155,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         List<TokenizedSource> fieldMatches = ExpressionPatterns.FIELD_PATTERN.match(expressionReader);
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
-            PandaScript script = info.getComponent(Components.SCRIPT);
+            PandaScript script = info.getComponent(PandaComponents.SCRIPT);
             ImportRegistry importRegistry = script.getImportRegistry();
 
             TokenizedSource instanceSource = fieldMatches.get(0);

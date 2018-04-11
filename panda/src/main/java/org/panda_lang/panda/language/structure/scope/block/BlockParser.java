@@ -23,7 +23,7 @@ import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGen
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -62,7 +62,7 @@ public class BlockParser implements UnifiedParser {
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "block-declaration", "block-body");
             delegatedInfo.setComponent("redactor", redactor);
 
-            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(Components.PIPELINE_REGISTRY);
+            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
             ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.BLOCK);
 
             TokenizedSource blockDeclaration = redactor.get("block-declaration");
@@ -74,7 +74,7 @@ public class BlockParser implements UnifiedParser {
             }
 
             ParserInfo blockParserInfo = delegatedInfo.fork();
-            blockParserInfo.setComponent(Components.SOURCE_STREAM, declarationStream);
+            blockParserInfo.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
             blockParser.parse(blockParserInfo);
 
             Block block = blockParserInfo.getComponent("block");
@@ -90,7 +90,7 @@ public class BlockParser implements UnifiedParser {
                 container.addStatement(block);
             }
 
-            ParserInfo parentInfo = delegatedInfo.getComponent(Components.PARENT_INFO);
+            ParserInfo parentInfo = delegatedInfo.getComponent(PandaComponents.PARENT_INFO);
             parentInfo.setComponent("previous-block", block);
 
             delegatedInfo.setComponent("block", block);

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.interpreter.parser.util;
+package org.panda_lang.panda.design.interpreter.parser;
 
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo} for components
  */
-public class Components {
+public class PandaComponents {
 
     /**
      * Used by {@link org.panda_lang.panda.Panda}
@@ -81,27 +81,5 @@ public class Components {
      */
     public static final String MODULE_REGISTRY = "module-registry";
 
-    /**
-     * Array of the default names
-     */
-    private static final String[] VALUES = new String[11];
-
-    static {
-        VALUES[0] = PANDA;
-        VALUES[1] = PARENT_INFO;
-        VALUES[2] = ENVIRONMENT;
-        VALUES[3] = APPLICATION;
-        VALUES[4] = SCRIPT;
-        VALUES[5] = PIPELINE_REGISTRY;
-        VALUES[6] = SOURCE_STREAM;
-        VALUES[7] = GENERATION;
-        VALUES[8] = CURRENT_PARSER_INFO;
-        VALUES[9] = SCOPE_LINKER;
-        VALUES[10] = CLASS_PROTOTYPE;
-    }
-
-    public static String[] values() {
-        return VALUES;
-    }
 
 }

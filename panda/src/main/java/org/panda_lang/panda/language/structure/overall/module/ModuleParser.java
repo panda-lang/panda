@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.overall.module;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.architecture.Environment;
@@ -53,7 +53,7 @@ public class ModuleParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
 
         generation.getLayer(CasualParserGenerationType.HIGHER)
                 .delegateImmediately(new GroupDeclarationCasualParserCallback(), info)
@@ -65,8 +65,8 @@ public class ModuleParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedInfo.getComponent(Components.ENVIRONMENT);
-            PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+            Environment environment = delegatedInfo.getComponent(PandaComponents.ENVIRONMENT);
+            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
 
             AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedInfo);
             TokenizedSource hollow = hollows.getGap(0);
@@ -98,7 +98,7 @@ public class ModuleParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Script script = delegatedInfo.getComponent(Components.SCRIPT);
+            Script script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
             Collection<ModuleStatement> moduleStatements = script.select(ModuleStatement.class);
 
             if (moduleStatements.size() == 0) {

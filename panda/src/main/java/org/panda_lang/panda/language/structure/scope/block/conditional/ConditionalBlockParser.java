@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.scope.block.conditional;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -45,8 +45,8 @@ public class ConditionalBlockParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        SourceStream stream = info.getComponent(Components.SOURCE_STREAM);
-        ParserInfo parentInfo = info.getComponent(Components.PARENT_INFO);
+        SourceStream stream = info.getComponent(PandaComponents.SOURCE_STREAM);
+        ParserInfo parentInfo = info.getComponent(PandaComponents.PARENT_INFO);
 
         if (stream.getUnreadLength() == 1) {
             ElseBlock elseBlock = new ElseBlock();

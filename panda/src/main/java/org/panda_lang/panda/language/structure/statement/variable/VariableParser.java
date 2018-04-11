@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.design.runtime.expression.PandaExpression;
@@ -73,11 +73,11 @@ public class VariableParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(Components.GENERATION);
+        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
         Extractor extractor = VariableParser.ASSIGNATION_PATTERN.extractor();
-        SourceStream stream = info.getComponent(Components.SOURCE_STREAM);
+        SourceStream stream = info.getComponent(PandaComponents.SOURCE_STREAM);
 
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
@@ -124,7 +124,7 @@ public class VariableParser implements UnifiedParser {
             StatementCell cell = container.reserveCell();
             delegatedInfo.setComponent("cell", cell);
 
-            ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);
+            ScopeLinker linker = delegatedInfo.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = linker.getCurrentScope();
             delegatedInfo.setComponent("scope", scope);
 
@@ -153,7 +153,7 @@ public class VariableParser implements UnifiedParser {
                 String variableName = left.getLast().getTokenValue();
                 String variableType = left.getLast(1).getTokenValue();
 
-                PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+                PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
                 ImportRegistry importRegistry = script.getImportRegistry();
                 ClassPrototype type = importRegistry.forClass(variableType);
                 boolean mutable = TokenUtils.contains(left, Keywords.MUTABLE);
@@ -185,7 +185,7 @@ public class VariableParser implements UnifiedParser {
                     }
                 }
                 else {
-                    ClassPrototype prototype = delegatedInfo.getComponent(Components.CLASS_PROTOTYPE);
+                    ClassPrototype prototype = delegatedInfo.getComponent(PandaComponents.CLASS_PROTOTYPE);
 
                     if (prototype == null) {
                         throw new PandaParserException("Cannot get field from non-prototype scope");

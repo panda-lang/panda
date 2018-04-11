@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
@@ -45,7 +45,7 @@ public class ContinueParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedInfo.getComponent(Components.SOURCE_STREAM);
+            SourceStream stream = delegatedInfo.getComponent(PandaComponents.SOURCE_STREAM);
             Container container = delegatedInfo.getComponent("container");
 
             Continue continueStatement = new Continue();

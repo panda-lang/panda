@@ -21,7 +21,7 @@ import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.design.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.design.interpreter.parser.generation.PandaCasualParserGeneration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.elements.PandaElements;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
@@ -60,9 +60,9 @@ public class ApplicationParser implements Parser {
         CommentAssistant commentAssistant = new CommentAssistant();
 
         ParserInfo parserInfo = new PandaParserInfo();
-        parserInfo.setComponent(Components.ENVIRONMENT, environment);
-        parserInfo.setComponent(Components.PIPELINE_REGISTRY, pipelineRegistry);
-        parserInfo.setComponent(Components.GENERATION, generation);
+        parserInfo.setComponent(PandaComponents.ENVIRONMENT, environment);
+        parserInfo.setComponent(PandaComponents.PIPELINE_REGISTRY, pipelineRegistry);
+        parserInfo.setComponent(PandaComponents.GENERATION, generation);
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
@@ -75,8 +75,8 @@ public class ApplicationParser implements Parser {
             PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
 
             parserInfo = parserInfo.fork();
-            parserInfo.setComponent(Components.SOURCE_STREAM, sourceStream);
-            parserInfo.setComponent(Components.SCRIPT, pandaScript);
+            parserInfo.setComponent(PandaComponents.SOURCE_STREAM, sourceStream);
+            parserInfo.setComponent(PandaComponents.SCRIPT, pandaScript);
             OverallParser overallParser = new OverallParser(parserInfo);
 
             while (overallParser.hasNext()) {

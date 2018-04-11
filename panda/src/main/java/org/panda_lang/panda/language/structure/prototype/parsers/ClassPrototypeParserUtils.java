@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.prototype.parsers;
 
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -45,7 +45,7 @@ public class ClassPrototypeParserUtils {
                     Token classNameToken = classDeclaration.getToken(i);
 
                     if (classNameToken.getType() == TokenType.UNKNOWN) {
-                        PandaScript script = delegatedInfo.getComponent(Components.SCRIPT);
+                        PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
                         ImportRegistry registry = script.getImportRegistry();
                         ClassPrototype extendedPrototype = registry.forClass(classNameToken.getTokenValue());
 

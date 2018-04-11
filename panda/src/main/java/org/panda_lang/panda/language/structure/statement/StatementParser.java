@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.statement;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
@@ -47,7 +47,7 @@ public class StatementParser implements UnifiedParser {
 
     @Override
     public void parse(ParserInfo info) {
-        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(Components.PIPELINE_REGISTRY);
+        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(PandaComponents.PIPELINE_REGISTRY);
         ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.STATEMENT);
 
         AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, info);
@@ -61,7 +61,7 @@ public class StatementParser implements UnifiedParser {
         }
 
         ParserInfo statementParserInfo = info.fork();
-        statementParserInfo.setComponent(Components.SOURCE_STREAM, declarationStream);
+        statementParserInfo.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
         statementParser.parse(statementParserInfo);
     }
 
@@ -70,7 +70,7 @@ public class StatementParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(Components.PIPELINE_REGISTRY);
+            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
             ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.STATEMENT);
 
             AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedInfo);
@@ -84,7 +84,7 @@ public class StatementParser implements UnifiedParser {
             }
 
             ParserInfo statementParserInfo = delegatedInfo.fork();
-            statementParserInfo.setComponent(Components.SOURCE_STREAM, declarationStream);
+            statementParserInfo.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
             statementParser.parse(statementParserInfo);
         }
 

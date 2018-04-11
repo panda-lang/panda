@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.scope.block.looping;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.architecture.Environment;
@@ -54,7 +54,7 @@ public class ForEachParser implements UnifiedParser {
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");
 
-        Environment environment = info.getComponent(Components.ENVIRONMENT);
+        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         // TODO: Create var
@@ -62,7 +62,7 @@ public class ForEachParser implements UnifiedParser {
         VarParserData varData = varParser.toVarParserData(varSource);
         VarParserResult result = varParser.parseVariable(varData, info);
 
-        ScopeLinker scopeLinker = info.getComponent(Components.SCOPE_LINKER);
+        ScopeLinker scopeLinker = info.getComponent(PandaComponents.SCOPE_LINKER);
         Scope scope = scopeLinker.getCurrentScope();
         int variableId = scope.addVariable(result.getVariable());
 

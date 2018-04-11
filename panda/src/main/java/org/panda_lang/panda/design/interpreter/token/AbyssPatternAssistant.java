@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.token;
 
-import org.panda_lang.panda.design.interpreter.parser.util.Components;
+import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUtils;
@@ -32,7 +32,7 @@ public class AbyssPatternAssistant {
     }
 
     public static AbyssRedactorHollows extract(AbyssPattern pattern, ParserInfo parserInfo) {
-        return AbyssPatternUtils.extract(pattern, parserInfo.getComponent(Components.SOURCE_STREAM));
+        return AbyssPatternUtils.extract(pattern, parserInfo.getComponent(PandaComponents.SOURCE_STREAM));
     }
 
 }
