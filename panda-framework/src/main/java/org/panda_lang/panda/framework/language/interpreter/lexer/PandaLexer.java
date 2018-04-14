@@ -42,6 +42,8 @@ public class PandaLexer implements Lexer {
     private final PandaLexerSequencer lexerSequencer;
 
     private boolean includeIndentation;
+    private boolean respectWhitespaces;
+
     private String linePreview;
     private String tokenPreview;
     private boolean previousSpecial;
@@ -66,9 +68,11 @@ public class PandaLexer implements Lexer {
         this.tokenBuilder = new StringBuilder();
 
         this.includeIndentation = false;
+        this.respectWhitespaces = true;
+
+        this.tokenPreview = StringUtils.EMPTY;
+        this.linePreview = StringUtils.EMPTY;
         this.previousSpecial = false;
-        this.tokenPreview = "";
-        this.linePreview = "";
         this.line = 0;
     }
 
@@ -95,7 +99,7 @@ public class PandaLexer implements Lexer {
             return;
         }
 
-        if (CharacterUtils.isWhitespace(c)) {
+        if (respectWhitespaces && CharacterUtils.isWhitespace(c)) {
             boolean extracted = lexerTokenExtractor.extract(tokenBuilder);
 
             if (!extracted) {
@@ -141,12 +145,16 @@ public class PandaLexer implements Lexer {
         }
 
         tokenizedLine.clear();
-        linePreview = "";
+        linePreview = StringUtils.EMPTY;
         line++;
     }
 
-    public void includeIndentation() {
-        this.includeIndentation = true;
+    public void includeIndentation(boolean flag) {
+        this.includeIndentation = flag;
+    }
+
+    public void respectWhitespaces(boolean flag) {
+        this.respectWhitespaces = flag;
     }
 
     protected int getLine() {
