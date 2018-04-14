@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.design.runtime;
 
-public class PandaRuntimeException extends RuntimeException {
+import org.panda_lang.panda.PandaException;
+
+public class PandaRuntimeException extends PandaException {
 
     public PandaRuntimeException() {
         super();

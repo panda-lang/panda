@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
-public class PandaLexerException extends RuntimeException {
+import org.panda_lang.panda.framework.language.PandaFrameworkException;
+
+public class PandaLexerException extends PandaFrameworkException {
 
     public PandaLexerException(String str) {
         super(str);

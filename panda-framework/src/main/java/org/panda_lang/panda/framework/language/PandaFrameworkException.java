@@ -18,6 +18,10 @@ package org.panda_lang.panda.framework.language;
 
 public class PandaFrameworkException extends RuntimeException {
 
+    public PandaFrameworkException() {
+        super();
+    }
+
     public PandaFrameworkException(String message) {
         super(message);
     }

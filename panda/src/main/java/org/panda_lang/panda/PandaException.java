@@ -14,14 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser;
+package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.language.PandaFrameworkException;
 
-public class PandaParserException extends PandaFrameworkException {
+public class PandaException extends PandaFrameworkException {
 
-    public PandaParserException(String str) {
-        super(str);
+    public PandaException() {
+        super();
+    }
+
+    public PandaException(String message) {
+        super(message);
+    }
+
+    public PandaException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public PandaException(Throwable cause) {
+        super(cause);
     }
 
 }
