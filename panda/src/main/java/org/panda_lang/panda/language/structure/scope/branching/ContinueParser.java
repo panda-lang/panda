@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.language.structure.scope.branching.statements.Continue;
+import org.panda_lang.panda.design.architecture.statement.Continue;
 
 @ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = ContinueParser.class, handlerClass = ContinueParserHandler.class)
 public class ContinueParser implements UnifiedParser {

@@ -14,29 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.branching.statements;
+package org.panda_lang.panda.design.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 
-public class Return extends ExecutableStatement {
-
-    private final Expression value;
-
-    public Return(Expression value) {
-        this.value = value;
-    }
+public class Break extends ExecutableStatement {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        if (value != null) {
-            Value returnValue = value.getExpressionValue(branch);
-            branch.returnValue(returnValue);
-        }
-
-        branch.interrupt();
+        ControlFlow flow = branch.getCurrentControlFlow();
+        flow.escape();
     }
 
 }

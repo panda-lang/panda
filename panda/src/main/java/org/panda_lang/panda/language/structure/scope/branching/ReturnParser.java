@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.structure.scope.branching.statements.Return;
+import org.panda_lang.panda.design.architecture.statement.Return;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.STATEMENT, parserClass = ReturnParser.class, handlerClass = ReturnParserHandler.class)

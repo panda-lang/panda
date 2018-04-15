@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.branching.statements;
+package org.panda_lang.panda.design.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
