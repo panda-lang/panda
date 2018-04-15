@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.architecture.dynamic.conditional;
 
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.structure.scope.block.PandaBlock;
+import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
 
 public class SwitchBlock extends PandaBlock {
 

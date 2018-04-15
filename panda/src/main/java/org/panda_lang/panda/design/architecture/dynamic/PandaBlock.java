@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.block;
+package org.panda_lang.panda.design.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
