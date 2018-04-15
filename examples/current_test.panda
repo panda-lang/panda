@@ -6,8 +6,8 @@ attach java.lang;
 attach java.util;
 attach org.panda_lang.panda;
 attach org.panda_lang.panda.bootstrap;
-attach org.panda_lang.panda.language.syntax;
-attach org.panda_lang.panda.language.structure.prototype.registry;
+attach org.panda_lang.panda.language.interpreter;
+attach org.panda_lang.panda.language.interpreter.parsers.prototype.registry;
 attach org.panda_lang.panda.design.architecture;
 
 class Foo extends Test {
