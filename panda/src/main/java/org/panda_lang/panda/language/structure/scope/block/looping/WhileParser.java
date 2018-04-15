@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.structure.scope.block.looping.blocks.WhileBlock;
+import org.panda_lang.panda.design.architecture.dynamic.looping.WhileBlock;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = WhileParser.class, handlerClass = WhileParserHandler.class)

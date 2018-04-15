@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.structure.scope.block.looping.blocks.ForEachBlock;
+import org.panda_lang.panda.design.architecture.dynamic.looping.ForEachBlock;
 import org.panda_lang.panda.language.structure.statement.variable.parser.VarParser;
 import org.panda_lang.panda.language.structure.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.language.structure.statement.variable.parser.VarParserResult;
