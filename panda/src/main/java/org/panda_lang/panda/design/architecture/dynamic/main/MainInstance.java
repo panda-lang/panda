@@ -14,22 +14,37 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.main;
+package org.panda_lang.panda.design.architecture.dynamic.main;
 
+import org.panda_lang.panda.design.architecture.dynamic.main.MainScope;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public class Main extends AbstractScope {
+public class MainInstance implements ScopeInstance {
 
-    @Override
-    public ScopeInstance createInstance(ExecutableBranch branch) {
-        return new MainInstance(this);
+    private final MainScope main;
+    private final Value[] variables;
+
+    public MainInstance(MainScope main) {
+        this.main = main;
+        this.variables = new Value[main.getVariables().size()];
     }
 
     @Override
-    public String toString() {
-        return "'scope': 'main'";
+    public void execute(ExecutableBranch branch) {
+        branch.call(main.getStatementCells());
+    }
+
+    @Override
+    public Value[] getVariables() {
+        return variables;
+    }
+
+    @Override
+    public Scope getScope() {
+        return main;
     }
 
 }

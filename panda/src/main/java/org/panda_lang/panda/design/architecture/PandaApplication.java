@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.Script;
-import org.panda_lang.panda.language.structure.scope.main.Main;
+import org.panda_lang.panda.design.architecture.dynamic.main.MainScope;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,10 +39,10 @@ public class PandaApplication implements Application {
     @Override
     public void launch() {
         for (Script script : scripts) {
-            List<Main> mains = script.select(Main.class);
+            List<MainScope> mains = script.select(MainScope.class);
 
             if (mains.size() == 1) {
-                Main main = mains.get(0);
+                MainScope main = mains.get(0);
                 ExecutableProcess process = new PandaExecutableProcess(this, main, this.arguments);
                 PandaFramework.getLogger().info("[PandaApp] Launching application...");
 

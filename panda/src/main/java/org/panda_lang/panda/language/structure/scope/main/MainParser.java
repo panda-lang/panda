@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.structure.scope.main;
 
+import org.panda_lang.panda.design.architecture.dynamic.main.MainScope;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
@@ -56,7 +57,7 @@ public class MainParser implements UnifiedParser {
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "main-body");
             delegatedInfo.setComponent("redactor", redactor);
 
-            Main main = new Main();
+            MainScope main = new MainScope();
             delegatedInfo.setComponent("main", main);
 
             Script script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
@@ -72,7 +73,7 @@ public class MainParser implements UnifiedParser {
 
         @Override
         public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Main main = delegatedInfo.getComponent("main");
+            MainScope main = delegatedInfo.getComponent("main");
             delegatedInfo.setComponent("scope", main);
 
             ScopeLinker linker = new PandaScopeLinker(main);
