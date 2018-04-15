@@ -48,6 +48,10 @@ public class PandaCodeSource implements CodeSource {
         return this.location;
     }
 
+    public static PandaCodeSource fromPath(String path) {
+        return fromFile(new File(path));
+    }
+
     public static PandaCodeSource fromFile(File file) {
         try {
             return fromUrl(file.toURI().toURL());

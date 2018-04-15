@@ -26,4 +26,8 @@ public interface TokenRepresentation {
         return getToken().getTokenValue();
     }
 
+    default String getTokenType() {
+        return getToken().getType().getTypeName();
+    }
+
 }
