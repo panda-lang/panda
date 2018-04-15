@@ -18,7 +18,7 @@ package org.panda_lang.panda.design.interpreter;
 
 import org.panda_lang.panda.design.architecture.PandaApplication;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ApplicationParser;
-import org.panda_lang.panda.elements.PandaElements;
+import org.panda_lang.panda.language.elements.PandaElements;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;

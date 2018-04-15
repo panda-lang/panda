@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.elements.prototypes;
+package org.panda_lang.panda.language.elements.prototypes;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;

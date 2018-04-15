@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.design.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.design.interpreter.parser.generation.PandaCasualParserGeneration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.elements.PandaElements;
+import org.panda_lang.panda.language.elements.PandaElements;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.Module;

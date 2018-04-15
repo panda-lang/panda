@@ -25,7 +25,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.design.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;

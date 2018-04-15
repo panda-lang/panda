@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.memory;
+package org.panda_lang.panda.framework.design.runtime.memory;
 
 public interface MemorySegment {
 

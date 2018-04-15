@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.elements;
+package org.panda_lang.panda.language.elements;
 
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;

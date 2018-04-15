@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.memory;
+package org.panda_lang.panda.framework.language.runtime.memory;
+
+import org.panda_lang.panda.framework.design.runtime.memory.MemorySegment;
 
 import java.util.ArrayList;
 import java.util.List;

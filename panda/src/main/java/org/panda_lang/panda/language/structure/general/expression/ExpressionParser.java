@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.structure.general.expression;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.runtime.expression;
+package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;

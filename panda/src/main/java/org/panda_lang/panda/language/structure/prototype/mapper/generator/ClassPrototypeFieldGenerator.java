@@ -20,7 +20,7 @@ import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeFi
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
-import org.panda_lang.panda.design.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;

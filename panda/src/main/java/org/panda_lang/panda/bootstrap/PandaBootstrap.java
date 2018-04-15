@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.elements.PandaElements;
+import org.panda_lang.panda.language.elements.PandaElements;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.structure.general.expression.callbacks.invoker;
 
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.design.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.architecture.PandaScript;

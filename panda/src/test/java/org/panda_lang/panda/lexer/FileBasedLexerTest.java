@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.elements.PandaElements;
+import org.panda_lang.panda.language.elements.PandaElements;
 
 import java.io.File;
 
