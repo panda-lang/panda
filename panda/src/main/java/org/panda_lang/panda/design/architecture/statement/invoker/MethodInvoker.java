@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.statement.invoker;
+package org.panda_lang.panda.design.architecture.statement.invoker;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;

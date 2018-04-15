@@ -53,8 +53,8 @@ import org.panda_lang.panda.language.structure.general.expression.ExpressionPars
 import org.panda_lang.panda.language.structure.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.structure.statement.invoker.MethodInvokerParser;
-import org.panda_lang.panda.language.structure.statement.variable.assigners.FieldAssigner;
-import org.panda_lang.panda.language.structure.statement.variable.assigners.VariableAssigner;
+import org.panda_lang.panda.design.architecture.statement.assigner.FieldAssigner;
+import org.panda_lang.panda.design.architecture.statement.assigner.VariableAssigner;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 import org.panda_lang.panda.language.syntax.tokens.Keywords;
 

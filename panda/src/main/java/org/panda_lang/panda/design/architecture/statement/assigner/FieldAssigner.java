@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.statement.variable.assigners;
+package org.panda_lang.panda.design.architecture.statement.assigner;
 
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
