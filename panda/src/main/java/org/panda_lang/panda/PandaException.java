@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.language.PandaFrameworkException;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 
 public class PandaException extends PandaFrameworkException {
 

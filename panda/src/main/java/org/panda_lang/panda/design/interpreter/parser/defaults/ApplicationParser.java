@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.design.interpreter.parser.PandaParserInfo;
 import org.panda_lang.panda.design.interpreter.parser.generation.PandaCasualParserGeneration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.language.elements.PandaElements;
+import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.language.structure.general.comment.CommentAssistant;
+import org.panda_lang.panda.language.interpreter.parsers.general.comment.CommentAssistant;
 
 public class ApplicationParser implements Parser {
 
@@ -53,8 +53,8 @@ public class ApplicationParser implements Parser {
         ModuleRegistry registry = environment.getModuleRegistry();
         Module defaultModule = registry.getOrCreate(null);
 
-        PandaElements elements = interpreter.getPandaElements();
-        ParserPipelineRegistry pipelineRegistry = elements.getPipelineRegistry();
+        PandaLanguage elements = interpreter.getPandaLanguage();
+        ParserPipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
 
         CasualParserGeneration generation = new PandaCasualParserGeneration();
         CommentAssistant commentAssistant = new CommentAssistant();

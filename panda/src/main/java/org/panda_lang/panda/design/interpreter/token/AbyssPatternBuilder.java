@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
-import org.panda_lang.panda.language.syntax.tokens.Separators;
+import org.panda_lang.panda.language.interpreter.tokens.Separators;
 
 import java.util.ArrayList;
 import java.util.List;

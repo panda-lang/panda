@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.design.interpreter.parser.pipeline.registry;
 
-import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 
@@ -31,7 +30,7 @@ import java.lang.annotation.Target;
 public @interface ParserRegistration {
 
     /**
-     * Default pipelines: {@link DefaultPipelines}
+     * Default pipelines: {@link org.panda_lang.panda.language.interpreter.parsers.PandaPipelines}
      *
      * @return an array of pipelines
      */

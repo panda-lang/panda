@@ -21,7 +21,7 @@ import org.panda_lang.panda.design.architecture.PandaEnvironment;
 import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.language.PandaFrameworkException;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
 import org.panda_lang.panda.utilities.commons.io.FileUtils;

@@ -16,20 +16,20 @@
 
 package org.panda_lang.panda.design.interpreter;
 
-import org.panda_lang.panda.language.elements.PandaElements;
+import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 
 public class PandaInterpreterBuilder {
 
     protected Environment environment;
-    protected PandaElements elements;
+    protected PandaLanguage elements;
 
     public PandaInterpreterBuilder environment(Environment environment) {
         this.environment = environment;
         return this;
     }
 
-    public PandaInterpreterBuilder elements(PandaElements elements) {
+    public PandaInterpreterBuilder elements(PandaLanguage elements) {
         this.elements = elements;
         return this;
     }

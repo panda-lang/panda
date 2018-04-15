@@ -18,7 +18,7 @@ package org.panda_lang.panda.design.interpreter;
 
 import org.panda_lang.panda.design.architecture.PandaApplication;
 import org.panda_lang.panda.design.interpreter.parser.defaults.ApplicationParser;
-import org.panda_lang.panda.language.elements.PandaElements;
+import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
@@ -26,11 +26,11 @@ import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 public class PandaInterpreter implements Interpreter {
 
     private final Environment environment;
-    private final PandaElements pandaElements;
+    private final PandaLanguage pandaLanguage;
 
     protected PandaInterpreter(PandaInterpreterBuilder builder) {
         this.environment = builder.environment;
-        this.pandaElements = builder.elements;
+        this.pandaLanguage = builder.elements;
     }
 
     @Override
@@ -39,8 +39,8 @@ public class PandaInterpreter implements Interpreter {
         return parser.parse(sources);
     }
 
-    public PandaElements getPandaElements() {
-        return pandaElements;
+    public PandaLanguage getPandaLanguage() {
+        return pandaLanguage;
     }
 
     public Environment getEnvironment() {

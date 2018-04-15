@@ -23,18 +23,18 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
-import org.panda_lang.panda.util.ReflectionsUtils;
 import org.reflections.Reflections;
+import org.reflections.util.ConfigurationBuilder;
 
 import java.util.Set;
 
 public class ParserRegistrationLoader {
 
-    public ParserPipelineRegistry load() {
+    public ParserPipelineRegistry load(Class<?> locationClass) {
         PandaParserPipelineRegistry registry = new PandaParserPipelineRegistry();
 
         try {
-            load(registry);
+            loadPipelines(registry, locationClass);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -42,8 +42,24 @@ public class ParserRegistrationLoader {
         return registry;
     }
 
-    protected void load(PandaParserPipelineRegistry registry) {
-        Reflections reflections = ReflectionsUtils.REFLECTIONS;
+    public ParserPipelineRegistry load(PandaParserPipelineRegistry parserPipelineRegistry, Class<?> locationClass) {
+        PandaParserPipelineRegistry registry = new PandaParserPipelineRegistry();
+
+        try {
+            loadPipelines(parserPipelineRegistry, locationClass);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return registry;
+    }
+
+    public void loadPipelines(PandaParserPipelineRegistry registry, Class<?> locationClass) throws Exception {
+        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+        configurationBuilder.setClassLoaders(new ClassLoader[]{ locationClass.getClassLoader() });
+        configurationBuilder.addUrls(locationClass.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());
+
+        Reflections reflections = new Reflections(org.panda_lang.panda.util.ReflectionsUtils.REFLECTIONS_CONFIG);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {

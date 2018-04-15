@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.structure.prototype.scope.ClassScopeInstance;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScopeInstance;
 
 public class FieldAssigner extends ExecutableStatement {
 

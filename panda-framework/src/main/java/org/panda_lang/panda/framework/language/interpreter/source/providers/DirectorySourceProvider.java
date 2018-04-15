@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source.providers;
 
-import org.panda_lang.panda.framework.language.PandaFrameworkException;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaCodeSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
-import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -43,7 +43,7 @@ public class ContainerParser implements Parser {
         CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
 
         ParserPipelineRegistry parserPipelineRegistry = info.getComponent(PandaComponents.PIPELINE_REGISTRY);
-        ParserPipeline pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.SCOPE);
+        ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
         info.setComponent(PandaComponents.SOURCE_STREAM, stream);

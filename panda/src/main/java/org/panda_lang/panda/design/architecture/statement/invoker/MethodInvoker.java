@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExec
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.structure.general.expression.ExpressionUtils;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 
 import javax.annotation.Nullable;

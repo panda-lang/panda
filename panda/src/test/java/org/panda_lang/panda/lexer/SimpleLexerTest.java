@@ -20,7 +20,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.PandaSyntax;
 
 public class SimpleLexerTest {
 

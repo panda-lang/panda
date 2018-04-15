@@ -25,9 +25,9 @@ import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
-import org.panda_lang.panda.language.syntax.tokens.Operators;
-import org.panda_lang.panda.language.syntax.tokens.Separators;
+import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.tokens.Operators;
+import org.panda_lang.panda.language.interpreter.tokens.Separators;
 
 public class VagueExtractorTest {
 

@@ -20,8 +20,8 @@ import org.junit.Test;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
-import org.panda_lang.panda.language.syntax.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.language.interpreter.PandaSyntax;
 
 public class BootstrapTest {
 

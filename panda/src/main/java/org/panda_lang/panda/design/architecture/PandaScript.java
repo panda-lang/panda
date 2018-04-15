@@ -19,7 +19,7 @@ package org.panda_lang.panda.design.architecture;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.language.architecture.AbstractScript;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
-import org.panda_lang.panda.language.structure.overall.imports.PandaImportRegistry;
+import org.panda_lang.panda.language.interpreter.parsers.overall.imports.PandaImportRegistry;
 
 public class PandaScript extends AbstractScript {
 

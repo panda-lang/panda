@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
-import org.panda_lang.panda.framework.language.PandaFrameworkException;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 
 public class PandaLexerException extends PandaFrameworkException {
 

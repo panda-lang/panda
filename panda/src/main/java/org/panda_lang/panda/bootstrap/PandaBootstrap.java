@@ -18,10 +18,10 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.language.elements.PandaElements;
+import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,7 +52,7 @@ public class PandaBootstrap {
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda();
 
-        PandaElements elements = panda.getPandaElements();
+        PandaLanguage elements = panda.getPandaLanguage();
         elements.setSyntax(syntax);
         elements.setMappings(modelsCollection);
 

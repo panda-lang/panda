@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
-import org.panda_lang.panda.design.interpreter.parser.pipeline.DefaultPipelines;
+import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -39,7 +39,7 @@ public class OverallParser implements Parser {
         this.parserInfo = parserInfo;
 
         ParserPipelineRegistry parserPipelineRegistry = parserInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
-        this.pipeline = parserPipelineRegistry.getPipeline(DefaultPipelines.OVERALL);
+        this.pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.OVERALL);
 
         this.stream = parserInfo.getComponent(PandaComponents.SOURCE_STREAM);
         this.generation = parserInfo.getComponent(PandaComponents.GENERATION);

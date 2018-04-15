@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.language.structure.prototype.registry.ClassPrototypeModelLoader;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModelLoader;
 
 public class PandaEnvironment implements Environment {
 
@@ -40,11 +40,11 @@ public class PandaEnvironment implements Environment {
         liquid.fill(moduleRegistry);
 
         ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(moduleRegistry);
-        panda.getPandaElements().getMappings().forEach((modelLoader::load));
+        panda.getPandaLanguage().getMappings().forEach((modelLoader::load));
 
         this.interpreter = PandaInterpreter.builder()
             .environment(this)
-            .elements(panda.getPandaElements())
+            .elements(panda.getPandaLanguage())
             .build();
     }
 
