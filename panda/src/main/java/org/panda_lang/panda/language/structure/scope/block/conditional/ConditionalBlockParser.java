@@ -32,8 +32,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.structure.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.structure.scope.block.conditional.blocks.ConditionalBlock;
-import org.panda_lang.panda.language.structure.scope.block.conditional.blocks.ElseBlock;
+import org.panda_lang.panda.design.architecture.dynamic.conditional.ConditionalBlock;
+import org.panda_lang.panda.design.architecture.dynamic.conditional.ElseBlock;
 import org.panda_lang.panda.language.syntax.PandaSyntax;
 
 @ParserRegistration(target = DefaultPipelines.BLOCK, parserClass = ConditionalBlockParser.class, handlerClass = ConditionalBlockParserHandler.class)

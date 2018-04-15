@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.structure.scope.block.conditional.blocks;
+package org.panda_lang.panda.design.architecture.dynamic.conditional;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
