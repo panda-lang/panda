@@ -59,7 +59,7 @@ public class ParserRegistrationLoader {
         configurationBuilder.setClassLoaders(new ClassLoader[]{ locationClass.getClassLoader() });
         configurationBuilder.addUrls(locationClass.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());
 
-        Reflections reflections = new Reflections(org.panda_lang.panda.util.ReflectionsUtils.REFLECTIONS_CONFIG);
+        Reflections reflections = new Reflections(configurationBuilder);
         Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {
