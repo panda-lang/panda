@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface ParserGenerationContext {
 
-    void fireHandle(ParserGenerationCallback callback, ParserInfo delegated);
+    void fireHandle(ParserGenerationCallback callback, ParserData delegated);
 
 }

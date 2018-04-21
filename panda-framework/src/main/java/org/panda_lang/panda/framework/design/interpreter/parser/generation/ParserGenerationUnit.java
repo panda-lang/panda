@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface ParserGenerationUnit {
 
-    ParserInfo getDelegated();
+    ParserData getDelegated();
 
     ParserGenerationCallback getCallback();
 

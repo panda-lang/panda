@@ -22,8 +22,8 @@ public interface ParticularParser<T> extends Parser {
 
     /**
      * @param source matched and checked before tokenized source for parser
-     * @param info set of information about source and interpretation process
+     * @param data set of information about source and interpretation process
      */
-    T parse(ParserInfo info, TokenizedSource source);
+    T parse(ParserData data, TokenizedSource source);
 
 }

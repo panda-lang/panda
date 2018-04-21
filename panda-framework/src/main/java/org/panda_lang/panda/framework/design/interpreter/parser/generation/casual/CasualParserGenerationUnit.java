@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation.casual;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface CasualParserGenerationUnit {
 
-    ParserInfo getDelegated();
+    ParserData getDelegated();
 
     CasualParserGenerationCallback getCallback();
 

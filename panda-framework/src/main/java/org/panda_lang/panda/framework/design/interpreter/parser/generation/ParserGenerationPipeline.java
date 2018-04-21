@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 import java.util.List;
 
 public interface ParserGenerationPipeline {
 
-    void execute(ParserInfo info);
+    void execute(ParserData data);
 
     void addAfter(String baseName, String name, ParserGenerationHandler handler);
 

@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation.casual;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface CasualParserGeneration {
 
-    void executeImmediately(ParserInfo currentInfo);
+    void executeImmediately(ParserData currentData);
 
-    void execute(ParserInfo currentInfo);
+    void execute(ParserData currentData);
 
     CasualParserGenerationLayer getLayer(CasualParserGenerationType generationType);
 

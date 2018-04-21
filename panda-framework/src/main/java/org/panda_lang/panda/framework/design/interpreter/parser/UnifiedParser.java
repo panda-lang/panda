@@ -23,8 +23,8 @@ public interface UnifiedParser extends Parser {
     */
     
     /**
-     * @param info set of information about source and interpretation process
+     * @param data set of information about source and interpretation process
      */
-    void parse(ParserInfo info);
+    void parse(ParserData data);
 
 }

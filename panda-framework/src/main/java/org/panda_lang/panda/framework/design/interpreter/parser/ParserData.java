@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-public interface ParserInfo {
+public interface ParserData {
 
     /**
-     * Clone ParserInfo to a new instance with old components
+     * Clone ParserData to a new instance with old components
      */
-    ParserInfo fork();
+    ParserData fork();
 
     /***
      * @param componentName a name of the specified component

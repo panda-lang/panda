@@ -43,8 +43,9 @@ public interface TokenizedSource {
         return index > -1 ? get(index) : null;
     }
 
-    default void addToken(TokenRepresentation tokenRepresentation) {
+    default TokenizedSource addToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().add(tokenRepresentation);
+        return this;
     }
 
     default Token getToken(int id) {
