@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -49,32 +49,32 @@ public class ForEachParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, info, "foreach-var", "foreach-iterable");
+    public void parse(ParserData data) {
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "foreach-var", "foreach-iterable");
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");
 
-        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
+        Environment environment = data.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         // TODO: Create var
         VarParser varParser = new VarParser();
         VarParserData varData = varParser.toVarParserData(varSource);
-        VarParserResult result = varParser.parseVariable(varData, info);
+        VarParserResult result = varParser.parseVariable(varData, data);
 
-        ScopeLinker scopeLinker = info.getComponent(PandaComponents.SCOPE_LINKER);
+        ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
         Scope scope = scopeLinker.getCurrentScope();
         int variableId = scope.addVariable(result.getVariable());
 
         ExpressionParser expressionParser = new ExpressionParser();
-        Expression expression = expressionParser.parse(info, iterableSource);
+        Expression expression = expressionParser.parse(data, iterableSource);
         ClassPrototype iterable = registry.forClass(Iterable.class);
 
         if (!expression.getReturnType().isAssociatedWith(iterable)) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
-        info.setComponent("block", new ForEachBlock(variableId, result.getVariable().getType(), expression));
+        data.setComponent("block", new ForEachBlock(variableId, result.getVariable().getType(), expression));
     }
 
 }

@@ -26,7 +26,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -45,25 +45,25 @@ public class MainParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new MainDeclarationCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new MainDeclarationCasualParserCallback());
     }
 
     @LocalCallback
     private static class MainDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "main-body");
-            delegatedInfo.setComponent("redactor", redactor);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "main-body");
+            delegatedData.setComponent("redactor", redactor);
 
             MainScope main = new MainScope();
-            delegatedInfo.setComponent("main", main);
+            delegatedData.setComponent("main", main);
 
-            Script script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+            Script script = delegatedData.getComponent(PandaComponents.SCRIPT);
             script.getStatements().add(main);
 
-            nextLayer.delegate(new MainBodyCasualParserCallback(), delegatedInfo.fork());
+            nextLayer.delegate(new MainBodyCasualParserCallback(), delegatedData.fork());
         }
 
     }
@@ -72,18 +72,18 @@ public class MainParser implements UnifiedParser {
     private static class MainBodyCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            MainScope main = delegatedInfo.getComponent("main");
-            delegatedInfo.setComponent("scope", main);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            MainScope main = delegatedData.getComponent("main");
+            delegatedData.setComponent("scope", main);
 
             ScopeLinker linker = new PandaScopeLinker(main);
-            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, linker);
+            delegatedData.setComponent(PandaComponents.SCOPE_LINKER, linker);
 
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource body = redactor.get("main-body");
 
             ScopeParser scopeParser = new ScopeParser(main);
-            scopeParser.parse(delegatedInfo, body);
+            scopeParser.parse(delegatedData, body);
         }
 
     }

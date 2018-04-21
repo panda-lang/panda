@@ -23,7 +23,7 @@ import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGen
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -36,17 +36,17 @@ import org.panda_lang.panda.design.architecture.statement.Break;
 public class BreakParser implements UnifiedParser {
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new BreakDeclarationCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new BreakDeclarationCasualParserCallback());
     }
 
     @LocalCallback
     private static class BreakDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedInfo.getComponent(PandaComponents.SOURCE_STREAM);
-            Container container = delegatedInfo.getComponent("container");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            SourceStream stream = delegatedData.getComponent(PandaComponents.SOURCE_STREAM);
+            Container container = delegatedData.getComponent("container");
 
             Break breakStatement = new Break();
             container.addStatement(breakStatement);

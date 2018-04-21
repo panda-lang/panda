@@ -19,16 +19,17 @@ package org.panda_lang.panda.design.interpreter.parser.defaults;
 import org.panda_lang.panda.design.architecture.PandaApplication;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.PandaInterpreter;
-import org.panda_lang.panda.design.interpreter.parser.PandaParserInfo;
+import org.panda_lang.panda.design.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.design.interpreter.parser.generation.PandaCasualParserGeneration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
@@ -36,6 +37,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.CommentAssistant;
 
 public class ApplicationParser implements Parser {
@@ -55,14 +57,15 @@ public class ApplicationParser implements Parser {
 
         PandaLanguage elements = interpreter.getPandaLanguage();
         ParserPipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
+        ParserPipeline overallPipeline = pipelineRegistry.getPipeline(PandaPipelines.OVERALL);
 
         CasualParserGeneration generation = new PandaCasualParserGeneration();
         CommentAssistant commentAssistant = new CommentAssistant();
 
-        ParserInfo parserInfo = new PandaParserInfo();
-        parserInfo.setComponent(PandaComponents.ENVIRONMENT, environment);
-        parserInfo.setComponent(PandaComponents.PIPELINE_REGISTRY, pipelineRegistry);
-        parserInfo.setComponent(PandaComponents.GENERATION, generation);
+        ParserData baseInfo = new PandaParserData();
+        baseInfo.setComponent(PandaComponents.ENVIRONMENT, environment);
+        baseInfo.setComponent(PandaComponents.PIPELINE_REGISTRY, pipelineRegistry);
+        baseInfo.setComponent(PandaComponents.GENERATION, generation);
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
@@ -70,23 +73,23 @@ public class ApplicationParser implements Parser {
 
             PandaLexer lexer = new PandaLexer(elements.getSyntax(), source.getContent());
             TokenizedSource tokenizedSource = lexer.convert();
-
             TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
-            PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
 
-            parserInfo = parserInfo.fork();
-            parserInfo.setComponent(PandaComponents.SOURCE_STREAM, sourceStream);
-            parserInfo.setComponent(PandaComponents.SCRIPT, pandaScript);
-            OverallParser overallParser = new OverallParser(parserInfo);
+            PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
+            OverallParser overallParser = new OverallParser(overallPipeline, generation, sourceStream);
+
+            ParserData delegatedInfo = baseInfo.fork();
+            delegatedInfo.setComponent(PandaComponents.SOURCE_STREAM, sourceStream);
+            delegatedInfo.setComponent(PandaComponents.SCRIPT, pandaScript);
 
             while (overallParser.hasNext()) {
-                overallParser.next();
+                overallParser.next(delegatedInfo);
             }
 
             application.addScript(pandaScript);
         }
 
-        generation.execute(parserInfo);
+        generation.execute(baseInfo);
 
         // debug
         for (Script script : application.getScripts()) {

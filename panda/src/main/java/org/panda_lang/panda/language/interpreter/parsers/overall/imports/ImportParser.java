@@ -26,7 +26,7 @@ import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -69,25 +69,25 @@ public class ImportParser implements UnifiedParser {
     private static final Collection<URL> BOOT_CLASS_PATH;
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new ImportDeclarationCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new ImportDeclarationCasualParserCallback());
     }
 
     @LocalCallback
     private static class ImportDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
-            SourceStream stream = delegatedInfo.getComponent(PandaComponents.SOURCE_STREAM);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
+            SourceStream stream = delegatedData.getComponent(PandaComponents.SOURCE_STREAM);
 
-            Environment environment = delegatedInfo.getComponent(PandaComponents.ENVIRONMENT);
+            Environment environment = delegatedData.getComponent(PandaComponents.ENVIRONMENT);
             ModuleRegistry registry = environment.getModuleRegistry();
 
             TokenizedSource source = stream.toTokenizedSource();
             boolean attach = TokenUtils.equals(source.getFirst(), Keywords.ATTACH);
 
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(attach ? ATTACH_PATTERN : PATTERN, delegatedInfo);
+            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(attach ? ATTACH_PATTERN : PATTERN, delegatedData);
             TokenizedSource hollow = hollows.getGap(0);
             StringBuilder groupNameBuilder = new StringBuilder();
 

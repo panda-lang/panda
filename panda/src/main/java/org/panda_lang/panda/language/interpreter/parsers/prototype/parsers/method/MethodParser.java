@@ -36,7 +36,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -63,20 +63,20 @@ public class MethodParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new MethodDeclarationCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new MethodDeclarationCasualParserCallback());
     }
 
     @LocalCallback
     private static class MethodDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "method-declaration", "method-parameters", "method-body");
-            delegatedInfo.setComponent("redactor", redactor);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "method-declaration", "method-parameters", "method-body");
+            delegatedData.setComponent("redactor", redactor);
 
             TokenizedSource methodDeclaration = redactor.get("method-declaration");
-            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
+            ClassPrototype prototype = delegatedData.getComponent("class-prototype");
 
             MethodVisibility visibility = null;
             ClassPrototype returnType = null;
@@ -93,7 +93,7 @@ public class MethodParser implements UnifiedParser {
                 }
 
                 if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 2) {
-                    PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+                    PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
                     ImportRegistry registry = script.getImportRegistry();
 
                     String returnTypeName = token.getTokenValue();
@@ -122,15 +122,15 @@ public class MethodParser implements UnifiedParser {
 
             TokenizedSource parametersSource = redactor.get("method-parameters");
             ParameterParser parameterParser = new ParameterParser();
-            List<Parameter> parameters = parameterParser.parse(delegatedInfo, parametersSource);
+            List<Parameter> parameters = parameterParser.parse(delegatedData, parametersSource);
             ClassPrototype[] parameterTypes = ParameterUtils.toTypes(parameters);
 
             MethodScope scope = new MethodScope(methodName, parameters);
             ParameterUtils.addAll(scope.getVariables(), parameters, 0);
-            delegatedInfo.setComponent("method-scope", scope);
+            delegatedData.setComponent("method-scope", scope);
 
             MethodCallback callback = new PandaMethodCallback(scope);
-            delegatedInfo.setComponent("method-callback", callback);
+            delegatedData.setComponent("method-callback", callback);
 
             PrototypeMethod method = PandaMethod.builder()
                     .prototype(prototype)
@@ -143,9 +143,9 @@ public class MethodParser implements UnifiedParser {
                     .build();
 
             prototype.getMethods().registerMethod(method);
-            delegatedInfo.setComponent("method", method);
+            delegatedData.setComponent("method", method);
 
-            nextLayer.delegate(new MethodBodyCasualParserCallback(), delegatedInfo);
+            nextLayer.delegate(new MethodBodyCasualParserCallback(), delegatedData);
         }
 
     }
@@ -154,20 +154,20 @@ public class MethodParser implements UnifiedParser {
     private static class MethodBodyCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ClassScope classScope = delegatedInfo.getComponent("class-scope");
-            MethodScope methodScope = delegatedInfo.getComponent("method-scope");
-            delegatedInfo.setComponent("scope", methodScope);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            ClassScope classScope = delegatedData.getComponent("class-scope");
+            MethodScope methodScope = delegatedData.getComponent("method-scope");
+            delegatedData.setComponent("scope", methodScope);
 
             ScopeLinker linker = new PandaScopeLinker(classScope);
             linker.pushScope(methodScope);
-            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, linker);
+            delegatedData.setComponent(PandaComponents.SCOPE_LINKER, linker);
 
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource body = redactor.get("method-body");
 
             ScopeParser scopeParser = new ScopeParser(methodScope);
-            scopeParser.parse(delegatedInfo, body);
+            scopeParser.parse(delegatedData, body);
         }
 
     }

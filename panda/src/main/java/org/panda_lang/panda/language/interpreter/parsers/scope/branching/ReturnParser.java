@@ -26,7 +26,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -49,17 +49,17 @@ public class ReturnParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new ReturnCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new ReturnCasualParserCallback());
     }
 
     @LocalCallback
     private static class ReturnCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedInfo.getComponent(PandaComponents.SOURCE_STREAM);
-            Container container = delegatedInfo.getComponent("container");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            SourceStream stream = delegatedData.getComponent(PandaComponents.SOURCE_STREAM);
+            Container container = delegatedData.getComponent("container");
 
             if (stream.getUnreadLength() == 1) {
                 Return returnStatement = new Return(null);
@@ -73,12 +73,12 @@ public class ReturnParser implements UnifiedParser {
             }
 
             StatementCell cell = container.reserveCell();
-            delegatedInfo.setComponent("return-cell", cell);
+            delegatedData.setComponent("return-cell", cell);
 
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "return-expression");
-            delegatedInfo.setComponent("redactor", redactor);
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "return-expression");
+            delegatedData.setComponent("redactor", redactor);
 
-            nextLayer.delegate(new ReturnExpressionCasualParserCallback(), delegatedInfo);
+            nextLayer.delegate(new ReturnExpressionCasualParserCallback(), delegatedData);
         }
 
     }
@@ -87,13 +87,13 @@ public class ReturnParser implements UnifiedParser {
     private static class ReturnExpressionCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            StatementCell cell = delegatedInfo.getComponent("return-cell");
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            StatementCell cell = delegatedData.getComponent("return-cell");
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
 
             TokenizedSource expressionSource = redactor.get("return-expression");
             ExpressionParser expressionParser = new ExpressionParser();
-            Expression expression = expressionParser.parse(delegatedInfo, expressionSource);
+            Expression expression = expressionParser.parse(delegatedData, expressionSource);
 
             Return returnStatement = new Return(expression);
             cell.setStatement(returnStatement);

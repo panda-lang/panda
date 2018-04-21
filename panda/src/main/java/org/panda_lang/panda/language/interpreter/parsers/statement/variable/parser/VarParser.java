@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
@@ -55,7 +55,7 @@ public class VarParser {
         return new VarParserData(hollows, (hollows != null && hollows.size() == 2));
     }
 
-    public VarParserResult parseVariable(VarParserData data, ParserInfo delegatedInfo) {
+    public VarParserResult parseVariable(VarParserData data, ParserData delegatedInfo) {
         TokenizedSource left = data.getHollows().get(0);
 
         if (left.size() > 2) {

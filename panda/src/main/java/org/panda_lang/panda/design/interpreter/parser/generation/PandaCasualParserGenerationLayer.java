@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.interpreter.parser.generation;
 
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationUnit;
@@ -40,24 +40,24 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
     }
 
     @Override
-    public void callImmediately(ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
-        call(immediately, currentInfo, nextLayer);
+    public void callImmediately(ParserData currentData, CasualParserGenerationLayer nextLayer) {
+        call(immediately, currentData, nextLayer);
     }
 
     @Override
-    public void call(ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
-        call(before, currentInfo, nextLayer);
-        call(delegates, currentInfo, nextLayer);
-        call(after, currentInfo, nextLayer);
+    public void call(ParserData currentData, CasualParserGenerationLayer nextLayer) {
+        call(before, currentData, nextLayer);
+        call(delegates, currentData, nextLayer);
+        call(after, currentData, nextLayer);
     }
 
-    private void call(List<CasualParserGenerationUnit> units, ParserInfo currentInfo, CasualParserGenerationLayer nextLayer) {
+    private void call(List<CasualParserGenerationUnit> units, ParserData currentInfo, CasualParserGenerationLayer nextLayer) {
         List<CasualParserGenerationUnit> unitList = new ArrayList<>(units);
         units.clear();
 
         for (CasualParserGenerationUnit unit : unitList) {
             CasualParserGenerationCallback callback = unit.getCallback();
-            ParserInfo delegatedInfo = unit.getDelegated();
+            ParserData delegatedInfo = unit.getDelegated();
 
             delegatedInfo.setComponent(PandaComponents.CURRENT_PARSER_INFO, currentInfo);
             callback.call(delegatedInfo, nextLayer);
@@ -65,26 +65,26 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
     }
 
     @Override
-    public CasualParserGenerationLayer delegateImmediately(CasualParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegateImmediately(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(immediately, callback, delegated);
     }
 
     @Override
-    public CasualParserGenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(before, callback, delegated);
     }
 
     @Override
-    public CasualParserGenerationLayer delegate(CasualParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegate(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(delegates, callback, delegated);
     }
 
     @Override
-    public CasualParserGenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(after, callback, delegated);
     }
 
-    public CasualParserGenerationLayer delegate(List<CasualParserGenerationUnit> units, CasualParserGenerationCallback callback, ParserInfo delegated) {
+    public CasualParserGenerationLayer delegate(List<CasualParserGenerationUnit> units, CasualParserGenerationCallback callback, ParserData delegated) {
         CasualParserGenerationUnit unit = new PandaCasualParserGenerationUnit(callback, delegated);
         units.add(unit);
         return this;

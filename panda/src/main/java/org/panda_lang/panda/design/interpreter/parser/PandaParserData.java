@@ -16,26 +16,26 @@
 
 package org.panda_lang.panda.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaParserInfo implements ParserInfo {
+public class PandaParserData implements ParserData {
 
     private final Map<String, Object> components;
 
-    public PandaParserInfo() {
+    public PandaParserData() {
         this(new HashMap<>());
     }
 
-    private PandaParserInfo(Map<String, Object> components) {
+    private PandaParserData(Map<String, Object> components) {
         this.components = components;
     }
 
     @Override
-    public PandaParserInfo fork() {
-        PandaParserInfo parserInfo = new PandaParserInfo(new HashMap<>(components));
+    public PandaParserData fork() {
+        PandaParserData parserInfo = new PandaParserData(new HashMap<>(components));
         parserInfo.setComponent(PandaComponents.PARENT_INFO, this);
 
         return parserInfo;

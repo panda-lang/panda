@@ -23,7 +23,7 @@ import org.panda_lang.panda.design.architecture.prototype.parameter.PandaParamet
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -35,7 +35,7 @@ import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserInfo info, TokenizedSource tokenizedSource) {
+    public List<Parameter> parse(ParserData info, TokenizedSource tokenizedSource) {
         TokenRepresentation[] tokenRepresentations = tokenizedSource.toArray();
         List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
 

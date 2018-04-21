@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.architecture.prototype.constructor.Constructo
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
@@ -49,7 +49,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
     private Expression[] arguments;
 
     @Override
-    public void parse(TokenizedSource source, ParserInfo info) {
+    public void parse(TokenizedSource source, ParserData info) {
         PandaScript script = info.getComponent(PandaComponents.SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 

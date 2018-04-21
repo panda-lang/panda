@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
@@ -32,14 +32,14 @@ public class PandaCasualParserGeneration implements CasualParserGeneration {
     }
 
     @Override
-    public void executeImmediately(ParserInfo currentInfo) {
-        this.currentLayer.callImmediately(currentInfo, nextLayer);
+    public void executeImmediately(ParserData currentData) {
+        this.currentLayer.callImmediately(currentData, nextLayer);
     }
 
     @Override
-    public void execute(ParserInfo currentInfo) {
+    public void execute(ParserData currentData) {
         while (currentLayer != null) {
-            currentLayer.call(currentInfo, nextLayer);
+            currentLayer.call(currentData, nextLayer);
 
             if (nextLayer.countDelegates() == 0) {
                 break;

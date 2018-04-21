@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -44,9 +44,9 @@ public class ConditionalBlockParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        SourceStream stream = info.getComponent(PandaComponents.SOURCE_STREAM);
-        ParserInfo parentInfo = info.getComponent(PandaComponents.PARENT_INFO);
+    public void parse(ParserData data) {
+        SourceStream stream = data.getComponent(PandaComponents.SOURCE_STREAM);
+        ParserData parentInfo = data.getComponent(PandaComponents.PARENT_INFO);
 
         if (stream.getUnreadLength() == 1) {
             ElseBlock elseBlock = new ElseBlock();
@@ -59,20 +59,20 @@ public class ConditionalBlockParser implements UnifiedParser {
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;
             conditionalBlock.setElseBlock(elseBlock);
 
-            info.setComponent("block", elseBlock);
-            info.setComponent("block-unlisted", true);
+            data.setComponent("block", elseBlock);
+            data.setComponent("block-unlisted", true);
             return;
         }
 
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, info, "condition-type", "condition-expression");
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
         TokenizedSource conditionType = redactor.get("condition-type");
         TokenizedSource conditionExpression = redactor.get("condition-expression");
 
         ExpressionParser expressionParser = new ExpressionParser();
-        Expression expression = expressionParser.parse(info, conditionExpression);
+        Expression expression = expressionParser.parse(data, conditionExpression);
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(expression);
-        info.setComponent("block", conditionalBlock);
+        data.setComponent("block", conditionalBlock);
 
         switch (conditionType.asString()) {
             case "if":
@@ -86,7 +86,7 @@ public class ConditionalBlockParser implements UnifiedParser {
 
                 ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
                 conditionalBlock.setElseBlock(previousConditionalBlock);
-                info.setComponent("block-unlisted", true);
+                data.setComponent("block-unlisted", true);
                 break;
             default:
                 throw new PandaParserException("Unrecognized condition type at line " + TokenUtils.getLine(conditionType));

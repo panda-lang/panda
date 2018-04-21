@@ -20,7 +20,7 @@ import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
@@ -29,12 +29,12 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 public class NumberExpressionParser implements ParticularParser<Value> {
 
     @Override
-    public Value parse(ParserInfo info, TokenizedSource source) {
+    public Value parse(ParserData data, TokenizedSource source) {
         if (!NumberUtils.isNumeric(source)) {
             return null;
         }
 
-        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
+        Environment environment = data.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         String unknownNumber = source.asString();

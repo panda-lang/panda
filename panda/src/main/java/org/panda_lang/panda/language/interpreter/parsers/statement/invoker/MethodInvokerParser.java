@@ -31,7 +31,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -57,23 +57,23 @@ public class MethodInvokerParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new MethodInvokerDeclarationCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new MethodInvokerDeclarationCasualParserCallback());
     }
 
     @LocalCallback
     private static class MethodInvokerDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "instance", "method-name", "arguments");
-            delegatedInfo.setComponent("redactor", redactor);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "instance", "method-name", "arguments");
+            delegatedData.setComponent("redactor", redactor);
 
-            Container container = delegatedInfo.getComponent("container");
+            Container container = delegatedData.getComponent("container");
             StatementCell cell = container.reserveCell();
-            delegatedInfo.setComponent("cell", cell);
+            delegatedData.setComponent("cell", cell);
 
-            nextLayer.delegate(new MethodInvokerCasualParserCallback(), delegatedInfo);
+            nextLayer.delegate(new MethodInvokerCasualParserCallback(), delegatedData);
         }
 
     }
@@ -82,13 +82,13 @@ public class MethodInvokerParser implements UnifiedParser {
     private static class MethodInvokerCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource instanceSource = redactor.get("instance");
             TokenizedSource methodSource = redactor.get("method-name");
             TokenizedSource argumentsSource = redactor.get("arguments");
 
-            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
             ImportRegistry registry = script.getImportRegistry();
 
             String surmiseClassName = instanceSource.asString();
@@ -100,12 +100,12 @@ public class MethodInvokerParser implements UnifiedParser {
             if (prototype == null) {
                 ExpressionParser expressionParser = new ExpressionParser();
 
-                instance = expressionParser.parse(delegatedInfo, instanceSource);
+                instance = expressionParser.parse(delegatedData, instanceSource);
                 prototype = instance.getReturnType();
             }
 
             ArgumentParser argumentParser = new ArgumentParser();
-            Expression[] arguments = argumentParser.parse(delegatedInfo, argumentsSource);
+            Expression[] arguments = argumentParser.parse(delegatedData, argumentsSource);
 
             ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
             PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
@@ -121,7 +121,7 @@ public class MethodInvokerParser implements UnifiedParser {
             }
 
             Statement invoker = new MethodInvoker(prototypeMethod, instance, arguments);
-            StatementCell cell = delegatedInfo.getComponent("cell");
+            StatementCell cell = delegatedData.getComponent("cell");
             cell.setStatement(invoker);
         }
 

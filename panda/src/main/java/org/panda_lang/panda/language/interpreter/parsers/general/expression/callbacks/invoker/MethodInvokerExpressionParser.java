@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.language.interpreter.parsers.general.argument.ArgumentParser;
@@ -65,7 +65,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
     }
 
     @Override
-    public void parse(TokenizedSource source, ParserInfo info) {
+    public void parse(TokenizedSource source, ParserData info) {
         PandaScript script = info.getComponent(PandaComponents.SCRIPT);
         ImportRegistry registry = script.getImportRegistry();
 

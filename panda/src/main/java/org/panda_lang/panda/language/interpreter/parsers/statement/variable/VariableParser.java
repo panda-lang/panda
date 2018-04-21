@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
@@ -72,12 +72,12 @@ public class VariableParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
+    public void parse(ParserData data) {
+        CasualParserGeneration generation = data.getComponent(PandaComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
         Extractor extractor = VariableParser.ASSIGNATION_PATTERN.extractor();
-        SourceStream stream = info.getComponent(PandaComponents.SOURCE_STREAM);
+        SourceStream stream = data.getComponent(PandaComponents.SOURCE_STREAM);
 
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
@@ -94,7 +94,7 @@ public class VariableParser implements UnifiedParser {
             callback = new VariableDeclarationCallbackCasual(true);
         }
 
-        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, info.fork());
+        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, data.fork());
     }
 
     @LocalCallback
@@ -107,37 +107,37 @@ public class VariableParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
             AbyssRedactor redactor;
 
             if (assignation) {
-                redactor = AbyssPatternAssistant.traditionalMapping(ASSIGNATION_PATTERN, delegatedInfo, "left", "right");
+                redactor = AbyssPatternAssistant.traditionalMapping(ASSIGNATION_PATTERN, delegatedData, "left", "right");
             }
             else {
-                redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "left");
+                redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "left");
             }
 
-            delegatedInfo.setComponent("redactor", redactor);
+            delegatedData.setComponent("redactor", redactor);
             TokenizedSource left = redactor.get("left");
 
-            Container container = delegatedInfo.getComponent("container");
+            Container container = delegatedData.getComponent("container");
             StatementCell cell = container.reserveCell();
-            delegatedInfo.setComponent("cell", cell);
+            delegatedData.setComponent("cell", cell);
 
-            ScopeLinker linker = delegatedInfo.getComponent(PandaComponents.SCOPE_LINKER);
+            ScopeLinker linker = delegatedData.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = linker.getCurrentScope();
-            delegatedInfo.setComponent("scope", scope);
+            delegatedData.setComponent("scope", scope);
 
-            if (!parseLeft(delegatedInfo, left, scope)) {
+            if (!parseLeft(delegatedData, left, scope)) {
                 throw new PandaParserException("Cannot parse variable: " + left.asString());
             }
 
             if (assignation) {
-                nextLayer.delegate(new VariableAssignationCasualParserCallback(), delegatedInfo);
+                nextLayer.delegate(new VariableAssignationCasualParserCallback(), delegatedData);
             }
         }
 
-        private boolean parseLeft(ParserInfo delegatedInfo, TokenizedSource left, Scope scope) {
+        private boolean parseLeft(ParserData delegatedInfo, TokenizedSource left, Scope scope) {
             if (left.size() > 2) {
                 ExpressionParser expressionParser = new ExpressionParser();
                 Expression instanceExpression = expressionParser.parse(delegatedInfo, left.subSource(0, left.size() - 2), true);
@@ -207,19 +207,19 @@ public class VariableParser implements UnifiedParser {
     private static class VariableAssignationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
-            Expression expressionValue = expressionParser.parse(delegatedInfo, right);
+            Expression expressionValue = expressionParser.parse(delegatedData, right);
 
             if (expressionValue == null) {
                 throw new PandaParserException("Cannot parse expression '" + right + "'");
             }
 
-            Scope scope = delegatedInfo.getComponent("scope");
-            Variable variable = delegatedInfo.getComponent("variable");
+            Scope scope = delegatedData.getComponent("scope");
+            Variable variable = delegatedData.getComponent("variable");
             Statement assigner;
 
             if (variable != null) {
@@ -231,8 +231,8 @@ public class VariableParser implements UnifiedParser {
                 assigner = new VariableAssigner(variable, VariableParserUtils.indexOf(scope, variable), expressionValue);
             }
             else {
-                Expression instanceExpression = delegatedInfo.getComponent("instance-expression");
-                String fieldName = delegatedInfo.getComponent("instance-field");
+                Expression instanceExpression = delegatedData.getComponent("instance-expression");
+                String fieldName = delegatedData.getComponent("instance-field");
 
                 ClassPrototype type = instanceExpression.getReturnType();
                 PrototypeField field = type.getField(fieldName);
@@ -248,7 +248,7 @@ public class VariableParser implements UnifiedParser {
                 assigner = new FieldAssigner(instanceExpression, field, expressionValue);
             }
 
-            StatementCell cell = delegatedInfo.getComponent("cell");
+            StatementCell cell = delegatedData.getComponent("cell");
             cell.setStatement(assigner);
         }
 

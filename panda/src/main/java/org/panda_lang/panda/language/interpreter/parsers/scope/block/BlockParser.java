@@ -26,7 +26,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -50,19 +50,19 @@ public class BlockParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new BlockDeclarationCasualParserCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new BlockDeclarationCasualParserCallback());
     }
 
     @LocalCallback
     private static class BlockDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "block-declaration", "block-body");
-            delegatedInfo.setComponent("redactor", redactor);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "block-declaration", "block-body");
+            delegatedData.setComponent("redactor", redactor);
 
-            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
+            ParserPipelineRegistry parserPipelineRegistry = delegatedData.getComponent(PandaComponents.PIPELINE_REGISTRY);
             ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.BLOCK);
 
             TokenizedSource blockDeclaration = redactor.get("block-declaration");
@@ -73,12 +73,12 @@ public class BlockParser implements UnifiedParser {
                 throw new PandaParserException("Cannot recognize block at line " + TokenUtils.getLine(blockDeclaration));
             }
 
-            ParserInfo blockParserInfo = delegatedInfo.fork();
-            blockParserInfo.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
-            blockParser.parse(blockParserInfo);
+            ParserData blockParserData = delegatedData.fork();
+            blockParserData.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
+            blockParser.parse(blockParserData);
 
-            Block block = blockParserInfo.getComponent("block");
-            Object o = blockParserInfo.getComponent("block-unlisted");
+            Block block = blockParserData.getComponent("block");
+            Object o = blockParserData.getComponent("block-unlisted");
             boolean unlisted = o != null && (boolean) o;
 
             if (block == null) {
@@ -86,15 +86,15 @@ public class BlockParser implements UnifiedParser {
             }
 
             if (!unlisted) {
-                Container container = delegatedInfo.getComponent("container");
+                Container container = delegatedData.getComponent("container");
                 container.addStatement(block);
             }
 
-            ParserInfo parentInfo = delegatedInfo.getComponent(PandaComponents.PARENT_INFO);
+            ParserData parentInfo = delegatedData.getComponent(PandaComponents.PARENT_INFO);
             parentInfo.setComponent("previous-block", block);
 
-            delegatedInfo.setComponent("block", block);
-            nextLayer.delegate(new BlockBodyCasualParserCallback(), delegatedInfo);
+            delegatedData.setComponent("block", block);
+            nextLayer.delegate(new BlockBodyCasualParserCallback(), delegatedData);
         }
 
     }
@@ -103,14 +103,14 @@ public class BlockParser implements UnifiedParser {
     private static class BlockBodyCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Container container = delegatedInfo.getComponent("block");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            Container container = delegatedData.getComponent("block");
 
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource body = redactor.get("block-body");
 
             ContainerParser containerParser = new ContainerParser(container);
-            containerParser.parse(delegatedInfo, body);
+            containerParser.parse(delegatedData, body);
         }
 
     }

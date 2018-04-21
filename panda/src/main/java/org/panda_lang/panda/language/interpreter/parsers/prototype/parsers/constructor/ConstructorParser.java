@@ -31,7 +31,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -53,34 +53,34 @@ public class ConstructorParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new ConstructorExtractorCallbackCasual());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new ConstructorExtractorCallbackCasual());
     }
 
     @LocalCallback
     private static class ConstructorExtractorCallbackCasual implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "parameters", "constructor-body");
-            delegatedInfo.setComponent("redactor", redactor);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "parameters", "constructor-body");
+            delegatedData.setComponent("redactor", redactor);
 
             TokenizedSource parametersSource = redactor.get("parameters");
             ParameterParser parameterParser = new ParameterParser();
-            List<Parameter> parameters = parameterParser.parse(delegatedInfo, parametersSource);
+            List<Parameter> parameters = parameterParser.parse(delegatedData, parametersSource);
 
             ConstructorScope constructorScope = new ConstructorScope(parameters);
             ParameterUtils.addAll(constructorScope.getVariables(), parameters, 0);
-            delegatedInfo.setComponent("constructor-scope", constructorScope);
+            delegatedData.setComponent("constructor-scope", constructorScope);
 
-            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
-            ClassScope classScope = delegatedInfo.getComponent("class-scope");
+            ClassPrototype prototype = delegatedData.getComponent("class-prototype");
+            ClassScope classScope = delegatedData.getComponent("class-scope");
 
             PrototypeConstructor constructor = new PandaConstructor(prototype, classScope, constructorScope);
-            delegatedInfo.setComponent("constructor", constructor);
+            delegatedData.setComponent("constructor", constructor);
             prototype.getConstructors().add(constructor);
 
-            nextLayer.delegateAfter(new ConstructorBodyCallbackCasual(), delegatedInfo);
+            nextLayer.delegateAfter(new ConstructorBodyCallbackCasual(), delegatedData);
         }
 
     }
@@ -89,21 +89,21 @@ public class ConstructorParser implements UnifiedParser {
     private static class ConstructorBodyCallbackCasual implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ClassScope classScope = delegatedInfo.getComponent("class-scope");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            ClassScope classScope = delegatedData.getComponent("class-scope");
 
-            ConstructorScope constructorScope = delegatedInfo.getComponent("constructor-scope");
-            delegatedInfo.setComponent("scope", constructorScope);
+            ConstructorScope constructorScope = delegatedData.getComponent("constructor-scope");
+            delegatedData.setComponent("scope", constructorScope);
 
             ScopeLinker linker = new PandaScopeLinker(classScope);
             linker.pushScope(constructorScope);
-            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, linker);
+            delegatedData.setComponent(PandaComponents.SCOPE_LINKER, linker);
 
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource body = redactor.get("constructor-body");
 
             ScopeParser scopeParser = new ScopeParser(constructorScope);
-            scopeParser.parse(delegatedInfo, body);
+            scopeParser.parse(delegatedData, body);
         }
 
     }

@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -61,11 +61,11 @@ import java.util.List;
 public class ExpressionParser implements ParticularParser<Expression> {
 
     @Override
-    public Expression parse(ParserInfo info, TokenizedSource expressionSource) {
-        return parse(info, expressionSource, false);
+    public Expression parse(ParserData data, TokenizedSource expressionSource) {
+        return parse(data, expressionSource, false);
     }
 
-    public Expression parse(ParserInfo info, TokenizedSource expressionSource, boolean silence) {
+    public Expression parse(ParserData info, TokenizedSource expressionSource, boolean silence) {
         Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 

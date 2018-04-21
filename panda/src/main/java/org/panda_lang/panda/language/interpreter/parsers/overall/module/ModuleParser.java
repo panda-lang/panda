@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
@@ -52,23 +52,23 @@ public class ModuleParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
+    public void parse(ParserData data) {
+        CasualParserGeneration generation = data.getComponent(PandaComponents.GENERATION);
 
         generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new GroupDeclarationCasualParserCallback(), info)
-                .delegateAfter(new GroupAfterCasualParserCallback(), info.fork());
+                .delegateImmediately(new GroupDeclarationCasualParserCallback(), data)
+                .delegateAfter(new GroupAfterCasualParserCallback(), data.fork());
     }
 
     @LocalCallback
     private static class GroupDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedInfo.getComponent(PandaComponents.ENVIRONMENT);
-            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            Environment environment = delegatedData.getComponent(PandaComponents.ENVIRONMENT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
 
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedInfo);
+            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
             TokenizedSource hollow = hollows.getGap(0);
 
             StringBuilder groupNameBuilder = new StringBuilder();
@@ -97,8 +97,8 @@ public class ModuleParser implements UnifiedParser {
     private static class GroupAfterCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Script script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            Script script = delegatedData.getComponent(PandaComponents.SCRIPT);
             Collection<ModuleStatement> moduleStatements = script.select(ModuleStatement.class);
 
             if (moduleStatements.size() == 0) {

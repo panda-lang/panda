@@ -16,36 +16,28 @@
 
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
-import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 public class OverallParser implements Parser {
 
-    private final ParserInfo parserInfo;
     private final ParserPipeline pipeline;
     private final SourceStream stream;
     private final CasualParserGeneration generation;
 
-    public OverallParser(ParserInfo parserInfo) {
-        this.parserInfo = parserInfo;
-
-        ParserPipelineRegistry parserPipelineRegistry = parserInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
-        this.pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.OVERALL);
-
-        this.stream = parserInfo.getComponent(PandaComponents.SOURCE_STREAM);
-        this.generation = parserInfo.getComponent(PandaComponents.GENERATION);
+    public OverallParser(ParserPipeline pipeline, CasualParserGeneration generation, SourceStream stream) {
+        this.pipeline = pipeline;
+        this.generation = generation;
+        this.stream = stream;
     }
 
-    public void next() {
+    public void next(ParserData data) {
         if (!hasNext()) {
             return;
         }
@@ -58,8 +50,8 @@ public class OverallParser implements Parser {
 
         int sourceLength = stream.getUnreadLength();
 
-        parser.parse(parserInfo);
-        generation.executeImmediately(parserInfo);
+        parser.parse(data);
+        generation.executeImmediately(data);
 
         if (sourceLength == stream.getUnreadLength()) {
             throw new PandaParserException(parser.getClass().getSimpleName() + " did nothing with source at line " + TokenUtils.getLine(stream.toTokenizedSource()));

@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.expression;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 public interface ExpressionCallbackParser<T> {
 
-    void parse(TokenizedSource source, ParserInfo info);
+    void parse(TokenizedSource source, ParserData info);
 
     T toCallback();
 

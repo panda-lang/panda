@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -39,7 +39,7 @@ public class ContainerParser implements Parser {
         this.container = container;
     }
 
-    public void parse(ParserInfo info, TokenizedSource body) {
+    public void parse(ParserData info, TokenizedSource body) {
         CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
 
         ParserPipelineRegistry parserPipelineRegistry = info.getComponent(PandaComponents.PIPELINE_REGISTRY);

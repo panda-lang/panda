@@ -16,22 +16,22 @@
 
 package org.panda_lang.panda.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationUnit;
 
 public class PandaCasualParserGenerationUnit implements CasualParserGenerationUnit {
 
     private final CasualParserGenerationCallback callback;
-    private final ParserInfo delegated;
+    private final ParserData delegated;
 
-    public PandaCasualParserGenerationUnit(CasualParserGenerationCallback callback, ParserInfo delegated) {
+    public PandaCasualParserGenerationUnit(CasualParserGenerationCallback callback, ParserData delegated) {
         this.callback = callback;
         this.delegated = delegated;
     }
 
     @Override
-    public ParserInfo getDelegated() {
+    public ParserData getDelegated() {
         return this.delegated;
     }
 

@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
@@ -63,47 +63,47 @@ public class ClassPrototypeParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGenerationAssistant.delegateImmediately(info, new ClassPrototypeExtractorCasualCallback());
+    public void parse(ParserData data) {
+        CasualParserGenerationAssistant.delegateImmediately(data, new ClassPrototypeExtractorCasualCallback());
     }
 
     @LocalCallback
     private static class ClassPrototypeExtractorCasualCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedInfo.getComponent(PandaComponents.ENVIRONMENT);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            Environment environment = delegatedData.getComponent(PandaComponents.ENVIRONMENT);
             ModuleRegistry registry = environment.getModuleRegistry();
 
-            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
             Module module = script.getModule();
 
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedInfo, "class-declaration", "class-body");
-            delegatedInfo.setComponent("redactor", redactor);
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "class-declaration", "class-body");
+            delegatedData.setComponent("redactor", redactor);
 
             TokenizedSource classDeclaration = redactor.get("class-declaration");
             String className = classDeclaration.getToken(0).getTokenValue();
 
             ClassPrototype classPrototype = new PandaClassPrototype(module, className, Object.class);
             classPrototype.getExtended().add(registry.forClass(Object.class));
-            delegatedInfo.setComponent("class-prototype", classPrototype);
+            delegatedData.setComponent("class-prototype", classPrototype);
             module.add(classPrototype);
 
             ClassScope classScope = new ClassScope(classPrototype);
-            delegatedInfo.setComponent("class-scope", classScope);
+            delegatedData.setComponent("class-scope", classScope);
 
             ClassReference classReference = new ClassReference(classPrototype, classScope);
             script.getStatements().add(classReference);
 
             ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
-            delegatedInfo.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
+            delegatedData.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
 
             if (classDeclaration.size() > 1) {
-                nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), delegatedInfo);
+                nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), delegatedData);
             }
 
-            nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(), delegatedInfo);
-            nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), delegatedInfo);
+            nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(), delegatedData);
+            nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), delegatedData);
         }
 
     }
@@ -112,8 +112,8 @@ public class ClassPrototypeParser implements UnifiedParser {
     private static class ClassPrototypeDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ClassPrototypeParserUtils.readDeclaration(delegatedInfo);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            ClassPrototypeParserUtils.readDeclaration(delegatedData);
         }
 
     }
@@ -122,16 +122,16 @@ public class ClassPrototypeParser implements UnifiedParser {
     private static class ClassPrototypeBodyCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            ParserPipelineRegistry parserPipelineRegistry = delegatedData.getComponent(PandaComponents.PIPELINE_REGISTRY);
             ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource bodySource = redactor.get("class-body");
             SourceStream stream = new PandaSourceStream(bodySource);
 
-            CasualParserGeneration generation = delegatedInfo.getComponent(PandaComponents.GENERATION);
-            ParserInfo bodyInfo = delegatedInfo.fork();
+            CasualParserGeneration generation = delegatedData.getComponent(PandaComponents.GENERATION);
+            ParserData bodyInfo = delegatedData.fork();
             bodyInfo.setComponent(PandaComponents.SOURCE_STREAM, stream);
 
             while (stream.hasUnreadSource()) {
@@ -142,7 +142,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 }
 
                 parser.parse(bodyInfo);
-                generation.executeImmediately(delegatedInfo);
+                generation.executeImmediately(delegatedData);
             }
         }
 
@@ -152,9 +152,9 @@ public class ClassPrototypeParser implements UnifiedParser {
     private static class ClassPrototypeAfterCasualCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
-            ClassScope scope = delegatedInfo.getComponent("class-scope");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            ClassPrototype prototype = delegatedData.getComponent("class-prototype");
+            ClassScope scope = delegatedData.getComponent("class-scope");
 
             if (prototype.getConstructors().size() > 0) {
                 return;

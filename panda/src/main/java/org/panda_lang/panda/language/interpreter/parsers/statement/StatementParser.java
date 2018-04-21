@@ -22,7 +22,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -46,11 +46,11 @@ public class StatementParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(PandaComponents.PIPELINE_REGISTRY);
+    public void parse(ParserData data) {
+        ParserPipelineRegistry parserPipelineRegistry = data.getComponent(PandaComponents.PIPELINE_REGISTRY);
         ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.STATEMENT);
 
-        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, info);
+        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, data);
         TokenizedSource source = hollows.getGap(0);
 
         SourceStream declarationStream = new PandaSourceStream(source);
@@ -60,20 +60,20 @@ public class StatementParser implements UnifiedParser {
             throw new PandaParserException("Cannot recognize block at line " + TokenUtils.getLine(source));
         }
 
-        ParserInfo statementParserInfo = info.fork();
-        statementParserInfo.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
-        statementParser.parse(statementParserInfo);
+        ParserData statementParserData = data.fork();
+        statementParserData.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
+        statementParser.parse(statementParserData);
     }
 
     @LocalCallback
     private class DeclarationParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            ParserPipelineRegistry parserPipelineRegistry = delegatedInfo.getComponent(PandaComponents.PIPELINE_REGISTRY);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            ParserPipelineRegistry parserPipelineRegistry = delegatedData.getComponent(PandaComponents.PIPELINE_REGISTRY);
             ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.STATEMENT);
 
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedInfo);
+            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
             TokenizedSource source = hollows.getGap(0);
 
             SourceStream declarationStream = new PandaSourceStream(source);
@@ -83,9 +83,9 @@ public class StatementParser implements UnifiedParser {
                 throw new PandaParserException("Cannot recognize statement at line " + TokenUtils.getLine(source));
             }
 
-            ParserInfo statementParserInfo = delegatedInfo.fork();
-            statementParserInfo.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
-            statementParser.parse(statementParserInfo);
+            ParserData statementParserData = delegatedData.fork();
+            statementParserData.setComponent(PandaComponents.SOURCE_STREAM, declarationStream);
+            statementParser.parse(statementParserData);
         }
 
     }

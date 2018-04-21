@@ -20,7 +20,7 @@ import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
@@ -48,7 +48,7 @@ public class MathParser implements Parser {
             Operators.DIVISION,
             Operators.MULTIPLICATION });
 
-    public MathExpressionCallback parse(TokenizedSource source, ParserInfo info) {
+    public MathExpressionCallback parse(TokenizedSource source, ParserData info) {
         Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 

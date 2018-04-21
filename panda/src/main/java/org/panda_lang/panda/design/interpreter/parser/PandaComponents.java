@@ -17,7 +17,7 @@
 package org.panda_lang.panda.design.interpreter.parser;
 
 /**
- * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo} for components
+ * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components
  */
 public class PandaComponents {
 
@@ -27,7 +27,7 @@ public class PandaComponents {
     public static final String PANDA = "panda";
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo}
+     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData}
      */
     public static final String PARENT_INFO = "parent-info";
 

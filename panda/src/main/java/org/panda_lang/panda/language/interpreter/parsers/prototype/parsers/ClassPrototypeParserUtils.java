@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.r
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 
 public class ClassPrototypeParserUtils {
 
-    public static void readDeclaration(ParserInfo delegatedInfo) {
+    public static void readDeclaration(ParserData delegatedInfo) {
         ClassPrototype classPrototype = delegatedInfo.getComponent("class-prototype");
         AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
         TokenizedSource classDeclaration = redactor.get("class-declaration");

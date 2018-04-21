@@ -18,7 +18,7 @@ package org.panda_lang.panda.design.interpreter.parser.defaults;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 public class ScopeParser implements Parser {
@@ -29,7 +29,7 @@ public class ScopeParser implements Parser {
         this.scope = scope;
     }
 
-    public void parse(ParserInfo info, TokenizedSource body) {
+    public void parse(ParserData info, TokenizedSource body) {
         ContainerParser parser = new ContainerParser(scope);
         parser.parse(info, body);
     }

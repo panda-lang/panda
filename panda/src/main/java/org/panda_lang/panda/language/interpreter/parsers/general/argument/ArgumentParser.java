@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parsers.general.argument;
 
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
@@ -40,7 +40,7 @@ public class ArgumentParser implements Parser {
             .compile(PandaSyntax.getInstance(), "+* , +*")
             .build();
 
-    public Expression[] parse(ParserInfo info, TokenizedSource tokenizedSource) {
+    public Expression[] parse(ParserData info, TokenizedSource tokenizedSource) {
         SourceStream sourceStream = new PandaSourceStream(tokenizedSource);
 
         List<Expression> expressions = new ArrayList<>();
@@ -70,7 +70,7 @@ public class ArgumentParser implements Parser {
         return expressionsArray;
     }
 
-    private Expression readArgument(ParserInfo info, ExpressionParser expressionParser, TokenizedSource argument) {
+    private Expression readArgument(ParserData info, ExpressionParser expressionParser, TokenizedSource argument) {
         Expression expression = expressionParser.parse(info, argument);
 
         if (expression == null) {

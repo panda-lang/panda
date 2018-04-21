@@ -20,7 +20,7 @@ import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -39,18 +39,18 @@ public class LoopParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, info, "loop-expression");
+    public void parse(ParserData data) {
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "loop-expression");
         TokenizedSource expressionSource = redactor.get("loop-expression");
 
         ExpressionParser expressionParser = new ExpressionParser();
-        Expression expression = expressionParser.parse(info, expressionSource);
+        Expression expression = expressionParser.parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Int")) {
             throw new PandaParserException("Loop requires number as an argument");
         }
 
-        info.setComponent("block", new LoopBlock(expression));
+        data.setComponent("block", new LoopBlock(expression));
     }
 
 }

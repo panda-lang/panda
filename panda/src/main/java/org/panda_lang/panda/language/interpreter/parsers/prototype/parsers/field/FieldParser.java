@@ -27,7 +27,7 @@ import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRe
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserInfo;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
@@ -64,12 +64,12 @@ public class FieldParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserInfo info) {
-        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
+    public void parse(ParserData data) {
+        CasualParserGeneration generation = data.getComponent(PandaComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
         Extractor extractor = FieldParser.ASSIGNATION_PATTERN.extractor();
-        SourceStream stream = info.getComponent(PandaComponents.SOURCE_STREAM);
+        SourceStream stream = data.getComponent(PandaComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
 
@@ -80,7 +80,7 @@ public class FieldParser implements UnifiedParser {
             callback = new FieldDeclarationCasualParserCallback(true);
         }
 
-        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, info.fork());
+        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, data.fork());
     }
 
     private static class FieldDeclarationCasualParserCallback implements CasualParserGenerationCallback {
@@ -92,8 +92,8 @@ public class FieldParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedInfo);
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedData);
             AbyssRedactor redactor = new AbyssRedactor(hollows);
 
             if (assignation) {
@@ -103,9 +103,9 @@ public class FieldParser implements UnifiedParser {
                 redactor.map("left");
             }
 
-            delegatedInfo.setComponent("redactor", redactor);
+            delegatedData.setComponent("redactor", redactor);
             TokenizedSource left = redactor.get("left");
-            ClassPrototype prototype = delegatedInfo.getComponent("class-prototype");
+            ClassPrototype prototype = delegatedData.getComponent("class-prototype");
 
             String name = null;
             FieldVisibility visibility = null;
@@ -126,7 +126,7 @@ public class FieldParser implements UnifiedParser {
                 if (token.getType() == TokenType.UNKNOWN && i == left.size() - 2) {
                     String returnTypeName = token.getTokenValue();
 
-                    PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+                    PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
                     ImportRegistry registry = script.getImportRegistry();
 
                     type = registry.forClass(returnTypeName);
@@ -183,7 +183,7 @@ public class FieldParser implements UnifiedParser {
             // linker.getCurrentScope().addStatement(statement); class scope [without statements]
 
             if (assignation) {
-                nextLayer.delegate(new FieldAssignationCasualParserCallback(field), delegatedInfo);
+                nextLayer.delegate(new FieldAssignationCasualParserCallback(field), delegatedData);
             }
         }
 
@@ -199,12 +199,12 @@ public class FieldParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserInfo delegatedInfo, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
-            Expression expressionValue = expressionParser.parse(delegatedInfo, right);
+            Expression expressionValue = expressionParser.parse(delegatedData, right);
 
             if (expressionValue == null) {
                 throw new PandaParserException("Cannot parse expression '" + right + "'");
