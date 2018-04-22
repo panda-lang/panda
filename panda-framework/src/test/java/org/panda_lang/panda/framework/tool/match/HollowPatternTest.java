@@ -27,7 +27,7 @@ public class HollowPatternTest {
 
     @Test
     public void testHollowPattern() {
-        TextHollowPattern hollowPattern = TextHollowPattern.builder().compile("+*.+*(+*)+*").build();
+        TextHollowPattern hollowPattern = TextHollowPattern.builder().compile("*.*(*)*").build();
         boolean matched = hollowPattern.match(EXPRESSION);
 
         PandaFramework.getLogger().info("[HollowPattern] Matched: " + matched);

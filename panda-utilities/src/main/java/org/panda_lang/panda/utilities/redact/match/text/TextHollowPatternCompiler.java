@@ -30,7 +30,7 @@ public class TextHollowPatternCompiler {
         List<String> fragments = TextHollowPatternUtils.toFragments(pattern);
 
         for (String fragment : fragments) {
-            if (fragment.equals("+*")) {
+            if (fragment.equals("*")) {
                 builder.hollow();
             }
             else {
