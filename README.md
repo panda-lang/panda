@@ -22,7 +22,7 @@ panda/
 ```
 
 #### Maven
-Latest build. Remember, API is not stable yet :o:
+The latest indev build:
 
 ```xml
 <dependency>
@@ -32,26 +32,14 @@ Latest build. Remember, API is not stable yet :o:
 </dependency>
 ```
 
-The latest build of the previous edition. Remember, this is deprecated!
+Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 
 ```xml
-<dependency>
-    <groupId>org.panda_lang</groupId>
-    <artifactId>panda</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-</dependency>
-```
-
-Repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
-
-```xml
-<repositories>
-    <repository>
-        <id>panda-repo</id>
-        <name>Panda Repository</name>
-        <url>https://repo.panda-lang.org/</url>
-    </repository>
-</repositories>
+<repository>
+    <id>panda-repo</id>
+    <name>Panda Repository</name>
+    <url>https://repo.panda-lang.org/</url>
+</repository>
 ```
 
 #### Other
