@@ -19,17 +19,17 @@ package org.panda_lang.panda.design.interpreter.parser.pipeline.registry;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.PandaParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaParserPipelineRegistry implements ParserPipelineRegistry {
+public class PandaPipelineRegistry implements PipelineRegistry {
 
     private final Map<String, ParserPipeline> pipelines;
     private final PandaParserPipeline all;
 
-    public PandaParserPipelineRegistry() {
+    public PandaPipelineRegistry() {
         this.pipelines = new HashMap<>();
         this.all = new PandaParserPipeline();
 

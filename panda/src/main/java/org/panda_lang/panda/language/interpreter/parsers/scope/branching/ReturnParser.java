@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
@@ -58,8 +59,8 @@ public class ReturnParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedData.getComponent(PandaComponents.SOURCE_STREAM);
-            Container container = delegatedData.getComponent("container");
+            SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
+            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
 
             if (stream.getUnreadLength() == 1) {
                 Return returnStatement = new Return(null);
@@ -73,12 +74,9 @@ public class ReturnParser implements UnifiedParser {
             }
 
             StatementCell cell = container.reserveCell();
-            delegatedData.setComponent("return-cell", cell);
-
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "return-expression");
-            delegatedData.setComponent("redactor", redactor);
 
-            nextLayer.delegate(new ReturnExpressionCasualParserCallback(), delegatedData);
+            nextLayer.delegate(new ReturnExpressionCasualParserCallback(cell, redactor), delegatedData);
         }
 
     }
@@ -86,11 +84,16 @@ public class ReturnParser implements UnifiedParser {
     @LocalCallback
     private static class ReturnExpressionCasualParserCallback implements CasualParserGenerationCallback {
 
+        private final StatementCell cell;
+        private final AbyssRedactor redactor;
+
+        public ReturnExpressionCasualParserCallback(StatementCell cell, AbyssRedactor redactor) {
+            this.cell = cell;
+            this.redactor = redactor;
+        }
+
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            StatementCell cell = delegatedData.getComponent("return-cell");
-            AbyssRedactor redactor = delegatedData.getComponent("redactor");
-
             TokenizedSource expressionSource = redactor.get("return-expression");
             ExpressionParser expressionParser = new ExpressionParser();
             Expression expression = expressionParser.parse(delegatedData, expressionSource);

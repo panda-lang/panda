@@ -16,16 +16,19 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser;
 
+import org.panda_lang.panda.framework.design.architecture.statement.*;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 import java.util.List;
 
 public class VarParserData {
 
+    private final StatementCell cell;
     private final List<TokenizedSource> hollows;
     private final boolean assignation;
 
-    public VarParserData(List<TokenizedSource> hollows, boolean assignation) {
+    public VarParserData(StatementCell cell, List<TokenizedSource> hollows, boolean assignation) {
+        this.cell = cell;
         this.hollows = hollows;
         this.assignation = assignation;
     }
@@ -36,6 +39,10 @@ public class VarParserData {
 
     public List<TokenizedSource> getHollows() {
         return hollows;
+    }
+
+    public StatementCell getCell() {
+        return cell;
     }
 
 }

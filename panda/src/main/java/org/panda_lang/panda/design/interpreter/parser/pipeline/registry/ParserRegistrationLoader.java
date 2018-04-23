@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 
@@ -30,8 +30,8 @@ import java.util.Set;
 
 public class ParserRegistrationLoader {
 
-    public ParserPipelineRegistry load(Class<?> locationClass) {
-        PandaParserPipelineRegistry registry = new PandaParserPipelineRegistry();
+    public PipelineRegistry load(Class<?> locationClass) {
+        PandaPipelineRegistry registry = new PandaPipelineRegistry();
 
         try {
             loadPipelines(registry, locationClass);
@@ -42,8 +42,8 @@ public class ParserRegistrationLoader {
         return registry;
     }
 
-    public ParserPipelineRegistry load(PandaParserPipelineRegistry parserPipelineRegistry, Class<?> locationClass) {
-        PandaParserPipelineRegistry registry = new PandaParserPipelineRegistry();
+    public PipelineRegistry load(PandaPipelineRegistry parserPipelineRegistry, Class<?> locationClass) {
+        PandaPipelineRegistry registry = new PandaPipelineRegistry();
 
         try {
             loadPipelines(parserPipelineRegistry, locationClass);
@@ -54,7 +54,7 @@ public class ParserRegistrationLoader {
         return registry;
     }
 
-    public void loadPipelines(PandaParserPipelineRegistry registry, Class<?> locationClass) throws Exception {
+    public void loadPipelines(PandaPipelineRegistry registry, Class<?> locationClass) throws Exception {
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setClassLoaders(new ClassLoader[]{ locationClass.getClassLoader() });
         configurationBuilder.addUrls(locationClass.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());

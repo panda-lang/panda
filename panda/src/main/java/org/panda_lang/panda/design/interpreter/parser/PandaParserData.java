@@ -17,33 +17,33 @@
 package org.panda_lang.panda.design.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class PandaParserData implements ParserData {
 
-    private final Map<String, Object> components;
+    private final Map<Component<?>, Object> components;
 
     public PandaParserData() {
         this(new HashMap<>());
     }
 
-    private PandaParserData(Map<String, Object> components) {
+    private PandaParserData(Map<Component<?>, Object> components) {
         this.components = components;
     }
 
     @Override
     public PandaParserData fork() {
         PandaParserData parserInfo = new PandaParserData(new HashMap<>(components));
-        parserInfo.setComponent(PandaComponents.PARENT_INFO, this);
-
+        parserInfo.setComponent(UniversalComponents.PARENT_DATA, this);
         return parserInfo;
     }
 
     @Override
-    public void setComponent(String componentName, Object component) {
-        this.components.put(componentName, component);
+    public <T> void setComponent(Component<T> component, T value) {
+        this.components.put(component, value);
     }
 
     /**
@@ -54,7 +54,7 @@ public class PandaParserData implements ParserData {
      */
     @Override
     @SuppressWarnings({ "unchecked" })
-    public <T> T getComponent(String componentName) {
+    public <T> T getComponent(Component<T> componentName) {
         return (T) components.get(componentName);
     }
 

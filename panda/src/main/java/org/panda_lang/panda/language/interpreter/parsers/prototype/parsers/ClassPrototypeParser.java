@@ -22,6 +22,7 @@ import org.panda_lang.panda.design.architecture.prototype.constructor.Constructo
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
@@ -41,7 +42,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
@@ -72,25 +73,25 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedData.getComponent(PandaComponents.ENVIRONMENT);
+            Environment environment = delegatedData.getComponent(UniversalComponents.ENVIRONMENT);
             ModuleRegistry registry = environment.getModuleRegistry();
 
-            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
             Module module = script.getModule();
 
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "class-declaration", "class-body");
-            delegatedData.setComponent("redactor", redactor);
+            delegatedData.setComponent(PandaComponents.REDACTOR, redactor);
 
             TokenizedSource classDeclaration = redactor.get("class-declaration");
             String className = classDeclaration.getToken(0).getTokenValue();
 
             ClassPrototype classPrototype = new PandaClassPrototype(module, className, Object.class);
             classPrototype.getExtended().add(registry.forClass(Object.class));
-            delegatedData.setComponent("class-prototype", classPrototype);
+            delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
             module.add(classPrototype);
 
             ClassScope classScope = new ClassScope(classPrototype);
-            delegatedData.setComponent("class-scope", classScope);
+            delegatedData.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);
 
             ClassReference classReference = new ClassReference(classPrototype, classScope);
             script.getStatements().add(classReference);
@@ -102,7 +103,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), delegatedData);
             }
 
-            nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(), delegatedData);
+            nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(redactor), delegatedData);
             nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), delegatedData);
         }
 
@@ -121,18 +122,23 @@ public class ClassPrototypeParser implements UnifiedParser {
     @LocalCallback
     private static class ClassPrototypeBodyCasualParserCallback implements CasualParserGenerationCallback {
 
+        private final AbyssRedactor redactor;
+
+        private ClassPrototypeBodyCasualParserCallback(AbyssRedactor redactor) {
+            this.redactor = redactor;
+        }
+
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            ParserPipelineRegistry parserPipelineRegistry = delegatedData.getComponent(PandaComponents.PIPELINE_REGISTRY);
-            ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
+            PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
+            ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 
-            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource bodySource = redactor.get("class-body");
             SourceStream stream = new PandaSourceStream(bodySource);
 
-            CasualParserGeneration generation = delegatedData.getComponent(PandaComponents.GENERATION);
+            CasualParserGeneration generation = delegatedData.getComponent(UniversalComponents.GENERATION);
             ParserData bodyInfo = delegatedData.fork();
-            bodyInfo.setComponent(PandaComponents.SOURCE_STREAM, stream);
+            bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
             while (stream.hasUnreadSource()) {
                 UnifiedParser parser = pipeline.handle(stream);
@@ -153,8 +159,8 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            ClassPrototype prototype = delegatedData.getComponent("class-prototype");
-            ClassScope scope = delegatedData.getComponent("class-scope");
+            ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+            ClassScope scope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
             if (prototype.getConstructors().size() > 0) {
                 return;

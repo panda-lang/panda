@@ -67,13 +67,11 @@ public class MethodInvokerParser implements UnifiedParser {
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "instance", "method-name", "arguments");
-            delegatedData.setComponent("redactor", redactor);
 
-            Container container = delegatedData.getComponent("container");
+            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
             StatementCell cell = container.reserveCell();
-            delegatedData.setComponent("cell", cell);
 
-            nextLayer.delegate(new MethodInvokerCasualParserCallback(), delegatedData);
+            nextLayer.delegate(new MethodInvokerCasualParserCallback(cell, redactor), delegatedData);
         }
 
     }
@@ -81,14 +79,21 @@ public class MethodInvokerParser implements UnifiedParser {
     @LocalCallback
     private static class MethodInvokerCasualParserCallback implements CasualParserGenerationCallback {
 
+        private final StatementCell cell;
+        private final AbyssRedactor redactor;
+
+        private MethodInvokerCasualParserCallback(StatementCell cell, AbyssRedactor redactor) {
+            this.cell = cell;
+            this.redactor = redactor;
+        }
+
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource instanceSource = redactor.get("instance");
             TokenizedSource methodSource = redactor.get("method-name");
             TokenizedSource argumentsSource = redactor.get("arguments");
 
-            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
             ImportRegistry registry = script.getImportRegistry();
 
             String surmiseClassName = instanceSource.asString();
@@ -121,7 +126,6 @@ public class MethodInvokerParser implements UnifiedParser {
             }
 
             Statement invoker = new MethodInvoker(prototypeMethod, instance, arguments);
-            StatementCell cell = delegatedData.getComponent("cell");
             cell.setStatement(invoker);
         }
 

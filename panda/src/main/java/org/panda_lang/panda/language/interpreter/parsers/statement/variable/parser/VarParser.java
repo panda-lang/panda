@@ -16,58 +16,80 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser;
 
-import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.statement.variable.VariableParserUtils;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
-import org.panda_lang.panda.language.interpreter.tokens.Keywords;
+import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.architecture.statement.assigner.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
+import org.panda_lang.panda.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.*;
+import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.architecture.value.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.language.architecture.value.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.runtime.expression.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.*;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
+import org.panda_lang.panda.language.interpreter.parsers.statement.variable.*;
+import org.panda_lang.panda.language.interpreter.tokens.*;
 
-import java.util.List;
+import java.util.*;
 
 public class VarParser {
 
-    public static final AbyssPattern ASSIGNATION_PATTERN = new AbyssPatternBuilder()
+    public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+**")
             .build();
 
-    public VarParserData toVarParserData(TokenizedSource source) {
-        SourceStream copyOfStream = new PandaSourceStream(source);
-        List<TokenizedSource> hollows = ASSIGNATION_PATTERN.extractor().extract(copyOfStream.toTokenReader());
-        return new VarParserData(hollows, (hollows != null && hollows.size() == 2));
+    public static final AbyssPattern ASSIGNATION_PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "+** = +*")
+            .build();
+
+    public VarParserData toVarParserData(ParserData delegatedData, TokenizedSource source) {
+        return toVarParserData(delegatedData, new PandaSourceStream(source));
     }
 
-    public VarParserResult parseVariable(VarParserData data, ParserData delegatedInfo) {
+    public VarParserData toVarParserData(ParserData delegatedData, SourceStream sourceStream) {
+        List<TokenizedSource> hollows = ASSIGNATION_PATTERN.extractor().extract(sourceStream.toTokenReader());
+        boolean assignation = hollows != null && hollows.size() == 2;
+
+        if (assignation) {
+            hollows = AbyssPatternUtils.extract(ASSIGNATION_PATTERN, sourceStream).getGaps();
+        }
+        else {
+            hollows = AbyssPatternUtils.extract(PATTERN, sourceStream).getGaps();
+        }
+
+        Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
+        StatementCell cell = container.reserveCell();
+
+        return new VarParserData(cell, hollows, assignation);
+    }
+
+    public VarParserResult parseVariable(VarParserData data, ParserData delegatedData) {
         TokenizedSource left = data.getHollows().get(0);
+        ScopeLinker linker = delegatedData.getComponent(PandaComponents.SCOPE_LINKER);
+        Scope scope = linker.getCurrentScope();
 
         if (left.size() > 2) {
             ExpressionParser expressionParser = new ExpressionParser();
-            Expression instanceExpression = expressionParser.parse(delegatedInfo, left.subSource(0, left.size() - 2), true);
+            Expression instanceExpression = expressionParser.parse(delegatedData, left.subSource(0, left.size() - 2), true);
 
             if (instanceExpression != null) {
                 ClassPrototype prototype = instanceExpression.getReturnType();
                 PrototypeField field = prototype.getField(left.getLast().getTokenValue());
 
                 if (field != null) {
-                    return new VarParserResult(instanceExpression, field);
+                    return new VarParserResult(instanceExpression, field, false, scope, false);
                 }
             }
         }
@@ -76,7 +98,7 @@ public class VarParser {
             String variableName = left.getLast().getTokenValue();
             String variableType = left.getLast(1).getTokenValue();
 
-            PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
             ImportRegistry importRegistry = script.getImportRegistry();
             ClassPrototype type = importRegistry.forClass(variableType);
 
@@ -88,31 +110,71 @@ public class VarParser {
             }
 
             Variable variable = new PandaVariable(type, variableName, 0, mutable, nullable);
-            return new VarParserResult(null, variable);
+            return new VarParserResult(null, variable, true, scope, true);
         }
 
         if (left.size() == 1) {
-            ScopeLinker linker = delegatedInfo.getComponent(PandaComponents.SCOPE_LINKER);
-            Scope scope = linker.getCurrentScope();
             Variable variable = VariableParserUtils.getVariable(scope, left.getLast().getToken().getTokenValue());
 
             if (variable == null) {
-                ClassPrototype prototype = delegatedInfo.getComponent(PandaComponents.CLASS_PROTOTYPE);
+                ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
                 if (prototype == null) {
-                    throw new PandaParserException("Cannot get field from non-prototype scope");
+                    throw new PandaParserException("Cannot get field from non-prototype scope at line " + TokenUtils.getLine(left));
                 }
 
                 Expression instanceExpression = new PandaExpression(prototype, new ThisExpressionCallback());
                 PrototypeField field = prototype.getField(left.getLast().getTokenValue());
 
-                return new VarParserResult(instanceExpression, field);
+                return new VarParserResult(instanceExpression, field, false, scope, false);
             }
 
-            return new VarParserResult(null, variable);
+            return new VarParserResult(null, variable, false, scope, true);
         }
 
         throw new PandaParserException("Cannot parse variable declaration: " + left);
+    }
+
+    public void parseAssignation(VarParserData data, VarParserResult result, ParserData delegatedData) {
+        Variable variable = result.getVariable();
+        TokenizedSource right = data.getHollows().get(1);
+
+        ExpressionParser expressionParser = new ExpressionParser();
+        Expression expressionValue = expressionParser.parse(delegatedData, right);
+
+        if (expressionValue == null) {
+            throw new PandaParserException("Cannot parse expression '" + right + "'");
+        }
+
+        Statement assigner;
+
+        if (result.isLocal()) {
+            if (!expressionValue.isNull() && !expressionValue.getReturnType().isAssociatedWith(variable.getType())) {
+                throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right)
+                        + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")");
+            }
+
+            assigner = new VariableAssigner(variable, VariableParserUtils.indexOf(result.getScope(), variable), expressionValue);
+        }
+        else {
+            Expression instanceExpression = result.getInstanceExpression();
+            String fieldName = result.getVariable().getName();
+
+            ClassPrototype type = instanceExpression.getReturnType();
+            PrototypeField field = type.getField(fieldName);
+
+            if (field == null) {
+                throw new PandaParserException("Field '" + fieldName + "' does not belong to " + type.getClassName());
+            }
+
+            if (!field.getType().equals(expressionValue.getReturnType())) {
+                throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
+            }
+
+            assigner = new FieldAssigner(instanceExpression, field, expressionValue);
+        }
+
+        data.getCell().setStatement(assigner);
     }
 
 }

@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+
 public interface ParserData {
 
     /**
@@ -27,11 +29,11 @@ public interface ParserData {
      * @param componentName a name of the specified component
      * @return selected component
      */
-    <T> T getComponent(String componentName);
+    <T> T getComponent(Component<T> componentName);
 
     /**
      * @param componentName a name of the specified component
      */
-    void setComponent(String componentName, Object component);
+    <T> void setComponent(Component<T> componentName, T component);
 
 }

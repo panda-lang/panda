@@ -16,15 +16,14 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.number;
 
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.value.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.architecture.value.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
 
 public class NumberExpressionParser implements ParticularParser<Value> {
 
@@ -34,7 +33,7 @@ public class NumberExpressionParser implements ParticularParser<Value> {
             return null;
         }
 
-        Environment environment = data.getComponent(PandaComponents.ENVIRONMENT);
+        Environment environment = data.getComponent(UniversalComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         String unknownNumber = source.asString();

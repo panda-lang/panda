@@ -30,6 +30,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
 import org.panda_lang.panda.design.architecture.dynamic.looping.LoopBlock;
 import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.parsers.scope.block.*;
 
 @ParserRegistration(target = PandaPipelines.BLOCK, parserClass = LoopParser.class, handlerClass = LoopParserHandler.class)
 public class LoopParser implements UnifiedParser {
@@ -50,7 +51,7 @@ public class LoopParser implements UnifiedParser {
             throw new PandaParserException("Loop requires number as an argument");
         }
 
-        data.setComponent("block", new LoopBlock(expression));
+        data.setComponent(BlockComponents.BLOCK, new LoopBlock(expression));
     }
 
 }

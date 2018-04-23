@@ -19,6 +19,7 @@ package org.panda_lang.panda.language.interpreter.parsers.general.expression;
 import org.panda_lang.panda.design.architecture.PandaScript;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
@@ -53,6 +54,7 @@ import org.panda_lang.panda.language.interpreter.parsers.general.expression.call
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.language.interpreter.parsers.general.number.NumberExpressionParser;
 import org.panda_lang.panda.language.interpreter.parsers.general.number.NumberUtils;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.language.interpreter.tokens.Operators;
 
@@ -66,7 +68,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
     }
 
     public Expression parse(ParserData info, TokenizedSource expressionSource, boolean silence) {
-        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
+        Environment environment = info.getComponent(UniversalComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         if (expressionSource.size() == 1) {
@@ -82,7 +84,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                     case "false":
                         return toSimpleKnownExpression(registry, "boolean", false);
                     case "this":
-                        ClassPrototype type = info.getComponent(PandaComponents.CLASS_PROTOTYPE);
+                        ClassPrototype type = info.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
                         return new PandaExpression(type, new ThisExpressionCallback());
                     default:
                         throw new PandaParserException("Unknown literal: " + token);
@@ -114,7 +116,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                 return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
             }
 
-            ClassPrototype prototype = info.getComponent(PandaComponents.CLASS_PROTOTYPE);
+            ClassPrototype prototype = info.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
                 PrototypeField field = prototype.getField(value);
@@ -155,7 +157,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         List<TokenizedSource> fieldMatches = ExpressionPatterns.FIELD_PATTERN.match(expressionReader);
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
-            PandaScript script = info.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
             ImportRegistry importRegistry = script.getImportRegistry();
 
             TokenizedSource instanceSource = fieldMatches.get(0);

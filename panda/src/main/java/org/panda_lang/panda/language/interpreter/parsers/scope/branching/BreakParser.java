@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
@@ -45,8 +46,8 @@ public class BreakParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedData.getComponent(PandaComponents.SOURCE_STREAM);
-            Container container = delegatedData.getComponent("container");
+            SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
+            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
 
             Break breakStatement = new Break();
             container.addStatement(breakStatement);

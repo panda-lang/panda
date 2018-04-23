@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.framework.tool.match;
 
-import org.junit.Assert;
-import org.junit.Test;
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.utilities.redact.match.charset.CharsetPattern;
+import org.junit.*;
+import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.utilities.redact.match.charset.*;
 
 public class CharsetPatternTest {
 
@@ -33,6 +32,7 @@ public class CharsetPatternTest {
         boolean matched = charsetPattern.match(EXPRESSION);
         PandaFramework.getLogger().info("[CharsetPattern] Matched: " + matched);
 
-        Assert.assertEquals(true, matched);
+        Assert.assertTrue(matched);
     }
+
 }

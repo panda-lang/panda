@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser;
 
+import org.panda_lang.panda.framework.design.architecture.statement.*;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
@@ -23,10 +24,28 @@ public class VarParserResult {
 
     private final Variable variable;
     private final Expression instanceExpression;
+    private final Scope scope;
+    private final boolean freshVariable;
+    private final boolean local;
 
-    public VarParserResult(Expression instanceExpression, Variable variable) {
+    public VarParserResult(Expression instanceExpression, Variable variable, boolean freshVariable, Scope scope, boolean local) {
         this.instanceExpression = instanceExpression;
         this.variable = variable;
+        this.freshVariable = freshVariable;
+        this.scope = scope;
+        this.local = local;
+    }
+
+    public boolean isLocal() {
+        return local;
+    }
+
+    public boolean isFreshVariable() {
+        return freshVariable;
+    }
+
+    public Scope getScope() {
+        return scope;
     }
 
     public Expression getInstanceExpression() {

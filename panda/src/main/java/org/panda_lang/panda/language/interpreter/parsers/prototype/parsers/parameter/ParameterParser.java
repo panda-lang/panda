@@ -50,7 +50,7 @@ public class ParameterParser implements Parser {
             String parameterType = parameterTypeRepresentation.getToken().getTokenValue();
             String parameterName = parameterNameRepresentation.getToken().getTokenValue();
 
-            PandaScript script = info.getComponent(PandaComponents.SCRIPT);
+            PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
             ImportRegistry importRegistry = script.getImportRegistry();
             ClassPrototype type = importRegistry.forClass(parameterType);
 

@@ -50,7 +50,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
 
     @Override
     public void parse(TokenizedSource source, ParserData info) {
-        PandaScript script = info.getComponent(PandaComponents.SCRIPT);
+        PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 
         Extractor extractor = PATTERN.extractor();

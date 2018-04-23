@@ -30,8 +30,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 public class ClassPrototypeParserUtils {
 
     public static void readDeclaration(ParserData delegatedInfo) {
-        ClassPrototype classPrototype = delegatedInfo.getComponent("class-prototype");
-        AbyssRedactor redactor = delegatedInfo.getComponent("redactor");
+        ClassPrototype classPrototype = delegatedInfo.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        AbyssRedactor redactor = delegatedInfo.getComponent(PandaComponents.REDACTOR);
         TokenizedSource classDeclaration = redactor.get("class-declaration");
         Token next = classDeclaration.getToken(1);
 
@@ -45,7 +45,7 @@ public class ClassPrototypeParserUtils {
                     Token classNameToken = classDeclaration.getToken(i);
 
                     if (classNameToken.getType() == TokenType.UNKNOWN) {
-                        PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+                        PandaScript script = delegatedInfo.getComponent(PandaComponents.PANDA_SCRIPT);
                         ImportRegistry registry = script.getImportRegistry();
                         ClassPrototype extendedPrototype = registry.forClass(classNameToken.getTokenValue());
 

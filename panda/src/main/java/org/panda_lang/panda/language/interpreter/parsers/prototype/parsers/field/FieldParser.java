@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.design.architecture.prototype.field.PandaPrototypeField;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPriorities;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
@@ -49,6 +50,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
 
 import java.util.List;
 
@@ -65,11 +67,11 @@ public class FieldParser implements UnifiedParser {
 
     @Override
     public void parse(ParserData data) {
-        CasualParserGeneration generation = data.getComponent(PandaComponents.GENERATION);
+        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
         Extractor extractor = FieldParser.ASSIGNATION_PATTERN.extractor();
-        SourceStream stream = data.getComponent(PandaComponents.SOURCE_STREAM);
+        SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
         List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
 
@@ -103,9 +105,8 @@ public class FieldParser implements UnifiedParser {
                 redactor.map("left");
             }
 
-            delegatedData.setComponent("redactor", redactor);
             TokenizedSource left = redactor.get("left");
-            ClassPrototype prototype = delegatedData.getComponent("class-prototype");
+            ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             String name = null;
             FieldVisibility visibility = null;
@@ -126,7 +127,7 @@ public class FieldParser implements UnifiedParser {
                 if (token.getType() == TokenType.UNKNOWN && i == left.size() - 2) {
                     String returnTypeName = token.getTokenValue();
 
-                    PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
+                    PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
                     ImportRegistry registry = script.getImportRegistry();
 
                     type = registry.forClass(returnTypeName);
@@ -183,7 +184,7 @@ public class FieldParser implements UnifiedParser {
             // linker.getCurrentScope().addStatement(statement); class scope [without statements]
 
             if (assignation) {
-                nextLayer.delegate(new FieldAssignationCasualParserCallback(field), delegatedData);
+                nextLayer.delegate(new FieldAssignationCasualParserCallback(field, redactor), delegatedData);
             }
         }
 
@@ -193,14 +194,15 @@ public class FieldParser implements UnifiedParser {
     private static class FieldAssignationCasualParserCallback implements CasualParserGenerationCallback {
 
         private final PrototypeField field;
+        private final AbyssRedactor redactor;
 
-        public FieldAssignationCasualParserCallback(PrototypeField field) {
+        public FieldAssignationCasualParserCallback(PrototypeField field, AbyssRedactor redactor) {
             this.field = field;
+            this.redactor = redactor;
         }
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();

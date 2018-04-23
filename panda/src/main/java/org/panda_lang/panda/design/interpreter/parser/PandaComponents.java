@@ -16,70 +16,34 @@
 
 package org.panda_lang.panda.design.interpreter.parser;
 
+import org.panda_lang.panda.*;
+import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components
  */
 public class PandaComponents {
 
-    /**
-     * Used by {@link org.panda_lang.panda.Panda}
-     */
-    public static final String PANDA = "panda";
+    public static final Component<Panda> PANDA = Component.of("panda", Panda.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData}
-     */
-    public static final String PARENT_INFO = "parent-info";
+    public static final Component<ParserData> CURRENT_PARSER_DATA = Component.of("panda-current-parsers-data", ParserData.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.architecture.Environment}
-     */
-    public static final String ENVIRONMENT = "environment";
+    public static final Component<ScopeLinker> SCOPE_LINKER = Component.of("panda-scope-linker", ScopeLinker.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.architecture.Application}
-     */
-    public static final String APPLICATION = "application";
+    public static final Component<ModuleRegistry> MODULE_REGISTRY = Component.of("panda-module-registry", ModuleRegistry.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.architecture.Script}
-     */
-    public static final String SCRIPT = "script";
+    public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry}
-     */
-    public static final String PIPELINE_REGISTRY = "pipeline";
+    public static final Component<AbyssRedactor> REDACTOR = Component.of("panda-redactor", AbyssRedactor.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream}
-     */
-    public static final String SOURCE_STREAM = "source-stream";
+    public static final Component<Container> CONTAINER = Component.of("panda-container", Container.class);
 
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration}
-     */
-    public static final String GENERATION = "generation";
-
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration}
-     */
-    public static final String CURRENT_PARSER_INFO = "current-parsers-info";
-
-    /**
-     * Used by {@link org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker}
-     */
-    public static final String SCOPE_LINKER = "scope-linker";
-
-    /**
-     * Used by {@link org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype}
-     */
-    public static final String CLASS_PROTOTYPE = "class-prototype";
-
-    /**
-     * USed by {@link org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry}
-     */
-    public static final String MODULE_REGISTRY = "module-registry";
-
+    public static final Component<Scope> SCOPE = Component.of("panda-scope", Scope.class);
 
 }

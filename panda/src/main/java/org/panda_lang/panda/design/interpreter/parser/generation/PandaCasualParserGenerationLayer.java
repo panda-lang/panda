@@ -59,7 +59,7 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
             CasualParserGenerationCallback callback = unit.getCallback();
             ParserData delegatedInfo = unit.getDelegated();
 
-            delegatedInfo.setComponent(PandaComponents.CURRENT_PARSER_INFO, currentInfo);
+            delegatedInfo.setComponent(PandaComponents.CURRENT_PARSER_DATA, currentInfo);
             callback.call(delegatedInfo, nextLayer);
         }
     }

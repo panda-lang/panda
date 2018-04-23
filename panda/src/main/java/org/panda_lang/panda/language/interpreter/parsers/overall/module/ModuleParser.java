@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.overall.module;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
@@ -53,7 +54,7 @@ public class ModuleParser implements UnifiedParser {
 
     @Override
     public void parse(ParserData data) {
-        CasualParserGeneration generation = data.getComponent(PandaComponents.GENERATION);
+        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
 
         generation.getLayer(CasualParserGenerationType.HIGHER)
                 .delegateImmediately(new GroupDeclarationCasualParserCallback(), data)
@@ -65,8 +66,8 @@ public class ModuleParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedData.getComponent(PandaComponents.ENVIRONMENT);
-            PandaScript script = delegatedData.getComponent(PandaComponents.SCRIPT);
+            Environment environment = delegatedData.getComponent(UniversalComponents.ENVIRONMENT);
+            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
 
             AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
             TokenizedSource hollow = hollows.getGap(0);
@@ -98,7 +99,7 @@ public class ModuleParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            Script script = delegatedData.getComponent(PandaComponents.SCRIPT);
+            Script script = delegatedData.getComponent(UniversalComponents.SCRIPT);
             Collection<ModuleStatement> moduleStatements = script.select(ModuleStatement.class);
 
             if (moduleStatements.size() == 0) {

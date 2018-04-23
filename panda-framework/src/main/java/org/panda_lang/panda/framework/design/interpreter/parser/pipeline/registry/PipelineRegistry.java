@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.pipeline.regist
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 
-public interface ParserPipelineRegistry {
+public interface PipelineRegistry {
 
     ParserPipeline getPipeline(String pipelineName);
 

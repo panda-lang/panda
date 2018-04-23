@@ -16,25 +16,22 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.scope.block.conditional;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.design.architecture.dynamic.conditional.ConditionalBlock;
-import org.panda_lang.panda.design.architecture.dynamic.conditional.ElseBlock;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.design.architecture.dynamic.conditional.*;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.architecture.dynamic.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.parsers.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;
+import org.panda_lang.panda.language.interpreter.parsers.scope.block.*;
 
 @ParserRegistration(target = PandaPipelines.BLOCK, parserClass = ConditionalBlockParser.class, handlerClass = ConditionalBlockParserHandler.class)
 public class ConditionalBlockParser implements UnifiedParser {
@@ -45,12 +42,12 @@ public class ConditionalBlockParser implements UnifiedParser {
 
     @Override
     public void parse(ParserData data) {
-        SourceStream stream = data.getComponent(PandaComponents.SOURCE_STREAM);
-        ParserData parentInfo = data.getComponent(PandaComponents.PARENT_INFO);
+        SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+        ParserData parentInfo = data.getComponent(UniversalComponents.PARENT_DATA);
 
         if (stream.getUnreadLength() == 1) {
             ElseBlock elseBlock = new ElseBlock();
-            Block previousBlock = parentInfo.getComponent("previous-block");
+            Block previousBlock = parentInfo.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
                 throw new PandaParserException("The Else-block without associated If-block at line " + TokenUtils.getLine(stream.toTokenizedSource()));
@@ -59,8 +56,8 @@ public class ConditionalBlockParser implements UnifiedParser {
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;
             conditionalBlock.setElseBlock(elseBlock);
 
-            data.setComponent("block", elseBlock);
-            data.setComponent("block-unlisted", true);
+            data.setComponent(BlockComponents.BLOCK, elseBlock);
+            data.setComponent(BlockComponents.UNLISTED_BLOCK, true);
             return;
         }
 
@@ -72,13 +69,13 @@ public class ConditionalBlockParser implements UnifiedParser {
         Expression expression = expressionParser.parse(data, conditionExpression);
 
         ConditionalBlock conditionalBlock = new ConditionalBlock(expression);
-        data.setComponent("block", conditionalBlock);
+        data.setComponent(BlockComponents.BLOCK, conditionalBlock);
 
         switch (conditionType.asString()) {
             case "if":
                 break;
             case "else if":
-                Block previousBlock = parentInfo.getComponent("previous-block");
+                Block previousBlock = parentInfo.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
                 if (!(previousBlock instanceof ConditionalBlock)) {
                     throw new PandaParserException("The If-Else-block without associated If-block at line " + TokenUtils.getLine(stream.toTokenizedSource()));
@@ -86,7 +83,7 @@ public class ConditionalBlockParser implements UnifiedParser {
 
                 ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
                 conditionalBlock.setElseBlock(previousConditionalBlock);
-                data.setComponent("block-unlisted", true);
+                data.setComponent(BlockComponents.UNLISTED_BLOCK, true);
                 break;
             default:
                 throw new PandaParserException("Unrecognized condition type at line " + TokenUtils.getLine(conditionType));

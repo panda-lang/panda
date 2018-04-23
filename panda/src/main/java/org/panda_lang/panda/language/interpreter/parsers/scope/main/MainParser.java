@@ -21,6 +21,7 @@ import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
 import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
 import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
@@ -55,15 +56,12 @@ public class MainParser implements UnifiedParser {
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "main-body");
-            delegatedData.setComponent("redactor", redactor);
 
             MainScope main = new MainScope();
-            delegatedData.setComponent("main", main);
-
-            Script script = delegatedData.getComponent(PandaComponents.SCRIPT);
+            Script script = delegatedData.getComponent(UniversalComponents.SCRIPT);
             script.getStatements().add(main);
 
-            nextLayer.delegate(new MainBodyCasualParserCallback(), delegatedData.fork());
+            nextLayer.delegate(new MainBodyCasualParserCallback(main, redactor), delegatedData.fork());
         }
 
     }
@@ -71,17 +69,20 @@ public class MainParser implements UnifiedParser {
     @LocalCallback
     private static class MainBodyCasualParserCallback implements CasualParserGenerationCallback {
 
+        private final MainScope main;
+        private final AbyssRedactor redactor;
+
+        public MainBodyCasualParserCallback(MainScope main, AbyssRedactor redactor) {
+            this.main = main;
+            this.redactor = redactor;
+        }
+
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            MainScope main = delegatedData.getComponent("main");
-            delegatedData.setComponent("scope", main);
-
             ScopeLinker linker = new PandaScopeLinker(main);
             delegatedData.setComponent(PandaComponents.SCOPE_LINKER, linker);
 
-            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource body = redactor.get("main-body");
-
             ScopeParser scopeParser = new ScopeParser(main);
             scopeParser.parse(delegatedData, body);
         }

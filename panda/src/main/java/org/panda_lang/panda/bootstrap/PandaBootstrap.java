@@ -20,7 +20,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
 
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.Collection;
 public class PandaBootstrap {
 
     protected Syntax syntax;
-    protected ParserPipelineRegistry registry;
+    protected PipelineRegistry registry;
     protected Collection<Collection<Class<? extends ClassPrototypeModel>>> modelsCollection = new ArrayList<>();
     protected GenerationInitializer generationInitializer;
 

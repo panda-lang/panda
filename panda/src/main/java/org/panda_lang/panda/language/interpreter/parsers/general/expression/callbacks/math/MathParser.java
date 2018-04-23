@@ -16,26 +16,21 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.math;
 
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueElement;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueExtractor;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueResult;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.interpreter.tokens.Operators;
-import org.panda_lang.panda.language.interpreter.tokens.Separators;
+import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.*;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;
+import org.panda_lang.panda.language.interpreter.tokens.*;
 
-import java.util.Stack;
+import java.util.*;
 
 public class MathParser implements Parser {
 
@@ -49,7 +44,7 @@ public class MathParser implements Parser {
             Operators.MULTIPLICATION });
 
     public MathExpressionCallback parse(TokenizedSource source, ParserData info) {
-        Environment environment = info.getComponent(PandaComponents.ENVIRONMENT);
+        Environment environment = info.getComponent(UniversalComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         TokenReader reader = new PandaTokenReader(source);

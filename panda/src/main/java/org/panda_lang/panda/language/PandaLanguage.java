@@ -19,7 +19,7 @@ package org.panda_lang.panda.language;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.Language;
 import org.panda_lang.panda.language.interpreter.PandaSyntax;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
@@ -28,7 +28,7 @@ import java.util.Collection;
 
 public class PandaLanguage implements Language {
 
-    private final ParserPipelineRegistry pipelineRegistry;
+    private final PipelineRegistry pipelineRegistry;
     private Syntax syntax;
     private Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings;
 
@@ -52,7 +52,7 @@ public class PandaLanguage implements Language {
     }
 
     @Override
-    public ParserPipelineRegistry getParserPipelineRegistry() {
+    public PipelineRegistry getParserPipelineRegistry() {
         return pipelineRegistry;
     }
 

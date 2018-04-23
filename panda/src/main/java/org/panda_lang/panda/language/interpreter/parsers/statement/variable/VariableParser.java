@@ -16,87 +16,40 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable;
 
-import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.language.interpreter.parsers.PandaPriorities;
-import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
-import org.panda_lang.panda.language.interpreter.parsers.statement.invoker.MethodInvokerParser;
-import org.panda_lang.panda.design.architecture.statement.assigner.FieldAssigner;
-import org.panda_lang.panda.design.architecture.statement.assigner.VariableAssigner;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
-import org.panda_lang.panda.language.interpreter.tokens.Keywords;
-
-import java.util.List;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
+import org.panda_lang.panda.language.interpreter.parsers.*;
+import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.*;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
 public class VariableParser implements UnifiedParser {
 
-    public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "+*")
-            .build();
-
-    public static final AbyssPattern ASSIGNATION_PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "+** = +*")
-            .build();
-
     @Override
     public void parse(ParserData data) {
-        CasualParserGeneration generation = data.getComponent(PandaComponents.GENERATION);
-        CasualParserGenerationCallback callback;
+        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
 
-        Extractor extractor = VariableParser.ASSIGNATION_PATTERN.extractor();
-        SourceStream stream = data.getComponent(PandaComponents.SOURCE_STREAM);
+        VarParser varParser = new VarParser();
+        VarParserData parserData = varParser.toVarParserData(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
 
-        SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
-        List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
+        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately((delegatedData, nextLayer) -> {
+            VarParserResult parserResult = varParser.parseVariable(parserData, delegatedData);
 
-        if (hollows == null || hollows.size() != 2) {
-            // TODO
-            Extractor invokerExtractor = MethodInvokerParser.PATTERN.extractor();
-            SourceStream invokerStream = new PandaSourceStream(stream.toTokenizedSource());
-            List<TokenizedSource> invokerHollows = extractor.extract(copyOfStream.toTokenReader());
+            if (parserResult.isFreshVariable()) {
+                parserResult.getScope().addVariable(parserResult.getVariable());
+            }
 
-            callback = new VariableDeclarationCallbackCasual(false);
-        }
-        else {
-            callback = new VariableDeclarationCallbackCasual(true);
-        }
+            if (!parserData.hasAssignation()) {
+                return;
+            }
 
-        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, data.fork());
+            nextLayer.delegate((delegatedData1, nextLayer1) -> varParser.parseAssignation(parserData, parserResult, delegatedData1), delegatedData);
+        }, data);
+
     }
 
+    /*
     @LocalCallback
     private static class VariableDeclarationCallbackCasual implements CasualParserGenerationCallback {
 
@@ -117,23 +70,20 @@ public class VariableParser implements UnifiedParser {
                 redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "left");
             }
 
-            delegatedData.setComponent("redactor", redactor);
             TokenizedSource left = redactor.get("left");
 
-            Container container = delegatedData.getComponent("container");
+            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
             StatementCell cell = container.reserveCell();
-            delegatedData.setComponent("cell", cell);
 
             ScopeLinker linker = delegatedData.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = linker.getCurrentScope();
-            delegatedData.setComponent("scope", scope);
 
             if (!parseLeft(delegatedData, left, scope)) {
                 throw new PandaParserException("Cannot parse variable: " + left.asString());
             }
 
             if (assignation) {
-                nextLayer.delegate(new VariableAssignationCasualParserCallback(), delegatedData);
+                nextLayer.delegate(new VariableAssignationCasualParserCallback(redactor, scope, null, cell), delegatedData);
             }
         }
 
@@ -143,8 +93,8 @@ public class VariableParser implements UnifiedParser {
                 Expression instanceExpression = expressionParser.parse(delegatedInfo, left.subSource(0, left.size() - 2), true);
 
                 if (instanceExpression != null) {
-                    delegatedInfo.setComponent("instance-expression", instanceExpression);
-                    delegatedInfo.setComponent("instance-field", left.getLast().getToken().getTokenValue());
+                    delegatedInfo.setComponent(VariableComponents.INSTANCE_EXPRESSION, instanceExpression);
+                    delegatedInfo.setComponent(VariableComponents.INSTANCE_FIELD, left.getLast().getToken().getTokenValue());
                     return true;
                 }
             }
@@ -153,7 +103,7 @@ public class VariableParser implements UnifiedParser {
                 String variableName = left.getLast().getTokenValue();
                 String variableType = left.getLast(1).getTokenValue();
 
-                PandaScript script = delegatedInfo.getComponent(PandaComponents.SCRIPT);
+                PandaScript script = delegatedInfo.getComponent(PandaComponents.PANDA_SCRIPT);
                 ImportRegistry importRegistry = script.getImportRegistry();
                 ClassPrototype type = importRegistry.forClass(variableType);
                 boolean mutable = TokenUtils.contains(left, Keywords.MUTABLE);
@@ -164,7 +114,6 @@ public class VariableParser implements UnifiedParser {
                 }
 
                 Variable variable = new PandaVariable(type, variableName, 0, mutable, nullable);
-                delegatedInfo.setComponent("variable", variable);
 
                 if (VariableParserUtils.checkDuplicates(scope, variable)) {
                     throw new PandaParserException("Variable '" + variableName + "' already exists in this scope");
@@ -178,8 +127,6 @@ public class VariableParser implements UnifiedParser {
                 Variable variable = VariableParserUtils.getVariable(scope, left.getLast().getToken().getTokenValue());
 
                 if (variable != null) {
-                    delegatedInfo.setComponent("variable", variable);
-
                     if (!variable.isMutable()) {
                         throw new PandaParserException("Cannot change value of immutable variable '" + variable.getName() + "' at line " + TokenUtils.getLine(left));
                     }
@@ -206,9 +153,20 @@ public class VariableParser implements UnifiedParser {
     @LocalCallback
     private static class VariableAssignationCasualParserCallback implements CasualParserGenerationCallback {
 
+        private final AbyssRedactor redactor;
+        private final Scope scope;
+        private final Variable variable;
+        private final StatementCell cell;
+
+        private VariableAssignationCasualParserCallback(AbyssRedactor redactor, Scope scope, Variable variable, StatementCell cell) {
+            this.redactor = redactor;
+            this.scope = scope;
+            this.variable = variable;
+            this.cell = cell;
+        }
+
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = delegatedData.getComponent("redactor");
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
@@ -218,8 +176,6 @@ public class VariableParser implements UnifiedParser {
                 throw new PandaParserException("Cannot parse expression '" + right + "'");
             }
 
-            Scope scope = delegatedData.getComponent("scope");
-            Variable variable = delegatedData.getComponent("variable");
             Statement assigner;
 
             if (variable != null) {
@@ -248,10 +204,10 @@ public class VariableParser implements UnifiedParser {
                 assigner = new FieldAssigner(instanceExpression, field, expressionValue);
             }
 
-            StatementCell cell = delegatedData.getComponent("cell");
             cell.setStatement(assigner);
         }
 
     }
+    */
 
 }

@@ -16,12 +16,10 @@
 
 package org.panda_lang.panda.design.interpreter.token;
 
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
 
 public class AbyssPatternAssistant {
 
@@ -32,7 +30,7 @@ public class AbyssPatternAssistant {
     }
 
     public static AbyssRedactorHollows extract(AbyssPattern pattern, ParserData data) {
-        return AbyssPatternUtils.extract(pattern, data.getComponent(PandaComponents.SOURCE_STREAM));
+        return AbyssPatternUtils.extract(pattern, data.getComponent(UniversalComponents.SOURCE_STREAM));
     }
 
 }

@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.*;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ public class VariableParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader reader) {
-        Extractor extractor = VariableParser.PATTERN.extractor();
+        Extractor extractor = VarParser.PATTERN.extractor();
         List<TokenizedSource> hollows = extractor.extract(reader);
         return hollows != null && hollows.size() > 0;
     }

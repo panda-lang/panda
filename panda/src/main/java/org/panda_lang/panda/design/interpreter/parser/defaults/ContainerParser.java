@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
@@ -26,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserPipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
@@ -40,16 +41,16 @@ public class ContainerParser implements Parser {
     }
 
     public void parse(ParserData info, TokenizedSource body) {
-        CasualParserGeneration generation = info.getComponent(PandaComponents.GENERATION);
+        CasualParserGeneration generation = info.getComponent(UniversalComponents.GENERATION);
 
-        ParserPipelineRegistry parserPipelineRegistry = info.getComponent(PandaComponents.PIPELINE_REGISTRY);
-        ParserPipeline pipeline = parserPipelineRegistry.getPipeline(PandaPipelines.SCOPE);
+        PipelineRegistry pipelineRegistry = info.getComponent(UniversalComponents.PIPELINE);
+        ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
-        info.setComponent(PandaComponents.SOURCE_STREAM, stream);
+        info.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
-        Container previousContainer = info.getComponent("container");
-        info.setComponent("container", container);
+        Container previousContainer = info.getComponent(PandaComponents.CONTAINER);
+        info.setComponent(PandaComponents.CONTAINER, container);
 
         while (stream.hasUnreadSource()) {
             UnifiedParser parser = pipeline.handle(stream);
@@ -62,14 +63,14 @@ public class ContainerParser implements Parser {
 
             parser.parse(info);
             generation.executeImmediately(info);
-            info.setComponent("container", container);
+            info.setComponent(PandaComponents.CONTAINER, container);
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw new PandaParserException(parser.getClass().getSimpleName() + " did nothing with source at line " + TokenUtils.getLine(stream.toTokenizedSource()));
             }
         }
 
-        info.setComponent("container", previousContainer);
+        info.setComponent(PandaComponents.CONTAINER, previousContainer);
     }
 
 }

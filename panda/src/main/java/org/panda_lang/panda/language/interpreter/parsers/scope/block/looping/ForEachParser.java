@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.scope.block.looping;
 
 import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
@@ -35,6 +36,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.A
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
 import org.panda_lang.panda.design.architecture.dynamic.looping.ForEachBlock;
+import org.panda_lang.panda.language.interpreter.parsers.scope.block.*;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.VarParser;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.VarParserResult;
@@ -54,12 +56,12 @@ public class ForEachParser implements UnifiedParser {
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");
 
-        Environment environment = data.getComponent(PandaComponents.ENVIRONMENT);
+        Environment environment = data.getComponent(UniversalComponents.ENVIRONMENT);
         ModuleRegistry registry = environment.getModuleRegistry();
 
         // TODO: Create var
         VarParser varParser = new VarParser();
-        VarParserData varData = varParser.toVarParserData(varSource);
+        VarParserData varData = varParser.toVarParserData(data, varSource);
         VarParserResult result = varParser.parseVariable(varData, data);
 
         ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
@@ -74,7 +76,7 @@ public class ForEachParser implements UnifiedParser {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
-        data.setComponent("block", new ForEachBlock(variableId, result.getVariable().getType(), expression));
+        data.setComponent(BlockComponents.BLOCK, new ForEachBlock(variableId, result.getVariable().getType(), expression));
     }
 
 }
