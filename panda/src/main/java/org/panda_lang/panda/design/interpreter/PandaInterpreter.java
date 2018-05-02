@@ -16,35 +16,38 @@
 
 package org.panda_lang.panda.design.interpreter;
 
-import org.panda_lang.panda.design.architecture.PandaApplication;
-import org.panda_lang.panda.design.interpreter.parser.defaults.ApplicationParser;
-import org.panda_lang.panda.language.PandaLanguage;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
+import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.interpreter.parser.defaults.*;
+import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.framework.design.interpreter.*;
+import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.framework.design.interpreter.source.*;
+import org.panda_lang.panda.framework.language.interpreter.*;
+import org.panda_lang.panda.language.*;
 
 public class PandaInterpreter implements Interpreter {
 
     private final Environment environment;
-    private final PandaLanguage pandaLanguage;
+    private final PandaLanguage language;
 
     protected PandaInterpreter(PandaInterpreterBuilder builder) {
         this.environment = builder.environment;
-        this.pandaLanguage = builder.elements;
+        this.language = builder.elements;
     }
 
     @Override
     public PandaApplication interpret(SourceSet sources) {
-        ApplicationParser parser = new ApplicationParser(this);
-        return parser.parse(sources);
-    }
+        Interpretation interpretation = new PandaInterpretation(environment, this, language);
 
-    public PandaLanguage getPandaLanguage() {
-        return pandaLanguage;
-    }
+        ApplicationParser parser = new ApplicationParser(interpretation);
+        PandaApplication application = parser.parse(sources);
 
-    public Environment getEnvironment() {
-        return environment;
+        if (!interpretation.isHealthy()) {
+            interpretation.getMessenger().sendMessage(MessengerMessage.Level.ERROR, "");
+            return null;
+        }
+
+        return application;
     }
 
     public static PandaInterpreterBuilder builder() {

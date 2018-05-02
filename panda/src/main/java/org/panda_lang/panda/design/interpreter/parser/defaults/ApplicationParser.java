@@ -17,11 +17,11 @@
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
 import org.panda_lang.panda.design.architecture.*;
-import org.panda_lang.panda.design.interpreter.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
@@ -29,28 +29,28 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
 import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
-import org.panda_lang.panda.language.*;
 import org.panda_lang.panda.language.interpreter.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.*;
 
 public class ApplicationParser implements Parser {
 
-    private final PandaInterpreter interpreter;
+    private final Interpretation interpretation;
 
-    public ApplicationParser(PandaInterpreter interpreter) {
-        this.interpreter = interpreter;
+    public ApplicationParser(Interpretation interpretation) {
+        this.interpretation = interpretation;
     }
 
     public PandaApplication parse(SourceSet sourceSet) {
         PandaApplication application = new PandaApplication();
 
-        Environment environment = interpreter.getEnvironment();
+        Environment environment = interpretation.getEnvironment();
         ModuleRegistry registry = environment.getModuleRegistry();
         Module defaultModule = registry.getOrCreate(null);
 
-        PandaLanguage elements = interpreter.getPandaLanguage();
+        Language elements = interpretation.getLanguage();
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
         ParserPipeline overallPipeline = pipelineRegistry.getPipeline(PandaPipelines.OVERALL);
 
@@ -58,9 +58,10 @@ public class ApplicationParser implements Parser {
         CommentAssistant commentAssistant = new CommentAssistant();
 
         ParserData baseInfo = new PandaParserData();
-        baseInfo.setComponent(UniversalComponents.ENVIRONMENT, environment);
+        baseInfo.setComponent(UniversalComponents.INTERPRETATION, interpretation);
         baseInfo.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
         baseInfo.setComponent(UniversalComponents.GENERATION, generation);
+        baseInfo.setComponent(PandaComponents.MODULE_REGISTRY, registry);
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
@@ -93,10 +94,6 @@ public class ApplicationParser implements Parser {
         }
 
         return application;
-    }
-
-    public PandaInterpreter getInterpreter() {
-        return interpreter;
     }
 
 }

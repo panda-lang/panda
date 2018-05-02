@@ -9,7 +9,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 
 public class UniversalComponents {
 
-    public static final Component<Environment> ENVIRONMENT = Component.of("environment", Environment.class);
+    public static final Component<Interpretation> INTERPRETATION = Component.of("interpretation", Interpretation.class);
 
     public static final Component<Application> APPLICATION = Component.of("application", Application.class);
 

@@ -36,6 +36,10 @@ public interface SourceStream {
         return toTokenizedSource().size();
     }
 
+    default int getCurrentLine() {
+        return hasUnreadSource() ? toTokenizedSource().getFirst().getLine() : -1;
+    }
+
     TokenReader toTokenReader();
 
     TokenizedSource toTokenizedSource();

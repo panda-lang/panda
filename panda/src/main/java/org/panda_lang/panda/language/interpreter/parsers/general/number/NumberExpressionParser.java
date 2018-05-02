@@ -16,11 +16,10 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.number;
 
-import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.value.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.architecture.value.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
@@ -32,9 +31,6 @@ public class NumberExpressionParser implements ParticularParser<Value> {
         if (!NumberUtils.isNumeric(source)) {
             return null;
         }
-
-        Environment environment = data.getComponent(UniversalComponents.ENVIRONMENT);
-        ModuleRegistry registry = environment.getModuleRegistry();
 
         String unknownNumber = source.asString();
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
@@ -66,6 +62,7 @@ public class NumberExpressionParser implements ParticularParser<Value> {
             numberType = numberTypeDefinition;
         }
 
+        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         Value value;
 
         switch (numberType) {

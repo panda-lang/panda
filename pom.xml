@@ -124,7 +124,7 @@
             <dependency>
                 <groupId>org.jetbrains</groupId>
                 <artifactId>annotations</artifactId>
-                <version>13.0</version>
+                <version>16.0.1</version>
             </dependency>
 
             <!-- Tests -->

@@ -16,49 +16,33 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.expression;
 
-import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.InstanceExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.InstanceExpressionParser;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.invoker.MethodInvokerExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.invoker.MethodInvokerExpressionUtils;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.logic.NotLogicalExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.math.MathExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.math.MathExpressionUtils;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.math.MathParser;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.memory.FieldExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.memory.VariableExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.general.number.NumberExpressionParser;
-import org.panda_lang.panda.language.interpreter.parsers.general.number.NumberUtils;
+import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
+import org.panda_lang.panda.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.*;
+import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.architecture.value.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.language.architecture.value.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.language.runtime.expression.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.invoker.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.logic.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.math.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.memory.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.number.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
-import org.panda_lang.panda.language.interpreter.parsers.statement.variable.VariableParserUtils;
-import org.panda_lang.panda.language.interpreter.tokens.Operators;
+import org.panda_lang.panda.language.interpreter.parsers.statement.variable.*;
+import org.panda_lang.panda.language.interpreter.tokens.*;
 
-import java.util.List;
+import java.util.*;
 
 public class ExpressionParser implements ParticularParser<Expression> {
 
@@ -67,9 +51,8 @@ public class ExpressionParser implements ParticularParser<Expression> {
         return parse(data, expressionSource, false);
     }
 
-    public Expression parse(ParserData info, TokenizedSource expressionSource, boolean silence) {
-        Environment environment = info.getComponent(UniversalComponents.ENVIRONMENT);
-        ModuleRegistry registry = environment.getModuleRegistry();
+    public Expression parse(ParserData data, TokenizedSource expressionSource, boolean silence) {
+        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
 
         if (expressionSource.size() == 1) {
             Token token = expressionSource.getToken(0);
@@ -84,7 +67,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                     case "false":
                         return toSimpleKnownExpression(registry, "boolean", false);
                     case "this":
-                        ClassPrototype type = info.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+                        ClassPrototype type = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
                         return new PandaExpression(type, new ThisExpressionCallback());
                     default:
                         throw new PandaParserException("Unknown literal: " + token);
@@ -101,13 +84,13 @@ public class ExpressionParser implements ParticularParser<Expression> {
             }
 
             NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
-            Value numericValue = numberExpressionParser.parse(info, expressionSource);
+            Value numericValue = numberExpressionParser.parse(data, expressionSource);
 
             if (numericValue != null) {
                 return new PandaExpression(numericValue);
             }
 
-            ScopeLinker scopeLinker = info.getComponent(PandaComponents.SCOPE_LINKER);
+            ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
             Variable variable = VariableParserUtils.getVariable(scope, value);
 
@@ -116,7 +99,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
                 return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
             }
 
-            ClassPrototype prototype = info.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+            ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
                 PrototypeField field = prototype.getField(value);
@@ -129,14 +112,14 @@ public class ExpressionParser implements ParticularParser<Expression> {
         }
 
         if (TokenUtils.equals(expressionSource.getFirst(), Operators.NOT)) {
-            Expression expression = parse(info, expressionSource.subSource(1, expressionSource.size()));
+            Expression expression = parse(data, expressionSource.subSource(1, expressionSource.size()));
             return new PandaExpression(expression.getReturnType(), new NotLogicalExpressionCallback(expression));
         }
 
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(expressionSource);
 
         if (methodInvokerParser != null) {
-            methodInvokerParser.parse(expressionSource, info);
+            methodInvokerParser.parse(expressionSource, data);
             MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
 
             return new PandaExpression(callback.getReturnType(), callback);
@@ -148,7 +131,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         if (constructorMatches != null && constructorMatches.size() == 3 && constructorMatches.get(2).size() == 0) {
             InstanceExpressionParser callbackParser = new InstanceExpressionParser();
 
-            callbackParser.parse(expressionSource, info);
+            callbackParser.parse(expressionSource, data);
             InstanceExpressionCallback callback = callbackParser.toCallback();
 
             return new PandaExpression(callback.getReturnType(), callback);
@@ -157,7 +140,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         List<TokenizedSource> fieldMatches = ExpressionPatterns.FIELD_PATTERN.match(expressionReader);
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
-            PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
+            PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
             ImportRegistry importRegistry = script.getImportRegistry();
 
             TokenizedSource instanceSource = fieldMatches.get(0);
@@ -169,7 +152,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
             }
 
             if (instanceType == null) {
-                fieldLocationExpression = parse(info, fieldMatches.get(0));
+                fieldLocationExpression = parse(data, fieldMatches.get(0));
                 instanceType = fieldLocationExpression.getReturnType();
             }
 
@@ -189,7 +172,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         }
 
         NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
-        Value numericValue = numberExpressionParser.parse(info, expressionSource);
+        Value numericValue = numberExpressionParser.parse(data, expressionSource);
 
         if (numericValue != null) {
             return new PandaExpression(numericValue);
@@ -197,7 +180,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
 
         if (MathExpressionUtils.isMathExpression(expressionSource)) {
             MathParser mathParser = new MathParser();
-            MathExpressionCallback expression = mathParser.parse(expressionSource, info);
+            MathExpressionCallback expression = mathParser.parse(expressionSource, data);
             return new PandaExpression(expression.getReturnType(), expression);
         }
 

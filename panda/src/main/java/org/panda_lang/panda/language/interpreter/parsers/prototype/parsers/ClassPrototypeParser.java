@@ -16,45 +16,35 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.parsers;
 
-import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.constructor.ConstructorUtils;
-import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
-import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.architecture.prototype.*;
+import org.panda_lang.panda.design.architecture.prototype.constructor.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
+import org.panda_lang.panda.design.interpreter.parser.generation.*;
+import org.panda_lang.panda.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.*;
+import org.panda_lang.panda.framework.design.architecture.value.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassReference;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScope;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScopeInstance;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.runtime.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.parsers.*;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.*;
 
 @ParserRegistration(target = PandaPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
@@ -73,9 +63,6 @@ public class ClassPrototypeParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            Environment environment = delegatedData.getComponent(UniversalComponents.ENVIRONMENT);
-            ModuleRegistry registry = environment.getModuleRegistry();
-
             PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
             Module module = script.getModule();
 
@@ -86,9 +73,13 @@ public class ClassPrototypeParser implements UnifiedParser {
             String className = classDeclaration.getToken(0).getTokenValue();
 
             ClassPrototype classPrototype = new PandaClassPrototype(module, className, Object.class);
-            classPrototype.getExtended().add(registry.forClass(Object.class));
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
             module.add(classPrototype);
+
+            ModuleRegistry registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
+            classPrototype.getExtended().add(registry.forClass(Object.class));
+
+            delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
 
             ClassScope classScope = new ClassScope(classPrototype);
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);

@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
@@ -43,10 +42,7 @@ public class MathParser implements Parser {
             Operators.DIVISION,
             Operators.MULTIPLICATION });
 
-    public MathExpressionCallback parse(TokenizedSource source, ParserData info) {
-        Environment environment = info.getComponent(UniversalComponents.ENVIRONMENT);
-        ModuleRegistry registry = environment.getModuleRegistry();
-
+    public MathExpressionCallback parse(TokenizedSource source, ParserData data) {
         TokenReader reader = new PandaTokenReader(source);
         VagueResult result = EXTRACTOR.extract(reader);
 
@@ -56,7 +52,7 @@ public class MathParser implements Parser {
 
         for (VagueElement element : result.getElements()) {
             if (element.isExpression()) {
-                Expression expression = expressionParser.parse(info, element.getExpression());
+                Expression expression = expressionParser.parse(data, element.getExpression());
                 math.push(expression);
                 continue;
             }
@@ -95,6 +91,7 @@ public class MathParser implements Parser {
             math.push(operators.pop());
         }
 
+        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         return new MathExpressionCallback(registry, math);
     }
 

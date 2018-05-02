@@ -49,7 +49,6 @@ public class OverallParser implements Parser {
             InterpreterFailure failure = new PandaInterpreterFailure("Unrecognized syntax at line {line}", data);
             data.setComponent(UniversalComponents.FAILURE, failure);
             return;
-            // throw new PandaParserException("Unrecognized syntax at line " + TokenUtils.getLine(stream.toTokenizedSource()));
         }
 
         int sourceLength = stream.getUnreadLength();

@@ -16,31 +16,25 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.scope.block.looping;
 
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.design.architecture.dynamic.looping.ForEachBlock;
+import org.panda_lang.panda.design.architecture.dynamic.looping.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
+import org.panda_lang.panda.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.parsers.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;
 import org.panda_lang.panda.language.interpreter.parsers.scope.block.*;
-import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.VarParser;
-import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.VarParserData;
-import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.VarParserResult;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.*;
 
 @ParserRegistration(target = PandaPipelines.BLOCK, parserClass = ForEachParser.class, handlerClass = ForEachHandler.class)
 public class ForEachParser implements UnifiedParser {
@@ -56,9 +50,6 @@ public class ForEachParser implements UnifiedParser {
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");
 
-        Environment environment = data.getComponent(UniversalComponents.ENVIRONMENT);
-        ModuleRegistry registry = environment.getModuleRegistry();
-
         // TODO: Create var
         VarParser varParser = new VarParser();
         VarParserData varData = varParser.toVarParserData(data, varSource);
@@ -70,6 +61,8 @@ public class ForEachParser implements UnifiedParser {
 
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(data, iterableSource);
+
+        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         ClassPrototype iterable = registry.forClass(Iterable.class);
 
         if (!expression.getReturnType().isAssociatedWith(iterable)) {
