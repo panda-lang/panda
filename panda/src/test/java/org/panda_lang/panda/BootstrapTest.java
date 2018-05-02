@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda;
 
-import org.junit.Test;
-import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
-import org.panda_lang.panda.bootstrap.PandaBootstrap;
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.junit.*;
+import org.panda_lang.panda.bootstrap.*;
+import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.*;
 
 public class BootstrapTest {
 
     @Test
     public void testBootstraps() {
-        // TODO: Remove static components for multiple calls
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
+            // System.out.println("BootstrapTest Loop: " + i);
             this.testBootstrap();
         }
     }
@@ -42,6 +42,11 @@ public class BootstrapTest {
         Application application = new PandaApplicationBootstrap(panda)
                 .source("../examples/current_test.panda")
                 .createApplication();
+
+        if (application == null) {
+            PandaFramework.getLogger().warn("Interpretation failed, application does not exist");
+            return;
+        }
 
         application.launch();
     }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.jetbrains.annotations.*;
 import org.panda_lang.panda.design.architecture.PandaApplication;
 import org.panda_lang.panda.design.architecture.PandaEnvironment;
 import org.panda_lang.panda.design.interpreter.PandaInterpreter;
@@ -48,6 +49,7 @@ public class PandaLoader {
         return load(new DirectorySourceProvider(directory));
     }
 
+    @Nullable
     public PandaApplication load(SourceProvider provider) {
         SourceSet sourceSet = provider.toSourceSet();
 
@@ -60,10 +62,6 @@ public class PandaLoader {
 
         PandaInterpreter interpreter = environment.getInterpreter();
         PandaApplication application = interpreter.interpret(sourceSet);
-
-        if (application == null) {
-            throw new RuntimeException("Application does not exist");
-        }
 
         return application;
     }

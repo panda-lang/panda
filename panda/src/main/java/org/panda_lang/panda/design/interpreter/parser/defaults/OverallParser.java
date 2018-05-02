@@ -25,35 +25,42 @@ import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.language.interpreter.parsers.*;
 
 public class OverallParser implements Parser {
 
+    private final Interpretation interpretation;
     private final ParserPipeline pipeline;
     private final SourceStream stream;
     private final CasualParserGeneration generation;
 
-    public OverallParser(ParserPipeline pipeline, CasualParserGeneration generation, SourceStream stream) {
-        this.pipeline = pipeline;
-        this.generation = generation;
-        this.stream = stream;
+    public OverallParser(ParserData data) {
+        this.interpretation = data.getComponent(UniversalComponents.INTERPRETATION);
+        this.pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.OVERALL);
+        this.generation = data.getComponent(UniversalComponents.GENERATION);
+        this.stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
     }
 
     public void next(ParserData data) {
-        if (!hasNext()) {
+        if (!interpretation.isHealthy() || !hasNext()) {
             return;
         }
 
         UnifiedParser parser = pipeline.handle(stream);
 
         if (parser == null) {
-            InterpreterFailure failure = new PandaInterpreterFailure("Unrecognized syntax at line {line}", data);
-            data.setComponent(UniversalComponents.FAILURE, failure);
+            InterpreterFailure failure = new PandaInterpreterFailure("Unrecognized syntax at line {{line}}", data);
+            interpretation.getMessenger().send(failure);
             return;
         }
 
         int sourceLength = stream.getUnreadLength();
-
         parser.parse(data);
+
+        if (!interpretation.isHealthy()) {
+            return;
+        }
+
         generation.executeImmediately(data);
 
         if (sourceLength == stream.getUnreadLength()) {

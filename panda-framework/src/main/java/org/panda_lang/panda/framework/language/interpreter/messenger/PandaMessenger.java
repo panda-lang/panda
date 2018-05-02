@@ -2,25 +2,32 @@ package org.panda_lang.panda.framework.language.interpreter.messenger;
 
 import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.utilities.commons.collection.*;
 
 import java.util.*;
 
 public class PandaMessenger implements Messenger {
 
-    private final Map<Class<?>, MessengerMessageTranslator> translators = new HashMap<>();
-    private final Collection<MessengerOutputListener> outputListeners = new ArrayList<>();
+    private final List<MessengerMessageTranslator> translators = new ArrayList<>();
+    private MessengerOutputListener outputListener;
 
     @Override
     @SuppressWarnings("unchecked")
     public void send(Object message) {
-        MessengerMessageTranslator translator = translators.get(message.getClass());
+        MessengerMessageTranslator translator = null;
+
+        for (MessengerMessageTranslator messageTranslator : new ReverseIterator<>(translators)) {
+            if (messageTranslator.getType().isAssignableFrom(message.getClass())) {
+                translator = messageTranslator;
+                break;
+            }
+        }
 
         if (translator == null) {
             throw new PandaFrameworkException("Cannot translate a message - translator for " + message.getClass() + " not found");
         }
 
-        MessengerMessage translatedMessage = translator.translate(message);
-        sendMessage(translatedMessage);
+        translator.handle(this, message);
     }
 
     @Override
@@ -31,19 +38,17 @@ public class PandaMessenger implements Messenger {
 
     @Override
     public void sendMessage(MessengerMessage message) {
-        for (MessengerOutputListener outputListener : outputListeners) {
-            outputListener.onMessage(message);
-        }
+        outputListener.onMessage(message);
     }
 
     @Override
     public void addMessageTranslator(MessengerMessageTranslator translator) {
-        translators.put(translator.getType(), translator);
+        translators.add(translator);
     }
 
     @Override
-    public void addOutputListener(MessengerOutputListener listener) {
-        outputListeners.add(listener);
+    public void setOutputListener(MessengerOutputListener listener) {
+        this.outputListener = listener;
     }
 
 }

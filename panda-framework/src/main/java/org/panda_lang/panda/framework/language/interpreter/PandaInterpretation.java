@@ -5,6 +5,7 @@ import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.*;
+import org.panda_lang.panda.framework.language.interpreter.messenger.listeners.*;
 
 import java.util.*;
 
@@ -20,8 +21,11 @@ public class PandaInterpretation implements Interpretation {
         this.environment = environment;
         this.interpreter = interpreter;
         this.language = language;
-        this.messenger = new PandaMessenger();
         this.failures = new ArrayList<>(1);
+
+        this.messenger = new PandaMessenger();
+        this.messenger.addMessageTranslator(new InterpreterFailureTranslator(this));
+        this.messenger.setOutputListener(new DefaultOutputListener());
     }
 
     @Override

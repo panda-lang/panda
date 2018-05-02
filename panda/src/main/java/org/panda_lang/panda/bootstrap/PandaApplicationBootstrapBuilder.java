@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
+import org.jetbrains.annotations.*;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaLoader;
 import org.panda_lang.panda.design.architecture.PandaApplication;
@@ -28,6 +29,7 @@ public class PandaApplicationBootstrapBuilder {
         this.applicationBootstrap = applicationBootstrap;
     }
 
+    @Nullable
     protected PandaApplication build() {
         Panda panda = applicationBootstrap.panda;
         PandaLoader loader = panda.getPandaLoader();

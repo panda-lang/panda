@@ -8,8 +8,8 @@ public interface Messenger {
 
     void sendMessage(MessengerMessage message);
 
-    void addMessageTranslator(MessengerMessageTranslator translator);
+    void addMessageTranslator(MessengerMessageTranslator<?> translator);
 
-    void addOutputListener(MessengerOutputListener listener);
+    void setOutputListener(MessengerOutputListener listener);
 
 }

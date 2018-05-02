@@ -3,17 +3,13 @@ package org.panda_lang.panda.framework.design.interpreter.messenger;
 public interface MessengerMessage {
 
     enum Level {
-
+        DEBUG,
         INFO,
         WARNING,
-        ERROR,
-        OTHER
-
+        FAILURE
     }
 
-    String getMessage();
-
-    String getDetails();
+    String[] getContent();
 
     MessengerMessage.Level getLevel();
 

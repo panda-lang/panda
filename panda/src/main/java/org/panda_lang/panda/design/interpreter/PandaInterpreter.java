@@ -43,7 +43,7 @@ public class PandaInterpreter implements Interpreter {
         PandaApplication application = parser.parse(sources);
 
         if (!interpretation.isHealthy()) {
-            interpretation.getMessenger().sendMessage(MessengerMessage.Level.ERROR, "");
+            interpretation.getMessenger().sendMessage(MessengerMessage.Level.FAILURE, "Interpretation failed, cannot parse specified sources");
             return null;
         }
 

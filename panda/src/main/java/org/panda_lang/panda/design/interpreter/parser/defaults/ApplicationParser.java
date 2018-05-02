@@ -69,28 +69,42 @@ public class ApplicationParser implements Parser {
 
             PandaLexer lexer = new PandaLexer(elements.getSyntax(), source.getContent());
             TokenizedSource tokenizedSource = lexer.convert();
-            TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
 
+            TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
             PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
-            OverallParser overallParser = new OverallParser(overallPipeline, generation, sourceStream);
 
             ParserData delegatedInfo = baseInfo.fork();
             delegatedInfo.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
             delegatedInfo.setComponent(UniversalComponents.SCRIPT, pandaScript);
             delegatedInfo.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
-            while (overallParser.hasNext()) {
+            OverallParser overallParser = new OverallParser(delegatedInfo);
+
+            while (interpretation.isHealthy() && overallParser.hasNext()) {
                 overallParser.next(delegatedInfo);
+            }
+
+            if (!interpretation.isHealthy()) {
+                break;
             }
 
             application.addScript(pandaScript);
         }
 
+        if (!interpretation.isHealthy()) {
+            return null;
+        }
+
         generation.execute(baseInfo);
 
-        // debug
+        /*
         for (Script script : application.getScripts()) {
             System.out.println(script.toString());
+        }
+        */
+
+        if (!interpretation.isHealthy()) {
+            return null;
         }
 
         return application;
