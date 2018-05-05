@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
-import java.util.List;
+import org.panda_lang.panda.framework.language.interpreter.token.*;
+
+import java.util.*;
 
 public interface TokenizedSource {
 
@@ -25,6 +27,29 @@ public interface TokenizedSource {
     List<TokenRepresentation> getTokensRepresentations();
 
     TokenRepresentation[] toArray();
+
+    default TokenizedSource selectLine(int line) {
+        List<TokenRepresentation> selected = new ArrayList<>();
+
+        for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
+            if (tokenRepresentation.getLine() < line) {
+                continue;
+            }
+
+            if (tokenRepresentation.getLine() > line) {
+                break;
+            }
+
+            selected.add(tokenRepresentation);
+        }
+
+        return new PandaTokenizedSource(selected);
+    }
+
+    default TokenizedSource addToken(TokenRepresentation tokenRepresentation) {
+        getTokensRepresentations().add(tokenRepresentation);
+        return this;
+    }
 
     default int size() {
         return getTokensRepresentations().size();
@@ -41,11 +66,6 @@ public interface TokenizedSource {
     default TokenRepresentation getLast(int i) {
         int index = size() - i - 1;
         return index > -1 ? get(index) : null;
-    }
-
-    default TokenizedSource addToken(TokenRepresentation tokenRepresentation) {
-        getTokensRepresentations().add(tokenRepresentation);
-        return this;
     }
 
     default Token getToken(int id) {

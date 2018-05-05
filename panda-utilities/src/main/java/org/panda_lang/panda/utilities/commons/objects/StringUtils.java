@@ -138,6 +138,10 @@ public class StringUtils {
         return false;
     }
 
+    /**
+     * @param str string to check
+     * @return true if the specified text can be a number
+     */
     public static boolean isNumber(String str) {
         for (char c : str.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -154,6 +158,10 @@ public class StringUtils {
         return true;
     }
 
+    /**
+     * @param str string to convert
+     * @return char codes separated by spaces
+     */
     @Deprecated
     public static String toCharCodes(String str) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -166,7 +174,11 @@ public class StringUtils {
         return stringBuilder.toString();
     }
 
-    public static String gapOf(int spaces) {
+    /**
+     * @param spaces number of spaces
+     * @return generated indentation
+     */
+    public static String createIndentation(int spaces) {
         StringBuilder gapBuilder = new StringBuilder();
 
         for (int i = 0; i < spaces; ++i) {

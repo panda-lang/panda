@@ -41,7 +41,7 @@ public class OverallParser implements Parser {
         this.stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
     }
 
-    public void next(ParserData data) {
+    public void parseNext(ParserData data) throws Exception {
         if (!interpretation.isHealthy() || !hasNext()) {
             return;
         }
@@ -49,18 +49,12 @@ public class OverallParser implements Parser {
         UnifiedParser parser = pipeline.handle(stream);
 
         if (parser == null) {
-            InterpreterFailure failure = new PandaInterpreterFailure("Unrecognized syntax at line {{line}}", data);
-            interpretation.getMessenger().send(failure);
-            return;
+            throw new PandaInterpreterFailure("Unrecognized syntax", data);
         }
 
         int sourceLength = stream.getUnreadLength();
+
         parser.parse(data);
-
-        if (!interpretation.isHealthy()) {
-            return;
-        }
-
         generation.executeImmediately(data);
 
         if (sourceLength == stream.getUnreadLength()) {

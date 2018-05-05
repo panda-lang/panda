@@ -17,7 +17,7 @@ public class MessageFormatter {
     }
 
     public MessageFormatter register(String placeholder, Object value) {
-        this.placeholders.put(placeholder, value.toString());
+        this.placeholders.put(placeholder, value != null ? value.toString() : null);
         return this;
     }
 

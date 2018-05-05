@@ -1,5 +1,7 @@
 module example-test;
 
+xd
+
 import panda-lang;
 
 attach java.lang;

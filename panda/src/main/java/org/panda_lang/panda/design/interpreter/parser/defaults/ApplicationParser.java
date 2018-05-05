@@ -74,6 +74,7 @@ public class ApplicationParser implements Parser {
             PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
 
             ParserData delegatedInfo = baseInfo.fork();
+            delegatedInfo.setComponent(UniversalComponents.SOURCE, uncommentedSource);
             delegatedInfo.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
             delegatedInfo.setComponent(UniversalComponents.SCRIPT, pandaScript);
             delegatedInfo.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
@@ -81,7 +82,11 @@ public class ApplicationParser implements Parser {
             OverallParser overallParser = new OverallParser(delegatedInfo);
 
             while (interpretation.isHealthy() && overallParser.hasNext()) {
-                overallParser.next(delegatedInfo);
+                try {
+                    overallParser.parseNext(delegatedInfo);
+                } catch (Exception exception) {
+                    interpretation.getMessenger().send(exception);
+                }
             }
 
             if (!interpretation.isHealthy()) {
