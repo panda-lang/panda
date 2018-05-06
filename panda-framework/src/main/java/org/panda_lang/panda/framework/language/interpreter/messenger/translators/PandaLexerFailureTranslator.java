@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
+package org.panda_lang.panda.framework.language.interpreter.messenger.translators;
 
-public class AbyssSourcePattern {
+import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 
-    private final String source;
+public class PandaLexerFailureTranslator implements MessengerMessageTranslator<PandaLexerException> {
 
-    private AbyssSourcePattern(String source) {
-        this.source = source;
+    @Override
+    public void handle(Messenger messenger, PandaLexerException element) {
+
     }
 
-    public String getSource() {
-        return source;
-    }
-
-    public static AbyssSourcePattern of(String pattern) {
-        return new AbyssSourcePattern(pattern);
+    @Override
+    public Class<PandaLexerException> getType() {
+        return PandaLexerException.class;
     }
 
 }

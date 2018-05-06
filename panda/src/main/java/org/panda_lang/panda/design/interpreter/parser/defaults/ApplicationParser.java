@@ -25,14 +25,12 @@ import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
 import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
-import org.panda_lang.panda.language.interpreter.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.*;
 
 public class ApplicationParser implements Parser {
@@ -52,7 +50,6 @@ public class ApplicationParser implements Parser {
 
         Language elements = interpretation.getLanguage();
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
-        ParserPipeline overallPipeline = pipelineRegistry.getPipeline(PandaPipelines.OVERALL);
 
         CasualParserGeneration generation = new PandaCasualParserGeneration();
         CommentAssistant commentAssistant = new CommentAssistant();
@@ -65,54 +62,34 @@ public class ApplicationParser implements Parser {
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
-            pandaScript.getImportRegistry().include(defaultModule);
 
-            PandaLexer lexer = new PandaLexer(elements.getSyntax(), source.getContent());
-            TokenizedSource tokenizedSource = lexer.convert();
+            interpretation.execute(() -> {
+                pandaScript.getImportRegistry().include(defaultModule);
 
-            TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
-            PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
+                PandaLexer lexer = new PandaLexer(elements.getSyntax(), source.getContent());
+                TokenizedSource tokenizedSource = lexer.convert();
 
-            ParserData delegatedInfo = baseInfo.fork();
-            delegatedInfo.setComponent(UniversalComponents.SOURCE, uncommentedSource);
-            delegatedInfo.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
-            delegatedInfo.setComponent(UniversalComponents.SCRIPT, pandaScript);
-            delegatedInfo.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
+                TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
+                PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
 
-            OverallParser overallParser = new OverallParser(delegatedInfo);
+                ParserData delegatedInfo = baseInfo.fork();
+                delegatedInfo.setComponent(UniversalComponents.SOURCE, uncommentedSource);
+                delegatedInfo.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
+                delegatedInfo.setComponent(UniversalComponents.SCRIPT, pandaScript);
+                delegatedInfo.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
-            while (interpretation.isHealthy() && overallParser.hasNext()) {
-                try {
-                    overallParser.parseNext(delegatedInfo);
-                } catch (Exception exception) {
-                    interpretation.getMessenger().send(exception);
+                OverallParser overallParser = new OverallParser(delegatedInfo);
+                application.addScript(pandaScript);
+
+                while (interpretation.isHealthy() && overallParser.hasNext()) {
+                    interpretation.execute(() -> overallParser.parseNext(delegatedInfo));
                 }
-            }
-
-            if (!interpretation.isHealthy()) {
-                break;
-            }
-
-            application.addScript(pandaScript);
+            });
         }
 
-        if (!interpretation.isHealthy()) {
-            return null;
-        }
-
-        generation.execute(baseInfo);
-
-        /*
-        for (Script script : application.getScripts()) {
-            System.out.println(script.toString());
-        }
-        */
-
-        if (!interpretation.isHealthy()) {
-            return null;
-        }
-
-        return application;
+        return interpretation
+                .execute(() -> generation.execute(baseInfo))
+                .execute(() -> application);
     }
 
 }
