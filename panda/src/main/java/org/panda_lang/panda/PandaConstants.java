@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.framework.*;
+
 public class PandaConstants {
 
-    public static final String VERSION = "indev-0.7.0";
+    public static final String VERSION = PandaFrameworkConstants.VERSION;
 
 }

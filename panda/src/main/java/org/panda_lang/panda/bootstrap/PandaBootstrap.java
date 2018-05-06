@@ -33,6 +33,10 @@ public class PandaBootstrap {
     protected Collection<Collection<Class<? extends ClassPrototypeModel>>> modelsCollection = new ArrayList<>();
     protected GenerationInitializer generationInitializer;
 
+    public PandaBootstrap() {
+        System.setProperty("log4j.skipJansi", "true");
+    }
+
     public PandaBootstrap syntax(Syntax syntax) {
         this.syntax = syntax;
         return this;

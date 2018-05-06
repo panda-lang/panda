@@ -41,6 +41,11 @@
             <artifactId>commons-lang3</artifactId>
         </dependency>
 
+        <!-- Output -->
+        <dependency>
+            <groupId>org.fusesource.jansi</groupId>
+            <artifactId>jansi</artifactId>
+        </dependency>
 
         <!-- Tests -->
         <dependency>
