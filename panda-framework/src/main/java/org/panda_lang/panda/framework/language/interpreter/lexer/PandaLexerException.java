@@ -17,11 +17,47 @@
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
 
-public class PandaLexerException extends PandaFrameworkException {
+public class PandaLexerException extends PandaFrameworkException implements DefaultTemplateException {
 
-    public PandaLexerException(String str) {
-        super(str);
+    private final String tokenPreview;
+    private final String linePreview;
+    private final String location;
+    private final int line;
+
+    public PandaLexerException(String message, String tokenPreview, String linePreview, String location, int line) {
+        super(message);
+
+        this.tokenPreview = tokenPreview;
+        this.linePreview = linePreview;
+        this.location = location;
+        this.line = line;
+    }
+
+    @Override
+    public String getElement() {
+        return tokenPreview;
+    }
+
+    @Override
+    public String getSource() {
+        return linePreview;
+    }
+
+    @Override
+    public String getMessage() {
+        return super.getMessage();
+    }
+
+    @Override
+    public String getLocation() {
+        return location;
+    }
+
+    @Override
+    public int getLine() {
+        return line;
     }
 
 }

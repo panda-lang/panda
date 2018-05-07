@@ -18,6 +18,7 @@ package org.panda_lang.panda.lexer.extractor;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.panda_lang.panda.framework.language.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueExtractor;
 import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueResult;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
@@ -42,12 +43,12 @@ public class VagueExtractorTest {
 
     @Test
     public void testVagueExtractor() {
-        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), "(new Integer(5).intValue() + 3)");
+        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(VagueExtractorTest.class, "(new Integer(5).intValue() + 3)"));
 
         TokenizedSource source = lexer.convert();
         VagueResult result = EXTRACTOR.extract(source);
 
-        Assert.assertEquals(true, result.isSucceeded());
+        Assert.assertTrue(result.isSucceeded());
         Assert.assertEquals(5, result.size());
         Assert.assertEquals("(", result.get(0));
         Assert.assertEquals("+", result.get(2));

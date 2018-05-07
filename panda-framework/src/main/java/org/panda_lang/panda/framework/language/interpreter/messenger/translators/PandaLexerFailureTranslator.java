@@ -18,12 +18,26 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.translator
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
+import org.panda_lang.panda.framework.language.interpreter.messenger.*;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
+import org.panda_lang.panda.utilities.redact.format.*;
 
 public class PandaLexerFailureTranslator implements MessengerMessageTranslator<PandaLexerException> {
 
     @Override
     public void handle(Messenger messenger, PandaLexerException element) {
+        MessageFormatter formatter = DefaultMessageFormatter.getFormatter();
 
+        DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
+                .applyPlaceholders(formatter, element)
+                .includeCause()
+                .includeSource()
+                .includeMarker(formatter.getValue("{{index}}"))
+                .includeEnvironment()
+                .includeEnd();
+
+        PandaMessengerMessage message = new PandaMessengerMessage(MessengerMessage.Level.FAILURE, templateBuilder.getAsLines(formatter, "LexerFailure"));
+        messenger.sendMessage(message);
     }
 
     @Override

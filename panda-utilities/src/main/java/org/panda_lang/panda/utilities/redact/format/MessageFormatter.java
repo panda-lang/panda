@@ -61,4 +61,10 @@ public class MessageFormatter {
         return new MessageFormatter(new HashMap<>(this.placeholders));
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getValue(String placeholder) {
+        Supplier<?> supplier = placeholders.get(placeholder);
+        return (T) supplier.get();
+    }
+
 }

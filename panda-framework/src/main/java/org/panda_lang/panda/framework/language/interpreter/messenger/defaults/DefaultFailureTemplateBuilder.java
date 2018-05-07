@@ -16,12 +16,31 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 
+import org.fusesource.jansi.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
 import org.panda_lang.panda.utilities.redact.format.*;
 
 public class DefaultFailureTemplateBuilder {
 
     private String content = "";
+
+    public DefaultFailureTemplateBuilder applyPlaceholders(MessageFormatter formatter, DefaultTemplateException exception) {
+        String source = exception.getSource();
+        int index = source.indexOf(exception.getElement());
+
+        formatter.register("{{line}}", () -> exception.getLine() + 1)
+                .register("{{location}}", exception::getLocation)
+                .register("{{message}}", exception::getMessage)
+                .register("{{index}}", () -> index)
+                .register("{{source}}", () -> index < 0 ? source : Ansi.ansi()
+                        .a(source.substring(0, index))
+                        .fgRed()
+                        .a(source.substring(index, source.length()))
+                        .reset()
+                        .toString());
+
+        return this;
+    }
 
     public DefaultFailureTemplateBuilder includeCause() {
         content += "{{newline}}Caused by: {{message}} [in {{location}} at line {{line}}]{{newline}}";

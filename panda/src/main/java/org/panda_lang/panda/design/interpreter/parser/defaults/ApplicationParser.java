@@ -66,7 +66,7 @@ public class ApplicationParser implements Parser {
             interpretation.execute(() -> {
                 pandaScript.getImportRegistry().include(defaultModule);
 
-                PandaLexer lexer = new PandaLexer(elements.getSyntax(), source.getContent());
+                PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
                 TokenizedSource tokenizedSource = lexer.convert();
 
                 TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
+import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
@@ -32,6 +33,7 @@ import java.util.Collection;
 
 public class PandaLexer implements Lexer {
 
+    private final String title;
     private final String source;
     private final Collection<TokenRepresentation> tokenRepresentations;
     private final Collection<Token> tokenizedLine;
@@ -49,16 +51,19 @@ public class PandaLexer implements Lexer {
     private boolean previousSpecial;
     private int line;
 
-    public PandaLexer(Syntax syntax, String source) {
-        if (source == null) {
+    public PandaLexer(Syntax syntax, Source source) {
+        String content = source.getContent();
+
+        if (content == null) {
             throw new IllegalArgumentException("Source cannot be null");
         }
-        else if (source.isEmpty()) {
+        else if (content.isEmpty()) {
             throw new IllegalArgumentException("Source is empty");
         }
 
         this.syntax = syntax;
-        this.source = source + System.lineSeparator();
+        this.source = content + System.lineSeparator();
+        this.title = source.getTitle();
 
         this.tokenRepresentations = new ArrayList<>();
         this.tokenizedLine = new ArrayList<>();
@@ -103,7 +108,7 @@ public class PandaLexer implements Lexer {
             boolean extracted = lexerTokenExtractor.extract(tokenBuilder);
 
             if (!extracted) {
-                throw new PandaLexerException("Unknown token: " + tokenPreview);
+                throw new PandaLexerException("Unknown token", tokenPreview, linePreview, title, line);
             }
 
             return;

@@ -28,8 +28,8 @@ public class PandaSource implements Source {
         this(codeSource.getLocation().getPath(), codeSource.getContent());
     }
 
-    public PandaSource(String title, String content) {
-        this.title = title;
+    public PandaSource(Object title, String content) {
+        this.title = title.toString();
         this.content = content;
     }
 

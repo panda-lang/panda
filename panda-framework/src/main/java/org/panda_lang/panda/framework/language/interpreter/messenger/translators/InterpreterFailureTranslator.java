@@ -16,12 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.translators;
 
-import org.fusesource.jansi.*;
 import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
 import org.panda_lang.panda.utilities.redact.format.*;
@@ -38,30 +34,15 @@ public class InterpreterFailureTranslator implements MessengerMessageTranslator<
     public void handle(Messenger messenger, InterpreterFailure element) {
         interpretation.getFailures().add(element);
 
-        ParserData data = element.getData();
-        String source = data.getComponent(UniversalComponents.SOURCE).selectLine(element.getLine()).asString();
-
-        TokenRepresentation currentToken = data.getComponent(UniversalComponents.SOURCE_STREAM).read();
-        int index = source.indexOf(currentToken.getTokenValue());
-
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{line}}", () -> element.getLine() + 1)
-                .register("{{location}}", element::getLocation)
-                .register("{{message}}", element::getMessage)
-                .register("{{details}}", () -> indentation(element.getDetails()))
-                .register("{{index}}", () -> index)
-                .register("{{source}}", () -> index < 0 ? source : Ansi.ansi()
-                        .a(source.substring(0, index))
-                        .fgRed()
-                        .a(source.substring(index, source.length()))
-                        .reset()
-                        .toString());
+                .register("{{details}}", () -> indentation(element.getDetails()));
 
         DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
+                .applyPlaceholders(formatter, element)
                 .includeCause()
                 .includeDetails(element.getDetails())
                 .includeSource()
-                .includeMarker(index)
+                .includeMarker(formatter.getValue("{{index}}"))
                 .includeEnvironment()
                 .includeEnd();
 
