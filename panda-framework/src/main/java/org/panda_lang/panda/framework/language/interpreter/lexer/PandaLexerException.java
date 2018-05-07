@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
+import org.jetbrains.annotations.*;
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
+import org.panda_lang.panda.framework.design.interpreter.*;
 
-public class PandaLexerException extends PandaFrameworkException implements DefaultTemplateException {
+public class PandaLexerException extends PandaFrameworkException implements InterpreterFailure {
 
     private final String tokenPreview;
     private final String linePreview;
@@ -33,6 +34,11 @@ public class PandaLexerException extends PandaFrameworkException implements Defa
         this.linePreview = linePreview;
         this.location = location;
         this.line = line;
+    }
+
+    @Override
+    public @Nullable String getDetails() {
+        return null;
     }
 
     @Override

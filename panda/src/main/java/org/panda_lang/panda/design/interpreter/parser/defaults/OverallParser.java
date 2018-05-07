@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.language.interpreter.parsers.*;
 
@@ -49,7 +48,7 @@ public class OverallParser implements Parser {
         UnifiedParser parser = pipeline.handle(stream);
 
         if (parser == null) {
-            throw new PandaInterpreterFailure("Unrecognized syntax", data);
+            throw new PandaParserFailure("Unrecognized syntax", data);
         }
 
         int sourceLength = stream.getUnreadLength();

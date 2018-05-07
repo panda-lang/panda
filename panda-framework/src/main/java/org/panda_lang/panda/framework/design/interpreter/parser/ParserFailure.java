@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
+package org.panda_lang.panda.framework.design.interpreter.parser;
 
-public interface DefaultTemplateException {
+import org.panda_lang.panda.framework.design.interpreter.*;
 
-    String getElement();
+public interface ParserFailure extends InterpreterFailure {
 
-    String getSource();
-
-    String getMessage();
-
-    String getLocation();
-
-    int getLine();
+    ParserData getData();
 
 }

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 
 import org.fusesource.jansi.*;
+import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
 import org.panda_lang.panda.utilities.redact.format.*;
 
@@ -24,7 +25,7 @@ public class DefaultFailureTemplateBuilder {
 
     private String content = "";
 
-    public DefaultFailureTemplateBuilder applyPlaceholders(MessageFormatter formatter, DefaultTemplateException exception) {
+    public DefaultFailureTemplateBuilder applyPlaceholders(MessageFormatter formatter, InterpreterFailure exception) {
         String source = exception.getSource();
         int index = source.indexOf(exception.getElement());
 

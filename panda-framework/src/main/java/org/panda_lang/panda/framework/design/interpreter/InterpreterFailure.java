@@ -17,14 +17,20 @@
 package org.panda_lang.panda.framework.design.interpreter;
 
 import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
 
-public interface InterpreterFailure extends DefaultTemplateException {
+public interface InterpreterFailure {
 
     @Nullable
     String getDetails();
 
-    ParserData getData();
+    String getElement();
+
+    String getSource();
+
+    String getMessage();
+
+    String getLocation();
+
+    int getLine();
 
 }

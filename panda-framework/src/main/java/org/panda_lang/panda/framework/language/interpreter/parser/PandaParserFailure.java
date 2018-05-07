@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter;
+package org.panda_lang.panda.framework.language.interpreter.parser;
 
 import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 
-public class PandaInterpreterFailure extends PandaFrameworkException implements InterpreterFailure {
+public class PandaParserFailure extends PandaFrameworkException implements ParserFailure {
 
     private final ParserData data;
     private final String message;
     private final String details;
 
-    public PandaInterpreterFailure(String message, String details, ParserData data) {
+    public PandaParserFailure(String message, String details, ParserData data) {
         super(message);
 
         this.message = message;
@@ -35,7 +34,7 @@ public class PandaInterpreterFailure extends PandaFrameworkException implements 
         this.data = data.fork();
     }
 
-    public PandaInterpreterFailure(String message, ParserData data) {
+    public PandaParserFailure(String message, ParserData data) {
         this(message, null, data);
     }
 

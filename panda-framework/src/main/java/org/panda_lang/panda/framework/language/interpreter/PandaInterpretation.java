@@ -42,6 +42,7 @@ public class PandaInterpretation implements Interpretation {
         this.failures = new ArrayList<>(1);
 
         this.messenger = new PandaMessenger();
+        this.messenger.addMessageTranslator(new PandaLexerFailureTranslator());
         this.messenger.addMessageTranslator(new InterpreterFailureTranslator(this));
         this.messenger.setOutputListener(new DefaultOutputListener());
     }
