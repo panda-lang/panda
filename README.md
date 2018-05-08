@@ -28,7 +28,7 @@ The latest indev build:
 <dependency>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-0.7.0</version>
+    <version>indev-0.7.5</version>
 </dependency>
 ```
 
@@ -43,6 +43,6 @@ Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 ```
 
 #### Other
-- Manual download the latest version of Panda: [panda-indev-0.7.0.jar](https://repo.panda-lang.org/org/panda-lang/panda/indev-0.7.0/panda-indev-0.7.0.jar)
+- Manual download the latest version of Panda: [panda-indev-0.7.5.jar](https://repo.panda-lang.org/org/panda-lang/panda/indev-0.7.5/panda-indev-0.7.5.jar)
 - Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
 - Light: https://github.com/dzikoysk/Light
