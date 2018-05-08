@@ -30,6 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
+import org.panda_lang.panda.framework.language.interpreter.messenger.translators.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.*;
 
@@ -60,8 +61,12 @@ public class ApplicationParser implements Parser {
         baseInfo.setComponent(UniversalComponents.GENERATION, generation);
         baseInfo.setComponent(PandaComponents.MODULE_REGISTRY, registry);
 
+        ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+        interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
+
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
+            exceptionTranslator.updateLocation(source.getTitle());
 
             interpretation.execute(() -> {
                 pandaScript.getImportRegistry().include(defaultModule);
@@ -71,6 +76,7 @@ public class ApplicationParser implements Parser {
 
                 TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
                 PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
+                exceptionTranslator.updateSource(sourceStream);
 
                 ParserData delegatedInfo = baseInfo.fork();
                 delegatedInfo.setComponent(UniversalComponents.SOURCE, uncommentedSource);
@@ -84,6 +90,8 @@ public class ApplicationParser implements Parser {
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
                     interpretation.execute(() -> overallParser.parseNext(delegatedInfo));
                 }
+
+                // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
         }
 

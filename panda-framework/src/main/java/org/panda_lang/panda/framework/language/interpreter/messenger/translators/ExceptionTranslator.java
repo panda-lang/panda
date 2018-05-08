@@ -17,18 +17,31 @@
 package org.panda_lang.panda.framework.language.interpreter.messenger.translators;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
 import org.panda_lang.panda.utilities.redact.format.*;
 
 public class ExceptionTranslator implements MessengerMessageTranslator<Exception> {
 
+    private String location;
+    private SourceStream source;
+
     @Override
     public void handle(Messenger messenger, Exception element) {
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
                 .register("{{message}}", element::getMessage)
+                .register("{{location}}", () -> location != null ? location : "?")
+                .register("{{line}}", () -> source != null ? source.getCurrentLine() : "?")
                 .register("{{details}}", () -> {
-                    return null;
+                    StringBuilder message = new StringBuilder();
+
+                    for (StackTraceElement stackTraceElement : element.getStackTrace()) {
+                        message.append(stackTraceElement.toString());
+                        message.append(System.lineSeparator());
+                    }
+
+                    return DefaultFailureTemplateBuilder.indentation(message.toString());
                 });
 
         DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
@@ -39,6 +52,19 @@ public class ExceptionTranslator implements MessengerMessageTranslator<Exception
 
         PandaMessengerMessage message = new PandaMessengerMessage(MessengerMessage.Level.FAILURE, templateBuilder.getAsLines(formatter, "InterpreterFailure"));
         messenger.sendMessage(message);
+
+        this.location = null;
+        this.source = null;
+    }
+
+    public ExceptionTranslator updateLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
+    public ExceptionTranslator updateSource(SourceStream source) {
+        this.source = source;
+        return this;
     }
 
     @Override

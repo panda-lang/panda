@@ -35,7 +35,7 @@ public class InterpreterFailureTranslator implements MessengerMessageTranslator<
         interpretation.getFailures().add(element);
 
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{details}}", () -> indentation(element.getDetails()));
+                .register("{{details}}", () -> DefaultFailureTemplateBuilder.indentation(element.getDetails()));
 
         DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
                 .applyPlaceholders(formatter, element)
@@ -48,10 +48,6 @@ public class InterpreterFailureTranslator implements MessengerMessageTranslator<
 
         PandaMessengerMessage message = new PandaMessengerMessage(MessengerMessage.Level.FAILURE, templateBuilder.getAsLines(formatter, "InterpreterFailure"));
         messenger.sendMessage(message);
-    }
-
-    private String indentation(String message) {
-        return message == null ? null : message.replace(System.lineSeparator(), System.lineSeparator() + "  ");
     }
 
     @Override

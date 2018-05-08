@@ -23,7 +23,7 @@ import org.panda_lang.panda.utilities.redact.format.*;
 
 public class DefaultFailureTemplateBuilder {
 
-    private String content = "";
+    private String content = Ansi.ansi().a("{{newline}}").bold().a("- - ~ ~< Messenger :: Severe Failure >~ ~ - -").reset().a("{{newline}}").toString();
 
     public DefaultFailureTemplateBuilder applyPlaceholders(MessageFormatter formatter, InterpreterFailure exception) {
         String source = exception.getSource();
@@ -94,6 +94,10 @@ public class DefaultFailureTemplateBuilder {
 
     public String getContent() {
         return content;
+    }
+
+    public static String indentation(String message) {
+        return message == null ? null : message.replace(System.lineSeparator(), System.lineSeparator() + "  ");
     }
 
 }
