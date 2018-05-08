@@ -46,7 +46,7 @@ import org.panda_lang.panda.language.interpreter.*;
 import org.panda_lang.panda.language.interpreter.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.*;
 
-@ParserRegistration(target = PandaPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
+@ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()

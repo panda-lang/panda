@@ -42,11 +42,7 @@ public class MessageFormatter {
                continue;
             }
 
-            if (value == null) {
-                throw new RuntimeException("Cannot translate message, value of " + key + " placeholder is null");
-            }
-
-            message = StringUtils.replace(message, key, value.toString());
+            message = StringUtils.replace(message, key, value != null ? value.toString() : "<value not specified>");
         }
 
         return message;

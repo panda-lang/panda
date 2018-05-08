@@ -16,29 +16,24 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.scope.main;
 
-import org.panda_lang.panda.design.architecture.dynamic.main.MainScope;
-import org.panda_lang.panda.design.interpreter.parser.defaults.ScopeParser;
-import org.panda_lang.panda.design.interpreter.parser.generation.CasualParserGenerationAssistant;
-import org.panda_lang.panda.design.interpreter.parser.linker.PandaScopeLinker;
-import org.panda_lang.panda.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.design.architecture.dynamic.main.*;
+import org.panda_lang.panda.design.interpreter.parser.*;
+import org.panda_lang.panda.design.interpreter.parser.defaults.*;
+import org.panda_lang.panda.design.interpreter.parser.generation.*;
+import org.panda_lang.panda.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.ParserRegistration;
-import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternAssistant;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.architecture.Script;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+import org.panda_lang.panda.language.interpreter.*;
 
-@ParserRegistration(target = PandaPipelines.OVERALL, parserClass = MainParser.class, handlerClass = MainParserHandler.class)
+@ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = MainParser.class, handlerClass = MainParserHandler.class)
 public class MainParser implements UnifiedParser {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()

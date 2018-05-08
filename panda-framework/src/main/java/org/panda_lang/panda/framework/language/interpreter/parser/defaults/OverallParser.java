@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.interpreter.parser.defaults;
+package org.panda_lang.panda.framework.language.interpreter.parser.defaults;
 
 import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
@@ -24,7 +24,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.language.interpreter.parsers.*;
 
 public class OverallParser implements Parser {
 
@@ -35,7 +34,7 @@ public class OverallParser implements Parser {
 
     public OverallParser(ParserData data) {
         this.interpretation = data.getComponent(UniversalComponents.INTERPRETATION);
-        this.pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.OVERALL);
+        this.pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(UniversalPipelines.OVERALL);
         this.generation = data.getComponent(UniversalComponents.GENERATION);
         this.stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
     }

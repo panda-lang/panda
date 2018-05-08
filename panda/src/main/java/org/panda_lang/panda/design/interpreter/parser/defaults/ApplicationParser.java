@@ -31,6 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.defaults.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.*;
 
@@ -55,11 +56,11 @@ public class ApplicationParser implements Parser {
         CasualParserGeneration generation = new PandaCasualParserGeneration();
         CommentAssistant commentAssistant = new CommentAssistant();
 
-        ParserData baseInfo = new PandaParserData();
-        baseInfo.setComponent(UniversalComponents.INTERPRETATION, interpretation);
-        baseInfo.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
-        baseInfo.setComponent(UniversalComponents.GENERATION, generation);
-        baseInfo.setComponent(PandaComponents.MODULE_REGISTRY, registry);
+        ParserData baseData = new PandaParserData();
+        baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);
+        baseData.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
+        baseData.setComponent(UniversalComponents.GENERATION, generation);
+        baseData.setComponent(PandaComponents.MODULE_REGISTRY, registry);
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
@@ -78,17 +79,17 @@ public class ApplicationParser implements Parser {
                 PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
                 exceptionTranslator.updateSource(sourceStream);
 
-                ParserData delegatedInfo = baseInfo.fork();
-                delegatedInfo.setComponent(UniversalComponents.SOURCE, uncommentedSource);
-                delegatedInfo.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
-                delegatedInfo.setComponent(UniversalComponents.SCRIPT, pandaScript);
-                delegatedInfo.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
+                ParserData delegatedData = baseData.fork();
+                delegatedData.setComponent(UniversalComponents.SOURCE, uncommentedSource);
+                delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
+                delegatedData.setComponent(UniversalComponents.SCRIPT, pandaScript);
+                delegatedData.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
-                OverallParser overallParser = new OverallParser(delegatedInfo);
+                OverallParser overallParser = new OverallParser(delegatedData);
                 application.addScript(pandaScript);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
-                    interpretation.execute(() -> overallParser.parseNext(delegatedInfo));
+                    interpretation.execute(() -> overallParser.parseNext(delegatedData));
                 }
 
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
@@ -96,7 +97,7 @@ public class ApplicationParser implements Parser {
         }
 
         return interpretation
-                .execute(() -> generation.execute(baseInfo))
+                .execute(() -> generation.execute(baseData))
                 .execute(() -> application);
     }
 

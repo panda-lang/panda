@@ -22,15 +22,15 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
 import org.panda_lang.panda.utilities.redact.format.*;
 
-public class ExceptionTranslator implements MessengerMessageTranslator<Exception> {
+public class ExceptionTranslator implements MessengerMessageTranslator<Throwable> {
 
     private String location;
     private SourceStream source;
 
     @Override
-    public void handle(Messenger messenger, Exception element) {
+    public void handle(Messenger messenger, Throwable element) {
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{message}}", element::getMessage)
+                .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())
                 .register("{{location}}", () -> location != null ? location : "?")
                 .register("{{line}}", () -> source != null ? source.getCurrentLine() : "?")
                 .register("{{details}}", () -> {
@@ -68,8 +68,8 @@ public class ExceptionTranslator implements MessengerMessageTranslator<Exception
     }
 
     @Override
-    public Class<Exception> getType() {
-        return Exception.class;
+    public Class<Throwable> getType() {
+        return Throwable.class;
     }
 
 }

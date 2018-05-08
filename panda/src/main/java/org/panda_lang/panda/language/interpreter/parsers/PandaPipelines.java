@@ -25,16 +25,6 @@ import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.Class
 public class PandaPipelines {
 
     /**
-     * All pipelines
-     */
-    public static final String ALL = "all";
-
-    /**
-     * Used by {@link org.panda_lang.panda.design.interpreter.parser.defaults.OverallParser}
-     */
-    public static final String OVERALL = "overall";
-
-    /**
      * Used by {@link ClassPrototypeParser}
      */
     public static final String PROTOTYPE = "prototype";

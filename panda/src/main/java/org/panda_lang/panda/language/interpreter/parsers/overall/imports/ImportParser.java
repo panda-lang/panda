@@ -32,7 +32,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
 import org.panda_lang.panda.language.interpreter.*;
-import org.panda_lang.panda.language.interpreter.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.*;
 import org.panda_lang.panda.language.interpreter.tokens.*;
 import org.reflections.*;
@@ -44,7 +43,7 @@ import java.lang.management.*;
 import java.net.*;
 import java.util.*;
 
-@ParserRegistration(target = PandaPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
+@ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()

@@ -31,11 +31,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
 import org.panda_lang.panda.language.interpreter.*;
-import org.panda_lang.panda.language.interpreter.parsers.*;
 
 import java.util.*;
 
-@ParserRegistration(target = PandaPipelines.OVERALL, parserClass = ModuleParser.class, handlerClass = ModuleParserHandler.class)
+@ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ModuleParser.class, handlerClass = ModuleParserHandler.class)
 public class ModuleParser implements UnifiedParser {
 
     private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
