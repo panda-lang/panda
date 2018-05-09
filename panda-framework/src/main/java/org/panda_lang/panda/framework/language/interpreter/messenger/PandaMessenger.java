@@ -34,8 +34,11 @@ public class PandaMessenger implements Messenger {
 
         for (MessengerMessageTranslator messageTranslator : new ReverseIterator<>(translators)) {
             if (messageTranslator.getType().isAssignableFrom(message.getClass())) {
+                if (translator != null && translator.getType().isAssignableFrom(messageTranslator.getType())) {
+                    continue;
+                }
+
                 translator = messageTranslator;
-                break;
             }
         }
 
