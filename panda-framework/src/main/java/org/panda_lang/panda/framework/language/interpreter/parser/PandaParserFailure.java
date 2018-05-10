@@ -25,13 +25,16 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
     private final ParserData data;
     private final String message;
     private final String details;
+    private final int currentLine;
 
     public PandaParserFailure(String message, String details, ParserData data) {
         super(message);
 
         this.message = message;
         this.details = details;
+
         this.data = data.fork();
+        this.currentLine = data.getComponent(UniversalComponents.SOURCE_STREAM).getCurrentLine();
     }
 
     public PandaParserFailure(String message, ParserData data) {
@@ -60,7 +63,7 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
 
     @Override
     public int getLine() {
-        return data.getComponent(UniversalComponents.SOURCE_STREAM).getCurrentLine();
+        return currentLine;
     }
 
     @Override
