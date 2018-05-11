@@ -22,6 +22,7 @@ import org.panda_lang.panda.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.utilities.commons.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class PandaBootstrap {
     protected GenerationInitializer generationInitializer;
 
     public PandaBootstrap() {
-        System.setProperty("log4j.skipJansi", "true");
+        LoggingUtils.skipJansi();
     }
 
     public PandaBootstrap syntax(Syntax syntax) {
