@@ -16,16 +16,13 @@
 
 package org.panda_lang.panda.design.architecture.module;
 
-import org.apache.commons.lang3.StringUtils;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.ClassPrototypeMappingManager;
-import org.panda_lang.panda.utilities.commons.io.PackageUtils;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.*;
+import org.panda_lang.panda.utilities.commons.io.*;
+import org.panda_lang.panda.utilities.commons.objects.*;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PandaModuleRegistry implements ModuleRegistry {
 

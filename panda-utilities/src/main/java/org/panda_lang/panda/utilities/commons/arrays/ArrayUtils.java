@@ -14,10 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.utilities.commons.arrays;
 
-public class PandaFrameworkConstants {
+public class ArrayUtils {
 
-    public static final String VERSION = "indev-0.7.6";
+    public static <T> boolean contains(T[] array, T object) {
+        for (T element : array) {
+            if (object == null) {
+                if (element == null) {
+                    return true;
+                }
+
+                continue;
+            }
+
+            if (object.equals(element)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 
 }

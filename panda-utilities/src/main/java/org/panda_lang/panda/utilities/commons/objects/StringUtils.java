@@ -37,7 +37,15 @@ public class StringUtils {
     }
 
     /**
-     * Faster alternative to str.replace
+     * @param text             to check
+     * @return true if a specified text is null or is empty
+     */
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
+    }
+
+    /**
+     * Faster alternative to String#replace, pulled from StringUtils.replace [library - commons-lang:commons-lang3]
      */
     public static String replace(String text, String searchString, String replacement) {
         if (text == null || text.isEmpty() || searchString.isEmpty()) {
@@ -63,7 +71,7 @@ public class StringUtils {
         StringBuilder sb = new StringBuilder(text.length() + increase);
 
         while (end != -1) {
-            sb.append(text.substring(start, end)).append(replacement);
+            sb.append(text, start, end).append(replacement);
             start = end + replaceLength;
 
             if (--max == 0) {
@@ -75,6 +83,39 @@ public class StringUtils {
 
         sb.append(text.substring(start));
         return sb.toString();
+    }
+
+    /**
+     * Capitalize characters in string, merged from StringUtils.capitalize [library - commons-lang:commons-lang3]
+     *
+     * @param str the String to capitalize, may be null
+     * @return the capitalized String, {@code null} if null String input
+     */
+    public static String capitalize(String str) {
+        int strLen;
+
+        if (str == null || (strLen = str.length()) == 0) {
+            return str;
+        }
+
+        int firstCodepoint = str.codePointAt(0);
+        int newCodePoint = Character.toTitleCase(firstCodepoint);
+
+        if (firstCodepoint == newCodePoint) {
+            return str;
+        }
+
+        int newCodePoints[] = new int[strLen];
+        int outOffset = 0;
+        newCodePoints[outOffset++] = newCodePoint;
+
+        for (int inOffset = Character.charCount(firstCodepoint); inOffset < strLen;) {
+            int codepoint = str.codePointAt(inOffset);
+            newCodePoints[outOffset++] = codepoint;
+            inOffset += Character.charCount(codepoint);
+        }
+
+        return new String(newCodePoints, 0, outOffset);
     }
 
     /**

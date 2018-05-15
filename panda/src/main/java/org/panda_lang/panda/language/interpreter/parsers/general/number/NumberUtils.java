@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.number;
 
-import org.apache.commons.lang3.ArrayUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.utilities.commons.objects.*;
 
 public class NumberUtils {
 
@@ -49,7 +49,7 @@ public class NumberUtils {
                 continue;
             }
 
-            if (ArrayUtils.contains(NUMBER_EXTENSIONS, c)) {
+            if (CharacterUtils.belongsTo(c, NUMBER_EXTENSIONS)) {
                 continue;
             }
 

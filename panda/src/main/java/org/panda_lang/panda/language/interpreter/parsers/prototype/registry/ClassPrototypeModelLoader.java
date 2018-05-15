@@ -16,27 +16,20 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.registry;
 
-import javassist.ClassPool;
-import javassist.CtClass;
-import javassist.CtMethod;
-import org.apache.commons.lang3.StringUtils;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUtils;
-import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel.ClassDeclaration;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel.MethodDeclaration;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
+import javassist.*;
+import org.panda_lang.panda.design.architecture.prototype.*;
+import org.panda_lang.panda.design.architecture.prototype.method.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.*;
+import org.panda_lang.panda.framework.design.architecture.value.*;
+import org.panda_lang.panda.framework.design.runtime.*;
+import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel.*;
+import org.panda_lang.panda.utilities.commons.objects.*;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.lang.reflect.*;
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
 public class ClassPrototypeModelLoader {
 
@@ -98,7 +91,7 @@ public class ClassPrototypeModelLoader {
 
                 CtMethod callbackImplementation = new CtMethod(CtClass.voidType, "invoke", implementationTypes, generatedMethodCallbackClass);
                 boolean array = method.getParameters()[method.getParameters().length - 1].getType().isArray();
-                StringBuilder values = new StringBuilder("");
+                StringBuilder values = new StringBuilder();
                 int valuesCount = 0;
 
                 for (int i = 2; i < method.getParameters().length; ++i) {
