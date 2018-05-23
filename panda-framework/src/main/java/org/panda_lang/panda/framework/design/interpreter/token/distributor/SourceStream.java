@@ -28,6 +28,8 @@ public interface SourceStream {
 
     TokenRepresentation[] readDifference(TokenReader reader);
 
+    void restoreCachedSource();
+
     default boolean hasUnreadSource() {
         return toTokenizedSource().size() > 0;
     }

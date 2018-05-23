@@ -29,29 +29,33 @@ import java.util.NoSuchElementException;
 
 public class PandaSourceStream implements SourceStream {
 
-    private TokenizedSource tokenizedSource;
+    private TokenizedSource source;
+    private TokenizedSource cachedSource;
 
-    public PandaSourceStream(TokenizedSource tokenizedSource) {
-        this.tokenizedSource = tokenizedSource;
+    public PandaSourceStream(TokenizedSource source) {
+        this.source = source;
+        this.cachedSource = source;
     }
 
     @Override
     public TokenRepresentation read() {
-        if (tokenizedSource.size() < 1) {
+        if (source.size() < 1) {
             throw new NoSuchElementException("SourceStream is empty, cannot read next TokenRepresentation");
         }
 
-        TokenRepresentation representation = tokenizedSource.get(0);
-        List<TokenRepresentation> tokens = tokenizedSource.getTokensRepresentations().subList(1, tokenizedSource.size());
+        TokenRepresentation representation = source.get(0);
+        List<TokenRepresentation> tokens = source.getTokensRepresentations().subList(1, source.size());
 
-        tokenizedSource = new PandaTokenizedSource(tokens);
+        this.cachedSource = this.source;
+        this.source = new PandaTokenizedSource(tokens);
+
         return representation;
     }
 
     @Override
     public TokenRepresentation[] read(int length) {
         TokenRepresentation[] array = new TokenRepresentation[length];
-        List<TokenRepresentation> tokens = tokenizedSource.getTokensRepresentations();
+        List<TokenRepresentation> tokens = source.getTokensRepresentations();
 
         for (int i = 0; i < array.length && i < tokens.size(); i++) {
             TokenRepresentation representation = tokens.get(i);
@@ -59,7 +63,9 @@ public class PandaSourceStream implements SourceStream {
         }
 
         tokens = length < tokens.size() ? tokens.subList(length, tokens.size()) : new ArrayList<>();
-        this.tokenizedSource = new PandaTokenizedSource(tokens);
+
+        this.cachedSource = this.source;
+        this.source = new PandaTokenizedSource(tokens);
 
         return array;
     }
@@ -71,18 +77,23 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public void restoreCachedSource() {
+        this.source = this.cachedSource;
+    }
+
+    @Override
     public TokenReader toTokenReader() {
-        return new PandaTokenReader(tokenizedSource);
+        return new PandaTokenReader(source);
     }
 
     @Override
     public TokenizedSource toTokenizedSource() {
-        return this.tokenizedSource;
+        return this.source;
     }
 
     @Override
     public String toString() {
-        return "PandaSourceStream['" + this.tokenizedSource.toString() + "']";
+        return "PandaSourceStream['" + this.source.toString() + "']";
     }
 
 }

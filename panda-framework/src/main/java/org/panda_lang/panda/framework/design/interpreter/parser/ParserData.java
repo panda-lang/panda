@@ -34,6 +34,6 @@ public interface ParserData {
     /**
      * @param componentName a name of the specified component
      */
-    <T> void setComponent(Component<T> componentName, T component);
+    <T> ParserData setComponent(Component<T> componentName, T component);
 
 }

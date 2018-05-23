@@ -19,13 +19,17 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 
 public class PandaParserFailure extends PandaFrameworkException implements ParserFailure {
 
     private final ParserData data;
     private final String message;
     private final String details;
+
     private final int currentLine;
+    private final TokenRepresentation element;
 
     public PandaParserFailure(String message, String details, ParserData data) {
         super(message);
@@ -34,7 +38,12 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
         this.details = details;
 
         this.data = data.fork();
-        this.currentLine = data.getComponent(UniversalComponents.SOURCE_STREAM).getCurrentLine();
+
+        SourceStream source = this.data.getComponent(UniversalComponents.SOURCE_STREAM);
+        source.restoreCachedSource();
+
+        this.currentLine = source.getCurrentLine();
+        this.element = source.read();
     }
 
     public PandaParserFailure(String message, ParserData data) {
@@ -48,7 +57,7 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
 
     @Override
     public String getElement() {
-        return data.getComponent(UniversalComponents.SOURCE_STREAM).read().getTokenValue();
+        return element.getTokenValue();
     }
 
     @Override

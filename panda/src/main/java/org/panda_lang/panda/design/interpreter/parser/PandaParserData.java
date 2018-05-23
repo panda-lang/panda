@@ -42,8 +42,9 @@ public class PandaParserData implements ParserData {
     }
 
     @Override
-    public <T> void setComponent(Component<T> component, T value) {
+    public <T> PandaParserData setComponent(Component<T> component, T value) {
         this.components.put(component, value);
+        return this;
     }
 
     /**
