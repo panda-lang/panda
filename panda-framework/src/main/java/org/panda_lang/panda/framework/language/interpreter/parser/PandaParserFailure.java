@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 
 public class PandaParserFailure extends PandaFrameworkException implements ParserFailure {
 
@@ -29,25 +30,28 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
     private final String details;
 
     private final int currentLine;
-    private final TokenRepresentation element;
-
-    public PandaParserFailure(String message, String details, ParserData data) {
-        super(message);
-
-        this.message = message;
-        this.details = details;
-
-        this.data = data.fork();
-
-        SourceStream source = this.data.getComponent(UniversalComponents.SOURCE_STREAM);
-        source.restoreCachedSource();
-
-        this.currentLine = source.getCurrentLine();
-        this.element = source.read();
-    }
+    private final String element;
 
     public PandaParserFailure(String message, ParserData data) {
         this(message, null, data);
+    }
+
+    public PandaParserFailure(String message, String details, ParserData data) {
+        this(builder().message(message).details(details).data(data));
+    }
+
+    private PandaParserFailure(PandaParserFailureBuilder builder) {
+        super(builder.message);
+
+        this.message = builder.message;
+        this.details = builder.details;
+        this.data = builder.data.fork();
+
+        SourceStream source = builder.source != null ? builder.source : this.data.getComponent(UniversalComponents.SOURCE_STREAM);
+        source.restoreCachedSource();
+
+        this.currentLine = source.getCurrentLine();
+        this.element = source.readLineResidue().toString();
     }
 
     @Override
@@ -57,12 +61,12 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
 
     @Override
     public String getElement() {
-        return element.getTokenValue();
+        return element;
     }
 
     @Override
     public String getSource() {
-        return data.getComponent(UniversalComponents.SOURCE).selectLine(this.getLine()).asString();
+        return data.getComponent(UniversalComponents.SOURCE).selectLine(this.getLine()).toString();
     }
 
     @Override
@@ -83,6 +87,48 @@ public class PandaParserFailure extends PandaFrameworkException implements Parse
     @Override
     public String getMessage() {
         return message;
+    }
+
+    public static PandaParserFailureBuilder builder() {
+        return new PandaParserFailureBuilder();
+    }
+
+    public static class PandaParserFailureBuilder {
+
+        private String message;
+        private String details;
+        private ParserData data;
+        private SourceStream source;
+
+        public PandaParserFailureBuilder message(String message) {
+            this.message = message;
+            return this;
+        }
+
+        public PandaParserFailureBuilder details(String details) {
+            this.details = details;
+            return this;
+        }
+
+        public PandaParserFailureBuilder data(ParserData data) {
+            this.data = data;
+            return this;
+        }
+
+        public PandaParserFailureBuilder source(TokenizedSource source) {
+            this.source = new PandaSourceStream(source);
+            return this;
+        }
+
+        public PandaParserFailureBuilder source(SourceStream source) {
+            this.source = source;
+            return this;
+        }
+
+        public PandaParserFailure build() {
+            return new PandaParserFailure(this);
+        }
+
     }
 
 }

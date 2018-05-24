@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.language.interpreter.parsers.general.argument.ArgumentParser;
@@ -65,7 +65,11 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
         this.returnType = importRegistry.forClass(className);
 
         if (returnType == null) {
-            throw new PandaParserException("Unknown return type '" + className + "'");
+            throw PandaParserFailure.builder()
+                    .message("Unknown return type '" + className + "'")
+                    .data(info)
+                    .source(source)
+                    .build();
         }
 
         ArgumentParser argumentParser = new ArgumentParser();

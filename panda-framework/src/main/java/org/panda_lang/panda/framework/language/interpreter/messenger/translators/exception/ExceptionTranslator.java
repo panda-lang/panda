@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.messenger.translators;
+package org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception;
 
+import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.*;
@@ -24,15 +25,23 @@ import org.panda_lang.panda.utilities.redact.format.*;
 
 public class ExceptionTranslator implements MessengerMessageTranslator<Throwable> {
 
+    private final Interpretation interpretation;
     private String location;
     private SourceStream source;
 
+    public ExceptionTranslator(Interpretation interpretation) {
+        this.interpretation = interpretation;
+    }
+
     @Override
     public void handle(Messenger messenger, Throwable element) {
+        interpretation.getFailures().add(new EmptyPandaExceptionFailure());
+        // source.restoreCachedSource();
+
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
                 .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())
                 .register("{{location}}", () -> location != null ? location : "?")
-                .register("{{line}}", () -> source != null ? source.getCurrentLine() : "?")
+                .register("{{line}}", () -> source != null && source.getCurrentLine() > -1 ? source.getCurrentLine() + 1 : "?")
                 .register("{{details}}", () -> {
                     StringBuilder message = new StringBuilder();
 

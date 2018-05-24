@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.framework.design.interpreter.token.distributor;
 
-public class PandaFrameworkConstants {
+import org.panda_lang.panda.framework.design.interpreter.token.*;
 
-    public static final String VERSION = "indev-0.7.8";
+public interface SourceStreamFilter {
+
+    boolean handle(TokenRepresentation representation);
 
 }

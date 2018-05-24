@@ -27,17 +27,21 @@ public class DefaultFailureTemplateBuilder {
 
     public DefaultFailureTemplateBuilder applyPlaceholders(MessageFormatter formatter, InterpreterFailure exception) {
         String source = exception.getSource();
-        int index = source.indexOf(exception.getElement());
+        String element = exception.getElement();
 
-        formatter.register("{{line}}", () -> exception.getLine() + 1)
+        int index = source.indexOf(element);
+        int endIndex = index + element.length();
+
+        formatter.register("{{line}}", () -> exception.getLine() < 0 ? "?" : exception.getLine() + 1)
                 .register("{{location}}", exception::getLocation)
                 .register("{{message}}", exception::getMessage)
                 .register("{{index}}", () -> index)
                 .register("{{source}}", () -> index < 0 ? source : Ansi.ansi()
                         .a(source.substring(0, index))
                         .fgRed()
-                        .a(source.substring(index, source.length()))
+                        .a(source.substring(index, endIndex))
                         .reset()
+                        .a(source.substring(endIndex, source.length()))
                         .toString());
 
         return this;
@@ -67,7 +71,7 @@ public class DefaultFailureTemplateBuilder {
             return this;
         }
 
-        content += "  " + StringUtils.createIndentation(index - 2) + "^{{newline}}";
+        content += "  " + StringUtils.createIndentation(index) + "^{{newline}}";
         return this;
     }
 

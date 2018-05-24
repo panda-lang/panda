@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.translators.*;
+import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.*;
@@ -62,7 +62,7 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.GENERATION, generation);
         baseData.setComponent(PandaComponents.MODULE_REGISTRY, registry);
 
-        ExceptionTranslator exceptionTranslator = new ExceptionTranslator();
+        ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
         for (Source source : sourceSet.getSources()) {
@@ -75,12 +75,12 @@ public class ApplicationParser implements Parser {
                 PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
                 TokenizedSource tokenizedSource = lexer.convert();
 
-                TokenizedSource uncommentedSource = commentAssistant.uncomment(tokenizedSource);
-                PandaSourceStream sourceStream = new PandaSourceStream(uncommentedSource);
+                PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
+                sourceStream.applyFilter(CommentAssistant.COMMENT_FILTER);
                 exceptionTranslator.updateSource(sourceStream);
 
                 ParserData delegatedData = baseData.fork();
-                delegatedData.setComponent(UniversalComponents.SOURCE, uncommentedSource);
+                delegatedData.setComponent(UniversalComponents.SOURCE, tokenizedSource);
                 delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
                 delegatedData.setComponent(UniversalComponents.SCRIPT, pandaScript);
                 delegatedData.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);

@@ -127,22 +127,27 @@ public class ImportParser implements UnifiedParser {
     }
 
     static {
-        String bootClassPath = ManagementFactory.getRuntimeMXBean().getBootClassPath();
-        String[] bootClassPathUrls = bootClassPath.split(Character.toString(File.pathSeparatorChar));
-        BOOT_CLASS_PATH = new ArrayList<>(bootClassPathUrls.length);
+        if (ManagementFactory.getRuntimeMXBean().isBootClassPathSupported()) {
+            String bootClassPath = ManagementFactory.getRuntimeMXBean().getBootClassPath();
+            String[] bootClassPathUrls = bootClassPath.split(Character.toString(File.pathSeparatorChar));
+            BOOT_CLASS_PATH = new ArrayList<>(bootClassPathUrls.length);
 
-        for (String bootClassPathUrl : bootClassPathUrls) {
-            File file = new File(bootClassPathUrl);
+            for (String bootClassPathUrl : bootClassPathUrls) {
+                File file = new File(bootClassPathUrl);
 
-            if (!file.exists()) {
-                continue;
+                if (!file.exists()) {
+                    continue;
+                }
+
+                try {
+                    BOOT_CLASS_PATH.add(file.toURI().toURL());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
             }
-
-            try {
-                BOOT_CLASS_PATH.add(file.toURI().toURL());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        }
+        else {
+            BOOT_CLASS_PATH = new ArrayList<>();
         }
     }
 

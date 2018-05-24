@@ -16,19 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.distributor;
 
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class PandaSourceStream implements SourceStream {
 
+    private final Collection<SourceStreamFilter> filters = new ArrayList<>();
     private TokenizedSource source;
     private TokenizedSource cachedSource;
 
@@ -49,31 +48,47 @@ public class PandaSourceStream implements SourceStream {
         this.cachedSource = this.source;
         this.source = new PandaTokenizedSource(tokens);
 
-        return representation;
+        return this.checkRepresentation(representation) ? representation : this.read();
     }
 
     @Override
-    public TokenRepresentation[] read(int length) {
+    public TokenizedSource read(int length) {
         TokenRepresentation[] array = new TokenRepresentation[length];
-        List<TokenRepresentation> tokens = source.getTokensRepresentations();
 
-        for (int i = 0; i < array.length && i < tokens.size(); i++) {
-            TokenRepresentation representation = tokens.get(i);
-            array[i] = representation;
+        for (int i = 0; i < array.length; i++) {
+            if (!this.hasUnreadSource()) {
+                break;
+            }
+
+            array[i] = this.read();
         }
 
-        tokens = length < tokens.size() ? tokens.subList(length, tokens.size()) : new ArrayList<>();
-
-        this.cachedSource = this.source;
-        this.source = new PandaTokenizedSource(tokens);
-
-        return array;
+        return new PandaTokenizedSource(array);
     }
 
     @Override
-    public TokenRepresentation[] readDifference(TokenReader reader) {
+    public TokenizedSource readDifference(TokenReader reader) {
         int length = reader.getIndex() + 1;
         return this.read(length);
+    }
+
+    @Override
+    public TokenizedSource readLineResidue() {
+        List<TokenRepresentation> residue = new ArrayList<>();
+        int currentLine = this.getCurrentLine();
+
+        while (this.hasUnreadSource()) {
+            TokenRepresentation representation = this.read();
+
+            if (representation.getLine() != currentLine) {
+                this.restoreCachedSource();
+                break;
+            }
+
+            residue.add(representation);
+        }
+
+        return new PandaTokenizedSource(residue);
     }
 
     @Override
@@ -82,13 +97,47 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public void applyFilter(SourceStreamFilter filter) {
+        this.filters.add(filter);
+    }
+
+    private boolean checkRepresentation(TokenRepresentation representation) {
+        for (SourceStreamFilter filter : filters) {
+            if (!filter.handle(representation)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    @Override
+    public boolean hasUnreadSource() {
+        for (TokenRepresentation representation : this.toTokenizedSource().getTokensRepresentations()) {
+            if (this.checkRepresentation(representation)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     public TokenReader toTokenReader() {
-        return new PandaTokenReader(source);
+        return new PandaTokenReader(this.toTokenizedSource());
     }
 
     @Override
     public TokenizedSource toTokenizedSource() {
-        return this.source;
+        List<TokenRepresentation> representations = new ArrayList<>();
+
+        for (TokenRepresentation representation : this.source.getTokensRepresentations()) {
+            if (this.checkRepresentation(representation)) {
+                representations.add(representation);
+            }
+        }
+
+        return new PandaTokenizedSource(representations);
     }
 
     @Override

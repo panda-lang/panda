@@ -20,12 +20,18 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAssistant {
+
+    public static final SourceStreamFilter COMMENT_FILTER = representation -> {
+        Token token = representation.getToken();
+        return token == null || token.getType() != TokenType.SEQUENCE || !token.getName().equals("Comment");
+    };
 
     public TokenizedSource uncomment(TokenizedSource source) {
         List<TokenRepresentation> uncommentedSource = new ArrayList<>(source.size());

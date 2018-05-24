@@ -24,11 +24,19 @@ public interface SourceStream {
 
     TokenRepresentation read();
 
-    TokenRepresentation[] read(int length);
+    TokenizedSource read(int length);
 
-    TokenRepresentation[] readDifference(TokenReader reader);
+    TokenizedSource readDifference(TokenReader reader);
+
+    TokenizedSource readLineResidue();
 
     void restoreCachedSource();
+
+    void applyFilter(SourceStreamFilter filter);
+
+    TokenReader toTokenReader();
+
+    TokenizedSource toTokenizedSource();
 
     default boolean hasUnreadSource() {
         return toTokenizedSource().size() > 0;
@@ -41,9 +49,5 @@ public interface SourceStream {
     default int getCurrentLine() {
         return hasUnreadSource() ? toTokenizedSource().getFirst().getLine() : -2;
     }
-
-    TokenReader toTokenReader();
-
-    TokenizedSource toTokenizedSource();
 
 }
