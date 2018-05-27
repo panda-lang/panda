@@ -17,17 +17,14 @@
 package org.panda_lang.panda;
 
 import org.jetbrains.annotations.*;
-import org.panda_lang.panda.design.architecture.PandaApplication;
-import org.panda_lang.panda.design.architecture.PandaEnvironment;
-import org.panda_lang.panda.design.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
-import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
-import org.panda_lang.panda.utilities.commons.io.FileUtils;
+import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.interpreter.*;
+import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.framework.design.interpreter.source.*;
+import org.panda_lang.panda.framework.language.interpreter.source.providers.*;
+import org.panda_lang.panda.utilities.commons.io.*;
 
-import java.io.File;
+import java.io.*;
 
 public class PandaLoader {
 
@@ -49,8 +46,7 @@ public class PandaLoader {
         return load(new DirectorySourceProvider(directory));
     }
 
-    @Nullable
-    public PandaApplication load(SourceProvider provider) {
+    public @Nullable PandaApplication load(SourceProvider provider) {
         SourceSet sourceSet = provider.toSourceSet();
 
         if (sourceSet.isEmpty()) {

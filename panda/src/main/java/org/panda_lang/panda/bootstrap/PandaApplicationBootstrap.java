@@ -17,10 +17,10 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.jetbrains.annotations.*;
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.design.architecture.PandaApplication;
+import org.panda_lang.panda.*;
+import org.panda_lang.panda.design.architecture.*;
 
-import java.io.File;
+import java.io.*;
 
 public class PandaApplicationBootstrap {
 
@@ -40,8 +40,7 @@ public class PandaApplicationBootstrap {
         return this;
     }
 
-    @Nullable
-    public PandaApplication createApplication() {
+    public @Nullable PandaApplication createApplication() {
         PandaApplicationBootstrapBuilder applicationBuilder = new PandaApplicationBootstrapBuilder(this);
         return applicationBuilder.build();
     }

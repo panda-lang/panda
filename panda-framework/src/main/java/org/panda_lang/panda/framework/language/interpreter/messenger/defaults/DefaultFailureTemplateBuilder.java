@@ -42,7 +42,17 @@ public class DefaultFailureTemplateBuilder {
                         .a(source.substring(index, endIndex))
                         .reset()
                         .a(source.substring(endIndex, source.length()))
-                        .toString());
+                        .toString())
+                .register("{{stacktrace}}", () -> {
+                    StringBuilder message = new StringBuilder();
+
+                    for (StackTraceElement stackTraceElement : exception.getStackTrace()) {
+                        message.append(stackTraceElement.toString());
+                        message.append(System.lineSeparator());
+                    }
+
+                    return DefaultFailureTemplateBuilder.indentation(message.toString());
+                });
 
         return this;
     }

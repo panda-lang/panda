@@ -22,6 +22,7 @@ import org.panda_lang.panda.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
 import org.panda_lang.panda.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;

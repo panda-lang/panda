@@ -16,14 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
-import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 
-public class PandaParserFailure extends PandaFrameworkException implements ParserFailure {
+public class PandaParserFailure extends ParserFailure {
 
     private final ParserData data;
     private final String message;

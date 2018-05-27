@@ -37,9 +37,8 @@ public class ADSCollection<T> implements AutomatedDataRest<T> {
         this.handlers = builder.handlers;
     }
 
-    @Nullable
     @SuppressWarnings("unchecked")
-    public T get(Object query) {
+    public @Nullable T get(Object query) {
         for (Entry<Class<?>, ADSCollectionHandler> entry : handlers.entrySet()) {
             if (entry.getKey() != query.getClass()) {
                 continue;

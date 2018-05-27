@@ -19,7 +19,11 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.translator
 import org.jetbrains.annotations.*;
 import org.panda_lang.panda.framework.design.interpreter.*;
 
-public class EmptyPandaExceptionFailure implements InterpreterFailure {
+public class EmptyPandaExceptionFailure extends InterpreterFailure {
+
+    public EmptyPandaExceptionFailure() {
+        super(null);
+    }
 
     @Override
     public @Nullable String getDetails() {

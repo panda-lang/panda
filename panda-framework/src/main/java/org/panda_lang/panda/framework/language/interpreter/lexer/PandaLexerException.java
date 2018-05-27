@@ -17,10 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.*;
 
-public class PandaLexerException extends PandaFrameworkException implements InterpreterFailure {
+public class PandaLexerException extends InterpreterFailure {
 
     private final String tokenPreview;
     private final String linePreview;

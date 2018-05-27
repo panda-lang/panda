@@ -17,20 +17,22 @@
 package org.panda_lang.panda.framework.design.interpreter;
 
 import org.jetbrains.annotations.*;
+import org.panda_lang.panda.framework.*;
 
-public interface InterpreterFailure {
+public abstract class InterpreterFailure extends PandaFrameworkException {
 
-    @Nullable
-    String getDetails();
+    public InterpreterFailure(String message) {
+        super(message);
+    }
 
-    String getElement();
+    public abstract @Nullable String getDetails();
 
-    String getSource();
+    public abstract String getElement();
 
-    String getMessage();
+    public abstract String getSource();
 
-    String getLocation();
+    public abstract String getLocation();
 
-    int getLine();
+    public abstract int getLine();
 
 }

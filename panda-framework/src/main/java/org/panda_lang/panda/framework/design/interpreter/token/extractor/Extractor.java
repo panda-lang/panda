@@ -16,15 +16,14 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token.extractor;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.jetbrains.annotations.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
 
-import java.util.List;
+import java.util.*;
 
 public interface Extractor {
 
-    @Nullable
-    List<TokenizedSource> extract(TokenReader tokenReader);
+    @Nullable List<TokenizedSource> extract(TokenReader tokenReader);
 
 }
