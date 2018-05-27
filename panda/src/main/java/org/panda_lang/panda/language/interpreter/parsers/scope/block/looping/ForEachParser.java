@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.scope.block.looping;
 
 import org.panda_lang.panda.design.architecture.dynamic.looping.*;
+import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.linker.*;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
@@ -63,7 +64,7 @@ public class ForEachParser implements UnifiedParser {
         Expression expression = expressionParser.parse(data, iterableSource);
 
         ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
-        ClassPrototype iterable = registry.forClass(Iterable.class);
+        ClassPrototype iterable = PandaModuleRegistryAssistant.forClass(registry, Iterable.class);
 
         if (!expression.getReturnType().isAssociatedWith(iterable)) {
             throw new PandaParserException("ForEach requires Iterable value");

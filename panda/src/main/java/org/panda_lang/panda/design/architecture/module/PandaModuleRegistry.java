@@ -17,68 +17,21 @@
 package org.panda_lang.panda.design.architecture.module;
 
 import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.*;
-import org.panda_lang.panda.utilities.commons.io.*;
-import org.panda_lang.panda.utilities.commons.objects.*;
 
 import java.util.*;
 
 public class PandaModuleRegistry implements ModuleRegistry {
 
     private final Map<String, Module> groups;
-    private final ClassPrototypeMappingManager mappingManager;
 
     public PandaModuleRegistry() {
         this.groups = new HashMap<>();
-        this.mappingManager = new ClassPrototypeMappingManager();
         this.initialize();
     }
 
     private void initialize() {
         Module defaultModule = this.getOrCreate(null);
         groups.put("", defaultModule);
-    }
-
-    @Override
-    public ClassPrototype forClass(Class<?> clazz) {
-        String name = PackageUtils.toString(clazz.getPackage(), "") + ":" + clazz.getSimpleName();
-        ClassPrototype prototype = forName(name);
-
-        if (prototype == null) {
-            ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
-            mappingManager.loadClass(clazz);
-            Collection<ClassPrototype> generated = mappingManager.generate(this);
-
-            if (generated == null) {
-                return null;
-            }
-        }
-
-        return forName(name);
-    }
-
-    @Override
-    public ClassPrototype forName(String full) {
-        String[] reference = full.split(":");
-
-        if (reference.length == 0 || reference.length > 2) {
-            return null;
-        }
-
-        Module module = (reference.length == 1) ? this.get(null) : this.get(reference[0]);
-
-        if (module == null) {
-            return null;
-        }
-
-        String className = (reference.length == 1) ? reference[0] : reference[1];
-
-        if (StringUtils.isEmpty(className)) {
-            return null;
-        }
-
-        return module.get(className);
     }
 
     @Override

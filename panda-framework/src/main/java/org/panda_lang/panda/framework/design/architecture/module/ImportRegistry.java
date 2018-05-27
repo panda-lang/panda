@@ -24,5 +24,4 @@ public interface ImportRegistry {
 
     ClassPrototype forClass(String className);
 
-
 }

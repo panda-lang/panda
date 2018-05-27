@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.generator;
 
+import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.architecture.prototype.PandaClassPrototypeUtils;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
@@ -49,7 +50,7 @@ public class ClassPrototypeMethodGenerator {
     }
 
     public PrototypeMethod generate(ModuleRegistry registry) {
-        ClassPrototype returnType = registry.forClass(method.getReturnType());
+        ClassPrototype returnType = PandaModuleRegistryAssistant.forClass(registry, method.getReturnType());
         ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(registry, method.getParameterTypes());
         boolean isVoid = returnType.getClassName().equals("void");
 

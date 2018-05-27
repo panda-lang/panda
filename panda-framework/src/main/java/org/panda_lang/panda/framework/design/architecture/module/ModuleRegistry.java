@@ -16,29 +16,11 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.utilities.commons.io.PackageUtils;
+import org.jetbrains.annotations.*;
 
-import java.util.Collection;
+import java.util.*;
 
 public interface ModuleRegistry {
-
-    default int countPrototypes() {
-        int count = 0;
-
-        for (Module module : this.getModules()) {
-            count += module.getPrototypeCount();
-        }
-
-        return count;
-    }
-
-    default ClassPrototype forClass(Class<?> clazz) {
-        return forName(PackageUtils.toString(clazz.getPackage(), "") + ":" + clazz.getSimpleName());
-    }
-
-    ClassPrototype forName(String full);
 
     Module getOrCreate(@Nullable String groupName);
 

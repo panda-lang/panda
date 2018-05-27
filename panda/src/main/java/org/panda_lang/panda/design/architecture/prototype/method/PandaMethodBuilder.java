@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.design.architecture.prototype.method;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.*;
 
 public class PandaMethodBuilder {
 
@@ -46,7 +46,7 @@ public class PandaMethodBuilder {
         ClassPrototype[] prototypes = new ClassPrototype[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
-            prototypes[i] = registry.forName(parameterTypes[i]);
+            prototypes[i] = PandaModuleRegistryAssistant.forName(registry, parameterTypes[i]);
         }
 
         this.parameterTypes = prototypes;

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.general.expression;
 
 import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.linker.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
@@ -192,7 +193,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
     }
 
     public Expression toSimpleKnownExpression(ModuleRegistry registry, String forName, Object value) {
-        return new PandaExpression(new PandaValue(registry.forName(forName), value));
+        return new PandaExpression(new PandaValue(PandaModuleRegistryAssistant.forName(registry, forName), value));
     }
 
 }

@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
 
-import java.util.Collection;
+import java.util.*;
 
 public class PandaClassPrototypeUtils {
 
@@ -59,7 +60,7 @@ public class PandaClassPrototypeUtils {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = registry.forClass(types[i]);
+            prototypes[i] = PandaModuleRegistryAssistant.forClass(registry, types[i]);
         }
 
         return prototypes;

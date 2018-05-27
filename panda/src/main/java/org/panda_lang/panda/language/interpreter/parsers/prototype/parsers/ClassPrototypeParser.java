@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.prototype.parsers;
 
 import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.architecture.prototype.*;
 import org.panda_lang.panda.design.architecture.prototype.constructor.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
@@ -77,7 +78,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             module.add(classPrototype);
 
             ModuleRegistry registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-            classPrototype.getExtended().add(registry.forClass(Object.class));
+            classPrototype.getExtended().add(PandaModuleRegistryAssistant.forClass(registry, Object.class));
 
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
 

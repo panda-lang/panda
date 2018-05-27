@@ -17,6 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.prototype.registry;
 
 import javassist.*;
+import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.architecture.prototype.*;
 import org.panda_lang.panda.design.architecture.prototype.method.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
@@ -139,7 +140,7 @@ public class ClassPrototypeModelLoader {
                     PandaMethod pandaMethod = PandaMethod.builder()
                             .methodName(method.getName())
                             .prototype(prototype)
-                            .returnType(registry.forName(methodInfo.returnType()))
+                            .returnType(PandaModuleRegistryAssistant.forName(registry, methodInfo.returnType()))
                             .isStatic(methodInfo.isStatic())
                             .visibility(methodInfo.visibility())
                             .methodBody(methodCallback)
