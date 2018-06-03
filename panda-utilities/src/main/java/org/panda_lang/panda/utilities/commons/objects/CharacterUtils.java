@@ -35,4 +35,14 @@ public class CharacterUtils {
         return Character.isWhitespace(c) || c == NO_BREAK_SPACE;
     }
 
+    public static int getIndex(char[] characters, char character) {
+        for (int i = 0; i < characters.length; i++) {
+            if (characters[i] == character) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
 }

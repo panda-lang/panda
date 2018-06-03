@@ -42,7 +42,7 @@ public class CharArrayDistributor {
     }
 
     public char current() {
-        return index < array.length || index > -1 ? array[index] : array[0];
+        return index < array.length && index > -1 ? array[index] : array[0];
     }
 
     public boolean hasNext() {
@@ -51,8 +51,7 @@ public class CharArrayDistributor {
 
     public char next() {
         if (index + 1 < array.length) {
-            index++;
-            return array[index];
+            return array[++index];
         }
         else {
             return getLast();

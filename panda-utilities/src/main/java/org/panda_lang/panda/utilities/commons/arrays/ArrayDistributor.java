@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.arrays;
 
+import org.jetbrains.annotations.*;
+
 import java.util.Iterator;
 
 public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
@@ -33,7 +35,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public @NotNull Iterator<T> iterator() {
         return this;
     }
 
@@ -52,7 +54,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     }
 
     public T current() {
-        return index < array.length || index > -1 ? array[index] : null;
+        return index < array.length && index > -1 ? array[index] : null;
     }
 
     @Override
@@ -63,8 +65,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     @Override
     public T next() {
         if (index + 1 < array.length) {
-            ++index;
-            return array[index];
+            return array[++index];
         }
 
         return null;
