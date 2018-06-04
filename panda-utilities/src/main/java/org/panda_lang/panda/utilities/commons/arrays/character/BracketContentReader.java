@@ -32,6 +32,10 @@ public class BracketContentReader {
         this.distributor = distributor;
     }
 
+    public BracketContentReader(String expression) {
+        this.distributor = new CharArrayDistributor(expression.toCharArray());
+    }
+
     public String read() {
         StringBuilder content = new StringBuilder();
 
