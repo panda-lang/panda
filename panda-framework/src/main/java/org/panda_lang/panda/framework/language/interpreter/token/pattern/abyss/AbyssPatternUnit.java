@@ -23,10 +23,16 @@ public class AbyssPatternUnit extends EqualableToken {
 
     private final TokenType tokenType;
     private final String token;
+    private final boolean optional;
 
-    public AbyssPatternUnit(TokenType tokenType, String token) {
+    public AbyssPatternUnit(TokenType tokenType, String token, boolean optional) {
         this.tokenType = tokenType;
         this.token = token;
+        this.optional = optional;
+    }
+
+    public AbyssPatternUnit(TokenType tokenType, String token) {
+        this(tokenType, token, false);
     }
 
     /**
@@ -41,6 +47,13 @@ public class AbyssPatternUnit extends EqualableToken {
      */
     public boolean isFissure() {
         return AbyssPatternTokens.SIMPLE_HOLLOW.equals(this);
+    }
+
+    /**
+     * @return true if unit is optional
+     */
+    public boolean isOptional() {
+        return optional;
     }
 
     @Override

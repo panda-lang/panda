@@ -62,11 +62,20 @@ public class AbyssPatternBuilder {
     }
 
     public AbyssPatternBuilder unit(Token token) {
-        return unit(token.getType(), token.getTokenValue());
+        return unit(token.getType(), token.getTokenValue(), false);
+    }
+
+
+    public AbyssPatternBuilder unit(Token token, boolean optional) {
+        return unit(token.getType(), token.getTokenValue(), optional);
     }
 
     public AbyssPatternBuilder unit(TokenType type, String token) {
-        AbyssPatternUnit unit = new AbyssPatternUnit(type, token);
+        return unit(type, token, false);
+    }
+
+    public AbyssPatternBuilder unit(TokenType type, String token, boolean optional) {
+        AbyssPatternUnit unit = new AbyssPatternUnit(type, token, optional);
         units.add(unit);
         return this;
     }

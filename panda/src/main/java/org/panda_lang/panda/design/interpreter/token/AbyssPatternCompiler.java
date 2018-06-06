@@ -47,13 +47,14 @@ public class AbyssPatternCompiler {
                 continue;
             }
 
+            boolean optional = fragment.startsWith("[") && fragment.endsWith("]");
             Token token = getToken(fragment, syntax.getSeparators(), syntax.getOperators(), syntax.getKeywords(), syntax.getLiterals());
 
             if (token == null) {
                 token = new PandaToken(TokenType.UNKNOWN, fragment);
             }
 
-            builder.unit(token);
+            builder.unit(token, optional);
         }
     }
 
