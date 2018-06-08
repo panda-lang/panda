@@ -27,6 +27,7 @@ import java.util.Collection;
 public class ClassPrototypeMappingManager {
 
     private final Collection<Class<?>> loadedClasses;
+    private long totalLoadTime;
 
     public ClassPrototypeMappingManager() {
         this.loadedClasses = new ArrayList<>();
@@ -58,6 +59,8 @@ public class ClassPrototypeMappingManager {
     }
 
     public Collection<ClassPrototype> generate(ModuleRegistry registry) {
+        long currentTime = System.nanoTime();
+
         Collection<Class<?>> queuedClasses = new ArrayList<>(loadedClasses);
         loadedClasses.clear();
 
@@ -68,7 +71,12 @@ public class ClassPrototypeMappingManager {
             throw new PandaRuntimeException("Something went wrong (sizeof queuedClass != sizeof generatedPrototypes");
         }
 
+        totalLoadTime += System.nanoTime() - currentTime;
         return prototypes;
+    }
+
+    public long getTotalLoadTime() {
+        return totalLoadTime;
     }
 
 }

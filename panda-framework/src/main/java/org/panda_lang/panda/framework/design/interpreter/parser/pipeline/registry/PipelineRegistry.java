@@ -22,4 +22,6 @@ public interface PipelineRegistry {
 
     ParserPipeline getPipeline(String pipelineName);
 
+    long getTotalHandleTime();
+
 }

@@ -21,6 +21,7 @@ import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
 import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
@@ -87,6 +88,8 @@ public class ImportParser implements UnifiedParser {
 
             if (attach) {
                 if (Package.getPackage(importedGroupName) != null) {
+                    PandaFramework.getLogger().debug("Attaching native sources (" + importedGroupName + "), it can take a while");
+
                     Configuration configuration = ConfigurationBuilder
                             .build(importedGroupName, new SubTypesScanner(false))
                             .addUrls(BOOT_CLASS_PATH);

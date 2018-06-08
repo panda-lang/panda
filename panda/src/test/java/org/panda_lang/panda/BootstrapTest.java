@@ -48,7 +48,7 @@ public class BootstrapTest {
             return;
         }
 
-        application.launch();
+        //application.launch();
     }
 
 }

@@ -23,16 +23,16 @@ public class AbyssPatternTokens {
     /**
      * Hollow type
      */
-    public static final TokenType HOLLOW_TYPE = new TokenType("HOLLOW");
+    public static final TokenType ABYSS_TYPE = new TokenType("ABYSS");
 
     /**
-     * Multiline gap
+     * Multiline abyss
      */
-    public static final AbyssPatternUnit HOLLOW = new AbyssPatternUnit(HOLLOW_TYPE, "*");
+    public static final AbyssPatternUnit ABYSS = new AbyssPatternUnit(ABYSS_TYPE, "*");
 
     /**
-     * Inline gap
+     * Inline abyss
      */
-    public static final AbyssPatternUnit SIMPLE_HOLLOW = new AbyssPatternUnit(HOLLOW_TYPE, "**");
+    public static final AbyssPatternUnit ABYSS_HOLLOW = new AbyssPatternUnit(ABYSS_TYPE, "**");
 
 }

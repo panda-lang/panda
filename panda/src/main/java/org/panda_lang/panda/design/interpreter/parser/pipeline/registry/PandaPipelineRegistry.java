@@ -47,6 +47,17 @@ public class PandaPipelineRegistry implements PipelineRegistry {
     }
 
     @Override
+    public long getTotalHandleTime() {
+        long totalHandleTime = 0;
+
+        for (ParserPipeline pipeline : pipelines.values()) {
+            totalHandleTime += pipeline.getHandleTime();
+        }
+
+        return totalHandleTime;
+    }
+
+    @Override
     public ParserPipeline getPipeline(String pipelineName) {
         return pipelines.get(pipelineName);
     }

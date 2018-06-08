@@ -32,7 +32,7 @@ public class PandaTokenizedSource implements TokenizedSource {
         this.tokens = new ArrayList<>();
     }
 
-    public PandaTokenizedSource(TokenRepresentation[] tokenRepresentations) {
+    public PandaTokenizedSource(TokenRepresentation... tokenRepresentations) {
         this(Arrays.asList(tokenRepresentations));
     }
 

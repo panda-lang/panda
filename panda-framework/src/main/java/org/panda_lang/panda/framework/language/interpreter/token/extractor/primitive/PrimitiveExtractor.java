@@ -60,7 +60,7 @@ public class PrimitiveExtractor implements Extractor {
                     break;
                 }
 
-                if (!unit.isGap()) {
+                if (!unit.isAbyss()) {
                     return null;
                 }
 

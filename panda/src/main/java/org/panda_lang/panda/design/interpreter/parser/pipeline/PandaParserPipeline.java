@@ -33,6 +33,7 @@ public class PandaParserPipeline implements ParserPipeline {
     private final ParserPipeline parentPipeline;
     private final List<ParserRepresentation> representations;
     private final Comparator<ParserRepresentation> comparator;
+    private long handleTime;
     private int count;
 
     public PandaParserPipeline() {
@@ -64,23 +65,32 @@ public class PandaParserPipeline implements ParserPipeline {
     }
 
     private UnifiedParser handle(SourceStream stream, Collection<ParserRepresentation> representations) {
+        long currentTime = System.nanoTime();
+
         for (ParserRepresentation representation : representations) {
             ParserHandler parserHandler = representation.getHandler();
             TokenReader tokenReader = stream.toTokenReader();
 
             if (parserHandler.handle(tokenReader)) {
                 representation.increaseUsages();
-                count++;
+                ++count;
 
+                handleTime += (System.nanoTime() - currentTime);
                 return representation.getParser();
             }
         }
 
+        handleTime += (System.nanoTime() - currentTime);
         return null;
     }
 
-    public void sort() {
+    protected void sort() {
         representations.sort(comparator);
+    }
+
+    @Override
+    public long getHandleTime() {
+        return handleTime;
     }
 
     @Override

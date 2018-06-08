@@ -35,6 +35,11 @@ public interface ParserPipeline {
     void registerParserRepresentation(ParserRepresentation parserRepresentation);
 
     /**
+     * @return total handle nano time
+     */
+    long getHandleTime();
+
+    /**
      * @return a collection of registered parsers
      */
     Collection<ParserRepresentation> getRepresentations();

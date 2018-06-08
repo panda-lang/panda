@@ -65,7 +65,7 @@ public class PandaClassPrototype implements ClassPrototype {
             return;
         }
 
-        initialized = true;
+        this.initialized = true;
 
         for (PrototypeField field : this.getFields()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {

@@ -81,12 +81,12 @@ public class AbyssPatternBuilder {
     }
 
     public AbyssPatternBuilder simpleHollow() {
-        units.add(AbyssPatternTokens.SIMPLE_HOLLOW);
+        units.add(AbyssPatternTokens.ABYSS_HOLLOW);
         return this;
     }
 
     public AbyssPatternBuilder hollow() {
-        units.add(AbyssPatternTokens.HOLLOW);
+        units.add(AbyssPatternTokens.ABYSS);
         return this;
     }
 

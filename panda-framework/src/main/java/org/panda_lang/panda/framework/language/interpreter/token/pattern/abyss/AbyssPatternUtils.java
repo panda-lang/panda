@@ -54,7 +54,7 @@ public class AbyssPatternUtils {
         int gaps = 0;
 
         for (AbyssPatternUnit unit : units) {
-            if (unit.isGap()) {
+            if (unit.isAbyss()) {
                 ++gaps;
             }
         }

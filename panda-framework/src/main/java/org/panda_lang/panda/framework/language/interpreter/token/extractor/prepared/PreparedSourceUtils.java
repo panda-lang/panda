@@ -30,7 +30,7 @@ public class PreparedSourceUtils {
         int i = 0;
 
         for (AbyssPatternUnit unit : units) {
-            if (unit.isGap()) {
+            if (unit.isAbyss()) {
                 continue;
             }
 
@@ -44,7 +44,7 @@ public class PreparedSourceUtils {
         int i = 0;
 
         for (AbyssPatternUnit unit : units) {
-            if (unit.isGap()) {
+            if (unit.isAbyss()) {
                 i++;
             }
         }

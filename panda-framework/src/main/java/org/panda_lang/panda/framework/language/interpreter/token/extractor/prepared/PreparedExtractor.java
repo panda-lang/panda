@@ -49,14 +49,14 @@ public class PreparedExtractor implements Extractor {
         int hardTypedUnits = PreparedSourceUtils.countHardTypedUnits(units);
         int[] positions = new int[hardTypedUnits];
         int[] indexes = new int[hardTypedUnits];
-        boolean fissure = false;
+        boolean simpleAbyss = false;
 
         for (int i = 0, j = 0; i < units.length; i++) {
             AbyssPatternUnit unit = units[i];
 
-            if (unit.isGap()) {
-                if (unit.isFissure()) {
-                    fissure = true;
+            if (unit.isAbyss()) {
+                if (unit.isSimpleAbyss()) {
+                    simpleAbyss = true;
                 }
 
                 continue;
@@ -64,11 +64,11 @@ public class PreparedExtractor implements Extractor {
 
             int lastIndexOfUnit;
 
-            if (!pattern.hasLastIndexAlgorithmEnabled() || (fissure && TokenUtils.equals(unit, pattern.getFissureToken()))) {
-                lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), fissure ? pattern.getFissureToken() : null);
+            if (!pattern.hasLastIndexAlgorithmEnabled() || (simpleAbyss && TokenUtils.equals(unit, pattern.getFissureToken()))) {
+                lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
             }
             else {
-                lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), fissure ? pattern.getFissureToken() : null);
+                lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
             }
 
             if (lastIndexOfUnit == -1) {
@@ -78,7 +78,7 @@ public class PreparedExtractor implements Extractor {
             int index = j++;
             indexes[index] = i;
             positions[index] = lastIndexOfUnit;
-            fissure = false;
+            simpleAbyss = false;
         }
 
         for (int i = 0, previousIndex = -1; i < positions.length; i++) {
@@ -102,7 +102,7 @@ public class PreparedExtractor implements Extractor {
             if (currentIndex > -1 && currentIndex < units.length) {
                 AbyssPatternUnit unit = units[previousIndex];
 
-                if (!unit.isGap()) {
+                if (!unit.isAbyss()) {
                     AbyssPatternUnit currentUnit = units[currentIndex];
                     TokenRepresentation sourceToken = tokenReader.read();
 

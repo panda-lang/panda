@@ -23,6 +23,7 @@ import org.panda_lang.panda.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.design.interpreter.parser.linker.*;
 import org.panda_lang.panda.design.interpreter.parser.pipeline.registry.*;
 import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
@@ -50,7 +51,9 @@ public class MainParser implements UnifiedParser {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+            long currentTime = System.nanoTime();
             AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "main-body");
+            PandaFramework.getLogger().debug("MDCPC Time: " + ((System.nanoTime() - currentTime) / 1000000.0) + "ms");
 
             MainScope main = new MainScope();
             Script script = delegatedData.getComponent(UniversalComponents.SCRIPT);

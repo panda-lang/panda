@@ -17,8 +17,10 @@
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
 import org.panda_lang.panda.design.architecture.*;
+import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.generation.*;
+import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.interpreter.*;
@@ -94,6 +96,9 @@ public class ApplicationParser implements Parser {
 
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
+
+            PandaFramework.getLogger().debug("Total Load Time: " + (PandaModuleRegistryAssistant.getTotalLoadTime() / 1000000.0) + "ms");
+            PandaFramework.getLogger().debug("Total Handle Time: " + (pipelineRegistry.getTotalHandleTime() / 1000000.0) + "ms");
         }
 
         return interpretation

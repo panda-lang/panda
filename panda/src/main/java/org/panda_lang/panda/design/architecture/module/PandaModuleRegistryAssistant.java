@@ -26,6 +26,8 @@ import java.util.*;
 
 public class PandaModuleRegistryAssistant {
 
+    private static final ClassPrototypeMappingManager MAPPING_MANAGER = new ClassPrototypeMappingManager();
+
     public static int countPrototypes(ModuleRegistry registry) {
         int count = 0;
 
@@ -41,9 +43,8 @@ public class PandaModuleRegistryAssistant {
         ClassPrototype prototype = forName(registry, name);
 
         if (prototype == null) {
-            ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
-            mappingManager.loadClass(clazz);
-            Collection<ClassPrototype> generated = mappingManager.generate(registry);
+            MAPPING_MANAGER.loadClass(clazz);
+            Collection<ClassPrototype> generated = MAPPING_MANAGER.generate(registry);
 
             if (generated == null) {
                 return null;
@@ -73,6 +74,10 @@ public class PandaModuleRegistryAssistant {
         }
 
         return module.get(className);
+    }
+
+    public static long getTotalLoadTime() {
+        return MAPPING_MANAGER.getTotalLoadTime();
     }
 
 }

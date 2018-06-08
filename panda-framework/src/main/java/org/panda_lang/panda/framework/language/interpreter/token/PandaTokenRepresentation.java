@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 
@@ -42,6 +41,14 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     @Override
     public String toString() {
         return token.getTokenValue();
+    }
+
+    public static TokenRepresentation of(TokenType type, String value) {
+        return of(new PandaToken(type, value));
+    }
+
+    public static TokenRepresentation of(Token token) {
+        return new PandaTokenRepresentation(token, -1);
     }
 
 }

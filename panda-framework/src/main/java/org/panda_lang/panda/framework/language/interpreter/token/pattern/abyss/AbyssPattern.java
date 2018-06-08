@@ -62,7 +62,7 @@ public class AbyssPattern {
     }
 
     public boolean endsWithGap() {
-        return units[units.length - 1].isGap();
+        return units[units.length - 1].isAbyss();
     }
 
     public boolean hasLastIndexAlgorithmEnabled() {

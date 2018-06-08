@@ -17,6 +17,7 @@
 package org.panda_lang.panda.design.interpreter.parser.generation;
 
 import org.panda_lang.panda.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
@@ -52,6 +53,8 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
     }
 
     private void call(List<CasualParserGenerationUnit> units, ParserData currentInfo, CasualParserGenerationLayer nextLayer) {
+        long currentTime = System.nanoTime();
+
         List<CasualParserGenerationUnit> unitList = new ArrayList<>(units);
         units.clear();
 
@@ -62,6 +65,12 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
             delegatedInfo.setComponent(PandaComponents.CURRENT_PARSER_DATA, currentInfo);
             callback.call(delegatedInfo, nextLayer);
         }
+
+        if ((System.nanoTime() - currentTime) / 1000000.0 > 5000) {
+            System.out.println("Here");
+        }
+
+        PandaFramework.getLogger().debug("Generation Call Time: " + ((System.nanoTime() - currentTime) / 1000000.0) + "ms");
     }
 
     @Override

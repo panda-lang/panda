@@ -38,15 +38,15 @@ public class AbyssPatternUnit extends EqualableToken {
     /**
      * @return true if unit is a gap of any type
      */
-    public boolean isGap() {
-        return AbyssPatternTokens.HOLLOW.equals(this) || AbyssPatternTokens.SIMPLE_HOLLOW.equals(this);
+    public boolean isAbyss() {
+        return AbyssPatternTokens.ABYSS.equals(this) || AbyssPatternTokens.ABYSS_HOLLOW.equals(this);
     }
 
     /**
      * @return true if unit is a gap in inline scope
      */
-    public boolean isFissure() {
-        return AbyssPatternTokens.SIMPLE_HOLLOW.equals(this);
+    public boolean isSimpleAbyss() {
+        return AbyssPatternTokens.ABYSS_HOLLOW.equals(this);
     }
 
     /**
