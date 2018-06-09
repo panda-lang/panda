@@ -48,6 +48,11 @@ public class AbyssPatternCompiler {
             }
 
             boolean optional = fragment.startsWith("[") && fragment.endsWith("]");
+
+            if (optional) {
+                fragment = fragment.substring(1, fragment.length() - 1);
+            }
+
             Token token = getToken(fragment, syntax.getSeparators(), syntax.getOperators(), syntax.getKeywords(), syntax.getLiterals());
 
             if (token == null) {
