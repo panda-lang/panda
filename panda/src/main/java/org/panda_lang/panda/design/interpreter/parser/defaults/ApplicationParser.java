@@ -36,6 +36,7 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.translators
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.comment.*;
+import org.panda_lang.panda.utilities.commons.objects.*;
 
 public class ApplicationParser implements Parser {
 
@@ -75,10 +76,9 @@ public class ApplicationParser implements Parser {
                 pandaScript.getImportRegistry().include(defaultModule);
 
                 PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
-                TokenizedSource tokenizedSource = lexer.convert();
+                TokenizedSource tokenizedSource = CommentAssistant.uncomment(lexer.convert());
 
                 PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
-                sourceStream.applyFilter(CommentAssistant.COMMENT_FILTER);
                 exceptionTranslator.updateSource(sourceStream);
 
                 ParserData delegatedData = baseData.fork();
@@ -97,8 +97,8 @@ public class ApplicationParser implements Parser {
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
 
-            PandaFramework.getLogger().debug("Total Load Time: " + (PandaModuleRegistryAssistant.getTotalLoadTime() / 1000000.0) + "ms");
-            PandaFramework.getLogger().debug("Total Handle Time: " + (pipelineRegistry.getTotalHandleTime() / 1000000.0) + "ms");
+            PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(PandaModuleRegistryAssistant.getTotalLoadTime()));
+            PandaFramework.getLogger().debug("Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
         }
 
         return interpretation

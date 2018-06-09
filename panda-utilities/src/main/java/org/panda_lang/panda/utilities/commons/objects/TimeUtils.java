@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.utilities.commons.objects;
 
-public class PandaFrameworkConstants {
+public class TimeUtils {
 
-    public static final String VERSION = "indev-0.7.11";
+    public static String toMilliseconds(long nano) {
+        return (nano / 1000000.0) + "ms";
+    }
 
 }

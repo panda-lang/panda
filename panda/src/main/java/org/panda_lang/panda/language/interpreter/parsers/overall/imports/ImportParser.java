@@ -88,7 +88,7 @@ public class ImportParser implements UnifiedParser {
 
             if (attach) {
                 if (Package.getPackage(importedGroupName) != null) {
-                    PandaFramework.getLogger().debug("Attaching native sources (" + importedGroupName + "), it can take a while");
+                    PandaFramework.getLogger().debug("Attaching native sources (" + importedGroupName + "), this may take a while");
 
                     Configuration configuration = ConfigurationBuilder
                             .build(importedGroupName, new SubTypesScanner(false))

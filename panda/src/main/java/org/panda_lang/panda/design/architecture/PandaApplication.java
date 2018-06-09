@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.design.architecture.dynamic.main.MainScope;
+import org.panda_lang.panda.utilities.commons.objects.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class PandaApplication implements Application {
                 process.execute();
                 long uptime = System.nanoTime() - initTime;
 
-                PandaFramework.getLogger().info("[PandaApp] Done (" + uptime + "ns)");
+                PandaFramework.getLogger().info("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
                 return;
             }
             else if (mains.size() > 1) {

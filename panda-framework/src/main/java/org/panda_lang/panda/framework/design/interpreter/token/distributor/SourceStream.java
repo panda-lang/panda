@@ -32,8 +32,6 @@ public interface SourceStream {
 
     void restoreCachedSource();
 
-    void applyFilter(SourceStreamFilter filter);
-
     TokenReader toTokenReader();
 
     TokenizedSource toTokenizedSource();

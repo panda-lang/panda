@@ -16,11 +16,9 @@
 
 package org.panda_lang.panda.design.interpreter.parser.defaults;
 
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
 
 public class ScopeParser implements Parser {
 
@@ -31,12 +29,8 @@ public class ScopeParser implements Parser {
     }
 
     public void parse(ParserData info, TokenizedSource body) {
-        long currentTime = System.nanoTime();
-
         ContainerParser parser = new ContainerParser(scope);
         parser.parse(info, body);
-
-        PandaFramework.getLogger().debug("ScopeParser Time: " + ((System.nanoTime() - currentTime) / 1000000.0) + "ms");
     }
 
 }

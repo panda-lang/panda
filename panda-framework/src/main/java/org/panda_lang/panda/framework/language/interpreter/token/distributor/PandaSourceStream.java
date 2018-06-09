@@ -27,7 +27,6 @@ import java.util.*;
 
 public class PandaSourceStream implements SourceStream {
 
-    private final Collection<SourceStreamFilter> filters = new ArrayList<>();
     private TokenizedSource source;
     private TokenizedSource cachedSource;
 
@@ -48,7 +47,7 @@ public class PandaSourceStream implements SourceStream {
         this.cachedSource = this.source;
         this.source = new PandaTokenizedSource(tokens);
 
-        return this.checkRepresentation(representation) ? representation : this.read();
+        return representation;
     }
 
     @Override
@@ -97,29 +96,8 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public void applyFilter(SourceStreamFilter filter) {
-        this.filters.add(filter);
-    }
-
-    private boolean checkRepresentation(TokenRepresentation representation) {
-        for (SourceStreamFilter filter : filters) {
-            if (!filter.handle(representation)) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    @Override
     public boolean hasUnreadSource() {
-        for (TokenRepresentation representation : this.toTokenizedSource().getTokensRepresentations()) {
-            if (this.checkRepresentation(representation)) {
-                return true;
-            }
-        }
-
-        return false;
+        return source.size() > 0;
     }
 
     @Override
@@ -129,15 +107,7 @@ public class PandaSourceStream implements SourceStream {
 
     @Override
     public TokenizedSource toTokenizedSource() {
-        List<TokenRepresentation> representations = new ArrayList<>();
-
-        for (TokenRepresentation representation : this.source.getTokensRepresentations()) {
-            if (this.checkRepresentation(representation)) {
-                representations.add(representation);
-            }
-        }
-
-        return new PandaTokenizedSource(representations);
+        return new PandaTokenizedSource(new ArrayList<>(this.source.getTokensRepresentations()));
     }
 
     @Override

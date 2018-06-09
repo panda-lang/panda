@@ -16,16 +16,15 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.interpreter.token.extractor.*;
+import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.reader.*;
 
-import java.util.List;
+import java.util.*;
 
 public class AbyssPatternUtils {
 
@@ -39,6 +38,7 @@ public class AbyssPatternUtils {
         }
 
         source.readDifference(reader);
+
         return new AbyssRedactorHollows(gaps);
     }
 
