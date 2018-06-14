@@ -30,6 +30,10 @@ public class PreparedSourceUtils {
         int i = 0;
 
         for (AbyssPatternUnit unit : units) {
+            if (unit.isOptional()) {
+                continue;
+            }
+
             if (unit.isAbyss()) {
                 continue;
             }

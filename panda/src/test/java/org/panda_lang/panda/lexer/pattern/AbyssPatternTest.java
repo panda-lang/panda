@@ -28,16 +28,18 @@ import org.panda_lang.panda.language.interpreter.tokens.*;
 public class AbyssPatternTest {
 
     private final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "test [;]")
+            .compile(PandaSyntax.getInstance(), "test [;] source")
             .build();
 
     private final TokenizedSource FULL_SOURCE = new PandaTokenizedSource(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
-            PandaTokenRepresentation.of(Separators.SEMICOLON)
+            PandaTokenRepresentation.of(Separators.SEMICOLON),
+            PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );
 
     private final TokenizedSource OPTIONAL_SOURCE = new PandaTokenizedSource(
-            PandaTokenRepresentation.of(TokenType.UNKNOWN, "test")
+            PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
+            PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );
 
     @Test

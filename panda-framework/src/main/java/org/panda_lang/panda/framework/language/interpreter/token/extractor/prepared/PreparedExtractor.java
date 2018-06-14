@@ -54,6 +54,10 @@ public class PreparedExtractor implements Extractor {
         for (int i = 0, j = 0; i < units.length; i++) {
             AbyssPatternUnit unit = units[i];
 
+            if (unit.isOptional()) {
+                continue;
+            }
+
             if (unit.isAbyss()) {
                 if (unit.isSimpleAbyss()) {
                     simpleAbyss = true;
@@ -106,7 +110,7 @@ public class PreparedExtractor implements Extractor {
                     AbyssPatternUnit currentUnit = units[currentIndex];
                     TokenRepresentation sourceToken = tokenReader.read();
 
-                    if (!TokenUtils.equals(sourceToken, currentUnit)) {
+                    if (!TokenUtils.equals(sourceToken, currentUnit) && !unit.isOptional()) {
                         return null;
                     }
 
