@@ -33,6 +33,6 @@ public class AbyssPatternTokens {
     /**
      * Inline abyss
      */
-    public static final AbyssPatternUnit ABYSS_HOLLOW = new AbyssPatternUnit(ABYSS_TYPE, "**");
+    public static final AbyssPatternUnit SIMPLE_ABYSS = new AbyssPatternUnit(ABYSS_TYPE, "**");
 
 }
