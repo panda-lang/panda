@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.commons.arrays.character;
 
+import org.jetbrains.annotations.*;
 import org.panda_lang.panda.utilities.commons.arrays.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
 
@@ -38,16 +39,20 @@ public class BracketContentReader {
         this(new CharArrayDistributor(expression));
     }
 
-    public String read() {
-        StringBuilder content = new StringBuilder();
+    public @Nullable String readCurrent() {
+        distributor.previous();
+        return read();
+    }
 
+    public @Nullable String read() {
         Stack<Character> sequences = new Stack<>();
-        char leftType = distributor.current();
+        char leftType = distributor.next();
 
         if (!CharacterUtils.belongsTo(leftType, openingSequence)) {
             throw new RuntimeException("Unknown bracket type: " + leftType);
         }
 
+        StringBuilder content = new StringBuilder();
         char rightType = closingSequence[CharacterUtils.getIndex(openingSequence, leftType)];
 
         while (distributor.hasNext()) {
@@ -59,6 +64,10 @@ public class BracketContentReader {
 
             verifySequences(sequences, openingSequence, closingSequence, current);
             content.append(current);
+        }
+
+        if (sequences.size() > 0) {
+            return null;
         }
 
         return content.toString();
