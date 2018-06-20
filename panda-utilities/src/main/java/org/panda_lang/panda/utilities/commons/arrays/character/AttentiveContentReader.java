@@ -23,8 +23,8 @@ import java.util.*;
 public class AttentiveContentReader {
 
     private final CharArrayDistributor distributor;
-    private char[] openingBrackets = BracketContentReader.LEFT_BRACKETS;
-    private char[] closingBrackets = BracketContentReader.RIGHT_BRACKETS;
+    private char[] openingSequence = BracketContentReader.OPENING_SEQUENCE;
+    private char[] closingSequence = BracketContentReader.CLOSING_SEQUENCE;
 
     public AttentiveContentReader(CharArrayDistributor distributor) {
         this.distributor = distributor;
@@ -39,18 +39,18 @@ public class AttentiveContentReader {
         List<String> selected = new ArrayList<>();
 
         StringBuilder content = new StringBuilder();
-        List<Character> brackets = new ArrayList<>();
+        Stack<Character> sequences = new Stack<>();
 
         while (distributor.hasNext()) {
             char current = distributor.next();
 
-            if (current == separator && brackets.size() == 0) {
+            if (current == separator && sequences.size() == 0) {
                 selected.add(content.toString());
                 content.setLength(0);
                 continue;
             }
 
-            BracketContentReader.verifyBrackets(brackets, openingBrackets, closingBrackets, current);
+            BracketContentReader.verifySequences(sequences, openingSequence, closingSequence, current);
             content.append(current);
         }
 
@@ -62,12 +62,12 @@ public class AttentiveContentReader {
         return selected;
     }
 
-    public void setOpeningBrackets(char[] openingBrackets) {
-        this.openingBrackets = openingBrackets;
+    public void setOpeningSequence(char[] openingSequence) {
+        this.openingSequence = openingSequence;
     }
 
-    public void setClosingBrackets(char[] closingBrackets) {
-        this.closingBrackets = closingBrackets;
+    public void setClosingSequence(char[] closingSequence) {
+        this.closingSequence = closingSequence;
     }
 
 }

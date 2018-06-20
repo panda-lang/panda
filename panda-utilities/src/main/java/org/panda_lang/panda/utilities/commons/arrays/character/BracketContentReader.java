@@ -23,12 +23,12 @@ import java.util.*;
 
 public class BracketContentReader {
 
-    protected static final char[] LEFT_BRACKETS = "({[<".toCharArray();
-    protected static final char[] RIGHT_BRACKETS = ")}]>".toCharArray();
+    protected static final char[] OPENING_SEQUENCE = "({[<\"".toCharArray();
+    protected static final char[] CLOSING_SEQUENCE = ")}]>\"".toCharArray();
 
     private final CharArrayDistributor distributor;
-    private char[] openingBrackets = LEFT_BRACKETS;
-    private char[] closingBrackets = RIGHT_BRACKETS;
+    private char[] openingSequence = OPENING_SEQUENCE;
+    private char[] closingSequence = CLOSING_SEQUENCE;
 
     public BracketContentReader(CharArrayDistributor distributor) {
         this.distributor = distributor;
@@ -41,45 +41,52 @@ public class BracketContentReader {
     public String read() {
         StringBuilder content = new StringBuilder();
 
-        List<Character> brackets = new ArrayList<>();
+        Stack<Character> sequences = new Stack<>();
         char leftType = distributor.current();
 
-        if (!CharacterUtils.belongsTo(leftType, openingBrackets)) {
+        if (!CharacterUtils.belongsTo(leftType, openingSequence)) {
             throw new RuntimeException("Unknown bracket type: " + leftType);
         }
 
-        char rightType = closingBrackets[CharacterUtils.getIndex(openingBrackets, leftType)];
+        char rightType = closingSequence[CharacterUtils.getIndex(openingSequence, leftType)];
 
         while (distributor.hasNext()) {
             char current = distributor.next();
 
-            if (current == rightType && brackets.size() == 0) {
+            if (current == rightType && sequences.size() == 0) {
                 break;
             }
 
-            verifyBrackets(brackets, openingBrackets, closingBrackets, current);
+            verifySequences(sequences, openingSequence, closingSequence, current);
             content.append(current);
         }
 
         return content.toString();
     }
 
-    protected static void verifyBrackets(List<Character> brackets, char[] openingBrackets, char[] closingBrackets, char current) {
-        if (CharacterUtils.belongsTo(current, openingBrackets)) {
-            brackets.add(current);
+    protected static void verifySequences(Stack<Character> sequences, char[] openingSequence, char[] closingSequence, char current) {
+        if (sequences.size() > 0 && CharacterUtils.belongsTo(current, closingSequence)) {
+            Character leftCurrent = openingSequence[CharacterUtils.getIndex(closingSequence, current)];
+
+            if (sequences.peek() != leftCurrent) {
+                return;
+            }
+
+            sequences.pop();
+            return;
         }
-        else if (CharacterUtils.belongsTo(current, closingBrackets)) {
-            Character leftCurrent = openingBrackets[CharacterUtils.getIndex(closingBrackets, current)];
-            brackets.remove(leftCurrent);
+
+        if (CharacterUtils.belongsTo(current, openingSequence)) {
+            sequences.push(current);
         }
     }
 
-    public void setOpeningBrackets(char[] openingBrackets) {
-        this.openingBrackets = openingBrackets;
+    public void setOpeningSequence(char[] openingSequence) {
+        this.openingSequence = openingSequence;
     }
 
-    public void setClosingBrackets(char[] closingBrackets) {
-        this.closingBrackets = closingBrackets;
+    public void setClosingSequence(char[] closingSequence) {
+        this.closingSequence = closingSequence;
     }
 
 }
