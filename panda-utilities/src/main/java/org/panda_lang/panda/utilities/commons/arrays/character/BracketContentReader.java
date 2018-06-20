@@ -23,17 +23,19 @@ import java.util.*;
 
 public class BracketContentReader {
 
-    private static final char[] LEFT_BRACKETS = "({[<".toCharArray();
-    private static final char[] RIGHT_BRACKETS = ")}]>".toCharArray();
+    protected static final char[] LEFT_BRACKETS = "({[<".toCharArray();
+    protected static final char[] RIGHT_BRACKETS = ")}]>".toCharArray();
 
     private final CharArrayDistributor distributor;
+    private char[] openingBrackets = LEFT_BRACKETS;
+    private char[] closingBrackets = RIGHT_BRACKETS;
 
     public BracketContentReader(CharArrayDistributor distributor) {
         this.distributor = distributor;
     }
 
     public BracketContentReader(String expression) {
-        this.distributor = new CharArrayDistributor(expression.toCharArray());
+        this(new CharArrayDistributor(expression));
     }
 
     public String read() {
@@ -42,11 +44,11 @@ public class BracketContentReader {
         List<Character> brackets = new ArrayList<>();
         char leftType = distributor.current();
 
-        if (!CharacterUtils.belongsTo(leftType, LEFT_BRACKETS)) {
+        if (!CharacterUtils.belongsTo(leftType, openingBrackets)) {
             throw new RuntimeException("Unknown bracket type: " + leftType);
         }
 
-        char rightType = RIGHT_BRACKETS[CharacterUtils.getIndex(LEFT_BRACKETS, leftType)];
+        char rightType = closingBrackets[CharacterUtils.getIndex(openingBrackets, leftType)];
 
         while (distributor.hasNext()) {
             char current = distributor.next();
@@ -55,17 +57,29 @@ public class BracketContentReader {
                 break;
             }
 
-            if (CharacterUtils.belongsTo(current, LEFT_BRACKETS)) {
-                brackets.add(current);
-            }
-            else if (CharacterUtils.belongsTo(current, RIGHT_BRACKETS)) {
-                brackets.remove(current);
-            }
-
+            verifyBrackets(brackets, openingBrackets, closingBrackets, current);
             content.append(current);
         }
 
         return content.toString();
+    }
+
+    protected static void verifyBrackets(List<Character> brackets, char[] openingBrackets, char[] closingBrackets, char current) {
+        if (CharacterUtils.belongsTo(current, openingBrackets)) {
+            brackets.add(current);
+        }
+        else if (CharacterUtils.belongsTo(current, closingBrackets)) {
+            Character leftCurrent = openingBrackets[CharacterUtils.getIndex(closingBrackets, current)];
+            brackets.remove(leftCurrent);
+        }
+    }
+
+    public void setOpeningBrackets(char[] openingBrackets) {
+        this.openingBrackets = openingBrackets;
+    }
+
+    public void setClosingBrackets(char[] closingBrackets) {
+        this.closingBrackets = closingBrackets;
     }
 
 }

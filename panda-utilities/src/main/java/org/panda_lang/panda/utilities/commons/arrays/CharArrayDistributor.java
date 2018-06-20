@@ -26,6 +26,10 @@ public class CharArrayDistributor {
         this.index = -1;
     }
 
+    public CharArrayDistributor(String pattern) {
+        this(pattern.toCharArray());
+    }
+
     public char previous() {
         if (index - 1 < array.length) {
             index--;
@@ -76,6 +80,10 @@ public class CharArrayDistributor {
         }
     }
 
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public char getPrevious(int t) {
         return index - t > 0 ? array[index - t] : array[0];
     }
@@ -86,6 +94,10 @@ public class CharArrayDistributor {
 
     public char getLast() {
         return array[array.length - 1];
+    }
+
+    public int getIndex() {
+        return index;
     }
 
 }
