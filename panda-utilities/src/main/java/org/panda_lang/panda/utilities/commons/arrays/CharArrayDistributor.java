@@ -32,13 +32,13 @@ public class CharArrayDistributor {
 
     public char previous() {
         if (index - 1 < array.length) {
-            index--;
+            --index;
 
-            if (index < 0) {
-                index = 0;
+            if (index < -1) {
+                index = -1;
             }
 
-            return array[index];
+            return current();
         }
         else {
             return getLast();
