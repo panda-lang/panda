@@ -119,6 +119,21 @@ public class StringUtils {
     }
 
     /**
+     * @return trimmed string
+     */
+    public static String trimEnd(String s) {
+        int len = s.length();
+        char[] val = s.toCharArray();
+
+        while (len > 0 && val[len - 1] <= ' ') {
+            len--;
+        }
+
+        return s.substring(0, len);
+    }
+
+
+    /**
      * @param str a string to search
      * @return whitespaces at the beginning of the specified string
      */
