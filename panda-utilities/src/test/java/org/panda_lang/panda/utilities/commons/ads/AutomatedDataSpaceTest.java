@@ -16,14 +16,12 @@
 
 package org.panda_lang.panda.utilities.commons.ads;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionHandler;
-import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollectionService;
-import org.panda_lang.panda.utilities.commons.ads.database.ADSDatabaseRepository;
+import org.junit.jupiter.api.*;
+import org.panda_lang.panda.utilities.commons.ads.collection.*;
+import org.panda_lang.panda.utilities.commons.ads.database.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class AutomatedDataSpaceTest {
 
@@ -64,11 +62,10 @@ public class AutomatedDataSpaceTest {
 
         AutomatedDataInterface dataInterface = pde.createInterface();
         dataInterface.post("strings", "var");
-
-        Assert.assertNull(dataInterface.get("strings", String.class, "var"));
-        Assert.assertEquals(dataInterface.get("strings", String.class, "var".hashCode()), "var");
-
         dataInterface.loadAll();
+
+        Assertions.assertNull(dataInterface.get("strings", String.class, "var"));
+        Assertions.assertEquals(dataInterface.get("strings", String.class, "var".hashCode()), "var");
     }
 
     public static class StringCollectionService implements ADSCollectionService<String> {

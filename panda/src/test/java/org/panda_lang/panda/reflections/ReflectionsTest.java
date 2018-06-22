@@ -16,19 +16,16 @@
 
 package org.panda_lang.panda.reflections;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.reflections.Configuration;
-import org.reflections.Reflections;
-import org.reflections.scanners.SubTypesScanner;
-import org.reflections.util.ConfigurationBuilder;
+import org.junit.jupiter.api.*;
+import org.reflections.*;
+import org.reflections.scanners.*;
+import org.reflections.util.*;
 
-import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Set;
+import java.io.*;
+import java.lang.management.*;
+import java.net.*;
+import java.util.*;
 
 public class ReflectionsTest {
 
@@ -56,8 +53,8 @@ public class ReflectionsTest {
         Reflections reflections = new Reflections(configuration);
         Set<Class<?>> classes = reflections.getSubTypesOf(Object.class);
 
-        Assert.assertNotNull(classes);
-        Assert.assertEquals(true, classes.size() > 0);
+        Assertions.assertNotNull(classes);
+        Assertions.assertTrue(classes.size() > 0);
     }
 
 }

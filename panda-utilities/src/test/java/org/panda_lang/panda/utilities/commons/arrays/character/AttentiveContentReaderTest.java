@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.utilities.commons.arrays.character;
 
-import org.junit.*;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.util.*;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AttentiveContentReaderTest {
 
@@ -31,10 +32,15 @@ public class AttentiveContentReaderTest {
         AttentiveContentReader attentiveContentReader = new AttentiveContentReader(CONTENT);
         List<String> selected = attentiveContentReader.select(SEPARATOR);
 
-        Assert.assertEquals("Test", selected.get(0));
-        Assert.assertEquals("Bracket(|)", selected.get(1));
-        Assert.assertEquals("String\"|\"", selected.get(2));
-        Assert.assertEquals("Test", selected.get(3));
+        Assertions.assertNotNull(selected);
+        Assertions.assertEquals(4, selected.size());
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("Test", selected.get(0)),
+                () -> Assertions.assertEquals("Bracket(|)", selected.get(1)),
+                () -> Assertions.assertEquals("String\"|\"", selected.get(2)),
+                () -> Assertions.assertEquals("Test", selected.get(3))
+        );
     }
 
 }

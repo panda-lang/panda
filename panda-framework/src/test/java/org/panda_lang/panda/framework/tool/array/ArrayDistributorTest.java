@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.tool.array;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
+import org.junit.jupiter.api.*;
+import org.panda_lang.panda.utilities.commons.arrays.*;
 
 public class ArrayDistributorTest {
 
@@ -29,14 +29,15 @@ public class ArrayDistributorTest {
         ArrayDistributor<String> distributor = new ArrayDistributor<>(array);
         distributor.setIndex(2);
 
-        Assert.assertEquals("a", distributor.getPrevious(2));
-        Assert.assertEquals("b", distributor.getPrevious());
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("a", distributor.getPrevious(2)),
+                () -> Assertions.assertEquals("b", distributor.getPrevious()),
 
-        Assert.assertEquals("c", distributor.current());
+                () -> Assertions.assertEquals("c", distributor.current()),
 
-        Assert.assertEquals("d", distributor.further());
-        Assert.assertEquals("e", distributor.future());
-
+                () -> Assertions.assertEquals("d", distributor.further()),
+                () -> Assertions.assertEquals("e", distributor.future())
+        );
     }
 
 }

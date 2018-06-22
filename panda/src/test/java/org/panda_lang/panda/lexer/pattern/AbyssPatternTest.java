@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.lexer.pattern;
 
-import org.junit.*;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.panda_lang.panda.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
@@ -44,8 +43,10 @@ public class AbyssPatternTest {
 
     @Test
     public void testOptional() {
-        Assert.assertNotNull(PATTERN.match(FULL_SOURCE));
-        Assert.assertNotNull(PATTERN.match(OPTIONAL_SOURCE));
+        Assertions.assertAll(
+                () -> Assertions.assertNotNull(PATTERN.match(FULL_SOURCE)),
+                () -> Assertions.assertNotNull(PATTERN.match(OPTIONAL_SOURCE))
+        );
     }
 
 }

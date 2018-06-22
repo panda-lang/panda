@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.utilities.commons.arrays.character;
 
-import org.junit.*;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 public class BracketContentReaderTest {
 
@@ -28,7 +27,7 @@ public class BracketContentReaderTest {
         BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
         String content = bracketContentReader.read();
 
-        Assert.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
+        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
     }
 
 }

@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.lexer;
 
-import org.junit.Assert;
 import org.junit.Test;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.junit.jupiter.api.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.language.interpreter.*;
 
 public class SimpleLexerTest {
 
@@ -30,7 +30,7 @@ public class SimpleLexerTest {
         PandaLexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(SimpleLexerTest.class, "this.intValue()"));
         TokenizedSource source = lexer.convert();
 
-        Assert.assertEquals("this . intValue ( )", source.toString());
+        Assertions.assertEquals("this . intValue ( )", source.toString());
     }
 
 }

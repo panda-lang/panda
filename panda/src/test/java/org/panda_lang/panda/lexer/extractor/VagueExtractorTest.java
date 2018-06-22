@@ -16,21 +16,22 @@
 
 package org.panda_lang.panda.lexer.extractor;
 
-import org.junit.Assert;
+import org.junit.*;
 import org.junit.Test;
+import org.junit.jupiter.api.*;
+import org.panda_lang.panda.framework.design.interpreter.lexer.*;
+import org.panda_lang.panda.framework.design.interpreter.source.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
+import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueExtractor;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.VagueResult;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
-import org.panda_lang.panda.language.interpreter.tokens.Operators;
-import org.panda_lang.panda.language.interpreter.tokens.Separators;
+import org.panda_lang.panda.framework.language.interpreter.token.extractor.vague.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.tokens.*;
 
 public class VagueExtractorTest {
+
+    private static final String SOURCE = "(new Integer(5).intValue() + 3)";
 
     private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[] {
             Separators.LEFT_PARENTHESIS_DELIMITER,
@@ -39,21 +40,27 @@ public class VagueExtractorTest {
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,
-            Operators.MULTIPLICATION });
+            Operators.MULTIPLICATION
+    });
 
     @Test
     public void testVagueExtractor() {
-        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(VagueExtractorTest.class, "(new Integer(5).intValue() + 3)"));
+        Source source = new PandaSource(VagueExtractorTest.class, SOURCE);
 
-        TokenizedSource source = lexer.convert();
-        VagueResult result = EXTRACTOR.extract(source);
+        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), source);
+        TokenizedSource tokenizedSource = lexer.convert();
 
-        Assert.assertTrue(result.isSucceeded());
-        Assert.assertEquals(5, result.size());
-        Assert.assertEquals("(", result.get(0));
-        Assert.assertEquals("+", result.get(2));
-        Assert.assertEquals("3", result.get(3));
-        Assert.assertEquals(")", result.get(4));
+        VagueResult result = EXTRACTOR.extract(tokenizedSource);
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isSucceeded());
+        Assertions.assertEquals(5, result.size());
+
+        Assertions.assertAll(
+                () -> Assert.assertEquals("(", result.get(0)),
+                () -> Assert.assertEquals("+", result.get(2)),
+                () -> Assert.assertEquals("3", result.get(3)),
+                () -> Assert.assertEquals(")", result.get(4))
+        );
     }
 
 }
