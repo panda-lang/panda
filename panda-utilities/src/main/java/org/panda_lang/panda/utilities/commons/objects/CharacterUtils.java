@@ -32,7 +32,7 @@ public class CharacterUtils {
     }
 
     public static boolean isWhitespace(char c) {
-        return Character.isWhitespace(c) || c == NO_BREAK_SPACE;
+        return c <= 32 || Character.isWhitespace(c) || c == NO_BREAK_SPACE;
     }
 
     public static int getIndex(char[] characters, char character) {

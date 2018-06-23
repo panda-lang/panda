@@ -64,4 +64,32 @@ public class StringUtilsTest {
         Assertions.assertEquals(2, StringUtils.countOccurrences(" test test ", "test"));
     }
 
+    @Test
+    public void testContainsCharacter() {
+        Assertions.assertTrue(StringUtils.containsCharacter("abcd", 'a', 'c'));
+    }
+
+    @Test
+    public void testContainsSpecialCharacters() {
+        Assertions.assertTrue(StringUtils.containsSpecialCharacters("abc!@#"));
+    }
+
+    @Test
+    public void testIsNumber() {
+        Assertions.assertAll(
+                () -> Assertions.assertFalse(StringUtils.isNumber("test")),
+
+                () -> Assertions.assertTrue(StringUtils.isNumber("777")),
+                () -> Assertions.assertTrue(StringUtils.isNumber("011")),
+
+                () -> Assertions.assertTrue(StringUtils.isNumber("0.001")),
+                () -> Assertions.assertTrue(StringUtils.isNumber("0x001"))
+        );
+    }
+
+    @Test
+    public void testCreateIndentation() {
+        Assertions.assertEquals("  test", StringUtils.createIndentation(2) + "test");
+    }
+
 }

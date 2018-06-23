@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.utilities.commons.objects;
 
-public class PandaFrameworkConstants {
+import org.junit.jupiter.api.*;
 
-    public static final String VERSION = "indev-0.7.13";
+public class TimeUtilsTest {
+
+    @Test
+    public void testToMilliseconds() {
+        Assertions.assertEquals("1.0ms", TimeUtils.toMilliseconds(1_000_000));
+    }
 
 }
