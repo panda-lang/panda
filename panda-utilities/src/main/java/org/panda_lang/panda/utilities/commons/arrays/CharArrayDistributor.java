@@ -92,6 +92,10 @@ public class CharArrayDistributor {
         return index - 1 > 0 ? array[index - 1] : array[0];
     }
 
+    public char getNext() {
+        return index + 1 < array.length ? array[index + 1] : this.getLast();
+    }
+
     public char getLast() {
         return array[array.length - 1];
     }

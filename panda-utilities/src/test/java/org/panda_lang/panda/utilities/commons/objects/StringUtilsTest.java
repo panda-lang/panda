@@ -41,6 +41,20 @@ public class StringUtilsTest {
     }
 
     @Test
+    public void testTrimStart() {
+        Assertions.assertAll(
+                // Without changes
+                () -> Assertions.assertEquals("test", StringUtils.trimStart("test")),
+                () -> Assertions.assertEquals("  test", StringUtils.trimStart("test  ")),
+                () -> Assertions.assertEquals("", StringUtils.trimStart("")),
+
+                // With changes
+                () -> Assertions.assertEquals("", StringUtils.trimStart("  ")),
+                () -> Assertions.assertEquals("test", StringUtils.trimStart("  test"))
+        );
+    }
+
+    @Test
     public void testTrimEnd() {
         Assertions.assertAll(
                 // Without changes

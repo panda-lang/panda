@@ -121,6 +121,20 @@ public class StringUtils {
     /**
      * @return trimmed string
      */
+    public static String trimStart(String s) {
+        char[] val = s.toCharArray();
+        int i = 0;
+
+        while (i < val.length && val[i] <= ' ') {
+            i++;
+        }
+
+        return s.substring(i, val.length);
+    }
+
+    /**
+     * @return trimmed string
+     */
     public static String trimEnd(String s) {
         int len = s.length();
         char[] val = s.toCharArray();
@@ -131,7 +145,6 @@ public class StringUtils {
 
         return s.substring(0, len);
     }
-
 
     /**
      * @param str a string to search
