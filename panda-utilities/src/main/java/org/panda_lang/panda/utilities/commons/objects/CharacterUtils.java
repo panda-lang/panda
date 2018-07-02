@@ -18,9 +18,67 @@ package org.panda_lang.panda.utilities.commons.objects;
 
 public class CharacterUtils {
 
-    public static char TAB = '\t';
-    public static char NO_BREAK_SPACE = '\u00A0';
+    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
+    public static final char[] LETTERS = mergeArrays(ALPHABET.toCharArray(), ALPHABET.toUpperCase().toCharArray());
+    public static final char[] DIGITS = "0123456789".toCharArray();
+
+    public static final char TAB = '\t';
+    public static final char NO_BREAK_SPACE = '\u00A0';
+
+    /**
+     * Merge several arrays
+     *
+     * @param arrays arrays to merge
+     * @return array of merged arrays
+     */
+    public static char[] mergeArrays(char[]... arrays) {
+        int size = 0;
+
+        for (char[] array : arrays) {
+            size += array.length;
+        }
+
+        char[] mergedArray = new char[size];
+        int index = 0;
+
+        for (char[] array : arrays) {
+            for (char c : array) {
+                mergedArray[index++] = c;
+            }
+        }
+
+        return mergedArray;
+    }
+
+    /**
+     * @param characters varargs array of characters
+     * @return array of characters
+     */
+    public static char[] arrayOf(char... characters) {
+        return characters;
+    }
+
+    /**
+     * @param character character to check
+     * @param characters array of character arrays
+     * @return true if character is in the specified arrays
+     */
+    public static boolean belongsTo(char character, char[]... characters) {
+        for (char[] chars : characters) {
+            if (belongsTo(character, chars)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param character character to check
+     * @param characters array of characters
+     * @return true if character is in the specified array
+     */
     public static boolean belongsTo(char character, char... characters) {
         for (char c : characters) {
             if (c == character) {
@@ -31,10 +89,13 @@ public class CharacterUtils {
         return false;
     }
 
-    public static boolean isWhitespace(char c) {
-        return c <= 32 || Character.isWhitespace(c) || c == NO_BREAK_SPACE;
-    }
-
+    /**
+     * Index of character in the specified array
+     *
+     * @param characters array of characters
+     * @param character character to check
+     * @return index of the specified character or -1 if character is not in the specified array
+     */
     public static int getIndex(char[] characters, char character) {
         for (int i = 0; i < characters.length; i++) {
             if (characters[i] == character) {
@@ -43,6 +104,14 @@ public class CharacterUtils {
         }
 
         return -1;
+    }
+
+    /**
+     * @param c a character to check
+     * @return true if character is whitespace
+     */
+    public static boolean isWhitespace(char c) {
+        return c <= 32 || Character.isWhitespace(c) || c == NO_BREAK_SPACE;
     }
 
 }

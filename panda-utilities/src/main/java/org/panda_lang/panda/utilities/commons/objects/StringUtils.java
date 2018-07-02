@@ -208,6 +208,22 @@ public class StringUtils {
     }
 
     /**
+     * @param str a string to search
+     * @return true if the string contains a character other than the specified in arrays
+     */
+    public static boolean containsOtherCharacters(String str, char[]... characters) {
+        for (char c : str.toCharArray()) {
+            if (CharacterUtils.belongsTo(c, characters)) {
+                continue;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * @param str string to check
      * @return true if the specified text can be a number
      */
