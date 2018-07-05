@@ -18,20 +18,35 @@ package org.panda_lang.panda.utilities.commons.arrays;
 
 import org.jetbrains.annotations.*;
 
-import java.util.Iterator;
+import java.lang.reflect.*;
+import java.util.*;
 
 public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
     private final T[] array;
     private int index;
+    private boolean reversed;
 
     public ArrayDistributor(T[] array) {
         this.array = array;
         this.index = -1;
     }
 
+    @SuppressWarnings("unchecked")
+    public ArrayDistributor(Collection<T> collection, Class<T> type) {
+        this(collection.toArray((T[]) Array.newInstance(type, collection.size())));
+    }
+
     public void reset() {
         this.index = -1;
+    }
+
+    public void reverse() {
+        T[] copy = Arrays.copyOf(array, array.length);
+
+        for (int i = 0, j = array.length - 1; i < array.length; i++, j--) {
+            array[i] = copy[j];
+        }
     }
 
     @Override
@@ -39,7 +54,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return this;
     }
 
-    public T previous() {
+    public @Nullable T previous() {
         if (index - 1 < array.length) {
             --index;
 
@@ -53,17 +68,17 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return null;
     }
 
-    public T current() {
+    public @Nullable T current() {
         return index < array.length && index > -1 ? array[index] : null;
     }
 
     @Override
     public boolean hasNext() {
-        return index < array.length - 1;
+        return index + 1 < array.length;
     }
 
     @Override
-    public T next() {
+    public @Nullable T next() {
         if (index + 1 < array.length) {
             return array[++index];
         }
@@ -71,7 +86,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return null;
     }
 
-    public T further() {
+    public @Nullable T further() {
         if (index + 1 < array.length) {
             return array[index + 1];
         }
@@ -79,7 +94,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return null;
     }
 
-    public T future() {
+    public @Nullable T future() {
         if (index + 2 < array.length) {
             return array[index + 2];
         }
@@ -87,7 +102,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return null;
     }
 
-    public T getPrevious(int t) {
+    public @Nullable T getPrevious(int t) {
         int i = index - t;
         return i > -1 && i < array.length ? array[i] : null;
     }
@@ -96,17 +111,21 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         this.index = index;
     }
 
-    public T get(int index) {
+    public @Nullable T get(int index) {
         return index > -1 && index < array.length ? array[index] : null;
     }
 
-    public T getPrevious() {
+    public @Nullable T getPrevious() {
         int i = index - 1;
         return i > -1 && i - 1 < array.length ? array[i] : null;
     }
 
-    public T getLast() {
+    public @Nullable  T getLast() {
         return array[array.length - 1];
+    }
+
+    public @Nullable T getNext() {
+        return index + 1 < array.length ? array[index + 1] : this.getLast();
     }
 
     public int getIndex() {

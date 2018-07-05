@@ -50,7 +50,7 @@ public class CharArrayDistributor {
     }
 
     public boolean hasNext() {
-        return index < array.length - 1;
+        return index + 1 < array.length;
     }
 
     public char next() {
