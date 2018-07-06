@@ -27,11 +27,12 @@ import org.panda_lang.panda.framework.design.architecture.statement.*;
 import org.panda_lang.panda.framework.design.architecture.value.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.design.runtime.expression.*;
 import org.panda_lang.panda.framework.language.architecture.value.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
 import org.panda_lang.panda.framework.language.runtime.expression.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.instance.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.invoker.*;
@@ -41,7 +42,7 @@ import org.panda_lang.panda.language.interpreter.parsers.general.expression.call
 import org.panda_lang.panda.language.interpreter.parsers.general.number.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.*;
-import org.panda_lang.panda.language.interpreter.tokens.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 import java.util.*;
 

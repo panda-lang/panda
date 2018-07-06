@@ -16,19 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
+import org.jetbrains.annotations.*;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
 
 public class PandaSourceSet implements SourceSet {
 
     private final Collection<Source> sources;
 
     public PandaSourceSet() {
-        this.sources = new ArrayList<>();
+        this.sources = new LinkedHashSet<>();
     }
 
     public void addSource(Source source) {
@@ -36,7 +35,7 @@ public class PandaSourceSet implements SourceSet {
     }
 
     @Override
-    public Iterator<Source> iterator() {
+    public @NotNull Iterator<Source> iterator() {
         return sources.iterator();
     }
 

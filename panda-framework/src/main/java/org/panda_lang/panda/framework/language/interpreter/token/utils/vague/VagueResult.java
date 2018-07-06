@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.vague;
+package org.panda_lang.panda.framework.language.interpreter.token.utils.vague;
 
 import java.util.ArrayList;
 import java.util.List;

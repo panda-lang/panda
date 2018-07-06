@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.reader;
+package org.panda_lang.panda.framework.language.interpreter.token.distributor;
 
 import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {

@@ -16,15 +16,14 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.panda_lang.panda.framework.design.interpreter.source.CodeSource;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.panda_lang.panda.framework.design.interpreter.source.*;
 
 public class PandaSource implements Source {
 
     private final String title;
     private final String content;
 
-    public PandaSource(CodeSource codeSource) {
+    public PandaSource(PandaURLSource codeSource) {
         this(codeSource.getLocation().getPath(), codeSource.getContent());
     }
 

@@ -21,13 +21,13 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaTokenReader;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.language.PandaLanguage;
 
 import java.io.File;

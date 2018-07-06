@@ -21,9 +21,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
 
 public class OverallParser implements Parser {
 

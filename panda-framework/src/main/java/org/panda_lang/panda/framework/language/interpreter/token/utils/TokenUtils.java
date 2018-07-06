@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token;
+package org.panda_lang.panda.framework.language.interpreter.token.utils;
 
+import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 public class TokenUtils {

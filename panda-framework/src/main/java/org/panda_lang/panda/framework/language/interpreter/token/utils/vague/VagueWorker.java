@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.vague;
+package org.panda_lang.panda.framework.language.interpreter.token.utils.vague;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 import java.util.Stack;
 

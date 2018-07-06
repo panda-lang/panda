@@ -18,8 +18,8 @@ package org.panda_lang.panda.language.interpreter.parsers.scope.main;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 public class MainParserHandler implements ParserHandler {
 

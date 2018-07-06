@@ -16,8 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source.providers;
 
+import org.jetbrains.annotations.*;
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaCodeSource;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
@@ -35,7 +36,7 @@ public class DirectorySourceProvider implements SourceProvider {
     }
 
     @Override
-    public Iterator<Source> iterator() {
+    public @NotNull Iterator<Source> iterator() {
         Iterator<File> iterator = FileUtils.findFilesByExtension(directory, ".panda").iterator();
 
         return new Iterator<Source>() {
@@ -56,7 +57,7 @@ public class DirectorySourceProvider implements SourceProvider {
                     throw new PandaFrameworkException("File '" + next.getName() + "' ia a directory.");
                 }
 
-                return new PandaSource(PandaCodeSource.fromFile(next));
+                return new PandaSource(PandaURLSource.fromFile(next));
             }
         };
     }

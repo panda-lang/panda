@@ -16,23 +16,20 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.argument;
 
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
+import org.panda_lang.panda.language.interpreter.*;
+import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ArgumentParser implements Parser {
 
@@ -45,7 +42,7 @@ public class ArgumentParser implements Parser {
 
         List<Expression> expressions = new ArrayList<>();
         ExpressionParser expressionParser = new ExpressionParser();
-        Extractor extractor = PATTERN.extractor();
+        AbyssExtractor extractor = PATTERN.extractor();
 
         while (sourceStream.hasUnreadSource()) {
             TokenReader reader = sourceStream.toTokenReader();

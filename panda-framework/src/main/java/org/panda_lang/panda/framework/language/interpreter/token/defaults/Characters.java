@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token.reader;
+package org.panda_lang.panda.framework.language.interpreter.token.defaults;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+/**
+ * Default set of the special characters
+ */
+public class Characters {
 
-import java.util.Iterator;
+    private static final char[] SPECIAL_CHARACTERS = "#&'()[]{}*+,-./:;<=>!|`^".toCharArray();
 
-public interface TokenReaderIterator extends Iterator<TokenRepresentation> {
-
-    TokenRepresentation previous();
-
-    void synchronize();
-
-    void setIndex(int index);
-
-    int getIndex();
+    public static char[] getSpecialCharacters() {
+        return SPECIAL_CHARACTERS;
+    }
 
 }

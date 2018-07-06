@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 import java.util.ArrayList;
 import java.util.Collection;

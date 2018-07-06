@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;

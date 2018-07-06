@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.tool.array;
+package org.panda_lang.panda.utilities.commons.arrays;
 
 import org.junit.Test;
 import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.arrays.*;
 
 public class ArrayDistributorTest {
 

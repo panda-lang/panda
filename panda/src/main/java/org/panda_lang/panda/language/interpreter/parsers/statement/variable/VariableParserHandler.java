@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.*;
 
-import java.util.List;
+import java.util.*;
 
 public class VariableParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader reader) {
-        Extractor extractor = VarParser.PATTERN.extractor();
+        AbyssExtractor extractor = VarParser.PATTERN.extractor();
         List<TokenizedSource> hollows = extractor.extract(reader);
         return hollows != null && hollows.size() > 0;
     }

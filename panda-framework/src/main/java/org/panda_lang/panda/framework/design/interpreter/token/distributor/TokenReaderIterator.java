@@ -14,39 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token.reader;
+package org.panda_lang.panda.framework.design.interpreter.token.distributor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 import java.util.Iterator;
 
-public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
+public interface TokenReaderIterator extends Iterator<TokenRepresentation> {
 
-    TokenRepresentation read();
+    TokenRepresentation previous();
 
-    TokenReaderIterator iterator();
-
-    default void synchronize() {
-        iterator().synchronize();
-    }
-
-    default TokenRepresentation next() {
-        return iterator().next();
-    }
-
-    default TokenRepresentation previous() {
-        return iterator().previous();
-    }
-
-    default boolean hasNext() {
-        return iterator().hasNext();
-    }
+    void synchronize();
 
     void setIndex(int index);
 
     int getIndex();
-
-    TokenizedSource getTokenizedSource();
 
 }

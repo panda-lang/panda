@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.language.interpreter.*;
-import org.panda_lang.panda.language.interpreter.tokens.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 public class AbyssPatternTest {
 

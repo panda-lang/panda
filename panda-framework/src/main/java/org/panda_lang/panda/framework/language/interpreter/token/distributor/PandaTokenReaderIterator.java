@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.reader;
+package org.panda_lang.panda.framework.language.interpreter.token.distributor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReaderIterator;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReaderIterator;
 import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
 
 public class PandaTokenReaderIterator implements TokenReaderIterator {

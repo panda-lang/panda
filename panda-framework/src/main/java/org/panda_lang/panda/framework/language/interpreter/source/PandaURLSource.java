@@ -16,25 +16,20 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.interpreter.source.CodeSource;
-import org.panda_lang.panda.utilities.commons.io.IOUtils;
+import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.utilities.commons.io.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.*;
+import java.net.*;
 
-public class PandaCodeSource implements CodeSource {
+public class PandaURLSource {
 
     private final URL location;
 
-    private PandaCodeSource(URL location) {
+    private PandaURLSource(URL location) {
         this.location = location;
     }
 
-    @Override
     public String getContent() {
         try (InputStream inputStream = this.location.openStream()) {
             return IOUtils.convertStreamToString(inputStream);
@@ -43,16 +38,15 @@ public class PandaCodeSource implements CodeSource {
         }
     }
 
-    @Override
     public URL getLocation() {
         return this.location;
     }
 
-    public static PandaCodeSource fromPath(String path) {
+    public static PandaURLSource fromPath(String path) {
         return fromFile(new File(path));
     }
 
-    public static PandaCodeSource fromFile(File file) {
+    public static PandaURLSource fromFile(File file) {
         try {
             return fromUrl(file.toURI().toURL());
         } catch (MalformedURLException e) {
@@ -60,8 +54,8 @@ public class PandaCodeSource implements CodeSource {
         }
     }
 
-    public static PandaCodeSource fromUrl(URL url) {
-        return new PandaCodeSource(url);
+    public static PandaURLSource fromUrl(URL url) {
+        return new PandaURLSource(url);
     }
 
 }

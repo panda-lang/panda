@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.framework.design.interpreter.source;
 
-import org.jetbrains.annotations.NotNull;
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
+import org.panda_lang.panda.framework.design.interpreter.*;
 
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Set of {@link Source} used by {@link Interpreter}
@@ -29,7 +28,7 @@ public interface SourceSet extends Iterable<Source> {
     /**
      * @return collection of sources
      */
-    @NotNull Collection<Source> getSources();
+    Collection<Source> getSources();
 
     default boolean isEmpty() {
         return getSources().isEmpty();

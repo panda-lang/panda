@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.meth
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 import java.util.List;
 

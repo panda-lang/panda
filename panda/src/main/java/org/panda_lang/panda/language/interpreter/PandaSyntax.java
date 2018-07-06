@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.interpreter;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
-import org.panda_lang.panda.language.interpreter.tokens.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 import java.util.ArrayList;
 import java.util.Collections;

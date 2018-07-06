@@ -18,18 +18,18 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.*;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
 
 import java.util.*;
 
 public class AbyssPatternUtils {
 
     public static AbyssRedactorHollows extract(AbyssPattern pattern, SourceStream source) {
-        Extractor extractor = pattern.extractor();
+        AbyssExtractor extractor = pattern.extractor();
         TokenReader reader = source.toTokenReader();
         List<TokenizedSource> gaps = extractor.extract(reader);
 
@@ -44,7 +44,7 @@ public class AbyssPatternUtils {
 
     public static boolean match(AbyssPattern pattern, TokenReader reader) {
         TokenReader copyOfReader = new PandaTokenReader(reader);
-        Extractor extractor = pattern.extractor();
+        AbyssExtractor extractor = pattern.extractor();
 
         List<TokenizedSource> hollows = extractor.extract(copyOfReader);
         return hollows != null && hollows.size() == pattern.getAmountOfHollows();

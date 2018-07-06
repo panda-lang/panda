@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.tokens;
+package org.panda_lang.panda.framework.language.interpreter.token.defaults;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;

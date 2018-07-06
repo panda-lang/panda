@@ -16,19 +16,15 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class AbyssExtractor implements Extractor {
+public class AbyssExtractor {
 
     private final AbyssPattern pattern;
     private final List<TokenizedSource> gaps;
@@ -38,7 +34,6 @@ public class AbyssExtractor implements Extractor {
         this.gaps = new ArrayList<>();
     }
 
-    @Override
     public List<TokenizedSource> extract(TokenReader tokenReader) {
         gaps.clear();
 

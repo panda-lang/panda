@@ -16,14 +16,12 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
-import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
-import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 
-import java.util.List;
+import java.util.*;
 
 public class AbyssPattern {
 
@@ -50,14 +48,14 @@ public class AbyssPattern {
     public List<TokenizedSource> match(TokenReader tokenReader) {
         int index = tokenReader.getIndex();
 
-        Extractor extractor = extractor();
+        AbyssExtractor extractor = extractor();
         List<TokenizedSource> result = extractor.extract(tokenReader);
 
         tokenReader.setIndex(index);
         return result;
     }
 
-    public Extractor extractor() {
+    public AbyssExtractor extractor() {
         return new AbyssExtractor(this);
     }
 
