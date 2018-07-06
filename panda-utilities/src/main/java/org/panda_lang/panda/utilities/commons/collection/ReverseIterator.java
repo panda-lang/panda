@@ -23,27 +23,26 @@ import java.util.*;
 public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
 
     private final List<T> list;
-    private int position;
+    private int index;
 
     public ReverseIterator(List<T> list) {
         this.list = list;
-        this.position = list.size() - 1;
+        this.index = list.size() - 1;
     }
 
-    @NotNull
     @Override
-    public Iterator<T> iterator() {
+    public @NotNull Iterator<T> iterator() {
         return this;
     }
 
     @Override
     public boolean hasNext() {
-        return position >= 0;
+        return index >= 0;
     }
 
     @Override
-    public T next() {
-        return list.get(position--);
+    public @Nullable T next() {
+        return index - 1 > -1 ? list.get(index--) : null;
     }
 
     @Override
