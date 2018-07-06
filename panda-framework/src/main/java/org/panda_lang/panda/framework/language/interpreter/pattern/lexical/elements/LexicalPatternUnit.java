@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.source;
+package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-import java.io.File;
-import java.net.URL;
+public class LexicalPatternUnit extends DefaultLexicalPatternElement {
 
-public interface CodeSource {
+    private final String value;
 
-    /**
-     * @return content of file
-     */
-    String getContent();
+    public LexicalPatternUnit(String element) {
+        super.isolationType = Isolation.of(element);
+        this.value = element.trim();
+    }
 
-    /**
-     * @return regular {@link File}
-     */
-    URL getLocation();
+    public String getValue() {
+        return value;
+    }
 
 }

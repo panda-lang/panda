@@ -14,12 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token.distributor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-
-public interface SourceStreamFilter {
-
-    boolean handle(TokenRepresentation representation);
+public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
 
 }
