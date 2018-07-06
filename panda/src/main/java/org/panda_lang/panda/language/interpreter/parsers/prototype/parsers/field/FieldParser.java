@@ -40,7 +40,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
@@ -70,10 +69,12 @@ public class FieldParser implements UnifiedParser {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
-        Extractor extractor = FieldParser.ASSIGNATION_PATTERN.extractor();
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
-        List<TokenizedSource> hollows = extractor.extract(copyOfStream.toTokenReader());
+
+        List<TokenizedSource> hollows = FieldParser.ASSIGNATION_PATTERN
+                .extractor()
+                .extract(copyOfStream.toTokenReader());
 
         if (hollows == null || hollows.size() < 2) {
             callback = new FieldDeclarationCasualParserCallback(false);
