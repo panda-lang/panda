@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.*;
 import org.panda_lang.panda.framework.language.architecture.value.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.runtime.expression.*;
 import org.panda_lang.panda.language.interpreter.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;

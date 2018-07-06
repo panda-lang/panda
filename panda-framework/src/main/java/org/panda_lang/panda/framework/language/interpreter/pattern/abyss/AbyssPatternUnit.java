@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.EqualableToken;

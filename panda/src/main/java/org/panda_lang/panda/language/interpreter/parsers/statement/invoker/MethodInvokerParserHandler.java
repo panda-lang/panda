@@ -18,7 +18,7 @@ package org.panda_lang.panda.language.interpreter.parsers.statement.invoker;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser.*;
 
 public class MethodInvokerParserHandler implements ParserHandler {

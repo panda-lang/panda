@@ -19,8 +19,8 @@ package org.panda_lang.panda.lexer.extractor;
 import org.junit.Test;
 import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared.PreparedExtractor;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.language.interpreter.PandaSyntax;
 
 import java.util.List;
 
-public class PreparedExtractorTest {
+public class AbyssExtractorTest {
 
     //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
     // private static final String SOURCE = "class A {} class B {}";
@@ -52,11 +52,11 @@ public class PreparedExtractorTest {
 
     @Test
     public void testExtractor() {
-        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(PreparedExtractorTest.class, SOURCE));
+        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(AbyssExtractorTest.class, SOURCE));
         TokenizedSource tokenizedSource = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
 
-        PreparedExtractor extractor = new PreparedExtractor(PATTERN);
+        AbyssExtractor extractor = new AbyssExtractor(PATTERN);
         List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
         if (gaps == null) {

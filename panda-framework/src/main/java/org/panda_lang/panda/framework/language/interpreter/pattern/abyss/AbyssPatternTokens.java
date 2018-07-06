@@ -14,10 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern.fluent;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
-public class FluentPattern {
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 
+public class AbyssPatternTokens {
 
+    /**
+     * Hollow type
+     */
+    public static final TokenType ABYSS_TYPE = new TokenType("ABYSS");
+
+    /**
+     * Multiline abyss
+     */
+    public static final AbyssPatternUnit ABYSS = new AbyssPatternUnit(ABYSS_TYPE, "*");
+
+    /**
+     * Inline abyss
+     */
+    public static final AbyssPatternUnit SIMPLE_ABYSS = new AbyssPatternUnit(ABYSS_TYPE, "**");
 
 }

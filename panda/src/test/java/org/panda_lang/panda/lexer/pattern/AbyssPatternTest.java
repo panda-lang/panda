@@ -20,7 +20,7 @@ import org.junit.jupiter.api.*;
 import org.panda_lang.panda.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.language.interpreter.*;
 import org.panda_lang.panda.language.interpreter.tokens.*;
 

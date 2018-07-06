@@ -14,32 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.primitive;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
 
 import java.util.Stack;
 
-class PrimitiveOppositesKeeper {
+public class AbyssExtractorOpposites {
 
     private final Stack<Separator> separators;
-    private final boolean active;
 
-    protected PrimitiveOppositesKeeper(PrimitiveExtractor tokenExtractor) {
+    public AbyssExtractorOpposites() {
         this.separators = new Stack<>();
-        this.active = tokenExtractor.getPattern().hasKeepingOppositesEnabled();
     }
 
-    protected void report(Token token) {
-        if (!active) {
-            return;
-        }
-
+    public boolean report(Token token) {
         Separator separator = (token instanceof Separator) ? (Separator) token : null;
 
         if (separator == null) {
-            return;
+            return false;
         }
 
         if (separators.size() > 0) {
@@ -48,18 +42,23 @@ class PrimitiveOppositesKeeper {
 
             if (separator.equals(opposite)) {
                 separators.pop();
-                return;
+                return false;
             }
         }
 
         if (!separator.hasOpposite()) {
-            return;
+            return false;
         }
 
         separators.push(separator);
+        return true;
     }
 
-    protected boolean isLocked() {
+    public int getNestingLevel() {
+        return separators.size();
+    }
+
+    public boolean isLocked() {
         return separators.size() > 0;
     }
 

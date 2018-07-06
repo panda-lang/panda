@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.*;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.*;
 
 import java.util.*;

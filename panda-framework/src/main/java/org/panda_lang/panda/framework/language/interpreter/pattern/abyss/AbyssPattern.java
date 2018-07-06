@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared.PreparedExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 import org.panda_lang.panda.framework.language.interpreter.token.reader.PandaTokenReader;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class AbyssPattern {
     }
 
     public Extractor extractor() {
-        return new PreparedExtractor(this);
+        return new AbyssExtractor(this);
     }
 
     public boolean endsWithGap() {

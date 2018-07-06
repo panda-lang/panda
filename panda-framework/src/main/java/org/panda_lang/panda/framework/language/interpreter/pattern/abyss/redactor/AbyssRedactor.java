@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.redactor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;

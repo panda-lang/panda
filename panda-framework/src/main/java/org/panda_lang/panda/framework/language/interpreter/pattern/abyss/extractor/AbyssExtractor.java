@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenUtils;
@@ -22,18 +22,18 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.extractor.Extractor;
 import org.panda_lang.panda.framework.design.interpreter.token.reader.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PreparedExtractor implements Extractor {
+public class AbyssExtractor implements Extractor {
 
     private final AbyssPattern pattern;
     private final List<TokenizedSource> gaps;
 
-    public PreparedExtractor(AbyssPattern pattern) {
+    public AbyssExtractor(AbyssPattern pattern) {
         this.pattern = pattern;
         this.gaps = new ArrayList<>();
     }
@@ -44,9 +44,9 @@ public class PreparedExtractor implements Extractor {
 
         AbyssPatternUnit[] units = pattern.getUnits();
         TokenizedSource tokenizedSource = tokenReader.getTokenizedSource();
-        PreparedSource preparedSource = new PreparedSource(tokenizedSource);
+        AbyssExtractorSource source = new AbyssExtractorSource(tokenizedSource);
 
-        int hardTypedUnits = PreparedSourceUtils.countHardTypedUnits(units);
+        int hardTypedUnits = AbyssExtractorSourceUtils.countHardTypedUnits(units);
         int[] positions = new int[hardTypedUnits];
         int[] indexes = new int[hardTypedUnits];
         boolean simpleAbyss = false;
@@ -69,10 +69,10 @@ public class PreparedExtractor implements Extractor {
             int lastIndexOfUnit;
 
             if (!pattern.hasLastIndexAlgorithmEnabled() || (simpleAbyss && TokenUtils.equals(unit, pattern.getFissureToken()))) {
-                lastIndexOfUnit = PreparedSourceUtils.indexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
+                lastIndexOfUnit = AbyssExtractorSourceUtils.indexOf(source, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
             }
             else {
-                lastIndexOfUnit = PreparedSourceUtils.lastIndexOf(preparedSource, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
+                lastIndexOfUnit = AbyssExtractorSourceUtils.lastIndexOf(source, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
             }
 
             if (lastIndexOfUnit == -1) {

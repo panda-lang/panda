@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.primitive;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.primitive;
 
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -29,6 +29,7 @@ import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class PrimitiveExtractor implements Extractor {
 
     private final AbyssPattern pattern;
@@ -52,6 +53,12 @@ public class PrimitiveExtractor implements Extractor {
             AbyssPatternUnit unit = unitsDistributor.get(unitIndex);
             tokenReader.synchronize();
 
+            if (unit == null) {
+                return null;
+            }
+
+            // TODO: Statement does not loop
+            //noinspection LoopStatementThatDoesntLoop
             for (TokenRepresentation tokenRepresentation : tokenReader) {
                 Token token = tokenRepresentation.getToken();
 

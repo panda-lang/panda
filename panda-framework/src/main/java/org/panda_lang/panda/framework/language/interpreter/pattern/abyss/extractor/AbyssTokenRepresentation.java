@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
-public class PreparedRepresentation {
+public class AbyssTokenRepresentation {
 
     private final TokenRepresentation tokenRepresentation;
     private final int nestingLevel;
 
-    public PreparedRepresentation(TokenRepresentation tokenRepresentation, int nestingLevel) {
+    public AbyssTokenRepresentation(TokenRepresentation tokenRepresentation, int nestingLevel) {
         this.tokenRepresentation = tokenRepresentation;
         this.nestingLevel = nestingLevel;
     }

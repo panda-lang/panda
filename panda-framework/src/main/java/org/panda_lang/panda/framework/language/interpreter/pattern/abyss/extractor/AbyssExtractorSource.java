@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
-class PreparedSource {
+class AbyssExtractorSource {
 
     private final TokenizedSource tokenizedSource;
-    private final PreparedRepresentation[] preparedRepresentations;
+    private final AbyssTokenRepresentation[] abyssRepresentations;
 
-    protected PreparedSource(TokenizedSource tokenizedSource) {
+    protected AbyssExtractorSource(TokenizedSource tokenizedSource) {
         this.tokenizedSource = tokenizedSource;
-        this.preparedRepresentations = new PreparedRepresentation[tokenizedSource.size()];
+        this.abyssRepresentations = new AbyssTokenRepresentation[tokenizedSource.size()];
         this.prepare();
     }
 
     private void prepare() {
-        PreparedExtractorOpposites opposites = new PreparedExtractorOpposites();
+        AbyssExtractorOpposites opposites = new AbyssExtractorOpposites();
 
         for (int i = 0; i < tokenizedSource.size(); i++) {
             TokenRepresentation representation = tokenizedSource.get(i);
@@ -41,13 +41,13 @@ class PreparedSource {
             boolean levelUp = opposites.report(token);
             int nestingLevel = levelUp ? opposites.getNestingLevel() - 1 : opposites.getNestingLevel();
 
-            PreparedRepresentation preparedRepresentation = new PreparedRepresentation(representation, nestingLevel);
-            preparedRepresentations[i] = preparedRepresentation;
+            AbyssTokenRepresentation abyssRepresentation = new AbyssTokenRepresentation(representation, nestingLevel);
+            abyssRepresentations[i] = abyssRepresentation;
         }
     }
 
-    protected PreparedRepresentation[] getPreparedRepresentations() {
-        return preparedRepresentations;
+    protected AbyssTokenRepresentation[] getAbyssRepresentations() {
+        return abyssRepresentations;
     }
 
 }

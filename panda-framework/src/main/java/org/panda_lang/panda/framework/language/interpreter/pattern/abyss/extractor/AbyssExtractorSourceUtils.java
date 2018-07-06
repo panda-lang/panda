@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.extractor.prepared;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.pattern.abyss.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
 
 /**
- * Utils for {@link TokenizedSource} based on {@link PreparedSource}
+ * Utils for {@link TokenizedSource} based on {@link AbyssExtractorSource}
  */
-public class PreparedSourceUtils {
+public class AbyssExtractorSourceUtils {
 
     public static int countHardTypedUnits(AbyssPatternUnit[] units) {
         int i = 0;
@@ -59,25 +59,25 @@ public class PreparedSourceUtils {
     /**
      * @return index of the specified token in array, returns -1 if the token was not found
      */
-    public static int indexOf(PreparedSource preparedSource, Token search) {
-        return indexOf(preparedSource, search, 0, 0);
+    public static int indexOf(AbyssExtractorSource source, Token search) {
+        return indexOf(source, search, 0, 0);
     }
 
     /**
      * @return index of the specified token in array with a defined start-index, returns -1 if the token was not found
      */
-    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex, int maxNestingLevel) {
-        return indexOf(preparedSource, search, minIndex, maxNestingLevel, null);
+    public static int indexOf(AbyssExtractorSource source, Token search, int minIndex, int maxNestingLevel) {
+        return indexOf(source, search, minIndex, maxNestingLevel, null);
     }
 
     /**
      * @return index of the specified token in array with a defined start-index, returns -1 if the token was not found or a specified before-token was reached
      */
-    public static int indexOf(PreparedSource preparedSource, Token search, int minIndex, int maxNestingLevel, @Nullable Token before) {
-        PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
+    public static int indexOf(AbyssExtractorSource source, Token search, int minIndex, int maxNestingLevel, @Nullable Token before) {
+        AbyssTokenRepresentation[] representations = source.getAbyssRepresentations();
 
         for (int i = minIndex; i < representations.length; i++) {
-            PreparedRepresentation representation = representations[i];
+            AbyssTokenRepresentation representation = representations[i];
 
             if (representation.getNestingLevel() > maxNestingLevel) {
                 continue;
@@ -97,21 +97,21 @@ public class PreparedSourceUtils {
         return -1;
     }
 
-    public static int lastIndexOf(PreparedSource preparedSource, Token search) {
-        return lastIndexOf(preparedSource, search, 0, 0, null);
+    public static int lastIndexOf(AbyssExtractorSource source, Token search) {
+        return lastIndexOf(source, search, 0, 0, null);
     }
 
     /**
      * @return last index of the specified token in array, returns -1 if the token was not found
      */
-    public static int lastIndexOf(PreparedSource preparedSource, Token search, int minIndex, int maxNestingLevel, @Nullable Token before) {
-        PreparedRepresentation[] representations = preparedSource.getPreparedRepresentations();
+    public static int lastIndexOf(AbyssExtractorSource source, Token search, int minIndex, int maxNestingLevel, @Nullable Token before) {
+        AbyssTokenRepresentation[] representations = source.getAbyssRepresentations();
 
-        int indexOfBefore = before != null ? indexOf(preparedSource, before) : -1;
+        int indexOfBefore = before != null ? indexOf(source, before) : -1;
         int startIndex = indexOfBefore != -1 ? indexOfBefore - 1 : representations.length - 1;
 
         for (int i = startIndex; i > minIndex - 1; i--) {
-            PreparedRepresentation representation = representations[i];
+            AbyssTokenRepresentation representation = representations[i];
 
             if (representation.getNestingLevel() > maxNestingLevel) {
                 continue;
