@@ -19,24 +19,24 @@ package org.panda_lang.panda.lexer.pattern;
 import org.junit.jupiter.api.*;
 import org.panda_lang.panda.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.language.interpreter.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 public class AbyssPatternTest {
 
-    private final AbyssPattern PATTERN = new AbyssPatternBuilder()
+    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "test [;] source")
             .build();
 
-    private final TokenizedSource FULL_SOURCE = new PandaTokenizedSource(
+    private static final TokenizedSource FULL_SOURCE = new PandaTokenizedSource(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
             PandaTokenRepresentation.of(Separators.SEMICOLON),
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );
 
-    private final TokenizedSource OPTIONAL_SOURCE = new PandaTokenizedSource(
+    private static final TokenizedSource OPTIONAL_SOURCE = new PandaTokenizedSource(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );

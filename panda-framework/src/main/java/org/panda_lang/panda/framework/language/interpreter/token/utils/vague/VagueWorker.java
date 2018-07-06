@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separator;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 import java.util.Stack;

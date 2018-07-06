@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token.defaults;
+package org.panda_lang.panda.framework.language.interpreter.token.defaults.literal;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 public class Literal extends EqualableToken {
 

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.token.utils.vague;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaTokenReader;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separator;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 public class VagueExtractor {

@@ -20,14 +20,14 @@ import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
 import org.panda_lang.panda.framework.design.runtime.expression.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.*;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 import java.util.*;
 

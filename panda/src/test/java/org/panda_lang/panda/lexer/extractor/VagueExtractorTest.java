@@ -22,12 +22,12 @@ import org.junit.jupiter.api.*;
 import org.panda_lang.panda.framework.design.interpreter.lexer.*;
 import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.*;
 import org.panda_lang.panda.language.interpreter.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
 public class VagueExtractorTest {
 

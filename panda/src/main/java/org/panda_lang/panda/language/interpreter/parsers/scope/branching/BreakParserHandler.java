@@ -19,7 +19,7 @@ package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.Keywords;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
 
 public class BreakParserHandler implements ParserHandler {
 

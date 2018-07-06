@@ -18,8 +18,12 @@ package org.panda_lang.panda.language.interpreter;
 
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.literal.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.sequence.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,7 +47,7 @@ public class PandaSyntax implements Syntax {
         this.separators = new ArrayList<>();
         this.operators = new ArrayList<>();
         this.sequences = new ArrayList<>();
-        this.specialCharacters = Characters.getSpecialCharacters();
+        this.specialCharacters = DefaultCharacters.getSpecialCharacters();
 
         this.initialize();
     }

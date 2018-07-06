@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token.defaults;
+package org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
-public class Operator extends EqualableToken {
+public class Keyword extends EqualableToken {
 
-    private final String operator;
+    private final String keyword;
 
-    public Operator(String operator) {
-        this.operator = operator;
+    public Keyword(String keyword) {
+        this.keyword = keyword;
     }
 
     @Override
     public String getTokenValue() {
-        return operator;
+        return keyword;
     }
 
     @Override
     public TokenType getType() {
-        return TokenType.OPERATOR;
+        return TokenType.KEYWORD;
     }
 
 }

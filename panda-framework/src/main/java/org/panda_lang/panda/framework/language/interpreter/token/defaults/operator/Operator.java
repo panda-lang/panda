@@ -14,17 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.defaults;
+package org.panda_lang.panda.framework.language.interpreter.token.defaults.operator;
 
-/**
- * Default set of the special characters
- */
-public class Characters {
+import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 
-    private static final char[] SPECIAL_CHARACTERS = "#&'()[]{}*+,-./:;<=>!|`^".toCharArray();
+public class Operator extends EqualableToken {
 
-    public static char[] getSpecialCharacters() {
-        return SPECIAL_CHARACTERS;
+    private final String operator;
+
+    public Operator(String operator) {
+        this.operator = operator;
+    }
+
+    @Override
+    public String getTokenValue() {
+        return operator;
+    }
+
+    @Override
+    public TokenType getType() {
+        return TokenType.OPERATOR;
     }
 
 }

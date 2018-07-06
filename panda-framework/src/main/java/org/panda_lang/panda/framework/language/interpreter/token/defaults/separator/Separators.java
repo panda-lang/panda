@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.token.defaults;
+package org.panda_lang.panda.framework.language.interpreter.token.defaults.separator;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
+import org.panda_lang.panda.framework.design.interpreter.token.*;
 
 /**
  * Default separators

@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
@@ -36,7 +37,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redacto
 import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
 import org.panda_lang.panda.language.interpreter.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.*;
 import org.reflections.*;
 import org.reflections.scanners.*;
 import org.reflections.util.*;

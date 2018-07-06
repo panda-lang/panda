@@ -16,7 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.lexer;
 
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.literal.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.sequence.*;
 
 import java.util.List;
 
