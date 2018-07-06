@@ -37,7 +37,7 @@ public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
 
     @Override
     public boolean hasNext() {
-        return index >= 0;
+        return index > 0;
     }
 
     @Override
