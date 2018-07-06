@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.defaults.Separator;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separator;
 
 import java.util.Stack;
 
