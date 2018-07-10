@@ -16,22 +16,24 @@
 
 package org.panda_lang.panda.design.architecture.prototype.parameter;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstanceUtils;
 
 import java.util.List;
 
 public class ParameterUtils {
 
 
-    public static void assignValues(Value[] variables, Value[] parameterValues) {
-        if (variables.length < parameterValues.length) {
+    public static void assignValues(AbstractScopeInstance<?> instance, Value[] parameterValues) {
+        if (instance.getAmountOfVariables() < parameterValues.length) {
             throw new RuntimeException("Incompatible number of parameters");
         }
 
-        System.arraycopy(parameterValues, 0, variables, 0, parameterValues.length);
+        System.arraycopy(parameterValues, 0, AbstractScopeInstanceUtils.extractMemory(instance), 0, parameterValues.length);
     }
 
     public static void addAll(List<Variable> variables, List<Parameter> parameters, int nestingLevel) {

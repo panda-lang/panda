@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.scope;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
@@ -52,7 +53,7 @@ public class ClassScope implements Scope {
             }
 
             Expression expression = field.getDefaultValue();
-            instance.getFieldValues()[field.getFieldIndex()] = expression.getExpressionValue(branch);
+            instance.set(field.getFieldIndex(), expression.getExpressionValue(branch));
         }
 
         return instance;
@@ -79,12 +80,12 @@ public class ClassScope implements Scope {
     }
 
     @Override
-    public List<Variable> getVariables() {
+    public @Nullable List<Variable> getVariables() {
         return null;
     }
 
     @Override
-    public List<StatementCell> getStatementCells() {
+    public @Nullable List<StatementCell> getStatementCells() {
         return null;
     }
 

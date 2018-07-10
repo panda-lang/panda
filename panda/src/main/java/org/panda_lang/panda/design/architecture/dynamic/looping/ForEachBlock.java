@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.design.architecture.dynamic.looping;
 
+import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -23,34 +25,32 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
 
 public class ForEachBlock extends PandaBlock implements ControlFlowCaller {
 
-    private final int variableId;
+    private final int variablePointer;
     private final ClassPrototype variableType;
     private final Expression expression;
 
-    public ForEachBlock(int variableId, ClassPrototype variableType, Expression expression) {
-        this.variableId = variableId;
+    public ForEachBlock(int variablePointer, ClassPrototype variableType, Expression expression) {
+        this.variablePointer = variablePointer;
         this.variableType = variableType;
         this.expression = expression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        branch.callFlow(getStatementCells(), this);
+        branch.callFlow(super.getStatementCells(), this);
     }
 
     @Override
     public void call(ExecutableBranch branch, ControlFlow flow) {
-        Value[] variables = branch.getCurrentScope().getVariables();
-
+        ScopeInstance currentScope = branch.getCurrentScope();
         Value iterableValue = expression.getExpressionValue(branch);
         Iterable iterable = iterableValue.getValue();
 
         for (Object value : iterable) {
-            variables[variableId] = new PandaValue(variableType, value);
+            currentScope.set(variablePointer, new PandaValue(variableType, value));
 
             flow.reset();
             flow.call();

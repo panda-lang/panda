@@ -27,18 +27,18 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 public class VariableAssigner extends ExecutableStatement {
 
     private final Variable variable;
-    private final int memoryIndex;
+    private final int internalPointer;
     private final Expression expression;
 
-    public VariableAssigner(Variable variable, int memoryIndex, Expression expression) {
+    public VariableAssigner(Variable variable, int internalPointer, Expression expression) {
         this.variable = variable;
-        this.memoryIndex = memoryIndex;
+        this.internalPointer = internalPointer;
         this.expression = expression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        if (memoryIndex == -1) {
+        if (internalPointer == -1) {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
 
@@ -53,16 +53,16 @@ public class VariableAssigner extends ExecutableStatement {
             throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nullable modifier");
         }
 
-        if (!variable.isMutable() && currentScope.getVariables()[memoryIndex] != null) {
+        if (!variable.isMutable() && currentScope.get(internalPointer) != null) {
             throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");
         }
 
-        currentScope.getVariables()[memoryIndex] = value;
+        currentScope.set(internalPointer, value);
     }
 
     @Override
     public String toString() {
-        return "'v_memory'[" + memoryIndex + "] << " + expression.toString();
+        return "'v_memory'[" + internalPointer + "] << " + expression.toString();
     }
 
 }

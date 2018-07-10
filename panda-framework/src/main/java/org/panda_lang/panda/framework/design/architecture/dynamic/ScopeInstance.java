@@ -16,15 +16,31 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 
 public interface ScopeInstance extends StandaloneExecutable {
 
     /**
-     * @return array of variables which index is equals to order of fields
+     * Put value in scope memory
+     *
+     * @param pointer index of the variable in current scope
+     * @param value new value
      */
-    Value[] getVariables();
+    void set(int pointer, @Nullable Value value);
+
+    /**
+     *
+     * @param pointer index of variable in current scope
+     * @return value
+     */
+    @Nullable Value get(int pointer);
+
+    /**
+     * @return array length
+     */
+    int getAmountOfVariables();
 
     /**
      * @return the proper scope

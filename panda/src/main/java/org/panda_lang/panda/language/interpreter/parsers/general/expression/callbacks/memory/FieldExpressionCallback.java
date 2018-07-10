@@ -28,12 +28,12 @@ public class FieldExpressionCallback implements ExpressionCallback {
 
     private final Expression instanceExpression;
     private final PrototypeField field;
-    private final int fieldIndex;
+    private final int internalPointer;
 
-    public FieldExpressionCallback(Expression instanceExpression, PrototypeField field, int fieldIndex) {
+    public FieldExpressionCallback(Expression instanceExpression, PrototypeField field, int internalPointer) {
         this.instanceExpression = instanceExpression;
         this.field = field;
-        this.fieldIndex = fieldIndex;
+        this.internalPointer = internalPointer;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class FieldExpressionCallback implements ExpressionCallback {
         }
 
         ClassScopeInstance pandaInstance = (ClassScopeInstance) instance.getObject();
-        Value value = pandaInstance.getFieldValues()[fieldIndex];
+        Value value = pandaInstance.get(internalPointer);
 
         if (value == null) {
             throw new PandaRuntimeException("Field '" + field.getName() + "' have not been initialized");

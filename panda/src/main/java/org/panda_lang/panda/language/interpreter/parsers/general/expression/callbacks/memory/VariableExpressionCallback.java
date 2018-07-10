@@ -24,16 +24,16 @@ import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallba
 
 public class VariableExpressionCallback implements ExpressionCallback {
 
-    private final int memoryIndex;
+    private final int internalPointer;
 
-    public VariableExpressionCallback(int memoryIndex) {
-        this.memoryIndex = memoryIndex;
+    public VariableExpressionCallback(int internalPointer) {
+        this.internalPointer = internalPointer;
     }
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
         ScopeInstance currentScope = branch.getCurrentScope();
-        return currentScope.getVariables()[memoryIndex];
+        return currentScope.get(internalPointer);
     }
 
 }

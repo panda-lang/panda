@@ -35,7 +35,7 @@ public class PandaMethodCallback implements MethodCallback<ClassScopeInstance> {
         branch.instance(instance != null ? instance.toValue() : null);
 
         MethodScopeInstance scopeInstance = scope.createInstance(branch);
-        ParameterUtils.assignValues(scopeInstance.getVariables(), parameters);
+        ParameterUtils.assignValues(scopeInstance, parameters);
 
         ExecutableBranch methodBranch = branch.call(scopeInstance);
         branch.setReturnValue(methodBranch.getReturnedValue());

@@ -17,25 +17,19 @@
 package org.panda_lang.panda.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
 
-public class MethodScopeInstance implements ScopeInstance {
-
-    private final MethodScope methodWrapper;
-    private final Value[] variables;
+public class MethodScopeInstance extends AbstractScopeInstance<MethodScope> {
 
     public MethodScopeInstance(MethodScope methodWrapper) {
-        this.methodWrapper = methodWrapper;
-        this.variables = new Value[methodWrapper.getVariables().size()];
+        super(methodWrapper);
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        for (StatementCell statementCell : methodWrapper.getStatementCells()) {
+        for (StatementCell statementCell : super.getScope().getStatementCells()) {
             if (!statementCell.isExecutable()) {
                 continue;
             }
@@ -43,16 +37,6 @@ public class MethodScopeInstance implements ScopeInstance {
             Executable executable = (Executable) statementCell.getStatement();
             branch.call(executable);
         }
-    }
-
-    @Override
-    public Value[] getVariables() {
-        return variables;
-    }
-
-    @Override
-    public Scope getScope() {
-        return methodWrapper;
     }
 
 }

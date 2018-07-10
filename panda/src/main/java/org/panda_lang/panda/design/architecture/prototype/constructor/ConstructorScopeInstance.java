@@ -17,25 +17,19 @@
 package org.panda_lang.panda.design.architecture.prototype.constructor;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
 
-public class ConstructorScopeInstance implements ScopeInstance {
-
-    private final ConstructorScope scope;
-    private final Value[] variables;
+public class ConstructorScopeInstance extends AbstractScopeInstance<ConstructorScope> {
 
     public ConstructorScopeInstance(ConstructorScope scope) {
-        this.scope = scope;
-        this.variables = new Value[scope.getVariables().size()];
+        super(scope);
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        for (StatementCell statementCell : scope.getStatementCells()) {
+        for (StatementCell statementCell : super.getScope().getStatementCells()) {
             if (!statementCell.isExecutable()) {
                 continue;
             }
@@ -43,16 +37,6 @@ public class ConstructorScopeInstance implements ScopeInstance {
             Executable executable = (Executable) statementCell.getStatement();
             branch.call(executable);
         }
-    }
-
-    @Override
-    public Value[] getVariables() {
-        return variables;
-    }
-
-    @Override
-    public Scope getScope() {
-        return scope;
     }
 
 }

@@ -16,45 +16,24 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.scope;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
-public class ClassScopeInstance implements ScopeInstance {
+public class ClassScopeInstance extends AbstractScopeInstance<ClassScope> {
 
-    private final ClassScope scope;
     private final ClassPrototype prototype;
-    private final Value[] fieldValues;
 
     public ClassScopeInstance(ClassScope scope, ClassPrototype classPrototype) {
-        this.scope = scope;
+        super(scope, classPrototype.getFields().size());
         this.prototype = classPrototype;
-        this.fieldValues = new Value[classPrototype.getFields().size()];
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
         throw new RuntimeException("Cannot execute instance");
-    }
-
-    public ClassPrototype getClassPrototype() {
-        return prototype;
-    }
-
-    public Value[] getFieldValues() {
-        return getVariables();
-    }
-
-    @Override
-    public Value[] getVariables() {
-        return fieldValues;
-    }
-
-    @Override
-    public ClassScope getScope() {
-        return scope;
     }
 
     public Value toValue() {

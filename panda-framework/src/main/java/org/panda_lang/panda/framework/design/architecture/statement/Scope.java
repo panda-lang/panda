@@ -47,7 +47,7 @@ public interface Scope extends Container {
     }
 
     /**
-     * @return list of variables in the proper order
+     * @return list of localMemory in the proper order
      */
     List<Variable> getVariables();
 

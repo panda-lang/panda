@@ -45,7 +45,7 @@ public class PandaConstructor implements PrototypeConstructor {
         Value instance = new PandaValue(classPrototype, classInstance);
 
         ConstructorScopeInstance constructorInstance = constructorScope.createInstance(branch);
-        ParameterUtils.assignValues(constructorInstance.getVariables(), values);
+        ParameterUtils.assignValues(constructorInstance, values);
 
         branch.instance(instance);
         branch.call(constructorInstance);

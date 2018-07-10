@@ -40,9 +40,9 @@ public class FieldAssigner extends ExecutableStatement {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        int memoryIndex = field.getFieldIndex();
+        int internalPointer = field.getFieldIndex();
 
-        if (memoryIndex == -1) {
+        if (internalPointer == -1) {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
 
@@ -80,11 +80,11 @@ public class FieldAssigner extends ExecutableStatement {
             throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nullable modifier");
         }
 
-        if (!field.isMutable() && pandaInstance.getVariables()[memoryIndex] != null) {
+        if (!field.isMutable() && pandaInstance.get(internalPointer) != null) {
             throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getName() + "'");
         }
 
-        pandaInstance.getFieldValues()[memoryIndex] = value;
+        pandaInstance.set(internalPointer, value);
     }
 
     @Override
