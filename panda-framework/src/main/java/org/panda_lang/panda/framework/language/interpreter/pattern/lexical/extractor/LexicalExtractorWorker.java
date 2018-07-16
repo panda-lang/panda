@@ -25,22 +25,13 @@ import java.util.*;
 
 public class LexicalExtractorWorker {
 
-    private Collection<LexicalExtractorWildcardValidator<?>> validators;
-    private Object validationResult;
-
-    public LexicalExtractorWorker(LexicalExtractor extractor) {
-        if (extractor.hasValidator()) {
-            LexicalExtractorValidator<?> validator = extractor.getValidator();
-            this.validationResult = validator.hasResult() ? validator.getResult() : null;
-        }
-    }
-
     protected LexicalExtractorResult extract(LexicalPatternElement pattern, String phrase) {
         if (pattern.isUnit()) {
             return new LexicalExtractorResult(phrase.equals(pattern.toUnit().getValue()));
         }
 
         if (pattern.isWildcard()) {
+            // TODO: Validate
             return new LexicalExtractorResult(true).addWildcard(phrase.trim());
         }
 

@@ -21,27 +21,14 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.*;
 public class LexicalExtractor {
 
     private final LexicalPattern pattern;
-    private LexicalExtractorValidator validator;
 
     public LexicalExtractor(LexicalPattern pattern) {
         this.pattern = pattern;
     }
 
     public LexicalExtractorResult extract(String phrase) {
-        LexicalExtractorWorker extractorWorker = new LexicalExtractorWorker(this);
+        LexicalExtractorWorker extractorWorker = new LexicalExtractorWorker();
         return extractorWorker.extract(pattern.getModel(), phrase);
-    }
-
-    public void setValidator(LexicalExtractorValidator validator) {
-        this.validator = validator;
-    }
-
-    public boolean hasValidator() {
-        return validator != null;
-    }
-
-    public LexicalExtractorValidator getValidator() {
-        return validator;
     }
 
 }
