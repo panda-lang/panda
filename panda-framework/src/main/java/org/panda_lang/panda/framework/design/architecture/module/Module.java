@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 import java.util.Collection;
@@ -24,7 +25,7 @@ public interface Module {
 
     ClassPrototype add(ClassPrototype prototype);
 
-    ClassPrototype get(String className);
+    @Nullable ClassPrototype get(String className);
 
     int getPrototypeCount();
 
