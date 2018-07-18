@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.expression;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.design.architecture.*;
 import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
@@ -53,7 +54,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         return parse(data, expressionSource, false);
     }
 
-    public Expression parse(ParserData data, TokenizedSource expressionSource, boolean silence) {
+    public @Nullable Expression parse(ParserData data, TokenizedSource expressionSource, boolean silence) {
         ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
 
         if (expressionSource.size() == 1) {

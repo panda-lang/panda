@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.number;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
@@ -28,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.*;
 public class NumberExpressionParser implements ParticularParser<Value> {
 
     @Override
-    public Value parse(ParserData data, TokenizedSource source) {
+    public @Nullable Value parse(ParserData data, TokenizedSource source) {
         if (!NumberUtils.isNumeric(source)) {
             return null;
         }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.util.embed;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.Panda;
 
 import javax.script.ScriptEngine;
@@ -33,7 +34,7 @@ public class PandaEngineFactory implements ScriptEngineFactory {
     }
 
     @Override
-    public Object getParameter(String s) {
+    public @Nullable Object getParameter(String s) {
         return null; // TODO
     }
 
@@ -58,12 +59,12 @@ public class PandaEngineFactory implements ScriptEngineFactory {
     }
 
     @Override
-    public String getOutputStatement(String s) {
+    public @Nullable String getOutputStatement(String s) {
         return null; // TODO
     }
 
     @Override
-    public String getProgram(String... strings) {
+    public @Nullable String getProgram(String... strings) {
         return null; // TODO
     }
 

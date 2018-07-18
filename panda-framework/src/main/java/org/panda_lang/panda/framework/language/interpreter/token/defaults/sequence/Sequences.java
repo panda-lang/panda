@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.defaults.sequence;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 
 /**
@@ -47,7 +48,7 @@ public class Sequences {
         return VALUES;
     }
 
-    public static Sequence valueOf(Token token) {
+    public static @Nullable Sequence valueOf(Token token) {
         if (token.getType() != TokenType.SEQUENCE) {
             return null;
         }

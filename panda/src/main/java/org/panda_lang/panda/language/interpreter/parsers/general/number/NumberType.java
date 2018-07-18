@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.number;
 
+import org.jetbrains.annotations.Nullable;
+
 public enum NumberType {
 
     BYTE('B'),
@@ -35,7 +37,7 @@ public enum NumberType {
         return letter;
     }
 
-    public static NumberType of(char c) {
+    public static @Nullable NumberType of(char c) {
         for (NumberType type : values()) {
             if (type.getLetter() == c || type.getLetter() == Character.toUpperCase(c)) {
                 return type;

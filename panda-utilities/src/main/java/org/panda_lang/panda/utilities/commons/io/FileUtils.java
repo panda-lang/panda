@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.io;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -93,7 +95,7 @@ public class FileUtils {
     /**
      * @return content of file divided by lines
      */
-    public static String[] getContentAsLines(File file) {
+    public static @Nullable String[] getContentAsLines(File file) {
         if (!file.exists()) {
             return new String[0];
         }

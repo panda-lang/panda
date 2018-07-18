@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.io;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.*;
 import java.net.URL;
 import java.net.URLConnection;
@@ -61,7 +63,7 @@ public class IOUtils {
         return toString(in, Charset.forName(encoding));
     }
 
-    public static String toString(InputStream in, Charset encoding) {
+    public static @Nullable String toString(InputStream in, Charset encoding) {
         try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream()) {
             byte[] buf = new byte[8192];
             int len;

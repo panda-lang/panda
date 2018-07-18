@@ -101,7 +101,7 @@ public class TextHollowSymbol implements Matcher {
             case OPTIONAL:
                 return segmentsBefore + "[ ]" + segmentsAfter;
             default:
-                return null;
+                return "<unknown type>";
         }
     }
 

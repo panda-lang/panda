@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
@@ -34,7 +35,7 @@ public class AbyssExtractor {
         this.gaps = new ArrayList<>();
     }
 
-    public List<TokenizedSource> extract(TokenReader tokenReader) {
+    public @Nullable List<TokenizedSource> extract(TokenReader tokenReader) {
         gaps.clear();
 
         AbyssPatternUnit[] units = pattern.getUnits();

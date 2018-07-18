@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.runtime.memory;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.math.BitwiseUtils;
 
 public interface Memory {
@@ -45,7 +46,7 @@ public interface Memory {
      * @param pointer type id and index of value as long
      * @return value
      */
-    default Object get(long pointer) {
+    default @Nullable Object get(long pointer) {
         MemorySegment segment = get(BitwiseUtils.extractLeft(pointer));
 
         if (segment == null) {

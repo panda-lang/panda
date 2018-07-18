@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
@@ -29,7 +30,7 @@ public class AbyssRedactorHollows {
         this.gaps = gaps;
     }
 
-    public Token getToken(int gapIndex, int tokenIndex) {
+    public @Nullable Token getToken(int gapIndex, int tokenIndex) {
         TokenizedSource gap = getGap(gapIndex);
 
         if (gap == null) {

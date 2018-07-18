@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.defaults.separator;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 
 /**
@@ -62,7 +63,7 @@ public class Separators {
         LEFT_PARENTHESIS_DELIMITER.setOpposite(RIGHT_PARENTHESIS_DELIMITER);
     }
 
-    public static Separator valueOf(Token token) {
+    public static @Nullable Separator valueOf(Token token) {
         for (Separator separator : values()) {
             if (separator.getTokenValue().equals(token.getTokenValue())) {
                 return separator;
@@ -72,7 +73,7 @@ public class Separators {
         return null;
     }
 
-    public static Separator valueOf(String str) {
+    public static @Nullable Separator valueOf(String str) {
         for (Separator separator : values()) {
             if (separator.getTokenValue().equals(str)) {
                 return separator;
