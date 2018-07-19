@@ -45,7 +45,7 @@ public class LexicalExtractorWorker<T> {
         String[] dynamics = this.matchUnits(phrase, elements);
 
         if (dynamics == null) {
-            return new LexicalExtractorResult<T>(false);
+            return new LexicalExtractorResult<>(false);
         }
 
         return this.matchDynamics(elements, dynamics);
@@ -149,7 +149,7 @@ public class LexicalExtractorWorker<T> {
     }
 
     private LexicalExtractorResult<T> matchDynamics(List<LexicalPatternElement> elements, String[] dynamics) {
-        LexicalExtractorResult<T> result = new LexicalExtractorResult<T>(true);
+        LexicalExtractorResult<T> result = new LexicalExtractorResult<>(true);
 
         for (int i = 0; i < elements.size(); i++) {
             LexicalPatternElement nodeElement = elements.get(i);
@@ -166,13 +166,13 @@ public class LexicalExtractorWorker<T> {
             dynamics[i] = null;
 
             if (nodeContent == null) {
-                return new LexicalExtractorResult<T>(false);
+                return new LexicalExtractorResult<>(false);
             }
 
             LexicalExtractorResult<T> nodeElementResult = this.extract(nodeElement, nodeContent);
 
             if (!nodeElementResult.isMatched()) {
-                return new LexicalExtractorResult<T>(false);
+                return new LexicalExtractorResult<>(false);
             }
 
             result.merge(nodeElementResult);
@@ -180,7 +180,7 @@ public class LexicalExtractorWorker<T> {
 
         for (String dynamicContent : dynamics) {
             if (!StringUtils.isEmpty(dynamicContent)) {
-                return new LexicalExtractorResult<T>(false);
+                return new LexicalExtractorResult<>(false);
             }
         }
 
@@ -200,7 +200,7 @@ public class LexicalExtractorWorker<T> {
             }
         }
 
-        return new LexicalExtractorResult<T>(false);
+        return new LexicalExtractorResult<>(false);
     }
 
 }
