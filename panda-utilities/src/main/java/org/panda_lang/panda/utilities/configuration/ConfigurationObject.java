@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.configuration;
 
+import org.jetbrains.annotations.Nullable;
+
 public class ConfigurationObject {
 
     private final ConfigurationType type;
@@ -34,10 +36,11 @@ public class ConfigurationObject {
         this.object = o;
     }
 
-    protected String getString() {
+    protected @Nullable String getString() {
         if (type == ConfigurationType.STRING) {
-            return (String) object;
+            return object.toString();
         }
+
         return null;
     }
 

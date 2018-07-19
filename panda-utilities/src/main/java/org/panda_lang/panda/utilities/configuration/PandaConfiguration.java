@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.configuration;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.io.FileUtils;
 
 import java.io.File;
@@ -46,7 +47,7 @@ public class PandaConfiguration {
         this.map = configurationParser.getMap();
     }
 
-    public ConfigurationFile save() {
+    public @Nullable ConfigurationFile save() {
         if (configuration == null) {
             return null;
         }
@@ -74,78 +75,81 @@ public class PandaConfiguration {
         return this.map.containsKey(path);
     }
 
-    public String getString(String path) {
+    public @Nullable String getString(String path) {
         Object co = map.get(path);
-        if (co != null) {
-            if (co instanceof String) {
-                return (String) co;
-            }
+
+        if (co instanceof String) {
+            return co.toString();
         }
+
         return null;
     }
 
     public boolean getBoolean(String path) {
         Object co = map.get(path);
-        if (co != null) {
-            if (co instanceof String) {
-                return Boolean.valueOf((String) co);
-            }
+
+        if (co instanceof String) {
+            return Boolean.valueOf((String) co);
         }
+
         return false;
     }
 
     public int getInt(String path) {
         Object co = map.get(path);
-        if (co != null) {
-            if (co instanceof String) {
-                return Integer.valueOf((String) co);
-            }
+
+        if (co instanceof String) {
+            return Integer.valueOf((String) co);
         }
+
         return 0;
     }
 
     public long getLong(String path) {
         Object co = map.get(path);
-        if (co != null) {
-            if (co instanceof String) {
-                return Long.valueOf((String) co);
-            }
+
+        if (co instanceof String) {
+            return Long.valueOf((String) co);
         }
+
         return 0;
     }
 
     public double getDouble(String path) {
         Object co = map.get(path);
-        if (co != null) {
-            if (co instanceof String) {
-                return Double.valueOf((String) co);
-            }
+
+        if (co instanceof String) {
+            return Double.valueOf((String) co);
         }
+
         return 0;
     }
 
     @SuppressWarnings("unchecked")
-    public List<String> getStringList(String path) {
+    public @Nullable List<String> getStringList(String path) {
         if (map.containsKey(path)) {
             Object co = map.get(path);
 
-            if (co != null && co instanceof List) {
+            if (co instanceof List) {
                 return (List<String>) co;
             }
 
             return new ArrayList<>();
         }
+
         return null;
     }
 
     public Collection<String> getSectionKeys(String path) {
         Collection<String> list = new ArrayList<>();
         path = path + ".";
+
         for (String key : map.keySet()) {
             if (key.startsWith(path)) {
                 list.add(key.substring(path.length()));
             }
         }
+
         return list;
     }
 
@@ -159,9 +163,7 @@ public class PandaConfiguration {
     }
 
     public Collection<String> getKeys() {
-        Collection<String> list = new ArrayList<>();
-        list.addAll(map.keySet());
-        return list;
+        return new ArrayList<>(map.keySet());
     }
 
     public Map<String, Object> getMap() {
