@@ -105,7 +105,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
             return 0;
         }
 
-        if (priorityTo == priority) {
+        if (Double.compare(priority, priorityTo) == 0) {
             priority = getPattern().length();
             priorityTo = pattern.getPattern().length();
         }

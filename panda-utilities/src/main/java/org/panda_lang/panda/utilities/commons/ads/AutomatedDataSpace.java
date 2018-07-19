@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.commons.ads;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.ads.collection.ADSCollection;
 import org.panda_lang.panda.utilities.commons.ads.database.ADSDatabase;
 
@@ -35,11 +36,11 @@ public class AutomatedDataSpace {
         return new AutomatedDataInterface(this);
     }
 
-    public ADSDatabase getDatabase(String databaseName) {
+    public @Nullable ADSDatabase getDatabase(String databaseName) {
         return this.databases.get(databaseName);
     }
 
-    public ADSCollection getCollection(String collectionName) {
+    public @Nullable ADSCollection getCollection(String collectionName) {
         return this.collections.get(collectionName);
     }
 

@@ -62,7 +62,7 @@ public class StatementParser implements UnifiedParser {
     }
 
     @LocalCallback
-    private class DeclarationParserCallback implements CasualParserGenerationCallback {
+    private static class DeclarationParserCallback implements CasualParserGenerationCallback {
 
         @Override
         public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {

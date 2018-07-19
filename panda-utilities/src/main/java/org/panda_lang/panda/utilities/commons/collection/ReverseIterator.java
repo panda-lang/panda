@@ -31,7 +31,7 @@ public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
     }
 
     @Override
-    public @NotNull Iterator<T> iterator() {
+    public Iterator<T> iterator() {
         return this;
     }
 

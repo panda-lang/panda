@@ -55,9 +55,7 @@ public class ApplicationParser implements Parser {
 
         Language elements = interpretation.getLanguage();
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
-
         CasualParserGeneration generation = new PandaCasualParserGeneration();
-        CommentAssistant commentAssistant = new CommentAssistant();
 
         ParserData baseData = new PandaParserData();
         baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);

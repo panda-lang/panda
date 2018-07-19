@@ -23,7 +23,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
 
 public class IOUtils {
 
@@ -31,13 +30,29 @@ public class IOUtils {
         return new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
     }
 
-    public static String convertStreamToString(InputStream is) {
-        try (Scanner s = new Scanner(is).useDelimiter("\\A")) {
-            return s.hasNext() ? s.next() : "";
+    public static @Nullable String convertStreamToString(InputStream inputStream) {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+
+        try {
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = inputStream.read(buffer)) != -1) {
+                result.write(buffer, 0, length);
+            }
+
+            return result.toString("UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(result);
+            close(inputStream);
         }
+
+        return null;
     }
 
-    public static String getURLContent(String s) {
+    public static @Nullable String getURLContent(String s) {
         String body = null;
         InputStream in = null;
 

@@ -36,8 +36,7 @@ public class BitwiseUtils {
      * Extract 2nd int from long
      */
     public static int extractRight(long l) {
-        int a = (int) (l >> 32);
-        return (int) l;
+        return (int) (l >> 32);
     }
 
     /**

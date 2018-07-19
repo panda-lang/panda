@@ -25,7 +25,6 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
     private final T[] array;
     private int index;
-    private boolean reversed;
 
     public ArrayDistributor(T[] array) {
         this.array = array;
@@ -50,7 +49,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     }
 
     @Override
-    public @NotNull Iterator<T> iterator() {
+    public Iterator<T> iterator() {
         return this;
     }
 
@@ -83,7 +82,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
             return array[++index];
         }
 
-        return null;
+        throw new NoSuchElementException();
     }
 
     public @Nullable T further() {

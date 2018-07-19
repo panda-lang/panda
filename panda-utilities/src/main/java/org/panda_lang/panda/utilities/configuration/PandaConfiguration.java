@@ -89,7 +89,7 @@ public class PandaConfiguration {
         Object co = map.get(path);
 
         if (co instanceof String) {
-            return Boolean.valueOf((String) co);
+            return Boolean.parseBoolean((String) co);
         }
 
         return false;
@@ -99,7 +99,7 @@ public class PandaConfiguration {
         Object co = map.get(path);
 
         if (co instanceof String) {
-            return Integer.valueOf((String) co);
+            return Integer.parseInt((String) co);
         }
 
         return 0;
@@ -109,7 +109,7 @@ public class PandaConfiguration {
         Object co = map.get(path);
 
         if (co instanceof String) {
-            return Long.valueOf((String) co);
+            return Long.parseLong((String) co);
         }
 
         return 0;
@@ -119,7 +119,7 @@ public class PandaConfiguration {
         Object co = map.get(path);
 
         if (co instanceof String) {
-            return Double.valueOf((String) co);
+            return Double.parseDouble((String) co);
         }
 
         return 0;
