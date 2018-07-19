@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype.constructor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -34,7 +35,7 @@ public class ConstructorUtils {
         return matchConstructor(prototype, expressionTypes);
     }
 
-    public static PrototypeConstructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
+    public static @Nullable PrototypeConstructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
         MATCHER:
         for (PrototypeConstructor constructor : prototype.getConstructors()) {
             ClassPrototype[] constructorTypes = constructor.getParameterTypes();

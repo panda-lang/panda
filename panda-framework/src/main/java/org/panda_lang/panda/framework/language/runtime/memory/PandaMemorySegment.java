@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.runtime.memory;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.runtime.memory.MemorySegment;
 
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class PandaMemorySegment implements MemorySegment {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T destroy(int pointer) {
+    public @Nullable <T> T destroy(int pointer) {
         if (instances.size() > pointer) {
             Object element = instances.remove(pointer);
             free.push(pointer);

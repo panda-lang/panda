@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.*;
@@ -38,7 +39,7 @@ public class PandaModuleRegistryAssistant {
         return count;
     }
 
-    public static ClassPrototype forClass(ModuleRegistry registry, Class<?> clazz) {
+    public static @Nullable ClassPrototype forClass(ModuleRegistry registry, Class<?> clazz) {
         String name = PackageUtils.toString(clazz.getPackage(), "") + ":" + clazz.getSimpleName();
         ClassPrototype prototype = forName(registry, name);
 
@@ -54,7 +55,7 @@ public class PandaModuleRegistryAssistant {
         return forName(registry, name);
     }
 
-    public static ClassPrototype forName(ModuleRegistry registry, String full) {
+    public static @Nullable ClassPrototype forName(ModuleRegistry registry, String full) {
         String[] reference = full.split(":");
 
         if (reference.length == 0 || reference.length > 2) {

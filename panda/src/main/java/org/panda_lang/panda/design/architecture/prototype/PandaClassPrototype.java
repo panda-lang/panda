@@ -17,6 +17,7 @@
 package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethods;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -100,7 +101,7 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public PrototypeField getField(String fieldName) {
+    public @Nullable PrototypeField getField(String fieldName) {
         for (PrototypeField field : fields) {
             if (!field.getName().equals(fieldName)) {
                 continue;
@@ -163,20 +164,15 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
+        // TODO: wtf
+        //noinspection Contract
         return o == null || super.equals(o);
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
-                .add("className", className)
-                .add("module", module)
-                .add("extended", extended)
-                .add("constructors", constructors)
-                .add("fields", fields)
-                .add("methods", methods)
-                .toString();
+        return "ClassPrototype::" + className;
     }
 
 }

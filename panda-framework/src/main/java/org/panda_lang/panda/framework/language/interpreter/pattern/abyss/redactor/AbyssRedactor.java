@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
@@ -44,7 +45,7 @@ public class AbyssRedactor {
         return this;
     }
 
-    public TokenizedSource get(String name) {
+    public @Nullable TokenizedSource get(String name) {
         Integer index = this.map.get(name);
 
         if (index == null) {

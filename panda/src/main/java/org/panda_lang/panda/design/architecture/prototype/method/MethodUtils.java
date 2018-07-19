@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.prototype.method;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 
@@ -23,7 +24,7 @@ import java.util.Collection;
 
 public class MethodUtils {
 
-    public static PrototypeMethod matchMethod(Collection<PrototypeMethod> methods, ClassPrototype... types) {
+    public static @Nullable PrototypeMethod matchMethod(Collection<PrototypeMethod> methods, ClassPrototype... types) {
         for (PrototypeMethod method : methods) {
             ClassPrototype[] methodTypes = method.getParameterTypes();
 

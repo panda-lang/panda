@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -63,7 +64,7 @@ public class PandaLexerTokenExtractor {
     }
 
     @SafeVarargs
-    protected final Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
+    protected final @Nullable Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
                 if (!tokenPreview.startsWith(token.getTokenValue())) {

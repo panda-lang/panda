@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.invoker;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.language.interpreter.parsers.overall.imports.ImportStatement;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class MethodInvokerUtils {
 
-    public static ClassPrototype find(List<ImportStatement> importStatements, String className) {
+    public static @Nullable ClassPrototype find(List<ImportStatement> importStatements, String className) {
         for (ImportStatement importStatement : importStatements) {
             Module module = importStatement.getImportedModule();
             ClassPrototype prototype = module.get(className);

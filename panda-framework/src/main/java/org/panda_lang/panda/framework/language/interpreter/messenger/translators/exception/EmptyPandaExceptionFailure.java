@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 
 public class EmptyPandaExceptionFailure extends InterpreterFailure {
 
@@ -26,7 +25,7 @@ public class EmptyPandaExceptionFailure extends InterpreterFailure {
     }
 
     @Override
-    public @Nullable String getDetails() {
+    public String getDetails() {
         return null;
     }
 

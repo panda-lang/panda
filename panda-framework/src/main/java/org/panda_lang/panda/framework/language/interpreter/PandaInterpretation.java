@@ -16,16 +16,21 @@
 
 package org.panda_lang.panda.framework.language.interpreter;
 
-import org.panda_lang.panda.framework.design.architecture.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.language.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.translators.*;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.Interpreter;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
+import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.language.Language;
+import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessenger;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultOutputListener;
+import org.panda_lang.panda.framework.language.interpreter.messenger.translators.InterpreterFailureTranslator;
+import org.panda_lang.panda.framework.language.interpreter.messenger.translators.PandaLexerFailureTranslator;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Supplier;
 
 public class PandaInterpretation implements Interpretation {
 
@@ -63,7 +68,7 @@ public class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public <T> T execute(Supplier<T> callback) {
+    public @Nullable <T> T execute(Supplier<T> callback) {
         try {
             return isHealthy() ? callback.get() : null;
         } catch (Exception exception) {

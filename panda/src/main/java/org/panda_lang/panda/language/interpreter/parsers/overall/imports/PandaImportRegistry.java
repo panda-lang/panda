@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.overall.imports;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -35,7 +36,7 @@ public class PandaImportRegistry implements ImportRegistry {
         this.importedModules.add(module);
     }
 
-    public ClassPrototype forClass(String className) {
+    public @Nullable ClassPrototype forClass(String className) {
         if (className == null || className.isEmpty()) {
             return null;
         }

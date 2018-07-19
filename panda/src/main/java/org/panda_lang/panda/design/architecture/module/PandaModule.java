@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
@@ -39,7 +40,7 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public ClassPrototype get(String className) {
+    public @Nullable ClassPrototype get(String className) {
         for (ClassPrototype prototype : prototypes) {
             if (prototype.isClassOf(className)) {
                 return prototype;

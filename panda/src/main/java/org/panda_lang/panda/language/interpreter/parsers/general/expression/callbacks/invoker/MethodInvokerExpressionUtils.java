@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.general.expression.callbacks.invoker;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -24,7 +25,7 @@ import java.util.List;
 
 public class MethodInvokerExpressionUtils {
 
-    public static MethodInvokerExpressionParser match(TokenizedSource source) {
+    public static @Nullable MethodInvokerExpressionParser match(TokenizedSource source) {
         List<TokenizedSource> methodMatches = MethodInvokerExpressionParser.PATTERN.match(source);
 
         if (methodMatches == null || methodMatches.size() == 0) {
@@ -50,7 +51,7 @@ public class MethodInvokerExpressionUtils {
             instanceSource = methodCallRedactor.get("instance");
             methodNameSource = methodCallRedactor.get("method-name");
         }
-        else if (methodCallSource.size() > 1) {
+        else if (methodCallSource == null || methodCallSource.size() > 1) {
             return null;
         }
 

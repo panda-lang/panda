@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.design.interpreter.parser.pipeline;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -64,7 +65,7 @@ public class PandaParserPipeline implements ParserPipeline {
         return handle(stream, representations);
     }
 
-    private UnifiedParser handle(SourceStream stream, Collection<ParserRepresentation> representations) {
+    private @Nullable UnifiedParser handle(SourceStream stream, Collection<ParserRepresentation> representations) {
         long currentTime = System.nanoTime();
 
         for (ParserRepresentation representation : representations) {

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
 
 import java.util.*;
@@ -68,7 +69,7 @@ public interface TokenizedSource {
         return index > -1 ? get(index) : null;
     }
 
-    default Token getToken(int id) {
+    default @Nullable Token getToken(int id) {
         TokenRepresentation tokenRepresentation = get(id);
 
         if (tokenRepresentation == null) {
@@ -78,7 +79,7 @@ public interface TokenizedSource {
         return tokenRepresentation.getToken();
     }
 
-    default TokenRepresentation get(int id) {
+    default @Nullable TokenRepresentation get(int id) {
         if (id >= size() || id < 0) {
             return null;
         }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 
@@ -38,7 +39,7 @@ public class VariableParserUtils {
         return scope.getVariables().indexOf(variable);
     }
 
-    public static Variable getVariable(Scope scope, String variableName) {
+    public static @Nullable Variable getVariable(Scope scope, String variableName) {
         for (Variable var : scope.getVariables()) {
             if (var.getName().equals(variableName)) {
                 return var;
