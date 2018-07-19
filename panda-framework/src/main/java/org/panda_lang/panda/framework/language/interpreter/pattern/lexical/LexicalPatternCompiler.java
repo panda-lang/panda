@@ -64,6 +64,9 @@ public class LexicalPatternCompiler {
             else if (currentChar == '(') {
                 element = this.compileVariant(contentReader.readCurrent());
             }
+            else if (currentChar == '<') {
+                element = new LexicalPatternWildcard(contentReader.readCurrent());
+            }
             else if (currentChar == '*') {
                 element = new LexicalPatternWildcard();
             }
