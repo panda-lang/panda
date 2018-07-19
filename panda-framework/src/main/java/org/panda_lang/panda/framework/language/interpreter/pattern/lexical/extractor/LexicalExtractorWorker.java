@@ -23,16 +23,16 @@ import org.panda_lang.panda.utilities.commons.objects.*;
 
 import java.util.*;
 
-public class LexicalExtractorWorker {
+public class LexicalExtractorWorker<T> {
 
-    protected LexicalExtractorResult extract(LexicalPatternElement pattern, String phrase) {
+    protected LexicalExtractorResult<T> extract(LexicalPatternElement pattern, String phrase) {
         if (pattern.isUnit()) {
-            return new LexicalExtractorResult(phrase.equals(pattern.toUnit().getValue()));
+            return new LexicalExtractorResult<>(phrase.equals(pattern.toUnit().getValue()));
         }
 
         if (pattern.isWildcard()) {
             // TODO: Validate
-            return new LexicalExtractorResult(true).addWildcard(phrase.trim());
+            return new LexicalExtractorResult<T>(true).addWildcard(phrase.trim());
         }
 
         LexicalPatternNode node = pattern.toNode();
@@ -45,7 +45,7 @@ public class LexicalExtractorWorker {
         String[] dynamics = this.matchUnits(phrase, elements);
 
         if (dynamics == null) {
-            return new LexicalExtractorResult(false);
+            return new LexicalExtractorResult<T>(false);
         }
 
         return this.matchDynamics(elements, dynamics);
@@ -121,7 +121,7 @@ public class LexicalExtractorWorker {
 
             if (unit.isOptional() && i + 1 < elements.size() && !StringUtils.isEmpty(before)) {
                 LexicalPatternElement nextElement = elements.get(i + 1);
-                LexicalExtractorResult result = this.extract(nextElement, before);
+                LexicalExtractorResult<T> result = this.extract(nextElement, before);
 
                 if (result.isMatched()) {
                     // TODO: Advanced research
@@ -148,8 +148,8 @@ public class LexicalExtractorWorker {
         return dynamics;
     }
 
-    private LexicalExtractorResult matchDynamics(List<LexicalPatternElement> elements, String[] dynamics) {
-        LexicalExtractorResult result = new LexicalExtractorResult(true);
+    private LexicalExtractorResult<T> matchDynamics(List<LexicalPatternElement> elements, String[] dynamics) {
+        LexicalExtractorResult<T> result = new LexicalExtractorResult<T>(true);
 
         for (int i = 0; i < elements.size(); i++) {
             LexicalPatternElement nodeElement = elements.get(i);
@@ -166,13 +166,13 @@ public class LexicalExtractorWorker {
             dynamics[i] = null;
 
             if (nodeContent == null) {
-                return new LexicalExtractorResult(false);
+                return new LexicalExtractorResult<T>(false);
             }
 
-            LexicalExtractorResult nodeElementResult = this.extract(nodeElement, nodeContent);
+            LexicalExtractorResult<T> nodeElementResult = this.extract(nodeElement, nodeContent);
 
             if (!nodeElementResult.isMatched()) {
-                return new LexicalExtractorResult(false);
+                return new LexicalExtractorResult<T>(false);
             }
 
             result.merge(nodeElementResult);
@@ -180,27 +180,27 @@ public class LexicalExtractorWorker {
 
         for (String dynamicContent : dynamics) {
             if (!StringUtils.isEmpty(dynamicContent)) {
-                return new LexicalExtractorResult(false);
+                return new LexicalExtractorResult<T>(false);
             }
         }
 
         return result;
     }
 
-    private LexicalExtractorResult matchVariant(LexicalPatternNode variantNode, String phrase) {
+    private LexicalExtractorResult<T> matchVariant(LexicalPatternNode variantNode, String phrase) {
         if (!variantNode.isVariant()) {
             throw new RuntimeException("The specified node is not marked as a variant node");
         }
 
         for (LexicalPatternElement variantElement : variantNode.getElements()) {
-            LexicalExtractorResult result = this.extract(variantElement, phrase);
+            LexicalExtractorResult<T> result = this.extract(variantElement, phrase);
 
             if (result.isMatched()) {
                 return result;
             }
         }
 
-        return new LexicalExtractorResult(false);
+        return new LexicalExtractorResult<T>(false);
     }
 
 }

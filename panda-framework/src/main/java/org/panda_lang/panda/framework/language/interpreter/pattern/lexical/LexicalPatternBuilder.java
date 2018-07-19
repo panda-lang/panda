@@ -1,12 +1,17 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.WildcardProcessor;
 
-public class LexicalPatternBuilder {
+import java.util.ArrayList;
+import java.util.Collection;
+
+public class LexicalPatternBuilder<T> {
 
     private LexicalPatternElement pattern;
+    private Collection<WildcardProcessor<T>> wildcardProcessors = new ArrayList<>();
 
-    public LexicalPatternBuilder compile(String pattern) {
+    public LexicalPatternBuilder<T> compile(String pattern) {
         LexicalPatternCompiler compiler = new LexicalPatternCompiler();
         LexicalPatternElement compiledPattern = compiler.compile(pattern);
 
@@ -18,8 +23,18 @@ public class LexicalPatternBuilder {
         return this;
     }
 
-    public LexicalPattern build() {
-        return new LexicalPattern(pattern);
+    public LexicalPatternBuilder<T> addWildcardProcessor(WildcardProcessor<T> wildcardProcessor) {
+        wildcardProcessors.add(wildcardProcessor);
+        return this;
+    }
+
+    public LexicalPatternBuilder<T> addWildcardProcessors(Collection<WildcardProcessor<T>> processors) {
+        wildcardProcessors.addAll(processors);
+        return this;
+    }
+
+    public LexicalPattern<T> build() {
+        return new LexicalPattern<>(pattern, wildcardProcessors);
     }
 
 }

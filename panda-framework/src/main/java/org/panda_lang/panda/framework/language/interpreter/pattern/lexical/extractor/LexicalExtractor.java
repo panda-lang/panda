@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extr
 
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.*;
 
-public class LexicalExtractor {
+public class LexicalExtractor<T> {
 
     private final LexicalPattern pattern;
 
@@ -26,8 +26,8 @@ public class LexicalExtractor {
         this.pattern = pattern;
     }
 
-    public LexicalExtractorResult extract(String phrase) {
-        LexicalExtractorWorker extractorWorker = new LexicalExtractorWorker();
+    public LexicalExtractorResult<T> extract(String phrase) {
+        LexicalExtractorWorker<T> extractorWorker = new LexicalExtractorWorker<>();
         return extractorWorker.extract(pattern.getModel(), phrase);
     }
 

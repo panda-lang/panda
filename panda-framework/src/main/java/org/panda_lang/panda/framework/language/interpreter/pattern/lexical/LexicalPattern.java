@@ -16,28 +16,38 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.WildcardProcessor;
 
-public class LexicalPattern {
+import java.util.Collection;
+
+public class LexicalPattern<T> {
 
     private final LexicalPatternElement pattern;
+    private final Collection<WildcardProcessor<T>> processors;
 
-    public LexicalPattern(LexicalPatternElement elements) {
+    public LexicalPattern(LexicalPatternElement elements, Collection<WildcardProcessor<T>> processors) {
         this.pattern = elements;
+        this.processors = processors;
     }
 
-    public LexicalExtractorResult extract(String phrase) {
-        LexicalExtractor extractor = new LexicalExtractor(this);
+    public LexicalExtractorResult<T> extract(String phrase) {
+        LexicalExtractor<T> extractor = new LexicalExtractor<>(this);
         return extractor.extract(phrase);
+    }
+
+    public Collection<WildcardProcessor<T>> getProcessors() {
+        return processors;
     }
 
     public LexicalPatternElement getModel() {
         return pattern;
     }
 
-    public static LexicalPatternBuilder builder() {
-        return new LexicalPatternBuilder();
+    public static <T> LexicalPatternBuilder<T> builder() {
+        return new LexicalPatternBuilder<>();
     }
 
 }

@@ -17,27 +17,30 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.ProcessedValue;
 
 import java.util.*;
 
-public class LexicalExtractorResult {
+public class LexicalExtractorResult<T> {
 
     private final boolean matched;
-    private final List<String> identifiers;
     private final List<String> wildcards;
+    private final List<String> identifiers;
+    private final List<ProcessedValue<T>> processedValues;
 
     public LexicalExtractorResult(boolean matched) {
         this.matched = matched;
         this.identifiers = matched ? new ArrayList<>() : null;
         this.wildcards = matched ? new ArrayList<>() : null;
+        this.processedValues = matched ? new ArrayList<>() : null;
     }
 
-    public LexicalExtractorResult addWildcard(String wildcardContent) {
+    public LexicalExtractorResult<T> addWildcard(String wildcardContent) {
         this.wildcards.add(wildcardContent);
         return this;
     }
 
-    public void merge(LexicalExtractorResult result) {
+    public void merge(LexicalExtractorResult<T> result) {
         if (!result.isMatched()) {
             throw new RuntimeException("Cannot merge unmatched result");
         }
@@ -46,16 +49,20 @@ public class LexicalExtractorResult {
         this.wildcards.addAll(result.wildcards);
     }
 
+    public boolean isMatched() {
+        return matched;
+    }
+
+    public List<ProcessedValue<T>> getProcessedValues() {
+        return processedValues;
+    }
+
     public @Nullable List<String> getIdentifiers() {
         return identifiers;
     }
 
     public @Nullable List<String> getWildcards() {
         return wildcards;
-    }
-
-    public boolean isMatched() {
-        return matched;
     }
 
 }
