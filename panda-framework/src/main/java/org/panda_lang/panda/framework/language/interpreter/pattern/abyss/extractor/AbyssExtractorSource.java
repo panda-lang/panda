@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extrac
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 class AbyssExtractorSource {
 
@@ -36,6 +37,11 @@ class AbyssExtractorSource {
 
         for (int i = 0; i < tokenizedSource.size(); i++) {
             TokenRepresentation representation = tokenizedSource.get(i);
+
+            if (representation == null) {
+                throw new PandaRuntimeException("Representation is null");
+            }
+
             Token token = representation.getToken();
 
             boolean levelUp = opposites.report(token);

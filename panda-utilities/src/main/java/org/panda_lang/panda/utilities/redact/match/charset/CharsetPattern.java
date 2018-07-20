@@ -19,6 +19,9 @@ package org.panda_lang.panda.utilities.redact.match.charset;
 import org.panda_lang.panda.utilities.commons.arrays.CharArrayDistributor;
 import org.panda_lang.panda.utilities.redact.match.Matcher;
 
+import java.security.InvalidParameterException;
+import java.util.Objects;
+
 public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
 
     private final String pattern;
@@ -32,7 +35,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
 
     public CharsetPattern(String pattern, char[] charset) {
         this(pattern);
-        this.charset = charset;
+        this.charset = charset.clone();
     }
 
     public CharsetPattern(String pattern) {
@@ -91,7 +94,11 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
     @Override
     public int compareTo(CharsetPattern pattern) {
         if (pattern == null) {
-            return 1;
+            throw new InvalidParameterException("Pattern is null");
+        }
+
+        if (Objects.equals(this, pattern)) {
+            return 0;
         }
 
         double priority = this.priority;
@@ -110,18 +117,11 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
             priorityTo = pattern.getPattern().length();
         }
 
-        if (priorityTo < priority) {
-            return 1;
-        }
-        else if (priorityTo > priority) {
-            return -1;
-        }
-
-        return 0;
+        return Double.compare(priority, priorityTo);
     }
 
     public void setCharset(char[] charset) {
-        this.charset = charset;
+        this.charset = charset.clone();
     }
 
     public void setPriority(double priority) {
@@ -133,7 +133,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
     }
 
     public char[] getCharset() {
-        return charset;
+        return charset.clone();
     }
 
     public double getPriority() {

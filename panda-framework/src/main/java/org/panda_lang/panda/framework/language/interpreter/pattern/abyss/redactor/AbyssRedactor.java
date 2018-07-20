@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -45,11 +45,11 @@ public class AbyssRedactor {
         return this;
     }
 
-    public @Nullable TokenizedSource get(String name) {
+    public TokenizedSource get(String name) {
         Integer index = this.map.get(name);
 
         if (index == null) {
-            return null;
+            throw new PandaRuntimeException("Hollow '" + name + "' does not exist");
         }
 
         return this.hollows.getGap(index);

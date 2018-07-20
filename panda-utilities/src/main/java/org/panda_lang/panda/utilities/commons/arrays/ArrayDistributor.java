@@ -27,7 +27,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     private int index;
 
     public ArrayDistributor(T[] array) {
-        this.array = array;
+        this.array = array.clone();
         this.index = -1;
     }
 

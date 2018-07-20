@@ -18,12 +18,18 @@ package org.panda_lang.panda.framework.language.interpreter.token;
 
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 
+import java.security.InvalidParameterException;
+
 public class PandaTokenRepresentation implements TokenRepresentation {
 
     private final Token token;
     private final int line;
 
     public PandaTokenRepresentation(Token token, int line) {
+        if (token == null) {
+            throw new InvalidParameterException("Token cannot be null");
+        }
+
         this.token = token;
         this.line = line;
     }

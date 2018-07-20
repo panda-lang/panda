@@ -56,15 +56,15 @@ public interface TokenizedSource {
         return getTokensRepresentations().size();
     }
 
-    default TokenRepresentation getFirst() {
+    default @Nullable TokenRepresentation getFirst() {
         return size() > 0 ? get(0) : null;
     }
 
-    default TokenRepresentation getLast() {
+    default @Nullable TokenRepresentation getLast() {
         return getLast(0);
     }
 
-    default TokenRepresentation getLast(int i) {
+    default @Nullable TokenRepresentation getLast(int i) {
         int index = size() - i - 1;
         return index > -1 ? get(index) : null;
     }
