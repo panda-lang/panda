@@ -266,7 +266,7 @@ public class StringUtils {
     public static String createIndentation(int spaces) {
         StringBuilder gapBuilder = new StringBuilder();
 
-        for (int i = 0; i < spaces; ++i) {
+        for (int i = 0; i < spaces; i++) {
             gapBuilder.append(" ");
         }
 

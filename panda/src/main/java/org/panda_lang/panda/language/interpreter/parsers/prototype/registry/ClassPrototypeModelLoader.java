@@ -95,7 +95,7 @@ public class ClassPrototypeModelLoader {
                 StringBuilder values = new StringBuilder();
                 int valuesCount = 0;
 
-                for (int i = 2; i < method.getParameters().length; ++i) {
+                for (int i = 2; i < method.getParameters().length; i++) {
                     values.append(",");
 
                     if (array && i == method.getParameterCount() - 1) {
@@ -105,7 +105,7 @@ public class ClassPrototypeModelLoader {
 
                     values.append("(").append(Value.class.getName()).append(")");
                     values.append("$3[").append(i - 2).append("]");
-                    ++valuesCount;
+                    valuesCount++;
                 }
 
                 String instanceType = method.getParameters()[1].getType().getName();
@@ -113,7 +113,7 @@ public class ClassPrototypeModelLoader {
 
                 if (array) {
                     bodyBuilder.append(String.format("%s[] values = new %s[$3.length - %d];", valueCtClass.getName(), valueCtClass.getName(), valuesCount));
-                    bodyBuilder.append("for (int i = 0; i < values.length; ++i) {");
+                    bodyBuilder.append("for (int i = 0; i < values.length; i++) {");
                     bodyBuilder.append(String.format("values[i] = $3[%d + i];", valuesCount));
                     bodyBuilder.append("}");
                 }

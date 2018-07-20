@@ -35,7 +35,7 @@ public class PandaParserRepresentation implements ParserRepresentation {
 
     @Override
     public void increaseUsages() {
-        ++usages;
+        usages++;
     }
 
     @Override

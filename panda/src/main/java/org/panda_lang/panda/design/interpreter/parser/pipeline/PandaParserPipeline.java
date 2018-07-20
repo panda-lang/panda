@@ -74,7 +74,7 @@ public class PandaParserPipeline implements ParserPipeline {
 
             if (parserHandler.handle(tokenReader)) {
                 representation.increaseUsages();
-                ++count;
+                count++;
 
                 handleTime += (System.nanoTime() - currentTime);
                 return representation.getParser();

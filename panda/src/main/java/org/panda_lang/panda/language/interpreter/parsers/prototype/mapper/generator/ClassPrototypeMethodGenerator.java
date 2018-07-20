@@ -52,6 +52,11 @@ public class ClassPrototypeMethodGenerator {
     public PrototypeMethod generate(ModuleRegistry registry) {
         ClassPrototype returnType = PandaModuleRegistryAssistant.forClass(registry, method.getReturnType());
         ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(registry, method.getParameterTypes());
+
+        if (returnType == null) {
+            throw new PandaRuntimeException("Cannot generate method for 'null' return type");
+        }
+
         boolean isVoid = returnType.getClassName().equals("void");
 
         // TODO: Generate bytecode
@@ -75,7 +80,7 @@ public class ClassPrototypeMethodGenerator {
                     }
 
                     varargs = Array.newInstance(rootLast, 0);
-                    ++amountOfArgs;
+                    amountOfArgs++;
                 }
 
                 Object[] args = new Object[amountOfArgs];

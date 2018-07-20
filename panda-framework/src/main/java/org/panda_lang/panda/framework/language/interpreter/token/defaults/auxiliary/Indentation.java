@@ -58,7 +58,7 @@ public class Indentation extends EqualableToken {
                 continue;
             }
 
-            ++size;
+            size++;
         }
 
         return new Indentation(size);

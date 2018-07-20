@@ -77,7 +77,7 @@ public class LexicalExtractorWorker<T> {
 
                 if (StringUtils.isEmpty(unit.getValue())) {
                     if (!unit.isOptional() && unit.getIsolationType().isAny()) {
-                        ++index;
+                        index++;
                     }
 
                     continue;

@@ -38,7 +38,7 @@ public class AbyssExtractorSourceUtils {
                 continue;
             }
 
-            ++i;
+            i++;
         }
 
         return i;

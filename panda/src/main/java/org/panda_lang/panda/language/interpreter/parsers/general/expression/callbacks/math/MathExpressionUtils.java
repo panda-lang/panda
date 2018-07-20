@@ -34,11 +34,11 @@ public class MathExpressionUtils {
 
         for (VagueElement element : result.getElements()) {
             if (element.isExpression()) {
-                ++expression;
+                expression++;
             }
 
             if (element.isOperator()) {
-                ++operators;
+                operators++;
             }
 
             if (operators > 0 && expression > 1) {

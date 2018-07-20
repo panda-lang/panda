@@ -99,7 +99,7 @@ public class DefaultFailureTemplateBuilder {
         String formattedContent = formatter.format(content);
         String[] lines = formattedContent.split(System.lineSeparator());
 
-        for (int i = 0; i < lines.length; ++i) {
+        for (int i = 0; i < lines.length; i++) {
             lines[i] = "[" + title + "] #!# " + lines[i];
         }
 

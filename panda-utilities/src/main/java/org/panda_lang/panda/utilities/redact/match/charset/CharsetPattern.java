@@ -20,6 +20,7 @@ import org.panda_lang.panda.utilities.commons.arrays.CharArrayDistributor;
 import org.panda_lang.panda.utilities.redact.match.Matcher;
 
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
@@ -56,6 +57,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
 
         while (distributor.hasNext() && i < string.length) {
             char current = distributor.current();
+
             if (current == string[i]) {
                 distributor.next();
                 i++;
@@ -65,6 +67,7 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
                     distributor.next();
                     distributor.next();
                 }
+
                 i++;
             }
             else {
@@ -91,14 +94,34 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         return current + 1 < array.length ? array[current + 1] : array[current];
     }
 
+    public void setCharset(char[] charset) {
+        this.charset = charset.clone();
+    }
+
+    public void setPriority(double priority) {
+        this.priority = priority;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public char[] getCharset() {
+        return charset.clone();
+    }
+
+    public double getPriority() {
+        return priority;
+    }
+
     @Override
     public int compareTo(CharsetPattern pattern) {
-        if (pattern == null) {
-            throw new InvalidParameterException("Pattern is null");
-        }
-
         if (Objects.equals(this, pattern)) {
             return 0;
+        }
+
+        if (pattern == null) {
+            throw new InvalidParameterException("Pattern is null");
         }
 
         double priority = this.priority;
@@ -120,24 +143,25 @@ public class CharsetPattern implements Matcher, Comparable<CharsetPattern> {
         return Double.compare(priority, priorityTo);
     }
 
-    public void setCharset(char[] charset) {
-        this.charset = charset.clone();
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(pattern, priority);
+        result = 31 * result + Arrays.hashCode(charset);
+        return result;
     }
 
-    public void setPriority(double priority) {
-        this.priority = priority;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public char[] getCharset() {
-        return charset.clone();
-    }
-
-    public double getPriority() {
-        return priority;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CharsetPattern that = (CharsetPattern) o;
+        return Double.compare(that.priority, priority) == 0 &&
+                Objects.equals(pattern, that.pattern) &&
+                Arrays.equals(charset, that.charset);
     }
 
     @Override
