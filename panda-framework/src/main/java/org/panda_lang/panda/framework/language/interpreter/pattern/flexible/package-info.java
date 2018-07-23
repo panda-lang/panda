@@ -14,22 +14,5 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
-
-public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
-
-    private final String details;
-
-    public LexicalPatternWildcard(String details) {
-        this.details = details;
-    }
-
-    public LexicalPatternWildcard() {
-        this(null);
-    }
-
-    public String getDetails() {
-        return details;
-    }
-
-}
+@Deprecated
+package org.panda_lang.panda.framework.language.interpreter.pattern.flexible;
