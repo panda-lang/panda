@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
@@ -24,6 +25,6 @@ public interface Interpreter {
     /**
      * Starts the process of interpretation
      */
-    Application interpret(SourceSet sources);
+    @Nullable Application interpret(SourceSet sources);
 
 }
