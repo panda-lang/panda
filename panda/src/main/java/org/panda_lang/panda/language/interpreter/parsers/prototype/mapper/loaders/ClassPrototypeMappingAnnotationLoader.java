@@ -16,19 +16,17 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.loaders;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.ClassPrototypeMappingManager;
 
 import java.util.Collection;
 
 public class ClassPrototypeMappingAnnotationLoader {
 
-    private final ClassPrototypeMappingManager mappingManager;
-
     public ClassPrototypeMappingAnnotationLoader(ClassPrototypeMappingManager mappingManager) {
-        this.mappingManager = mappingManager;
     }
 
-    public Collection<Class<?>> load() {
+    public @Nullable Collection<Class<?>> load() {
         return null;
     }
 

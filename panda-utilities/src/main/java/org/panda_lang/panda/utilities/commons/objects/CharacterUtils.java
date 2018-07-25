@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.commons.objects;
 
 public class CharacterUtils {
 
-    private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
+    private static final String ALPHABET = "bcdefghijklmnopqrstuvwxyz";
 
     public static final char[] LETTERS = mergeArrays(ALPHABET.toCharArray(), ALPHABET.toUpperCase().toCharArray());
     public static final char[] DIGITS = "0123456789".toCharArray();

@@ -16,10 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source.providers;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
+import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
 
@@ -38,28 +35,7 @@ public class FileSourceProvider implements SourceProvider {
     @Override
     public @NotNull Iterator<Source> iterator() {
         Iterator<File> iterator = Arrays.asList(files).iterator();
-
-        return new Iterator<Source>() {
-            @Override
-            public boolean hasNext() {
-                return iterator.hasNext();
-            }
-
-            @Override
-            public Source next() {
-                File next = iterator.next();
-
-                if (!next.exists()) {
-                    throw new PandaFrameworkException("File '" + next.getName() + "' doesn't exist.");
-                }
-
-                if (next.isDirectory()) {
-                    throw new PandaFrameworkException("File '" + next.getName() + "' ia a directory.");
-                }
-
-                return new PandaSource(PandaURLSource.fromFile(next));
-            }
-        };
+        return new FileToSourceIterator(iterator);
     }
 
 }

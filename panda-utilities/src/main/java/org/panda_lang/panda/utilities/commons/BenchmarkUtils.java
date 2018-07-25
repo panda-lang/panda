@@ -52,7 +52,7 @@ public class BenchmarkUtils {
         stringBuilder.append(mDif / av);
         stringBuilder.append(System.lineSeparator());
 
-        System.out.println(stringBuilder.toString());
+        System.out.println(stringBuilder);
     }
 
 }

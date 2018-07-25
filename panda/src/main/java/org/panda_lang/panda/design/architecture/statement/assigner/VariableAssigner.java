@@ -62,7 +62,7 @@ public class VariableAssigner extends ExecutableStatement {
 
     @Override
     public String toString() {
-        return "'v_memory'[" + internalPointer + "] << " + expression.toString();
+        return "'v_memory'[" + internalPointer + "] << " + expression;
     }
 
 }

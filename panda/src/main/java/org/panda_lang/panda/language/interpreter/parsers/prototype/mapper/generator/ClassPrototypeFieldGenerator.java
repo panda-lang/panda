@@ -30,12 +30,10 @@ import java.lang.reflect.*;
 
 public class ClassPrototypeFieldGenerator {
 
-    private final Class<?> type;
     private final ClassPrototype prototype;
     private final Field field;
 
     public ClassPrototypeFieldGenerator(Class<?> type, ClassPrototype prototype, Field field) {
-        this.type = type;
         this.prototype = prototype;
         this.field = field;
     }

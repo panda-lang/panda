@@ -57,9 +57,7 @@ public class PandaLoader {
         environment.initialize();
 
         PandaInterpreter interpreter = environment.getInterpreter();
-        PandaApplication application = interpreter.interpret(sourceSet);
-
-        return application;
+        return interpreter.interpret(sourceSet);
     }
 
 }

@@ -60,7 +60,7 @@ public class AbyssExtractorTest {
         List<TokenizedSource> gaps = extractor.extract(tokenReader);
 
         if (gaps == null) {
-            System.out.println("Cannot extract gaps for PATTERN '" + PATTERN.toString() + "' and source '" + SOURCE + "'");
+            System.out.println("Cannot extract gaps for PATTERN '" + PATTERN + "' and source '" + SOURCE + "'");
             return;
         }
 
@@ -68,7 +68,7 @@ public class AbyssExtractorTest {
             System.out.println("--- Gap:");
 
             for (TokenRepresentation tokenRepresentation : gap.getTokensRepresentations()) {
-                System.out.println("  : " + tokenRepresentation.toString());
+                System.out.println("  : " + tokenRepresentation);
             }
         }
 

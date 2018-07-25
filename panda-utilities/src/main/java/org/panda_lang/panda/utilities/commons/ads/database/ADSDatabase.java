@@ -26,6 +26,10 @@ public class ADSDatabase {
         this.repository = builder.repository;
     }
 
+    public ADSDatabaseRepository getRepository() {
+        return repository;
+    }
+
     public String getName() {
         return name;
     }

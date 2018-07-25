@@ -46,7 +46,7 @@ public class ExceptionTranslator implements MessengerMessageTranslator<Throwable
                     StringBuilder message = new StringBuilder();
 
                     for (StackTraceElement stackTraceElement : element.getStackTrace()) {
-                        message.append(stackTraceElement.toString());
+                        message.append(stackTraceElement);
                         message.append(System.lineSeparator());
                     }
 

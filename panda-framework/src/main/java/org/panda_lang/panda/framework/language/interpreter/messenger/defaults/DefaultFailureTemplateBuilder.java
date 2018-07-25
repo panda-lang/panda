@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 
-import org.fusesource.jansi.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
-import org.panda_lang.panda.utilities.commons.objects.*;
-import org.panda_lang.panda.utilities.redact.format.*;
+import org.fusesource.jansi.Ansi;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.redact.format.MessageFormatter;
 
 public class DefaultFailureTemplateBuilder {
 
@@ -47,7 +48,7 @@ public class DefaultFailureTemplateBuilder {
                     StringBuilder message = new StringBuilder();
 
                     for (StackTraceElement stackTraceElement : exception.getStackTrace()) {
-                        message.append(stackTraceElement.toString());
+                        message.append(stackTraceElement);
                         message.append(System.lineSeparator());
                     }
 
@@ -110,7 +111,7 @@ public class DefaultFailureTemplateBuilder {
         return content;
     }
 
-    public static String indentation(String message) {
+    public static @Nullable String indentation(String message) {
         return message == null ? null : message.replace(System.lineSeparator(), System.lineSeparator() + "  ");
     }
 

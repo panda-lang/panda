@@ -98,10 +98,10 @@ public class StringUtils {
             return str;
         }
 
-        int firstCodepoint = str.codePointAt(0);
-        int newCodePoint = Character.toTitleCase(firstCodepoint);
+        int firstCodePoint = str.codePointAt(0);
+        int newCodePoint = Character.toTitleCase(firstCodePoint);
 
-        if (firstCodepoint == newCodePoint) {
+        if (firstCodePoint == newCodePoint) {
             return str;
         }
 
@@ -109,10 +109,10 @@ public class StringUtils {
         int outOffset = 0;
         newCodePoints[outOffset++] = newCodePoint;
 
-        for (int inOffset = Character.charCount(firstCodepoint); inOffset < strLen;) {
-            int codepoint = str.codePointAt(inOffset);
-            newCodePoints[outOffset++] = codepoint;
-            inOffset += Character.charCount(codepoint);
+        for (int inOffset = Character.charCount(firstCodePoint); inOffset < strLen;) {
+            int codePoint = str.codePointAt(inOffset);
+            newCodePoints[outOffset++] = codePoint;
+            inOffset += Character.charCount(codePoint);
         }
 
         return new String(newCodePoints, 0, outOffset);

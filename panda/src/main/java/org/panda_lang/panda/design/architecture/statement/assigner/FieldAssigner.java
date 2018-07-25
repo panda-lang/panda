@@ -89,7 +89,7 @@ public class FieldAssigner extends ExecutableStatement {
 
     @Override
     public String toString() {
-        return instanceExpression.getReturnType().getClassName() + "@f_memory[" + field.getFieldIndex() + "] << " + valueExpression.toString();
+        return instanceExpression.getReturnType().getClassName() + "@f_memory[" + field.getFieldIndex() + "] << " + valueExpression;
     }
 
 }

@@ -59,6 +59,11 @@ public class ExpressionParser implements ParticularParser<Expression> {
 
         if (expressionSource.size() == 1) {
             Token token = expressionSource.getToken(0);
+
+            if (token == null) {
+                throw new PandaParserException("Internal error, token is null");
+            }
+
             String value = token.getTokenValue();
 
             if (token.getType() == TokenType.LITERAL) {
@@ -188,7 +193,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         }
 
         if (!silence) {
-            throw new PandaParserException("Cannot recognize expression: " + expressionSource.toString());
+            throw new PandaParserException("Cannot recognize expression: " + expressionSource);
         }
 
         return null;

@@ -72,7 +72,11 @@ public class ClassPrototypeParser implements UnifiedParser {
             delegatedData.setComponent(PandaComponents.REDACTOR, redactor);
 
             TokenizedSource classDeclaration = redactor.get("class-declaration");
-            String className = classDeclaration.getToken(0).getTokenValue();
+            String className = classDeclaration.getTokenValue(0);
+
+            if (className == null) {
+                throw new PandaParserException("Class name cannot be null");
+            }
 
             ClassPrototype classPrototype = new PandaClassPrototype(module, className, Object.class);
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
@@ -160,19 +164,17 @@ public class ClassPrototypeParser implements UnifiedParser {
             }
 
             for (PrototypeField field : prototype.getFields()) {
+                // TODO: Do sth
                 if (!field.hasDefaultValue()) {
-                    // TODO: Do sth
+
                 }
             }
 
             PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
                 @Override
                 public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
-                    ClassScopeInstance instance = scope.createInstance(branch);
-
                     // TODO: assign def values
-
-                    return instance;
+                    return scope.createInstance(branch);
                 }
 
                 @Override

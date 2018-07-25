@@ -51,4 +51,8 @@ public class PandaScriptScopeLinker implements ScopeLinker {
         return scopeStack.size();
     }
 
+    public Script getScript() {
+        return script;
+    }
+
 }

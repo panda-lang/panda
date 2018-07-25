@@ -69,6 +69,16 @@ public interface TokenizedSource {
         return index > -1 ? get(index) : null;
     }
 
+    default @Nullable String getTokenValue(int id) {
+        Token token = getToken(id);
+
+        if (token == null) {
+            return null;
+        }
+
+        return token.getTokenValue();
+    }
+
     default @Nullable Token getToken(int id) {
         TokenRepresentation tokenRepresentation = get(id);
 

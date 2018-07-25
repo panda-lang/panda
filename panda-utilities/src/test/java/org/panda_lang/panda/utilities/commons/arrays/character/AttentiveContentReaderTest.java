@@ -20,8 +20,6 @@ import org.junit.jupiter.api.*;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 public class AttentiveContentReaderTest {
 
     private static final String CONTENT = "Test|Bracket(|)|String\"|\"|Test";

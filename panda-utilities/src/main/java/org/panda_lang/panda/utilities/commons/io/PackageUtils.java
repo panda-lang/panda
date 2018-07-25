@@ -16,13 +16,15 @@
 
 package org.panda_lang.panda.utilities.commons.io;
 
+import org.jetbrains.annotations.Nullable;
+
 public class PackageUtils {
 
     public static String toString(Package pckg, String defaultValue) {
         return pckg != null ? pckg.getName() : defaultValue;
     }
 
-    public static String toString(Package pckg) {
+    public static @Nullable String toString(Package pckg) {
         return pckg != null ? pckg.getName() : null;
     }
 

@@ -72,7 +72,7 @@ public class FlexibleTree {
                         }
 
                         terminal {
-                            retuen id:1
+                            return id:1
                         }
                     }
                 }

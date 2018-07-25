@@ -43,24 +43,27 @@ public class ConfigurationParser {
             if (line == null || line.isEmpty()) {
                 continue;
             }
+
             String rx = line.replaceAll("\\s", "");
-            if (rx.equals("")) {
+
+            if ("".equals(rx)) {
                 continue;
             }
+
             if (rx.startsWith("#")) {
                 continue;
             }
 
-            int charpos = 0;
+            int charPos = 0;
             chars.setLength(0);
             int whitespace = 0;
             boolean separator = false;
             boolean apostrophe = false;
-            boolean abeen = false;
+            boolean aBeen = false;
             boolean skip = false;
 
             for (char c : line.toCharArray()) {
-                charpos++;
+                charPos++;
                 switch (c) {
                     case ' ':
                         if (!apostrophe && chars.length() == 0) {
@@ -74,16 +77,16 @@ public class ConfigurationParser {
                     case '\'':
                         if (chars.length() == 0) {
                             if (apostrophe) {
-                                abeen = true;
+                                aBeen = true;
                                 skip = true;
                                 break;
                             }
                             apostrophe = true;
                             continue;
                         }
-                        if (line.length() == charpos) {
+                        if (line.length() == charPos) {
                             apostrophe = false;
-                            abeen = true;
+                            aBeen = true;
                             continue;
                         }
                         chars.append(c);
@@ -173,7 +176,7 @@ public class ConfigurationParser {
                 continue;
             }
 
-            if (!abeen && string.isEmpty()) {
+            if (!aBeen && string.isEmpty()) {
                 char c = operators.pop();
                 switch (c) {
                     case ']':

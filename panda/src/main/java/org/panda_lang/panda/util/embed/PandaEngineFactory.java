@@ -25,11 +25,9 @@ import java.util.List;
 
 public class PandaEngineFactory implements ScriptEngineFactory {
 
-    private final Panda panda;
     private final PandaEngine pandaEngine;
 
     public PandaEngineFactory(Panda panda) {
-        this.panda = panda;
         this.pandaEngine = new PandaEngine(panda, this);
     }
 

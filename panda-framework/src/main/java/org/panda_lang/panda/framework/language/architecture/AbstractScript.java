@@ -74,7 +74,7 @@ public abstract class AbstractScript implements Script {
         for (Statement statement : statements) {
             node.append(System.lineSeparator());
             node.append("  ");
-            node.append(statement.toString());
+            node.append(statement);
             node.append(",");
         }
 

@@ -35,7 +35,6 @@ import java.security.InvalidParameterException;
 
 public class ClassPrototypeMethodGenerator {
 
-    private final Class<?> type;
     private final ClassPrototype prototype;
     private final Method method;
 
@@ -44,7 +43,6 @@ public class ClassPrototypeMethodGenerator {
             throw new InvalidParameterException("Method cannot be null");
         }
 
-        this.type = type;
         this.prototype = prototype;
         this.method = method;
     }

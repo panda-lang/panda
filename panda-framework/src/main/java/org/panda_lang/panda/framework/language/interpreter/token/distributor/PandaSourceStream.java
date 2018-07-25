@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 
 import java.util.*;
 
@@ -111,7 +110,7 @@ public class PandaSourceStream implements SourceStream {
 
     @Override
     public String toString() {
-        return "PandaSourceStream['" + this.source.toString() + "']";
+        return "PandaSourceStream['" + this.source + "']";
     }
 
 }

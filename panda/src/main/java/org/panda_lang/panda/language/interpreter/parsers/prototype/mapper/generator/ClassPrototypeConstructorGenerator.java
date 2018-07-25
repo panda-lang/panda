@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.mapper.generator;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
@@ -27,13 +28,9 @@ import java.lang.reflect.*;
 
 public class ClassPrototypeConstructorGenerator {
 
-    private final Class<?> type;
-    private final ClassPrototype prototype;
     private final Constructor<?> constructor;
 
     public ClassPrototypeConstructorGenerator(Class<?> type, ClassPrototype prototype, Constructor<?> constructor) {
-        this.type = type;
-        this.prototype = prototype;
         this.constructor = constructor;
     }
 
@@ -45,9 +42,10 @@ public class ClassPrototypeConstructorGenerator {
         }
 
         // TODO: Generate bytecode
-        PrototypeConstructor generatedConstructor = new PrototypeConstructor() {
+
+        return new PrototypeConstructor() {
             @Override
-            public Object createInstance(ExecutableBranch bridge, Value... values) {
+            public @Nullable Object createInstance(ExecutableBranch bridge, Value... values) {
                 try {
                     Object[] args = new Object[values.length];
 
@@ -68,8 +66,6 @@ public class ClassPrototypeConstructorGenerator {
                 return parameters;
             }
         };
-
-        return generatedConstructor;
     }
 
 }

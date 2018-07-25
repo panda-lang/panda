@@ -32,7 +32,7 @@ public class StringUtilsTest {
 
     @Test
     public void testReplace() {
-        Assertions.assertEquals("Test", StringUtils.replace("TESTS", "ESTS", "est"));
+        Assertions.assertEquals("Test", StringUtils.replace("Tests x", "s x", ""));
     }
 
     @Test

@@ -64,7 +64,7 @@ public class ForEachParser implements UnifiedParser {
         Expression expression = expressionParser.parse(data, iterableSource);
 
         if (expression == null) {
-            throw new PandaParserException("Cannot parse expression: " + iterableSource.toString());
+            throw new PandaParserException("Cannot parse expression: " + iterableSource);
         }
 
         ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);

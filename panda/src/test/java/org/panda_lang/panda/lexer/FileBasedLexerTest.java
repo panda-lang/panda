@@ -51,7 +51,7 @@ public class FileBasedLexerTest {
         for (TokenRepresentation tokenRepresentation : tokenReader) {
             Token token = tokenRepresentation.getToken();
 
-            System.out.println((tokenRepresentation.getLine() + 1) + "[" + tokenReader.iterator().getIndex() + "]" + ": " + token.getType().toString() + ": " + token.getTokenValue());
+            System.out.println((tokenRepresentation.getLine() + 1) + "[" + tokenReader.iterator().getIndex() + "]" + ": " + token.getType() + ": " + token.getTokenValue());
         }
     }
 
