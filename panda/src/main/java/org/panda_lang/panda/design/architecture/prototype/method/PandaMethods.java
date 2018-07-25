@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.design.architecture.prototype.method;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.design.architecture.prototype.method.MethodUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 
@@ -28,11 +28,9 @@ import java.util.Map;
 
 public class PandaMethods implements PrototypeMethods {
 
-    private final ClassPrototype prototype;
     private final Map<String, Collection<PrototypeMethod>> methodsMap;
 
-    public PandaMethods(ClassPrototype prototype) {
-        this.prototype = prototype;
+    public PandaMethods() {
         this.methodsMap = new HashMap<>();
     }
 
@@ -43,7 +41,7 @@ public class PandaMethods implements PrototypeMethods {
     }
 
     @Override
-    public PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes) {
+    public @Nullable PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes) {
         Collection<PrototypeMethod> methods = methodsMap.get(name);
 
         if (methods == null) {
@@ -55,7 +53,7 @@ public class PandaMethods implements PrototypeMethods {
 
     @Override
     public String toString() {
-        return prototype.getName() + "::PrototypeMethods[" + methodsMap.size() + "]";
+        return "PrototypeMethods[" + methodsMap.size() + "]";
     }
 
 }

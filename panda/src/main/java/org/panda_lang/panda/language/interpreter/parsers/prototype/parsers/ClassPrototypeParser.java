@@ -163,7 +163,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 return;
             }
 
-            for (PrototypeField field : prototype.getFields()) {
+            for (PrototypeField field : prototype.getFields().getListOfFields()) {
                 // TODO: Do sth
                 if (!field.hasDefaultValue()) {
 

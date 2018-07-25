@@ -18,11 +18,13 @@ package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.design.architecture.prototype.field.PandaFields;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethods;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -31,7 +33,6 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaStaticVal
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 public class PandaClassPrototype implements ClassPrototype {
 
@@ -41,7 +42,7 @@ public class PandaClassPrototype implements ClassPrototype {
     private final Collection<String> aliases;
     private final Collection<ClassPrototype> extended;
     private final Collection<PrototypeConstructor> constructors;
-    private final List<PrototypeField> fields;
+    private final PrototypeFields fields;
     private final PrototypeMethods methods;
     private boolean initialized;
 
@@ -52,8 +53,8 @@ public class PandaClassPrototype implements ClassPrototype {
         this.aliases = Arrays.asList(aliases);
         this.extended = new ArrayList<>(1);
         this.constructors = new ArrayList<>(1);
-        this.fields = new ArrayList<>();
-        this.methods = new PandaMethods(this);
+        this.fields = new PandaFields();
+        this.methods = new PandaMethods();
         this.initialized = false;
     }
 
@@ -68,7 +69,7 @@ public class PandaClassPrototype implements ClassPrototype {
 
         this.initialized = true;
 
-        for (PrototypeField field : this.getFields()) {
+        for (PrototypeField field : fields.getListOfFields()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {
                 continue;
             }
@@ -101,25 +102,12 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public @Nullable PrototypeField getField(String fieldName) {
-        for (PrototypeField field : fields) {
-            if (!field.getName().equals(fieldName)) {
-                continue;
-            }
-
-            return field;
-        }
-
-        return null;
-    }
-
-    @Override
     public PrototypeMethods getMethods() {
         return methods;
     }
 
     @Override
-    public List<PrototypeField> getFields() {
+    public PrototypeFields getFields() {
         return fields;
     }
 

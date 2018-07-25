@@ -41,7 +41,7 @@ public class ClassPrototypeFieldGenerator {
     public PrototypeField generate(ModuleRegistry registry) {
         ClassPrototype returnType = PandaModuleRegistryAssistant.forClass(registry, field.getType());
         PrototypeField prototypeField = PandaPrototypeField.builder()
-                .fieldIndex(prototype.getFields().size())
+                .fieldIndex(prototype.getFields().getAmountOfFields())
                 .type(returnType)
                 .name(field.getName())
                 .visibility(FieldVisibility.PUBLIC)

@@ -27,7 +27,7 @@ public class ClassScopeInstance extends AbstractScopeInstance<ClassScope> {
     private final ClassPrototype prototype;
 
     public ClassScopeInstance(ClassScope scope, ClassPrototype classPrototype) {
-        super(scope, classPrototype.getFields().size());
+        super(scope, classPrototype.getFields().getAmountOfFields());
         this.prototype = classPrototype;
     }
 

@@ -160,7 +160,7 @@ public class FieldParser implements UnifiedParser {
                 }
             }
 
-            int fieldIndex = prototype.getFields().size();
+            int fieldIndex = prototype.getFields().getAmountOfFields();
 
             if (visibility == null) {
                 visibility = FieldVisibility.LOCAL;
@@ -176,9 +176,9 @@ public class FieldParser implements UnifiedParser {
                     .nullable(nullable)
                     .build();
 
-            prototype.getFields().add(field);
+            prototype.getFields().addField(field);
 
-            // int fieldIndex = prototype.getFields().indexOf(field);
+            // int fieldIndex = prototype.getListOfFields().indexOf(field);
             // FieldStatement statement = new FieldStatement(fieldIndex, field);
 
             // ScopeLinker linker = delegatedInfo.getComponent(Components.SCOPE_LINKER);

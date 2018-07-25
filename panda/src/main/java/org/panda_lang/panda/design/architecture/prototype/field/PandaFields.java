@@ -23,11 +23,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaPrototypeFields implements PrototypeFields {
+public class PandaFields implements PrototypeFields {
 
     private final List<PrototypeField> fields;
 
-    public PandaPrototypeFields() {
+    public PandaFields() {
         this.fields = new ArrayList<>();
     }
 
@@ -70,7 +70,7 @@ public class PandaPrototypeFields implements PrototypeFields {
     }
 
     @Override
-    public List<? extends PrototypeField> getFields() {
+    public List<? extends PrototypeField> getListOfFields() {
         return fields;
     }
 

@@ -87,7 +87,7 @@ public class VarParser {
 
             if (instanceExpression != null) {
                 ClassPrototype prototype = instanceExpression.getReturnType();
-                PrototypeField field = prototype.getField(left.getLast().getTokenValue());
+                PrototypeField field = prototype.getFields().getField(left.getLast().getTokenValue());
 
                 if (field != null) {
                     return new VarParserResult(instanceExpression, field, false, scope, false);
@@ -125,7 +125,7 @@ public class VarParser {
                 }
 
                 Expression instanceExpression = new PandaExpression(prototype, new ThisExpressionCallback());
-                PrototypeField field = prototype.getField(left.getLast().getTokenValue());
+                PrototypeField field = prototype.getFields().getField(left.getLast().getTokenValue());
 
                 return new VarParserResult(instanceExpression, field, false, scope, false);
             }
@@ -162,7 +162,7 @@ public class VarParser {
             String fieldName = result.getVariable().getName();
 
             ClassPrototype type = instanceExpression.getReturnType();
-            PrototypeField field = type.getField(fieldName);
+            PrototypeField field = type.getFields().getField(fieldName);
 
             if (field == null) {
                 throw new PandaParserException("Field '" + fieldName + "' does not belong to " + type.getClassName());

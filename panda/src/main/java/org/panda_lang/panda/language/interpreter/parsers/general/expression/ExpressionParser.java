@@ -110,10 +110,10 @@ public class ExpressionParser implements ParticularParser<Expression> {
             ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
-                PrototypeField field = prototype.getField(value);
+                PrototypeField field = prototype.getFields().getField(value);
 
                 if (field != null) {
-                    int memoryIndex = prototype.getFields().indexOf(field);
+                    int memoryIndex = prototype.getFields().getIndexOfField(field);
                     return new PandaExpression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
                 }
             }
@@ -169,13 +169,13 @@ public class ExpressionParser implements ParticularParser<Expression> {
             }
 
             String instanceFieldName = fieldMatches.get(1).asString();
-            PrototypeField instanceField = instanceType.getField(instanceFieldName);
+            PrototypeField instanceField = instanceType.getFields().getField(instanceFieldName);
 
             if (instanceField == null) {
                 throw new PandaParserException("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName + " at " + TokenUtils.getLine(expressionSource));
             }
 
-            int memoryIndex = instanceType.getFields().indexOf(instanceField);
+            int memoryIndex = instanceType.getFields().getIndexOfField(instanceField);
             return new PandaExpression(instanceField.getType(), new FieldExpressionCallback(fieldLocationExpression, instanceField, memoryIndex));
         }
 

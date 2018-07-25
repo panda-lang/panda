@@ -47,7 +47,7 @@ public class ClassScope implements Scope {
 
         ClassScopeInstance instance = new ClassScopeInstance(this, prototype);
 
-        for (PrototypeField field : prototype.getFields()) {
+        for (PrototypeField field : prototype.getFields().getListOfFields()) {
             if (!field.hasDefaultValue() || field.isStatic()) {
                 continue;
             }

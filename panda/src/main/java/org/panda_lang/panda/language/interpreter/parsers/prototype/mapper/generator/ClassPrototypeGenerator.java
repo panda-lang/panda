@@ -54,7 +54,7 @@ public class ClassPrototypeGenerator {
         for (Field field : type.getFields()) {
             ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(type, prototype, field);
             PrototypeField prototypeField = generator.generate(registry);
-            prototype.getFields().add(prototypeField);
+            prototype.getFields().addField(prototypeField);
         }
 
         for (Constructor<?> constructor : type.getConstructors()) {

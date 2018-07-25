@@ -116,7 +116,7 @@ public class MethodInvokerParser implements UnifiedParser {
             PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
             if (prototypeMethod == null) {
-                PrototypeField field = prototype.getField(methodName);
+                PrototypeField field = prototype.getFields().getField(methodName);
 
                 if (field == null) {
                     throw new PandaParserException("Method " + methodName + " not found in class " + prototype.getClassName() + " at line " + TokenUtils.getLine(instanceSource));

@@ -16,13 +16,12 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 
 import java.util.Collection;
-import java.util.List;
 
 public interface ClassPrototype {
 
@@ -30,11 +29,9 @@ public interface ClassPrototype {
 
     boolean isAssociatedWith(ClassPrototype prototype);
 
-    PrototypeField getField(String fieldName);
-
     PrototypeMethods getMethods();
 
-    List<PrototypeField> getFields();
+    PrototypeFields getFields();
 
     Collection<PrototypeConstructor> getConstructors();
 

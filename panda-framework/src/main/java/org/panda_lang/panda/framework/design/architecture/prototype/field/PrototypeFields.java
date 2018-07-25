@@ -32,6 +32,6 @@ public interface PrototypeFields {
 
     @Nullable PrototypeField getField(String fieldName);
 
-    List<? extends PrototypeField> getFields();
+    List<? extends PrototypeField> getListOfFields();
 
 }
