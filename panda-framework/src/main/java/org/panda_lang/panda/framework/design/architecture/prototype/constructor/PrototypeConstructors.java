@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.constructor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 import java.util.Collection;
@@ -26,8 +27,8 @@ public interface PrototypeConstructors {
 
     int getAmountOfConstructors();
 
-    PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types);
+    @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types);
 
-    Collection<? extends PrototypeConstructor> getConstructors();
+    Collection<? extends PrototypeConstructor> getCollectionOfConstructors();
 
 }

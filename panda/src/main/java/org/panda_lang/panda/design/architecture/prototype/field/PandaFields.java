@@ -25,12 +25,7 @@ import java.util.List;
 
 public class PandaFields implements PrototypeFields {
 
-    private final List<PrototypeField> fields;
-
-    public PandaFields() {
-        this.fields = new ArrayList<>();
-    }
-
+    private final List<PrototypeField> fields = new ArrayList<>();
 
     @Override
     public void addField(PrototypeField field) {

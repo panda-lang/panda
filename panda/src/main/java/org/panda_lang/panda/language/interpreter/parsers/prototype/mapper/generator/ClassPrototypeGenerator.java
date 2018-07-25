@@ -60,7 +60,7 @@ public class ClassPrototypeGenerator {
         for (Constructor<?> constructor : type.getConstructors()) {
             ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(type, prototype, constructor);
             PrototypeConstructor prototypeField = generator.generate(registry);
-            prototype.getConstructors().add(prototypeField);
+            prototype.getConstructors().addConstructor(prototypeField);
         }
 
         for (Method method : type.getMethods()) {

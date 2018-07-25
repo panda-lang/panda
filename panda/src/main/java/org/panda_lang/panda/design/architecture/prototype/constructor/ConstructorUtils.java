@@ -37,7 +37,7 @@ public class ConstructorUtils {
 
     public static @Nullable PrototypeConstructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
         MATCHER:
-        for (PrototypeConstructor constructor : prototype.getConstructors()) {
+        for (PrototypeConstructor constructor : prototype.getConstructors().getCollectionOfConstructors()) {
             ClassPrototype[] constructorTypes = constructor.getParameterTypes();
 
             if (constructorTypes.length != types.length) {

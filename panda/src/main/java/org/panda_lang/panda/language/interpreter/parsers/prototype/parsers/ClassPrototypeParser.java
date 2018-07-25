@@ -159,7 +159,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
             ClassScope scope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
-            if (prototype.getConstructors().size() > 0) {
+            if (prototype.getConstructors().getAmountOfConstructors() > 0) {
                 return;
             }
 
@@ -183,7 +183,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                 }
             };
 
-            prototype.getConstructors().add(defaultConstructor);
+            prototype.getConstructors().addConstructor(defaultConstructor);
         }
 
     }

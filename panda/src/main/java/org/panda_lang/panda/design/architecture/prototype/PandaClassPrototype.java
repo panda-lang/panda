@@ -18,11 +18,12 @@ package org.panda_lang.panda.design.architecture.prototype;
 
 import com.google.common.base.Objects;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.design.architecture.prototype.constructor.PandaConstructors;
 import org.panda_lang.panda.design.architecture.prototype.field.PandaFields;
 import org.panda_lang.panda.design.architecture.prototype.method.PandaMethods;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
@@ -41,7 +42,7 @@ public class PandaClassPrototype implements ClassPrototype {
     private final Class<?> associated;
     private final Collection<String> aliases;
     private final Collection<ClassPrototype> extended;
-    private final Collection<PrototypeConstructor> constructors;
+    private final PrototypeConstructors constructors;
     private final PrototypeFields fields;
     private final PrototypeMethods methods;
     private boolean initialized;
@@ -52,7 +53,7 @@ public class PandaClassPrototype implements ClassPrototype {
         this.associated = associated;
         this.aliases = Arrays.asList(aliases);
         this.extended = new ArrayList<>(1);
-        this.constructors = new ArrayList<>(1);
+        this.constructors = new PandaConstructors();
         this.fields = new PandaFields();
         this.methods = new PandaMethods();
         this.initialized = false;
@@ -112,7 +113,7 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public Collection<PrototypeConstructor> getConstructors() {
+    public PrototypeConstructors getConstructors() {
         return constructors;
     }
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 
@@ -33,7 +33,7 @@ public interface ClassPrototype {
 
     PrototypeFields getFields();
 
-    Collection<PrototypeConstructor> getConstructors();
+    PrototypeConstructors getConstructors();
 
     Collection<ClassPrototype> getExtended();
 
