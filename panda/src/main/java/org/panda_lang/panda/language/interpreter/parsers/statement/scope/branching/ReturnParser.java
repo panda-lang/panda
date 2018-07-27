@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
+package org.panda_lang.panda.language.interpreter.parsers.statement.scope.branching;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPa
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.language.interpreter.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.design.architecture.statement.Return;
+import org.panda_lang.panda.design.architecture.dynamic.branching.Return;
 import org.panda_lang.panda.language.interpreter.PandaSyntax;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = ReturnParser.class, handlerClass = ReturnParserHandler.class)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
+package org.panda_lang.panda.language.interpreter.parsers.statement.scope.branching;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.design.architecture.statement.Continue;
+import org.panda_lang.panda.design.architecture.dynamic.branching.Continue;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = ContinueParser.class, handlerClass = ContinueParserHandler.class)
 public class ContinueParser implements UnifiedParser {

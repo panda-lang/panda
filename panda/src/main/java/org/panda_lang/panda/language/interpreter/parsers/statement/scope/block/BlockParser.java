@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.block;
+package org.panda_lang.panda.language.interpreter.parsers.statement.scope.block;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;

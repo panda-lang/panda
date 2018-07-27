@@ -29,21 +29,19 @@ public interface ClassPrototype {
 
     boolean isAssociatedWith(ClassPrototype prototype);
 
-    PrototypeMethods getMethods();
-
-    PrototypeFields getFields();
-
-    PrototypeConstructors getConstructors();
-
     Collection<ClassPrototype> getExtended();
 
     Class<?> getAssociated();
 
     Collection<String> getAliases();
 
-    Module getModule();
+    PrototypeMethods getMethods();
 
-    String getName();
+    PrototypeFields getFields();
+
+    PrototypeConstructors getConstructors();
+
+    Module getModule();
 
     String getClassName();
 

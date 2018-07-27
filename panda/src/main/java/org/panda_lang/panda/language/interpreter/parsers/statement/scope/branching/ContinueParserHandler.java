@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
+package org.panda_lang.panda.language.interpreter.parsers.statement.scope.branching;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;

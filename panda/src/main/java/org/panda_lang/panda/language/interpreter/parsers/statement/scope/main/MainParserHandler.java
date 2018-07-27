@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.branching;
+package org.panda_lang.panda.language.interpreter.parsers.statement.scope.main;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
 
-public class BreakParserHandler implements ParserHandler {
+public class MainParserHandler implements ParserHandler {
 
     @Override
     public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.BREAK);
+        return TokenUtils.equals(reader.read(), TokenType.KEYWORD, "main");
     }
 
 }

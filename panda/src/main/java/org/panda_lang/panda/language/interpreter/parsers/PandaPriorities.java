@@ -32,7 +32,7 @@ public class PandaPriorities {
 
 
     /**
-     * Used by {@link org.panda_lang.panda.language.interpreter.parsers.scope.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.parsers.statement.scope.block.BlockParser}
      */
     public static final int SCOPE_BLOCK_PARSER = 1;
 

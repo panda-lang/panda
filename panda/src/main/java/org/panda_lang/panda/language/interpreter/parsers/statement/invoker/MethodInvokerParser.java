@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.statement.invoker;
 
 import org.panda_lang.panda.design.architecture.PandaScript;
-import org.panda_lang.panda.design.architecture.statement.invoker.MethodInvoker;
+import org.panda_lang.panda.design.architecture.prototype.method.MethodInvoker;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;

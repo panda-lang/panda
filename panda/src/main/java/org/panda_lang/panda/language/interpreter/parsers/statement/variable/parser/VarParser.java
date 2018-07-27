@@ -17,7 +17,7 @@
 package org.panda_lang.panda.language.interpreter.parsers.statement.variable.parser;
 
 import org.panda_lang.panda.design.architecture.*;
-import org.panda_lang.panda.design.architecture.statement.assigner.*;
+import org.panda_lang.panda.design.architecture.dynamic.assigner.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.linker.*;
 import org.panda_lang.panda.design.interpreter.token.*;

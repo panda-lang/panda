@@ -35,7 +35,7 @@ public class PandaPipelines {
     public static final String SCOPE = "scope";
 
     /**
-     * Used by {@link org.panda_lang.panda.language.interpreter.parsers.scope.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.language.interpreter.parsers.statement.scope.block.BlockParser}
      */
     public static final String BLOCK = "block";
 

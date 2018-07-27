@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.main;
+package org.panda_lang.panda.language.interpreter.parsers.statement.scope.main;
 
-import org.panda_lang.panda.design.architecture.dynamic.main.*;
+import org.panda_lang.panda.design.architecture.dynamic.block.main.*;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.defaults.*;
 import org.panda_lang.panda.design.interpreter.parser.generation.*;

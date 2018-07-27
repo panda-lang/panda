@@ -27,9 +27,9 @@ public interface Module {
 
     @Nullable ClassPrototype get(String className);
 
-    int getPrototypeCount();
+    int getAmountOfPrototypes();
 
-    Collection<ClassPrototype> getPrototypes();
+    Collection<? extends ClassPrototype> getPrototypes();
 
     String getName();
 
