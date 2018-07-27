@@ -14,29 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.statement;
+package org.panda_lang.panda.design.architecture.dynamic.block.conditional;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class Return extends ExecutableStatement {
-
-    private final Expression value;
-
-    public Return(Expression value) {
-        this.value = value;
-    }
+public class ElseBlock extends AbstractContainer implements Block {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        if (value != null) {
-            Value returnValue = value.getExpressionValue(branch);
-            branch.returnValue(returnValue);
-        }
-
-        branch.interrupt();
+        branch.call(super.getStatementCells());
     }
 
 }

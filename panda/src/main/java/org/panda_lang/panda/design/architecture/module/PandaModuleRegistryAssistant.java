@@ -33,7 +33,7 @@ public class PandaModuleRegistryAssistant {
         int count = 0;
 
         for (Module module : registry.getModules()) {
-            count += module.getPrototypeCount();
+            count += module.getAmountOfPrototypes();
         }
 
         return count;

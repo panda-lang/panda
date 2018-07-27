@@ -41,7 +41,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPa
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.parameter.ParameterParser;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScope;
+import org.panda_lang.panda.design.architecture.statement.prototype.ClassScope;
 import org.panda_lang.panda.language.interpreter.PandaSyntax;
 
 import java.util.List;

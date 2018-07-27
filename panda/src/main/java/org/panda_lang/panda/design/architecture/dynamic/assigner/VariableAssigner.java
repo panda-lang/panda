@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.statement.assigner;
+package org.panda_lang.panda.design.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;

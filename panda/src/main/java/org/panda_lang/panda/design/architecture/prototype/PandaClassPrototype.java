@@ -98,7 +98,8 @@ public class PandaClassPrototype implements ClassPrototype {
 
     @Override
     public boolean isAssociatedWith(ClassPrototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
-        return prototype != null && (prototype.equals(this) || PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
+        return prototype != null && (prototype.equals(this)
+                || PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
                 || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended()));
     }
 
@@ -135,11 +136,6 @@ public class PandaClassPrototype implements ClassPrototype {
     @Override
     public Module getModule() {
         return module;
-    }
-
-    @Override
-    public String getName() {
-        return module.getName() + ":" + this.getClassName();
     }
 
     @Override

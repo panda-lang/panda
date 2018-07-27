@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.language.interpreter.parsers.prototype.parsers;
 
+import org.panda_lang.panda.design.architecture.statement.prototype.ClassScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.*;
 
 public class ClassPrototypeComponents {
 

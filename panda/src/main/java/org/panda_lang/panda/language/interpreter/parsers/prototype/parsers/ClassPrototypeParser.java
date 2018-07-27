@@ -20,6 +20,9 @@ import org.panda_lang.panda.design.architecture.*;
 import org.panda_lang.panda.design.architecture.module.*;
 import org.panda_lang.panda.design.architecture.prototype.*;
 import org.panda_lang.panda.design.architecture.prototype.constructor.*;
+import org.panda_lang.panda.design.architecture.statement.prototype.ClassReference;
+import org.panda_lang.panda.design.architecture.statement.prototype.ClassScope;
+import org.panda_lang.panda.design.architecture.prototype.ClassScopeInstance;
 import org.panda_lang.panda.design.interpreter.parser.*;
 import org.panda_lang.panda.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.design.interpreter.parser.linker.*;
@@ -46,7 +49,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redacto
 import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
 import org.panda_lang.panda.language.interpreter.*;
 import org.panda_lang.panda.language.interpreter.parsers.*;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.*;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {

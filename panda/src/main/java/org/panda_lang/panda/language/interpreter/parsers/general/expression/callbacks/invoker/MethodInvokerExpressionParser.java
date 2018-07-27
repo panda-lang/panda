@@ -34,7 +34,7 @@ import org.panda_lang.panda.language.interpreter.parsers.general.expression.call
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.design.architecture.statement.invoker.MethodInvoker;
+import org.panda_lang.panda.design.architecture.prototype.method.MethodInvoker;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {

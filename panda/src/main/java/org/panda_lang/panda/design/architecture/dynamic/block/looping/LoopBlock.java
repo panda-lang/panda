@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic.looping;
+package org.panda_lang.panda.design.architecture.dynamic.block.looping;
 
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
-import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
-public class WhileBlock extends PandaBlock implements ControlFlowCaller {
+public class LoopBlock extends AbstractBlock implements ControlFlowCaller {
 
     private final Expression expression;
 
-    public WhileBlock(Expression expression) {
+    public LoopBlock(Expression expression) {
         this.expression = expression;
     }
 
@@ -37,7 +38,10 @@ public class WhileBlock extends PandaBlock implements ControlFlowCaller {
 
     @Override
     public void call(ExecutableBranch branch, ControlFlow flow) {
-        while (expression.getExpressionValue(branch).getValue()) {
+        Value value = expression.getExpressionValue(branch);
+        int times = value.getValue();
+
+        for (int i = 0; i < times; i++) {
             flow.reset();
             flow.call();
 
@@ -48,4 +52,3 @@ public class WhileBlock extends PandaBlock implements ControlFlowCaller {
     }
 
 }
-

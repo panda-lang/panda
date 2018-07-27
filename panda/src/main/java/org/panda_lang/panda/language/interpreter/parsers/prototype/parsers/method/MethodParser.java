@@ -50,7 +50,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redacto
 import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.*;
 import org.panda_lang.panda.language.interpreter.parsers.prototype.parsers.parameter.ParameterParser;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScope;
+import org.panda_lang.panda.design.architecture.statement.prototype.ClassScope;
 import org.panda_lang.panda.language.interpreter.PandaSyntax;
 
 import java.util.List;

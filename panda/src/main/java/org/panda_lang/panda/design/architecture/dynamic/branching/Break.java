@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.scope.block.looping;
+package org.panda_lang.panda.design.architecture.dynamic.branching;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 
-public class WhileParserHandler implements ParserHandler {
+public class Break extends ExecutableStatement {
 
     @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.WHILE);
+    public void execute(ExecutableBranch branch) {
+        ControlFlow flow = branch.getCurrentControlFlow();
+        flow.escape();
     }
 
 }

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic.conditional;
+package org.panda_lang.panda.design.architecture.dynamic.block.conditional;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
-public class ConditionalBlock extends PandaBlock {
+public class ConditionalBlock extends AbstractBlock {
 
     private final Expression condition;
     private Block elseBlock;

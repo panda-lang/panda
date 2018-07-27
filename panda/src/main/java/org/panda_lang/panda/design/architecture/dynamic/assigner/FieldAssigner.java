@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.statement.assigner;
+package org.panda_lang.panda.design.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScopeInstance;
+import org.panda_lang.panda.design.architecture.prototype.ClassScopeInstance;
 
 public class FieldAssigner extends ExecutableStatement {
 

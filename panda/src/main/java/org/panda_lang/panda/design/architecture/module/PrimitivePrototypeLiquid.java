@@ -24,6 +24,8 @@ public class PrimitivePrototypeLiquid {
 
     public void fill(ModuleRegistry registry) {
         Module defaultModule = registry.getOrCreate(null);
+        defaultModule.add(new PandaClassPrototype(defaultModule, void.class, "void"));
+
         defaultModule.add(new PandaClassPrototype(defaultModule, boolean.class, "Boolean"));
         defaultModule.add(new PandaClassPrototype(defaultModule, char.class, "Char"));
         defaultModule.add(new PandaClassPrototype(defaultModule, byte.class, "Byte"));
@@ -31,7 +33,9 @@ public class PrimitivePrototypeLiquid {
         defaultModule.add(new PandaClassPrototype(defaultModule, int.class, "Int"));
         defaultModule.add(new PandaClassPrototype(defaultModule, float.class, "Float"));
         defaultModule.add(new PandaClassPrototype(defaultModule, double.class, "Double"));
-        defaultModule.add(new PandaClassPrototype(defaultModule, Object.class, "Object"));
+
+        defaultModule.add(new PandaClassPrototype(defaultModule, Object.class));
+        // defaultModule.add(new PandaClassPrototype(defaultModule, String.class));
     }
 
 }

@@ -76,8 +76,7 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
         this.constructor = ConstructorUtils.matchConstructor(returnType, arguments);
 
         if (constructor == null) {
-            throw new PandaParserException("Cannot find " + className +
-                    " constructor for the specified arguments " + Arrays.toString(this.arguments));
+            throw new PandaParserException("Cannot find constructor for the specified arguments " + Arrays.toString(this.arguments));
         }
     }
 

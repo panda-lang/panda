@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.scope.ClassScopeInstance;
+import org.panda_lang.panda.design.architecture.prototype.ClassScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 
 public class FieldExpressionCallback implements ExpressionCallback {

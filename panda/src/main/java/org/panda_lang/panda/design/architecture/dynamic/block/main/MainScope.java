@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic.conditional;
+package org.panda_lang.panda.design.architecture.dynamic.block.main;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public class ElseBlock extends AbstractContainer implements Block {
+public class MainScope extends AbstractScope {
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        branch.call(super.getStatementCells());
+    public ScopeInstance createInstance(ExecutableBranch branch) {
+        return new MainInstance(this);
+    }
+
+    @Override
+    public String toString() {
+        return "'scope': 'main'";
     }
 
 }

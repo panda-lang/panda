@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.statement;
+package org.panda_lang.panda.design.architecture.dynamic.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
-public class Continue extends ExecutableStatement {
+public class ForBlock extends AbstractBlock {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        ControlFlow controlFlow = branch.getCurrentControlFlow();
-        controlFlow.skip();
+
     }
 
 }

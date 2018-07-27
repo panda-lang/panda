@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic.looping;
+package org.panda_lang.panda.design.architecture.dynamic.block.looping;
 
-import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
-public class ForEachBlock extends PandaBlock implements ControlFlowCaller {
+public class ForEachBlock extends AbstractBlock implements ControlFlowCaller {
 
     private final int variablePointer;
     private final ClassPrototype variableType;

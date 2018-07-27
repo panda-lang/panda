@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.design.architecture.dynamic.conditional;
+package org.panda_lang.panda.design.architecture.dynamic.block.main;
 
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.design.architecture.dynamic.PandaBlock;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
 
-public class SwitchBlock extends PandaBlock {
+public class MainInstance extends AbstractScopeInstance<MainScope> {
+
+    public MainInstance(MainScope main) {
+        super(main);
+    }
 
     @Override
     public void execute(ExecutableBranch branch) {
-
+        branch.call(super.getScope().getStatementCells());
     }
 
 }

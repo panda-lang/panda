@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.interpreter.parsers.prototype.scope;
+package org.panda_lang.panda.design.architecture.statement.prototype;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.design.architecture.prototype.ClassScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;

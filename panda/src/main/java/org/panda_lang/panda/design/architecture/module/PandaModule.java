@@ -51,7 +51,7 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public int getPrototypeCount() {
+    public int getAmountOfPrototypes() {
         return prototypes.size();
     }
 
