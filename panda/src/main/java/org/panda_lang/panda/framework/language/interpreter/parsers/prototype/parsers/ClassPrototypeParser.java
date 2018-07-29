@@ -24,7 +24,6 @@ import org.panda_lang.panda.framework.design.architecture.statement.prototype.Cl
 import org.panda_lang.panda.framework.design.architecture.statement.prototype.ClassScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
@@ -37,6 +36,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.design.runtime.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;

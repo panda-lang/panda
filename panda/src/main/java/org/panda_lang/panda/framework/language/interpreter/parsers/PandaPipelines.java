@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parsers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.parsers.prototype.parsers.ClassPrototypeParser;
 
 /**

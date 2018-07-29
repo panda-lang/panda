@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.linker;
+package org.panda_lang.panda.framework.language.interpreter.parser.linker;
 
-import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 
 import java.util.Stack;
 
-public class PandaScriptScopeLinker implements ScopeLinker {
+public class PandaScopeLinker implements ScopeLinker {
 
-    private final Script script;
     private final Stack<Scope> scopeStack;
 
-    public PandaScriptScopeLinker(Script script) {
-        this.script = script;
+    public PandaScopeLinker(Scope headScope) {
         this.scopeStack = new Stack<>();
+        this.pushScope(headScope);
     }
 
     @Override
     public void pushScope(Scope scope) {
-        this.scopeStack.push(scope);
+        scopeStack.push(scope);
     }
 
     @Override
@@ -49,10 +48,6 @@ public class PandaScriptScopeLinker implements ScopeLinker {
     @Override
     public int getNextID() {
         return scopeStack.size();
-    }
-
-    public Script getScript() {
-        return script;
     }
 
 }

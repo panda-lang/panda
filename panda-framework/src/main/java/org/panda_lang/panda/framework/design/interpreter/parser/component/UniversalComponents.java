@@ -42,4 +42,6 @@ public class UniversalComponents {
 
     public static final Component<ParserData> PARENT_DATA = Component.of("parent-data", ParserData.class);
 
+    public static final Component<ParserData> CURRENT_PARSER_DATA = Component.of("current-parser-data", ParserData.class);
+
 }

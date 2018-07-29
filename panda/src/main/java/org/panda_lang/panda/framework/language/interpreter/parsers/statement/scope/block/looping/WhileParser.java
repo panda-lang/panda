@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parsers.statement.scope.block.looping;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.runtime.expression.*;

@@ -18,14 +18,14 @@ package org.panda_lang.panda.framework.language.interpreter.parsers.overall.impo
 
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;

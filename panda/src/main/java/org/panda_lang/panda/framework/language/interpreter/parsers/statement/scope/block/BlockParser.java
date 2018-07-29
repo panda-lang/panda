@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.language.interpreter.parsers.statement.sc
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.defaults.ContainerParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.language.interpreter.parsers.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parsers.PandaPriorities;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternBuilder;

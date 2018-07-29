@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry;
+package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import com.esotericsoftware.reflectasm.ConstructorAccess;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.reflections.Reflections;
 import org.reflections.util.ConfigurationBuilder;
 

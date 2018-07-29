@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser;
+package org.panda_lang.panda.framework.language.interpreter.parser;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 
 import java.util.HashMap;
@@ -47,7 +48,6 @@ public class PandaParserData implements ParserData {
     }
 
     /**
-     * Default list of components is available here: {@link PandaComponents}
      *
      * @param componentName a name of the specified component
      * @return selected component

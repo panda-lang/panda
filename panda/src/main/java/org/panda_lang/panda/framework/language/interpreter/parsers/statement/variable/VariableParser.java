@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parsers.statement.variable;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;

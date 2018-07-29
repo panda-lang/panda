@@ -23,11 +23,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.constructor.
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.defaults.ScopeParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.CasualParserGenerationAssistant;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternBuilder;

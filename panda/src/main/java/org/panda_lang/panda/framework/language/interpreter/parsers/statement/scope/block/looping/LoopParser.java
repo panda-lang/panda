@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parsers.statement.scope.block.looping;
 
 import org.panda_lang.panda.framework.language.interpreter.parsers.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;

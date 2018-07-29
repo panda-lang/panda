@@ -31,8 +31,6 @@ public class PandaComponents {
 
     public static final Component<Panda> PANDA = Component.of("panda", Panda.class);
 
-    public static final Component<ParserData> CURRENT_PARSER_DATA = Component.of("panda-current-parsers-data", ParserData.class);
-
     public static final Component<ScopeLinker> SCOPE_LINKER = Component.of("panda-scope-linker", ScopeLinker.class);
 
     public static final Component<ModuleRegistry> MODULE_REGISTRY = Component.of("panda-module-registry", ModuleRegistry.class);

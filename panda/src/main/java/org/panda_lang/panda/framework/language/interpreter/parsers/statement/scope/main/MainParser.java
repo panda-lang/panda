@@ -19,14 +19,15 @@ package org.panda_lang.panda.framework.language.interpreter.parsers.statement.sc
 import org.panda_lang.panda.framework.design.architecture.dynamic.block.main.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.defaults.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
 import org.panda_lang.panda.framework.language.interpreter.*;

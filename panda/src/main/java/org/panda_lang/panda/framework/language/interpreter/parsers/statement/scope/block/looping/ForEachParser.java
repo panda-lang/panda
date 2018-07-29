@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
 import org.panda_lang.panda.framework.design.architecture.statement.*;

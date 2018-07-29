@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation;
+package org.panda_lang.panda.framework.language.interpreter.parser.generation.casual;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
 
 import java.util.*;
@@ -55,7 +56,7 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
             CasualParserGenerationCallback callback = unit.getCallback();
             ParserData delegatedInfo = unit.getDelegated();
 
-            delegatedInfo.setComponent(PandaComponents.CURRENT_PARSER_DATA, currentInfo);
+            delegatedInfo.setComponent(UniversalComponents.CURRENT_PARSER_DATA, currentInfo);
             callback.call(delegatedInfo, nextLayer);
         }
     }
