@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime;
+package org.panda_lang.panda.framework.language.runtime;
 
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 
 public class PandaExecutableProcess implements ExecutableProcess {
 

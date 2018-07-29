@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.launcher;
+package org.panda_lang.panda;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
