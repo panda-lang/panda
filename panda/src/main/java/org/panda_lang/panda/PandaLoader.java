@@ -17,8 +17,8 @@
 package org.panda_lang.panda;
 
 import org.jetbrains.annotations.*;
-import org.panda_lang.panda.design.architecture.*;
-import org.panda_lang.panda.design.interpreter.*;
+import org.panda_lang.panda.framework.design.architecture.*;
+import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.*;

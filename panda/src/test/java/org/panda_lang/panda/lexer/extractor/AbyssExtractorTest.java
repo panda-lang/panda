@@ -17,7 +17,7 @@
 package org.panda_lang.panda.lexer.extractor;
 
 import org.junit.Test;
-import org.panda_lang.panda.design.interpreter.token.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.token.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
-import org.panda_lang.panda.language.interpreter.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.PandaSyntax;
 
 import java.util.List;
 

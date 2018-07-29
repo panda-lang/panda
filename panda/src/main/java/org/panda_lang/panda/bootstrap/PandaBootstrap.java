@@ -18,10 +18,10 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.language.PandaLanguage;
+import org.panda_lang.panda.framework.language.PandaLanguage;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.framework.language.interpreter.parsers.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.utilities.commons.*;
 
 import java.util.ArrayList;
