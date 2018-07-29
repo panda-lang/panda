@@ -16,15 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parsers.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.runtime.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.runtime.expression.*;
-import org.panda_lang.panda.framework.language.architecture.value.*;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistryAssistant;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-import java.util.*;
+import java.util.Stack;
 
 public class MathExpressionCallback implements ExpressionCallback {
 

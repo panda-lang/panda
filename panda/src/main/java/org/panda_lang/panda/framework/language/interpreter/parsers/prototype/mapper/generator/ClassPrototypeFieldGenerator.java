@@ -16,15 +16,20 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parsers.prototype.mapper.generator;
 
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.*;
-import org.panda_lang.panda.framework.design.runtime.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.runtime.expression.*;
-import org.panda_lang.panda.framework.language.architecture.value.*;
-import org.panda_lang.panda.framework.language.runtime.expression.*;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistryAssistant;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 
 public class ClassPrototypeFieldGenerator {
 

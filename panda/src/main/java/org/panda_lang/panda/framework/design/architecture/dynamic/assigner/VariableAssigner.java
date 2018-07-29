@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class VariableAssigner extends ExecutableStatement {
 

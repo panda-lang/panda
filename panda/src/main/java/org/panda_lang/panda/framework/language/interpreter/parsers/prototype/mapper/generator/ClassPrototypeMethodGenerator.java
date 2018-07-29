@@ -16,17 +16,17 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parsers.prototype.mapper.generator;
 
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistryAssistant;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;

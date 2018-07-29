@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parsers.prototype.mapper;
 
-import org.panda_lang.panda.framework.design.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.language.interpreter.parsers.prototype.mapper.loaders.ClassPrototypeMappingAnnotationLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.interpreter.parsers.prototype.mapper.loaders.ClassPrototypeMappingAnnotationLoader;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.util.ArrayList;
 import java.util.Collection;
