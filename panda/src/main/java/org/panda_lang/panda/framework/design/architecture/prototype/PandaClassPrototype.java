@@ -19,16 +19,15 @@ package org.panda_lang.panda.framework.design.architecture.prototype;
 import com.google.common.base.Objects;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PandaConstructors;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaFields;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethods;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethods;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
-import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.language.runtime.expression.Expression;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,7 +35,6 @@ import java.util.Collection;
 
 public class PandaClassPrototype implements ClassPrototype {
 
-    private final Module module;
     private final String className;
     private final Class<?> associated;
     private final Collection<String> aliases;
@@ -46,8 +44,7 @@ public class PandaClassPrototype implements ClassPrototype {
     private final PrototypeMethods methods;
     private boolean initialized;
 
-    public PandaClassPrototype(Module module, String className, Class<?> associated, String... aliases) {
-        this.module = module;
+    public PandaClassPrototype(String className, Class<?> associated, String... aliases) {
         this.className = className;
         this.associated = associated;
         this.aliases = Arrays.asList(aliases);
@@ -58,8 +55,8 @@ public class PandaClassPrototype implements ClassPrototype {
         this.initialized = false;
     }
 
-    public PandaClassPrototype(Module module, Class<?> clazz, String... aliases) {
-        this(module, clazz.getSimpleName(), clazz, aliases);
+    public PandaClassPrototype(Class<?> clazz, String... aliases) {
+        this(clazz.getSimpleName(), clazz, aliases);
     }
 
     public synchronized void initialize() {
@@ -83,6 +80,10 @@ public class PandaClassPrototype implements ClassPrototype {
     @Override
     public boolean isClassOf(String className) {
         if (this.getClassName().equals(className)) {
+            return true;
+        }
+
+        if (this.associated != null && this.associated.getSimpleName().equals(className)) {
             return true;
         }
 
@@ -133,11 +134,6 @@ public class PandaClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public Module getModule() {
-        return module;
-    }
-
-    @Override
     public String getClassName() {
         return className;
     }
@@ -149,9 +145,7 @@ public class PandaClassPrototype implements ClassPrototype {
 
     @Override
     public boolean equals(@Nullable Object o) {
-        // TODO: wtf
-        //noinspection Contract
-        return o == null || super.equals(o);
+        return this == o;
     }
 
     @Override

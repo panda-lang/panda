@@ -41,7 +41,7 @@ public class ClassScopeInstance extends AbstractScopeInstance<ClassScope> {
 
     @Override
     public String toString() {
-        return "@(instance of " + prototype.getModule().getName() + ":" + prototype.getClassName() + ")";
+        return "@(instance of " + prototype.getClassName() + ")";
     }
 
 }

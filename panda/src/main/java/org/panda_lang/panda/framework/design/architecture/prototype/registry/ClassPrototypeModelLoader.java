@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.registry;
 import javassist.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.*;
 import org.panda_lang.panda.framework.design.architecture.value.*;
 import org.panda_lang.panda.language.runtime.*;
@@ -32,10 +33,10 @@ import java.util.concurrent.atomic.*;
 public class ClassPrototypeModelLoader {
 
     private static final AtomicInteger idAssigner = new AtomicInteger();
-    private final ModuleRegistry registry;
+    private final ModulePath modulePath;
 
-    public ClassPrototypeModelLoader(ModuleRegistry registry) {
-        this.registry = registry;
+    public ClassPrototypeModelLoader(ModulePath modulePath) {
+        this.modulePath = modulePath;
     }
 
     public void load(Collection<Class<? extends ClassPrototypeModel>> models) {
@@ -49,6 +50,8 @@ public class ClassPrototypeModelLoader {
     @SuppressWarnings("unchecked")
     private void loadModels(Collection<Class<? extends ClassPrototypeModel>> models) throws Exception {
         Collection<ClassPrototypeModelMethodRegister> methodRegisters = new ArrayList<>();
+
+        ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
         ClassPool pool = ClassPool.getDefault();
 
         CtClass objectCtClass = pool.getCtClass(Object.class.getName());
@@ -61,19 +64,26 @@ public class ClassPrototypeModelLoader {
         for (Class<? extends ClassPrototypeModel> modelClass : models) {
             ModuleDeclaration moduleDeclaration = modelClass.getAnnotation(ModuleDeclaration.class);
             ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
-            Module module = registry.getOrCreate(moduleDeclaration.value());
 
-            if (module.get(classDeclaration.value()) != null) {
+            String moduleName = moduleDeclaration.value();
+            Module module = modulePath.get(moduleName);
+
+            if (module != null && module.get(classDeclaration.value()) != null) {
                 continue;
             }
 
-            ClassPrototype prototype = new PandaClassPrototype(module, classDeclaration.value(), modelClass);
+            ClassPrototype prototype = new PandaClassPrototype(classDeclaration.value(), modelClass);
+
+            if (module == null) {
+                module = modulePath.create(moduleName);
+            }
+
             module.add(prototype);
 
             for (Method method : modelClass.getMethods()) {
-                MethodDeclaration methodInfo = method.getAnnotation(MethodDeclaration.class);
+                MethodDeclaration methodDeclaration = method.getAnnotation(MethodDeclaration.class);
 
-                if (methodInfo == null) {
+                if (methodDeclaration == null) {
                     continue;
                 }
 
@@ -115,7 +125,7 @@ public class ClassPrototypeModelLoader {
                     bodyBuilder.append("}");
                 }
 
-                if (methodInfo.isStatic()) {
+                if (methodDeclaration.isStatic()) {
                     bodyBuilder.append(String.format("%s.%s($1, (%s) null %s);", modelClass.getName(), method.getName(), instanceType, values.toString()));
                 }
                 else {
@@ -131,18 +141,18 @@ public class ClassPrototypeModelLoader {
 
                 Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
                 MethodCallback<?> methodCallback = methodCallbackClass.newInstance();
-                ClassPrototype[] parameterTypes = PandaClassPrototypeUtils.toTypes(registry, method.getParameterTypes());
+                ClassPrototype[] parameterTypes = PandaClassPrototypeUtils.toTypes(new ClassPrototypeGenerator(), modulePath, method.getParameterTypes());
 
                 methodRegisters.add(() -> {
                     PandaMethod pandaMethod = PandaMethod.builder()
                             .methodName(method.getName())
                             .prototype(prototype)
-                            .returnType(PandaModuleRegistryAssistant.forName(registry, methodInfo.returnType()))
-                            .isStatic(methodInfo.isStatic())
-                            .visibility(methodInfo.visibility())
+                            .returnType(PrimitivePrototypeLiquid.VOID) // TODO: Proxy or sth
+                            .isStatic(methodDeclaration.isStatic())
+                            .visibility(methodDeclaration.visibility())
                             .methodBody(methodCallback)
                             .parameterTypes(parameterTypes)
-                            .catchAllParameters(methodInfo.catchAllParameters())
+                            .catchAllParameters(methodDeclaration.catchAllParameters())
                             .build();
 
                     prototype.getMethods().registerMethod(pandaMethod);

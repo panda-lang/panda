@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.parsers.overall.imports;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.design.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
@@ -36,7 +37,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.mapper.*;
 import org.reflections.*;
 import org.reflections.scanners.*;
 import org.reflections.util.*;
@@ -84,7 +84,7 @@ public class ImportParser implements UnifiedParser {
                 groupNameBuilder.append(token.getTokenValue());
             }
 
-            ModuleRegistry registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
+            ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
             String importedGroupName = groupNameBuilder.toString();
 
             if (attach) {
@@ -107,7 +107,7 @@ public class ImportParser implements UnifiedParser {
                         selectedClasses.add(clazz);
                     }
 
-                    ClassPrototypeMappingManager mappingManager = new ClassPrototypeMappingManager();
+                    ClassPrototypeGeneratorManager mappingManager = new ClassPrototypeGeneratorManager();
                     mappingManager.loadClasses(selectedClasses);
                     mappingManager.generate(registry);
                 }

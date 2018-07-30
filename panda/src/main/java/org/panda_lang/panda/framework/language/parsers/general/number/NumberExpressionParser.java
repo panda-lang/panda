@@ -51,7 +51,7 @@ public class NumberExpressionParser implements ParticularParser<Value> {
         }
         else if (number.contains("x")) {
             numberType = NumberType.INT;
-            parsedNumber = Long.parseLong(number.substring(2, number.length()), 16);
+            parsedNumber = Long.parseLong(number.substring(2), 16);
         }
         else {
             numberType = NumberType.INT;
@@ -62,27 +62,27 @@ public class NumberExpressionParser implements ParticularParser<Value> {
             numberType = numberTypeDefinition;
         }
 
-        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         Value value;
 
         switch (numberType) {
             case BYTE:
-                value = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "byte"), parsedNumber.byteValue());
+                value = new PandaValue(PrimitivePrototypeLiquid.BYTE, parsedNumber.byteValue());
                 break;
             case SHORT:
-                value = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "short"), parsedNumber.shortValue());
+                value = new PandaValue(PrimitivePrototypeLiquid.SHORT, parsedNumber.shortValue());
                 break;
             case INT:
-                value = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "int"), parsedNumber.intValue());
+                value = new PandaValue(PrimitivePrototypeLiquid.INT, parsedNumber.intValue());
                 break;
             case LONG:
-                value = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "long"), parsedNumber.longValue());
+                value = new PandaValue(PrimitivePrototypeLiquid.LONG, parsedNumber.longValue());
                 break;
             case FLOAT:
-                value = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "float"), parsedNumber.floatValue());
+                value = new PandaValue(PrimitivePrototypeLiquid.FLOAT, parsedNumber.floatValue());
                 break;
             case DOUBLE:
-                value = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "double"), parsedNumber.doubleValue());
+                value = new PandaValue(PrimitivePrototypeLiquid.DOUBLE, parsedNumber.doubleValue());
                 break;
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);

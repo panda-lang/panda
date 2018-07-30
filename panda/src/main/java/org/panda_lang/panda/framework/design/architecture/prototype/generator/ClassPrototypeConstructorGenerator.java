@@ -14,30 +14,34 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.mapper.generator;
+package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.*;
-import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.language.runtime.*;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
-import java.lang.reflect.*;
+import java.lang.reflect.Constructor;
 
 public class ClassPrototypeConstructorGenerator {
 
+    private final ClassPrototypeGenerator generator;
+    private final ModulePath modulePath;
     private final Constructor<?> constructor;
 
-    public ClassPrototypeConstructorGenerator(Class<?> type, ClassPrototype prototype, Constructor<?> constructor) {
+    public ClassPrototypeConstructorGenerator(ClassPrototypeGenerator generator, ModulePath modulePath, ClassPrototype prototype, Constructor<?> constructor) {
+        this.generator = generator;
+        this.modulePath = modulePath;
         this.constructor = constructor;
     }
 
-    public PrototypeConstructor generate(ModuleRegistry registry) {
+    public PrototypeConstructor generate() {
         ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = PandaModuleRegistryAssistant.forClass(registry, constructor.getParameterTypes()[i]);
+            parameters[i] = generator.computeIfAbsent(modulePath, constructor.getParameterTypes()[i]);
         }
 
         // TODO: Generate bytecode

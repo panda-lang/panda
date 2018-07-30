@@ -2,6 +2,14 @@ module example-test;
 
 import panda-lang;
 
+attach java.lang;
+attach java.util;
+attach org.panda_lang.panda;
+attach org.panda_lang.panda.bootstrap;
+attach org.panda_lang.panda.language.interpreter;
+attach org.panda_lang.panda.language.interpreter.parsers.prototype.registry;
+attach org.panda_lang.panda.design.architecture;
+
 class Foo extends Test {
 
     method anotherEcho(String message) {
@@ -56,7 +64,7 @@ main {
     Boolean flag = true;
 
     Console.print("Hello Panda", flag, varFoo, s, test, i);
-    Console.print(math);
+    System.out.println(math);
 
     if (!flag) {
         Console.print("Nope");
@@ -87,4 +95,17 @@ main {
         Console.print(builder.toString());
         break;
     }
+
+    Console.print("Calling mapped Panda from Panda");
+    Panda panda = new PandaBootstrap()
+            .syntax(PandaSyntax.getInstance())
+            .mapModels(ClassPrototypeModel.of("panda-lang"))
+            .get();
+
+    PandaApplication application = new PandaApplicationBootstrap(panda)
+            .source("../examples/main.panda")
+            .createApplication();
+
+    Console.print("Launching mapped Panda from Panda");
+    application.launch();
 }

@@ -53,7 +53,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
     }
 
     public @Nullable Expression parse(ParserData data, TokenizedSource expressionSource, boolean silence) {
-        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
 
         if (expressionSource.size() == 1) {
             Token token = expressionSource.getToken(0);
@@ -197,7 +197,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         return null;
     }
 
-    public Expression toSimpleKnownExpression(ModuleRegistry registry, String forName, Object value) {
+    public Expression toSimpleKnownExpression(ModulePath registry, String forName, Object value) {
         return new PandaExpression(new PandaValue(PandaModuleRegistryAssistant.forName(registry, forName), value));
     }
 

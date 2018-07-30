@@ -16,27 +16,27 @@
 
 package org.panda_lang.panda.framework.language.parsers.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistryAssistant;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.language.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.util.Stack;
 
 public class MathExpressionCallback implements ExpressionCallback {
 
-    private final ModuleRegistry registry;
+    private final ModulePath modulePath;
     private final Stack<Object> mathStack;
 
-    public MathExpressionCallback(ModuleRegistry registry, Stack<Object> mathStack) {
+    public MathExpressionCallback(ModulePath modulePath, Stack<Object> mathStack) {
         this.mathStack = mathStack;
-        this.registry = registry;
+        this.modulePath = modulePath;
     }
 
     @Override
@@ -73,7 +73,7 @@ public class MathExpressionCallback implements ExpressionCallback {
                         throw new PandaRuntimeException("Unknown operator");
                 }
 
-                Value c = new PandaValue(PandaModuleRegistryAssistant.forName(registry, "int"), cValue);
+                Value c = new PandaValue(PrimitivePrototypeLiquid.INT, cValue);
                 values.push(c);
             }
             else {
@@ -86,7 +86,7 @@ public class MathExpressionCallback implements ExpressionCallback {
     }
 
     public ClassPrototype getReturnType() {
-        return PandaModuleRegistryAssistant.forName(registry, "int");
+        return PrimitivePrototypeLiquid.INT;
     }
 
 }

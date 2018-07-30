@@ -68,7 +68,7 @@ public class ModuleParser implements UnifiedParser {
 
             String groupName = groupNameBuilder.toString();
 
-            ModuleRegistry registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
+            ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
             Module module = registry.getOrCreate(groupName);
 
             PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);

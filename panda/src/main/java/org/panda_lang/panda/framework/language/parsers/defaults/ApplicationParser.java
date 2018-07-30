@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.parsers.defaults;
 
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.*;
@@ -50,8 +51,8 @@ public class ApplicationParser implements Parser {
         PandaApplication application = new PandaApplication();
 
         Environment environment = interpretation.getEnvironment();
-        ModuleRegistry registry = environment.getModuleRegistry();
-        Module defaultModule = registry.getOrCreate(null);
+        ModulePath registry = environment.getModulePath();
+        Module defaultModule = registry.get((String) null);
 
         Language elements = interpretation.getLanguage();
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
@@ -95,7 +96,7 @@ public class ApplicationParser implements Parser {
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
 
-            PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(PandaModuleRegistryAssistant.getTotalLoadTime()));
+            PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
             PandaFramework.getLogger().debug("Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
         }
 

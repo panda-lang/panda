@@ -79,7 +79,7 @@ public class PandaMemorySegment implements MemorySegment {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(int pointer) {
+    public @Nullable <T> T get(int pointer) {
         return instances.size() > pointer ? (T) instances.get(pointer) : null;
     }
 

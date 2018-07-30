@@ -90,7 +90,7 @@ public class MathParser implements Parser {
             math.push(operators.pop());
         }
 
-        ModuleRegistry registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         return new MathExpressionCallback(registry, math);
     }
 

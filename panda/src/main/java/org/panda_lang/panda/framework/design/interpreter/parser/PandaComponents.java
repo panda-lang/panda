@@ -33,7 +33,7 @@ public class PandaComponents {
 
     public static final Component<ScopeLinker> SCOPE_LINKER = Component.of("panda-scope-linker", ScopeLinker.class);
 
-    public static final Component<ModuleRegistry> MODULE_REGISTRY = Component.of("panda-module-registry", ModuleRegistry.class);
+    public static final Component<ModulePath> MODULE_REGISTRY = Component.of("panda-module-registry", ModulePath.class);
 
     public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
 

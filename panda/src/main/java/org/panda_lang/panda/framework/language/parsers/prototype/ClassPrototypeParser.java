@@ -76,12 +76,12 @@ public class ClassPrototypeParser implements UnifiedParser {
                 throw new PandaParserException("Class name cannot be null");
             }
 
-            ClassPrototype classPrototype = new PandaClassPrototype(module, className, Object.class);
+            ClassPrototype classPrototype = new PandaClassPrototype(className, Object.class);
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
             module.add(classPrototype);
 
-            ModuleRegistry registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-            classPrototype.getExtended().add(PandaModuleRegistryAssistant.forClass(registry, Object.class));
+            ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
+            classPrototype.getExtended().add(PrimitivePrototypeLiquid.OBJECT);
 
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
 

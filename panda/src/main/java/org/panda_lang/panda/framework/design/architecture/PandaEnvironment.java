@@ -17,28 +17,28 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.language.architecture.module.PandaModuleRegistry;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.design.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModelLoader;
 
 public class PandaEnvironment implements Environment {
 
     protected final Panda panda;
-    protected final ModuleRegistry moduleRegistry;
+    protected final ModulePath modulePath;
     protected PandaInterpreter interpreter;
 
     public PandaEnvironment(Panda panda) {
         this.panda = panda;
-        this.moduleRegistry = new PandaModuleRegistry();
+        this.modulePath = new PandaModulePath();
     }
 
     public void initialize() {
         PrimitivePrototypeLiquid liquid = new PrimitivePrototypeLiquid();
-        liquid.fill(moduleRegistry);
+        liquid.fill(modulePath);
 
-        ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(moduleRegistry);
+        ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(modulePath);
         panda.getPandaLanguage().getMappings().forEach((modelLoader::load));
 
         this.interpreter = PandaInterpreter.builder()
@@ -47,8 +47,8 @@ public class PandaEnvironment implements Environment {
             .build();
     }
 
-    public ModuleRegistry getModuleRegistry() {
-        return moduleRegistry;
+    public ModulePath getModulePath() {
+        return modulePath;
     }
 
     @Override

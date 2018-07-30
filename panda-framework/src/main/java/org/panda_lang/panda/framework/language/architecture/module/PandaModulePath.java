@@ -17,27 +17,30 @@
 package org.panda_lang.panda.framework.language.architecture.module;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
-public class PandaModuleRegistry implements ModuleRegistry {
+public class PandaModulePath implements ModulePath {
 
     private final Map<String, Module> groups;
 
-    public PandaModuleRegistry() {
+    public PandaModulePath() {
         this.groups = new HashMap<>();
         this.initialize();
     }
 
     private void initialize() {
-        Module defaultModule = this.getOrCreate(null);
-        groups.put("", defaultModule);
+        this.create(null);
     }
 
     @Override
-    public Module getOrCreate(String groupName) {
-        return this.getGroups().computeIfAbsent(groupName, PandaModule::new);
+    public Module create(String groupName) {
+        Module module = new PandaModule(groupName);
+        groups.put(groupName, module);
+        return module;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class PandaModuleRegistry implements ModuleRegistry {
     }
 
     @Override
-    public Collection<Module> getModules() {
+    public Collection<? extends Module> getModules() {
         return this.groups.values();
     }
 

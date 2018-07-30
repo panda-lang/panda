@@ -14,35 +14,39 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.mapper.generator;
+package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistryAssistant;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.language.runtime.expression.Expression;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
 public class ClassPrototypeFieldGenerator {
 
+    private final ClassPrototypeGenerator generator;
+    private final ModulePath modulePath;
     private final ClassPrototype prototype;
     private final Field field;
 
-    public ClassPrototypeFieldGenerator(Class<?> type, ClassPrototype prototype, Field field) {
+    public ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, ModulePath modulePath, ClassPrototype prototype, Field field) {
+        this.generator = generator;
+        this.modulePath = modulePath;
         this.prototype = prototype;
         this.field = field;
     }
 
-    public PrototypeField generate(ModuleRegistry registry) {
-        ClassPrototype returnType = PandaModuleRegistryAssistant.forClass(registry, field.getType());
+    public PrototypeField generate() {
+        ClassPrototype returnType = generator.computeIfAbsent(modulePath, field.getType());
+
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .fieldIndex(prototype.getFields().getAmountOfFields())
                 .type(returnType)

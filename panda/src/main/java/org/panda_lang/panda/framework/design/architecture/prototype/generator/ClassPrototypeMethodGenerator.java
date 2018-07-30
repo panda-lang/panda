@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.mapper.generator;
+package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistryAssistant;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
@@ -35,21 +34,25 @@ import java.security.InvalidParameterException;
 
 public class ClassPrototypeMethodGenerator {
 
+    private final ClassPrototypeGenerator generator;
+    private final ModulePath modulePath;
     private final ClassPrototype prototype;
     private final Method method;
 
-    public ClassPrototypeMethodGenerator(Class<?> type, ClassPrototype prototype, Method method) {
+    public ClassPrototypeMethodGenerator(ClassPrototypeGenerator generator, ModulePath modulePath, ClassPrototype prototype, Method method) {
         if (method == null) {
             throw new InvalidParameterException("Method cannot be null");
         }
 
+        this.generator = generator;
+        this.modulePath = modulePath;
         this.prototype = prototype;
         this.method = method;
     }
 
-    public PrototypeMethod generate(ModuleRegistry registry) {
-        ClassPrototype returnType = PandaModuleRegistryAssistant.forClass(registry, method.getReturnType());
-        ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(registry, method.getParameterTypes());
+    public PrototypeMethod generate() {
+        ClassPrototype returnType = generator.computeIfAbsent(modulePath, method.getReturnType());
+        ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(generator, modulePath, method.getParameterTypes());
 
         if (returnType == null) {
             throw new PandaRuntimeException("Cannot generate method for 'null' return type");

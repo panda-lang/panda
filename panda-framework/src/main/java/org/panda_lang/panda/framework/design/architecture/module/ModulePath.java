@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.mapper;
+package org.panda_lang.panda.framework.design.architecture.module;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.jetbrains.annotations.Nullable;
 
-@Target(ElementType.TYPE)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ClassPrototypeMapping {
+import java.util.Collection;
 
-    String value();
+public interface ModulePath {
+
+    Module create(String groupName);
+
+    default Module create(Class<?> clazz) {
+        return this.create(clazz.getPackage().toString());
+    }
+
+    @Nullable Module get(String groupName);
+
+    default @Nullable Module get(Class<?> clazz) {
+        return this.get(clazz.getSimpleName());
+    }
+
+    Collection<? extends Module> getModules();
 
 }

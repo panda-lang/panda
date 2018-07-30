@@ -25,12 +25,40 @@ public interface Module {
 
     ClassPrototype add(ClassPrototype prototype);
 
-    @Nullable ClassPrototype get(String className);
-
-    int getAmountOfPrototypes();
-
     Collection<? extends ClassPrototype> getPrototypes();
 
     String getName();
+
+    default @Nullable ClassPrototype get(Class<?> clazz) {
+        return this.get(clazz.getSimpleName());
+    }
+
+    default @Nullable ClassPrototype get(String className) {
+        for (ClassPrototype prototype : this.getPrototypes()) {
+            if (prototype.isClassOf(className)) {
+                return prototype;
+            }
+        }
+
+        return null;
+    }
+
+    default boolean hasClass(Class<?> clazz) {
+        return this.hasClass(clazz.getSimpleName());
+    }
+
+    default boolean hasClass(String className) {
+        for (ClassPrototype prototype : this.getPrototypes()) {
+            if (prototype.getClassName().equals(className)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    default int getAmountOfPrototypes() {
+        return this.getPrototypes().size();
+    }
 
 }

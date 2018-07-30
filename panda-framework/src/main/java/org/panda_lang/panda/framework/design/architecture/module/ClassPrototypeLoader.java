@@ -16,16 +16,14 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-import java.util.*;
+public interface ClassPrototypeLoader {
 
-public interface ModuleRegistry {
+    ClassPrototype load(ClassPrototype prototype);
 
-    Module getOrCreate(@Nullable String groupName);
+    ClassPrototype forClass(Class<?> clazz);
 
-    Module get(@Nullable String groupName);
-
-    Collection<Module> getModules();
+    ClassPrototype forClass(String className);
 
 }
