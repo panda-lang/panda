@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserPipeline;

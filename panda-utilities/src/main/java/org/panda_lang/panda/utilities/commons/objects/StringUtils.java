@@ -45,7 +45,7 @@ public class StringUtils {
     }
 
     /**
-     * Faster alternative to String#replace, pulled from StringUtils.replace [library - commons-lang:commons-lang3]
+     * Faster alternative to String#replace, pulled from StringUtils.replace [modules - commons-lang:commons-lang3]
      */
     public static String replace(String text, String searchString, String replacement) {
         if (text == null || text.isEmpty() || searchString.isEmpty()) {
@@ -86,7 +86,7 @@ public class StringUtils {
     }
 
     /**
-     * Capitalize characters in string, merged from StringUtils.capitalize [library - commons-lang:commons-lang3]
+     * Capitalize characters in string, merged from StringUtils.capitalize [modules - commons-lang:commons-lang3]
      *
      * @param str the String to capitalize, may be null
      * @return the capitalized String, {@code null} if null String input

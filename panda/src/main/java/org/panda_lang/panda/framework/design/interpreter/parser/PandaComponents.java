@@ -17,11 +17,11 @@
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
 import org.panda_lang.panda.*;
-import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.statement.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
 
 /**

@@ -17,10 +17,11 @@
 package org.panda_lang.panda;
 
 import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.design.architecture.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.*;
 import org.panda_lang.panda.framework.design.interpreter.source.*;
+import org.panda_lang.panda.framework.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.architecture.PandaEnvironment;
+import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.*;
 import org.panda_lang.panda.utilities.commons.io.*;
 

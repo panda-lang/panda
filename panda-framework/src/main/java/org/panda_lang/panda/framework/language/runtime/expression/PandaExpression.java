@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.language.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.language.runtime.expression.ExpressionType;
 
 import java.security.InvalidParameterException;
 

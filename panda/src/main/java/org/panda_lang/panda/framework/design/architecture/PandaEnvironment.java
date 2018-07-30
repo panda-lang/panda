@@ -17,11 +17,11 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModuleRegistry;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModuleRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleRegistry;
-import org.panda_lang.panda.framework.language.interpreter.parsers.prototype.registry.ClassPrototypeModelLoader;
+import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModelLoader;
 
 public class PandaEnvironment implements Environment {
 

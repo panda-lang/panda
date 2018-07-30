@@ -17,11 +17,12 @@
 package org.panda_lang.panda.lexer.pattern;
 
 import org.junit.jupiter.api.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.*;
 
 public class AbyssPatternTest {
 

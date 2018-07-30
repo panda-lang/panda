@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language;
 
-import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 
 public interface Language {

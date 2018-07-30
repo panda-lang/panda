@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.language.interpreter.parsers.prototype.mapper.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.mapper.*;
 import org.panda_lang.panda.utilities.commons.io.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
 

@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.ArrayList;

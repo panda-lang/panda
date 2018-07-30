@@ -18,10 +18,10 @@ package org.panda_lang.panda.lexer;
 
 import org.junit.Test;
 import org.junit.jupiter.api.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.framework.language.interpreter.*;
 
 public class SimpleLexerTest {
 

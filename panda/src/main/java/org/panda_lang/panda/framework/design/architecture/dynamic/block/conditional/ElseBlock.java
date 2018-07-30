@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.dynamic.block.conditi
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 public class ElseBlock extends AbstractContainer implements Block {
 

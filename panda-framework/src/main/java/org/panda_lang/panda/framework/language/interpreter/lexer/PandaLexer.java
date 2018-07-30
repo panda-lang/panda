@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.design.interpreter.lexer.Syntax;
+import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
