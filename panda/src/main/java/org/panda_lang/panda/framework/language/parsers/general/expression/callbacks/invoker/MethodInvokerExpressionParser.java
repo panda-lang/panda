@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.parsers.general.expression.Expres
 import org.panda_lang.panda.framework.language.parsers.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parsers.general.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.parsers.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodInvoker;
@@ -68,7 +68,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
     @Override
     public void parse(TokenizedSource source, ParserData info) {
         PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
-        ImportRegistry registry = script.getImportRegistry();
+        ModuleLoader registry = script.getModuleLoader();
 
         Expression instance = null;
         ClassPrototype prototype;

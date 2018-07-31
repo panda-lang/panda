@@ -67,15 +67,19 @@ public class ModuleParser implements UnifiedParser {
             }
 
             String groupName = groupNameBuilder.toString();
+            ModulePath modulePath = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
 
-            ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-            Module module = registry.getOrCreate(groupName);
+            if (!modulePath.hasModule(groupName)) {
+                modulePath.create(groupName);
+            }
+
+            Module module = modulePath.get(groupName);
 
             PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
             script.setModule(module);
 
-            ImportRegistry importRegistry = script.getImportRegistry();
-            importRegistry.include(module);
+            ModuleLoader moduleLoader = script.getModuleLoader();
+            moduleLoader.include(module);
 
             ModuleStatement moduleStatement = new ModuleStatement(module);
             script.getStatements().add(moduleStatement);

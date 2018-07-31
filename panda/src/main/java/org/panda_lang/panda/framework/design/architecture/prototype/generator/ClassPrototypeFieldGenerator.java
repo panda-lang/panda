@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
@@ -33,11 +34,11 @@ import java.lang.reflect.Modifier;
 public class ClassPrototypeFieldGenerator {
 
     private final ClassPrototypeGenerator generator;
-    private final ModulePath modulePath;
+    private final @Nullable ModulePath modulePath;
     private final ClassPrototype prototype;
     private final Field field;
 
-    public ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, ModulePath modulePath, ClassPrototype prototype, Field field) {
+    public ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, @Nullable ModulePath modulePath, ClassPrototype prototype, Field field) {
         this.generator = generator;
         this.modulePath = modulePath;
         this.prototype = prototype;

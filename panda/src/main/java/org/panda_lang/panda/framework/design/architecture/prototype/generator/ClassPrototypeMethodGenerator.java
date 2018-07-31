@@ -52,7 +52,7 @@ public class ClassPrototypeMethodGenerator {
 
     public PrototypeMethod generate() {
         ClassPrototype returnType = generator.computeIfAbsent(modulePath, method.getReturnType());
-        ClassPrototype[] parametersTypes = PandaClassPrototypeUtils.toTypes(generator, modulePath, method.getParameterTypes());
+        ClassPrototype[] parametersTypes = ClassPrototypeGeneratorUtils.toTypes(modulePath, method.getParameterTypes());
 
         if (returnType == null) {
             throw new PandaRuntimeException("Cannot generate method for 'null' return type");

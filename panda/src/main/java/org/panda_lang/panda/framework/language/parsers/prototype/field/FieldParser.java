@@ -48,7 +48,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redacto
 import org.panda_lang.panda.framework.language.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.parsers.general.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 
 import java.util.List;
@@ -129,7 +129,7 @@ public class FieldParser implements UnifiedParser {
                     String returnTypeName = token.getTokenValue();
 
                     PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-                    ImportRegistry registry = script.getImportRegistry();
+                    ModuleLoader registry = script.getModuleLoader();
 
                     type = registry.forClass(returnTypeName);
                     continue;

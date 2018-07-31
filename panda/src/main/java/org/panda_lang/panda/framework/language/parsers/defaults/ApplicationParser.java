@@ -37,6 +37,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.defaults.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.PandaCasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.parsers.general.comment.*;
+import org.panda_lang.panda.utilities.commons.BenchmarkUtils;
 import org.panda_lang.panda.utilities.commons.objects.*;
 
 public class ApplicationParser implements Parser {
@@ -51,8 +52,8 @@ public class ApplicationParser implements Parser {
         PandaApplication application = new PandaApplication();
 
         Environment environment = interpretation.getEnvironment();
-        ModulePath registry = environment.getModulePath();
-        Module defaultModule = registry.get((String) null);
+        ModulePath modulePath = environment.getModulePath();
+        Module defaultModule = modulePath.get((String) null);
 
         Language elements = interpretation.getLanguage();
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
@@ -62,7 +63,7 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);
         baseData.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
         baseData.setComponent(UniversalComponents.GENERATION, generation);
-        baseData.setComponent(PandaComponents.MODULE_REGISTRY, registry);
+        baseData.setComponent(PandaComponents.MODULE_REGISTRY, modulePath);
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
@@ -72,7 +73,7 @@ public class ApplicationParser implements Parser {
             exceptionTranslator.updateLocation(source.getTitle());
 
             interpretation.execute(() -> {
-                pandaScript.getImportRegistry().include(defaultModule);
+                pandaScript.getModuleLoader().include(defaultModule);
 
                 PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
                 TokenizedSource tokenizedSource = CommentAssistant.uncomment(lexer.convert());
@@ -90,7 +91,7 @@ public class ApplicationParser implements Parser {
                 application.addScript(pandaScript);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
-                    interpretation.execute(() -> overallParser.parseNext(delegatedData));
+                    BenchmarkUtils.execute("OverallParser#parseNext", () -> interpretation.execute(() -> overallParser.parseNext(delegatedData)));
                 }
 
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
@@ -98,10 +99,11 @@ public class ApplicationParser implements Parser {
 
             PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
             PandaFramework.getLogger().debug("Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
+            PandaFramework.getLogger().debug("Loaded prototypes: "  + modulePath.getAmountOfPrototypes());
         }
 
         return interpretation
-                .execute(() -> generation.execute(baseData))
+                .execute(() -> BenchmarkUtils.execute("Generation#execute", () -> generation.execute(baseData)))
                 .execute(() -> application);
     }
 

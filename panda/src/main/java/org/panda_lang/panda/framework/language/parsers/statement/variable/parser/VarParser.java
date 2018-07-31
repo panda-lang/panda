@@ -99,8 +99,8 @@ public class VarParser {
             String variableType = left.getLast(1).getTokenValue();
 
             PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-            ImportRegistry importRegistry = script.getImportRegistry();
-            ClassPrototype type = importRegistry.forClass(variableType);
+            ModuleLoader moduleLoader = script.getModuleLoader();
+            ClassPrototype type = moduleLoader.forClass(variableType);
 
             boolean mutable = TokenUtils.contains(left, Keywords.MUTABLE);
             boolean nullable = TokenUtils.contains(left, Keywords.NULLABLE);

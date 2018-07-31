@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter;
 
-import org.panda_lang.panda.framework.design.architecture.*;
-import org.panda_lang.panda.framework.language.parsers.defaults.*;
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.design.interpreter.source.*;
+import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
+import org.panda_lang.panda.framework.language.parsers.defaults.ApplicationParser;
 
 public class PandaInterpreter implements Interpreter {
 

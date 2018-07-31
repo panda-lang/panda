@@ -16,12 +16,13 @@
 
 package org.panda_lang.panda;
 
-import org.junit.*;
-import org.panda_lang.panda.bootstrap.*;
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.architecture.*;
+import org.junit.Test;
+import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
+import org.panda_lang.panda.bootstrap.PandaBootstrap;
+import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.*;
 
 public class BootstrapTest {
 

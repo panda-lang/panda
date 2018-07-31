@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.registry;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.util.ReflectionsUtils;
 
@@ -28,8 +29,6 @@ import java.util.Collection;
 import java.util.Set;
 
 public interface ClassPrototypeModel {
-
-    Set<Class<? extends ClassPrototypeModel>> models = ReflectionsUtils.REFLECTIONS.getSubTypesOf(ClassPrototypeModel.class);
 
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
@@ -77,7 +76,10 @@ public interface ClassPrototypeModel {
 
     @SuppressWarnings("unchecked")
     static Collection<Class<? extends ClassPrototypeModel>> of(String moduleName) {
+        PandaFramework.getLogger().debug("Looking for subtypes of ClassPrototypeModel");
+
         Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
+        Set<Class<? extends ClassPrototypeModel>> models = ReflectionsUtils.REFLECTIONS.getSubTypesOf(ClassPrototypeModel.class);
 
         for (Class<? extends ClassPrototypeModel> clazz : models) {
             ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);
@@ -89,6 +91,7 @@ public interface ClassPrototypeModel {
             classes.add(clazz);
         }
 
+        PandaFramework.getLogger().debug("Subtypes: " + classes.size());
         return classes;
     }
 

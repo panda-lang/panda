@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.commons.objects.PackageUtils;
 
 import java.util.Collection;
 
@@ -25,13 +26,33 @@ public interface ModulePath {
     Module create(String groupName);
 
     default Module create(Class<?> clazz) {
-        return this.create(clazz.getPackage().toString());
+        return this.create(PackageUtils.getPackageName(clazz));
     }
 
     @Nullable Module get(String groupName);
 
     default @Nullable Module get(Class<?> clazz) {
-        return this.get(clazz.getSimpleName());
+        return this.get(PackageUtils.getPackageName(clazz));
+    }
+
+    default boolean hasModule(String modueName) {
+        for (Module module : this.getModules()) {
+            if (modueName.equals(module.getName())) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    default int getAmountOfPrototypes() {
+        int prototypes = 0;
+
+        for (Module module : this.getModules()) {
+            prototypes += module.getAmountOfPrototypes();
+        }
+
+        return prototypes;
     }
 
     Collection<? extends Module> getModules();

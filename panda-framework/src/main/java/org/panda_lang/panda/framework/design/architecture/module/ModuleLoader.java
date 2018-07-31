@@ -16,12 +16,17 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public interface ImportRegistry {
+public interface ModuleLoader {
 
     void include(Module module);
 
-    ClassPrototype forClass(String className);
+    default @Nullable ClassPrototype forClass(Class<?> clazz) {
+        return this.forClass(clazz.getSimpleName());
+    }
+
+    @Nullable ClassPrototype forClass(String className);
 
 }

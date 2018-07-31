@@ -58,8 +58,8 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
         }
 
         String className = gaps.get(0).asString();
-        ImportRegistry importRegistry = script.getImportRegistry();
-        this.returnType = importRegistry.forClass(className);
+        ModuleLoader moduleLoader = script.getModuleLoader();
+        this.returnType = moduleLoader.forClass(className);
 
         if (returnType == null) {
             throw PandaParserFailure.builder()

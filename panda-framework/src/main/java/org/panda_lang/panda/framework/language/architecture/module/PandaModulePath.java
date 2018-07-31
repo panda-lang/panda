@@ -33,11 +33,15 @@ public class PandaModulePath implements ModulePath {
     }
 
     private void initialize() {
-        this.create(null);
+        this.create((String) null);
     }
 
     @Override
     public Module create(String groupName) {
+        if (groups.containsKey(groupName)) {
+            return groups.get(groupName);
+        }
+
         Module module = new PandaModule(groupName);
         groups.put(groupName, module);
         return module;

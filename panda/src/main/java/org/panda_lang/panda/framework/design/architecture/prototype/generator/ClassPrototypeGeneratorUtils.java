@@ -16,20 +16,21 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public class ClassPrototypeGeneratorManager {
+public class ClassPrototypeGeneratorUtils {
 
-    private static final ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
 
-    public ClassPrototype generate(@Nullable ModulePath modulePath, Class<?> clazz) {
-        return generator.generate(modulePath, clazz);
-    }
+    public static ClassPrototype[] toTypes(ModulePath modulePath, Class<?>... types) {
+        ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
+        ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
-    public static long getTotalLoadTime() {
-        return ClassPrototypeGenerator.totalLoadTime;
+        for (int i = 0; i < types.length; i++) {
+            prototypes[i] = generator.computeIfAbsent(modulePath, types[i]);
+        }
+
+        return prototypes;
     }
 
 }

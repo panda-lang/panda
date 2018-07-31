@@ -20,6 +20,7 @@ import javassist.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.*;
 import org.panda_lang.panda.framework.design.architecture.value.*;
 import org.panda_lang.panda.language.runtime.*;
@@ -141,7 +142,7 @@ public class ClassPrototypeModelLoader {
 
                 Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
                 MethodCallback<?> methodCallback = methodCallbackClass.newInstance();
-                ClassPrototype[] parameterTypes = PandaClassPrototypeUtils.toTypes(new ClassPrototypeGenerator(), modulePath, method.getParameterTypes());
+                ClassPrototype[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(modulePath, method.getParameterTypes());
 
                 methodRegisters.add(() -> {
                     PandaMethod pandaMethod = PandaMethod.builder()

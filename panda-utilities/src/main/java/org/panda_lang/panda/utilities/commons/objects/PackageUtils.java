@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.utilities.commons.objects;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.jetbrains.annotations.Nullable;
 
-public interface ClassPrototypeLoader {
+public class PackageUtils {
 
-    ClassPrototype load(ClassPrototype prototype);
-
-    ClassPrototype forClass(Class<?> clazz);
-
-    ClassPrototype forClass(String className);
+    public static @Nullable String getPackageName(Class<?> clazz) {
+        return clazz.getPackage() == null ? null : clazz.getPackage().toString();
+    }
 
 }

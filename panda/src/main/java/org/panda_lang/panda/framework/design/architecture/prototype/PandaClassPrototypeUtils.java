@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 
-import java.util.*;
+import java.util.Collection;
 
 public class PandaClassPrototypeUtils {
 
@@ -55,11 +54,11 @@ public class PandaClassPrototypeUtils {
         return false;
     }
 
-    public static ClassPrototype[] toTypes(ClassPrototypeGenerator generator, ModulePath modulePath, Class<?>... types) {
+    public static ClassPrototype[] toTypes(ModuleLoader loader, Class<?>... types) {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = generator.computeIfAbsent(modulePath, types[i]);
+            prototypes[i] = loader.forClass(types[i]);
         }
 
         return prototypes;

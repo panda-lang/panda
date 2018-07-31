@@ -47,7 +47,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.language.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.parsers.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
@@ -94,7 +94,7 @@ public class MethodParser implements UnifiedParser {
 
                 if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 2) {
                     PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-                    ImportRegistry registry = script.getImportRegistry();
+                    ModuleLoader registry = script.getModuleLoader();
 
                     String returnTypeName = token.getTokenValue();
                     returnType = registry.forClass(returnTypeName);

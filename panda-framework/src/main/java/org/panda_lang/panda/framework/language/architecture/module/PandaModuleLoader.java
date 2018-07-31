@@ -17,18 +17,20 @@
 package org.panda_lang.panda.framework.language.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PandaImportRegistry implements ImportRegistry {
+public class PandaModuleLoader implements ModuleLoader {
 
     private final Collection<Module> importedModules;
 
-    public PandaImportRegistry() {
+    public PandaModuleLoader() {
         this.importedModules = new ArrayList<>();
     }
 
@@ -37,8 +39,12 @@ public class PandaImportRegistry implements ImportRegistry {
     }
 
     public @Nullable ClassPrototype forClass(String className) {
-        if (className == null || className.isEmpty()) {
+        if (StringUtils.isEmpty(className)) {
             return null;
+        }
+
+        if (className.contains(":")) {
+            throw new PandaRuntimeException("Not implemented");
         }
 
         for (Module module : importedModules) {

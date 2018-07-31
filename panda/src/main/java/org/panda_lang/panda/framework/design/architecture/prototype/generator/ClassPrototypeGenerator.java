@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -31,8 +32,23 @@ import java.lang.reflect.Method;
 
 public class ClassPrototypeGenerator {
 
-    public ClassPrototype generate(ModulePath modulePath, Class<?> type) {
+    protected static long totalLoadTime;
+    protected static boolean locked;
+
+    public ClassPrototype generate(@Nullable ModulePath modulePath, Class<?> type) {
+        boolean bypass = !locked;
+        long currentTime = System.nanoTime();
+
+        if (bypass) {
+            locked = true;
+        }
+
         ClassPrototype prototype = new PandaClassPrototype(type.getSimpleName(), type);
+
+        if (modulePath != null) {
+            Module module = modulePath.create(type);
+            module.add(prototype);
+        }
 
         for (Field field : type.getFields()) {
             ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, modulePath, prototype, field);
@@ -52,6 +68,11 @@ public class ClassPrototypeGenerator {
             prototype.getMethods().registerMethod(prototypeMethod);
         }
 
+        if (bypass) {
+            totalLoadTime += System.nanoTime() - currentTime;
+            locked = false;
+        }
+
         return prototype;
     }
 
@@ -63,12 +84,10 @@ public class ClassPrototypeGenerator {
                 : module.get(type);
 
         if (prototype == null) {
-            throw new PandaRuntimeException("Cannot generate class: " + type);
+            throw new PandaRuntimeException("Cannot prepare class: " + type);
         }
 
-        if (module == null) {
-            module = modulePath.get(type);
-        }
+        module = modulePath.get(type);
 
         if (module == null) {
             throw new PandaRuntimeException("Cannot find module of prototype: " + prototype);

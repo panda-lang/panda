@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.parsers.general.argument.Argument
 import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.parsers.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parsers.general.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
@@ -94,7 +94,7 @@ public class MethodInvokerParser implements UnifiedParser {
             TokenizedSource argumentsSource = redactor.get("arguments");
 
             PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-            ImportRegistry registry = script.getImportRegistry();
+            ModuleLoader registry = script.getModuleLoader();
 
             String surmiseClassName = instanceSource.asString();
             ClassPrototype prototype = registry.forClass(surmiseClassName);

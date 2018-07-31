@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class PandaMethodBuilder {
 
@@ -41,11 +40,11 @@ public class PandaMethodBuilder {
         return this;
     }
 
-    public PandaMethodBuilder parameterTypes(ModulePath registry, String... parameterTypes) {
+    public PandaMethodBuilder parameterTypes(ModuleLoader moduleLoader, String... parameterTypes) {
         ClassPrototype[] prototypes = new ClassPrototype[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
-            prototypes[i] = new ClassPrototypeGenerator().computeIfAbsent(registry, parameterTypes[i]);
+            prototypes[i] = moduleLoader.forClass(parameterTypes[i]);
         }
 
         this.parameterTypes = prototypes;

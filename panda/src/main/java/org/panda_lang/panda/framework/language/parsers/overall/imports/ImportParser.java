@@ -16,35 +16,40 @@
 
 package org.panda_lang.panda.framework.language.parsers.overall.imports;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
-import org.panda_lang.panda.framework.design.architecture.statement.ImportStatement;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.statement.ImportStatement;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
-import org.reflections.*;
-import org.reflections.scanners.*;
-import org.reflections.util.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 
-import java.io.*;
-import java.lang.management.*;
-import java.net.*;
-import java.util.*;
+import java.io.File;
+import java.lang.management.ManagementFactory;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
@@ -88,6 +93,9 @@ public class ImportParser implements UnifiedParser {
             String importedGroupName = groupNameBuilder.toString();
 
             if (attach) {
+                throw new PandaParserException("Attach not implemented");
+
+                /*
                 if (Package.getPackage(importedGroupName) != null) {
                     PandaFramework.getLogger().debug("Attaching native sources (" + importedGroupName + "), this may take a while");
 
@@ -114,6 +122,7 @@ public class ImportParser implements UnifiedParser {
                 else {
                     throw new PandaParserException("Cannot attach " + importedGroupName + " [package does not exist]");
                 }
+                */
             }
 
             Module module = registry.get(importedGroupName);
@@ -125,8 +134,8 @@ public class ImportParser implements UnifiedParser {
             ImportStatement importStatement = new ImportStatement(module);
             script.getStatements().add(importStatement);
 
-            ImportRegistry importRegistry = script.getImportRegistry();
-            importRegistry.include(module);
+            ModuleLoader moduleLoader = script.getModuleLoader();
+            moduleLoader.include(module);
         }
 
     }

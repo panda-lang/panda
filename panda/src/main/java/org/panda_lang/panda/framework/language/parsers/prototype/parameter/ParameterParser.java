@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +51,8 @@ public class ParameterParser implements Parser {
             String parameterName = parameterNameRepresentation.getToken().getTokenValue();
 
             PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
-            ImportRegistry importRegistry = script.getImportRegistry();
-            ClassPrototype type = importRegistry.forClass(parameterType);
+            ModuleLoader moduleLoader = script.getModuleLoader();
+            ClassPrototype type = moduleLoader.forClass(parameterType);
 
             if (type == null) {
                 throw new PandaParserException("Unknown type '" + parameterType + "'");

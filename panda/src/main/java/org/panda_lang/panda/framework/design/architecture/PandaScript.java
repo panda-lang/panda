@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.framework.design.architecture;
 
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.language.architecture.module.PandaImportRegistry;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.AbstractScript;
 
 public class PandaScript extends AbstractScript {
 
-    protected final ImportRegistry importRegistry;
+    protected final ModuleLoader moduleLoader;
     protected Module currentModule;
 
     public PandaScript(String scriptName) {
         super(scriptName);
-        this.importRegistry = new PandaImportRegistry();
+        this.moduleLoader = new PandaModuleLoader();
     }
 
     public void setModule(Module currentModule) {
@@ -39,8 +39,8 @@ public class PandaScript extends AbstractScript {
         return currentModule;
     }
 
-    public ImportRegistry getImportRegistry() {
-        return importRegistry;
+    public ModuleLoader getModuleLoader() {
+        return moduleLoader;
     }
 
 }

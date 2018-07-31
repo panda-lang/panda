@@ -16,11 +16,30 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
+
+import java.util.function.Supplier;
+
 public class BenchmarkUtils {
+
+    public static void execute(String title, Runnable runnable) {
+        long time = System.nanoTime();
+        runnable.run();
+        System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
+    }
+
+    public static <T> T execute(String title, Supplier<T> runnable) {
+        long time = System.nanoTime();
+
+        T value = runnable.get();
+        System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
+
+        return value;
+    }
 
     public static void print(long start, int av, String message) {
         long nsDif = System.nanoTime() - start;
-        float msDif = nsDif / 1000000;
+        float msDif = nsDif / 1000000F;
         float sDif = msDif / 1000;
         float mDif = sDif / 60;
 

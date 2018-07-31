@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.architecture.module.ImportRegistry;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
 public class ClassPrototypeParserUtils {
@@ -46,7 +46,7 @@ public class ClassPrototypeParserUtils {
 
                     if (classNameToken.getType() == TokenType.UNKNOWN) {
                         PandaScript script = delegatedInfo.getComponent(PandaComponents.PANDA_SCRIPT);
-                        ImportRegistry registry = script.getImportRegistry();
+                        ModuleLoader registry = script.getModuleLoader();
                         ClassPrototype extendedPrototype = registry.forClass(classNameToken.getTokenValue());
 
                         if (extendedPrototype == null) {
