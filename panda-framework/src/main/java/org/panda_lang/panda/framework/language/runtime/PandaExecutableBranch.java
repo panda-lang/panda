@@ -68,8 +68,11 @@ public class PandaExecutableBranch implements ExecutableBranch {
 
     @Override
     public ControlFlow callFlow(Collection<StatementCell> cells, ControlFlowCaller caller) {
-        PandaControlFlow parentFlow = currentFlow;
+        if (isInterrupted()) {
+            return currentFlow;
+        }
 
+        PandaControlFlow parentFlow = currentFlow;
         this.currentFlow = new PandaControlFlow(this, cells, caller);
         currentFlow.execute(this);
 
@@ -98,6 +101,10 @@ public class PandaExecutableBranch implements ExecutableBranch {
 
         ExecutableBranch branch = new PandaExecutableBranch(process, scope);
         branch.instance(instance);
+
+        if (isInterrupted()) {
+            return branch;
+        }
 
         if (standaloneScope) {
             branch.call();

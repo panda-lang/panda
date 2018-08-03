@@ -100,4 +100,8 @@ public class ClassPrototypeGenerator {
         return prototype;
     }
 
+    public static void resetLoadTime() {
+        totalLoadTime = 0;
+    }
+
 }

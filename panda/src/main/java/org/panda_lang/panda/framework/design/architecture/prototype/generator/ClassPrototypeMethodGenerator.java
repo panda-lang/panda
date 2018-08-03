@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
@@ -61,7 +60,11 @@ public class ClassPrototypeMethodGenerator {
         boolean isVoid = returnType.getClassName().equals("void");
 
         // TODO: Generate bytecode
+        method.setAccessible(true);
+
         MethodCallback<Object> methodBody = (branch, instance, parameters) -> {
+            long start = System.nanoTime();
+
             try {
                 int amountOfArgs = parameters.length;
                 int parameterCount = method.getParameterCount();
@@ -110,6 +113,8 @@ public class ClassPrototypeMethodGenerator {
                 branch.setReturnValue(value);
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
             }
         };
 

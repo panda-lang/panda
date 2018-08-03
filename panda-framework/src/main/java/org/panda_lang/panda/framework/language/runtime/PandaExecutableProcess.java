@@ -25,18 +25,18 @@ import org.panda_lang.panda.language.runtime.ExecutableProcess;
 public class PandaExecutableProcess implements ExecutableProcess {
 
     private final Application application;
-    private final Scope headScope;
+    private final Scope mainScope;
     private final String[] parameters;
 
-    public PandaExecutableProcess(Application application, Scope startScope, String... parameters) {
+    public PandaExecutableProcess(Application application, Scope mainScope, String... parameters) {
         this.application = application;
-        this.headScope = startScope;
+        this.mainScope = mainScope;
         this.parameters = parameters;
     }
 
     @Override
     public Value execute() {
-        ScopeInstance instance = headScope.createInstance(null); // TODO: check behaviour of branch after applying the 'null' value
+        ScopeInstance instance = mainScope.createInstance(null); // TODO: check behaviour of branch after applying the 'null' value
 
         PandaExecutableBranch branch = new PandaExecutableBranch(this, instance);
         branch.call();
@@ -48,8 +48,8 @@ public class PandaExecutableProcess implements ExecutableProcess {
         return parameters;
     }
 
-    public Scope getHeadScope() {
-        return headScope;
+    public Scope getMainScope() {
+        return mainScope;
     }
 
     public Application getApplication() {

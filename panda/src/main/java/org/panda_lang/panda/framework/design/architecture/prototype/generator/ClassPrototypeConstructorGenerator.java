@@ -45,10 +45,13 @@ public class ClassPrototypeConstructorGenerator {
         }
 
         // TODO: Generate bytecode
+        constructor.setAccessible(true);
 
         return new PrototypeConstructor() {
             @Override
             public @Nullable Object createInstance(ExecutableBranch bridge, Value... values) {
+                long start = System.nanoTime();
+
                 try {
                     Object[] args = new Object[values.length];
 
@@ -59,6 +62,8 @@ public class ClassPrototypeConstructorGenerator {
                     return constructor.newInstance(args);
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
                 }
 
                 return null;

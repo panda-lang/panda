@@ -26,13 +26,13 @@ import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public class FieldAssigner extends ExecutableStatement {
+public class FieldAccessor extends ExecutableStatement {
 
     private final PrototypeField field;
     private final Expression instanceExpression;
     private final Expression valueExpression;
 
-    public FieldAssigner(Expression instanceExpression, PrototypeField field, Expression valueExpression) {
+    public FieldAccessor(Expression instanceExpression, PrototypeField field, Expression valueExpression) {
         this.instanceExpression = instanceExpression;
         this.field = field;
         this.valueExpression = valueExpression;

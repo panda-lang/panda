@@ -22,10 +22,19 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 
 public class ClassPrototypeGeneratorManager {
 
-    private static final ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
+    protected static final ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
+    protected static long reflectionsTime;
 
     public ClassPrototype generate(@Nullable ModulePath modulePath, Class<?> clazz) {
         return generator.generate(modulePath, clazz);
+    }
+
+    public static void resetReflectionsTime() {
+        reflectionsTime = 0;
+    }
+
+    public static long getReflectionsTime() {
+        return reflectionsTime;
     }
 
     public static long getTotalLoadTime() {

@@ -45,14 +45,15 @@ public class PandaControlFlow implements Executable, ControlFlow {
 
     @Override
     public void call() {
+        reset();
+
         for (StatementCell statementCell : cells) {
             if (branch.isInterrupted() || isEscaped() || isSkipped()) {
                 break;
             }
 
             if (statementCell.isExecutable()) {
-                Executable executable = (Executable) statementCell.getStatement();
-                branch.call(executable);
+                branch.call((Executable) statementCell.getStatement());
             }
         }
     }

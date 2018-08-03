@@ -38,6 +38,6 @@ public interface Container extends Statement {
     /**
      * @return list of all cells in correct order
      */
-    List<StatementCell> getStatementCells();
+    List<? extends StatementCell> getStatementCells();
 
 }

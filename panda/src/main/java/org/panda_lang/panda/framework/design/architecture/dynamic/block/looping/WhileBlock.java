@@ -32,7 +32,7 @@ public class WhileBlock extends AbstractBlock implements ControlFlowCaller {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        branch.callFlow(getStatementCells(), this);
+        branch.callFlow(super.getStatementCells(), this);
     }
 
     @Override

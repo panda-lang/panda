@@ -154,7 +154,7 @@ public class VarParser {
                         + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")");
             }
 
-            assigner = new VariableAssigner(variable, VariableParserUtils.indexOf(result.getScope(), variable), expressionValue);
+            assigner = new VariableAccessor(variable, VariableParserUtils.indexOf(result.getScope(), variable), expressionValue);
         }
         else {
             Expression instanceExpression = result.getInstanceExpression();
@@ -171,7 +171,7 @@ public class VarParser {
                 throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
             }
 
-            assigner = new FieldAssigner(instanceExpression, field, expressionValue);
+            assigner = new FieldAccessor(instanceExpression, field, expressionValue);
         }
 
         data.getCell().setStatement(assigner);

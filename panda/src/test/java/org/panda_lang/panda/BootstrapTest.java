@@ -16,20 +16,23 @@
 
 package org.panda_lang.panda;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 public class BootstrapTest {
 
     @Test
     public void testBootstraps() {
-        for (int i = 0; i < 1; i++) {
-            // System.out.println("BootstrapTest Loop: " + i);
+        for (int i = 0; i < 10; i++) {
+            System.out.println("BootstrapTest Loop: " + i);
             this.testBootstrap();
         }
     }
@@ -50,6 +53,10 @@ public class BootstrapTest {
         }
 
         application.launch();
+        PandaFramework.getLogger().debug("Reflections time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getReflectionsTime()));
+
+        ClassPrototypeGenerator.resetLoadTime();
+        ClassPrototypeGeneratorManager.resetReflectionsTime();
     }
 
 }

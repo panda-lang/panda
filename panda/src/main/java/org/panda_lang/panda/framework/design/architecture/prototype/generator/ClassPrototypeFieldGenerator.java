@@ -59,7 +59,10 @@ public class ClassPrototypeFieldGenerator {
                 .build();
 
         // TODO: Generate bytecode
+        field.setAccessible(true);
+
         Expression fieldExpression = new PandaExpression(returnType, (expression, branch) -> {
+            long start = System.nanoTime();
             Object instance = branch != null ? branch.getInstance().getValue() : null;
 
             try {
@@ -67,6 +70,8 @@ public class ClassPrototypeFieldGenerator {
                 return new PandaValue(returnType, value);
             } catch (IllegalAccessException e) {
                 throw new PandaRuntimeException(e);
+            } finally {
+                ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
             }
         });
 

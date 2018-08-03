@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.dynamic.branching;
+package org.panda_lang.panda.framework.design.architecture.dynamic.block;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
-public class Break extends ExecutableStatement {
+public class PandaBlock extends AbstractBlock {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        branch.getCurrentControlFlow().escape();
+        branch.call(super.getStatementCells());
     }
 
 }

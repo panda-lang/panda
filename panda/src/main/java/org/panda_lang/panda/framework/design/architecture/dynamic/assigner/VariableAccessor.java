@@ -24,13 +24,13 @@ import org.panda_lang.panda.language.runtime.ExecutableBranch;
 import org.panda_lang.panda.language.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public class VariableAssigner extends ExecutableStatement {
+public class VariableAccessor extends ExecutableStatement {
 
     private final Variable variable;
     private final int internalPointer;
     private final Expression expression;
 
-    public VariableAssigner(Variable variable, int internalPointer, Expression expression) {
+    public VariableAccessor(Variable variable, int internalPointer, Expression expression) {
         this.variable = variable;
         this.internalPointer = internalPointer;
         this.expression = expression;
