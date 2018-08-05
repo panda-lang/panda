@@ -16,38 +16,36 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.language.parsers.statement.invoker.MethodInvokerParser;
-
 public class PandaPriorities {
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.prototype.field.FieldParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.prototype.field.FieldParser}
      */
     public static final int PROTOTYPE_FIELD_PARSER = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.prototype.method.MethodParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.prototype.method.MethodParser}
      */
     public static final int PROTOTYPE_METHOD_PARSER = 2;
 
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.statement.scope.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockParser}
      */
     public static final int SCOPE_BLOCK_PARSER = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.statement.StatementParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.statement.StatementParser}
      */
     public static final int SCOPE_STATEMENT_PARSER = 2;
 
     /**
-     * Used by {@link MethodInvokerParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.statement.invoker.MethodInvokerParser}
      */
     public static final int STATEMENT_METHOD_INVOKER_PARSER = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.statement.variable.VariableParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.statement.variable.VariableParser}
      */
     public static final int STATEMENT_VARIABLE_PARSER = 2;
 

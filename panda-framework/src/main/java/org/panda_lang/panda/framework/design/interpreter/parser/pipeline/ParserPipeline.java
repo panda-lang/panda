@@ -25,12 +25,12 @@ public interface ParserPipeline {
 
     /**
      * @param sourceStream the source
-     * @return parsers which fits to the source
+     * @return parser which fits to the source
      */
     UnifiedParser handle(SourceStream sourceStream);
 
     /**
-     * @param parserRepresentation specified parsers representation which will be registered in the pipeline
+     * @param parserRepresentation specified parser representation which will be registered in the pipeline
      */
     void registerParserRepresentation(ParserRepresentation parserRepresentation);
 
@@ -40,7 +40,7 @@ public interface ParserPipeline {
     long getHandleTime();
 
     /**
-     * @return a collection of registered parsers
+     * @return a collection of registered parser
      */
     Collection<ParserRepresentation> getRepresentations();
 

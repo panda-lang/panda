@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.parsers.prototype.ClassPrototypeParser;
+import org.panda_lang.panda.framework.language.parser.implementation.prototype.ClassPrototypeParser;
 
 /**
  * Used by {@link ParserRegistration}
@@ -30,17 +30,17 @@ public class PandaPipelines {
     public static final String PROTOTYPE = "prototype";
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.defaults.ScopeParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.ScopeParser}
      */
     public static final String SCOPE = "scope";
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.statement.scope.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockParser}
      */
     public static final String BLOCK = "block";
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.parsers.statement.StatementParser}
+     * Used by {@link org.panda_lang.panda.framework.language.parser.implementation.statement.StatementParser}
      */
     public static final String STATEMENT = "statement";
 

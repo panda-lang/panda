@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
-import org.panda_lang.panda.framework.language.parsers.defaults.ApplicationParser;
+import org.panda_lang.panda.framework.language.parser.implementation.ApplicationParser;
 
 public class PandaInterpreter implements Interpreter {
 

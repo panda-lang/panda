@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.*;
 import org.panda_lang.panda.framework.design.architecture.value.*;
 import org.panda_lang.panda.language.runtime.*;
 import org.panda_lang.panda.language.runtime.expression.*;
-import org.panda_lang.panda.framework.language.parsers.general.expression.*;
+import org.panda_lang.panda.framework.language.parser.implementation.general.expression.*;
 
 public class MethodInvoker extends ExecutableStatement implements StandaloneExecutable {
 

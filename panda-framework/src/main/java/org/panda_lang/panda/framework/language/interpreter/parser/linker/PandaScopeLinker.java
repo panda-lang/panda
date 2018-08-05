@@ -25,9 +25,9 @@ public class PandaScopeLinker implements ScopeLinker {
 
     private final Stack<Scope> scopeStack;
 
-    public PandaScopeLinker(Scope headScope) {
+    public PandaScopeLinker(Scope parentScope) {
         this.scopeStack = new Stack<>();
-        this.pushScope(headScope);
+        this.pushScope(parentScope);
     }
 
     @Override

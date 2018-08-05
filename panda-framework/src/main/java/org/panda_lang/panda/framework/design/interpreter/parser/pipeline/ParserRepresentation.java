@@ -41,7 +41,7 @@ public interface ParserRepresentation {
     ParserHandler getHandler();
 
     /**
-     * @return associated parsers
+     * @return associated parser
      */
     UnifiedParser getParser();
 

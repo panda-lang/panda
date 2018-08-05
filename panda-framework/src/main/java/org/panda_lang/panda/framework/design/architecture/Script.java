@@ -28,6 +28,11 @@ public interface Script {
     <T extends Statement> List<T> select(Class<? extends T> statementClass);
 
     /**
+     * Add statement
+     */
+    //void addStatement(Statement statement);
+
+    /**
      * @return list of the statement declarations
      */
     List<Statement> getStatements();
