@@ -17,6 +17,7 @@
 package org.panda_lang.panda.utilities.commons.arrays.character;
 
 import org.junit.jupiter.api.*;
+import org.panda_lang.panda.utilities.commons.redact.AttentiveContentReader;
 
 import java.util.*;
 

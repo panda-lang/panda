@@ -14,21 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.arrays.character;
+package org.panda_lang.panda.utilities.autodata;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
+public interface AutomatedDataRest<T> {
 
-public class BracketContentReaderTest {
+    void post(Object element);
 
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
+    void patch(Object element);
 
-    @Test
-    public void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
+    T put(Object element);
 
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
-    }
+    T get(Object query);
+
+    T delete(Object query);
 
 }

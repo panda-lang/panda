@@ -14,21 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.arrays.character;
+package org.panda_lang.panda.utilities.commons.pattern;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
+public interface PatternMatcher {
 
-public class BracketContentReaderTest {
-
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
-
-    @Test
-    public void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
-
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
-    }
+    /**
+     * @param expression the text to pattern
+     * @return true if the expression is matched
+     */
+    boolean match(String expression);
 
 }

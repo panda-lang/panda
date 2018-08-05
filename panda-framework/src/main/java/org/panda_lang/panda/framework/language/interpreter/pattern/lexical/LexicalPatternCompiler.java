@@ -18,8 +18,9 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.*;
 import org.panda_lang.panda.utilities.commons.arrays.*;
-import org.panda_lang.panda.utilities.commons.arrays.character.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.utilities.commons.redact.AttentiveContentReader;
+import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
 
 import java.util.*;
 

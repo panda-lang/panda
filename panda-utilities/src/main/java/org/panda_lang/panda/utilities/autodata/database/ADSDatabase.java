@@ -14,21 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.arrays.character;
+package org.panda_lang.panda.utilities.autodata.database;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
+public class ADSDatabase {
 
-public class BracketContentReaderTest {
+    private final String name;
+    private final ADSDatabaseRepository repository;
 
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
+    protected ADSDatabase(ADSDatabaseBuilder builder) {
+        this.name = builder.name;
+        this.repository = builder.repository;
+    }
 
-    @Test
-    public void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
+    public ADSDatabaseRepository getRepository() {
+        return repository;
+    }
 
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
+    public String getName() {
+        return name;
     }
 
 }

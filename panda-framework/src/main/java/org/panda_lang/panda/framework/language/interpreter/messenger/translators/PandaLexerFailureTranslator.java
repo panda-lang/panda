@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
+import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
 import org.panda_lang.panda.utilities.redact.format.*;
 
 public class PandaLexerFailureTranslator implements MessengerMessageTranslator<PandaLexerException> {

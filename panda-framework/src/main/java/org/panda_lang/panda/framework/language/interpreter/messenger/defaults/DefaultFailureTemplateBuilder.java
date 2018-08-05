@@ -20,7 +20,7 @@ import org.fusesource.jansi.Ansi;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
-import org.panda_lang.panda.utilities.redact.format.MessageFormatter;
+import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
 
 public class DefaultFailureTemplateBuilder {
 

@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.arrays.character;
+package org.panda_lang.panda.utilities.autodata.collection;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
+public interface ADSCollectionHandler<Service extends ADSCollectionService, DataType, QueryType> {
 
-public class BracketContentReaderTest {
+    void save(Service service, DataType element);
 
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
+    DataType get(Service service, QueryType query);
 
-    @Test
-    public void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
+    Class<QueryType> getQueryType();
 
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
-    }
+    Class<DataType> getDataType();
 
 }

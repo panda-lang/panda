@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.parser.bootstrap;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 
@@ -47,7 +46,6 @@ public class PandaParserBootstrap {
         return new PandaParserBuilder(this);
     }
 
-    @Nullable
     public ParserRepresentation build() {
         return null;
     }

@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.redact.match;
 
 import org.junit.Test;
 import org.junit.jupiter.api.*;
+import org.panda_lang.panda.utilities.commons.pattern.charset.CharsetPattern;
 import org.panda_lang.panda.utilities.redact.match.charset.*;
 
 public class CharsetPatternTest {

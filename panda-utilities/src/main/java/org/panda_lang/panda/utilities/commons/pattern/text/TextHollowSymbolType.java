@@ -14,21 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.arrays.character;
+package org.panda_lang.panda.utilities.commons.pattern.text;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
+public enum TextHollowSymbolType {
 
-public class BracketContentReaderTest {
-
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
-
-    @Test
-    public void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
-
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
-    }
+    BASIS,
+    HOLLOW,
+    OPTIONAL
 
 }

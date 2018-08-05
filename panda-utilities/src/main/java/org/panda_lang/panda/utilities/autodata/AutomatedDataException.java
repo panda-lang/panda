@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.arrays.character;
+package org.panda_lang.panda.utilities.autodata;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
+public class AutomatedDataException extends RuntimeException {
 
-public class BracketContentReaderTest {
+    public AutomatedDataException(String message) {
+        super(message);
+    }
 
-    private static final String CONTENT = "(Test (A[B{C\"D\"E}F]G) Test) EoT";
+    public AutomatedDataException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
-    @Test
-    public void testBracketContentReader() {
-        BracketContentReader bracketContentReader = new BracketContentReader(CONTENT);
-        String content = bracketContentReader.read();
-
-        Assertions.assertEquals("Test (A[B{C\"D\"E}F]G) Test", content);
+    public AutomatedDataException(Throwable cause) {
+        super(cause);
     }
 
 }
