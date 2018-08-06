@@ -27,15 +27,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AnnotationsScannerWorker {
+public class AnnotationsScannerProcess {
 
+    private final AnnotationScannerStore store;
     private final Set<? extends AnnotationsScannerResource<?>> resources;
     private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
     private final List<Filter<AnnotationsScannerFile>> fileFilters;
     private final List<Filter<ClassFile>> pseudoClassFilters;
     private final List<Filter<Class<?>>> classFilters;
 
-    AnnotationsScannerWorker(AnnotationsScannerWorkerBuilder builder) {
+    AnnotationsScannerProcess(AnnotationsScannerWorkerBuilder builder) {
+        this.store = builder.store;
         this.resources = builder.resources;
         this.metadataAdapter = builder.metadataAdapter;
         this.fileFilters = builder.fileFilters;
@@ -43,14 +45,16 @@ public class AnnotationsScannerWorker {
         this.classFilters = builder.classFilters;
     }
 
-    public Set<Class<?>> scan() {
-        Set<Class<?>> classes = new HashSet<>();
-
+    protected AnnotationsScannerProcess fetch() {
         for (AnnotationsScannerResource<?> resource : resources) {
-            classes.addAll(scanResource(resource));
+            scanResource(resource);
         }
 
-        return classes;
+        return this;
+    }
+
+    public AnnotationsScannerSelector createSelector() {
+        return new AnnotationsScannerSelector(store);
     }
 
     private Set<Class<?>> scanResource(AnnotationsScannerResource<?> resource) {
@@ -83,6 +87,8 @@ public class AnnotationsScannerWorker {
         } catch (Exception e) {
             return null; // mute
         }
+
+        store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());
 
         for (Filter<ClassFile> pseudoClassFilter : pseudoClassFilters) {
             if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {

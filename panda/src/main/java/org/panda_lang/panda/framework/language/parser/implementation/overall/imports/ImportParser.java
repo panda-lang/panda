@@ -100,7 +100,7 @@ public class ImportParser implements UnifiedParser {
                     PandaFramework.getLogger().debug("Attaching native sources (" + importedGroupName + "), this may take a while");
 
                     Configuration configuration = ConfigurationBuilder
-                            .build(importedGroupName, new SubTypesScanner(false))
+                            .fetch(importedGroupName, new SubTypesScanner(false))
                             .addUrls(BOOT_CLASS_PATH);
 
                     Reflections reflections = new Reflections(configuration);

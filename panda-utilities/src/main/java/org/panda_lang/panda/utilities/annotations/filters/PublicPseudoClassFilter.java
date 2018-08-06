@@ -21,18 +21,11 @@ import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 
-public class SubTypeFilter implements Filter<ClassFile> {
-
-    private final Class<?> type;
-
-    public SubTypeFilter(Class<?> type) {
-        this.type = type;
-    }
+public class PublicPseudoClassFilter implements Filter<ClassFile> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, ClassFile element) {
-        String superclass = metadataAdapter.getSuperclassName(element);
-        return type.getName().equals(superclass);
+        return metadataAdapter.isPublic(element);
     }
 
 }

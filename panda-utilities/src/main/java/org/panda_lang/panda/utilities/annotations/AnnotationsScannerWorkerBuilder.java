@@ -29,15 +29,18 @@ import java.util.Set;
 
 public class AnnotationsScannerWorkerBuilder {
 
+    protected final AnnotationScannerStore store;
     protected final Set<? extends AnnotationsScannerResource<?>> resources;
     protected final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
     protected final List<Filter<AnnotationsScannerFile>> fileFilters;
     protected final List<Filter<ClassFile>> pseudoClassFilters;
     protected final List<Filter<Class<?>>> classFilters;
 
-    AnnotationsScannerWorkerBuilder(Set<? extends AnnotationsScannerResource<?>> resources, MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter) {
-        this.resources = resources;
-        this.metadataAdapter = metadataAdapter;
+    AnnotationsScannerWorkerBuilder(AnnotationsScanner scanner, AnnotationScannerStore store) {
+        this.store = store;
+        this.resources = scanner.getResources();
+        this.metadataAdapter = scanner.getMetadataAdapter();
+
         this.fileFilters = new ArrayList<>(1);
         this.pseudoClassFilters = new ArrayList<>(1);
         this.classFilters = new ArrayList<>(1);
@@ -61,8 +64,8 @@ public class AnnotationsScannerWorkerBuilder {
         return this;
     }
 
-    public AnnotationsScannerWorker build() {
-        return new AnnotationsScannerWorker(this);
+    public AnnotationsScannerProcess fetch() {
+        return new AnnotationsScannerProcess(this).fetch();
     }
 
 }

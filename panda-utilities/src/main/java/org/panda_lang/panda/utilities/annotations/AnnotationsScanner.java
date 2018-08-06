@@ -34,7 +34,15 @@ public class AnnotationsScanner {
     }
 
     public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(resources, metadataAdapter);
+        return new AnnotationsScannerWorkerBuilder(this, new AnnotationScannerStore());
+    }
+
+    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
+        return metadataAdapter;
+    }
+
+    protected Set<? extends AnnotationsScannerResource<?>> getResources() {
+        return resources;
     }
 
     public static AnnotationsScannerBuilder builder() {
