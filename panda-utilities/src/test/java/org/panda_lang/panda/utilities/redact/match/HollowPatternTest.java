@@ -18,7 +18,6 @@ package org.panda_lang.panda.utilities.redact.match;
 
 import org.junit.*;
 import org.panda_lang.panda.utilities.commons.pattern.text.TextHollowPattern;
-import org.panda_lang.panda.utilities.redact.match.text.*;
 
 public class HollowPatternTest {
 

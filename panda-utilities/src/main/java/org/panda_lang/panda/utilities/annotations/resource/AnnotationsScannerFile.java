@@ -14,22 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.redact.match;
+package org.panda_lang.panda.utilities.annotations.resource;
 
-import org.junit.Test;
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.pattern.charset.CharsetPattern;
+import java.io.InputStream;
 
-public class CharsetPatternTest {
+public interface AnnotationsScannerFile {
 
-    private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
+    InputStream openInputStream() throws Exception;
 
-    @Test
-    public void testCharsetPattern() {
-        CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
-        charsetPattern.setCharset(new char[]{ '.', '(', ')'  });
+    String getRelativePath();
 
-        Assertions.assertTrue(charsetPattern.match(EXPRESSION));
+    default String getClassPath() {
+        return getRelativePath().replace("/", ".").replace(".class", "");
+    }
+
+    default String getName() {
+        return getRelativePath().substring(getRelativePath().lastIndexOf("/") + 1);
     }
 
 }

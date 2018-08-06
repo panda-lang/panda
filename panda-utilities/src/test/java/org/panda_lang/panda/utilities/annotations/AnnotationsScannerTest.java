@@ -16,24 +16,24 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResource;
+import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
-public class AnnotationsScanner {
+public class AnnotationsScannerTest {
 
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
+    @Test
+    void testScanner() {
+        AnnotationsScanner scanner = AnnotationsScanner.builder()
+                .includeClassLoaders(this.getClass().getClassLoader())
+                .build();
 
-    protected AnnotationsScanner(Set<? extends AnnotationsScannerResource<?>> resources) {
-        this.resources = resources;
-    }
+        Set<Class<?>> tests = scanner.createWorker()
+                .addOfflineFilter(className -> className.endsWith("AnnotationsScannerTest"))
+                .build()
+                .scan();
 
-    public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(resources);
-    }
-
-    public static AnnotationsScannerBuilder builder() {
-        return new AnnotationsScannerBuilder();
+        System.out.println(tests);
     }
 
 }

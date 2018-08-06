@@ -14,26 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations;
+package org.panda_lang.panda.utilities.annotations.resource;
 
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResource;
+import java.net.URL;
 
-import java.util.Set;
+public abstract class AnnotationsScannerResource<T extends AnnotationsScannerFile> implements Iterable<T> {
 
-public class AnnotationsScanner {
+    protected final URL location;
 
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
-
-    protected AnnotationsScanner(Set<? extends AnnotationsScannerResource<?>> resources) {
-        this.resources = resources;
+    protected AnnotationsScannerResource(URL location) {
+        this.location = location;
     }
 
-    public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(resources);
+    protected String getPath() {
+        return getLocation().getPath();
     }
 
-    public static AnnotationsScannerBuilder builder() {
-        return new AnnotationsScannerBuilder();
+    protected URL getLocation() {
+        return location;
     }
+
+    abstract protected Iterable<T> getFiles();
 
 }

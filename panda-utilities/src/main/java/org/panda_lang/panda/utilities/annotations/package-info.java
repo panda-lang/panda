@@ -14,22 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.redact.match;
-
-import org.junit.Test;
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.pattern.charset.CharsetPattern;
-
-public class CharsetPatternTest {
-
-    private static final String EXPRESSION = "instance.extractToken().method(parameter.extractToken())";
-
-    @Test
-    public void testCharsetPattern() {
-        CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
-        charsetPattern.setCharset(new char[]{ '.', '(', ')'  });
-
-        Assertions.assertTrue(charsetPattern.match(EXPRESSION));
-    }
-
-}
+/**
+ * Refreshed and lightweight version of https://github.com/ronmamo/reflections
+ */
+package org.panda_lang.panda.utilities.annotations;

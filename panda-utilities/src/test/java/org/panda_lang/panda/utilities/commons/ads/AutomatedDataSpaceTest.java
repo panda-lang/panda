@@ -17,16 +17,15 @@
 package org.panda_lang.panda.utilities.commons.ads;
 
 import org.junit.Test;
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.utilities.commons.ads.collection.*;
-import org.panda_lang.panda.utilities.commons.ads.database.*;
+import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataInterface;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataSpace;
 import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionHandler;
 import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionService;
 import org.panda_lang.panda.utilities.autodata.database.ADSDatabaseRepository;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AutomatedDataSpaceTest {
 
