@@ -14,18 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.filters;
+package org.panda_lang.panda.utilities.annotations.monads;
 
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 
-public class PublicPseudoClassFilter implements Filter<ClassFile> {
+public interface AnnotationsFilter<T> {
 
-    @Override
-    public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, ClassFile element) {
-        return metadataAdapter.isPublic(element);
-    }
+    boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, T element);
 
 }

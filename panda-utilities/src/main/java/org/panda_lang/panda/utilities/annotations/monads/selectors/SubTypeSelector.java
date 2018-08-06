@@ -14,14 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.filters;
+package org.panda_lang.panda.utilities.annotations.monads.selectors;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationScannerStore;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
 
 import java.util.Collection;
 
-public interface Selector {
+public class SubTypeSelector implements AnnotationsSelector {
 
-    Collection<String> select(AnnotationScannerStore store);
+    private final Class<?> type;
+
+    public SubTypeSelector(Class<?> type) {
+        this.type = type;
+    }
+
+    @Override
+    public Collection<String> select(AnnotationsScannerProcess process, AnnotationScannerStore store) {
+        return store.getInheritorsOf(type.getName());
+    }
 
 }

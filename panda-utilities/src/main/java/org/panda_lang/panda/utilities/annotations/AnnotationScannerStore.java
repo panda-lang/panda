@@ -16,24 +16,34 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import com.google.common.collect.Sets;
+import javassist.bytecode.ClassFile;
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.collection.Multimap;
 
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class AnnotationScannerStore {
 
     private final Multimap<String, String> store;
+    private final Map<String, ClassFile> classFiles;
 
     public AnnotationScannerStore() {
         this.store = new Multimap<>(new HashMap<>(), HashSet::new);
+        this.classFiles = new HashMap<>();
     }
 
-    public void addInheritors(String type, String... inheritors) {
-        store.put(type, Sets.newHashSet(inheritors));
+    public void addInheritors(String type, String inheritor) {
+        store.put(type, inheritor);
+    }
+
+    public void addClassFile(ClassFile classFile) {
+        classFiles.put(classFile.getName(), classFile);
+    }
+
+    public void addClassFiles(Collection<ClassFile> classFiles) {
+        for (ClassFile classFile : classFiles) {
+            addClassFile(classFile);
+        }
     }
 
     public Set<String> getInheritorsOf(String type) {
@@ -52,6 +62,14 @@ public class AnnotationScannerStore {
         }
 
         return inheritors;
+    }
+
+    public @Nullable ClassFile getCachedClassFile(String type) {
+        return classFiles.get(type);
+    }
+
+    public Collection<? extends ClassFile> getCachedClassFiles() {
+        return classFiles.values();
     }
 
 }

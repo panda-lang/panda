@@ -33,8 +33,8 @@ public class AnnotationsScanner {
         this.metadataAdapter = metadataAdapter;
     }
 
-    public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(this, new AnnotationScannerStore());
+    public AnnotationsScannerProcessBuilder createWorker() {
+        return new AnnotationsScannerProcessBuilder(this, new AnnotationScannerStore());
     }
 
     protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {

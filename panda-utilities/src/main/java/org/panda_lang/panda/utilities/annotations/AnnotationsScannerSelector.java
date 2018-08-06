@@ -16,43 +16,35 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import com.google.common.collect.Sets;
-import org.panda_lang.panda.utilities.annotations.filters.Selector;
+import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
+import org.panda_lang.panda.utilities.annotations.monads.selectors.SubTypeSelector;
+import org.panda_lang.panda.utilities.annotations.monads.selectors.TypeAnnotationSelector;
 
-import java.util.*;
+import java.lang.annotation.Annotation;
+import java.util.Collection;
+import java.util.Set;
 
 public class AnnotationsScannerSelector {
 
+    private final AnnotationsScannerProcess process;
     private final AnnotationScannerStore store;
-    private final List<Selector> selectors = new ArrayList<>(1);
 
-    public AnnotationsScannerSelector(AnnotationScannerStore store) {
+    public AnnotationsScannerSelector(AnnotationsScannerProcess process, AnnotationScannerStore store) {
+        this.process = process;
         this.store = store;
     }
 
-    public final AnnotationsScannerSelector addPseudoClassSelectors(Selector... selector) {
-        selectors.addAll(Sets.newHashSet(selector));
-        return this;
+    public Set<Class<?>> select(AnnotationsSelector selector) {
+        Collection<String> selected = selector.select(process, store);
+        return AnnotationsScannerUtils.forNames(selected);
     }
 
-    public Set<Class<?>> select() {
-        Set<Class<?>> classes = new HashSet<>();
+    public Set<Class<?>> selectSubtypesOf(Class<?> type) {
+        return select(new SubTypeSelector(type));
+    }
 
-        for (Selector selector : selectors) {
-            Collection<String> selected = selector.select(store);
-
-            for (String classPath : selected) {
-                Class<?> selectedClass = AnnotationsScannerUtils.forName(classPath);
-
-                if (selectedClass == null) {
-                    continue;
-                }
-
-                classes.add(selectedClass);
-            }
-        }
-
-        return classes;
+    public Set<Class<?>> selectTypesAnnotatedWith(Class<? extends Annotation> annotationType) {
+        return select(new TypeAnnotationSelector(annotationType));
     }
 
 }

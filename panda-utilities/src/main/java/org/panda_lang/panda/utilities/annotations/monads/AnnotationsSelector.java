@@ -14,15 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.filters;
+package org.panda_lang.panda.utilities.annotations.monads;
 
-import javassist.bytecode.ClassFile;
-import javassist.bytecode.FieldInfo;
-import javassist.bytecode.MethodInfo;
-import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
+import org.panda_lang.panda.utilities.annotations.AnnotationScannerStore;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
-public interface Filter<T> {
+import java.util.Collection;
 
-    boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, T element);
+public interface AnnotationsSelector {
+
+    Collection<String> select(AnnotationsScannerProcess process, AnnotationScannerStore store);
 
 }

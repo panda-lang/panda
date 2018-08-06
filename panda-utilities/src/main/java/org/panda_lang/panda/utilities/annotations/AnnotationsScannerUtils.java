@@ -20,13 +20,32 @@ import com.google.common.collect.Lists;
 import org.jetbrains.annotations.Nullable;
 import org.reflections.util.ClasspathHelper;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class AnnotationsScannerUtils {
 
     private static List<String> primitiveNames = Lists.newArrayList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
     private static List<String> primitiveDescriptors = Lists.newArrayList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
     private static List<Class> primitiveTypes = Lists.newArrayList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
+
+    protected static Set<Class<?>> forNames(Collection<String> types) {
+        Set<Class<?>> classes = new HashSet<>();
+
+        for (String type : types) {
+            Class<?> clazz = forName(type);
+
+            if (type == null) {
+                continue;
+            }
+
+            classes.add(clazz);
+        }
+
+        return classes;
+    }
 
     protected static @Nullable Class<?> forName(String typeName, @Nullable ClassLoader... classLoaders) {
         if (getPrimitiveNames().contains(typeName)) {

@@ -21,46 +21,37 @@ import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
-import org.panda_lang.panda.utilities.annotations.filters.Filter;
+import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class AnnotationsScannerWorkerBuilder {
+public class AnnotationsScannerProcessBuilder {
 
     protected final AnnotationScannerStore store;
     protected final Set<? extends AnnotationsScannerResource<?>> resources;
     protected final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
-    protected final List<Filter<AnnotationsScannerFile>> fileFilters;
-    protected final List<Filter<ClassFile>> pseudoClassFilters;
-    protected final List<Filter<Class<?>>> classFilters;
+    protected final List<AnnotationsFilter<AnnotationsScannerFile>> fileFilters;
+    protected final List<AnnotationsFilter<ClassFile>> classFileFilters;
 
-    AnnotationsScannerWorkerBuilder(AnnotationsScanner scanner, AnnotationScannerStore store) {
+    AnnotationsScannerProcessBuilder(AnnotationsScanner scanner, AnnotationScannerStore store) {
         this.store = store;
         this.resources = scanner.getResources();
         this.metadataAdapter = scanner.getMetadataAdapter();
-
         this.fileFilters = new ArrayList<>(1);
-        this.pseudoClassFilters = new ArrayList<>(1);
-        this.classFilters = new ArrayList<>(1);
+        this.classFileFilters = new ArrayList<>(1);
     }
 
     @SafeVarargs
-    public final AnnotationsScannerWorkerBuilder addFileFilters(Filter<AnnotationsScannerFile>... fileFilters) {
+    public final AnnotationsScannerProcessBuilder addFileFilters(AnnotationsFilter<AnnotationsScannerFile>... fileFilters) {
         this.fileFilters.addAll(Sets.newHashSet(fileFilters));
         return this;
     }
 
     @SafeVarargs
-    public final AnnotationsScannerWorkerBuilder addPseudoClassFilters(Filter<ClassFile>... pseudoClassFilters) {
-        this.pseudoClassFilters.addAll(Sets.newHashSet(pseudoClassFilters));
-        return this;
-    }
-
-    @SafeVarargs
-    public final AnnotationsScannerWorkerBuilder addClassFilters(Filter<Class<?>>... classFilters) {
-        this.classFilters.addAll(Sets.newHashSet(classFilters));
+    public final AnnotationsScannerProcessBuilder addClassFileFilters(AnnotationsFilter<ClassFile>... classFileFilters) {
+        this.classFileFilters.addAll(Sets.newHashSet(classFileFilters));
         return this;
     }
 

@@ -17,13 +17,12 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.annotations.filters.PackageFileFilter;
-import org.panda_lang.panda.utilities.annotations.filters.PublicPseudoClassFilter;
-import org.panda_lang.panda.utilities.annotations.filters.SubTypeSelector;
-import org.panda_lang.panda.utilities.annotations.filters.TypeClassFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.PublicClassFileFilter;
 
 import java.util.Set;
 
+@AnnotationTest
 public class AnnotationsScannerTest extends WrappedTestType {
 
     @Test
@@ -33,19 +32,19 @@ public class AnnotationsScannerTest extends WrappedTestType {
                 .build();
 
         AnnotationsScannerProcess process = scanner.createWorker()
-                .addFileFilters(new PackageFileFilter("org.panda_lang"))
-                .addPseudoClassFilters(new PublicPseudoClassFilter())
-                .addClassFilters(new TypeClassFilter("AnnotationsScannerTest"))
+                .addFileFilters(new PackageFileFilter(true, "java"))
+                .addClassFileFilters(new PublicClassFileFilter())
                 .fetch();
 
         Set<Class<?>> classes = process.createSelector()
-                .addPseudoClassSelectors(new SubTypeSelector(TestType.class))
-                .select();
+                .selectTypesAnnotatedWith(AnnotationTest.class);
 
         System.out.println(classes);
     }
 
 }
+
+@interface AnnotationTest { }
 
 class WrappedTestType extends TestType { }
 

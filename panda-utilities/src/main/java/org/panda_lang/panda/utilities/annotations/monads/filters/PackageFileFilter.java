@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.filters;
+package org.panda_lang.panda.utilities.annotations.monads.filters;
 
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
+import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
-public class PackageFileFilter implements Filter<AnnotationsScannerFile> {
+public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
 
+    private final boolean exclude;
     private final String[] packages;
 
-    public PackageFileFilter(String... packages) {
+    public PackageFileFilter(boolean exclude, String... packages) {
+        this.exclude = exclude;
         this.packages = packages;
     }
 
@@ -34,11 +37,11 @@ public class PackageFileFilter implements Filter<AnnotationsScannerFile> {
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, AnnotationsScannerFile element) {
         for (String packageName : packages) {
             if (element.getClassPath().startsWith(packageName)) {
-                return true;
+                return !exclude;
             }
         }
 
-        return false;
+        return exclude;
     }
 
 }

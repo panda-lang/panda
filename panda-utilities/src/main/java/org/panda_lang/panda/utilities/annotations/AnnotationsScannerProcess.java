@@ -21,7 +21,7 @@ import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
-import org.panda_lang.panda.utilities.annotations.filters.Filter;
+import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
 import java.util.HashSet;
 import java.util.List;
@@ -32,49 +32,48 @@ public class AnnotationsScannerProcess {
     private final AnnotationScannerStore store;
     private final Set<? extends AnnotationsScannerResource<?>> resources;
     private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
-    private final List<Filter<AnnotationsScannerFile>> fileFilters;
-    private final List<Filter<ClassFile>> pseudoClassFilters;
-    private final List<Filter<Class<?>>> classFilters;
+    private final List<AnnotationsFilter<AnnotationsScannerFile>> fileFilters;
+    private final List<AnnotationsFilter<ClassFile>> classFileFilters;
 
-    AnnotationsScannerProcess(AnnotationsScannerWorkerBuilder builder) {
+    AnnotationsScannerProcess(AnnotationsScannerProcessBuilder builder) {
         this.store = builder.store;
         this.resources = builder.resources;
         this.metadataAdapter = builder.metadataAdapter;
         this.fileFilters = builder.fileFilters;
-        this.pseudoClassFilters = builder.pseudoClassFilters;
-        this.classFilters = builder.classFilters;
+        this.classFileFilters = builder.classFileFilters;
     }
 
     protected AnnotationsScannerProcess fetch() {
         for (AnnotationsScannerResource<?> resource : resources) {
-            scanResource(resource);
+            Set<ClassFile> classFiles = scanResource(resource);
+            store.addClassFiles(classFiles);
         }
 
         return this;
     }
 
     public AnnotationsScannerSelector createSelector() {
-        return new AnnotationsScannerSelector(store);
+        return new AnnotationsScannerSelector(this, store);
     }
 
-    private Set<Class<?>> scanResource(AnnotationsScannerResource<?> resource) {
-        Set<Class<?>> classes = new HashSet<>();
+    private Set<ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
+        Set<ClassFile> classFiles = new HashSet<>();
 
         for (AnnotationsScannerFile annotationsScannerFile : resource) {
-            Class<?> clazz = scanFile(annotationsScannerFile);
+            ClassFile classFile = scanFile(annotationsScannerFile);
 
-            if (clazz == null) {
+            if (classFile == null) {
                 continue;
             }
 
-            classes.add(clazz);
+            classFiles.add(classFile);
         }
 
-        return classes;
+        return classFiles;
     }
 
-    private @Nullable Class<?> scanFile(AnnotationsScannerFile file) {
-        for (Filter<AnnotationsScannerFile> fileFilter : fileFilters) {
+    private @Nullable ClassFile scanFile(AnnotationsScannerFile file) {
+        for (AnnotationsFilter<AnnotationsScannerFile> fileFilter : fileFilters) {
             if (!fileFilter.check(metadataAdapter, file)) {
                 return null;
             }
@@ -90,25 +89,17 @@ public class AnnotationsScannerProcess {
 
         store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());
 
-        for (Filter<ClassFile> pseudoClassFilter : pseudoClassFilters) {
+        for (AnnotationsFilter<ClassFile> pseudoClassFilter : classFileFilters) {
             if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {
                 return null;
             }
         }
 
-        Class<?> clazz = AnnotationsScannerUtils.forName(file.getClassPath());
+        return pseudoClass;
+    }
 
-        for (Filter<Class<?>> classFilter : classFilters) {
-            if (!classFilter.check(metadataAdapter, clazz)) {
-                return null;
-            }
-        }
-
-        if (clazz == null) {
-            return null;
-        }
-
-       return clazz;
+    public MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
+        return metadataAdapter;
     }
 
 }

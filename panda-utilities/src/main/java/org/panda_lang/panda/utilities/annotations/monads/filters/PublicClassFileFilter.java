@@ -14,23 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.filters;
+package org.panda_lang.panda.utilities.annotations.monads.filters;
 
-import org.panda_lang.panda.utilities.annotations.AnnotationScannerStore;
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.FieldInfo;
+import javassist.bytecode.MethodInfo;
+import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
+import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
-import java.util.Collection;
-
-public class SubTypeSelector implements Selector {
-
-    private final Class<?> type;
-
-    public SubTypeSelector(Class<?> type) {
-        this.type = type;
-    }
+public class PublicClassFileFilter implements AnnotationsFilter<ClassFile> {
 
     @Override
-    public Collection<String> select(AnnotationScannerStore store) {
-        return store.getInheritorsOf(type.getName());
+    public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, ClassFile element) {
+        return metadataAdapter.isPublic(element);
     }
 
 }
