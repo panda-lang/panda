@@ -14,31 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations;
+package org.panda_lang.panda.utilities.annotations.filters;
 
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 
-import java.util.Set;
+public interface Filter<T> {
 
-public class AnnotationsScanner {
-
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
-    private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
-
-    protected AnnotationsScanner(Set<? extends AnnotationsScannerResource<?>> resources, MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter) {
-        this.resources = resources;
-        this.metadataAdapter = metadataAdapter;
-    }
-
-    public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(resources, metadataAdapter);
-    }
-
-    public static AnnotationsScannerBuilder builder() {
-        return new AnnotationsScannerBuilder();
-    }
+    boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, T element);
 
 }

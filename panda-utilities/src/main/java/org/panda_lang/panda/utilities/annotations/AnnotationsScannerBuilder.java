@@ -16,7 +16,12 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.FieldInfo;
+import javassist.bytecode.MethodInfo;
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.annotations.adapter.JavassistAdapter;
+import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResourceFactory;
 
 import java.io.File;
@@ -30,10 +35,21 @@ public class AnnotationsScannerBuilder {
 
     private final Set<AnnotationsScannerResource<?>> resources;
     private final AnnotationsScannerResourceFactory resourceFactory;
+    private MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
 
     AnnotationsScannerBuilder() {
         this.resources = new HashSet<>(2);
         this.resourceFactory = new AnnotationsScannerResourceFactory();
+        this.metadataAdapter = new JavassistAdapter();
+    }
+
+    public AnnotationsScanner build() {
+        return new AnnotationsScanner(resources, metadataAdapter);
+    }
+
+    public AnnotationsScannerBuilder metadataAdapter(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> adapter) {
+        this.metadataAdapter = adapter;
+        return this;
     }
 
     public AnnotationsScannerBuilder includeClassLoaders(ClassLoader... classLoaders) {
@@ -107,10 +123,6 @@ public class AnnotationsScannerBuilder {
         }
 
         resources.addAll(currentResources);
-    }
-
-    public AnnotationsScanner build() {
-        return new AnnotationsScanner(resources);
     }
 
 }

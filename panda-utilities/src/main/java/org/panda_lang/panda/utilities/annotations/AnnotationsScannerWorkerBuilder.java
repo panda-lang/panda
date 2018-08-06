@@ -16,39 +16,48 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
+import com.google.common.collect.Sets;
 import javassist.bytecode.ClassFile;
+import javassist.bytecode.FieldInfo;
+import javassist.bytecode.MethodInfo;
+import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
+import org.panda_lang.panda.utilities.annotations.filters.Filter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public class AnnotationsScannerWorkerBuilder {
 
     protected final Set<? extends AnnotationsScannerResource<?>> resources;
-    protected final List<Predicate<AnnotationsScannerFile>> fileFilters;
-    protected final List<Predicate<ClassFile>> pseudoClassFilters;
-    protected final List<Predicate<Class<?>>> classFilters;
+    protected final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    protected final List<Filter<AnnotationsScannerFile>> fileFilters;
+    protected final List<Filter<ClassFile>> pseudoClassFilters;
+    protected final List<Filter<Class<?>>> classFilters;
 
-    AnnotationsScannerWorkerBuilder(Set<? extends AnnotationsScannerResource<?>> resources) {
+    AnnotationsScannerWorkerBuilder(Set<? extends AnnotationsScannerResource<?>> resources, MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter) {
         this.resources = resources;
+        this.metadataAdapter = metadataAdapter;
         this.fileFilters = new ArrayList<>(1);
         this.pseudoClassFilters = new ArrayList<>(1);
         this.classFilters = new ArrayList<>(1);
     }
 
-    public AnnotationsScannerWorkerBuilder addFileFilter(Predicate<AnnotationsScannerFile> fileFilter) {
-        fileFilters.add(fileFilter);
+    @SafeVarargs
+    public final AnnotationsScannerWorkerBuilder addFileFilters(Filter<AnnotationsScannerFile>... fileFilters) {
+        this.fileFilters.addAll(Sets.newHashSet(fileFilters));
         return this;
     }
 
-    public AnnotationsScannerWorkerBuilder addPseudoClassFilter(Predicate<ClassFile> pseudoClassFilter) {
-        pseudoClassFilters.add(pseudoClassFilter);
+    @SafeVarargs
+    public final AnnotationsScannerWorkerBuilder addPseudoClassFilters(Filter<ClassFile>... pseudoClassFilters) {
+        this.pseudoClassFilters.addAll(Sets.newHashSet(pseudoClassFilters));
         return this;
     }
 
-    public AnnotationsScannerWorkerBuilder addClassFilter(Predicate<Class<?>> classFilter) {
-        classFilters.add(classFilter);
+    @SafeVarargs
+    public final AnnotationsScannerWorkerBuilder addClassFilters(Filter<Class<?>>... classFilters) {
+        this.classFilters.addAll(Sets.newHashSet(classFilters));
         return this;
     }
 

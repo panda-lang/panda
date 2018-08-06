@@ -17,23 +17,27 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import javassist.bytecode.ClassFile;
+import javassist.bytecode.FieldInfo;
+import javassist.bytecode.MethodInfo;
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.annotations.adapter.JavassistAdapter;
+import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
+import org.panda_lang.panda.utilities.annotations.filters.Filter;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public class AnnotationsScannerWorker {
 
     private final Set<? extends AnnotationsScannerResource<?>> resources;
-    private final List<Predicate<AnnotationsScannerFile>> fileFilters;
-    private final List<Predicate<ClassFile>> pseudoClassFilters;
-    private final List<Predicate<Class<?>>> classFilters;
+    private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    private final List<Filter<AnnotationsScannerFile>> fileFilters;
+    private final List<Filter<ClassFile>> pseudoClassFilters;
+    private final List<Filter<Class<?>>> classFilters;
 
     AnnotationsScannerWorker(AnnotationsScannerWorkerBuilder builder) {
         this.resources = builder.resources;
+        this.metadataAdapter = builder.metadataAdapter;
         this.fileFilters = builder.fileFilters;
         this.pseudoClassFilters = builder.pseudoClassFilters;
         this.classFilters = builder.classFilters;
@@ -51,10 +55,9 @@ public class AnnotationsScannerWorker {
 
     private Set<Class<?>> scanResource(AnnotationsScannerResource<?> resource) {
         Set<Class<?>> classes = new HashSet<>();
-        JavassistAdapter javassistAdapter = new JavassistAdapter();
 
         for (AnnotationsScannerFile annotationsScannerFile : resource) {
-            Class<?> clazz = scanFile(javassistAdapter, annotationsScannerFile);
+            Class<?> clazz = scanFile(annotationsScannerFile);
 
             if (clazz == null) {
                 continue;
@@ -66,25 +69,31 @@ public class AnnotationsScannerWorker {
         return classes;
     }
 
-    private @Nullable Class<?> scanFile(JavassistAdapter javassistAdapter, AnnotationsScannerFile file) {
-        for (Predicate<AnnotationsScannerFile> fileFilter : fileFilters) {
-            if (!fileFilter.test(file)) {
+    private @Nullable Class<?> scanFile(AnnotationsScannerFile file) {
+        for (Filter<AnnotationsScannerFile> fileFilter : fileFilters) {
+            if (!fileFilter.check(metadataAdapter, file)) {
                 return null;
             }
         }
 
-        ClassFile pseudoClass = javassistAdapter.getOfCreateClassObject(file);
+        ClassFile pseudoClass;
 
-        for (Predicate<ClassFile> pseudoClassFilter : pseudoClassFilters) {
-            if (!pseudoClassFilter.test(pseudoClass)) {
+        try {
+            pseudoClass = metadataAdapter.getOfCreateClassObject(file);
+        } catch (Exception e) {
+            return null; // mute
+        }
+
+        for (Filter<ClassFile> pseudoClassFilter : pseudoClassFilters) {
+            if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {
                 return null;
             }
         }
 
         Class<?> clazz = AnnotationsScannerUtils.forName(file.getClassPath());
 
-        for (Predicate<Class<?>> classFilter : classFilters) {
-            if (!classFilter.test(clazz)) {
+        for (Filter<Class<?>> classFilter : classFilters) {
+            if (!classFilter.check(metadataAdapter, clazz)) {
                 return null;
             }
         }

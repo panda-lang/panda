@@ -17,10 +17,11 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.utilities.annotations.filters.SubTypeFilter;
 
 import java.util.Set;
 
-public class AnnotationsScannerTest {
+public class AnnotationsScannerTest extends WrappedTestType {
 
     @Test
     void testScanner() {
@@ -29,9 +30,9 @@ public class AnnotationsScannerTest {
                 .build();
 
         Set<Class<?>> tests = scanner.createWorker()
-                .addFileFilter(file -> file.getClassPath().endsWith("AnnotationsScannerTest"))
-                .addPseudoClassFilter(pseudoClass -> pseudoClass.getName().contains("AnnotationsScannerTest"))
-                .addClassFilter(clazz -> clazz.getSimpleName().equals("AnnotationsScannerTest"))
+                .addFileFilters((adapter, file) -> file.getClassPath().endsWith("AnnotationsScannerTest"))
+                .addPseudoClassFilters(new SubTypeFilter(TestType.class))
+                .addClassFilters((adapter, clazz) -> clazz.getSimpleName().equals("AnnotationsScannerTest"))
                 .build()
                 .scan();
 
@@ -39,3 +40,7 @@ public class AnnotationsScannerTest {
     }
 
 }
+
+class WrappedTestType extends TestType { }
+
+class TestType { }

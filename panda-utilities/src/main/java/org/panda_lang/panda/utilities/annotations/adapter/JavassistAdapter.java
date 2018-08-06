@@ -31,7 +31,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 
-public class JavassistAdapter {
+public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, MethodInfo> {
 
     public static boolean includeInvisibleTag = true;
 
