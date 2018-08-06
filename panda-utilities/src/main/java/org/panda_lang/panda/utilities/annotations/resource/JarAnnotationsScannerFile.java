@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource.jar;
+package org.panda_lang.panda.utilities.annotations.resource;
 
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerFile;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
 
 import java.io.InputStream;
 import java.util.zip.ZipEntry;
@@ -24,14 +24,14 @@ import java.util.zip.ZipEntry;
 /**
 *
 */
-public class JarAnnotationsScannerFile implements AnnotationsScannerFile {
+class JarAnnotationsScannerFile implements AnnotationsScannerFile {
 
     private final ZipEntry entry;
     private final JarAnnotationsScannerResource resource;
     private final long fromIndex;
     private final long endIndex;
 
-    public JarAnnotationsScannerFile(JarAnnotationsScannerResource resource, ZipEntry entry, long cursor, long nextCursor) {
+    JarAnnotationsScannerFile(JarAnnotationsScannerResource resource, ZipEntry entry, long cursor, long nextCursor) {
         this.entry = entry;
         this.resource = resource;
         this.fromIndex = cursor;

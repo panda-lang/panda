@@ -29,7 +29,9 @@ public class AnnotationsScannerTest {
                 .build();
 
         Set<Class<?>> tests = scanner.createWorker()
-                .addOfflineFilter(className -> className.endsWith("AnnotationsScannerTest"))
+                .addFileFilter(file -> file.getClassPath().endsWith("AnnotationsScannerTest"))
+                .addPseudoClassFilter(pseudoClass -> pseudoClass.getName().contains("AnnotationsScannerTest"))
+                .addClassFilter(clazz -> clazz.getSimpleName().equals("AnnotationsScannerTest"))
                 .build()
                 .scan();
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource.zip;
+package org.panda_lang.panda.utilities.annotations.resource;
 
 /** an implementation of {@link org.reflections.vfs.Vfs.Dir} for {@link java.util.zip.ZipFile} */
 /*

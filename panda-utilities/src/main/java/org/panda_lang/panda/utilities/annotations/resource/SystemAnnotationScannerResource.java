@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource.system;
+package org.panda_lang.panda.utilities.annotations.resource;
 
 import com.google.common.collect.Lists;
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResource;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -27,11 +27,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
-public class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
+class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
 
     private final File file;
 
-    public SystemAnnotationScannerResource(URL url) throws URISyntaxException {
+    SystemAnnotationScannerResource(URL url) throws URISyntaxException {
         super(url);
         this.file = new File(url.toURI());
 
@@ -95,11 +95,6 @@ public class SystemAnnotationScannerResource extends AnnotationsScannerResource<
         }
 
         return Lists.newArrayList();
-    }
-
-    @Override
-    public String toString() {
-        return getPath();
     }
 
 }

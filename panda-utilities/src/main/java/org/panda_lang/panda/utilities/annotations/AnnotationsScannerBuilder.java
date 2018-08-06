@@ -17,8 +17,7 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResource;
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResourceType;
+import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResourceFactory;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -29,10 +28,12 @@ import java.util.Set;
 
 public class AnnotationsScannerBuilder {
 
-    private Set<AnnotationsScannerResource<?>> resources;
+    private final Set<AnnotationsScannerResource<?>> resources;
+    private final AnnotationsScannerResourceFactory resourceFactory;
 
     AnnotationsScannerBuilder() {
         this.resources = new HashSet<>(2);
+        this.resourceFactory = new AnnotationsScannerResourceFactory();
     }
 
     public AnnotationsScannerBuilder includeClassLoaders(ClassLoader... classLoaders) {
@@ -95,7 +96,7 @@ public class AnnotationsScannerBuilder {
         Set<AnnotationsScannerResource<?>> currentResources = new HashSet<>(urls.length);
 
         for (URL url : urls) {
-            AnnotationsScannerResource<?> resource = AnnotationsScannerResourceType.createTypedResource(url);
+            AnnotationsScannerResource<?> resource = resourceFactory.createTypedResource(url);
 
             if (resource == null) {
                 // log unknown resource

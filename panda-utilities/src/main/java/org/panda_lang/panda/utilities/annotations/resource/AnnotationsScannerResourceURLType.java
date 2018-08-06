@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.annotations.resource;
 
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
+
 import java.net.URL;
 
 interface AnnotationsScannerResourceURLType {

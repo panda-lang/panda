@@ -17,13 +17,12 @@
 package org.panda_lang.panda.utilities.annotations.resource;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.annotations.resource.jar.JarAnnotationsScannerResource;
-import org.panda_lang.panda.utilities.annotations.resource.system.SystemAnnotationScannerResource;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
 
 import java.io.File;
 import java.net.URL;
 
-public enum AnnotationsScannerResourceType implements AnnotationsScannerResourceURLType {
+enum AnnotationsScannerResourceType implements AnnotationsScannerResourceURLType {
 
     JAR_FILE {
         @Override
@@ -111,7 +110,7 @@ public enum AnnotationsScannerResourceType implements AnnotationsScannerResource
     };
     */
 
-    private static @Nullable AnnotationsScannerResourceType detect(URL url) {
+    static @Nullable AnnotationsScannerResourceType detect(URL url) {
         for (AnnotationsScannerResourceType type : values()) {
             try {
                 if (type.matches(url)) {
@@ -125,7 +124,7 @@ public enum AnnotationsScannerResourceType implements AnnotationsScannerResource
         return null;
     }
 
-    private static @Nullable AnnotationsScannerResource<?> createResource(AnnotationsScannerResourceType type, URL url) {
+    static @Nullable AnnotationsScannerResource<?> createResource(AnnotationsScannerResourceType type, URL url) {
         try {
             return type.createResource(url);
         } catch (Exception e) {
@@ -133,7 +132,7 @@ public enum AnnotationsScannerResourceType implements AnnotationsScannerResource
         }
     }
 
-    public static @Nullable AnnotationsScannerResource<?> createTypedResource(URL url) {
+    static @Nullable AnnotationsScannerResource<?> createTypedResource(URL url) {
         AnnotationsScannerResourceType type = detect(url);
         return type != null ? createResource(type, url) : null;
     }

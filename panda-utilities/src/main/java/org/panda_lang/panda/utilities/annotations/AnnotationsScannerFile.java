@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource;
+package org.panda_lang.panda.utilities.annotations;
 
 import java.io.InputStream;
 

@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations;
+package org.panda_lang.panda.utilities.annotations.filters;
 
-import java.util.Set;
-
-public class AnnotationsScanner {
-
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
-
-    protected AnnotationsScanner(Set<? extends AnnotationsScannerResource<?>> resources) {
-        this.resources = resources;
-    }
-
-    public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(resources);
-    }
-
-    public static AnnotationsScannerBuilder builder() {
-        return new AnnotationsScannerBuilder();
-    }
+public class SubTypeFilter {
 
 }

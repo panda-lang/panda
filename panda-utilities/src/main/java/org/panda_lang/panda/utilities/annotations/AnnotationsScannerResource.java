@@ -16,22 +16,24 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import java.util.Set;
+import java.net.URL;
 
-public class AnnotationsScanner {
+public abstract class AnnotationsScannerResource<T extends AnnotationsScannerFile> implements Iterable<T> {
 
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
+    protected final URL location;
 
-    protected AnnotationsScanner(Set<? extends AnnotationsScannerResource<?>> resources) {
-        this.resources = resources;
+    protected AnnotationsScannerResource(URL location) {
+        this.location = location;
     }
 
-    public AnnotationsScannerWorkerBuilder createWorker() {
-        return new AnnotationsScannerWorkerBuilder(resources);
+    protected String getPath() {
+        return getLocation().getPath();
     }
 
-    public static AnnotationsScannerBuilder builder() {
-        return new AnnotationsScannerBuilder();
+    protected URL getLocation() {
+        return location;
     }
+
+    abstract protected Iterable<T> getFiles();
 
 }

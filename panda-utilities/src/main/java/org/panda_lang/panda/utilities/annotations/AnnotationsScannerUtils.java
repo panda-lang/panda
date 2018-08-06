@@ -28,7 +28,7 @@ public class AnnotationsScannerUtils {
     private static List<String> primitiveDescriptors = Lists.newArrayList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
     private static List<Class> primitiveTypes = Lists.newArrayList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
 
-    public static @Nullable Class<?> forName(String typeName, ClassLoader... classLoaders) {
+    protected static @Nullable Class<?> forName(String typeName, @Nullable ClassLoader... classLoaders) {
         if (getPrimitiveNames().contains(typeName)) {
             return getPrimitiveTypes().get(getPrimitiveNames().indexOf(typeName));
         }
@@ -72,15 +72,15 @@ public class AnnotationsScannerUtils {
         return null;
     }
 
-    private static List<String> getPrimitiveNames() {
+    protected static List<String> getPrimitiveNames() {
         return primitiveNames;
     }
 
-    private static List<Class> getPrimitiveTypes() {
+    protected static List<Class> getPrimitiveTypes() {
         return primitiveTypes;
     }
 
-    private static List<String> getPrimitiveDescriptors() {
+    protected static List<String> getPrimitiveDescriptors() {
         return primitiveDescriptors;
     }
 

@@ -14,29 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource.jar;
+package org.panda_lang.panda.utilities.annotations.resource;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerFile;
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResource;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
 import org.panda_lang.panda.utilities.commons.io.IOUtils;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.jar.JarInputStream;
 import java.util.zip.ZipEntry;
 
-/**
- *
- */
-public class JarAnnotationsScannerResource extends AnnotationsScannerResource<AnnotationsScannerFile> {
+class JarAnnotationsScannerResource extends AnnotationsScannerResource<AnnotationsScannerFile> implements Closeable {
 
     protected JarInputStream jarInputStream;
     protected long cursor = 0;
     protected long nextCursor = 0;
 
-    public JarAnnotationsScannerResource(URL url) {
+    JarAnnotationsScannerResource(URL url) {
         super(url);
     }
 
@@ -91,6 +89,7 @@ public class JarAnnotationsScannerResource extends AnnotationsScannerResource<An
         return this;
     }
 
+    @Override
     public void close() {
         IOUtils.close(jarInputStream);
     }

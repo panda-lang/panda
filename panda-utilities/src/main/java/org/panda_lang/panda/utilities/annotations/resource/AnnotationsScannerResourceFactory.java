@@ -16,24 +16,15 @@
 
 package org.panda_lang.panda.utilities.annotations.resource;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
+
 import java.net.URL;
 
-public abstract class AnnotationsScannerResource<T extends AnnotationsScannerFile> implements Iterable<T> {
+public class AnnotationsScannerResourceFactory {
 
-    protected final URL location;
-
-    protected AnnotationsScannerResource(URL location) {
-        this.location = location;
+    public @Nullable AnnotationsScannerResource<?> createTypedResource(URL url) {
+        return AnnotationsScannerResourceType.createTypedResource(url);
     }
-
-    protected String getPath() {
-        return getLocation().getPath();
-    }
-
-    protected URL getLocation() {
-        return location;
-    }
-
-    abstract protected Iterable<T> getFiles();
 
 }

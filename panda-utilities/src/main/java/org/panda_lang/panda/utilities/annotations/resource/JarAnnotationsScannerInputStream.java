@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource.jar;
+package org.panda_lang.panda.utilities.annotations.resource;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public class JarAnnotationsScannerInputStream extends InputStream {
+class JarAnnotationsScannerInputStream extends InputStream {
 
     private final JarAnnotationsScannerResource resource;
     private final long fromIndex;
     private final long endIndex;
 
-    public JarAnnotationsScannerInputStream(JarAnnotationsScannerResource resource, long fromIndex, long endIndex) {
+    JarAnnotationsScannerInputStream(JarAnnotationsScannerResource resource, long fromIndex, long endIndex) {
         this.resource = resource;
         this.fromIndex = fromIndex;
         this.endIndex = endIndex;

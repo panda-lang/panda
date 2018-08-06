@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResource;
+import javassist.bytecode.ClassFile;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -26,28 +25,35 @@ import java.util.function.Predicate;
 
 public class AnnotationsScannerWorkerBuilder {
 
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
-    private final List<Predicate<String>> offlineFilters;
-    private final List<Predicate<Class<?>>> onlineFilters;
+    protected final Set<? extends AnnotationsScannerResource<?>> resources;
+    protected final List<Predicate<AnnotationsScannerFile>> fileFilters;
+    protected final List<Predicate<ClassFile>> pseudoClassFilters;
+    protected final List<Predicate<Class<?>>> classFilters;
 
     AnnotationsScannerWorkerBuilder(Set<? extends AnnotationsScannerResource<?>> resources) {
         this.resources = resources;
-        this.offlineFilters = new ArrayList<>(1);
-        this.onlineFilters = new ArrayList<>(1);
+        this.fileFilters = new ArrayList<>(1);
+        this.pseudoClassFilters = new ArrayList<>(1);
+        this.classFilters = new ArrayList<>(1);
     }
 
-    public AnnotationsScannerWorkerBuilder addOfflineFilter(Predicate<String> offlineFilter) {
-        offlineFilters.add(offlineFilter);
+    public AnnotationsScannerWorkerBuilder addFileFilter(Predicate<AnnotationsScannerFile> fileFilter) {
+        fileFilters.add(fileFilter);
         return this;
     }
 
-    public AnnotationsScannerWorkerBuilder addOnlineFilter(Predicate<Class<?>> onlineFilter) {
-        onlineFilters.add(onlineFilter);
+    public AnnotationsScannerWorkerBuilder addPseudoClassFilter(Predicate<ClassFile> pseudoClassFilter) {
+        pseudoClassFilters.add(pseudoClassFilter);
+        return this;
+    }
+
+    public AnnotationsScannerWorkerBuilder addClassFilter(Predicate<Class<?>> classFilter) {
+        classFilters.add(classFilter);
         return this;
     }
 
     public AnnotationsScannerWorker build() {
-        return new AnnotationsScannerWorker(resources, offlineFilters, onlineFilters);
+        return new AnnotationsScannerWorker(this);
     }
 
 }

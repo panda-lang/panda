@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.resource.system;
+package org.panda_lang.panda.utilities.annotations.resource;
 
-import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerFile;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
-public class SystemAnnotationScannerFile implements AnnotationsScannerFile {
+class SystemAnnotationScannerFile implements AnnotationsScannerFile {
 
     private final SystemAnnotationScannerResource root;
     private final File file;
 
-    public SystemAnnotationScannerFile(SystemAnnotationScannerResource root, File file) {
+    SystemAnnotationScannerFile(SystemAnnotationScannerResource root, File file) {
         this.root = root;
         this.file = file;
     }
@@ -51,11 +51,6 @@ public class SystemAnnotationScannerFile implements AnnotationsScannerFile {
     @Override
     public String getName() {
         return file.getName();
-    }
-
-    @Override
-    public String toString() {
-        return file.toString();
     }
 
 }
