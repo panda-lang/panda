@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import com.google.common.base.Objects;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PandaConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
@@ -32,6 +31,7 @@ import org.panda_lang.panda.language.runtime.expression.Expression;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Objects;
 
 public class PandaClassPrototype implements ClassPrototype {
 

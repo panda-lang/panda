@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.registry;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
-import org.panda_lang.panda.util.ReflectionsUtils;
+import org.panda_lang.panda.util.PandaUtils;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -79,7 +79,7 @@ public interface ClassPrototypeModel {
         PandaFramework.getLogger().debug("Looking for subtypes of ClassPrototypeModel");
 
         Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
-        Set<Class<? extends ClassPrototypeModel>> models = ReflectionsUtils.REFLECTIONS.getSubTypesOf(ClassPrototypeModel.class);
+        Set<Class<? extends ClassPrototypeModel>> models = PandaUtils.DEFAULT_PANDA_SCANNER.createSelector().selectSubtypesOf(ClassPrototypeModel.class);
 
         for (Class<? extends ClassPrototypeModel> clazz : models) {
             ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);

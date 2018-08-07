@@ -16,27 +16,26 @@
 
 package org.panda_lang.panda.framework.design.interpreter;
 
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
 import org.panda_lang.panda.framework.language.Language;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.util.PandaUtils;
 
 import java.util.Collection;
 
 public class PandaLanguage implements Language {
 
     private final PipelineRegistry pipelineRegistry;
+
     private Syntax syntax;
     private Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings;
 
     public PandaLanguage() {
         this.syntax = PandaSyntax.getInstance();
-
-        ParserRegistrationLoader parserRegistrationLoader = new ParserRegistrationLoader();
-        this.pipelineRegistry = parserRegistrationLoader.load(Panda.class);
+        this.pipelineRegistry = new ParserRegistrationLoader().load(PandaUtils.DEFAULT_PANDA_SCANNER);
     }
 
     public void setMappings(Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings) {

@@ -16,22 +16,20 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-import com.esotericsoftware.reflectasm.ConstructorAccess;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.reflections.Reflections;
-import org.reflections.util.ConfigurationBuilder;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Set;
 
 public class ParserRegistrationLoader {
 
-    public PipelineRegistry load(Class<?> locationClass) {
+    public PipelineRegistry load(AnnotationsScannerProcess scannerProcess) {
         PandaPipelineRegistry registry = new PandaPipelineRegistry();
 
         try {
-            loadPipelines(registry, locationClass);
+            loadPipelines(registry, scannerProcess);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -39,35 +37,14 @@ public class ParserRegistrationLoader {
         return registry;
     }
 
-    public PipelineRegistry load(PandaPipelineRegistry parserPipelineRegistry, Class<?> locationClass) {
-        PandaPipelineRegistry registry = new PandaPipelineRegistry();
-
-        try {
-            loadPipelines(parserPipelineRegistry, locationClass);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return registry;
-    }
-
-    public void loadPipelines(PandaPipelineRegistry registry, Class<?> locationClass) throws Exception {
-        ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-        configurationBuilder.setClassLoaders(new ClassLoader[]{ locationClass.getClassLoader() });
-        configurationBuilder.addUrls(locationClass.getProtectionDomain().getCodeSource().getLocation().toURI().toURL());
-
-        Reflections reflections = new Reflections(configurationBuilder);
-        Set<Class<?>> annotated = reflections.getTypesAnnotatedWith(ParserRegistration.class);
+    public void loadPipelines(PandaPipelineRegistry registry, AnnotationsScannerProcess scannerProcess) throws Exception {
+        Set<Class<?>> annotated = scannerProcess.createSelector().selectTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
 
-            ConstructorAccess<? extends UnifiedParser> parserConstructor = ConstructorAccess.get(parserRegistration.parserClass());
-            UnifiedParser parser = parserConstructor.newInstance();
-
-            ConstructorAccess<? extends ParserHandler> handlerConstructor = ConstructorAccess.get(parserRegistration.handlerClass());
-            ParserHandler handler = handlerConstructor.newInstance();
-
+            UnifiedParser parser = parserRegistration.parserClass().newInstance();
+            ParserHandler handler = parserRegistration.handlerClass().newInstance();
             ParserRepresentation representation = new PandaParserRepresentation(parser, handler, parserRegistration.priority());
 
             for (String target : parserRegistration.target()) {
@@ -76,6 +53,5 @@ public class ParserRegistrationLoader {
             }
         }
     }
-
 
 }
