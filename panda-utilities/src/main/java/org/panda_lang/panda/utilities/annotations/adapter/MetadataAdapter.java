@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.annotations.adapter;
 
+import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
 
 import java.util.List;
@@ -48,7 +49,7 @@ public interface MetadataAdapter<C,F,M> {
 
     String getFieldName(F field);
 
-    C getOfCreateClassObject(AnnotationsScannerFile file) throws Exception;
+    C getOfCreateClassObject(AnnotationsScanner scanner, AnnotationsScannerFile file) throws Exception;
 
     String getMethodModifier(M method);
 

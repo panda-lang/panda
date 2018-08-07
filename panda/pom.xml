@@ -36,12 +36,6 @@
             <artifactId>panda-framework</artifactId>
         </dependency>
 
-        <!-- Runtime -->
-        <dependency>
-            <groupId>com.esotericsoftware</groupId>
-            <artifactId>reflectasm</artifactId>
-        </dependency>
-
         <!-- Tests -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>

@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons;
+package org.panda_lang.panda.utilities.commons.collection;
 
-public class LoggingUtils {
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
-    public static void skipJansi() {
-        System.setProperty("log4j.skipJansi", "true");
+public class Sets {
+
+    public static <T> Set<T> newHashSet(T... elements) {
+        Set<T> set = new HashSet<>(elements.length);
+        Collections.addAll(set, elements);
+        return set;
     }
 
 }

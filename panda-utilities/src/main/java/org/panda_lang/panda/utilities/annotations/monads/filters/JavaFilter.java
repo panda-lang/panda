@@ -24,27 +24,15 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
 import java.net.URL;
 
-public class URLFilter implements AnnotationsFilter<URL> {
-
-    private boolean exclude;
-    private final String[] paths;
-
-    public URLFilter(boolean exclude, String... paths) {
-        this.exclude = exclude;
-        this.paths = paths;
-    }
+public class JavaFilter implements AnnotationsFilter<URL> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, URL element) {
-        String urlPath = element.toExternalForm().replace("/", ".");
+        return !isJavaPath(element.toExternalForm().replace("/", "."));
+    }
 
-        for (String path : paths) {
-            if (urlPath.contains(path)) {
-                return !exclude;
-            }
-        }
-
-        return exclude;
+    private boolean isJavaPath(String path) {
+        return (path.contains("jre") || path.contains("jdk")) && (path.contains(".lib.") || path.contains(".bin."));
     }
 
 }

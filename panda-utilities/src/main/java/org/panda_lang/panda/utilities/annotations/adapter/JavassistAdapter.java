@@ -16,18 +16,18 @@
 
 package org.panda_lang.panda.utilities.annotations.adapter;
 
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
 import javassist.bytecode.*;
 import javassist.bytecode.annotation.Annotation;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
-import org.reflections.ReflectionsException;
-import org.reflections.util.Utils;
+import org.panda_lang.panda.utilities.commons.io.IOUtils;
+import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,12 +40,12 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
         return cls.getFields();
     }
 
-    public List<MethodInfo> getMethods(final ClassFile cls) {
+    public List<MethodInfo> getMethods(ClassFile cls) {
         //noinspection unchecked
         return cls.getMethods();
     }
 
-    public String getMethodName(final MethodInfo method) {
+    public String getMethodName(MethodInfo method) {
         return method.getName();
     }
 
@@ -71,18 +71,22 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     public List<String> getParameterAnnotationNames(final MethodInfo method, final int parameterIndex) {
-        List<String> result = Lists.newArrayList();
+        List<String> result = new ArrayList<>();
 
-        List<ParameterAnnotationsAttribute> parameterAnnotationsAttributes = Lists.newArrayList((ParameterAnnotationsAttribute) method.getAttribute(ParameterAnnotationsAttribute.visibleTag),
-                (ParameterAnnotationsAttribute) method.getAttribute(ParameterAnnotationsAttribute.invisibleTag));
+        List<ParameterAnnotationsAttribute> parameterAnnotationsAttributes =
+                Arrays.asList((ParameterAnnotationsAttribute) method.getAttribute(ParameterAnnotationsAttribute.visibleTag),
+                        (ParameterAnnotationsAttribute) method.getAttribute(ParameterAnnotationsAttribute.invisibleTag));
 
         for (ParameterAnnotationsAttribute parameterAnnotationsAttribute : parameterAnnotationsAttributes) {
-            if (parameterAnnotationsAttribute != null) {
-                Annotation[][] annotations = parameterAnnotationsAttribute.getAnnotations();
-                if (parameterIndex < annotations.length) {
-                    Annotation[] annotation = annotations[parameterIndex];
-                    result.addAll(getAnnotationNames(annotation));
-                }
+            if (parameterAnnotationsAttribute == null) {
+                continue;
+            }
+
+            Annotation[][] annotations = parameterAnnotationsAttribute.getAnnotations();
+
+            if (parameterIndex < annotations.length) {
+                Annotation[] annotation = annotations[parameterIndex];
+                result.addAll(getAnnotationNames(annotation));
             }
         }
 
@@ -99,28 +103,30 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
         return field.getName();
     }
 
-    public ClassFile getOfCreateClassObject(AnnotationsScannerFile file) {
+    public @Nullable ClassFile getOfCreateClassObject(AnnotationsScanner scanner, AnnotationsScannerFile file) {
         InputStream inputStream = null;
+
         try {
             inputStream = file.openInputStream();
             DataInputStream dis = new DataInputStream(new BufferedInputStream(inputStream));
             return new ClassFile(dis);
         } catch (Exception e) {
-            throw new ReflectionsException("Could not create class file from " + file.getInternalPath(), e);
+            scanner.getLogger().exception(e);
+            scanner.getLogger().error("Could not create class file from " + file.getInternalPath());
         } finally {
-            Utils.close(inputStream);
+            IOUtils.close(inputStream);
         }
+
+        return null;
     }
 
     public String getMethodModifier(MethodInfo method) {
         int accessFlags = method.getAccessFlags();
-        return AccessFlag.isPrivate(accessFlags) ? "private" :
-                AccessFlag.isProtected(accessFlags) ? "protected" :
-                        isPublic(accessFlags) ? "public" : "";
+        return AccessFlag.isPrivate(accessFlags) ? "private" : AccessFlag.isProtected(accessFlags) ? "protected" : isPublic(accessFlags) ? "public" : "";
     }
 
     public String getMethodKey(ClassFile cls, MethodInfo method) {
-        return getMethodName(method) + "(" + Joiner.on(", ").join(getParameterNames(method)) + ")";
+        return getMethodName(method) + "(" + new ContentJoiner(", ").join(getParameterNames(method)) + ")";
     }
 
     public String getMethodFullKey(ClassFile cls, MethodInfo method) {
@@ -128,15 +134,14 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     public boolean isPublic(Object o) {
-        Integer accessFlags =
-                o instanceof ClassFile ? ((ClassFile) o).getAccessFlags() :
+        int accessFlags = o instanceof ClassFile ?
+                ((ClassFile) o).getAccessFlags() :
                         o instanceof FieldInfo ? ((FieldInfo) o).getAccessFlags() :
                                 o instanceof MethodInfo ? ((MethodInfo) o).getAccessFlags() : null;
 
-        return accessFlags != null && AccessFlag.isPublic(accessFlags);
+        return AccessFlag.isPublic(accessFlags);
     }
 
-    //
     public String getClassName(final ClassFile cls) {
         return cls.getName();
     }
@@ -154,15 +159,19 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     private List<String> getAnnotationNames(AnnotationsAttribute... annotationsAttributes) {
-        List<String> result = Lists.newArrayList();
+        List<String> result = new ArrayList<>();
 
-        if (annotationsAttributes != null) {
-            for (AnnotationsAttribute annotationsAttribute : annotationsAttributes) {
-                if (annotationsAttribute != null) {
-                    for (Annotation annotation : annotationsAttribute.getAnnotations()) {
-                        result.add(annotation.getTypeName());
-                    }
-                }
+        if (annotationsAttributes == null) {
+            return result;
+        }
+
+        for (AnnotationsAttribute annotationsAttribute : annotationsAttributes) {
+            if (annotationsAttribute == null) {
+                continue;
+            }
+
+            for (Annotation annotation : annotationsAttribute.getAnnotations()) {
+                result.add(annotation.getTypeName());
             }
         }
 
@@ -170,7 +179,7 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     private List<String> getAnnotationNames(Annotation[] annotations) {
-        List<String> result = Lists.newArrayList();
+        List<String> result = new ArrayList<>();
 
         for (Annotation annotation : annotations) {
             result.add(annotation.getTypeName());
@@ -180,22 +189,22 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     private List<String> splitDescriptorToTypeNames(final String descriptors) {
-        List<String> result = Lists.newArrayList();
+        List<String> result = new ArrayList<>();
 
         if (descriptors != null && descriptors.length() != 0) {
-
-            List<Integer> indices = Lists.newArrayList();
+            List<Integer> indices = new ArrayList<>();
             Descriptor.Iterator iterator = new Descriptor.Iterator(descriptors);
+
             while (iterator.hasNext()) {
                 indices.add(iterator.next());
             }
+
             indices.add(descriptors.length());
 
             for (int i = 0; i < indices.size() - 1; i++) {
                 String s1 = Descriptor.toString(descriptors.substring(indices.get(i), indices.get(i + 1)));
                 result.add(s1);
             }
-
         }
 
         return result;

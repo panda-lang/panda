@@ -26,12 +26,6 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
 public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
 
-    public static final String[] POPULAR_PACKAGES = {
-            "META-INF",
-            "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",
-            "org.apache", "com.google", "org.junit", "org.jetbrains"
-    };
-
     private final boolean exclude;
     private final String[] packages;
 
@@ -43,7 +37,11 @@ public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFi
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, AnnotationsScannerFile element) {
         for (String packageName : packages) {
-            if (AnnotationsScannerUtils.toClassPath(element.getOriginalPath()).startsWith(packageName) || element.getInternalPath().startsWith(packageName)) {
+            if (AnnotationsScannerUtils.toClassPath(element.getOriginalPath()).startsWith(packageName)) {
+                return !exclude;
+            }
+
+            if (AnnotationsScannerUtils.toClassPath(element.getInternalPath()).startsWith(packageName)) {
                 return !exclude;
             }
         }

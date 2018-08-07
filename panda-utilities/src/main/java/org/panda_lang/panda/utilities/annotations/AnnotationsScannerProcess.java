@@ -33,8 +33,6 @@ public class AnnotationsScannerProcess {
 
     private final AnnotationsScanner scanner;
     private final AnnotationScannerStore store;
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
-    private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
     private final List<AnnotationsFilter<URL>> urlFilters;
     private final List<AnnotationsFilter<AnnotationsScannerFile>> fileFilters;
     private final List<AnnotationsFilter<ClassFile>> classFileFilters;
@@ -42,8 +40,6 @@ public class AnnotationsScannerProcess {
     AnnotationsScannerProcess(AnnotationsScannerProcessBuilder builder) {
         this.scanner = builder.scanner;
         this.store = builder.store;
-        this.resources = builder.resources;
-        this.metadataAdapter = builder.metadataAdapter;
         this.urlFilters = builder.urlFilters;
         this.fileFilters = builder.fileFilters;
         this.classFileFilters = builder.classFileFilters;
@@ -52,7 +48,7 @@ public class AnnotationsScannerProcess {
     protected AnnotationsScannerProcess fetch() {
         long uptime = System.nanoTime();
 
-        for (AnnotationsScannerResource<?> resource : resources) {
+        for (AnnotationsScannerResource<?> resource : scanner.getConfiguration().getResources()) {
             Set<ClassFile> classFiles = scanResource(resource);
             store.addClassFiles(classFiles);
         }
@@ -69,12 +65,16 @@ public class AnnotationsScannerProcess {
         Set<ClassFile> classFiles = new HashSet<>();
 
         for (AnnotationsFilter<URL> urlFilter : urlFilters) {
-            if (!urlFilter.check(metadataAdapter, resource.getLocation())) {
+            if (!urlFilter.check(getMetadataAdapter(), resource.getLocation())) {
                 return classFiles;
             }
         }
 
         for (AnnotationsScannerFile annotationsScannerFile : resource) {
+            if (annotationsScannerFile == null || !annotationsScannerFile.getOriginalPath().endsWith(".class")) {
+                continue;
+            }
+
             ClassFile classFile = scanFile(annotationsScannerFile);
 
             if (classFile == null) {
@@ -88,6 +88,8 @@ public class AnnotationsScannerProcess {
     }
 
     private @Nullable ClassFile scanFile(AnnotationsScannerFile file) {
+        MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter = getMetadataAdapter();
+
         for (AnnotationsFilter<AnnotationsScannerFile> fileFilter : fileFilters) {
             if (!fileFilter.check(metadataAdapter, file)) {
                 return null;
@@ -97,7 +99,7 @@ public class AnnotationsScannerProcess {
         ClassFile pseudoClass;
 
         try {
-            pseudoClass = metadataAdapter.getOfCreateClassObject(file);
+            pseudoClass = metadataAdapter.getOfCreateClassObject(scanner, file);
         } catch (Exception e) {
             return null; // mute
         }
@@ -114,7 +116,7 @@ public class AnnotationsScannerProcess {
     }
 
     public MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
-        return metadataAdapter;
+        return scanner.getConfiguration().getMetadataAdapter();
     }
 
     protected AnnotationsScanner getScanner() {

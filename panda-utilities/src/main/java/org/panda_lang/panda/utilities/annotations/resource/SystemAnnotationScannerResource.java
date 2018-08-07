@@ -16,16 +16,12 @@
 
 package org.panda_lang.panda.utilities.annotations.resource;
 
-import com.google.common.collect.Lists;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
 
@@ -87,14 +83,14 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
         return file.getPath().replace("\\", "/");
     }
 
-    private List<File> listFiles(final File file) {
+    private List<File> listFiles(File file) {
         File[] files = file.listFiles();
 
         if (files != null) {
-            return Lists.newArrayList(files);
+            return Arrays.asList(files);
         }
 
-        return Lists.newArrayList();
+        return new ArrayList<>(0);
     }
 
 }

@@ -16,20 +16,22 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import com.google.common.collect.Lists;
 import org.jetbrains.annotations.Nullable;
-import org.reflections.util.ClasspathHelper;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class AnnotationsScannerUtils {
 
-    static List<String> primitiveNames = Lists.newArrayList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
-    static List<String> primitiveDescriptors = Lists.newArrayList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
-    static List<Class> primitiveTypes = Lists.newArrayList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
+    protected static final String[] PANDA_PACKAGES = {
+            "META-INF",
+            "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // JAVA
+            "org.apache", "com.google", "org.slf4j",                                            // Popular
+            "org.junit", "junit", "org.jetbrains", "org.intellij", "org.opentest4j"             // IDE
+    };
+
+    static List<String> primitiveNames = Arrays.asList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
+    static List<String> primitiveDescriptors = Arrays.asList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
+    static List<Class> primitiveTypes = Arrays.asList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
 
     public static String toClassPath(String path) {
         return path.replace("/", ".").replace(".class", "");
@@ -76,7 +78,7 @@ public class AnnotationsScannerUtils {
             type = typeName;
         }
 
-        for (ClassLoader classLoader : ClasspathHelper.classLoaders(classLoaders)) {
+        for (ClassLoader classLoader : scanner.getConfiguration().getClassLoaders()) {
             if (type.contains("[")) {
                 try {
                     return Class.forName(type, false, classLoader);

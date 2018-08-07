@@ -16,43 +16,28 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-import javassist.bytecode.ClassFile;
-import javassist.bytecode.FieldInfo;
-import javassist.bytecode.MethodInfo;
-import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
-
-import java.util.Set;
-
 public class AnnotationsScanner {
 
-    private final AnnotationsScannerLogger logger;
-    private final Set<? extends AnnotationsScannerResource<?>> resources;
-    private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    private final AnnotationsScannerConfiguration configuration;
 
-    protected AnnotationsScanner(AnnotationsScannerBuilder builder) {
-        this.logger = builder.logger;
-        this.resources = builder.resources;
-        this.metadataAdapter = builder.metadataAdapter;
+    protected AnnotationsScanner(AnnotationsScannerConfiguration configuration) {
+        this.configuration = configuration;
     }
 
     public AnnotationsScannerProcessBuilder createWorker() {
         return new AnnotationsScannerProcessBuilder(this, new AnnotationScannerStore());
     }
 
-    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
-        return metadataAdapter;
-    }
-
-    protected Set<? extends AnnotationsScannerResource<?>> getResources() {
-        return resources;
+    public AnnotationsScannerConfiguration getConfiguration() {
+        return configuration;
     }
 
     public AnnotationsScannerLogger getLogger() {
-        return logger;
+        return configuration.getLogger();
     }
 
-    public static AnnotationsScannerBuilder builder() {
-        return new AnnotationsScannerBuilder();
+    public static AnnotationsScannerConfiguration createScanner() {
+        return new AnnotationsScannerConfiguration();
     }
 
 }

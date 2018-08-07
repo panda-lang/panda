@@ -33,14 +33,16 @@ import java.net.URLClassLoader;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AnnotationsScannerBuilder {
+public class AnnotationsScannerConfiguration {
 
-    protected final Set<AnnotationsScannerResource<?>> resources;
-    protected final AnnotationsScannerResourceFactory resourceFactory;
-    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
-    protected AnnotationsScannerLogger logger;
+    private final Set<ClassLoader> classLoaders;
+    private final Set<AnnotationsScannerResource<?>> resources;
+    private final AnnotationsScannerResourceFactory resourceFactory;
+    private MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    private AnnotationsScannerLogger logger;
 
-    AnnotationsScannerBuilder() {
+    AnnotationsScannerConfiguration() {
+        this.classLoaders = new HashSet<>(2);
         this.resources = new HashSet<>(2);
         this.resourceFactory = new AnnotationsScannerResourceFactory();
         this.metadataAdapter = new JavassistAdapter();
@@ -51,29 +53,29 @@ public class AnnotationsScannerBuilder {
         return new AnnotationsScanner(this);
     }
 
-    public AnnotationsScannerBuilder logger(@Nullable Logger logger) {
+    public AnnotationsScannerConfiguration logger(@Nullable Logger logger) {
         this.logger = new AnnotationsScannerLogger(logger);
         return this;
     }
 
-    public AnnotationsScannerBuilder metadataAdapter(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> adapter) {
+    public AnnotationsScannerConfiguration metadataAdapter(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> adapter) {
         this.metadataAdapter = adapter;
         return this;
     }
 
-    public AnnotationsScannerBuilder includeClassLoaders(ClassLoader... classLoaders) {
+    public AnnotationsScannerConfiguration includeDefaultClassLoaders() {
+        return includeClassLoaders(true, this.getClass().getClassLoader(), Thread.currentThread().getContextClassLoader());
+    }
+
+    public AnnotationsScannerConfiguration includeClassLoaders(boolean includeParents, ClassLoader... classLoaders) {
         for (ClassLoader classLoader : classLoaders) {
-            includeClassLoader(classLoader);
+            includeClassLoader(includeParents, classLoader);
         }
 
         return this;
     }
 
-    public AnnotationsScannerBuilder includeDefaultClassLoaders() {
-        return includeClassLoaders(this.getClass().getClassLoader(), Thread.currentThread().getContextClassLoader());
-    }
-
-    public AnnotationsScannerBuilder includeJavaClassPath() {
+    public AnnotationsScannerConfiguration includeJavaClassPath() {
         String javaClassPath = System.getProperty("java.class.path");
 
         if (javaClassPath != null) {
@@ -87,7 +89,7 @@ public class AnnotationsScannerBuilder {
         return this;
     }
 
-    public AnnotationsScannerBuilder includePath(String path) {
+    public AnnotationsScannerConfiguration includePath(String path) {
         try {
             URL url = new File(path).toURI().toURL();
             includeResources(url);
@@ -98,12 +100,14 @@ public class AnnotationsScannerBuilder {
         return this;
     }
 
-    private void includeClassLoader(@Nullable ClassLoader classLoader) {
+    private void includeClassLoader(boolean includeParents, @Nullable ClassLoader classLoader) {
         if (classLoader == null) {
             return;
         }
 
-        for (ClassLoader currentClassLoader = classLoader; currentClassLoader != null; currentClassLoader = currentClassLoader.getParent()) {
+        classLoaders.add(classLoader);
+
+        for (ClassLoader currentClassLoader = classLoader; currentClassLoader != null; currentClassLoader = includeParents ? currentClassLoader.getParent() : null) {
             if (!(currentClassLoader instanceof URLClassLoader)) {
                 continue;
             }
@@ -124,7 +128,7 @@ public class AnnotationsScannerBuilder {
             AnnotationsScannerResource<?> resource = resourceFactory.createTypedResource(url);
 
             if (resource == null) {
-                // log unknown resource
+                logger.warn("Unknown resource: " + url);
                 continue;
             }
 
@@ -132,6 +136,22 @@ public class AnnotationsScannerBuilder {
         }
 
         resources.addAll(currentResources);
+    }
+
+    protected Set<ClassLoader> getClassLoaders() {
+        return classLoaders;
+    }
+
+    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
+        return metadataAdapter;
+    }
+
+    protected Set<AnnotationsScannerResource<?>> getResources() {
+        return resources;
+    }
+
+    protected AnnotationsScannerLogger getLogger() {
+        return logger;
     }
 
 }
