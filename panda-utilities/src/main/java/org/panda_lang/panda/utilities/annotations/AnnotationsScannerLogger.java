@@ -39,13 +39,19 @@ public class AnnotationsScannerLogger {
         }
     }
 
+    public void warn(String message) {
+        if (logger != null) {
+            logger.warn(message);
+        }
+    }
+
     public void error(String message) {
         if (logger != null) {
             logger.error(message);
         }
     }
 
-    public void exception(Exception exception) {
+    public void exception(Throwable exception) {
         if (logger != null) {
             exception.printStackTrace();
         }

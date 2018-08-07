@@ -39,7 +39,7 @@ public class AnnotationsScannerSelector {
         long uptime = System.nanoTime();
 
         Collection<String> selected = selector.select(process, store);
-        Set<Class<?>> classes = AnnotationsScannerUtils.forNames(selected);
+        Set<Class<?>> classes = AnnotationsScannerUtils.forNames(process.getScanner(), selected);
 
         process.getScanner().getLogger().debug("Selected classes: " + classes.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
         return classes;

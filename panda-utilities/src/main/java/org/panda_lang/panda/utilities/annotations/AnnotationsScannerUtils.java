@@ -27,15 +27,19 @@ import java.util.Set;
 
 public class AnnotationsScannerUtils {
 
-    private static List<String> primitiveNames = Lists.newArrayList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
-    private static List<String> primitiveDescriptors = Lists.newArrayList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
-    private static List<Class> primitiveTypes = Lists.newArrayList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
+    static List<String> primitiveNames = Lists.newArrayList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
+    static List<String> primitiveDescriptors = Lists.newArrayList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
+    static List<Class> primitiveTypes = Lists.newArrayList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
 
-    public static Set<Class<?>> forNames(Collection<String> types) {
+    public static String toClassPath(String path) {
+        return path.replace("/", ".").replace(".class", "");
+    }
+
+    static Set<Class<?>> forNames(AnnotationsScanner scanner, Collection<String> types) {
         Set<Class<?>> classes = new HashSet<>();
 
         for (String type : types) {
-            Class<?> clazz = forName(type);
+            Class<?> clazz = forName(scanner, type);
 
             if (type == null) {
                 continue;
@@ -47,9 +51,9 @@ public class AnnotationsScannerUtils {
         return classes;
     }
 
-    public static @Nullable Class<?> forName(String typeName, @Nullable ClassLoader... classLoaders) {
-        if (getPrimitiveNames().contains(typeName)) {
-            return getPrimitiveTypes().get(getPrimitiveNames().indexOf(typeName));
+    static @Nullable Class<?> forName(AnnotationsScanner scanner, String typeName, @Nullable ClassLoader... classLoaders) {
+        if (primitiveNames.contains(typeName)) {
+            return primitiveTypes.get(primitiveNames.indexOf(typeName));
         }
 
         String type;
@@ -59,8 +63,8 @@ public class AnnotationsScannerUtils {
             type = typeName.substring(0, i);
             String array = typeName.substring(i).replace("]", "");
 
-            if (getPrimitiveNames().contains(type)) {
-                type = getPrimitiveDescriptors().get(getPrimitiveNames().indexOf(type));
+            if (primitiveNames.contains(type)) {
+                type = primitiveDescriptors.get(primitiveNames.indexOf(type));
             }
             else {
                 type = "L" + type + ";";
@@ -77,34 +81,18 @@ public class AnnotationsScannerUtils {
                 try {
                     return Class.forName(type, false, classLoader);
                 } catch (Throwable e) {
-                    e.printStackTrace();
+                    scanner.getLogger().exception(e);
                 }
             }
             try {
                 return classLoader.loadClass(type);
             } catch (Throwable e) {
-                e.printStackTrace();
+                scanner.getLogger().exception(e);
             }
         }
 
-        System.out.println("could not get type for name " + typeName + " from any class loader");
+        scanner.getLogger().warn("Could not get type for name " + typeName + " from any class loader");
         return null;
-    }
-
-    public static String toClassPath(String path) {
-        return path.replace("/", ".").replace(".class", "");
-    }
-
-    protected static List<String> getPrimitiveNames() {
-        return primitiveNames;
-    }
-
-    protected static List<Class> getPrimitiveTypes() {
-        return primitiveTypes;
-    }
-
-    protected static List<String> getPrimitiveDescriptors() {
-        return primitiveDescriptors;
     }
 
 }
