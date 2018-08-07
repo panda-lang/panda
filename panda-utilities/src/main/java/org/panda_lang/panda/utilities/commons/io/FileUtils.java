@@ -142,4 +142,49 @@ public class FileUtils {
         return files;
     }
 
+    /**
+     * Delete file or directory with content
+     *
+     * @param file file/directory
+     * @return true if succeeded
+     */
+    public static boolean delete(File file) {
+        if (!file.exists()) {
+            return true;
+        }
+
+        if (file.isDirectory()) {
+            File[] files = file.listFiles();
+
+            if (files != null) {
+                for (File c : files) {
+                    delete(c);
+                }
+            }
+        }
+
+        return file.delete();
+    }
+
+    /**
+     * Check if a file is in the specified array
+     *
+     * @param files files
+     * @param fileName name of file
+     * @return true if file is in specified array
+     */
+    public static boolean isIn(File[] files, String fileName) {
+        if (files == null) {
+            return false;
+        }
+
+        for (File file : files) {
+            if (file.getName().equals(fileName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }
