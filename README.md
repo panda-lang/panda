@@ -43,6 +43,5 @@ Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 ```
 
 #### Other
-- Manual download the latest version of Panda: [panda-indev-0.8.87.jar](https://repo.panda-lang.org/org/panda-lang/panda/indev-0.8.87/panda-indev-0.8.87.jar)
 - Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
 - Light: https://github.com/dzikoysk/Light
