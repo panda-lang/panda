@@ -48,6 +48,10 @@ public class MessageFormatter {
         return message;
     }
 
+    public MessageFormatter register(String placeholder, Object value) {
+        return register(placeholder, value::toString);
+    }
+
     public MessageFormatter register(String placeholder, Supplier<?> value) {
         this.placeholders.put(placeholder, value);
         return this;
