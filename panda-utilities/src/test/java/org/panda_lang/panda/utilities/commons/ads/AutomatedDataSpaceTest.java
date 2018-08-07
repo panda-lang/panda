@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.ads;
 
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataInterface;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataSpace;
 import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionHandler;

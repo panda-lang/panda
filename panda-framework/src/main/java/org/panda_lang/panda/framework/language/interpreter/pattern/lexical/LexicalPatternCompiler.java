@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.*;
 import org.panda_lang.panda.utilities.commons.arrays.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
@@ -135,7 +136,7 @@ public class LexicalPatternCompiler {
         return new LexicalPatternNode(elements, true);
     }
 
-    private String compileIdentifier(String pattern) {
+    private @Nullable String compileIdentifier(String pattern) {
         pattern = pattern.trim();
 
         if (pattern.length() < 2 || !pattern.contains(":")) {

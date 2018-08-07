@@ -16,18 +16,20 @@
 
 package org.panda_lang.panda.interpreter.lexer.extractor;
 
-import org.junit.*;
-import org.junit.Test;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.lexer.*;
-import org.panda_lang.panda.framework.design.interpreter.source.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
-import org.panda_lang.panda.framework.language.interpreter.lexer.*;
-import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.*;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.Operators;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separator;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separators;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.VagueExtractor;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.VagueResult;
 
 public class VagueExtractorTest {
 
@@ -56,10 +58,10 @@ public class VagueExtractorTest {
         Assertions.assertEquals(5, result.size());
 
         Assertions.assertAll(
-                () -> Assert.assertEquals("(", result.get(0)),
-                () -> Assert.assertEquals("+", result.get(2)),
-                () -> Assert.assertEquals("3", result.get(3)),
-                () -> Assert.assertEquals(")", result.get(4))
+                () -> Assertions.assertEquals("(", result.get(0)),
+                () -> Assertions.assertEquals("+", result.get(2)),
+                () -> Assertions.assertEquals("3", result.get(3)),
+                () -> Assertions.assertEquals(")", result.get(4))
         );
     }
 

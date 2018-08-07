@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.interpreter.parser.bootstrap;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;

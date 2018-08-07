@@ -45,7 +45,7 @@ public class StringUtilsTest {
         Assertions.assertAll(
                 // Without changes
                 () -> Assertions.assertEquals("test", StringUtils.trimStart("test")),
-                () -> Assertions.assertEquals("  test", StringUtils.trimStart("test  ")),
+                () -> Assertions.assertEquals("test  ", StringUtils.trimStart("test  ")),
                 () -> Assertions.assertEquals("", StringUtils.trimStart("")),
 
                 // With changes

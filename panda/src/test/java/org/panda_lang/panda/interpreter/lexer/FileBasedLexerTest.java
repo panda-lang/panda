@@ -16,19 +16,19 @@
 
 package org.panda_lang.panda.interpreter.lexer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.language.interpreter.source.*;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaTokenReader;
+import org.panda_lang.panda.framework.design.interpreter.PandaLanguage;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
-import org.panda_lang.panda.framework.design.interpreter.PandaLanguage;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaTokenReader;
 
 import java.io.File;
 

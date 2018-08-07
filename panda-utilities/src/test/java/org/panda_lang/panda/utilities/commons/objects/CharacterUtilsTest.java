@@ -44,4 +44,16 @@ public class CharacterUtilsTest {
         Assertions.assertEquals(1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c'}, 'b'));
     }
 
+    @Test
+    public void testLetters() {
+        Assertions.assertEquals('a', CharacterUtils.LETTERS[0]);
+        Assertions.assertEquals('Z', CharacterUtils.LETTERS[CharacterUtils.LETTERS.length - 1]);
+    }
+
+    @Test
+    public void testDigits() {
+        Assertions.assertEquals('0', CharacterUtils.DIGITS[0]);
+        Assertions.assertEquals('9', CharacterUtils.DIGITS[CharacterUtils.DIGITS.length - 1]);
+    }
+
 }

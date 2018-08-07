@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.utilities.redact.match;
 
-import org.junit.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.pattern.text.TextHollowPattern;
 
 public class HollowPatternTest {
@@ -29,7 +30,7 @@ public class HollowPatternTest {
                 .compile("*.*(*)*")
                 .build();
 
-        Assert.assertTrue(hollowPattern.match(EXPRESSION));
+        Assertions.assertTrue(hollowPattern.match(EXPRESSION));
     }
 
     @Test

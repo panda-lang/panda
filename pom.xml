@@ -20,7 +20,7 @@
     <name>Panda</name>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda-parent</artifactId>
-    <version>indev-0.8.731</version>
+    <version>indev-0.8.87</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -54,11 +54,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- JUnit properties -->
-        <junit.version>4.12</junit.version>
-        <junit.jupiter.version>5.0.3</junit.jupiter.version>
-        <junit.vintage.version>4.12.3</junit.vintage.version>
-        <junit.jupiter.version>5.0.3</junit.jupiter.version>
-        <junit.platform.version>1.0.3</junit.platform.version>
+        <junit.jupiter.version>5.3.0-M1</junit.jupiter.version>
     </properties>
 
     <dependencyManagement>
@@ -116,7 +112,7 @@
                 <version>16.0.1</version>
             </dependency>
 
-            <!-- Tests -->
+            <!-- Benchmarks -->
             <dependency>
                 <groupId>org.openjdk.jmh</groupId>
                 <artifactId>jmh-core</artifactId>
@@ -129,28 +125,12 @@
                 <version>1.20</version>
                 <scope>test</scope>
             </dependency>
+
+            <!-- Tests -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.jupiter.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-runner</artifactId>
-                <version>${junit.platform.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.vintage</groupId>
-                <artifactId>junit-vintage-engine</artifactId>
-                <version>${junit.vintage.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
