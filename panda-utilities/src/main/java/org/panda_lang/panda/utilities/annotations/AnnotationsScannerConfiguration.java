@@ -30,6 +30,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,7 +51,15 @@ public class AnnotationsScannerConfiguration {
     }
 
     public AnnotationsScanner build() {
+        if (classLoaders.isEmpty()) {
+            classLoaders.add(this.getClass().getClassLoader());
+        }
+
         return new AnnotationsScanner(this);
+    }
+
+    public AnnotationsScannerConfiguration prepareDefaults() {
+        return includeDefaultClassLoaders();
     }
 
     public AnnotationsScannerConfiguration logger(@Nullable Logger logger) {
@@ -75,6 +84,21 @@ public class AnnotationsScannerConfiguration {
         return this;
     }
 
+    private void includeClassLoader(boolean includeParents, @Nullable ClassLoader classLoader) {
+        if (classLoader == null) {
+            return;
+        }
+
+        for (ClassLoader currentClassLoader = classLoader; currentClassLoader != null; currentClassLoader = includeParents ? currentClassLoader.getParent() : null) {
+            if (!(currentClassLoader instanceof URLClassLoader)) {
+                continue;
+            }
+
+            URL[] urls = ((URLClassLoader) currentClassLoader).getURLs();
+            includeResources(urls);
+        }
+    }
+
     public AnnotationsScannerConfiguration includeJavaClassPath() {
         String javaClassPath = System.getProperty("java.class.path");
 
@@ -89,6 +113,11 @@ public class AnnotationsScannerConfiguration {
         return this;
     }
 
+    public AnnotationsScannerConfiguration includeSources(Class<?> clazz) {
+        includeResources(clazz.getProtectionDomain().getCodeSource().getLocation());
+        return this;
+    }
+
     public AnnotationsScannerConfiguration includePath(String path) {
         try {
             URL url = new File(path).toURI().toURL();
@@ -100,24 +129,7 @@ public class AnnotationsScannerConfiguration {
         return this;
     }
 
-    private void includeClassLoader(boolean includeParents, @Nullable ClassLoader classLoader) {
-        if (classLoader == null) {
-            return;
-        }
-
-        classLoaders.add(classLoader);
-
-        for (ClassLoader currentClassLoader = classLoader; currentClassLoader != null; currentClassLoader = includeParents ? currentClassLoader.getParent() : null) {
-            if (!(currentClassLoader instanceof URLClassLoader)) {
-                continue;
-            }
-
-            URL[] urls = ((URLClassLoader) currentClassLoader).getURLs();
-            includeResources(urls);
-        }
-    }
-
-    private void includeResources(@Nullable URL... urls) {
+    public void includeResources(@Nullable URL... urls) {
         if (urls == null) {
             return;
         }
@@ -136,6 +148,11 @@ public class AnnotationsScannerConfiguration {
         }
 
         resources.addAll(currentResources);
+    }
+
+    public AnnotationsScannerConfiguration addClassLoader(ClassLoader... classLoaders) {
+        this.classLoaders.addAll(Arrays.asList(classLoaders));
+        return this;
     }
 
     protected Set<ClassLoader> getClassLoaders() {

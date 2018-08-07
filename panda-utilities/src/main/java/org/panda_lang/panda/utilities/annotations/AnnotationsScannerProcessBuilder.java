@@ -48,6 +48,12 @@ public class AnnotationsScannerProcessBuilder {
         return this;
     }
 
+    public AnnotationsScannerProcessBuilder addDefaultProjectFilters(String... packageNames) {
+        addURLFilter(new JavaFilter())
+        .addFileFilters(new PackageFileFilter(false, packageNames));
+        return this;
+    }
+
     public AnnotationsScannerProcessBuilder addURLFilter(AnnotationsFilter<URL>... urlFilters) {
         this.urlFilters.addAll(Sets.newHashSet(urlFilters));
         return this;

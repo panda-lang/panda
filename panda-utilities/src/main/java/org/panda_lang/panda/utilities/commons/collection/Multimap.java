@@ -43,6 +43,10 @@ public class Multimap<K, V> implements Serializable {
         collection.addAll(values);
     }
 
+    public void clear() {
+        map.clear();
+    }
+
     public @Nullable Collection<V> get(K key) {
         return map.get(key);
     }

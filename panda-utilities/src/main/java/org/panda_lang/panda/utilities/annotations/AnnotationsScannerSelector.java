@@ -23,6 +23,7 @@ import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 public class AnnotationsScannerSelector {
@@ -45,8 +46,15 @@ public class AnnotationsScannerSelector {
         return classes;
     }
 
-    public Set<Class<?>> selectSubtypesOf(Class<?> type) {
-        return select(new SubTypeSelector(type));
+    @SuppressWarnings("unchecked")
+    public <T> Set<Class<? extends T>> selectSubtypesOf(Class<? extends T> type) {
+        Set<Class<? extends T>> selectedClasses = new HashSet<>();
+
+        for (Class<?> clazz : select(new SubTypeSelector(type))) {
+            selectedClasses.add((Class<? extends T>) clazz);
+        }
+
+        return selectedClasses;
     }
 
     public Set<Class<?>> selectTypesAnnotatedWith(Class<? extends Annotation> annotationType) {

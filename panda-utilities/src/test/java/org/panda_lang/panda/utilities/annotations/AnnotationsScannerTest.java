@@ -17,23 +17,20 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter;
-import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
 
 import java.util.Set;
 
 @AnnotationTest
-public class AnnotationsScannerTest extends WrappedTestType {
+public class AnnotationsScannerTest implements WrappedTestType {
 
     @Test
     void testScanner() {
         AnnotationsScanner scanner = AnnotationsScanner.createScanner()
-                .includeClassLoaders(false, this.getClass().getClassLoader())
+                .includeSources(AnnotationsScanner.class)
                 .build();
 
         AnnotationsScannerProcess process = scanner.createWorker()
-                .addURLFilter(new JavaFilter())
-                .addFileFilters(new PackageFileFilter(false, "org.panda_lang"))
+                .addDefaultProjectFilters("org.panda_lang")
                 .fetch();
 
         Set<Class<?>> classes = process.createSelector()
@@ -46,6 +43,6 @@ public class AnnotationsScannerTest extends WrappedTestType {
 
 @interface AnnotationTest { }
 
-class WrappedTestType extends TestType { }
+interface WrappedTestType extends TestType { }
 
-class TestType { }
+interface TestType { }

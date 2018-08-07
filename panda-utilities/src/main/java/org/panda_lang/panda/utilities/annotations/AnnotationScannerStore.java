@@ -22,7 +22,7 @@ import org.panda_lang.panda.utilities.commons.collection.Multimap;
 
 import java.util.*;
 
-public class AnnotationScannerStore {
+public class AnnotationScannerStore implements AnnotationsDisposable {
 
     private final Multimap<String, String> store;
     private final Map<String, ClassFile> classFiles;
@@ -62,6 +62,12 @@ public class AnnotationScannerStore {
         }
 
         return inheritors;
+    }
+
+    @Override
+    public void dispose() {
+        store.clear();
+        classFiles.clear();
     }
 
     public @Nullable ClassFile getCachedClassFile(String type) {

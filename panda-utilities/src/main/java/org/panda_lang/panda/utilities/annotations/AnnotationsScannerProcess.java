@@ -22,6 +22,7 @@ import javassist.bytecode.MethodInfo;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 import java.net.URL;
@@ -29,7 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AnnotationsScannerProcess {
+public class AnnotationsScannerProcess implements AnnotationsDisposable {
 
     private final AnnotationsScanner scanner;
     private final AnnotationScannerStore store;
@@ -104,7 +105,15 @@ public class AnnotationsScannerProcess {
             return null; // mute
         }
 
-        store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());
+        if (!StringUtils.isEmpty(pseudoClass.getSuperclass())) {
+            store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());
+        }
+
+        if (pseudoClass.getInterfaces() != null) {
+            for (String anInterface : pseudoClass.getInterfaces()) {
+                store.addInheritors(anInterface, pseudoClass.getName());
+            }
+        }
 
         for (AnnotationsFilter<ClassFile> pseudoClassFilter : classFileFilters) {
             if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {
@@ -113,6 +122,11 @@ public class AnnotationsScannerProcess {
         }
 
         return pseudoClass;
+    }
+
+    @Override
+    public void dispose() {
+        store.dispose();
     }
 
     public MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
