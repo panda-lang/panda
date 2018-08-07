@@ -25,12 +25,14 @@ import java.util.Set;
 
 public class AnnotationsScanner {
 
+    private final AnnotationsScannerLogger logger;
     private final Set<? extends AnnotationsScannerResource<?>> resources;
     private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
 
-    protected AnnotationsScanner(Set<? extends AnnotationsScannerResource<?>> resources, MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter) {
-        this.resources = resources;
-        this.metadataAdapter = metadataAdapter;
+    protected AnnotationsScanner(AnnotationsScannerBuilder builder) {
+        this.logger = builder.logger;
+        this.resources = builder.resources;
+        this.metadataAdapter = builder.metadataAdapter;
     }
 
     public AnnotationsScannerProcessBuilder createWorker() {
@@ -43,6 +45,10 @@ public class AnnotationsScanner {
 
     protected Set<? extends AnnotationsScannerResource<?>> getResources() {
         return resources;
+    }
+
+    public AnnotationsScannerLogger getLogger() {
+        return logger;
     }
 
     public static AnnotationsScannerBuilder builder() {

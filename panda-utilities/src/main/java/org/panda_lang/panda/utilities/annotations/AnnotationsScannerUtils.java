@@ -31,7 +31,7 @@ public class AnnotationsScannerUtils {
     private static List<String> primitiveDescriptors = Lists.newArrayList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
     private static List<Class> primitiveTypes = Lists.newArrayList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
 
-    protected static Set<Class<?>> forNames(Collection<String> types) {
+    public static Set<Class<?>> forNames(Collection<String> types) {
         Set<Class<?>> classes = new HashSet<>();
 
         for (String type : types) {
@@ -47,7 +47,7 @@ public class AnnotationsScannerUtils {
         return classes;
     }
 
-    protected static @Nullable Class<?> forName(String typeName, @Nullable ClassLoader... classLoaders) {
+    public static @Nullable Class<?> forName(String typeName, @Nullable ClassLoader... classLoaders) {
         if (getPrimitiveNames().contains(typeName)) {
             return getPrimitiveTypes().get(getPrimitiveNames().indexOf(typeName));
         }
@@ -89,6 +89,10 @@ public class AnnotationsScannerUtils {
 
         System.out.println("could not get type for name " + typeName + " from any class loader");
         return null;
+    }
+
+    public static String toClassPath(String path) {
+        return path.replace("/", ".").replace(".class", "");
     }
 
     protected static List<String> getPrimitiveNames() {

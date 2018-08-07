@@ -106,7 +106,7 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
             DataInputStream dis = new DataInputStream(new BufferedInputStream(inputStream));
             return new ClassFile(dis);
         } catch (Exception e) {
-            throw new ReflectionsException("Could not create class file from " + file.getName(), e);
+            throw new ReflectionsException("Could not create class file from " + file.getInternalPath(), e);
         } finally {
             Utils.close(inputStream);
         }

@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.annotations;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.SubTypeSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.TypeAnnotationSelector;
+import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.Collection;
@@ -35,8 +36,13 @@ public class AnnotationsScannerSelector {
     }
 
     public Set<Class<?>> select(AnnotationsSelector selector) {
+        long uptime = System.nanoTime();
+
         Collection<String> selected = selector.select(process, store);
-        return AnnotationsScannerUtils.forNames(selected);
+        Set<Class<?>> classes = AnnotationsScannerUtils.forNames(selected);
+
+        process.getScanner().getLogger().debug("Selected classes: " + classes.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
+        return classes;
     }
 
     public Set<Class<?>> selectSubtypesOf(Class<?> type) {

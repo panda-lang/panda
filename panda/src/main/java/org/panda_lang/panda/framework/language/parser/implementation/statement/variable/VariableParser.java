@@ -127,7 +127,7 @@ public class VariableParser implements UnifiedParser {
 
                 if (variable != null) {
                     if (!variable.isMutable()) {
-                        throw new PandaParserException("Cannot change value of immutable variable '" + variable.getName() + "' at line " + TokenUtils.getLine(left));
+                        throw new PandaParserException("Cannot change value of immutable variable '" + variable.getInternalPath() + "' at line " + TokenUtils.getLine(left));
                     }
                 }
                 else {

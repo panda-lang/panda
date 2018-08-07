@@ -19,31 +19,31 @@ package org.panda_lang.panda.utilities.annotations.monads.filters;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerUtils;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
-public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
+import java.net.URL;
 
-    public static final String[] POPULAR_PACKAGES = {
-            "META-INF",
-            "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",
-            "org.apache", "com.google", "org.junit", "org.jetbrains"
+public class URLFilter implements AnnotationsFilter<URL> {
+
+    public static final String[] JRE_DIRECTORIES = {
+        ".lib.", ".bin."
     };
 
-    private final boolean exclude;
-    private final String[] packages;
+    private boolean exclude;
+    private final String[] paths;
 
-    public PackageFileFilter(boolean exclude, String... packages) {
+    public URLFilter(boolean exclude, String... paths) {
         this.exclude = exclude;
-        this.packages = packages;
+        this.paths = paths;
     }
 
     @Override
-    public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, AnnotationsScannerFile element) {
-        for (String packageName : packages) {
-            if (AnnotationsScannerUtils.toClassPath(element.getOriginalPath()).startsWith(packageName) || element.getInternalPath().startsWith(packageName)) {
+    public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, URL element) {
+        String urlPath = element.toExternalForm().replace("/", ".");
+
+        for (String path : paths) {
+            if (urlPath.contains(path)) {
                 return !exclude;
             }
         }

@@ -22,33 +22,42 @@ import javassist.bytecode.MethodInfo;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
+import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 public class AnnotationsScannerProcess {
 
+    private final AnnotationsScanner scanner;
     private final AnnotationScannerStore store;
     private final Set<? extends AnnotationsScannerResource<?>> resources;
     private final MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    private final List<AnnotationsFilter<URL>> urlFilters;
     private final List<AnnotationsFilter<AnnotationsScannerFile>> fileFilters;
     private final List<AnnotationsFilter<ClassFile>> classFileFilters;
 
     AnnotationsScannerProcess(AnnotationsScannerProcessBuilder builder) {
+        this.scanner = builder.scanner;
         this.store = builder.store;
         this.resources = builder.resources;
         this.metadataAdapter = builder.metadataAdapter;
+        this.urlFilters = builder.urlFilters;
         this.fileFilters = builder.fileFilters;
         this.classFileFilters = builder.classFileFilters;
     }
 
     protected AnnotationsScannerProcess fetch() {
+        long uptime = System.nanoTime();
+
         for (AnnotationsScannerResource<?> resource : resources) {
             Set<ClassFile> classFiles = scanResource(resource);
             store.addClassFiles(classFiles);
         }
 
+        scanner.getLogger().debug("Fetched class files: " + store.getAmountOfCachedClassFiles() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
         return this;
     }
 
@@ -58,6 +67,12 @@ public class AnnotationsScannerProcess {
 
     private Set<ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
         Set<ClassFile> classFiles = new HashSet<>();
+
+        for (AnnotationsFilter<URL> urlFilter : urlFilters) {
+            if (!urlFilter.check(metadataAdapter, resource.getLocation())) {
+                return classFiles;
+            }
+        }
 
         for (AnnotationsScannerFile annotationsScannerFile : resource) {
             ClassFile classFile = scanFile(annotationsScannerFile);
@@ -100,6 +115,10 @@ public class AnnotationsScannerProcess {
 
     public MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
         return metadataAdapter;
+    }
+
+    protected AnnotationsScanner getScanner() {
+        return scanner;
     }
 
 }

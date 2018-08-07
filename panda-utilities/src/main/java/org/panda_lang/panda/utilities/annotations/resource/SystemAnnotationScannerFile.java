@@ -43,14 +43,13 @@ class SystemAnnotationScannerFile implements AnnotationsScannerFile {
     }
 
     @Override
-    public String getRelativePath() {
-        String filepath = file.getPath().replace("\\", "/");
-        return filepath.substring(root.getPath().length() + 1);
+    public String getOriginalPath() {
+        return file.getPath();
     }
 
     @Override
-    public String getName() {
-        return file.getName();
+    public String getInternalPath() {
+        return getOriginalPath().replace("\\", "/").substring(root.getPath().length() + 1);
     }
 
 }

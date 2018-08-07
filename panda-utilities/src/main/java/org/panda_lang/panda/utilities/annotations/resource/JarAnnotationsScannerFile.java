@@ -44,7 +44,12 @@ class JarAnnotationsScannerFile implements AnnotationsScannerFile {
     }
 
     @Override
-    public String getRelativePath() {
+    public String getInternalPath() {
+        return getOriginalPath().substring(getOriginalPath().lastIndexOf("/") + 1);
+    }
+
+    @Override
+    public String getOriginalPath() {
         return entry.getName();
     }
 

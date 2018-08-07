@@ -53,7 +53,13 @@ class JarAnnotationsScannerResource extends AnnotationsScannerResource<Annotatio
             @Override
             public boolean hasNext() {
                 try {
-                    return (entry = jarInputStream.getNextJarEntry()) != null;
+                    entry = jarInputStream.getNextJarEntry();
+
+                    if (entry != null && !entry.getName().endsWith(".class")) {
+                        return hasNext();
+                    }
+
+                    return entry != null;
                 } catch (IOException e) {
                     return false;
                 }

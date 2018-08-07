@@ -27,13 +27,13 @@ public class ZipFile implements Vfs.File {
         this.entry = entry;
     }
 
-    public String getName() {
-        String name = entry.getName();
+    public String getInternalPath() {
+        String name = entry.getInternalPath();
         return name.substring(name.lastIndexOf("/") + 1);
     }
 
-    public String getRelativePath() {
-        return entry.getName();
+    public String getOriginalPath() {
+        return entry.getInternalPath();
     }
 
     public InputStream openInputStream() throws IOException {

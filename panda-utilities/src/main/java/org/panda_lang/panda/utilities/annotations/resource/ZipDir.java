@@ -26,7 +26,7 @@ public class ZipDir implements org.reflections.vfs.Vfs.Dir {
     }
 
     public String getPath() {
-        return jarFile.getName();
+        return jarFile.getInternalPath();
     }
 
     public Iterable<org.reflections.vfs.Vfs.File> getFiles() {
@@ -60,7 +60,7 @@ public class ZipDir implements org.reflections.vfs.Vfs.Dir {
 
     @Override
     public String toString() {
-        return jarFile.getName();
+        return jarFile.getInternalPath();
     }
 }
 */

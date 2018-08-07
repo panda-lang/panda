@@ -22,14 +22,8 @@ public interface AnnotationsScannerFile {
 
     InputStream openInputStream() throws Exception;
 
-    String getRelativePath();
+    String getOriginalPath();
 
-    default String getClassPath() {
-        return getRelativePath().replace("/", ".").replace(".class", "");
-    }
-
-    default String getName() {
-        return getRelativePath().substring(getRelativePath().lastIndexOf("/") + 1);
-    }
+    String getInternalPath();
 
 }

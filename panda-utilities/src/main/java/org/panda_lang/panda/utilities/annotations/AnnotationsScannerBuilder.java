@@ -23,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.JavassistAdapter;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResourceFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -33,18 +35,25 @@ import java.util.Set;
 
 public class AnnotationsScannerBuilder {
 
-    private final Set<AnnotationsScannerResource<?>> resources;
-    private final AnnotationsScannerResourceFactory resourceFactory;
-    private MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    protected final Set<AnnotationsScannerResource<?>> resources;
+    protected final AnnotationsScannerResourceFactory resourceFactory;
+    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
+    protected AnnotationsScannerLogger logger;
 
     AnnotationsScannerBuilder() {
         this.resources = new HashSet<>(2);
         this.resourceFactory = new AnnotationsScannerResourceFactory();
         this.metadataAdapter = new JavassistAdapter();
+        this.logger = new AnnotationsScannerLogger(LoggerFactory.getLogger(AnnotationsScanner.class));
     }
 
     public AnnotationsScanner build() {
-        return new AnnotationsScanner(resources, metadataAdapter);
+        return new AnnotationsScanner(this);
+    }
+
+    public AnnotationsScannerBuilder logger(@Nullable Logger logger) {
+        this.logger = new AnnotationsScannerLogger(logger);
+        return this;
     }
 
     public AnnotationsScannerBuilder metadataAdapter(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> adapter) {

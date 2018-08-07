@@ -68,6 +68,10 @@ public class AnnotationScannerStore {
         return classFiles.get(type);
     }
 
+    public int getAmountOfCachedClassFiles() {
+        return classFiles.size();
+    }
+
     public Collection<? extends ClassFile> getCachedClassFiles() {
         return classFiles.values();
     }
