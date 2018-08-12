@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.commons.redact;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
 
@@ -29,12 +30,20 @@ public class ContentJoiner {
         this.builder = new StringBuilder();
     }
 
+    public <T> ContentJoiner join(T[] elements, Function<T, ?> mapper) {
+        return join(Arrays.asList(elements), mapper);
+    }
+
     public <T> ContentJoiner join(Collection<T> elements, Function<T, ?> mapper) {
         for (T element : elements) {
             append(mapper.apply(element));
         }
 
         return this;
+    }
+
+    public ContentJoiner join(Object... elements) {
+        return join(Arrays.asList(elements));
     }
 
     public ContentJoiner join(Collection<?> elements) {
