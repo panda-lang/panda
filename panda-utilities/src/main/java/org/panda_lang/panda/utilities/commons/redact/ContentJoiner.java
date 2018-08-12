@@ -17,28 +17,46 @@
 package org.panda_lang.panda.utilities.commons.redact;
 
 import java.util.Collection;
+import java.util.function.Function;
 
 public class ContentJoiner {
 
     private final String separator;
     private final StringBuilder builder;
 
-    public ContentJoiner(String separator) {
+    private ContentJoiner(String separator) {
         this.separator = separator;
         this.builder = new StringBuilder();
     }
 
-    public ContentJoiner join(Collection<?> elements) {
-        for (Object element : elements) {
-            builder.append(element).append(separator);
+    public <T> ContentJoiner join(Collection<T> elements, Function<T, ?> mapper) {
+        for (T element : elements) {
+            append(mapper.apply(element));
         }
 
+        return this;
+    }
+
+    public ContentJoiner join(Collection<?> elements) {
+        for (Object element : elements) {
+            append(element);
+        }
+
+        return this;
+    }
+
+    public ContentJoiner append(Object element) {
+        builder.append(element).append(separator);
         return this;
     }
 
     @Override
     public String toString() {
         return builder.substring(0, builder.length() - separator.length());
+    }
+
+    public static ContentJoiner on(String separator) {
+        return new ContentJoiner(separator);
     }
 
 }

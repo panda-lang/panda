@@ -126,7 +126,7 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     public String getMethodKey(ClassFile cls, MethodInfo method) {
-        return getMethodName(method) + "(" + new ContentJoiner(", ").join(getParameterNames(method)) + ")";
+        return getMethodName(method) + "(" + ContentJoiner.on(", ").join(getParameterNames(method)) + ")";
     }
 
     public String getMethodFullKey(ClassFile cls, MethodInfo method) {
