@@ -76,7 +76,10 @@ public class ClassPrototypeParser implements UnifiedParser {
                 throw new PandaParserException("Class name cannot be null");
             }
 
-            ClassPrototype classPrototype = new PandaClassPrototype(className, Object.class);
+            ClassPrototype classPrototype = PandaClassPrototype.builder()
+                    .name(className)
+                    .build();
+
             delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
             module.add(classPrototype);
 

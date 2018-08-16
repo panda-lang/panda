@@ -17,6 +17,7 @@
 package org.panda_lang.panda.utilities.commons.io;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.commons.collection.TreeNode;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,6 +72,32 @@ public class FileUtils {
     }
 
     /**
+     * Collect all files and subfiles in the specified directory
+     *
+     * @param directory root
+     * @return tree node of collected files
+     */
+    public static TreeNode<File> collectFiles(File directory) {
+        TreeNode<File> tree = new TreeNode<>(directory);
+
+        if (!directory.isDirectory()) {
+            return tree;
+        }
+
+        File[] files = directory.listFiles();
+
+        if (files == null) {
+            return tree;
+        }
+
+        for (File file : files) {
+            tree.add(file.isDirectory() ? collectFiles(file) : new TreeNode<>(file));
+        }
+
+        return tree;
+    }
+
+    /**
      * Override content of the specified file
      */
     public static void overrideFile(File file, String content) {
@@ -79,67 +106,6 @@ public class FileUtils {
         } catch (IOException e) {
             throw new RuntimeException("Can't write contents to file: " + file, e);
         }
-    }
-
-    /**
-     * @return content of the specified file
-     */
-    public static String getContentOfFile(File file) {
-        try {
-            return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't read contents of file: " + file, e);
-        }
-    }
-
-    /**
-     * @return content of file divided by lines
-     */
-    public static @Nullable String[] getContentAsLines(File file) {
-        if (!file.exists()) {
-            return new String[0];
-        }
-
-        try {
-            List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-            String[] result = new String[list.size()];
-
-            return list.toArray(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
-     * @return file name without extension
-     */
-    public static String getFileName(File file) {
-        String fileName = file.getName();
-        int pos = fileName.lastIndexOf(".");
-
-        if (pos == -1) {
-            return fileName;
-        }
-
-        return fileName.substring(0, pos);
-    }
-
-    /**
-     * Get vararg paths as array of {@link File}
-     *
-     * @param paths array of paths
-     * @return array of files
-     */
-    public static File[] toFiles(String... paths) {
-        File[] files = new File[paths.length];
-
-        for (int i = 0; i < files.length; i++) {
-            files[i] = new File(paths[i]);
-        }
-
-        return files;
     }
 
     /**
@@ -185,6 +151,88 @@ public class FileUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Get vararg paths as array of {@link File}
+     *
+     * @param paths array of paths
+     * @return array of files
+     */
+    public static File[] toFiles(String... paths) {
+        File[] files = new File[paths.length];
+
+        for (int i = 0; i < files.length; i++) {
+            files[i] = new File(paths[i]);
+        }
+
+        return files;
+    }
+
+    /**
+     * Count files in the specified directory
+     *
+     * @param directory root directory
+     * @return amount of files
+     */
+    public static int getAmountOfFiles(File directory) {
+        if (!directory.isDirectory()) {
+            return 0;
+        }
+
+        File[] files = directory.listFiles();
+
+        if (files == null) {
+            return 0;
+        }
+
+        return files.length;
+    }
+
+    /**
+     * @return content of the specified file
+     */
+    public static String getContentOfFile(File file) {
+        try {
+            return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Can't read contents of file: " + file, e);
+        }
+    }
+
+    /**
+     * @return content of file divided by lines
+     */
+    public static @Nullable String[] getContentAsLines(File file) {
+        if (!file.exists()) {
+            return new String[0];
+        }
+
+        try {
+            List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+            String[] result = new String[list.size()];
+
+            return list.toArray(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    /**
+     * @return file name without extension
+     */
+    public static String getFileName(File file) {
+        String fileName = file.getName();
+        int pos = fileName.lastIndexOf(".");
+
+        if (pos == -1) {
+            return fileName;
+        }
+
+        return fileName.substring(0, pos);
     }
 
 }

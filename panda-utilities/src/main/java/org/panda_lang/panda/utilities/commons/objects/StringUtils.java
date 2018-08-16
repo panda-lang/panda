@@ -24,24 +24,19 @@ public class StringUtils {
     public static final String EMPTY = "";
 
     /**
-     * @param text             to check
-     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
-     * @return the checked text
+     * Returns the index within this string of the last occurrence of the specified substring
+     *
+     * @param text the text to search
+     * @param element the substring to search for
+     * @param toIndex the previous last index
+     * @return the index of the last occurrence of the specified substring, or -1 if there is no such occurrence or toIndex is smaller than 1
      */
-    public static String isEmpty(String text, String exceptionMessage) {
-        if (text == null || text.isEmpty()) {
-            throw new IllegalArgumentException(exceptionMessage);
+    public static int lastIndexOf(String text, String element, int toIndex) {
+        if (toIndex < 1) {
+            return -1;
         }
 
-        return text;
-    }
-
-    /**
-     * @param text             to check
-     * @return true if a specified text is null or is empty
-     */
-    public static boolean isEmpty(String text) {
-        return text == null || text.trim().isEmpty();
+        return text.substring(0, toIndex).lastIndexOf(element);
     }
 
     /**
@@ -271,6 +266,27 @@ public class StringUtils {
         }
 
         return gapBuilder.toString();
+    }
+
+    /**
+     * @param text             to check
+     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
+     * @return the checked text
+     */
+    public static String isEmpty(String text, String exceptionMessage) {
+        if (text == null || text.isEmpty()) {
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+
+        return text;
+    }
+
+    /**
+     * @param text             to check
+     * @return true if a specified text is null or is empty
+     */
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
     }
 
 }

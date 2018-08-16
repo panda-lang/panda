@@ -29,7 +29,6 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaStaticVal
 import org.panda_lang.panda.language.runtime.expression.Expression;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -38,25 +37,21 @@ public class PandaClassPrototype implements ClassPrototype {
     private final String className;
     private final Class<?> associated;
     private final Collection<String> aliases;
-    private final Collection<ClassPrototype> extended;
-    private final PrototypeConstructors constructors;
-    private final PrototypeFields fields;
-    private final PrototypeMethods methods;
     private boolean initialized;
 
-    public PandaClassPrototype(String className, Class<?> associated, String... aliases) {
+    private final Collection<ClassPrototype> extended = new ArrayList<>(1);
+    private final PrototypeConstructors constructors = new PandaConstructors();
+    private final PrototypeFields fields = new PandaFields();
+    private final PrototypeMethods methods = new PandaMethods();
+
+    protected PandaClassPrototype(String className, Class<?> associated, Collection<String> aliases) {
         this.className = className;
         this.associated = associated;
-        this.aliases = Arrays.asList(aliases);
-        this.extended = new ArrayList<>(1);
-        this.constructors = new PandaConstructors();
-        this.fields = new PandaFields();
-        this.methods = new PandaMethods();
-        this.initialized = false;
+        this.aliases = aliases;
     }
 
-    public PandaClassPrototype(Class<?> clazz, String... aliases) {
-        this(clazz.getSimpleName(), clazz, aliases);
+    protected PandaClassPrototype(PandaClassPrototypeBuilder builder) {
+        this(builder.name, builder.associated, builder.aliases);
     }
 
     public synchronized void initialize() {
@@ -151,6 +146,17 @@ public class PandaClassPrototype implements ClassPrototype {
     @Override
     public String toString() {
         return "ClassPrototype::" + className;
+    }
+
+    public static PandaClassPrototype of(Class<?> type, String... aliases) {
+        return builder()
+                .associated(type)
+                .aliases(aliases)
+                .build();
+    }
+
+    public static PandaClassPrototypeBuilder<?, ?> builder() {
+        return new PandaClassPrototypeBuilder<>();
     }
 
 }

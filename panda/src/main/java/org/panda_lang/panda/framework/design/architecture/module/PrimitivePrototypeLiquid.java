@@ -25,16 +25,16 @@ import java.util.List;
 
 public class PrimitivePrototypeLiquid {
 
-    public static final ClassPrototype VOID = new PandaClassPrototype(void.class, "void");
-    public static final ClassPrototype BOOLEAN = new PandaClassPrototype(boolean.class, "Boolean");
-    public static final ClassPrototype CHAR = new PandaClassPrototype(char.class, "Char");
-    public static final ClassPrototype BYTE = new PandaClassPrototype(byte.class, "Byte");
-    public static final ClassPrototype SHORT = new PandaClassPrototype(short.class, "Short");
-    public static final ClassPrototype INT = new PandaClassPrototype(int.class, "Int");
-    public static final ClassPrototype LONG = new PandaClassPrototype(int.class, "Long");
-    public static final ClassPrototype FLOAT = new PandaClassPrototype(float.class, "Float");
-    public static final ClassPrototype DOUBLE = new PandaClassPrototype(double.class, "Double");
-    public static final ClassPrototype OBJECT = new PandaClassPrototype(Object.class);
+    public static final ClassPrototype VOID = PandaClassPrototype.of(void.class, "void");
+    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(boolean.class, "Boolean");
+    public static final ClassPrototype CHAR = PandaClassPrototype.of(char.class, "Char");
+    public static final ClassPrototype BYTE = PandaClassPrototype.of(byte.class, "Byte");
+    public static final ClassPrototype SHORT = PandaClassPrototype.of(short.class, "Short");
+    public static final ClassPrototype INT = PandaClassPrototype.of(int.class, "Int");
+    public static final ClassPrototype LONG = PandaClassPrototype.of(int.class, "Long");
+    public static final ClassPrototype FLOAT = PandaClassPrototype.of(float.class, "Float");
+    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(double.class, "Double");
+    public static final ClassPrototype OBJECT = PandaClassPrototype.of(Object.class);
 
     private static final ClassPrototypeGeneratorManager MAPPER = new ClassPrototypeGeneratorManager();
 

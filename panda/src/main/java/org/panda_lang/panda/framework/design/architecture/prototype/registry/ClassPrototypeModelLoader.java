@@ -73,7 +73,10 @@ public class ClassPrototypeModelLoader {
                 continue;
             }
 
-            ClassPrototype prototype = new PandaClassPrototype(classDeclaration.value(), modelClass);
+            ClassPrototype prototype = PandaClassPrototype.builder()
+                    .name(classDeclaration.value())
+                    .associated(modelClass)
+                    .build();
 
             if (module == null) {
                 module = modulePath.create(moduleName);

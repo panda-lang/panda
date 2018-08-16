@@ -43,7 +43,9 @@ public class ClassPrototypeGenerator {
             locked = true;
         }
 
-        ClassPrototype prototype = new PandaClassPrototype(type.getSimpleName(), type);
+        ClassPrototype prototype = PandaClassPrototype.builder()
+                .associated(type)
+                .build();
 
         if (modulePath != null) {
             Module module = modulePath.create(type);

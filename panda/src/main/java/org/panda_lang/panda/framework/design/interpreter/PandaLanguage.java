@@ -29,7 +29,6 @@ import java.util.Collection;
 public class PandaLanguage implements Language {
 
     private final PipelineRegistry pipelineRegistry;
-
     private Syntax syntax;
     private Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings;
 
