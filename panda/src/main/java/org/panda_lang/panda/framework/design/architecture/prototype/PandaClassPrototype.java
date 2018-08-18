@@ -155,7 +155,7 @@ public class PandaClassPrototype implements ClassPrototype {
                 .build();
     }
 
-    public static PandaClassPrototypeBuilder<?, ?> builder() {
+    public static <T> PandaClassPrototypeBuilder<?, ?> builder() {
         return new PandaClassPrototypeBuilder<>();
     }
 

@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuilder, TYPE extends PandaClassPrototype> {
+public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuilder<BUILDER, ?>, TYPE extends PandaClassPrototype> {
 
     protected String name;
     protected Class<?> associated;
