@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
@@ -31,6 +32,8 @@ public class BootstrapTest {
 
     @Test
     public void testBootstraps() {
+        PandaFrameworkLogger.printJVMUptime();
+
         for (int i = 0; i < 1; i++) {
             System.out.println("BootstrapTest Loop: " + i);
             this.testBootstrap();
