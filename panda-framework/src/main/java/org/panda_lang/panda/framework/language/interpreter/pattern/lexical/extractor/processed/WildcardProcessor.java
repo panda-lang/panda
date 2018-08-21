@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed;
 
+import org.jetbrains.annotations.Nullable;
+
 public interface WildcardProcessor<T> {
 
-    T handle(String wildcard);
+    T handle(@Nullable String details, String wildcard);
 
 }

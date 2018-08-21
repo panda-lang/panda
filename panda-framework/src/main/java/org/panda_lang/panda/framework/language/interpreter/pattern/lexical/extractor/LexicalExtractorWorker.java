@@ -45,10 +45,11 @@ public class LexicalExtractorWorker<T> {
         }
 
         if (pattern.isWildcard()) {
+            LexicalPatternWildcard wilcardElement = pattern.toWildcard();
             String wildcard = phrase.trim();
 
             if (wildcardProcessor != null) {
-                T result = wildcardProcessor.handle(wildcard);
+                T result = wildcardProcessor.handle(wilcardElement.getDetails(), wildcard);
 
                 if (result == null) {
                     return new LexicalExtractorResult<>(false);

@@ -74,15 +74,15 @@ public class LexicalExtractorResult<T> {
         return matched;
     }
 
-    public @Nullable List<ProcessedValue<T>> getProcessedValues() {
+    public List<ProcessedValue<T>> getProcessedValues() {
         return processedValues;
     }
 
-    public @Nullable List<String> getIdentifiers() {
+    public List<String> getIdentifiers() {
         return identifiers;
     }
 
-    public @Nullable List<String> getWildcards() {
+    public List<String> getWildcards() {
         return wildcards;
     }
 
