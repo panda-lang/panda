@@ -46,8 +46,8 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
     private Expression[] arguments;
 
     @Override
-    public void parse(TokenizedSource source, ParserData info) {
-        PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
+    public void parse(TokenizedSource source, ParserData data) {
+        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 
         AbyssExtractor extractor = PATTERN.extractor();
@@ -64,17 +64,17 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
         if (returnType == null) {
             throw PandaParserFailure.builder()
                     .message("Unknown return type '" + className + "'")
-                    .data(info)
+                    .data(data)
                     .source(source)
                     .build();
         }
 
         ArgumentParser argumentParser = new ArgumentParser();
-        this.arguments = argumentParser.parse(info, gaps.get(1));
+        this.arguments = argumentParser.parse(data, gaps.get(1));
         this.constructor = ConstructorUtils.matchConstructor(returnType, arguments);
 
         if (constructor == null) {
-            throw new PandaParserException("Cannot find constructor for the specified arguments " + Arrays.toString(this.arguments));
+            throw new PandaParserFailure("Cannot find constructor of " + returnType.getClassName() + " for the specified arguments " + Arrays.toString(this.arguments), data);
         }
     }
 

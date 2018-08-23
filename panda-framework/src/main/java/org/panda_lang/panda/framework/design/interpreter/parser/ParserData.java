@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
+
+import java.util.Collection;
 
 public interface ParserData {
 
@@ -25,6 +27,11 @@ public interface ParserData {
      */
     ParserData fork();
 
+    /**
+     * @param componentName a name of the specified component
+     */
+    <T> ParserData setComponent(Component<T> componentName, T component);
+
     /***
      * @param componentName a name of the specified component
      * @return selected component
@@ -32,8 +39,8 @@ public interface ParserData {
     <T> T getComponent(Component<T> componentName);
 
     /**
-     * @param componentName a name of the specified component
+     * @return all components stored in the current parser data
      */
-    <T> ParserData setComponent(Component<T> componentName, T component);
+    Collection<? extends Object> getComponents();
 
 }

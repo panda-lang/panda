@@ -60,7 +60,11 @@ public class AbyssPattern {
     }
 
     public boolean endsWithGap() {
-        return units[units.length - 1].isAbyss();
+        return getLastUnit().isAbyss();
+    }
+
+    public boolean endsWithSimpleGap() {
+        return getLastUnit().isSimpleAbyss();
     }
 
     public boolean hasLastIndexAlgorithmEnabled() {
@@ -69,6 +73,10 @@ public class AbyssPattern {
 
     public boolean hasKeepingOppositesEnabled() {
         return keepingOpposites;
+    }
+
+    public AbyssPatternUnit getLastUnit() {
+        return units[units.length - 1];
     }
 
     public int getMaxNestingLevel() {

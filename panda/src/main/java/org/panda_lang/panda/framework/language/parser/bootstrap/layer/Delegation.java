@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser;
+package org.panda_lang.panda.framework.language.parser.bootstrap.layer;
 
-public interface UnifiedParser extends Parser {
+public enum Delegation {
 
-    /*
-    void reboot(ParserBoot boot);
-    */
-    
-    /**
-     * @param data set of information about source and interpretation process
-     */
-    boolean parse(ParserData data);
+    IMMEDIATELY,
+    BEFORE,
+    DEFAULT,
+    AFTER;
 
 }

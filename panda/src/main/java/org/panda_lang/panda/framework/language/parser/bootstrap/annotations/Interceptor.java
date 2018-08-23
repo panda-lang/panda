@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser;
+package org.panda_lang.panda.framework.language.parser.bootstrap.annotations;
 
-public interface UnifiedParser extends Parser {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-    /*
-    void reboot(ParserBoot boot);
-    */
-    
-    /**
-     * @param data set of information about source and interpretation process
-     */
-    boolean parse(ParserData data);
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Interceptor {
 
 }

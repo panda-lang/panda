@@ -41,15 +41,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redacto
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
-
-import java.io.File;
-import java.lang.management.ManagementFactory;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ImportParser.class, handlerClass = ImportParserHandler.class)
 public class ImportParser implements UnifiedParser {
@@ -58,15 +49,10 @@ public class ImportParser implements UnifiedParser {
             .compile(PandaSyntax.getInstance(), "import +** ;")
             .build();
 
-    protected static final AbyssPattern ATTACH_PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "attach +** ;")
-            .build();
-
-    private static final Collection<URL> BOOT_CLASS_PATH;
-
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGenerationAssistant.delegateImmediately(data, new ImportDeclarationCasualParserCallback());
+        return true;
     }
 
     @LocalCallback
@@ -78,10 +64,9 @@ public class ImportParser implements UnifiedParser {
             SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
 
             TokenizedSource source = stream.toTokenizedSource();
-            boolean attach = TokenUtils.equals(source.getFirst(), Keywords.ATTACH);
-
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(attach ? ATTACH_PATTERN : PATTERN, delegatedData);
+            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
             TokenizedSource hollow = hollows.getGap(0);
+
             StringBuilder groupNameBuilder = new StringBuilder();
 
             for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
@@ -91,40 +76,6 @@ public class ImportParser implements UnifiedParser {
 
             ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
             String importedGroupName = groupNameBuilder.toString();
-
-            if (attach) {
-                throw new PandaParserException("Attach not implemented");
-
-                /*
-                if (Package.getPackage(importedGroupName) != null) {
-                    PandaFramework.getLogger().debug("Attaching native sources (" + importedGroupName + "), this may take a while");
-
-                    Configuration configuration = ConfigurationBuilder
-                            .fetch(importedGroupName, new SubTypesScanner(false))
-                            .addUrls(BOOT_CLASS_PATH);
-
-                    Reflections reflections = new Reflections(configuration);
-                    Collection<Class<?>> classes = reflections.getSubTypesOf(Object.class);
-                    Collection<Class<?>> selectedClasses = new ArrayList<>(classes.size());
-
-                    for (Class<?> clazz : classes) {
-                        if (clazz.getEnclosingClass() != null) {
-                            continue;
-                        }
-
-                        selectedClasses.add(clazz);
-                    }
-
-                    ClassPrototypeGeneratorManager mappingManager = new ClassPrototypeGeneratorManager();
-                    mappingManager.loadClasses(selectedClasses);
-                    mappingManager.generate(registry);
-                }
-                else {
-                    throw new PandaParserException("Cannot attach " + importedGroupName + " [package does not exist]");
-                }
-                */
-            }
-
             Module module = registry.get(importedGroupName);
 
             if (module == null) {
@@ -138,31 +89,6 @@ public class ImportParser implements UnifiedParser {
             moduleLoader.include(module);
         }
 
-    }
-
-    static {
-        if (ManagementFactory.getRuntimeMXBean().isBootClassPathSupported()) {
-            String bootClassPath = ManagementFactory.getRuntimeMXBean().getBootClassPath();
-            String[] bootClassPathUrls = bootClassPath.split(Character.toString(File.pathSeparatorChar));
-            BOOT_CLASS_PATH = new ArrayList<>(bootClassPathUrls.length);
-
-            for (String bootClassPathUrl : bootClassPathUrls) {
-                File file = new File(bootClassPathUrl);
-
-                if (!file.exists()) {
-                    continue;
-                }
-
-                try {
-                    BOOT_CLASS_PATH.add(file.toURI().toURL());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        else {
-            BOOT_CLASS_PATH = new ArrayList<>();
-        }
     }
 
 }

@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.parser.implementation.statement.v
 public class VariableParser implements UnifiedParser {
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
 
         VarParser varParser = new VarParser();
@@ -46,6 +46,7 @@ public class VariableParser implements UnifiedParser {
             nextLayer.delegate((delegatedData1, nextLayer1) -> varParser.parseAssignation(parserData, parserResult, delegatedData1), delegatedData);
         }, data);
 
+        return true;
     }
 
     /*

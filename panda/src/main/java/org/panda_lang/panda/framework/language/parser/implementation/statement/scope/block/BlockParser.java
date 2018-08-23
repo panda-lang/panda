@@ -51,8 +51,9 @@ public class BlockParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGenerationAssistant.delegateImmediately(data, new BlockDeclarationCasualParserCallback());
+        return true;
     }
 
     @LocalCallback

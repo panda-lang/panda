@@ -14,27 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.parser.bootstrap;
+package org.panda_lang.panda.framework.language.parser.bootstrap.interceptor;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class LocalData {
-
-    private final Map<Class<?>, Object> data;
-
-    public LocalData() {
-        this.data = new HashMap<>();
-    }
-
-    public <T> T createInstance(T element) {
-        data.put(element.getClass(), element);
-        return element;
-    }
-
-    @SuppressWarnings("unchecked")
-    public <T> T getValue(Class<T> type) {
-        return (T) data.get(type);
-    }
+public class BlockInterceptor {
 
 }

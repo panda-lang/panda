@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser;
+package org.panda_lang.panda.framework.language.parser.bootstrap.interceptor;
 
-public interface UnifiedParser extends Parser {
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.UnifiedBootstrapParser;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.InterceptorData;
 
-    /*
-    void reboot(ParserBoot boot);
-    */
-    
-    /**
-     * @param data set of information about source and interpretation process
-     */
-    boolean parse(ParserData data);
+public interface BootstrapInterceptor {
+
+    void initialize(PandaParserBootstrap bootstrap);
+
+    InterceptorData handle(UnifiedBootstrapParser parser, ParserData data);
 
 }

@@ -50,8 +50,9 @@ public class ReturnParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGenerationAssistant.delegateImmediately(data, new ReturnCasualParserCallback());
+        return true;
     }
 
     @LocalCallback

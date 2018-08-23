@@ -41,6 +41,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
@@ -64,8 +65,12 @@ public class FieldParser implements UnifiedParser {
             .compile(PandaSyntax.getInstance(), "+** = +* ;")
             .build();
 
+    protected static final LexicalPattern<String> LEXICAL_PATTERN = LexicalPattern.<String> builder()
+            .compile("[(public|local|hidden|private)] [mutable] [nullable] * * [= *][;]")
+            .build();
+
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
@@ -84,6 +89,7 @@ public class FieldParser implements UnifiedParser {
         }
 
         generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, data.fork());
+        return true;
     }
 
     private static class FieldDeclarationCasualParserCallback implements CasualParserGenerationCallback {
@@ -136,7 +142,7 @@ public class FieldParser implements UnifiedParser {
                 }
 
                 switch (token.getTokenValue()) {
-                    case "method":
+                    case "public":
                         visibility = FieldVisibility.PUBLIC;
                         continue;
                     case "local":

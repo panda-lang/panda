@@ -16,6 +16,16 @@
 
 package org.panda_lang.panda.framework.language.parser.bootstrap;
 
-public abstract class InjectedLayer {
+import org.panda_lang.panda.PandaException;
+
+public class ParserBootstrapException extends PandaException {
+
+    public ParserBootstrapException(String message) {
+        super(message);
+    }
+
+    public ParserBootstrapException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

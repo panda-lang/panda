@@ -42,7 +42,7 @@ public class ConditionalBlockParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         ParserData parentInfo = data.getComponent(UniversalComponents.PARENT_DATA);
 
@@ -59,7 +59,7 @@ public class ConditionalBlockParser implements UnifiedParser {
 
             data.setComponent(BlockComponents.BLOCK, elseBlock);
             data.setComponent(BlockComponents.UNLISTED_BLOCK, true);
-            return;
+            return true;
         }
 
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
@@ -89,6 +89,8 @@ public class ConditionalBlockParser implements UnifiedParser {
             default:
                 throw new PandaParserException("Unrecognized condition type at line " + TokenUtils.getLine(conditionType));
         }
+
+        return true;
     }
 
 }

@@ -16,38 +16,61 @@
 
 package org.panda_lang.panda.framework.language.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.panda.framework.language.parser.bootstrap.interceptor.BootstrapInterceptor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LayerMethod;
+
+import java.util.List;
 
 public class PandaParserBootstrap {
 
-    private String pipeline;
-    private ParserHandler handler;
-    private String pattern;
-    private String[] wildcardNames;
+    private final PandaParserBuilder bootstrap;
 
-    public PandaParserBootstrap pipeline(String pipeline) {
-        this.pipeline = pipeline;
-        return this;
+    protected PandaParserBootstrap(PandaParserBuilder bootstrap) {
+        this.bootstrap = bootstrap;
     }
 
-    public PandaParserBootstrap handler(ParserHandler handler) {
-        this.handler = handler;
-        return this;
+    protected ParserRepresentation generate() {
+        UnifiedBootstrapParser bootstrapParser = new UnifiedBootstrapParser(this);
+
+        if (hasInterceptor()) {
+            getInterceptor().initialize(this);
+        }
+
+        return new PandaParserRepresentation(bootstrapParser, bootstrap.handler, bootstrap.priority);
     }
 
-    public PandaParserBootstrap pattern(String pattern, String... wildcardNames) {
-        this.pattern = pattern;
-        this.wildcardNames = wildcardNames;
-        return this;
+    public boolean hasInterceptor() {
+        return getInterceptor() != null;
     }
 
-    public PandaParserBuilder parser() {
-        return new PandaParserBuilder(this);
+    public Object getInstance() {
+        return bootstrap.instance;
     }
 
-    public ParserRepresentation build() {
-        return null;
+    public BootstrapInterceptor getInterceptor() {
+        return bootstrap.interceptor;
+    }
+
+    public List<LayerMethod> getLayers() {
+        return bootstrap.layers;
+    }
+
+    public String[] getWildcards() {
+        return bootstrap.wildcardNames;
+    }
+
+    public String getPattern() {
+        return bootstrap.pattern;
+    }
+
+    public String getName() {
+        return bootstrap.name;
+    }
+
+    public static PandaParserBuilder builder() {
+        return new PandaParserBuilder();
     }
 
 }

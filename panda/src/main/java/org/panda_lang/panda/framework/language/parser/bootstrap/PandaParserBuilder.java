@@ -16,25 +16,107 @@
 
 package org.panda_lang.panda.framework.language.parser.bootstrap;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.interceptor.BootstrapInterceptor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.interceptor.DefaultInterceptor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LayerMethod;
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 
 public class PandaParserBuilder {
 
-    private final PandaParserBootstrap bootstrap;
-    private final List<Object> layers = new ArrayList<>();
+    protected Object instance;
+    protected String name;
+    protected String pipeline;
+    protected ParserHandler handler;
+    protected String pattern;
+    protected String[] wildcardNames;
+    protected int priority;
+    protected BootstrapInterceptor interceptor;
+    protected final List<LayerMethod> layers = new ArrayList<>();
 
-    protected PandaParserBuilder(PandaParserBootstrap bootstrap) {
-        this.bootstrap = bootstrap;
-    }
+    public PandaParserBuilder instance(Object object) {
+        this.instance = object;
 
-    public PandaParserBuilder layer(Object object) {
-        layers.add(object);
         return this;
     }
 
-    public PandaParserBootstrap end() {
-        return bootstrap;
+    public PandaParserBuilder name(String name) {
+        this.name = name;
+        return this;
     }
+
+    public PandaParserBuilder pipeline(String pipeline) {
+        this.pipeline = pipeline;
+        return this;
+    }
+
+    public PandaParserBuilder interceptor(BootstrapInterceptor interceptor) {
+        this.interceptor = interceptor;
+        return this;
+    }
+
+    public PandaParserBuilder handler(ParserHandler handler) {
+        this.handler = handler;
+        return this;
+    }
+
+    public PandaParserBuilder pattern(String pattern, String... wildcardNames) {
+        this.pattern = pattern;
+        this.wildcardNames = wildcardNames;
+        return this;
+    }
+
+    public PandaParserBuilder priority(int priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    public PandaParserBuilder layer(LayerMethod layer) {
+        layers.add(layer);
+        return this;
+    }
+
+    public PandaParserBuilder layers(Class<?> clazz) {
+        return layers(ReflectionUtils.getMethodsAnnotatedWith(clazz, Autowired.class));
+    }
+
+    public PandaParserBuilder layers(Class<?> clazz, String methodName) {
+         return layers(ReflectionUtils.getMethods(clazz, methodName));
+    }
+
+    public PandaParserBuilder layers(Collection<Method> methods) {
+        methods.stream()
+                .map(LayerMethod::new)
+                .sorted(Comparator.comparingInt(LayerMethod::getOrder))
+                .forEach(layers::add);
+
+        return this;
+    }
+
+    public ParserRepresentation build() {
+        if (name == null && instance != null) {
+            name(instance.getClass().getSimpleName());
+        }
+
+        if (layers.isEmpty() && instance != null) {
+            layers(instance.getClass());
+        }
+
+        if (interceptor == null) {
+            interceptor(new DefaultInterceptor());
+        }
+
+        return new PandaParserBootstrap(this).generate();
+    }
+
+    protected PandaParserBuilder() { }
 
 }

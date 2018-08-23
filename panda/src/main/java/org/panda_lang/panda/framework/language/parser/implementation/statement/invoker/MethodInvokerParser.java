@@ -57,8 +57,9 @@ public class MethodInvokerParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGenerationAssistant.delegateImmediately(data, new MethodInvokerDeclarationCasualParserCallback());
+        return true;
     }
 
     @LocalCallback

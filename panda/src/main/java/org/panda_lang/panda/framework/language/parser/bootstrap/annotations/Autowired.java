@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.language.parser.bootstrap.annotations;
 
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -24,5 +26,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
+
+    Delegation value() default Delegation.DEFAULT;
+
+    int order() default 0;
 
 }

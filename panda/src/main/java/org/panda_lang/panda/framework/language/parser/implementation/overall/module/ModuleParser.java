@@ -43,12 +43,14 @@ public class ModuleParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
 
         generation.getLayer(CasualParserGenerationType.HIGHER)
                 .delegateImmediately(new GroupDeclarationCasualParserCallback(), data)
                 .delegateAfter(new GroupAfterCasualParserCallback(), data.fork());
+
+        return true;
     }
 
     @LocalCallback

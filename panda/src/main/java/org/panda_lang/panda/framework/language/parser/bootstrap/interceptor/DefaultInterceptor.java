@@ -1,0 +1,52 @@
+/*
+ * Copyright (c) 2015-2018 Dzikoysk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.panda_lang.panda.framework.language.parser.bootstrap.interceptor;
+
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.UnifiedBootstrapParser;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.InterceptorData;
+
+public class DefaultInterceptor implements BootstrapInterceptor {
+
+    private AbyssPattern pattern;
+    private String[] wildcards;
+
+    @Override
+    public void initialize(PandaParserBootstrap generator) {
+        this.wildcards = generator.getWildcards();
+        this.pattern = new AbyssPatternBuilder()
+                .compile(PandaSyntax.getInstance(), generator.getPattern())
+                .build();
+    }
+
+    @Override
+    public InterceptorData handle(UnifiedBootstrapParser parser, ParserData data) {
+        InterceptorData interceptorData = new InterceptorData();
+
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(pattern, data, wildcards);
+        interceptorData.addElement(redactor);
+
+        return interceptorData;
+    }
+
+}

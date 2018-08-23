@@ -131,6 +131,24 @@ public class AbyssExtractor {
             gaps.add(gap);
         }
 
+        //tokenReader.synchronize();
+
+        /*
+        if (pattern.endsWithSimpleGap()) {
+            TokenizedSource lastGap = new PandaTokenizedSource();
+
+            for (TokenRepresentation representation : tokenReader) {
+                if (TokenType.KEYWORD.getTypeName().equals(representation.getTokenType())) {
+                    break;
+                }
+
+                lastGap.addToken(representation);
+                tokenReader.read();
+            }
+
+            gaps.add(lastGap);
+        }
+        else*/
         if (pattern.endsWithGap()) {
             TokenizedSource lastGap;
 
@@ -144,6 +162,7 @@ public class AbyssExtractor {
             gaps.add(lastGap);
         }
 
+        //tokenReader.synchronize();
         return gaps;
     }
 

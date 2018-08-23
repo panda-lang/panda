@@ -54,8 +54,9 @@ public class ClassPrototypeParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGenerationAssistant.delegateImmediately(data, new ClassPrototypeExtractorCasualCallback());
+        return true;
     }
 
     @LocalCallback

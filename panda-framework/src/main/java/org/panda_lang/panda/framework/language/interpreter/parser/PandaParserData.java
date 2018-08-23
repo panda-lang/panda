@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -56,6 +57,11 @@ public class PandaParserData implements ParserData {
     @SuppressWarnings({ "unchecked" })
     public <T> T getComponent(Component<T> componentName) {
         return (T) components.get(componentName);
+    }
+
+    @Override
+    public Collection<? extends Object> getComponents() {
+        return components.values();
     }
 
 }

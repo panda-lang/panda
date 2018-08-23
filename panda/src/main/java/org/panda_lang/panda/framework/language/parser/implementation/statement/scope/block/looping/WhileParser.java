@@ -38,7 +38,7 @@ public class WhileParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "while-expression");
         TokenizedSource expressionSource = redactor.get("while-expression");
 
@@ -50,6 +50,7 @@ public class WhileParser implements UnifiedParser {
         }
 
         data.setComponent(BlockComponents.BLOCK, new WhileBlock(expression));
+        return true;
     }
 
 }

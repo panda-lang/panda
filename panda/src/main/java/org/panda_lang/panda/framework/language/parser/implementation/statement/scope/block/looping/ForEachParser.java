@@ -45,12 +45,11 @@ public class ForEachParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "foreach-var", "foreach-iterable");
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");
 
-        // TODO: Create var
         VarParser varParser = new VarParser();
         VarParserData varData = varParser.toVarParserData(data, varSource);
         VarParserResult result = varParser.parseVariable(varData, data);
@@ -74,6 +73,7 @@ public class ForEachParser implements UnifiedParser {
         }
 
         data.setComponent(BlockComponents.BLOCK, new ForEachBlock(variableId, result.getVariable().getType(), expression));
+        return true;
     }
 
 }

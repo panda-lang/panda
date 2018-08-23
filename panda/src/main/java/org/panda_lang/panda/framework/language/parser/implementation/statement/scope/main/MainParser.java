@@ -20,70 +20,43 @@ import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.parser.implementation.ScopeParser;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = MainParser.class, handlerClass = MainParserHandler.class)
 public class MainParser implements UnifiedParser {
 
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "main { +* }")
+    private final ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
+            .instance(this)
+            .pattern("main { +* }", "main-body")
             .build();
 
     @Override
-    public void parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new MainDeclarationCasualParserCallback());
+    public boolean parse(ParserData data) {
+        return bootstrapParser.getParser().parse(data);
     }
 
-    @LocalCallback
-    private static class MainDeclarationCasualParserCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "main-body");
-
-            MainScope main = new MainScope();
-            Script script = delegatedData.getComponent(UniversalComponents.SCRIPT);
-            script.getStatements().add(main);
-
-            nextLayer.delegate(new MainBodyCasualParserCallback(main, redactor), delegatedData.fork());
-        }
-
+    @Autowired(order = 1)
+    private void createScope(ParserData data, LocalData localData, @Component Script script) {
+        MainScope main = localData.createInstance(new MainScope());
+        script.getStatements().add(main);
     }
 
-    @LocalCallback
-    private static class MainBodyCasualParserCallback implements CasualParserGenerationCallback {
-
-        private final MainScope main;
-        private final AbyssRedactor redactor;
-
-        public MainBodyCasualParserCallback(MainScope main, AbyssRedactor redactor) {
-            this.main = main;
-            this.redactor = redactor;
-        }
-
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            TokenizedSource body = redactor.get("main-body");
-
-            ScopeParser.createParser(main, delegatedData)
-                    .forkData()
-                    .initializeLinker()
-                    .parse(body);
-        }
-
+    @Autowired(order = 2)
+    private void parseScope(ParserData data, @Local MainScope main, @Redactor("main-body") TokenizedSource body) {
+        ScopeParser.createParser(main, data)
+                .forkData()
+                .initializeLinker()
+                .parse(body);
     }
 
 }

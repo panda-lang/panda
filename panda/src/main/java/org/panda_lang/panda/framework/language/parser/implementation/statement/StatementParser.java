@@ -41,7 +41,7 @@ public class StatementParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.STATEMENT);
 
@@ -58,6 +58,8 @@ public class StatementParser implements UnifiedParser {
         ParserData statementParserData = data.fork();
         statementParserData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
         statementParser.parse(statementParserData);
+
+        return true;
     }
 
     @LocalCallback

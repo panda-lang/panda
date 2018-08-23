@@ -40,7 +40,7 @@ public class LoopParser implements UnifiedParser {
             .build();
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "loop-expression");
         TokenizedSource expressionSource = redactor.get("loop-expression");
 
@@ -52,6 +52,7 @@ public class LoopParser implements UnifiedParser {
         }
 
         data.setComponent(BlockComponents.BLOCK, new LoopBlock(expression));
+        return true;
     }
 
 }

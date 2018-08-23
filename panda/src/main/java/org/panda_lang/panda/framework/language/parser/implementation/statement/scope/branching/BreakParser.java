@@ -37,8 +37,9 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Brea
 public class BreakParser implements UnifiedParser {
 
     @Override
-    public void parse(ParserData data) {
+    public boolean parse(ParserData data) {
         CasualParserGenerationAssistant.delegateImmediately(data, new BreakDeclarationCasualParserCallback());
+        return true;
     }
 
     @LocalCallback
