@@ -48,7 +48,7 @@ public class MainParser implements UnifiedParser {
 
     @Autowired(value = Delegation.IMMEDIATELY, order = 1)
     private void createScope(ParserData data, LocalData localData, @Component Script script) {
-        MainScope main = localData.createInstance(new MainScope());
+        MainScope main = localData.allocateInstance(new MainScope());
         script.getStatements().add(main);
     }
 

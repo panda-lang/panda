@@ -18,25 +18,38 @@ package org.panda_lang.panda.framework.language.parser.bootstrap.layer;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LocalData {
 
-    private final List<Object> data;
+    private final Map<String, Object> data;
 
     public LocalData() {
-        this.data = new ArrayList<>();
+        this.data = new HashMap<>();
     }
 
-    public <T> T createInstance(T element) {
-        data.add(element);
+    public @Nullable <T> T allocateInstance(T element) {
+        return allocateInstance(element.getClass().getSimpleName(), element);
+    }
+
+    public @Nullable <T> T allocateInstance(Class<T> clazz, @Nullable T element) {
+        return allocateInstance(clazz.getSimpleName(), element);
+    }
+
+    public @Nullable <T> T allocateInstance(String name, @Nullable T element) {
+        data.put(name, element);
         return element;
     }
 
     @SuppressWarnings("unchecked")
+    public @Nullable <T> T getValue(String name) {
+        return (T) data.get(name);
+    }
+
+    @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(Class<T> type) {
-        for (Object datum : data) {
+        for (Object datum : data.values()) {
             if (datum == null) {
                 continue;
             }

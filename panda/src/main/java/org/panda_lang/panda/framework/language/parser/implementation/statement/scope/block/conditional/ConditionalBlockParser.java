@@ -51,7 +51,7 @@ public class ConditionalBlockParser implements UnifiedParser {
             Block previousBlock = parentInfo.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
-                throw new PandaParserException("The Else-block without associated If-block at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+                throw new PandaParserFailure("The Else-block without associated If-block at line", data);
             }
 
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;

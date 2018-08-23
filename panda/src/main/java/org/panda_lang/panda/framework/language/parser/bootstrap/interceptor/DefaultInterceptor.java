@@ -28,14 +28,24 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Intercepto
 
 public class DefaultInterceptor implements BootstrapInterceptor {
 
+    private final boolean lastIndexAlgorithm;
     private AbyssPattern pattern;
     private String[] wildcards;
+
+    public DefaultInterceptor(boolean lastIndexAlgorithm) {
+        this.lastIndexAlgorithm = lastIndexAlgorithm;
+    }
+
+    public DefaultInterceptor() {
+        this(false);
+    }
 
     @Override
     public void initialize(PandaParserBootstrap generator) {
         this.wildcards = generator.getWildcards();
         this.pattern = new AbyssPatternBuilder()
                 .compile(PandaSyntax.getInstance(), generator.getPattern())
+                .lastIndexAlgorithm(lastIndexAlgorithm)
                 .build();
     }
 
