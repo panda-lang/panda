@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Auto
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.parser.implementation.ScopeParser;
 
@@ -36,8 +37,8 @@ import org.panda_lang.panda.framework.language.parser.implementation.ScopeParser
 public class MainParser implements UnifiedParser {
 
     private final ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
-            .instance(this)
             .pattern("main { +* }", "main-body")
+            .instance(this)
             .build();
 
     @Override
@@ -45,7 +46,7 @@ public class MainParser implements UnifiedParser {
         return bootstrapParser.getParser().parse(data);
     }
 
-    @Autowired(order = 1)
+    @Autowired(value = Delegation.IMMEDIATELY, order = 1)
     private void createScope(ParserData data, LocalData localData, @Component Script script) {
         MainScope main = localData.createInstance(new MainScope());
         script.getStatements().add(main);
