@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
@@ -35,8 +35,6 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBoots
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
-import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
-import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.parser.implementation.ContainerParser;
 
 @ParserRegistration(target = PandaPipelines.SCOPE, parserClass = BlockParser.class, handlerClass = BlockParserHandler.class, priority = PandaPriorities.SCOPE_BLOCK_PARSER)
@@ -52,12 +50,12 @@ public class BlockParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        return bootstrapParser.getParser().parse(data);
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        return bootstrapParser.getParser().parse(data, nextLayer);
     }
 
-    @Autowired(value = Delegation.IMMEDIATELY, order = 1)
-    private void parseDeclaration(ParserData data, LocalData localData, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource blockDeclaration) {
+    @Autowired(order = 1)
+    private void parse(ParserData data, CasualParserGenerationLayer nextLayer, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource blockDeclaration) {
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.BLOCK);
 
         SourceStream declarationStream = new PandaSourceStream(blockDeclaration);
@@ -69,9 +67,9 @@ public class BlockParser implements UnifiedParser {
 
         ParserData blockData = data.fork();
         blockData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-        blockParser.parse(blockData);
+        blockParser.parse(blockData, nextLayer);
 
-        Block block = localData.allocateInstance(Block.class, blockData.getComponent(BlockComponents.BLOCK));
+        Block block = blockData.getComponent(BlockComponents.BLOCK);
         Boolean unlisted = blockData.getComponent(BlockComponents.UNLISTED_BLOCK);
 
         if (block == null) {
@@ -80,16 +78,16 @@ public class BlockParser implements UnifiedParser {
 
         data.setComponent(BlockComponents.BLOCK, block);
 
-        if (unlisted != null && !unlisted) {
+        if (unlisted == null || !unlisted) {
             data.getComponent(PandaComponents.CONTAINER).addStatement(block);
         }
 
-        data.getComponent(UniversalComponents.PARENT_DATA).setComponent(BlockComponents.PREVIOUS_BLOCK, block);
+        data.setComponent(BlockComponents.PREVIOUS_BLOCK, block);
     }
 
     @Autowired(order = 2)
-    private void parseContent(ParserData data, @Component Container container, @Redactor("block-body") TokenizedSource blockBody) {
-        ContainerParser containerParser = new ContainerParser(container);
+    private void parseContent(ParserData data, @Component Block block, @Redactor("block-body") TokenizedSource blockBody) {
+        ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(data, blockBody);
     }
 

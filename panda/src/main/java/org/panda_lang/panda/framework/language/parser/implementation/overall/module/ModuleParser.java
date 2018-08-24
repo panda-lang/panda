@@ -43,50 +43,37 @@ public class ModuleParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, data);
+        TokenizedSource hollow = hollows.getGap(0);
 
-        generation.getLayer(CasualParserGenerationType.HIGHER)
-                .delegateImmediately(new GroupDeclarationCasualParserCallback(), data)
-                .delegateAfter(new GroupAfterCasualParserCallback(), data.fork());
+        StringBuilder groupNameBuilder = new StringBuilder();
 
-        return true;
-    }
-
-    @LocalCallback
-    private static class GroupDeclarationCasualParserCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
-            TokenizedSource hollow = hollows.getGap(0);
-
-            StringBuilder groupNameBuilder = new StringBuilder();
-
-            for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
-                Token token = representation.getToken();
-                groupNameBuilder.append(token.getTokenValue());
-            }
-
-            String groupName = groupNameBuilder.toString();
-            ModulePath modulePath = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-
-            if (!modulePath.hasModule(groupName)) {
-                modulePath.create(groupName);
-            }
-
-            Module module = modulePath.get(groupName);
-
-            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-            script.setModule(module);
-
-            ModuleLoader moduleLoader = script.getModuleLoader();
-            moduleLoader.include(module);
-
-            ModuleStatement moduleStatement = new ModuleStatement(module);
-            script.getStatements().add(moduleStatement);
+        for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
+            Token token = representation.getToken();
+            groupNameBuilder.append(token.getTokenValue());
         }
 
+        String groupName = groupNameBuilder.toString();
+        ModulePath modulePath = data.getComponent(PandaComponents.MODULE_REGISTRY);
+
+        if (!modulePath.hasModule(groupName)) {
+            modulePath.create(groupName);
+        }
+
+        Module module = modulePath.get(groupName);
+
+        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+        script.setModule(module);
+
+        ModuleLoader moduleLoader = script.getModuleLoader();
+        moduleLoader.include(module);
+
+        ModuleStatement moduleStatement = new ModuleStatement(module);
+        script.getStatements().add(moduleStatement);
+
+        nextLayer.delegateAfter(new GroupAfterCasualParserCallback(), data.fork());
+        return true;
     }
 
     @LocalCallback

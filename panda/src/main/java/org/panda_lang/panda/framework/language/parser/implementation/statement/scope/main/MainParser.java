@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.block.main.Mai
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -42,17 +43,17 @@ public class MainParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        return bootstrapParser.getParser().parse(data);
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        return bootstrapParser.getParser().parse(data, nextLayer);
     }
 
-    @Autowired(value = Delegation.IMMEDIATELY, order = 1)
+    @Autowired(order = 1)
     private void createScope(ParserData data, LocalData localData, @Component Script script) {
         MainScope main = localData.allocateInstance(new MainScope());
         script.getStatements().add(main);
     }
 
-    @Autowired(order = 2)
+    @Autowired(value = Delegation.DEFAULT, order = 2)
     private void parseScope(ParserData data, @Local MainScope main, @Redactor("main-body") TokenizedSource body) {
         ScopeParser.createParser(main, data)
                 .forkData()

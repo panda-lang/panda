@@ -16,35 +16,41 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.*;
-import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.language.runtime.*;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.PrimitivePrototypeLiquid;
+import org.panda_lang.panda.framework.design.architecture.prototype.*;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
+import org.panda_lang.panda.language.runtime.ExecutableBranch;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL, parserClass = ClassPrototypeParser.class, handlerClass = ClassPrototypeParserHandler.class)
 public class ClassPrototypeParser implements UnifiedParser {
@@ -54,58 +60,48 @@ public class ClassPrototypeParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new ClassPrototypeExtractorCasualCallback());
-        return true;
-    }
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+        Module module = script.getModule();
 
-    @LocalCallback
-    private static class ClassPrototypeExtractorCasualCallback implements CasualParserGenerationCallback {
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "class-declaration", "class-body");
+        data.setComponent(PandaComponents.REDACTOR, redactor);
 
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-            Module module = script.getModule();
+        TokenizedSource classDeclaration = redactor.get("class-declaration");
+        String className = classDeclaration.getTokenValue(0);
 
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "class-declaration", "class-body");
-            delegatedData.setComponent(PandaComponents.REDACTOR, redactor);
-
-            TokenizedSource classDeclaration = redactor.get("class-declaration");
-            String className = classDeclaration.getTokenValue(0);
-
-            if (className == null) {
-                throw new PandaParserException("Class name cannot be null");
-            }
-
-            ClassPrototype classPrototype = PandaClassPrototype.builder()
-                    .name(className)
-                    .build();
-
-            delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
-            module.add(classPrototype);
-
-            ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-            classPrototype.getExtended().add(PrimitivePrototypeLiquid.OBJECT);
-
-            delegatedData.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
-
-            ClassScope classScope = new ClassScope(classPrototype);
-            delegatedData.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);
-
-            ClassReference classReference = new ClassReference(classPrototype, classScope);
-            script.getStatements().add(classReference);
-
-            ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
-            delegatedData.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
-
-            if (classDeclaration.size() > 1) {
-                nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), delegatedData);
-            }
-
-            nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(redactor), delegatedData);
-            nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), delegatedData);
+        if (className == null) {
+            throw new PandaParserException("Class name cannot be null");
         }
 
+        ClassPrototype classPrototype = PandaClassPrototype.builder()
+                .name(className)
+                .build();
+
+        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
+        module.add(classPrototype);
+
+        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        classPrototype.getExtended().add(PrimitivePrototypeLiquid.OBJECT);
+
+        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
+
+        ClassScope classScope = new ClassScope(classPrototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);
+
+        ClassReference classReference = new ClassReference(classPrototype, classScope);
+        script.getStatements().add(classReference);
+
+        ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
+        data.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
+
+        if (classDeclaration.size() > 1) {
+            nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), data);
+        }
+
+        nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(redactor), data);
+        nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), data);
+        return true;
     }
 
     @LocalCallback
@@ -146,8 +142,7 @@ public class ClassPrototypeParser implements UnifiedParser {
                     throw new PandaParserException("Cannot parse the element of the prototype at line " + TokenUtils.getLine(stream.toTokenizedSource()));
                 }
 
-                parser.parse(bodyInfo);
-                generation.executeImmediately(delegatedData);
+                parser.parse(bodyInfo, nextLayer);
             }
         }
 

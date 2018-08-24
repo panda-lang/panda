@@ -16,48 +16,37 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement.scope.branching;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Continue;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Continue;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = ContinueParser.class, handlerClass = ContinueParserHandler.class)
 public class ContinueParser implements UnifiedParser {
 
+    private ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
+            .instance(this)
+            .build();
+
     @Override
-    public boolean parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new ContinueDeclarationCasualParserCallback());
-        return true;
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        return bootstrapParser.getParser().parse(data, nextLayer);
     }
 
-    @LocalCallback
-    private static class ContinueDeclarationCasualParserCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
-            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
-
-            Continue continueStatement = new Continue();
-            container.addStatement(continueStatement);
-
-            TokenRepresentation continueToken = stream.read();
-            StatementData statementData = new PandaStatementData(continueToken.getLine());
-            continueStatement.setStatementData(statementData);
-        }
-
+    @Autowired
+    private void parseContinue(@Component SourceStream source, @Component Container container) {
+        Continue continueStatement = new Continue();
+        container.addStatement(continueStatement);
+        continueStatement.setStatementData(PandaStatementData.of(source));
     }
 
 }

@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.design.interpreter.parser.generation.casu
 
 public enum CasualParserGenerationType {
 
-    HIGHER(0),
-    LOWER(1);
+    CURRENT(0),
+    NEXT(1);
 
     private final int index;
 

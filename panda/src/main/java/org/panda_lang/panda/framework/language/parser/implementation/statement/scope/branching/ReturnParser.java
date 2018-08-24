@@ -16,31 +16,30 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement.scope.branching;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Return;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.language.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Return;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.language.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = ReturnParser.class, handlerClass = ReturnParserHandler.class)
 public class ReturnParser implements UnifiedParser {
@@ -50,36 +49,26 @@ public class ReturnParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new ReturnCasualParserCallback());
-        return true;
-    }
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+        Container container = data.getComponent(PandaComponents.CONTAINER);
 
-    @LocalCallback
-    private static class ReturnCasualParserCallback implements CasualParserGenerationCallback {
+        if (stream.getUnreadLength() == 1) {
+            Return returnStatement = new Return(null);
+            container.addStatement(returnStatement);
 
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
-            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
+            TokenRepresentation returnToken = stream.read();
+            StatementData statementData = new PandaStatementData(returnToken.getLine());
+            returnStatement.setStatementData(statementData);
 
-            if (stream.getUnreadLength() == 1) {
-                Return returnStatement = new Return(null);
-                container.addStatement(returnStatement);
-
-                TokenRepresentation returnToken = stream.read();
-                StatementData statementData = new PandaStatementData(returnToken.getLine());
-                returnStatement.setStatementData(statementData);
-
-                return;
-            }
-
-            StatementCell cell = container.reserveCell();
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "return-expression");
-
-            nextLayer.delegate(new ReturnExpressionCasualParserCallback(cell, redactor), delegatedData);
+            return true;
         }
 
+        StatementCell cell = container.reserveCell();
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "return-expression");
+
+        nextLayer.delegate(new ReturnExpressionCasualParserCallback(cell, redactor), data);
+        return true;
     }
 
     @LocalCallback

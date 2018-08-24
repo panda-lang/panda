@@ -16,29 +16,24 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.generation.casual;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationUnit;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PandaCasualParserGenerationLayer implements CasualParserGenerationLayer {
 
-    private final List<CasualParserGenerationUnit> immediately;
     private final List<CasualParserGenerationUnit> before;
     private final List<CasualParserGenerationUnit> delegates;
     private final List<CasualParserGenerationUnit> after;
 
     public PandaCasualParserGenerationLayer() {
-        this.immediately = new ArrayList<>();
         this.before = new ArrayList<>(1);
         this.delegates = new ArrayList<>();
         this.after = new ArrayList<>(1);
-    }
-
-    @Override
-    public void callImmediately(ParserData currentData, CasualParserGenerationLayer nextLayer) {
-        call(immediately, currentData, nextLayer);
     }
 
     @Override
@@ -55,15 +50,8 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
         for (CasualParserGenerationUnit unit : unitList) {
             CasualParserGenerationCallback callback = unit.getCallback();
             ParserData delegatedInfo = unit.getDelegated();
-
-            delegatedInfo.setComponent(UniversalComponents.CURRENT_PARSER_DATA, currentInfo);
             callback.call(delegatedInfo, nextLayer);
         }
-    }
-
-    @Override
-    public CasualParserGenerationLayer delegateImmediately(CasualParserGenerationCallback callback, ParserData delegated) {
-        return delegate(immediately, callback, delegated);
     }
 
     @Override
@@ -89,7 +77,7 @@ public class PandaCasualParserGenerationLayer implements CasualParserGenerationL
 
     @Override
     public int countDelegates() {
-        return immediately.size() + before.size() + delegates.size() + after.size();
+        return before.size() + delegates.size() + after.size();
     }
 
 }

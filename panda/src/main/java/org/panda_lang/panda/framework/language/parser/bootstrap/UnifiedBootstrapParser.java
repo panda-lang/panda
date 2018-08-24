@@ -18,11 +18,8 @@ package org.panda_lang.panda.framework.language.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Interceptor;
@@ -31,6 +28,7 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Reda
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -48,33 +46,30 @@ public class UnifiedBootstrapParser implements UnifiedParser {
     }
 
     @Override
-    public boolean parse(ParserData data) {
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();
         LocalData localData = new LocalData();
 
-        delegate(data.fork(), interceptorData, localData, 0);
+        delegate(data, nextLayer, interceptorData, localData, 0);
         return true;
     }
 
-    private void delegate(ParserData data, InterceptorData interceptorData, LocalData localData, int index) {
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
-        CasualParserGenerationLayer generationLayer = generation.getLayer(CasualParserGenerationType.LOWER);
-
+    private void delegate(ParserData data, CasualParserGenerationLayer nextLayer, InterceptorData interceptorData, LocalData localData, int index) {
         LayerMethod layer = layers.get(index);
         CasualParserGenerationCallback callback = callback(interceptorData, localData, layer, index + 1);
 
         switch (layer.getDelegation()) {
             case IMMEDIATELY:
-                generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, data);
+                callback.call(data, nextLayer);
                 break;
             case BEFORE:
-                generationLayer.delegateBefore(callback, data);
+                nextLayer.delegateBefore(callback, data);
                 break;
             case DEFAULT:
-                generationLayer.delegate(callback, data);
+                nextLayer.delegate(callback, data);
                 break;
             case AFTER:
-                generationLayer.delegateAfter(callback, data);
+                nextLayer.delegateAfter(callback, data);
                 break;
         }
     }
@@ -82,13 +77,13 @@ public class UnifiedBootstrapParser implements UnifiedParser {
     private CasualParserGenerationCallback callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextIndex) {
         Method autowiredMethod = layer.getMethod();
 
-        return (delegatedData, nextLayer1) -> {
+        return (delegatedData, nextLayer) -> {
             Class<?>[] parameterTypes = autowiredMethod.getParameterTypes();
             Annotation[][] parameterAnnotations = autowiredMethod.getParameterAnnotations();
             Object[] parameters = new Object[parameterTypes.length];
 
             for (int i = 0; i < parameterTypes.length; i++) {
-                Object parameter = findParameter(parameterTypes[i], parameterAnnotations[i], delegatedData, interceptorData, localData);
+                Object parameter = findParameter(parameterTypes[i], parameterAnnotations[i], delegatedData, nextLayer, interceptorData, localData);
 
                 if (parameter == null) {
                     throw new ParserBootstrapException("Cannot find parameter: " + parameterTypes[i] + " of " + bootstrap.getName());
@@ -106,22 +101,26 @@ public class UnifiedBootstrapParser implements UnifiedParser {
             }
 
             if (nextIndex < layers.size()) {
-                delegate(delegatedData.fork(), interceptorData, localData, nextIndex);
+                delegate(delegatedData, nextLayer, interceptorData, localData, nextIndex);
             }
         };
     }
 
-    private Object findParameter(Class<?> parameterType, Annotation[] annotations, ParserData data, InterceptorData interceptorData, LocalData localData) {
-        if (parameterType.isAssignableFrom(ParserData.class)) {
+    private Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, CasualParserGenerationLayer layer, InterceptorData interceptor, LocalData local) {
+        if (type.isAssignableFrom(ParserData.class) && annotations.length == 0) {
             return data;
         }
 
-        if (parameterType.isAssignableFrom(InterceptorData.class)) {
-            return interceptorData;
+        if (type.isAssignableFrom(CasualParserGenerationLayer.class) && annotations.length == 0) {
+            return layer;
         }
 
-        if (parameterType.isAssignableFrom(LocalData.class)) {
-            return localData;
+        if (type.isAssignableFrom(InterceptorData.class) && annotations.length == 0) {
+            return interceptor;
+        }
+
+        if (type.isAssignableFrom(LocalData.class) && annotations.length == 0) {
+            return local;
         }
 
         if (annotations.length == 0 || annotations.length > 1) {
@@ -137,7 +136,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
                     continue;
                 }
 
-                if (parameterType.isAssignableFrom(component.getClass())) {
+                if (type.isAssignableFrom(component.getClass())) {
                     return component;
                 }
             }
@@ -146,15 +145,21 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         }
 
         if (annotationType == Local.class) {
-            return localData.getValue(parameterType);
+            String name = ((Local) annotation).value();
+
+            if (!StringUtils.isEmpty(name)) {
+                return local.getValue(name);
+            }
+
+            return local.getValue(type);
         }
 
         if (annotationType == Interceptor.class) {
-            return interceptorData.getValue(parameterType);
+            return interceptor.getValue(type);
         }
 
         if (annotationType == Redactor.class) {
-            AbyssRedactor redactor = interceptorData.getValue(AbyssRedactor.class);
+            AbyssRedactor redactor = interceptor.getValue(AbyssRedactor.class);
 
             if (redactor == null) {
                 return null;

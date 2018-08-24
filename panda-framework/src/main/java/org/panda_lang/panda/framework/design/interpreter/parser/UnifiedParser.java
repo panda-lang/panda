@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+
 public interface UnifiedParser extends Parser {
 
     /*
@@ -25,6 +27,6 @@ public interface UnifiedParser extends Parser {
     /**
      * @param data set of information about source and interpretation process
      */
-    boolean parse(ParserData data);
+    boolean parse(ParserData data, CasualParserGenerationLayer nextLayer);
 
 }

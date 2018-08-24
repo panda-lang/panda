@@ -16,41 +16,44 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.*;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.WhileBlock;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.language.runtime.expression.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
-import org.panda_lang.panda.framework.language.parser.implementation.general.expression.*;
-import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockComponents;
+import org.panda_lang.panda.language.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.BLOCK, parserClass = WhileParser.class, handlerClass = WhileParserHandler.class)
 public class WhileParser implements UnifiedParser {
 
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "while ( +* )")
+    private final ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
+            .pattern("while ( +* )", "while-expression")
+            .instance(this)
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "while-expression");
-        TokenizedSource expressionSource = redactor.get("while-expression");
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        return bootstrapParser.getParser().parse(data, nextLayer);
+    }
 
-        ExpressionParser expressionParser = new ExpressionParser();
-        Expression expression = expressionParser.parse(data, expressionSource);
+    @Autowired
+    private void parserWhile(ParserData data, @Redactor("while-expression") TokenizedSource expressionSource) {
+        Expression expression = new ExpressionParser().parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 
         data.setComponent(BlockComponents.BLOCK, new WhileBlock(expression));
-        return true;
     }
 
 }

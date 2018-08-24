@@ -20,11 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface CasualParserGenerationLayer {
 
-    void callImmediately(ParserData currentData, CasualParserGenerationLayer nextLayer);
-
     void call(ParserData currentData, CasualParserGenerationLayer nextLayer);
-
-    CasualParserGenerationLayer delegateImmediately(CasualParserGenerationCallback callback, ParserData delegated);
 
     CasualParserGenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated);
 

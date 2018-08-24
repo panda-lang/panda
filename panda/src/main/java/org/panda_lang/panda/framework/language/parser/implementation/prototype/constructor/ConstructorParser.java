@@ -32,7 +32,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
@@ -52,34 +51,24 @@ public class ConstructorParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new ConstructorExtractorCallbackCasual());
+    public boolean parse(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "parameters", "constructor-body");
+
+        TokenizedSource parametersSource = redactor.get("parameters");
+        ParameterParser parameterParser = new ParameterParser();
+        List<Parameter> parameters = parameterParser.parse(delegatedData, parametersSource);
+
+        ConstructorScope constructorScope = new ConstructorScope(parameters);
+        ParameterUtils.addAll(constructorScope.getVariables(), parameters, 0);
+
+        ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        ClassScope classScope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+
+        PrototypeConstructor constructor = new PandaConstructor(prototype, classScope, constructorScope);
+        prototype.getConstructors().addConstructor(constructor);
+
+        nextLayer.delegateAfter(new ConstructorBodyCallbackCasual(constructorScope, redactor), delegatedData);
         return true;
-    }
-
-    @LocalCallback
-    private static class ConstructorExtractorCallbackCasual implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "parameters", "constructor-body");
-
-            TokenizedSource parametersSource = redactor.get("parameters");
-            ParameterParser parameterParser = new ParameterParser();
-            List<Parameter> parameters = parameterParser.parse(delegatedData, parametersSource);
-
-            ConstructorScope constructorScope = new ConstructorScope(parameters);
-            ParameterUtils.addAll(constructorScope.getVariables(), parameters, 0);
-
-            ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-            ClassScope classScope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
-
-            PrototypeConstructor constructor = new PandaConstructor(prototype, classScope, constructorScope);
-            prototype.getConstructors().addConstructor(constructor);
-
-            nextLayer.delegateAfter(new ConstructorBodyCallbackCasual(constructorScope, redactor), delegatedData);
-        }
-
     }
 
     @LocalCallback

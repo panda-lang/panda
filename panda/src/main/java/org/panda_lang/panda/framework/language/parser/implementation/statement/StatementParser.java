@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
@@ -36,7 +37,6 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBoots
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
-import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
 
 @ParserRegistration(target = PandaPipelines.SCOPE, parserClass = StatementParser.class, handlerClass = StatementParserHandler.class, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
 public class StatementParser implements UnifiedParser {
@@ -51,12 +51,12 @@ public class StatementParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        return bootstrapParser.getParser().parse(data);
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        return bootstrapParser.getParser().parse(data, nextLayer);
     }
 
-    @Autowired(value = Delegation.IMMEDIATELY, order = 1)
-    private void parseStatement(ParserData data, @Component PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) {
+    @Autowired
+    private void parse(ParserData data, CasualParserGenerationLayer nextLayer, @Component PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) {
         SourceStream declarationStream = new PandaSourceStream(statement);
 
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.STATEMENT);
@@ -68,7 +68,7 @@ public class StatementParser implements UnifiedParser {
 
         ParserData statementParserData = data.fork();
         statementParserData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-        statementParser.parse(statementParserData);
+        statementParser.parse(statementParserData, nextLayer);
     }
 
 }

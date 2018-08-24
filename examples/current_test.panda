@@ -79,8 +79,8 @@ main {
             builder.append(var);
         }
 
-        builder.append(" Loop x3 ");
         continue;
+        builder.append(" Loop x3 ");
     }
 
     while (flag) {

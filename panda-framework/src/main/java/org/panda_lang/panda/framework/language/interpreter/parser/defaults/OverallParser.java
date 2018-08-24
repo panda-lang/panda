@@ -16,14 +16,17 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.defaults;
 
-import org.panda_lang.panda.framework.design.interpreter.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class OverallParser implements Parser {
 
@@ -45,18 +48,16 @@ public class OverallParser implements Parser {
         }
 
         UnifiedParser parser = pipeline.handle(stream);
+        int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {
             throw new PandaParserFailure("Unrecognized syntax", data);
         }
 
-        int sourceLength = stream.getUnreadLength();
-
-        parser.parse(data);
-        generation.executeImmediately(data);
+        parser.parse(data.fork(), generation.getLayer(CasualParserGenerationType.NEXT));
 
         if (sourceLength == stream.getUnreadLength()) {
-            throw new PandaParserException(parser.getClass().getSimpleName() + " did nothing with source at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+            throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with the current source", data);
         }
     }
 

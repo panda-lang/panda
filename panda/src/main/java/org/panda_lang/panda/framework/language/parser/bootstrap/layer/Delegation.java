@@ -21,6 +21,6 @@ public enum Delegation {
     IMMEDIATELY,
     BEFORE,
     DEFAULT,
-    AFTER;
+    AFTER
 
 }

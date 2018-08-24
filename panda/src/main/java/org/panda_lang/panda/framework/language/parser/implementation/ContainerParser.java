@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -41,35 +42,35 @@ public class ContainerParser implements Parser {
     }
 
     public void parse(ParserData data, TokenizedSource body) {
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
-        PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
+        ParserData delegatedData = data.fork();
+
+        CasualParserGeneration generation = delegatedData.getComponent(UniversalComponents.GENERATION);
+        PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
-        data.setComponent(UniversalComponents.SOURCE_STREAM, stream);
+        delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
-        Container previousContainer = data.getComponent(PandaComponents.CONTAINER);
-        data.setComponent(PandaComponents.CONTAINER, container);
+        Container previousContainer = delegatedData.getComponent(PandaComponents.CONTAINER);
+        delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
         while (stream.hasUnreadSource()) {
             UnifiedParser parser = pipeline.handle(stream);
+            int sourceLength = stream.getUnreadLength();
 
             if (parser == null) {
                 throw new PandaParserException("Unrecognized syntax at line " + TokenUtils.getLine(stream.toTokenizedSource()));
             }
 
-            int sourceLength = stream.getUnreadLength();
-
-            parser.parse(data);
-            generation.executeImmediately(data);
-            data.setComponent(PandaComponents.CONTAINER, container);
+            parser.parse(delegatedData, generation.getLayer(CasualParserGenerationType.NEXT));
+            delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw new PandaParserException(parser.getClass().getSimpleName() + " did nothing with source at line " + TokenUtils.getLine(stream.toTokenizedSource()));
             }
         }
 
-        data.setComponent(PandaComponents.CONTAINER, previousContainer);
+        delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);
     }
 
 }

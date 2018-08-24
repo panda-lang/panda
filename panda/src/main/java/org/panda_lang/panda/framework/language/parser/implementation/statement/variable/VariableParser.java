@@ -26,26 +26,22 @@ import org.panda_lang.panda.framework.language.parser.implementation.statement.v
 public class VariableParser implements UnifiedParser {
 
     @Override
-    public boolean parse(ParserData data) {
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
 
         VarParser varParser = new VarParser();
         VarParserData parserData = varParser.toVarParserData(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
+        VarParserResult parserResult = varParser.parseVariable(parserData, data);
 
-        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately((delegatedData, nextLayer) -> {
-            VarParserResult parserResult = varParser.parseVariable(parserData, delegatedData);
+        if (parserResult.isFreshVariable()) {
+            parserResult.getScope().addVariable(parserResult.getVariable());
+        }
 
-            if (parserResult.isFreshVariable()) {
-                parserResult.getScope().addVariable(parserResult.getVariable());
-            }
+        if (!parserData.hasAssignation()) {
+            return true;
+        }
 
-            if (!parserData.hasAssignation()) {
-                return;
-            }
-
-            nextLayer.delegate((delegatedData1, nextLayer1) -> varParser.parseAssignation(parserData, parserResult, delegatedData1), delegatedData);
-        }, data);
-
+        nextLayer.delegate((delegatedData, delegatedNextLayer) -> varParser.parseAssignation(parserData, parserResult, delegatedData), data);
         return true;
     }
 

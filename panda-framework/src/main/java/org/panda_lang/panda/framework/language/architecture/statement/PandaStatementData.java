@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 
 public class PandaStatementData implements StatementData {
 
@@ -29,6 +30,10 @@ public class PandaStatementData implements StatementData {
     @Override
     public int getSourceLine() {
         return sourceLine;
+    }
+
+    public static PandaStatementData of(SourceStream source) {
+        return new PandaStatementData(source.read().getLine());
     }
 
 }

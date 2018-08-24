@@ -17,40 +17,34 @@
 package org.panda_lang.panda.framework.language.parser.implementation.prototype.field;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.interpreter.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.language.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 
 import java.util.List;
 
@@ -65,12 +59,8 @@ public class FieldParser implements UnifiedParser {
             .compile(PandaSyntax.getInstance(), "+** = +* ;")
             .build();
 
-    protected static final LexicalPattern<String> LEXICAL_PATTERN = LexicalPattern.<String> builder()
-            .compile("[(public|local|hidden|private)] [mutable] [nullable] * * [= *][;]")
-            .build();
-
     @Override
-    public boolean parse(ParserData data) {
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
         CasualParserGenerationCallback callback;
 
@@ -88,7 +78,7 @@ public class FieldParser implements UnifiedParser {
             callback = new FieldDeclarationCasualParserCallback(true);
         }
 
-        generation.getLayer(CasualParserGenerationType.HIGHER).delegateImmediately(callback, data.fork());
+        callback.call(data, nextLayer);
         return true;
     }
 

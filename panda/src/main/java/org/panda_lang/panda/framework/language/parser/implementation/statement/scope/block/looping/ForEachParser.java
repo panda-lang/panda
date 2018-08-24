@@ -16,25 +16,31 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.ForEachBlock;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.architecture.statement.*;
-import org.panda_lang.panda.language.runtime.expression.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
-import org.panda_lang.panda.framework.language.parser.implementation.general.expression.*;
-import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.*;
-import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockComponents;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParser;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserData;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserResult;
+import org.panda_lang.panda.language.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.BLOCK, parserClass = ForEachParser.class, handlerClass = ForEachHandler.class)
 public class ForEachParser implements UnifiedParser {
@@ -45,7 +51,7 @@ public class ForEachParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "foreach-var", "foreach-iterable");
         TokenizedSource varSource = redactor.get("foreach-var");
         TokenizedSource iterableSource = redactor.get("foreach-iterable");

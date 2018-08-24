@@ -26,16 +26,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
@@ -50,45 +47,35 @@ public class ImportParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new ImportDeclarationCasualParserCallback());
-        return true;
-    }
+    public boolean parse(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
+        SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
 
-    @LocalCallback
-    private static class ImportDeclarationCasualParserCallback implements CasualParserGenerationCallback {
+        TokenizedSource source = stream.toTokenizedSource();
+        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
+        TokenizedSource hollow = hollows.getGap(0);
 
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-            SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
+        StringBuilder groupNameBuilder = new StringBuilder();
 
-            TokenizedSource source = stream.toTokenizedSource();
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
-            TokenizedSource hollow = hollows.getGap(0);
-
-            StringBuilder groupNameBuilder = new StringBuilder();
-
-            for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
-                Token token = representation.getToken();
-                groupNameBuilder.append(token.getTokenValue());
-            }
-
-            ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-            String importedGroupName = groupNameBuilder.toString();
-            Module module = registry.get(importedGroupName);
-
-            if (module == null) {
-                throw new PandaParserException("Unknown module " + importedGroupName);
-            }
-
-            ImportStatement importStatement = new ImportStatement(module);
-            script.getStatements().add(importStatement);
-
-            ModuleLoader moduleLoader = script.getModuleLoader();
-            moduleLoader.include(module);
+        for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
+            Token token = representation.getToken();
+            groupNameBuilder.append(token.getTokenValue());
         }
 
+        ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
+        String importedGroupName = groupNameBuilder.toString();
+        Module module = registry.get(importedGroupName);
+
+        if (module == null) {
+            throw new PandaParserException("Unknown module " + importedGroupName);
+        }
+
+        ImportStatement importStatement = new ImportStatement(module);
+        script.getStatements().add(importStatement);
+
+        ModuleLoader moduleLoader = script.getModuleLoader();
+        moduleLoader.include(module);
+        return true;
     }
 
 }

@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
 
-    Delegation value() default Delegation.DEFAULT;
+    Delegation value() default Delegation.IMMEDIATELY;
 
     int order() default 0;
 

@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.language.parser.implementation.statement.
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Break;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
@@ -29,7 +29,6 @@ import org.panda_lang.panda.framework.language.architecture.statement.PandaState
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
-import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = BreakParser.class, handlerClass = BreakParserHandler.class)
 public class BreakParser implements UnifiedParser {
@@ -39,17 +38,15 @@ public class BreakParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data) {
-        return bootstrapParser.getParser().parse(data);
+    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+        return bootstrapParser.getParser().parse(data, nextLayer);
     }
 
-    @Autowired(value = Delegation.IMMEDIATELY)
+    @Autowired
     private void parseBreak(ParserData data, @Component SourceStream source, @Component Container container) {
         Break breakStatement = new Break();
         container.addStatement(breakStatement);
-
-        StatementData statementData = new PandaStatementData(source.read().getLine());
-        breakStatement.setStatementData(statementData);
+        breakStatement.setStatementData(PandaStatementData.of(source));
     }
 
 }

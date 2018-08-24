@@ -38,7 +38,6 @@ public class AbyssPatternUtils {
         }
 
         source.readDifference(reader);
-
         return new AbyssRedactorHollows(gaps);
     }
 

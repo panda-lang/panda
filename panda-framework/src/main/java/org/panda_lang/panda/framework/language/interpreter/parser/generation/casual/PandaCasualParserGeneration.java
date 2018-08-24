@@ -32,11 +32,6 @@ public class PandaCasualParserGeneration implements CasualParserGeneration {
     }
 
     @Override
-    public void executeImmediately(ParserData currentData) {
-        this.currentLayer.callImmediately(currentData, nextLayer);
-    }
-
-    @Override
     public void execute(ParserData currentData) {
         while (currentLayer != null) {
             currentLayer.call(currentData, nextLayer);
@@ -52,7 +47,7 @@ public class PandaCasualParserGeneration implements CasualParserGeneration {
 
     @Override
     public CasualParserGenerationLayer getLayer(CasualParserGenerationType generationType) {
-        return generationType == CasualParserGenerationType.HIGHER ? currentLayer : nextLayer;
+        return generationType == CasualParserGenerationType.CURRENT ? currentLayer : nextLayer;
     }
 
 }

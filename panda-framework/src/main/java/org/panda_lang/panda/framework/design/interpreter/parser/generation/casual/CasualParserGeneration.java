@@ -20,8 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface CasualParserGeneration {
 
-    void executeImmediately(ParserData currentData);
-
     void execute(ParserData currentData);
 
     CasualParserGenerationLayer getLayer(CasualParserGenerationType generationType);
