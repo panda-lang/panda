@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.interceptor.Boot
 import org.panda_lang.panda.framework.language.parser.bootstrap.interceptor.DefaultInterceptor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -112,6 +113,10 @@ public class PandaParserBuilder {
 
         if (interceptor == null) {
             interceptor(new DefaultInterceptor());
+        }
+
+        if (pattern == null) {
+            pattern = StringUtils.EMPTY;
         }
 
         return new PandaParserBootstrap(this).generate();

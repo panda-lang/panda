@@ -35,7 +35,6 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation
 public class BreakParser implements UnifiedParser {
 
     private ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
-            .pattern("break")
             .instance(this)
             .build();
 
@@ -49,9 +48,7 @@ public class BreakParser implements UnifiedParser {
         Break breakStatement = new Break();
         container.addStatement(breakStatement);
 
-        // TODO: Generate statement data
-        source.restoreCachedSource();
-        StatementData statementData = new PandaStatementData(source.getCurrentLine());
+        StatementData statementData = new PandaStatementData(source.read().getLine());
         breakStatement.setStatementData(statementData);
     }
 

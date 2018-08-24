@@ -25,6 +25,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.UnifiedBootstrapParser;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 public class DefaultInterceptor implements BootstrapInterceptor {
 
@@ -43,6 +44,11 @@ public class DefaultInterceptor implements BootstrapInterceptor {
     @Override
     public void initialize(PandaParserBootstrap generator) {
         this.wildcards = generator.getWildcards();
+
+        if (StringUtils.isEmpty(generator.getPattern())) {
+            return;
+        }
+
         this.pattern = new AbyssPatternBuilder()
                 .compile(PandaSyntax.getInstance(), generator.getPattern())
                 .lastIndexAlgorithm(lastIndexAlgorithm)
@@ -53,8 +59,10 @@ public class DefaultInterceptor implements BootstrapInterceptor {
     public InterceptorData handle(UnifiedBootstrapParser parser, ParserData data) {
         InterceptorData interceptorData = new InterceptorData();
 
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(pattern, data, wildcards);
-        interceptorData.addElement(redactor);
+        if (pattern != null) {
+            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(pattern, data, wildcards);
+            interceptorData.addElement(redactor);
+        }
 
         return interceptorData;
     }
