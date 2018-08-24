@@ -16,48 +16,43 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement.scope.branching;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Break;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.CasualParserGenerationAssistant;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.architecture.dynamic.branching.Break;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = BreakParser.class, handlerClass = BreakParserHandler.class)
 public class BreakParser implements UnifiedParser {
 
+    private ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
+            .pattern("break")
+            .instance(this)
+            .build();
+
     @Override
     public boolean parse(ParserData data) {
-        CasualParserGenerationAssistant.delegateImmediately(data, new BreakDeclarationCasualParserCallback());
-        return true;
+        return bootstrapParser.getParser().parse(data);
     }
 
-    @LocalCallback
-    private static class BreakDeclarationCasualParserCallback implements CasualParserGenerationCallback {
+    @Autowired(value = Delegation.IMMEDIATELY)
+    private void parseBreak(ParserData data, @Component SourceStream source, @Component Container container) {
+        Break breakStatement = new Break();
+        container.addStatement(breakStatement);
 
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
-            Container container = delegatedData.getComponent(PandaComponents.CONTAINER);
-
-            Break breakStatement = new Break();
-            container.addStatement(breakStatement);
-
-            TokenRepresentation breakToken = stream.read();
-            StatementData statementData = new PandaStatementData(breakToken.getLine());
-            breakStatement.setStatementData(statementData);
-        }
-
+        // TODO: Generate statement data
+        source.restoreCachedSource();
+        StatementData statementData = new PandaStatementData(source.getCurrentLine());
+        breakStatement.setStatementData(statementData);
     }
 
 }
