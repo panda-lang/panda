@@ -16,22 +16,27 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement;
 
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
 
 @ParserRegistration(target = PandaPipelines.SCOPE, parserClass = StatementParser.class, handlerClass = StatementParserHandler.class, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
 public class StatementParser implements UnifiedParser {
@@ -40,51 +45,30 @@ public class StatementParser implements UnifiedParser {
             .compile(PandaSyntax.getInstance(), "+* ;")
             .build();
 
+    private ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
+            .pattern("+* ;", "statement")
+            .instance(this)
+            .build();
+
     @Override
     public boolean parse(ParserData data) {
-        PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.STATEMENT);
+        return bootstrapParser.getParser().parse(data);
+    }
 
-        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, data);
-        TokenizedSource source = hollows.getGap(0);
+    @Autowired(value = Delegation.IMMEDIATELY, order = 1)
+    private void parseStatement(ParserData data, @Component PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) {
+        SourceStream declarationStream = new PandaSourceStream(statement);
 
-        SourceStream declarationStream = new PandaSourceStream(source);
+        ParserPipeline pipeline = registry.getPipeline(PandaPipelines.STATEMENT);
         UnifiedParser statementParser = pipeline.handle(declarationStream);
 
         if (statementParser == null) {
-            throw new PandaParserException("Cannot recognize block at line " + TokenUtils.getLine(source));
+            throw new PandaParserFailure("Cannot recognize statement", data);
         }
 
         ParserData statementParserData = data.fork();
         statementParserData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
         statementParser.parse(statementParserData);
-
-        return true;
-    }
-
-    @LocalCallback
-    private static class DeclarationParserCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
-            PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
-            ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.STATEMENT);
-
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
-            TokenizedSource source = hollows.getGap(0);
-
-            SourceStream declarationStream = new PandaSourceStream(source);
-            UnifiedParser statementParser = pipeline.handle(declarationStream);
-
-            if (statementParser == null) {
-                throw new PandaParserException("Cannot recognize statement at line " + TokenUtils.getLine(source));
-            }
-
-            ParserData statementParserData = delegatedData.fork();
-            statementParserData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-            statementParser.parse(statementParserData);
-        }
-
     }
 
 }
