@@ -47,7 +47,7 @@ public class ForEachParser implements UnifiedParser {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "foreach ( +* : +* )")
-            //.maxNestingLevel(1)
+            .maxNestingLevel(1)
             .build();
 
     @Override
