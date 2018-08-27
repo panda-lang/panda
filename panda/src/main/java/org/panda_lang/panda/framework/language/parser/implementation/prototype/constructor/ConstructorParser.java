@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -51,7 +51,7 @@ public class ConstructorParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData delegatedData, GenerationLayer nextLayer) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "parameters", "constructor-body");
 
         TokenizedSource parametersSource = redactor.get("parameters");
@@ -83,7 +83,7 @@ public class ConstructorParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             delegatedData.setComponent(PandaComponents.SCOPE, constructorScope);
 
             ScopeParser.createParser(constructorScope, delegatedData)

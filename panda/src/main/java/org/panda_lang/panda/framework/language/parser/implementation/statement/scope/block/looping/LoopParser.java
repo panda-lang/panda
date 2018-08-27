@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.block.looping.
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -41,7 +41,7 @@ public class LoopParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "loop-expression");
         TokenizedSource expressionSource = redactor.get("loop-expression");
 

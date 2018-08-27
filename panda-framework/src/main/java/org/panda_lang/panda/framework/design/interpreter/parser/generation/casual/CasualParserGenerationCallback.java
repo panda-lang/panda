@@ -20,6 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface CasualParserGenerationCallback {
 
-    void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer);
+    void call(ParserData delegatedData, GenerationLayer nextLayer);
 
 }

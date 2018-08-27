@@ -43,7 +43,7 @@ public class ModuleParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) {
         AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, data);
         TokenizedSource hollow = hollows.getGap(0);
 
@@ -80,7 +80,7 @@ public class ModuleParser implements UnifiedParser {
     private static class GroupAfterCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             Script script = delegatedData.getComponent(UniversalComponents.SCRIPT);
             Collection<ModuleStatement> moduleStatements = script.select(ModuleStatement.class);
 

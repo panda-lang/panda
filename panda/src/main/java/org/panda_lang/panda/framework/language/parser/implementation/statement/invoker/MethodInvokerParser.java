@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -52,7 +52,7 @@ public class MethodInvokerParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "instance", "method-name", "arguments");
 
         Container container = data.getComponent(PandaComponents.CONTAINER);
@@ -74,7 +74,7 @@ public class MethodInvokerParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             TokenizedSource instanceSource = redactor.get("instance");
             TokenizedSource methodSource = redactor.get("method-name");
             TokenizedSource argumentsSource = redactor.get("arguments");

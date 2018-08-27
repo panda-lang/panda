@@ -18,13 +18,13 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.ca
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 
 public class PandaCasualParserGeneration implements CasualParserGeneration {
 
-    private CasualParserGenerationLayer currentLayer;
-    private CasualParserGenerationLayer nextLayer;
+    private GenerationLayer currentLayer;
+    private GenerationLayer nextLayer;
 
     public PandaCasualParserGeneration() {
         this.currentLayer = new PandaCasualParserGenerationLayer();
@@ -46,7 +46,7 @@ public class PandaCasualParserGeneration implements CasualParserGeneration {
     }
 
     @Override
-    public CasualParserGenerationLayer getLayer(CasualParserGenerationType generationType) {
+    public GenerationLayer getLayer(CasualParserGenerationType generationType) {
         return generationType == CasualParserGenerationType.CURRENT ? currentLayer : nextLayer;
     }
 

@@ -18,10 +18,11 @@ package org.panda_lang.panda.framework.language.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Interceptor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
@@ -34,6 +35,7 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Map;
 
 public class UnifiedBootstrapParser implements UnifiedParser {
 
@@ -46,7 +48,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
     }
 
     @Override
-    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) {
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();
         LocalData localData = new LocalData();
 
@@ -54,7 +56,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         return true;
     }
 
-    private void delegate(ParserData data, CasualParserGenerationLayer nextLayer, InterceptorData interceptorData, LocalData localData, int index) {
+    private void delegate(ParserData data, GenerationLayer nextLayer, InterceptorData interceptorData, LocalData localData, int index) {
         LayerMethod layer = layers.get(index);
         CasualParserGenerationCallback callback = callback(interceptorData, localData, layer, index + 1);
 
@@ -101,17 +103,17 @@ public class UnifiedBootstrapParser implements UnifiedParser {
             }
 
             if (nextIndex < layers.size()) {
-                delegate(delegatedData, nextLayer, interceptorData, localData, nextIndex);
+                delegate(delegatedData.fork(), nextLayer, interceptorData, localData, nextIndex);
             }
         };
     }
 
-    private Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, CasualParserGenerationLayer layer, InterceptorData interceptor, LocalData local) {
+    private Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, GenerationLayer layer, InterceptorData interceptor, LocalData local) {
         if (type.isAssignableFrom(ParserData.class) && annotations.length == 0) {
             return data;
         }
 
-        if (type.isAssignableFrom(CasualParserGenerationLayer.class) && annotations.length == 0) {
+        if (type.isAssignableFrom(GenerationLayer.class) && annotations.length == 0) {
             return layer;
         }
 
@@ -130,14 +132,18 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         Annotation annotation = annotations[0];
         Class<?> annotationType = annotation.annotationType();
 
-        if (annotationType == Component.class) {
-            for (Object component : data.getComponents()) {
-                if (component == null) {
-                    continue;
+        if (annotationType == ComponentQualifier.class) {
+            ComponentQualifier componentQualifier = (ComponentQualifier) annotation;
+
+            for (Map.Entry<? extends Component<?>, ?> entry : data.getComponents().entrySet()) {
+                Component<?> component = entry.getKey();
+
+                if (!StringUtils.isEmpty(componentQualifier.name()) && component.getName().equals(componentQualifier.name())) {
+                    return entry.getValue();
                 }
 
-                if (type.isAssignableFrom(component.getClass())) {
-                    return component;
+                if (type == component.getType()) {
+                    return entry.getValue();
                 }
             }
 

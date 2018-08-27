@@ -18,15 +18,15 @@ package org.panda_lang.panda.framework.design.interpreter.parser.generation.casu
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface CasualParserGenerationLayer {
+public interface GenerationLayer {
 
-    void call(ParserData currentData, CasualParserGenerationLayer nextLayer);
+    void call(ParserData currentData, GenerationLayer nextLayer);
 
-    CasualParserGenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated);
+    GenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated);
 
-    CasualParserGenerationLayer delegate(CasualParserGenerationCallback callback, ParserData delegated);
+    GenerationLayer delegate(CasualParserGenerationCallback callback, ParserData delegated);
 
-    CasualParserGenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserData delegated);
+    GenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserData delegated);
 
     int countDelegates();
 

@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 
-import java.util.Collection;
+import java.util.Map;
 
 public interface ParserData {
 
@@ -41,6 +41,6 @@ public interface ParserData {
     /**
      * @return all components stored in the current parser data
      */
-    Collection<? extends Object> getComponents();
+    Map<? extends Component<?>, ? extends Object> getComponents();
 
 }

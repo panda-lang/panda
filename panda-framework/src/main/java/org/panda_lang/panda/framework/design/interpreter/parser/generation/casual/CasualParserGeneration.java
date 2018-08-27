@@ -22,6 +22,6 @@ public interface CasualParserGeneration {
 
     void execute(ParserData currentData);
 
-    CasualParserGenerationLayer getLayer(CasualParserGenerationType generationType);
+    GenerationLayer getLayer(CasualParserGenerationType generationType);
 
 }

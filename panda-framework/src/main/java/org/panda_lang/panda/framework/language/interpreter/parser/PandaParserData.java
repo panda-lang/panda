@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,8 +60,8 @@ public class PandaParserData implements ParserData {
     }
 
     @Override
-    public Collection<? extends Object> getComponents() {
-        return components.values();
+    public Map<? extends Component<?>, ? extends Object> getComponents() {
+        return new HashMap<>(components);
     }
 
 }

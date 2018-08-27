@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -60,7 +60,7 @@ public class ClassPrototypeParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
 
@@ -108,7 +108,7 @@ public class ClassPrototypeParser implements UnifiedParser {
     private static class ClassPrototypeDeclarationCasualParserCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             ClassPrototypeParserUtils.readDeclaration(delegatedData);
         }
 
@@ -124,7 +124,7 @@ public class ClassPrototypeParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
             ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 
@@ -152,7 +152,7 @@ public class ClassPrototypeParser implements UnifiedParser {
     private static class ClassPrototypeAfterCasualCallback implements CasualParserGenerationCallback {
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
             ClassScope scope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.parser.implementation.statement.
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
@@ -33,8 +33,10 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.parser.implementation.ContainerParser;
 
 @ParserRegistration(target = PandaPipelines.SCOPE, parserClass = BlockParser.class, handlerClass = BlockParserHandler.class, priority = PandaPriorities.SCOPE_BLOCK_PARSER)
@@ -50,33 +52,31 @@ public class BlockParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData data, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) {
         return bootstrapParser.getParser().parse(data, nextLayer);
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, CasualParserGenerationLayer nextLayer, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource blockDeclaration) {
+    private void parse(ParserData data, LocalData local, GenerationLayer layer, @ComponentQualifier PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource declaration) {
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.BLOCK);
 
-        SourceStream declarationStream = new PandaSourceStream(blockDeclaration);
+        SourceStream declarationStream = new PandaSourceStream(declaration);
         UnifiedParser blockParser = pipeline.handle(declarationStream);
 
         if (blockParser == null) {
             throw new PandaParserFailure("Unknown block", data);
         }
 
-        ParserData blockData = data.fork();
+        ParserData blockData = local.allocateInstance(data.fork());
         blockData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-        blockParser.parse(blockData, nextLayer);
+        blockParser.parse(blockData, layer);
 
-        Block block = blockData.getComponent(BlockComponents.BLOCK);
+        Block block = local.allocateInstance(blockData.getComponent(BlockComponents.BLOCK));
         Boolean unlisted = blockData.getComponent(BlockComponents.UNLISTED_BLOCK);
 
         if (block == null) {
             throw new PandaParserFailure(blockParser.getClass() + " cannot parse current block", data);
         }
-
-        data.setComponent(BlockComponents.BLOCK, block);
 
         if (unlisted == null || !unlisted) {
             data.getComponent(PandaComponents.CONTAINER).addStatement(block);
@@ -86,9 +86,9 @@ public class BlockParser implements UnifiedParser {
     }
 
     @Autowired(order = 2)
-    private void parseContent(ParserData data, @Component Block block, @Redactor("block-body") TokenizedSource blockBody) {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Redactor("block-body") TokenizedSource body) {
         ContainerParser containerParser = new ContainerParser(block);
-        containerParser.parse(data, blockBody);
+        containerParser.parse(blockData, body);
     }
 
 }

@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Pa
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -52,7 +52,7 @@ public class MethodParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData delegatedData, GenerationLayer nextLayer) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "method-declaration", "method-parameters", "method-body");
 
         TokenizedSource methodDeclaration = redactor.get("method-declaration");
@@ -137,7 +137,7 @@ public class MethodParser implements UnifiedParser {
         }
 
         @Override
-        public void call(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
             ScopeParser.createParser(methodScope, delegatedData)
                     .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                     .parse(redactor.get("method-body"));

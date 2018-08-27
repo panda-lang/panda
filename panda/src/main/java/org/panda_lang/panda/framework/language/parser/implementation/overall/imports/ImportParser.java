@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -47,7 +47,7 @@ public class ImportParser implements UnifiedParser {
             .build();
 
     @Override
-    public boolean parse(ParserData delegatedData, CasualParserGenerationLayer nextLayer) {
+    public boolean parse(ParserData delegatedData, GenerationLayer nextLayer) {
         PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
         SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
 
