@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
+import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
@@ -37,20 +38,44 @@ public class ParserRegistrationLoader {
         return registry;
     }
 
-    public void loadPipelines(PandaPipelineRegistry registry, AnnotationsScannerProcess scannerProcess) throws Exception {
+    private void loadPipelines(PandaPipelineRegistry registry, AnnotationsScannerProcess scannerProcess) throws Exception {
         Set<Class<?>> annotated = scannerProcess.createSelector().selectTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
 
-            UnifiedParser parser = parserRegistration.parserClass().newInstance();
-            ParserHandler handler = parserRegistration.handlerClass().newInstance();
+            UnifiedParser parser = createParserInstance(clazz, parserRegistration.parserClass());
+            ParserHandler handler = createHandlerInstance(parser, parserRegistration.handlerClass());
             ParserRepresentation representation = new PandaParserRepresentation(parser, handler, parserRegistration.priority());
 
             for (String target : parserRegistration.target()) {
                 ParserPipeline pipeline = registry.getOrCreate(target);
                 pipeline.registerParserRepresentation(representation);
             }
+        }
+    }
+
+    private UnifiedParser createParserInstance(Class<?> currentClass, Class<? extends UnifiedParser> parserClass) throws Exception {
+        if (parserClass != UnifiedParser.class) {
+            return parserClass.newInstance();
+        }
+        else if (UnifiedParser.class.isAssignableFrom(currentClass)) {
+            return (UnifiedParser) currentClass.newInstance();
+        }
+        else {
+            throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
+        }
+    }
+
+    private ParserHandler createHandlerInstance(UnifiedParser currentParser, Class<? extends ParserHandler> handlerClass) throws Exception {
+        if (handlerClass != ParserHandler.class) {
+            return handlerClass.newInstance();
+        }
+        else if (ParserHandler.class.isAssignableFrom(currentParser.getClass())) {
+            return (ParserHandler) currentParser;
+        }
+        else {
+            throw new PandaException("Cannot create parser handler instance (source: " + currentParser.getClass() + ")");
         }
     }
 

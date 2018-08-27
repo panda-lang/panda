@@ -35,9 +35,9 @@ public @interface ParserRegistration {
      */
     String[] target();
 
-    Class<? extends UnifiedParser> parserClass();
+    Class<? extends UnifiedParser> parserClass() default UnifiedParser.class;
 
-    Class<? extends ParserHandler> handlerClass();
+    Class<? extends ParserHandler> handlerClass() default ParserHandler.class;
 
     int priority() default 0;
 
