@@ -18,13 +18,11 @@ package org.panda_lang.panda.framework.language.parser.implementation.overall.im
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -49,25 +47,21 @@ public class ImportParser extends BootstrapParser {
 
     @Autowired
     public void parse(ParserData data, @ComponentQualifier ModulePath modulePath, @ComponentQualifier PandaScript script, @Redactor("import") TokenizedSource importSource) {
-        StringBuilder moduleBuilder = new StringBuilder();
+        StringBuilder moduleName = new StringBuilder();
 
         for (TokenRepresentation representation : importSource.getTokensRepresentations()) {
-            Token token = representation.getToken();
-            moduleBuilder.append(token.getTokenValue());
+            moduleName.append(representation.getTokenValue());
         }
 
-        String moduleName = moduleBuilder.toString();
-        Module module = modulePath.get(moduleName);
+        Module module = modulePath.get(moduleName.toString());
+        ImportStatement importStatement = new ImportStatement(module);
 
         if (module == null) {
             throw new PandaParserException("Unknown module " + moduleName);
         }
 
-        ImportStatement importStatement = new ImportStatement(module);
+        script.getModuleLoader().include(module);
         script.getStatements().add(importStatement);
-
-        ModuleLoader moduleLoader = script.getModuleLoader();
-        moduleLoader.include(module);
     }
 
 }
