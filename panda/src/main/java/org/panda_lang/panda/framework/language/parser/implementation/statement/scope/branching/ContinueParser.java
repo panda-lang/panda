@@ -22,20 +22,29 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = ContinueParser.class, handlerClass = ContinueParserHandler.class)
-public class ContinueParser implements UnifiedParser {
+@ParserRegistration(target = PandaPipelines.STATEMENT)
+public class ContinueParser implements UnifiedParser, ParserHandler {
 
     private ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
             .instance(this)
             .build();
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), Keywords.CONTINUE);
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {
