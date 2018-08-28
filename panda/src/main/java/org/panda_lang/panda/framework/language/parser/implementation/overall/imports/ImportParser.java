@@ -21,62 +21,46 @@ import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.statement.ImportStatement;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
+import org.panda_lang.panda.framework.language.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.handlers.FirstTokenHandler;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL)
-public class ImportParser implements UnifiedParser, ParserHandler {
+public class ImportParser extends BootstrapParser {
 
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "import +** ;")
-            .build();
-
-    @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.IMPORT);
+    {
+        bootstrapParser = PandaParserBootstrap.builder()
+                .handler(new FirstTokenHandler(Keywords.IMPORT))
+                .pattern("import +** ;", "import")
+                .instance(this)
+                .build();
     }
 
-    @Override
-    public boolean parse(ParserData delegatedData, GenerationLayer nextLayer) {
-        PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-        SourceStream stream = delegatedData.getComponent(UniversalComponents.SOURCE_STREAM);
+    @Autowired
+    public void parse(ParserData data, @ComponentQualifier ModulePath modulePath, @ComponentQualifier PandaScript script, @Redactor("import") TokenizedSource importSource) {
+        StringBuilder moduleBuilder = new StringBuilder();
 
-        TokenizedSource source = stream.toTokenizedSource();
-        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, delegatedData);
-        TokenizedSource hollow = hollows.getGap(0);
-
-        StringBuilder groupNameBuilder = new StringBuilder();
-
-        for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
+        for (TokenRepresentation representation : importSource.getTokensRepresentations()) {
             Token token = representation.getToken();
-            groupNameBuilder.append(token.getTokenValue());
+            moduleBuilder.append(token.getTokenValue());
         }
 
-        ModulePath registry = delegatedData.getComponent(PandaComponents.MODULE_REGISTRY);
-        String importedGroupName = groupNameBuilder.toString();
-        Module module = registry.get(importedGroupName);
+        String moduleName = moduleBuilder.toString();
+        Module module = modulePath.get(moduleName);
 
         if (module == null) {
-            throw new PandaParserException("Unknown module " + importedGroupName);
+            throw new PandaParserException("Unknown module " + moduleName);
         }
 
         ImportStatement importStatement = new ImportStatement(module);
@@ -84,7 +68,6 @@ public class ImportParser implements UnifiedParser, ParserHandler {
 
         ModuleLoader moduleLoader = script.getModuleLoader();
         moduleLoader.include(module);
-        return true;
     }
 
 }
