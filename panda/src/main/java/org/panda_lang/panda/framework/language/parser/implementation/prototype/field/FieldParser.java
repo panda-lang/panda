@@ -28,12 +28,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.casua
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
@@ -48,8 +50,8 @@ import org.panda_lang.panda.language.runtime.expression.Expression;
 
 import java.util.List;
 
-@ParserRegistration(target = PandaPipelines.PROTOTYPE, parserClass = FieldParser.class, handlerClass = FieldParserHandler.class, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
-public class FieldParser implements UnifiedParser {
+@ParserRegistration(target = PandaPipelines.PROTOTYPE, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
+public class FieldParser implements UnifiedParser, ParserHandler {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+** ;")
@@ -58,6 +60,11 @@ public class FieldParser implements UnifiedParser {
     protected static final AbyssPattern ASSIGNATION_PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+** = +* ;")
             .build();
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        return FieldParser.PATTERN.match(reader) != null;
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {
