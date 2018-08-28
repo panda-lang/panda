@@ -16,14 +16,33 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.statement.variable;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.*;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParser;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserData;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserResult;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = VariableParser.class, handlerClass = VariableParserHandler.class, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
-public class VariableParser implements UnifiedParser {
+import java.util.List;
+
+@ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
+public class VariableParser implements UnifiedParser, ParserHandler {
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        AbyssExtractor extractor = VarParser.PATTERN.extractor();
+        List<TokenizedSource> hollows = extractor.extract(reader);
+        return hollows != null && hollows.size() > 0;
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {

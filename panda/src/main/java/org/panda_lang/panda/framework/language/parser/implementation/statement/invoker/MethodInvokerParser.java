@@ -29,10 +29,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUtils;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
@@ -41,15 +44,21 @@ import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtil
 import org.panda_lang.panda.framework.language.parser.implementation.general.argument.ArgumentParser;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.language.runtime.expression.Expression;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT, parserClass = MethodInvokerParser.class, handlerClass = MethodInvokerParserHandler.class, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
-public class MethodInvokerParser implements UnifiedParser {
+@ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
+public class MethodInvokerParser implements UnifiedParser, ParserHandler {
 
     public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+** . +** ( +* )")
             .lastIndexAlgorithm(true)
             .build();
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        return AbyssPatternUtils.match(MethodInvokerParser.PATTERN, reader) && !AbyssPatternUtils.match(VarParser.ASSIGNATION_PATTERN, reader);
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {
