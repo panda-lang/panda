@@ -27,14 +27,18 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParser;
@@ -42,13 +46,18 @@ import org.panda_lang.panda.framework.language.parser.implementation.statement.v
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserResult;
 import org.panda_lang.panda.language.runtime.expression.Expression;
 
-@ParserRegistration(target = PandaPipelines.BLOCK, parserClass = ForEachParser.class, handlerClass = ForEachHandler.class)
-public class ForEachParser implements UnifiedParser {
+@ParserRegistration(target = PandaPipelines.BLOCK)
+public class ForEachParser implements UnifiedParser, ParserHandler {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "foreach ( +* : +* )")
             .maxNestingLevel(1)
             .build();
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), Keywords.FOREACH);
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {

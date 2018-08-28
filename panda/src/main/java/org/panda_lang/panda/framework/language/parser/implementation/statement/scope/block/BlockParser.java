@@ -20,12 +20,14 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
@@ -39,8 +41,8 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Reda
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.parser.implementation.ContainerParser;
 
-@ParserRegistration(target = PandaPipelines.SCOPE, parserClass = BlockParser.class, handlerClass = BlockParserHandler.class, priority = PandaPriorities.SCOPE_BLOCK_PARSER)
-public class BlockParser implements UnifiedParser {
+@ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.SCOPE_BLOCK_PARSER)
+public class BlockParser implements UnifiedParser, ParserHandler {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+** { +* }")
@@ -50,6 +52,11 @@ public class BlockParser implements UnifiedParser {
             .pattern("+** { +* }", "block-declaration", "block-body")
             .instance(this)
             .build();
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        return PATTERN.extractor().extract(reader) != null;
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {

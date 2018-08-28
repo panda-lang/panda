@@ -21,10 +21,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
+import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
@@ -32,13 +36,18 @@ import org.panda_lang.panda.framework.language.parser.implementation.general.exp
 import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.language.runtime.expression.Expression;
 
-@ParserRegistration(target = PandaPipelines.BLOCK, parserClass = WhileParser.class, handlerClass = WhileParserHandler.class)
-public class WhileParser implements UnifiedParser {
+@ParserRegistration(target = PandaPipelines.BLOCK)
+public class WhileParser implements UnifiedParser, ParserHandler {
 
     private final ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
             .pattern("while ( +* )", "while-expression")
             .instance(this)
             .build();
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        return TokenUtils.equals(reader.read(), Keywords.WHILE);
+    }
 
     @Override
     public boolean parse(ParserData data, GenerationLayer nextLayer) {
