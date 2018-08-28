@@ -17,99 +17,58 @@
 package org.panda_lang.panda.framework.language.parser.implementation.overall.module;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.statement.ModuleStatement;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
-
-import java.util.Collection;
+import org.panda_lang.panda.framework.language.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.handlers.FirstTokenHandler;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL)
-public class ModuleParser implements UnifiedParser, ParserHandler {
+public class ModuleParser extends BootstrapParser {
 
-    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "module +** ;")
-            .build();
-
-    @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.MODULE);
+    {
+        bootstrapParser = PandaParserBootstrap.builder()
+                .handler(new FirstTokenHandler(Keywords.MODULE))
+                .pattern("module +** ;", "module")
+                .instance(this)
+                .build();
     }
 
-    @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
-        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(PATTERN, data);
-        TokenizedSource hollow = hollows.getGap(0);
+    @Autowired
+    private void parse(ParserData data, @ComponentQualifier ModulePath modulePath, @ComponentQualifier PandaScript script, @Redactor("module") TokenizedSource moduleSource) {
+        StringBuilder moduleName = new StringBuilder();
 
-        StringBuilder groupNameBuilder = new StringBuilder();
-
-        for (TokenRepresentation representation : hollow.getTokensRepresentations()) {
-            Token token = representation.getToken();
-            groupNameBuilder.append(token.getTokenValue());
+        for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
+            moduleName.append(representation.getTokenValue());
         }
 
-        String groupName = groupNameBuilder.toString();
-        ModulePath modulePath = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        String groupName = moduleName.toString();
 
         if (!modulePath.hasModule(groupName)) {
             modulePath.create(groupName);
         }
 
-        Module module = modulePath.get(groupName);
-
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        script.setModule(module);
-
-        ModuleLoader moduleLoader = script.getModuleLoader();
-        moduleLoader.include(module);
-
-        ModuleStatement moduleStatement = new ModuleStatement(module);
-        script.getStatements().add(moduleStatement);
-
-        nextLayer.delegateAfter(new GroupAfterCasualParserCallback(), data.fork());
-        return true;
-    }
-
-    @LocalCallback
-    private static class GroupAfterCasualParserCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
-            Script script = delegatedData.getComponent(UniversalComponents.SCRIPT);
-            Collection<ModuleStatement> moduleStatements = script.select(ModuleStatement.class);
-
-            if (moduleStatements.size() == 0) {
-                return;
-            }
-
-            if (moduleStatements.size() > 1) {
-                throw new PandaParserException("Script contains more than one declaration of the group");
-            }
+        if (script.select(ModuleStatement.class).size() > 0) {
+            throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
+        Module module = modulePath.get(groupName);
+        ModuleStatement moduleStatement = new ModuleStatement(module);
+
+        script.setModule(module);
+        script.getModuleLoader().include(module);
+        script.getStatements().add(moduleStatement);
     }
 
 }
