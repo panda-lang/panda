@@ -87,4 +87,8 @@ public class ClassScope implements Scope {
         return null;
     }
 
+    public ClassPrototype getPrototype() {
+        return prototype;
+    }
+
 }

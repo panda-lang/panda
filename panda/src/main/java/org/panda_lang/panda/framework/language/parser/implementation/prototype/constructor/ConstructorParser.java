@@ -16,90 +16,59 @@
 
 package org.panda_lang.panda.framework.language.parser.implementation.prototype.constructor;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
+import org.panda_lang.panda.framework.language.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.parser.bootstrap.handlers.FirstTokenHandler;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
+import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.parser.implementation.ScopeParser;
-import org.panda_lang.panda.framework.language.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.parser.implementation.prototype.parameter.ParameterParser;
 
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE)
-public class ConstructorParser implements UnifiedParser, ParserHandler {
+public class ConstructorParser extends BootstrapParser {
 
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "constructor ( +** ) { +* }")
-            .build();
-
-    @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.next(), Keywords.CONSTRUCTOR);
+    {
+        bootstrapParser = PandaParserBootstrap.builder()
+                .handler(new FirstTokenHandler(Keywords.CONSTRUCTOR))
+                .pattern("constructor ( +** ) { +* }", "parameters", "body")
+                .instance(this)
+                .build();
     }
 
-    @Override
-    public boolean parse(ParserData delegatedData, GenerationLayer nextLayer) {
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "parameters", "constructor-body");
-
-        TokenizedSource parametersSource = redactor.get("parameters");
+    @Autowired
+    private void parse(ParserData data, LocalData local, @ComponentQualifier ClassScope classScope, @Redactor("parameters") TokenizedSource parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
-        List<Parameter> parameters = parameterParser.parse(delegatedData, parametersSource);
+        List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
-        ConstructorScope constructorScope = new ConstructorScope(parameters);
+        ConstructorScope constructorScope = local.allocateInstance(new ConstructorScope(parameters));
         ParameterUtils.addAll(constructorScope.getVariables(), parameters, 0);
 
-        ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope classScope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
-
-        PrototypeConstructor constructor = new PandaConstructor(prototype, classScope, constructorScope);
-        prototype.getConstructors().addConstructor(constructor);
-
-        nextLayer.delegateAfter(new ConstructorBodyCallbackCasual(constructorScope, redactor), delegatedData);
-        return true;
+        PrototypeConstructor constructor = new PandaConstructor(classScope.getPrototype(), classScope, constructorScope);
+        classScope.getPrototype().getConstructors().addConstructor(constructor);
     }
 
-    @LocalCallback
-    private static class ConstructorBodyCallbackCasual implements CasualParserGenerationCallback {
-
-        private final ConstructorScope constructorScope;
-        private final AbyssRedactor redactor;
-
-        private ConstructorBodyCallbackCasual(ConstructorScope constructorScope, AbyssRedactor redactor) {
-            this.constructorScope = constructorScope;
-            this.redactor = redactor;
-        }
-
-        @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
-            delegatedData.setComponent(PandaComponents.SCOPE, constructorScope);
-
-            ScopeParser.createParser(constructorScope, delegatedData)
-                    .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), constructorScope)
-                    .parse(redactor.get("constructor-body"));
-        }
-
+    @Autowired(order = 2, value = Delegation.DEFAULT)
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @ComponentQualifier ClassScope classScope, @Redactor("body") TokenizedSource body) {
+        ScopeParser.createParser(constructorScope, data)
+                .initializeLinker(classScope, constructorScope)
+                .parse(body);
     }
 
 }
