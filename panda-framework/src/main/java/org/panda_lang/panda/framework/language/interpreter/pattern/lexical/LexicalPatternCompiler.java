@@ -17,13 +17,18 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.*;
-import org.panda_lang.panda.utilities.commons.arrays.*;
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
+import org.panda_lang.panda.utilities.commons.arrays.CharArrayDistributor;
+import org.panda_lang.panda.utilities.commons.objects.CharacterUtils;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 import org.panda_lang.panda.utilities.commons.redact.AttentiveContentReader;
 import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LexicalPatternCompiler {
 

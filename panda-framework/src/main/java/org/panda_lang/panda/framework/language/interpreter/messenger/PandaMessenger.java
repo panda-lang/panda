@@ -16,11 +16,16 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger;
 
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.utilities.commons.collection.*;
+import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
+import org.panda_lang.panda.utilities.commons.collection.ReverseIterator;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PandaMessenger implements Messenger {
 
@@ -54,7 +59,7 @@ public class PandaMessenger implements Messenger {
     }
 
     @Override
-    public void sendMessage(MessengerMessage.Level level, String message) {
+    public void sendMessage(MessengerLevel level, String message) {
         MessengerMessage generatedMessage = new PandaMessengerMessage(level, message);
         sendMessage(generatedMessage);
     }

@@ -16,10 +16,13 @@
 
 package org.panda_lang.panda.utilities.commons.arrays;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
 
@@ -72,11 +75,6 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
     }
 
     @Override
-    public boolean hasNext() {
-        return index + 1 < array.length;
-    }
-
-    @Override
     public @Nullable T next() {
         if (index + 1 < array.length) {
             return array[++index];
@@ -101,17 +99,22 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return null;
     }
 
-    public @Nullable T getPrevious(int t) {
-        int i = index - t;
-        return i > -1 && i < array.length ? array[i] : null;
-    }
-
     public void setIndex(int index) {
         this.index = index;
     }
 
+    @Override
+    public boolean hasNext() {
+        return index + 1 < array.length;
+    }
+
     public @Nullable T get(int index) {
         return index > -1 && index < array.length ? array[index] : null;
+    }
+
+    public @Nullable T getPrevious(int t) {
+        int i = index - t;
+        return i > -1 && i < array.length ? array[i] : null;
     }
 
     public @Nullable T getPrevious() {
@@ -119,7 +122,7 @@ public class ArrayDistributor<T> implements Iterator<T>, Iterable<T> {
         return i > -1 && i - 1 < array.length ? array[i] : null;
     }
 
-    public @Nullable  T getLast() {
+    public @Nullable T getLast() {
         return array[array.length - 1];
     }
 

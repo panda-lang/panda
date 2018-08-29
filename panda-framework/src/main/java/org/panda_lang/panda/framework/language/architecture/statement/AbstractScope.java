@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -26,12 +26,11 @@ public interface ScopeInstance extends StandaloneExecutable {
      * Put value in scope memory
      *
      * @param pointer index of the variable in current scope
-     * @param value new value
+     * @param value   new value
      */
     void set(int pointer, @Nullable Value value);
 
     /**
-     *
      * @param pointer index of variable in current scope
      * @return value
      */

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.*;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 
 public abstract class ParserFailure extends InterpreterFailure {
 

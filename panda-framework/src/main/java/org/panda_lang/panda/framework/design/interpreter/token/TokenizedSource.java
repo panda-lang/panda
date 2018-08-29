@@ -17,15 +17,14 @@
 package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.token.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public interface TokenizedSource {
 
     TokenizedSource subSource(int fromIndex, int toIndex);
-
-    List<TokenRepresentation> getTokensRepresentations();
 
     TokenRepresentation[] toArray();
 
@@ -47,21 +46,32 @@ public interface TokenizedSource {
         return new PandaTokenizedSource(selected);
     }
 
+    default int size() {
+        return getTokensRepresentations().size();
+    }
+
+    default String asString() {
+        StringBuilder node = new StringBuilder();
+
+        for (TokenRepresentation representation : getTokensRepresentations()) {
+            Token token = representation.getToken();
+            node.append(token.getTokenValue());
+        }
+
+        return node.toString();
+    }
+
     default TokenizedSource addToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().add(tokenRepresentation);
         return this;
     }
 
-    default int size() {
-        return getTokensRepresentations().size();
-    }
+    default @Nullable TokenRepresentation get(int id) {
+        if (id >= size() || id < 0) {
+            return null;
+        }
 
-    default @Nullable TokenRepresentation getFirst() {
-        return size() > 0 ? get(0) : null;
-    }
-
-    default @Nullable TokenRepresentation getLast() {
-        return getLast(0);
+        return getTokensRepresentations().get(id);
     }
 
     default @Nullable TokenRepresentation getLast(int i) {
@@ -89,23 +99,14 @@ public interface TokenizedSource {
         return tokenRepresentation.getToken();
     }
 
-    default @Nullable TokenRepresentation get(int id) {
-        if (id >= size() || id < 0) {
-            return null;
-        }
+    List<TokenRepresentation> getTokensRepresentations();
 
-        return getTokensRepresentations().get(id);
+    default @Nullable TokenRepresentation getFirst() {
+        return size() > 0 ? get(0) : null;
     }
 
-    default String asString() {
-        StringBuilder node = new StringBuilder();
-
-        for (TokenRepresentation representation : getTokensRepresentations()) {
-            Token token = representation.getToken();
-            node.append(token.getTokenValue());
-        }
-
-        return node.toString();
+    default @Nullable TokenRepresentation getLast() {
+        return getLast(0);
     }
 
 }

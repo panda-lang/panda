@@ -31,6 +31,92 @@ import java.util.List;
 public class FileUtils {
 
     /**
+     * Check if a file is in the specified array
+     *
+     * @param files    files
+     * @param fileName name of file
+     * @return true if file is in specified array
+     */
+    public static boolean isIn(File[] files, String fileName) {
+        if (files == null) {
+            return false;
+        }
+
+        for (File file : files) {
+            if (file.getName().equals(fileName)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Count files in the specified directory
+     *
+     * @param directory root directory
+     * @return amount of files
+     */
+    public static int getAmountOfFiles(File directory) {
+        if (!directory.isDirectory()) {
+            return 0;
+        }
+
+        File[] files = directory.listFiles();
+
+        if (files == null) {
+            return 0;
+        }
+
+        return files.length;
+    }
+
+    /**
+     * @return content of the specified file
+     */
+    public static String getContentOfFile(File file) {
+        try {
+            return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException("Can't read contents of file: " + file, e);
+        }
+    }
+
+    /**
+     * @return content of file divided by lines
+     */
+    public static @Nullable String[] getContentAsLines(File file) {
+        if (!file.exists()) {
+            return new String[0];
+        }
+
+        try {
+            List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+            String[] result = new String[list.size()];
+
+            return list.toArray(result);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    /**
+     * @return file name without extension
+     */
+    public static String getFileName(File file) {
+        String fileName = file.getName();
+        int pos = fileName.lastIndexOf(".");
+
+        if (pos == -1) {
+            return fileName;
+        }
+
+        return fileName.substring(0, pos);
+    }
+
+    /**
      * @return collection of file with the specified extension
      */
     public static Collection<File> findFilesByExtension(String directory, String extension) {
@@ -133,27 +219,6 @@ public class FileUtils {
     }
 
     /**
-     * Check if a file is in the specified array
-     *
-     * @param files files
-     * @param fileName name of file
-     * @return true if file is in specified array
-     */
-    public static boolean isIn(File[] files, String fileName) {
-        if (files == null) {
-            return false;
-        }
-
-        for (File file : files) {
-            if (file.getName().equals(fileName)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Get vararg paths as array of {@link File}
      *
      * @param paths array of paths
@@ -167,72 +232,6 @@ public class FileUtils {
         }
 
         return files;
-    }
-
-    /**
-     * Count files in the specified directory
-     *
-     * @param directory root directory
-     * @return amount of files
-     */
-    public static int getAmountOfFiles(File directory) {
-        if (!directory.isDirectory()) {
-            return 0;
-        }
-
-        File[] files = directory.listFiles();
-
-        if (files == null) {
-            return 0;
-        }
-
-        return files.length;
-    }
-
-    /**
-     * @return content of the specified file
-     */
-    public static String getContentOfFile(File file) {
-        try {
-            return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't read contents of file: " + file, e);
-        }
-    }
-
-    /**
-     * @return content of file divided by lines
-     */
-    public static @Nullable String[] getContentAsLines(File file) {
-        if (!file.exists()) {
-            return new String[0];
-        }
-
-        try {
-            List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-            String[] result = new String[list.size()];
-
-            return list.toArray(result);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-
-    /**
-     * @return file name without extension
-     */
-    public static String getFileName(File file) {
-        String fileName = file.getName();
-        int pos = fileName.lastIndexOf(".");
-
-        if (pos == -1) {
-            return fileName;
-        }
-
-        return fileName.substring(0, pos);
     }
 
 }

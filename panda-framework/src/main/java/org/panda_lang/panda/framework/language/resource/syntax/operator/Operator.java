@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
 
 public class Operator extends EqualableToken {

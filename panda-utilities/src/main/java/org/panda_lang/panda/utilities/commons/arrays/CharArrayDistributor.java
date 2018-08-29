@@ -49,10 +49,6 @@ public class CharArrayDistributor {
         return index < array.length && index > -1 ? array[index] : array[0];
     }
 
-    public boolean hasNext() {
-        return index + 1 < array.length;
-    }
-
     public char next() {
         if (index + 1 < array.length) {
             return array[++index];
@@ -82,6 +78,10 @@ public class CharArrayDistributor {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public boolean hasNext() {
+        return index + 1 < array.length;
     }
 
     public char getPrevious(int t) {

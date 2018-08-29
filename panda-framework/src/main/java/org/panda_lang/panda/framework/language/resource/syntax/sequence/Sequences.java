@@ -17,7 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.syntax.sequence;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 
 /**
  * Default sequences

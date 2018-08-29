@@ -20,7 +20,7 @@ public interface Messenger {
 
     void send(Object message);
 
-    void sendMessage(MessengerMessage.Level level, String message);
+    void sendMessage(MessengerLevel level, String message);
 
     void sendMessage(MessengerMessage message);
 

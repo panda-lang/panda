@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LexicalPatternNode extends DefaultLexicalPatternElement {
 

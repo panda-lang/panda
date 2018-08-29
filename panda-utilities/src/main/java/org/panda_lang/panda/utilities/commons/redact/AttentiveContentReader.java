@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.utilities.commons.redact;
 
-import org.panda_lang.panda.utilities.commons.arrays.*;
+import org.panda_lang.panda.utilities.commons.arrays.CharArrayDistributor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 public class AttentiveContentReader {
 

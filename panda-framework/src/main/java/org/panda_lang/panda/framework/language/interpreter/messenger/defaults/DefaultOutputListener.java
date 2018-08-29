@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
 
 public class DefaultOutputListener implements MessengerOutputListener {
 
@@ -28,7 +30,7 @@ public class DefaultOutputListener implements MessengerOutputListener {
         }
     }
 
-    private void log(MessengerMessage.Level level, String message) {
+    private void log(MessengerLevel level, String message) {
         switch (level) {
             case DEBUG:
                 PandaFramework.getLogger().debug(message);

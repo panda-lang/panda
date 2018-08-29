@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
-import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence;
 
 import java.util.Collection;

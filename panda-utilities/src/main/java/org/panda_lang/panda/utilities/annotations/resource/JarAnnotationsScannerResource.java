@@ -51,21 +51,6 @@ class JarAnnotationsScannerResource extends AnnotationsScannerResource<Annotatio
             private ZipEntry entry;
 
             @Override
-            public boolean hasNext() {
-                try {
-                    entry = jarInputStream.getNextJarEntry();
-
-                    if (entry != null && !entry.getName().endsWith(".class")) {
-                        return hasNext();
-                    }
-
-                    return entry != null;
-                } catch (IOException e) {
-                    return false;
-                }
-            }
-
-            @Override
             public @Nullable AnnotationsScannerFile next() {
                 while (entry != null) {
                     long size = entry.getSize();
@@ -87,17 +72,32 @@ class JarAnnotationsScannerResource extends AnnotationsScannerResource<Annotatio
 
                 return null;
             }
-        };
-    }
 
-    @Override
-    public Iterable<AnnotationsScannerFile> getFiles() {
-        return this;
+            @Override
+            public boolean hasNext() {
+                try {
+                    entry = jarInputStream.getNextJarEntry();
+
+                    if (entry != null && !entry.getName().endsWith(".class")) {
+                        return hasNext();
+                    }
+
+                    return entry != null;
+                } catch (IOException e) {
+                    return false;
+                }
+            }
+        };
     }
 
     @Override
     public void close() {
         IOUtils.close(jarInputStream);
+    }
+
+    @Override
+    public Iterable<AnnotationsScannerFile> getFiles() {
+        return this;
     }
 
 }

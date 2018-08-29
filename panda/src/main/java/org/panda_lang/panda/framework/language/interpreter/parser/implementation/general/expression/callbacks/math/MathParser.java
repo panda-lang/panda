@@ -16,26 +16,32 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.*;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.*;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.design.runtime.expression.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.vague.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-import java.util.*;
+import java.util.Stack;
 
 public class MathParser implements Parser {
 
     protected static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
             Separators.LEFT_PARENTHESIS_DELIMITER,
             Separators.RIGHT_PARENTHESIS_DELIMITER
-    }, new Token[] {
+    }, new Token[]{
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,
@@ -108,7 +114,7 @@ public class MathParser implements Parser {
                 return 1;
             default:
                 return 0;
-                // throw new PandaParserException("Unexpected token " + tokenValue);
+            // throw new PandaParserException("Unexpected token " + tokenValue);
         }
     }
 

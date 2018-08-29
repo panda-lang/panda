@@ -20,7 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.io.FileUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Deprecated
 public class PandaConfiguration {
@@ -67,12 +71,21 @@ public class PandaConfiguration {
         return configurationFile;
     }
 
+    public boolean containsKey(String path) {
+        return this.map.containsKey(path);
+    }
+
+    public void clear() {
+        this.configuration = null;
+        this.map = null;
+    }
+
     public void set(String path, Object object) {
         this.map.put(path, object);
     }
 
-    public boolean containsKey(String path) {
-        return this.map.containsKey(path);
+    public Object get(String path) {
+        return this.map.get(path);
     }
 
     public @Nullable String getString(String path) {
@@ -151,15 +164,6 @@ public class PandaConfiguration {
         }
 
         return list;
-    }
-
-    public void clear() {
-        this.configuration = null;
-        this.map = null;
-    }
-
-    public Object get(String path) {
-        return this.map.get(path);
     }
 
     public Collection<String> getKeys() {

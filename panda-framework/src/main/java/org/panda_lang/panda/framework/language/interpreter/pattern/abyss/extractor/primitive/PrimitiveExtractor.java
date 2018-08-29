@@ -16,13 +16,17 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.primitive;
 
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.interpreter.token.*;
-import org.panda_lang.panda.utilities.commons.arrays.*;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Deprecated
 public class PrimitiveExtractor {

@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.vague;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
 import java.util.Stack;
 
@@ -109,6 +109,16 @@ public class VagueWorker {
         this.addOperator(operatorRepresentation);
     }
 
+    private boolean contains(Token[] tokens, TokenRepresentation representation) {
+        for (Token token : tokens) {
+            if (TokenUtils.equals(representation, token)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private void addExpression(TokenizedSource expressionSource) {
         VagueElement expressionElement = new VagueElement(expressionSource);
         this.result.addElement(expressionElement);
@@ -125,16 +135,6 @@ public class VagueWorker {
 
     private boolean isSeparator(TokenRepresentation representation) {
         return contains(extractor.getSeparators(), representation);
-    }
-
-    private boolean contains(Token[] tokens, TokenRepresentation representation) {
-        for (Token token : tokens) {
-            if (TokenUtils.equals(representation, token)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
 }

@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.component;
 
-import org.panda_lang.panda.framework.design.architecture.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
+import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.framework.design.architecture.Script;
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
 public class UniversalComponents {
 

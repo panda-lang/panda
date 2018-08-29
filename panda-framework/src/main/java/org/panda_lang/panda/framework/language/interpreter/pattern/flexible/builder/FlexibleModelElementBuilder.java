@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.flexible.builder;
 
-import org.panda_lang.panda.framework.language.interpreter.pattern.flexible.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.flexible.FlexibleModel;
+import org.panda_lang.panda.framework.language.interpreter.pattern.flexible.FlexibleModelElement;
 
 public class FlexibleModelElementBuilder {
 

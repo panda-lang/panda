@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.syntax.separator;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 
 /**
  * Default separators

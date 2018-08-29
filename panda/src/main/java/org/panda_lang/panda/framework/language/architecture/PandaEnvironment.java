@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.language.architecture;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
-import org.panda_lang.panda.framework.language.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModelLoader;
+import org.panda_lang.panda.framework.language.interpreter.PandaInterpreter;
 
 public class PandaEnvironment implements Environment {
 
@@ -43,9 +43,9 @@ public class PandaEnvironment implements Environment {
         panda.getPandaLanguage().getMappings().forEach((modelLoader::load));
 
         this.interpreter = PandaInterpreter.builder()
-            .environment(this)
-            .elements(panda.getPandaLanguage())
-            .build();
+                .environment(this)
+                .elements(panda.getPandaLanguage())
+                .build();
     }
 
     public ModulePath getModulePath() {

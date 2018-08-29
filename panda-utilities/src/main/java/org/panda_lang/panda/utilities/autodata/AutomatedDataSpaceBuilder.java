@@ -38,22 +38,22 @@ public class AutomatedDataSpaceBuilder {
         return new ADSCollectionBuilder(this);
     }
 
+    public ADSDatabaseBuilder createDatabase() {
+        return new ADSDatabaseBuilder(this);
+    }
+
+    public AutomatedDataSpace build() {
+        return new AutomatedDataSpace(this);
+    }
+
     public AutomatedDataSpaceBuilder addCollection(ADSCollection collection) {
         this.collections.put(collection.getName(), collection);
         return this;
     }
 
-    public ADSDatabaseBuilder createDatabase() {
-        return new ADSDatabaseBuilder(this);
-    }
-
     public AutomatedDataSpaceBuilder addDatabase(ADSDatabase database) {
         this.databases.put(database.getName(), database);
         return this;
-    }
-
-    public AutomatedDataSpace build() {
-        return new AutomatedDataSpace(this);
     }
 
 }

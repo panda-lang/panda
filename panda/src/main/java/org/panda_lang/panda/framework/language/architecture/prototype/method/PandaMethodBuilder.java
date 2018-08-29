@@ -78,13 +78,13 @@ public class PandaMethodBuilder {
         return this;
     }
 
+    public PandaMethod build() {
+        return new PandaMethod(this);
+    }
+
     public PandaMethodBuilder isStatic(boolean isStatic) {
         this.isStatic = isStatic;
         return this;
-    }
-
-    public PandaMethod build() {
-        return new PandaMethod(this);
     }
 
 }

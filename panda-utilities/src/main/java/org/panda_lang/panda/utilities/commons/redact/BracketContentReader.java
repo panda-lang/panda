@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.utilities.commons.redact;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.utilities.commons.arrays.*;
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.commons.arrays.CharArrayDistributor;
+import org.panda_lang.panda.utilities.commons.objects.CharacterUtils;
 
-import java.util.*;
+import java.util.Stack;
 
 public class BracketContentReader {
 
@@ -73,6 +73,14 @@ public class BracketContentReader {
         return content.toString();
     }
 
+    public void setOpeningSequence(char[] openingSequence) {
+        this.openingSequence = openingSequence;
+    }
+
+    public void setClosingSequence(char[] closingSequence) {
+        this.closingSequence = closingSequence;
+    }
+
     protected static void verifySequences(Stack<Character> sequences, char[] openingSequence, char[] closingSequence, char current) {
         if (sequences.size() > 0 && CharacterUtils.belongsTo(current, closingSequence)) {
             Character leftCurrent = openingSequence[CharacterUtils.getIndex(closingSequence, current)];
@@ -88,14 +96,6 @@ public class BracketContentReader {
         if (CharacterUtils.belongsTo(current, openingSequence)) {
             sequences.push(current);
         }
-    }
-
-    public void setOpeningSequence(char[] openingSequence) {
-        this.openingSequence = openingSequence;
-    }
-
-    public void setClosingSequence(char[] closingSequence) {
-        this.closingSequence = closingSequence;
     }
 
 }

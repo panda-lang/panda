@@ -39,7 +39,7 @@ public interface ClassPrototype {
     PrototypeFields getFields();
 
     PrototypeConstructors getConstructors();
-    
+
     String getClassName();
 
 }

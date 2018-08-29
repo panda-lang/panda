@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser;
 
-import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 

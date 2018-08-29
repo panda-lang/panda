@@ -16,12 +16,15 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.stream;
 
-import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 public class PandaSourceStream implements SourceStream {
 
@@ -94,11 +97,6 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public boolean hasUnreadSource() {
-        return source.size() > 0;
-    }
-
-    @Override
     public TokenReader toTokenReader() {
         return new PandaTokenReader(this.toTokenizedSource());
     }
@@ -106,6 +104,11 @@ public class PandaSourceStream implements SourceStream {
     @Override
     public TokenizedSource toTokenizedSource() {
         return new PandaTokenizedSource(new ArrayList<>(this.source.getTokensRepresentations()));
+    }
+
+    @Override
+    public boolean hasUnreadSource() {
+        return source.size() > 0;
     }
 
     @Override

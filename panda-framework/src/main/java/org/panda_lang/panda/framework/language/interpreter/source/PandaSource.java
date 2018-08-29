@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.panda_lang.panda.framework.design.interpreter.source.*;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 
 public class PandaSource implements Source {
 

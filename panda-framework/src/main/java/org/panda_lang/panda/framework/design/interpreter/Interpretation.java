@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter;
 
-import org.panda_lang.panda.framework.design.architecture.*;
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.resource.Language;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.Collection;
+import java.util.function.Supplier;
 
 public interface Interpretation {
 

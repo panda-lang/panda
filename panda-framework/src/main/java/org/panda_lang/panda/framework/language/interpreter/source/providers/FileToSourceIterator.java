@@ -33,11 +33,6 @@ class FileToSourceIterator implements Iterator<Source> {
     }
 
     @Override
-    public boolean hasNext() {
-        return iterator.hasNext();
-    }
-
-    @Override
     public Source next() {
         File next = iterator.next();
 
@@ -50,6 +45,11 @@ class FileToSourceIterator implements Iterator<Source> {
         }
 
         return new PandaSource(PandaURLSource.fromFile(next));
+    }
+
+    @Override
+    public boolean hasNext() {
+        return iterator.hasNext();
     }
 
 }

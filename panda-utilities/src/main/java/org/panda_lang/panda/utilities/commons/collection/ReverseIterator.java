@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.utilities.commons.collection;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
 
 public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
 
@@ -36,11 +37,6 @@ public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
     }
 
     @Override
-    public boolean hasNext() {
-        return index > 0;
-    }
-
-    @Override
     public @Nullable T next() {
         return index - 1 > -1 ? list.get(index--) : null;
     }
@@ -48,6 +44,11 @@ public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
     @Override
     public void remove() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean hasNext() {
+        return index > 0;
     }
 
 }

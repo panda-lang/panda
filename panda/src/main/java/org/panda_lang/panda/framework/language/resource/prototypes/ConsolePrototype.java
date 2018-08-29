@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.language.resource.prototypes;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 
 import java.security.InvalidParameterException;
 

@@ -33,35 +33,35 @@ public class AutomatedDataSpaceTest {
     public void test() {
         AutomatedDataSpace pde = AutomatedDataSpace.builder()
                 .createCollection()
-                    .name("strings")
-                    .type(String.class)
-                    .service(new StringCollectionService())
-                    .handler(new ADSCollectionHandler<StringCollectionService, String, Integer>() {
-                        @Override
-                        public void save(StringCollectionService service, String element) {
-                            service.put(element);
-                        }
+                .name("strings")
+                .type(String.class)
+                .service(new StringCollectionService())
+                .handler(new ADSCollectionHandler<StringCollectionService, String, Integer>() {
+                    @Override
+                    public void save(StringCollectionService service, String element) {
+                        service.put(element);
+                    }
 
-                        @Override
-                        public String get(StringCollectionService service, Integer query) {
-                            return service.get(query);
-                        }
+                    @Override
+                    public String get(StringCollectionService service, Integer query) {
+                        return service.get(query);
+                    }
 
-                        @Override
-                        public Class<Integer> getQueryType() {
-                            return Integer.class;
-                        }
+                    @Override
+                    public Class<Integer> getQueryType() {
+                        return Integer.class;
+                    }
 
-                        @Override
-                        public Class<String> getDataType() {
-                            return String.class;
-                        }
-                    })
-                    .append()
+                    @Override
+                    public Class<String> getDataType() {
+                        return String.class;
+                    }
+                })
+                .append()
                 .createDatabase()
-                    .name("strings")
-                    .repository(new StringDatabaseRepository())
-                    .append()
+                .name("strings")
+                .repository(new StringDatabaseRepository())
+                .append()
                 .build();
 
         AutomatedDataInterface dataInterface = pde.createInterface();

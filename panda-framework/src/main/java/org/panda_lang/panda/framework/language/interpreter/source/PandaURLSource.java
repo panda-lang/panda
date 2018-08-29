@@ -16,11 +16,14 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.utilities.commons.io.*;
+import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.utilities.commons.io.IOUtils;
 
-import java.io.*;
-import java.net.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class PandaURLSource {
 

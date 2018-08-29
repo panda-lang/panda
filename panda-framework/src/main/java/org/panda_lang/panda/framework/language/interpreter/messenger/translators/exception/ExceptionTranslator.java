@@ -16,11 +16,14 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception;
 
-import org.panda_lang.panda.framework.design.interpreter.*;
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessengerMessage;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultFailureTemplateBuilder;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultMessageFormatter;
 import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
 
 public class ExceptionTranslator implements MessengerMessageTranslator<Throwable> {
@@ -59,7 +62,7 @@ public class ExceptionTranslator implements MessengerMessageTranslator<Throwable
                 .includeEnvironment()
                 .includeEnd();
 
-        PandaMessengerMessage message = new PandaMessengerMessage(MessengerMessage.Level.FAILURE, templateBuilder.getAsLines(formatter, "InterpreterFailure"));
+        PandaMessengerMessage message = new PandaMessengerMessage(MessengerLevel.FAILURE, templateBuilder.getAsLines(formatter, "InterpreterFailure"));
         messenger.sendMessage(message);
 
         this.location = null;

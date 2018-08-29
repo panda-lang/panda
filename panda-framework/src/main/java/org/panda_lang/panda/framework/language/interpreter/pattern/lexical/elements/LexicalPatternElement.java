@@ -16,9 +16,21 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.utilities.commons.objects.CharacterUtils;
 
 public interface LexicalPatternElement {
+
+    default LexicalPatternWildcard toWildcard() {
+        return (LexicalPatternWildcard) this;
+    }
+
+    default LexicalPatternNode toNode() {
+        return (LexicalPatternNode) this;
+    }
+
+    default LexicalPatternUnit toUnit() {
+        return (LexicalPatternUnit) this;
+    }
 
     void setOptional(boolean optional);
 
@@ -27,12 +39,6 @@ public interface LexicalPatternElement {
     void setIsolationType(Isolation isolationType);
 
     boolean isOptional();
-
-    boolean hasIdentifier();
-
-    Isolation getIsolationType();
-
-    String getIdentifier();
 
     default boolean isVariant() {
         return this.isNode() && this.toNode().isVariant();
@@ -50,17 +56,11 @@ public interface LexicalPatternElement {
         return this instanceof LexicalPatternUnit;
     }
 
-    default LexicalPatternWildcard toWildcard() {
-        return (LexicalPatternWildcard) this;
-    }
+    boolean hasIdentifier();
 
-    default LexicalPatternNode toNode() {
-        return (LexicalPatternNode) this;
-    }
+    Isolation getIsolationType();
 
-    default LexicalPatternUnit toUnit() {
-        return (LexicalPatternUnit) this;
-    }
+    String getIdentifier();
 
     enum Isolation {
 

@@ -21,7 +21,12 @@ import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
 class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
 
@@ -47,11 +52,6 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
             }
 
             @Override
-            public boolean hasNext() {
-                return !stack.isEmpty();
-            }
-
-            @Override
             public SystemAnnotationScannerFile next() {
                 File file = stack.pop();
 
@@ -62,7 +62,22 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
 
                 return new SystemAnnotationScannerFile(SystemAnnotationScannerResource.this, file);
             }
+
+            @Override
+            public boolean hasNext() {
+                return !stack.isEmpty();
+            }
         };
+    }
+
+    private List<File> listFiles(File file) {
+        File[] files = file.listFiles();
+
+        if (files != null) {
+            return Arrays.asList(files);
+        }
+
+        return new ArrayList<>(0);
     }
 
     @Override
@@ -81,16 +96,6 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
         }
 
         return file.getPath().replace("\\", "/");
-    }
-
-    private List<File> listFiles(File file) {
-        File[] files = file.listFiles();
-
-        if (files != null) {
-            return Arrays.asList(files);
-        }
-
-        return new ArrayList<>(0);
     }
 
 }

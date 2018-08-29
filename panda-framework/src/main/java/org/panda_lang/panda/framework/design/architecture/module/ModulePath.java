@@ -29,12 +29,6 @@ public interface ModulePath {
         return this.create(PackageUtils.getPackageName(clazz));
     }
 
-    @Nullable Module get(String groupName);
-
-    default @Nullable Module get(Class<?> clazz) {
-        return this.get(PackageUtils.getPackageName(clazz));
-    }
-
     default boolean hasModule(String modueName) {
         for (Module module : this.getModules()) {
             if (modueName.equals(module.getName())) {
@@ -43,6 +37,12 @@ public interface ModulePath {
         }
 
         return false;
+    }
+
+    @Nullable Module get(String groupName);
+
+    default @Nullable Module get(Class<?> clazz) {
+        return this.get(PackageUtils.getPackageName(clazz));
     }
 
     default int getAmountOfPrototypes() {

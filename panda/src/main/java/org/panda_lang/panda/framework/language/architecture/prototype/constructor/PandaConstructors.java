@@ -34,13 +34,13 @@ public class PandaConstructors implements PrototypeConstructors {
     }
 
     @Override
-    public int getAmountOfConstructors() {
-        return constructors.size();
+    public @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types) {
+        return ConstructorUtils.matchConstructor(prototype, types);
     }
 
     @Override
-    public @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types) {
-        return ConstructorUtils.matchConstructor(prototype, types);
+    public int getAmountOfConstructors() {
+        return constructors.size();
     }
 
     @Override

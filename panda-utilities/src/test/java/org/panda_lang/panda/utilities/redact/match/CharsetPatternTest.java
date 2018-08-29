@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.utilities.redact.match;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.pattern.charset.CharsetPattern;
 
 public class CharsetPatternTest {
@@ -26,7 +27,7 @@ public class CharsetPatternTest {
     @Test
     public void testCharsetPattern() {
         CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
-        charsetPattern.setCharset(new char[]{ '.', '(', ')'  });
+        charsetPattern.setCharset(new char[]{ '.', '(', ')' });
 
         Assertions.assertTrue(charsetPattern.match(EXPRESSION));
     }

@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 
 public class PandaLexerException extends InterpreterFailure {
 

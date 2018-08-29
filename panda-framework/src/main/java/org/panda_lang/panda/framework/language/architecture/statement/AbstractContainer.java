@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 
 import java.util.ArrayList;
 import java.util.List;

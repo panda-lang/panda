@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserPipeline;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PandaPipelineRegistry implements PipelineRegistry {
 
@@ -47,6 +47,11 @@ public class PandaPipelineRegistry implements PipelineRegistry {
     }
 
     @Override
+    public ParserPipeline getPipeline(String pipelineName) {
+        return pipelines.get(pipelineName);
+    }
+
+    @Override
     public long getTotalHandleTime() {
         long totalHandleTime = 0;
 
@@ -55,11 +60,6 @@ public class PandaPipelineRegistry implements PipelineRegistry {
         }
 
         return totalHandleTime;
-    }
-
-    @Override
-    public ParserPipeline getPipeline(String pipelineName) {
-        return pipelines.get(pipelineName);
     }
 
 }

@@ -16,11 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.jetbrains.annotations.*;
+import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 
 public class PandaSourceSet implements SourceSet {
 
@@ -30,13 +32,13 @@ public class PandaSourceSet implements SourceSet {
         this.sources = new LinkedHashSet<>();
     }
 
-    public void addSource(Source source) {
-        this.sources.add(source);
-    }
-
     @Override
     public @NotNull Iterator<Source> iterator() {
         return sources.iterator();
+    }
+
+    public void addSource(Source source) {
+        this.sources.add(source);
     }
 
     @Override

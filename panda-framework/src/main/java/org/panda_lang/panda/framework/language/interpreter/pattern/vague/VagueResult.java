@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.vague;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class VagueResult {
         return succeeded;
     }
 
-    public String get(int index) {
+    public @Nullable String get(int index) {
         if (index < 0 || index > size() - 1) {
             return null;
         }

@@ -23,6 +23,10 @@ import java.util.Collection;
 
 public class PandaClassPrototypeUtils {
 
+    public static boolean isAssociatedWith(Class<?> a, Class<?> b) {
+        return a != null && b != null && (a == b || b.isAssignableFrom(a));
+    }
+
     public static boolean hasCommonClasses(Collection<Class<?>> fromClasses, Collection<Class<?>> toClasses) {
         for (Class<?> a : fromClasses) {
             for (Class<?> b : toClasses) {
@@ -63,10 +67,6 @@ public class PandaClassPrototypeUtils {
         }
 
         return prototypes;
-    }
-
-    public static boolean isAssociatedWith(Class<?> a, Class<?> b) {
-        return a != null && b != null && (a == b || b.isAssignableFrom(a));
     }
 
 }

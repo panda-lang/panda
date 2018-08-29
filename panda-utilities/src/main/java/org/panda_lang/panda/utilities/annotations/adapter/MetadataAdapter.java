@@ -21,7 +21,11 @@ import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
 
 import java.util.List;
 
-public interface MetadataAdapter<C,F,M> {
+public interface MetadataAdapter<C, F, M> {
+
+    boolean acceptsInput(String file);
+
+    boolean isPublic(Object o);
 
     String getClassName(C cls);
 
@@ -56,9 +60,5 @@ public interface MetadataAdapter<C,F,M> {
     String getMethodKey(C cls, M method);
 
     String getMethodFullKey(C cls, M method);
-
-    boolean isPublic(Object o);
-
-    boolean acceptsInput(String file);
 
 }

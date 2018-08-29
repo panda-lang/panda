@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.separator;
 
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
 
 public class Separator extends EqualableToken {
@@ -32,12 +32,12 @@ public class Separator extends EqualableToken {
         this.separator = separator;
     }
 
-    public boolean hasOpposite() {
-        return opposite != null;
-    }
-
     public void setOpposite(Separator opposite) {
         this.opposite = opposite;
+    }
+
+    public boolean hasOpposite() {
+        return opposite != null;
     }
 
     public Separator getOpposite() {

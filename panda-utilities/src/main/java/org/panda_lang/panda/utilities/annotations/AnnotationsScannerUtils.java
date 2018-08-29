@@ -18,7 +18,11 @@ package org.panda_lang.panda.utilities.annotations;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class AnnotationsScannerUtils {
 
@@ -26,7 +30,7 @@ public class AnnotationsScannerUtils {
             "META-INF",
             "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // Java
             "org.apache", "com.google", "org.slf4j",                                            // Popular
-            "org.junit", "junit", "org.opentest4j" ,                                            // Tests
+            "org.junit", "junit", "org.opentest4j",                                            // Tests
             "org.jetbrains", "org.intellij", "com.intellij",                                    // IDE
             "javassist", "org.fusesource", "org.apiguardian"                                    // Internal
     };

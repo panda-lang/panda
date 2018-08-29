@@ -22,8 +22,8 @@ import java.io.InputStream;
 import java.util.zip.ZipEntry;
 
 /**
-*
-*/
+ *
+ */
 class JarAnnotationsScannerFile implements AnnotationsScannerFile {
 
     private final ZipEntry entry;

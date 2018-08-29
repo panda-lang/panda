@@ -29,16 +29,16 @@ public class ClassPrototypeGeneratorManager {
         return generator.generate(modulePath, clazz);
     }
 
-    public static void resetReflectionsTime() {
-        reflectionsTime = 0;
-    }
-
     public static long getReflectionsTime() {
         return reflectionsTime;
     }
 
     public static long getTotalLoadTime() {
         return ClassPrototypeGenerator.totalLoadTime;
+    }
+
+    public static void resetReflectionsTime() {
+        reflectionsTime = 0;
     }
 
 }

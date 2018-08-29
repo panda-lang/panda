@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser;
 
-import org.panda_lang.panda.framework.design.architecture.statement.*;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 import java.util.List;

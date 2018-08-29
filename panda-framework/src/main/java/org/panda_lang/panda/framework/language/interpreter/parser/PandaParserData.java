@@ -49,7 +49,6 @@ public class PandaParserData implements ParserData {
     }
 
     /**
-     *
      * @param componentName a name of the specified component
      * @return selected component
      */

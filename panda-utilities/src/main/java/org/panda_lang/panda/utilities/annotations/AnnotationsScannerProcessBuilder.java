@@ -18,7 +18,10 @@ package org.panda_lang.panda.utilities.annotations;
 
 import javassist.bytecode.ClassFile;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
-import org.panda_lang.panda.utilities.annotations.monads.filters.*;
+import org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.PublicClassFileFilter;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.net.URL;
@@ -41,6 +44,10 @@ public class AnnotationsScannerProcessBuilder {
         this.classFileFilters = new ArrayList<>(1);
     }
 
+    public AnnotationsScannerProcess fetch() {
+        return new AnnotationsScannerProcess(this).fetch();
+    }
+
     public AnnotationsScannerProcessBuilder addDefaultFilters() {
         addURLFilter(new JavaFilter());
         addFileFilters(new AnonymousFileFilter(), new PackageFileFilter(true, AnnotationsScannerUtils.PANDA_PACKAGES));
@@ -49,9 +56,9 @@ public class AnnotationsScannerProcessBuilder {
     }
 
     public AnnotationsScannerProcessBuilder addDefaultProjectFilters(String... packageNames) {
-        addURLFilter(new JavaFilter())
-        .addFileFilters(new PackageFileFilter(false, packageNames));
-        return this;
+        return this
+                .addURLFilter(new JavaFilter())
+                .addFileFilters(new PackageFileFilter(false, packageNames));
     }
 
     public AnnotationsScannerProcessBuilder addURLFilter(AnnotationsFilter<URL>... urlFilters) {
@@ -67,10 +74,6 @@ public class AnnotationsScannerProcessBuilder {
     public AnnotationsScannerProcessBuilder addClassFileFilters(AnnotationsFilter<ClassFile>... classFileFilters) {
         this.classFileFilters.addAll(Sets.newHashSet(classFileFilters));
         return this;
-    }
-
-    public AnnotationsScannerProcess fetch() {
-        return new AnnotationsScannerProcess(this).fetch();
     }
 
 }

@@ -25,9 +25,9 @@ public interface PrototypeConstructors {
 
     void addConstructor(PrototypeConstructor constructor);
 
-    int getAmountOfConstructors();
-
     @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types);
+
+    int getAmountOfConstructors();
 
     Collection<? extends PrototypeConstructor> getCollectionOfConstructors();
 

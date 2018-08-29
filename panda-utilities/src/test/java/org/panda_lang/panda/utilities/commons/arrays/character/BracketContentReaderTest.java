@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.arrays.character;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.redact.BracketContentReader;
 
 public class BracketContentReaderTest {

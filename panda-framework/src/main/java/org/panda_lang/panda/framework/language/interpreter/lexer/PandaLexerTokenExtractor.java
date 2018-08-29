@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
-import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.resource.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 import java.util.Collection;

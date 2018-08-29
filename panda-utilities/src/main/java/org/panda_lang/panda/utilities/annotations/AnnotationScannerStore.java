@@ -20,7 +20,11 @@ import javassist.bytecode.ClassFile;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.collection.Multimap;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class AnnotationScannerStore implements AnnotationsDisposable {
 
@@ -30,6 +34,12 @@ public class AnnotationScannerStore implements AnnotationsDisposable {
     public AnnotationScannerStore() {
         this.store = new Multimap<>(new HashMap<>(), HashSet::new);
         this.classFiles = new HashMap<>();
+    }
+
+    @Override
+    public void dispose() {
+        store.clear();
+        classFiles.clear();
     }
 
     public void addInheritors(String type, String inheritor) {
@@ -62,12 +72,6 @@ public class AnnotationScannerStore implements AnnotationsDisposable {
         }
 
         return inheritors;
-    }
-
-    @Override
-    public void dispose() {
-        store.clear();
-        classFiles.clear();
     }
 
     public @Nullable ClassFile getCachedClassFile(String type) {

@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils;
 
-import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternTokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;

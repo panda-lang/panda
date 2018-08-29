@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.framework.PandaFrameworkConstants;
 
 public class PandaConstants {
 

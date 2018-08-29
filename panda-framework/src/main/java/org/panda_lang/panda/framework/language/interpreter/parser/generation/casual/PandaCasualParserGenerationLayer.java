@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.ca
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationUnit;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 
 import java.util.ArrayList;
 import java.util.List;

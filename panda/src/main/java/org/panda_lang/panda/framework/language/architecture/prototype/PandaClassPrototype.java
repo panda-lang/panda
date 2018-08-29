@@ -18,16 +18,16 @@ package org.panda_lang.panda.framework.language.architecture.prototype;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.constructor.PandaConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
-import org.panda_lang.panda.framework.language.architecture.prototype.field.PandaFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethods;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.prototype.constructor.PandaConstructors;
+import org.panda_lang.panda.framework.language.architecture.prototype.field.PandaFields;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethods;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.ArrayList;
 import java.util.Collection;

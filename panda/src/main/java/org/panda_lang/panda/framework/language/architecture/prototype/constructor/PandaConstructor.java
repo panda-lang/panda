@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.constructor;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScopeInstance;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.ClassScopeInstance;
 import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 public class PandaConstructor implements PrototypeConstructor {
 

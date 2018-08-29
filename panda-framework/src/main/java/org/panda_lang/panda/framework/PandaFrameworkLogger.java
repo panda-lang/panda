@@ -25,13 +25,13 @@ public class PandaFrameworkLogger {
 
     protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
 
+    public static void setLogger(Logger logger) {
+        PANDA_FRAMEWORK_LOGGER = logger;
+    }
+
     public static void printJVMUptime() {
         long jvmStartTime = ManagementFactory.getRuntimeMXBean().getStartTime();
         PANDA_FRAMEWORK_LOGGER.info("JVM launch time: " + (System.currentTimeMillis() - jvmStartTime) + "ms");
-    }
-
-    public static void setLogger(Logger logger) {
-        PANDA_FRAMEWORK_LOGGER = logger;
     }
 
 }

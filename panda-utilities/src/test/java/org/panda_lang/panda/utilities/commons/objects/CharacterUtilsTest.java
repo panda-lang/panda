@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.objects;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class CharacterUtilsTest {
 
@@ -40,8 +41,8 @@ public class CharacterUtilsTest {
 
     @Test
     public void testGetIndex() {
-        Assertions.assertEquals(-1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c'}, 'd'));
-        Assertions.assertEquals(1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c'}, 'b'));
+        Assertions.assertEquals(-1, CharacterUtils.getIndex(new char[]{ 'a', 'b', 'c' }, 'd'));
+        Assertions.assertEquals(1, CharacterUtils.getIndex(new char[]{ 'a', 'b', 'c' }, 'b'));
     }
 
     @Test

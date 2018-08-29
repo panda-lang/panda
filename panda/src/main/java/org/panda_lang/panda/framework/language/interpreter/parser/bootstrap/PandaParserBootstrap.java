@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
 
 import java.util.List;
 

@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.resource;
 
-import org.panda_lang.panda.framework.language.resource.syntax.keyword.*;
-import org.panda_lang.panda.framework.language.resource.syntax.literal.*;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.*;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.*;
-import org.panda_lang.panda.framework.language.resource.syntax.sequence.*;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keyword;
+import org.panda_lang.panda.framework.language.resource.syntax.literal.Literal;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence;
 
 import java.util.List;
 

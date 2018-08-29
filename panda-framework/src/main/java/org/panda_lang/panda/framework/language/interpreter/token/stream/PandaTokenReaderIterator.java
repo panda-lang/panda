@@ -47,13 +47,13 @@ public class PandaTokenReaderIterator implements TokenReaderIterator {
     }
 
     @Override
-    public boolean hasNext() {
-        return getIndex() + 1 < tokenReader.getTokenizedSource().size();
+    public void setIndex(int index) {
+        representationsDistributor.setIndex(index);
     }
 
     @Override
-    public void setIndex(int index) {
-        representationsDistributor.setIndex(index);
+    public boolean hasNext() {
+        return getIndex() + 1 < tokenReader.getTokenizedSource().size();
     }
 
     public ArrayDistributor<TokenRepresentation> getRepresentationsDistributor() {

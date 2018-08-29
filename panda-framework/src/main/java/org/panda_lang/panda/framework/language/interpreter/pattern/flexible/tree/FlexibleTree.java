@@ -25,7 +25,6 @@ import java.util.HashSet;
 /**
  * tree { map: node { } }
  * tree.find -> phrase by char
- *
  */
 public class FlexibleTree {
 

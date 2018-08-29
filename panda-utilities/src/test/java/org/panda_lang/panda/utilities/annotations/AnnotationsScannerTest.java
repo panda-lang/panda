@@ -41,8 +41,14 @@ public class AnnotationsScannerTest implements WrappedTestType {
 
 }
 
-@interface AnnotationTest { }
+@interface AnnotationTest {
 
-interface WrappedTestType extends TestType { }
+}
 
-interface TestType { }
+interface WrappedTestType extends TestType {
+
+}
+
+interface TestType {
+
+}

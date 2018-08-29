@@ -24,9 +24,50 @@ public class StringUtils {
     public static final String EMPTY = "";
 
     /**
+     * @param str string to check
+     * @return true if the specified text can be a number
+     */
+    public static boolean isNumber(String str) {
+        for (char c : str.toCharArray()) {
+            if (Character.isDigit(c)) {
+                continue;
+            }
+
+            if (c == 'x' || c == '.') {
+                continue;
+            }
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param text             to check
+     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
+     * @return the checked text
+     */
+    public static String isEmpty(String text, String exceptionMessage) {
+        if (text == null || text.isEmpty()) {
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+
+        return text;
+    }
+
+    /**
+     * @param text to check
+     * @return true if a specified text is null or is empty
+     */
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
+    }
+
+    /**
      * Returns the index within this string of the last occurrence of the specified substring
      *
-     * @param text the text to search
+     * @param text    the text to search
      * @param element the substring to search for
      * @param toIndex the previous last index
      * @return the index of the last occurrence of the specified substring, or -1 if there is no such occurrence or toIndex is smaller than 1
@@ -104,7 +145,7 @@ public class StringUtils {
         int outOffset = 0;
         newCodePoints[outOffset++] = newCodePoint;
 
-        for (int inOffset = Character.charCount(firstCodePoint); inOffset < strLen;) {
+        for (int inOffset = Character.charCount(firstCodePoint); inOffset < strLen; ) {
             int codePoint = str.codePointAt(inOffset);
             newCodePoints[outOffset++] = codePoint;
             inOffset += Character.charCount(codePoint);
@@ -219,26 +260,6 @@ public class StringUtils {
     }
 
     /**
-     * @param str string to check
-     * @return true if the specified text can be a number
-     */
-    public static boolean isNumber(String str) {
-        for (char c : str.toCharArray()) {
-            if (Character.isDigit(c)) {
-                continue;
-            }
-
-            if (c == 'x' || c == '.') {
-                continue;
-            }
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
      * @param str string to convert
      * @return char codes separated by spaces
      */
@@ -266,27 +287,6 @@ public class StringUtils {
         }
 
         return gapBuilder.toString();
-    }
-
-    /**
-     * @param text             to check
-     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
-     * @return the checked text
-     */
-    public static String isEmpty(String text, String exceptionMessage) {
-        if (text == null || text.isEmpty()) {
-            throw new IllegalArgumentException(exceptionMessage);
-        }
-
-        return text;
-    }
-
-    /**
-     * @param text             to check
-     * @return true if a specified text is null or is empty
-     */
-    public static boolean isEmpty(String text) {
-        return text == null || text.trim().isEmpty();
     }
 
 }

@@ -36,13 +36,13 @@ public class LexicalPatternBuilder<T> {
         return this;
     }
 
+    public LexicalPattern<T> build() {
+        return new LexicalPattern<>(pattern, wildcardProcessor);
+    }
+
     public LexicalPatternBuilder<T> setWildcardProcessor(WildcardProcessor<T> wildcardProcessor) {
         this.wildcardProcessor = wildcardProcessor;
         return this;
-    }
-
-    public LexicalPattern<T> build() {
-        return new LexicalPattern<>(pattern, wildcardProcessor);
     }
 
 }

@@ -28,19 +28,19 @@ import java.util.List;
 public class ParameterUtils {
 
 
+    public static void addAll(List<Variable> variables, List<Parameter> parameters, int nestingLevel) {
+        for (Parameter parameter : parameters) {
+            Variable variable = parameter.toVariable(nestingLevel);
+            variables.add(variable);
+        }
+    }
+
     public static void assignValues(AbstractScopeInstance<?> instance, Value[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {
             throw new RuntimeException("Incompatible number of parameters");
         }
 
         System.arraycopy(parameterValues, 0, AbstractScopeInstanceUtils.extractMemory(instance), 0, parameterValues.length);
-    }
-
-    public static void addAll(List<Variable> variables, List<Parameter> parameters, int nestingLevel) {
-        for (Parameter parameter : parameters) {
-            Variable variable = parameter.toVariable(nestingLevel);
-            variables.add(variable);
-        }
     }
 
     public static ClassPrototype[] toTypes(List<Parameter> parameters) {

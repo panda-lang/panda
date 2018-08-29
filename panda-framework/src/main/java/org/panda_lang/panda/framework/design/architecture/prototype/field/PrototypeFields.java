@@ -24,13 +24,13 @@ public interface PrototypeFields {
 
     void addField(PrototypeField field);
 
-    int getAmountOfFields();
-
     int getIndexOfField(PrototypeField field);
 
     @Nullable PrototypeField getField(int fieldId);
 
     @Nullable PrototypeField getField(String fieldName);
+
+    int getAmountOfFields();
 
     List<? extends PrototypeField> getListOfFields();
 

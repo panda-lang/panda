@@ -16,7 +16,13 @@
 
 package org.panda_lang.panda.utilities.annotations.adapter;
 
-import javassist.bytecode.*;
+import javassist.bytecode.AccessFlag;
+import javassist.bytecode.AnnotationsAttribute;
+import javassist.bytecode.ClassFile;
+import javassist.bytecode.Descriptor;
+import javassist.bytecode.FieldInfo;
+import javassist.bytecode.MethodInfo;
+import javassist.bytecode.ParameterAnnotationsAttribute;
 import javassist.bytecode.annotation.Annotation;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
@@ -34,6 +40,41 @@ import java.util.List;
 public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, MethodInfo> {
 
     public static boolean includeInvisibleTag = true;
+
+    public boolean acceptsInput(String file) {
+        return file.endsWith(".class");
+    }
+
+    private List<String> splitDescriptorToTypeNames(final String descriptors) {
+        List<String> result = new ArrayList<>();
+
+        if (descriptors != null && descriptors.length() != 0) {
+            List<Integer> indices = new ArrayList<>();
+            Descriptor.Iterator iterator = new Descriptor.Iterator(descriptors);
+
+            while (iterator.hasNext()) {
+                indices.add(iterator.next());
+            }
+
+            indices.add(descriptors.length());
+
+            for (int i = 0; i < indices.size() - 1; i++) {
+                String s1 = Descriptor.toString(descriptors.substring(indices.get(i), indices.get(i + 1)));
+                result.add(s1);
+            }
+        }
+
+        return result;
+    }
+
+    public boolean isPublic(Object o) {
+        int accessFlags = o instanceof ClassFile ?
+                ((ClassFile) o).getAccessFlags() :
+                o instanceof FieldInfo ? ((FieldInfo) o).getAccessFlags() :
+                        o instanceof MethodInfo ? ((MethodInfo) o).getAccessFlags() : null;
+
+        return AccessFlag.isPublic(accessFlags);
+    }
 
     public List<FieldInfo> getFields(ClassFile cls) {
         //noinspection unchecked
@@ -133,15 +174,6 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
         return getClassName(cls) + "." + getMethodKey(cls, method);
     }
 
-    public boolean isPublic(Object o) {
-        int accessFlags = o instanceof ClassFile ?
-                ((ClassFile) o).getAccessFlags() :
-                        o instanceof FieldInfo ? ((FieldInfo) o).getAccessFlags() :
-                                o instanceof MethodInfo ? ((MethodInfo) o).getAccessFlags() : null;
-
-        return AccessFlag.isPublic(accessFlags);
-    }
-
     public String getClassName(final ClassFile cls) {
         return cls.getName();
     }
@@ -152,10 +184,6 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
 
     public List<String> getInterfacesNames(final ClassFile cls) {
         return Arrays.asList(cls.getInterfaces());
-    }
-
-    public boolean acceptsInput(String file) {
-        return file.endsWith(".class");
     }
 
     private List<String> getAnnotationNames(AnnotationsAttribute... annotationsAttributes) {
@@ -183,28 +211,6 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
 
         for (Annotation annotation : annotations) {
             result.add(annotation.getTypeName());
-        }
-
-        return result;
-    }
-
-    private List<String> splitDescriptorToTypeNames(final String descriptors) {
-        List<String> result = new ArrayList<>();
-
-        if (descriptors != null && descriptors.length() != 0) {
-            List<Integer> indices = new ArrayList<>();
-            Descriptor.Iterator iterator = new Descriptor.Iterator(descriptors);
-
-            while (iterator.hasNext()) {
-                indices.add(iterator.next());
-            }
-
-            indices.add(descriptors.length());
-
-            for (int i = 0; i < indices.size() - 1; i++) {
-                String s1 = Descriptor.toString(descriptors.substring(indices.get(i), indices.get(i + 1)));
-                result.add(s1);
-            }
         }
 
         return result;

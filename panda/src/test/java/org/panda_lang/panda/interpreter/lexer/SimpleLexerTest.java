@@ -16,11 +16,12 @@
 
 package org.panda_lang.panda.interpreter.lexer;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.language.interpreter.lexer.*;
-import org.panda_lang.panda.framework.language.interpreter.source.*;
 
 public class SimpleLexerTest {
 

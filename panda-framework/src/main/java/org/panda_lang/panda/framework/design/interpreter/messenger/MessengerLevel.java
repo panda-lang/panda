@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser;
+package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+public enum MessengerLevel {
 
-public interface ParticularParser<T> extends Parser {
-
-    /**
-     * @param source matched and checked before tokenized source for parser
-     * @param data   set of information about source and interpretation process
-     */
-    T parse(ParserData data, TokenizedSource source);
+    DEBUG,
+    INFO,
+    WARNING,
+    FAILURE
 
 }

@@ -43,6 +43,9 @@ public class PandaParserBuilder {
     protected BootstrapInterceptor interceptor;
     protected final List<LayerMethod> layers = new ArrayList<>();
 
+    protected PandaParserBuilder() {
+    }
+
     public PandaParserBuilder instance(Object object) {
         this.instance = object;
 
@@ -90,7 +93,7 @@ public class PandaParserBuilder {
     }
 
     public PandaParserBuilder layers(Class<?> clazz, String methodName) {
-         return layers(ReflectionUtils.getMethods(clazz, methodName));
+        return layers(ReflectionUtils.getMethods(clazz, methodName));
     }
 
     public PandaParserBuilder layers(Collection<Method> methods) {
@@ -125,7 +128,5 @@ public class PandaParserBuilder {
 
         return new PandaParserBootstrap(this).generate();
     }
-
-    protected PandaParserBuilder() { }
 
 }

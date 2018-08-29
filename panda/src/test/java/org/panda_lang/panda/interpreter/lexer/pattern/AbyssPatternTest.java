@@ -16,13 +16,16 @@
 
 package org.panda_lang.panda.interpreter.lexer.pattern;
 
-import org.junit.jupiter.api.*;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.*;
-import org.panda_lang.panda.framework.language.interpreter.token.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class AbyssPatternTest {
 

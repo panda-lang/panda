@@ -27,12 +27,6 @@ public class AutomatedDataInterface {
         this.automatedDataSpace = automatedDataSpace;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T get(String collectionName, Class<T> type, Object query) {
-        ADSCollection collection = this.selectCollection(collectionName, type);
-        return (T) collection.get(query);
-    }
-
     public void post(String collectionName, Object element) {
         ADSCollection collection = this.selectCollection(collectionName, element.getClass());
         collection.post(element);
@@ -59,6 +53,12 @@ public class AutomatedDataInterface {
         }
 
         return collection;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T get(String collectionName, Class<T> type, Object query) {
+        ADSCollection collection = this.selectCollection(collectionName, type);
+        return (T) collection.get(query);
     }
 
 }

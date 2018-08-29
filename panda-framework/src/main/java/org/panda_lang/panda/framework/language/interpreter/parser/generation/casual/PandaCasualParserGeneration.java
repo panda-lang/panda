@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.ca
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 
 public class PandaCasualParserGeneration implements CasualParserGeneration {
 

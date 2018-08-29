@@ -16,13 +16,14 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
-import org.panda_lang.panda.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.statement.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.*;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components

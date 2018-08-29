@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.language.resource;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.design.resource.Language;
+import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistrationLoader;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.design.resource.Syntax;
-import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.util.PandaUtils;
 
 import java.util.Collection;

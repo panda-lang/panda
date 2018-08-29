@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 
 import java.util.List;
 

@@ -16,30 +16,33 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation;
 
-import org.panda_lang.panda.framework.design.architecture.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
+import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.resource.Language;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.*;
-import org.panda_lang.panda.framework.design.interpreter.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.*;
-import org.panda_lang.panda.framework.design.interpreter.source.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.interpreter.lexer.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.*;
+import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
-import org.panda_lang.panda.framework.language.interpreter.parser.defaults.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.PandaCasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.comment.CommentAssistant;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.BenchmarkUtils;
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 public class ApplicationParser implements Parser {
 
@@ -100,7 +103,7 @@ public class ApplicationParser implements Parser {
 
             PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
             PandaFramework.getLogger().debug("Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
-            PandaFramework.getLogger().debug("Loaded prototypes: "  + modulePath.getAmountOfPrototypes());
+            PandaFramework.getLogger().debug("Loaded prototypes: " + modulePath.getAmountOfPrototypes());
         }
 
         return interpretation

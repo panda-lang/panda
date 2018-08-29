@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token.stream;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.jetbrains.annotations.NotNull;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
-import java.util.*;
+import java.util.Iterator;
 
 public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
 
@@ -39,11 +40,11 @@ public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<Tok
         return iterator().previous();
     }
 
+    void setIndex(int index);
+
     default boolean hasNext() {
         return iterator().hasNext();
     }
-
-    void setIndex(int index);
 
     int getIndex();
 

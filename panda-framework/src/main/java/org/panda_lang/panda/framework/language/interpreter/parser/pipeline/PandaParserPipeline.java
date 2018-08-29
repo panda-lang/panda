@@ -90,14 +90,14 @@ public class PandaParserPipeline implements ParserPipeline {
     }
 
     @Override
-    public long getHandleTime() {
-        return handleTime;
-    }
-
-    @Override
     public void registerParserRepresentation(ParserRepresentation parserRepresentation) {
         representations.add(parserRepresentation);
         sort();
+    }
+
+    @Override
+    public long getHandleTime() {
+        return handleTime;
     }
 
     @Override

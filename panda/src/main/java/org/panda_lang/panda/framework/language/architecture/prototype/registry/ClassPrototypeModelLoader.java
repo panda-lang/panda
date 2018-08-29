@@ -16,23 +16,29 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.registry;
 
-import javassist.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.*;
-import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.framework.design.runtime.*;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.*;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.CtMethod;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.MethodDeclaration;
+import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
-import java.lang.reflect.*;
-import java.util.*;
-import java.util.concurrent.atomic.*;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClassPrototypeModelLoader {
 

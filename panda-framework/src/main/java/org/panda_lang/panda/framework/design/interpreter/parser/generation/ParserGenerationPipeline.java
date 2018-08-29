@@ -24,6 +24,12 @@ public interface ParserGenerationPipeline {
 
     void execute(ParserData data);
 
+    ParserGenerationHandler first();
+
+    ParserGenerationHandler last();
+
+    List<String> names();
+
     void addAfter(String baseName, String name, ParserGenerationHandler handler);
 
     void addBefore(String baseName, String name, ParserGenerationHandler handler);
@@ -33,11 +39,5 @@ public interface ParserGenerationPipeline {
     void addLast(String name, ParserGenerationHandler handler);
 
     ParserGenerationHandler get(String name);
-
-    ParserGenerationHandler first();
-
-    ParserGenerationHandler last();
-
-    List<String> names();
 
 }

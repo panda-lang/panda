@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.block;
 
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
 public class PandaBlock extends AbstractBlock {
 

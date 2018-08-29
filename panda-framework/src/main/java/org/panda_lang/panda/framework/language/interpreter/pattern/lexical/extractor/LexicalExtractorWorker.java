@@ -16,14 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.*;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.ProcessedValue;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.WildcardProcessor;
-import org.panda_lang.panda.utilities.commons.arrays.*;
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
-import java.util.*;
+import java.util.List;
+import java.util.Stack;
 
 public class LexicalExtractorWorker<T> {
 

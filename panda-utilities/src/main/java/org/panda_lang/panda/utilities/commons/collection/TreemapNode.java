@@ -18,7 +18,12 @@ package org.panda_lang.panda.utilities.commons.collection;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -60,6 +65,11 @@ public class TreemapNode<T> {
         return children.isEmpty();
     }
 
+    public @Nullable T get(String elementName) {
+        TreemapNode<? extends T> element = getNode(elementName);
+        return element != null ? element.getElement() : null;
+    }
+
     public Collection<TreemapNode<? extends T>> getNodesStartingWith(String str) {
         Collection<TreemapNode<? extends T>> nodes = new ArrayList<>();
 
@@ -74,11 +84,6 @@ public class TreemapNode<T> {
 
     public @Nullable TreemapNode<? extends T> getNode(String nodeName) {
         return children.get(nodeName);
-    }
-
-    public @Nullable T get(String elementName) {
-        TreemapNode<? extends T> element = getNode(elementName);
-        return element != null ? element.getElement() : null;
     }
 
     public Collection<TreemapNode<T>> getChildren() {

@@ -50,16 +50,6 @@ public class PandaPrototypeFieldBuilder {
         return this;
     }
 
-    public PandaPrototypeFieldBuilder isStatic(boolean isStatic) {
-        this.isStatic = isStatic;
-        return this;
-    }
-
-    public PandaPrototypeFieldBuilder isNative(boolean isNative) {
-        this.isNative = isNative;
-        return this;
-    }
-
     public PandaPrototypeFieldBuilder mutable(boolean mutable) {
         this.mutable = mutable;
         return this;
@@ -72,6 +62,16 @@ public class PandaPrototypeFieldBuilder {
 
     public PandaPrototypeField build() {
         return new PandaPrototypeField(this);
+    }
+
+    public PandaPrototypeFieldBuilder isStatic(boolean isStatic) {
+        this.isStatic = isStatic;
+        return this;
+    }
+
+    public PandaPrototypeFieldBuilder isNative(boolean isNative) {
+        this.isNative = isNative;
+        return this;
     }
 
 }

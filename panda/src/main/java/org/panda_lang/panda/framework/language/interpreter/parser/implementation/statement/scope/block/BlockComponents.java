@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 
 public class BlockComponents {
 

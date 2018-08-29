@@ -33,11 +33,6 @@ public class PandaFields implements PrototypeFields {
     }
 
     @Override
-    public int getAmountOfFields() {
-        return fields.size();
-    }
-
-    @Override
     public int getIndexOfField(PrototypeField field) {
         return fields.indexOf(field);
     }
@@ -62,6 +57,11 @@ public class PandaFields implements PrototypeFields {
         }
 
         return null;
+    }
+
+    @Override
+    public int getAmountOfFields() {
+        return fields.size();
     }
 
     @Override

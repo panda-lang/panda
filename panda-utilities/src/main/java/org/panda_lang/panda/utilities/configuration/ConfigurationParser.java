@@ -16,8 +16,13 @@
 
 package org.panda_lang.panda.utilities.configuration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 
 public class ConfigurationParser {
 
@@ -255,10 +260,6 @@ public class ConfigurationParser {
         }
     }
 
-    private void addEntry(String s, ConfigurationObject co) {
-        map.put(s, co);
-    }
-
     private void patchPosition(int position, int lastPosition, Stack<String> keys) {
         if (lastPosition != position) {
             if (lastPosition > position) {
@@ -286,6 +287,10 @@ public class ConfigurationParser {
                 }
             }
         }
+    }
+
+    private void addEntry(String s, ConfigurationObject co) {
+        map.put(s, co);
     }
 
     protected Map<String, Object> getMap() {

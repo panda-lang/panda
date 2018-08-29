@@ -29,12 +29,12 @@ public class DividerSeparator {
         this.separator = separator;
     }
 
-    public boolean hasOpposite() {
-        return opposite != null;
-    }
-
     public void setOpposite(DividerSeparator opposite) {
         this.opposite = opposite;
+    }
+
+    public boolean hasOpposite() {
+        return opposite != null;
     }
 
     public DividerSeparator getOpposite() {

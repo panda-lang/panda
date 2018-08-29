@@ -17,11 +17,11 @@
 package org.panda_lang.panda.framework.language.interpreter;
 
 import org.panda_lang.panda.framework.design.architecture.Environment;
-import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
+import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ApplicationParser;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 
@@ -43,7 +43,7 @@ public class PandaInterpreter implements Interpreter {
         PandaApplication application = parser.parse(sources);
 
         if (!interpretation.isHealthy()) {
-            interpretation.getMessenger().sendMessage(MessengerMessage.Level.FAILURE, "Interpretation failed, cannot parse specified sources");
+            interpretation.getMessenger().sendMessage(MessengerLevel.FAILURE, "Interpretation failed, cannot parse specified sources");
             return null;
         }
 

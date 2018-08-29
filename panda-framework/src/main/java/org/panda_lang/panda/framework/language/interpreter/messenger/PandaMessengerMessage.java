@@ -16,14 +16,15 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 
 public class PandaMessengerMessage implements MessengerMessage {
 
-    private final Level level;
+    private final MessengerLevel level;
     private final String[] message;
 
-    public PandaMessengerMessage(Level level, String... message) {
+    public PandaMessengerMessage(MessengerLevel level, String... message) {
         this.message = message;
         this.level = level;
     }
@@ -34,7 +35,7 @@ public class PandaMessengerMessage implements MessengerMessage {
     }
 
     @Override
-    public Level getLevel() {
+    public MessengerLevel getLevel() {
         return level;
     }
 

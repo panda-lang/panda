@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.vague;
 
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
 public class VagueExtractor {
 

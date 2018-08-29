@@ -17,16 +17,13 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
@@ -34,11 +31,12 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.PandaScript;
+import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
@@ -55,8 +53,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.List;
 
@@ -163,7 +163,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
             PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-            
+
             TokenizedSource instanceSource = fieldMatches.get(0);
             ClassPrototype instanceType = null;
             Expression fieldLocationExpression = null;

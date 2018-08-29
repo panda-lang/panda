@@ -52,17 +52,17 @@ public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuild
     }
 
     @SuppressWarnings("unchecked")
-    public BUILDER getThis() {
-        return (BUILDER) this;
-    }
-
-    @SuppressWarnings("unchecked")
     public TYPE build() {
         if (name == null) {
             throw new IllegalArgumentException("ClassPrototype name is not definied");
         }
 
         return (TYPE) new PandaClassPrototype(this);
+    }
+
+    @SuppressWarnings("unchecked")
+    protected BUILDER getThis() {
+        return (BUILDER) this;
     }
 
 }

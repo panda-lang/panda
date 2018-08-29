@@ -82,7 +82,7 @@
                 <artifactId>javassist</artifactId>
                 <version>3.22.0-GA</version>
             </dependency>
-            
+
             <!-- Logging -->
             <dependency>
                 <groupId>org.fusesource.jansi</groupId>

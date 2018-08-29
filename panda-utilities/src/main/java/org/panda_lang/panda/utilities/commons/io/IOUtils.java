@@ -18,39 +18,17 @@ package org.panda_lang.panda.utilities.commons.io;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
 public class IOUtils {
-
-    public static InputStream convertStringToStream(String str) {
-        return new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
-    }
-
-    public static @Nullable String convertStreamToString(InputStream inputStream) {
-        ByteArrayOutputStream result = new ByteArrayOutputStream();
-
-        try {
-            byte[] buffer = new byte[1024];
-            int length;
-
-            while ((length = inputStream.read(buffer)) != -1) {
-                result.write(buffer, 0, length);
-            }
-
-            return result.toString("UTF-8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            close(result);
-            close(inputStream);
-        }
-
-        return null;
-    }
 
     public static @Nullable String getURLContent(String s) {
         String body = null;
@@ -90,6 +68,32 @@ public class IOUtils {
             return new String(byteArrayOutputStream.toByteArray(), encoding);
         } catch (IOException exception) {
             exception.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static InputStream convertStringToStream(String str) {
+        return new ByteArrayInputStream(str.getBytes(StandardCharsets.UTF_8));
+    }
+
+    public static @Nullable String convertStreamToString(InputStream inputStream) {
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
+
+        try {
+            byte[] buffer = new byte[1024];
+            int length;
+
+            while ((length = inputStream.read(buffer)) != -1) {
+                result.write(buffer, 0, length);
+            }
+
+            return result.toString("UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            close(result);
+            close(inputStream);
         }
 
         return null;

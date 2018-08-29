@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.utilities.annotations.resource;
 
-/** an implementation of {@link org.reflections.vfs.Vfs.File} for {@link java.util.zip.ZipEntry} */
+/**
+ * an implementation of {@link org.reflections.vfs.Vfs.File} for {@link java.util.zip.ZipEntry}
+ */
 /*
 public class ZipFile implements Vfs.File {
     private final org.reflections.vfs.ZipDir root;

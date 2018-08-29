@@ -54,12 +54,12 @@ public class AbyssExtractorOpposites {
         return true;
     }
 
-    public int getNestingLevel() {
-        return separators.size();
-    }
-
     public boolean isLocked() {
         return separators.size() > 0;
+    }
+
+    public int getNestingLevel() {
+        return separators.size();
     }
 
 }

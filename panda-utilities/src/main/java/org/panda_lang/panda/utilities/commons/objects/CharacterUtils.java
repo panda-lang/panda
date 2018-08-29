@@ -27,6 +27,31 @@ public class CharacterUtils {
     public static final char NO_BREAK_SPACE = '\u00A0';
 
     /**
+     * @param c a character to check
+     * @return true if character is whitespace
+     */
+    public static boolean isWhitespace(char c) {
+        return c <= 32 || Character.isWhitespace(c) || c == NO_BREAK_SPACE;
+    }
+
+    /**
+     * Index of character in the specified array
+     *
+     * @param characters array of characters
+     * @param character  character to check
+     * @return index of the specified character or -1 if character is not in the specified array
+     */
+    public static int getIndex(char[] characters, char character) {
+        for (int i = 0; i < characters.length; i++) {
+            if (characters[i] == character) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
      * Merge several arrays
      *
      * @param arrays arrays to merge
@@ -60,7 +85,7 @@ public class CharacterUtils {
     }
 
     /**
-     * @param character character to check
+     * @param character  character to check
      * @param characters array of character arrays
      * @return true if character is in the specified arrays
      */
@@ -75,7 +100,7 @@ public class CharacterUtils {
     }
 
     /**
-     * @param character character to check
+     * @param character  character to check
      * @param characters array of characters
      * @return true if character is in the specified array
      */
@@ -87,31 +112,6 @@ public class CharacterUtils {
         }
 
         return false;
-    }
-
-    /**
-     * Index of character in the specified array
-     *
-     * @param characters array of characters
-     * @param character character to check
-     * @return index of the specified character or -1 if character is not in the specified array
-     */
-    public static int getIndex(char[] characters, char character) {
-        for (int i = 0; i < characters.length; i++) {
-            if (characters[i] == character) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    /**
-     * @param c a character to check
-     * @return true if character is whitespace
-     */
-    public static boolean isWhitespace(char c) {
-        return c <= 32 || Character.isWhitespace(c) || c == NO_BREAK_SPACE;
     }
 
 }

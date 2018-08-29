@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 
 public class ImportStatement extends AbstractStatement {
 

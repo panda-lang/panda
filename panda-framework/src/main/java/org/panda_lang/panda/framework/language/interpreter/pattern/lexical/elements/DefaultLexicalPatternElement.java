@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 public abstract class DefaultLexicalPatternElement implements LexicalPatternElement {
 
@@ -40,13 +40,13 @@ public abstract class DefaultLexicalPatternElement implements LexicalPatternElem
     }
 
     @Override
-    public boolean hasIdentifier() {
-        return !StringUtils.isEmpty(identifier);
+    public boolean isOptional() {
+        return optional;
     }
 
     @Override
-    public boolean isOptional() {
-        return optional;
+    public boolean hasIdentifier() {
+        return !StringUtils.isEmpty(identifier);
     }
 
     @Override

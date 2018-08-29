@@ -16,12 +16,13 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.method;
 
-import org.jetbrains.annotations.*;
-import org.panda_lang.panda.framework.design.architecture.dynamic.*;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.framework.design.runtime.*;
-import org.panda_lang.panda.framework.design.runtime.expression.*;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionUtils;
 
 public class MethodInvoker extends ExecutableStatement implements StandaloneExecutable {

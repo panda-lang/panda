@@ -17,10 +17,20 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
 public class VariableParserUtils {
+
+    public static @Nullable Variable getVariable(Scope scope, String variableName) {
+        for (Variable var : scope.getVariables()) {
+            if (var.getName().equals(variableName)) {
+                return var;
+            }
+        }
+
+        return null;
+    }
 
     public static boolean checkDuplicates(Scope scope, Variable variable) {
         for (Variable var : scope.getVariables()) {
@@ -37,16 +47,6 @@ public class VariableParserUtils {
 
     public static int indexOf(Scope scope, Variable variable) {
         return scope.getVariables().indexOf(variable);
-    }
-
-    public static @Nullable Variable getVariable(Scope scope, String variableName) {
-        for (Variable var : scope.getVariables()) {
-            if (var.getName().equals(variableName)) {
-                return var;
-            }
-        }
-
-        return null;
     }
 
 }

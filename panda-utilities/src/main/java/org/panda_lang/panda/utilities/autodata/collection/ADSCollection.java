@@ -37,22 +37,6 @@ public class ADSCollection<T> implements AutomatedDataRest<T> {
         this.handlers = builder.handlers;
     }
 
-    @SuppressWarnings("unchecked")
-    public @Nullable T get(Object query) {
-        for (Entry<Class<?>, ADSCollectionHandler> entry : handlers.entrySet()) {
-            if (entry.getKey() != query.getClass()) {
-                continue;
-            }
-
-            ADSCollectionHandler handler = entry.getValue();
-            Object value = handler.get(service, query);
-
-            return (T) value;
-        }
-
-        return null;
-    }
-
     @Override
     @SuppressWarnings("unchecked")
     public void post(Object element) {
@@ -79,6 +63,22 @@ public class ADSCollection<T> implements AutomatedDataRest<T> {
 
     @Override
     public T delete(Object query) {
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public @Nullable T get(Object query) {
+        for (Entry<Class<?>, ADSCollectionHandler> entry : handlers.entrySet()) {
+            if (entry.getKey() != query.getClass()) {
+                continue;
+            }
+
+            ADSCollectionHandler handler = entry.getValue();
+            Object value = handler.get(service, query);
+
+            return (T) value;
+        }
+
         return null;
     }
 

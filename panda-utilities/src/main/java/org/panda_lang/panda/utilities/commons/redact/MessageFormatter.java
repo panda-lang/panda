@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.utilities.commons.redact;
 
-import org.panda_lang.panda.utilities.commons.objects.*;
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
-import java.util.*;
-import java.util.function.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class MessageFormatter {
 
@@ -39,7 +40,7 @@ public class MessageFormatter {
             Object value = placeholderEntry.getValue().get();
 
             if (!message.contains(key)) {
-               continue;
+                continue;
             }
 
             message = StringUtils.replace(message, key, value != null ? value.toString() : "<value not specified>");

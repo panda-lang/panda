@@ -16,33 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
-import org.panda_lang.panda.framework.design.interpreter.token.*;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
 public class TokenUtils {
-
-    public static String extractToken(TokenizedSource tokenizedSource, int i) {
-        if (i >= tokenizedSource.size()) {
-            return null;
-        }
-
-        Token token = tokenizedSource.getToken(0);
-        return token.getName();
-    }
-
-    public static boolean contains(TokenizedSource source, Token token) {
-        return contains(source, token.getType(), token.getTokenValue());
-    }
-
-    public static boolean contains(TokenizedSource source, TokenType type, String value) {
-        for (TokenRepresentation representation : source.getTokensRepresentations()) {
-            if (equals(representation, type, value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public static boolean isNumber(Token token) {
         return StringUtils.isNumber(token.getTokenValue());
@@ -66,6 +46,29 @@ public class TokenUtils {
 
     public static boolean equals(Token anotherToken, TokenType tokenType, String tokenValue) {
         return anotherToken.getType() == tokenType && anotherToken.getTokenValue().equals(tokenValue);
+    }
+
+    public static String extractToken(TokenizedSource tokenizedSource, int i) {
+        if (i >= tokenizedSource.size()) {
+            return null;
+        }
+
+        Token token = tokenizedSource.getToken(0);
+        return token.getName();
+    }
+
+    public static boolean contains(TokenizedSource source, Token token) {
+        return contains(source, token.getType(), token.getTokenValue());
+    }
+
+    public static boolean contains(TokenizedSource source, TokenType type, String value) {
+        for (TokenRepresentation representation : source.getTokensRepresentations()) {
+            if (equals(representation, type, value)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }

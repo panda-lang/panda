@@ -90,30 +90,6 @@ public class CharsetPattern implements PatternMatcher, Comparable<CharsetPattern
         return count;
     }
 
-    public char getNext(char[] array, int current) {
-        return current + 1 < array.length ? array[current + 1] : array[current];
-    }
-
-    public void setCharset(char[] charset) {
-        this.charset = charset.clone();
-    }
-
-    public void setPriority(double priority) {
-        this.priority = priority;
-    }
-
-    public String getPattern() {
-        return pattern;
-    }
-
-    public char[] getCharset() {
-        return charset.clone();
-    }
-
-    public double getPriority() {
-        return priority;
-    }
-
     @Override
     public int compareTo(CharsetPattern pattern) {
         if (Objects.equals(this, pattern)) {
@@ -141,6 +117,30 @@ public class CharsetPattern implements PatternMatcher, Comparable<CharsetPattern
         }
 
         return Double.compare(priority, priorityTo);
+    }
+
+    public void setCharset(char[] charset) {
+        this.charset = charset.clone();
+    }
+
+    public void setPriority(double priority) {
+        this.priority = priority;
+    }
+
+    public char getNext(char[] array, int current) {
+        return current + 1 < array.length ? array[current + 1] : array[current];
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public char[] getCharset() {
+        return charset.clone();
+    }
+
+    public double getPriority() {
+        return priority;
     }
 
     @Override

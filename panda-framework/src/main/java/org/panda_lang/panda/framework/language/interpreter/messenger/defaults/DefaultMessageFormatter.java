@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 
-import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.framework.PandaFrameworkConstants;
 import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
 
 public class DefaultMessageFormatter {

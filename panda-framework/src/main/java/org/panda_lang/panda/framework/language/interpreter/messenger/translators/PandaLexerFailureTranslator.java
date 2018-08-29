@@ -16,10 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.translators;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.language.interpreter.lexer.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.*;
-import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
+import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerException;
+import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessengerMessage;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultFailureTemplateBuilder;
+import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultMessageFormatter;
 import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
 
 public class PandaLexerFailureTranslator implements MessengerMessageTranslator<PandaLexerException> {
@@ -36,7 +39,7 @@ public class PandaLexerFailureTranslator implements MessengerMessageTranslator<P
                 .includeEnvironment()
                 .includeEnd();
 
-        PandaMessengerMessage message = new PandaMessengerMessage(MessengerMessage.Level.FAILURE, templateBuilder.getAsLines(formatter, "LexerFailure"));
+        PandaMessengerMessage message = new PandaMessengerMessage(MessengerLevel.FAILURE, templateBuilder.getAsLines(formatter, "LexerFailure"));
         messenger.sendMessage(message);
     }
 

@@ -23,22 +23,22 @@ import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
 
 public class VagueExtractorTest {
 
     private static final String SOURCE = "(new Integer(5).intValue() + 3)";
 
-    private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[] {
+    private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
             Separators.LEFT_PARENTHESIS_DELIMITER,
             Separators.RIGHT_PARENTHESIS_DELIMITER
-    }, new Token[] {
+    }, new Token[]{
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,

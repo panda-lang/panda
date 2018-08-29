@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.component;
 
-import org.panda_lang.panda.framework.*;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Component<T> {
 

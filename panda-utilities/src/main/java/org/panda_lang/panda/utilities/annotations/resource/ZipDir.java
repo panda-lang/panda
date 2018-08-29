@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.utilities.annotations.resource;
 
-/** an implementation of {@link org.reflections.vfs.Vfs.Dir} for {@link java.util.zip.ZipFile} */
+/**
+ * an implementation of {@link org.reflections.vfs.Vfs.Dir} for {@link java.util.zip.ZipFile}
+ */
 /*
 public class ZipDir implements org.reflections.vfs.Vfs.Dir {
     final java.util.zip.ZipFile jarFile;

@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.language.architecture.prototype.field;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 
 public class PandaPrototypeField extends PandaVariable implements PrototypeField {
 

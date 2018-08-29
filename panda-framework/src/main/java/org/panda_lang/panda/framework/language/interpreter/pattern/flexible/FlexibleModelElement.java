@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.flexible;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FlexibleModelElement {
 
@@ -43,7 +44,7 @@ public class FlexibleModelElement {
     }
 
     public boolean isOptional() {
-         return optional;
+        return optional;
     }
 
     public List<? extends Object[]> getElements() {

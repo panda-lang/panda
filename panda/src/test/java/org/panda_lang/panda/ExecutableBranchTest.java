@@ -41,7 +41,7 @@ public class ExecutableBranchTest {
 
         System.out.println("Executing statements");
 
-        PandaExecutableProcess process =new PandaExecutableProcess(null, main);
+        PandaExecutableProcess process = new PandaExecutableProcess(null, main);
         process.execute();
     }
 

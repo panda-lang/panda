@@ -24,8 +24,8 @@ public interface AutomatedDataRest<T> {
 
     T put(Object element);
 
-    T get(Object query);
-
     T delete(Object query);
+
+    T get(Object query);
 
 }

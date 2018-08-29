@@ -16,22 +16,22 @@
 
 package org.panda_lang.panda.framework.design.interpreter.source;
 
-import org.panda_lang.panda.framework.design.interpreter.*;
+import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 
-import java.util.*;
+import java.util.Collection;
 
 /**
  * Set of {@link Source} used by {@link Interpreter}
  */
 public interface SourceSet extends Iterable<Source> {
 
+    default boolean isEmpty() {
+        return getSources().isEmpty();
+    }
+
     /**
      * @return collection of sources
      */
     Collection<Source> getSources();
-
-    default boolean isEmpty() {
-        return getSources().isEmpty();
-    }
 
 }

@@ -30,6 +30,27 @@ import java.util.Set;
 
 public interface ClassPrototypeModel {
 
+    @SuppressWarnings("unchecked")
+    static Collection<Class<? extends ClassPrototypeModel>> of(String moduleName) {
+        PandaFramework.getLogger().debug("Looking for subtypes of ClassPrototypeModel");
+
+        Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
+        Set<Class<? extends ClassPrototypeModel>> models = PandaUtils.DEFAULT_PANDA_SCANNER.createSelector().selectSubtypesOf(ClassPrototypeModel.class);
+
+        for (Class<? extends ClassPrototypeModel> clazz : models) {
+            ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);
+
+            if (!module.value().equals(moduleName)) {
+                continue;
+            }
+
+            classes.add(clazz);
+        }
+
+        PandaFramework.getLogger().debug("Subtypes: " + classes.size());
+        return classes;
+    }
+
     @Target(ElementType.TYPE)
     @Retention(RetentionPolicy.RUNTIME)
     @interface ModuleDeclaration {
@@ -58,11 +79,11 @@ public interface ClassPrototypeModel {
 
         MethodVisibility visibility() default MethodVisibility.PUBLIC;
 
-        boolean isStatic() default false;
-
         String returnType() default "void";
 
         boolean catchAllParameters() default false;
+
+        boolean isStatic() default false;
 
     }
 
@@ -72,27 +93,6 @@ public interface ClassPrototypeModel {
 
         String value();
 
-    }
-
-    @SuppressWarnings("unchecked")
-    static Collection<Class<? extends ClassPrototypeModel>> of(String moduleName) {
-        PandaFramework.getLogger().debug("Looking for subtypes of ClassPrototypeModel");
-
-        Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
-        Set<Class<? extends ClassPrototypeModel>> models = PandaUtils.DEFAULT_PANDA_SCANNER.createSelector().selectSubtypesOf(ClassPrototypeModel.class);
-
-        for (Class<? extends ClassPrototypeModel> clazz : models) {
-            ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);
-
-            if (!module.value().equals(moduleName)) {
-                continue;
-            }
-
-            classes.add(clazz);
-        }
-
-        PandaFramework.getLogger().debug("Subtypes: " + classes.size());
-        return classes;
     }
 
 }
