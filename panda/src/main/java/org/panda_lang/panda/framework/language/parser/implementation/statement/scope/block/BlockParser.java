@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.LocalData;
@@ -64,7 +64,7 @@ public class BlockParser implements UnifiedParser, ParserHandler {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, GenerationLayer layer, @ComponentQualifier PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource declaration) {
+    private void parse(ParserData data, LocalData local, GenerationLayer layer, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource declaration) {
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.BLOCK);
 
         SourceStream declarationStream = new PandaSourceStream(declaration);

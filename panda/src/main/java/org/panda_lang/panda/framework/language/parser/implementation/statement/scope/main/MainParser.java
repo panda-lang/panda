@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.distributor.Token
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.layer.Delegation;
@@ -57,7 +57,7 @@ public class MainParser implements UnifiedParser, ParserHandler {
     }
 
     @Autowired(order = 1)
-    private void createScope(ParserData data, LocalData localData, @ComponentQualifier Script script) {
+    private void createScope(ParserData data, LocalData localData, @Component Script script) {
         MainScope main = localData.allocateInstance(new MainScope());
         script.getStatements().add(main);
     }

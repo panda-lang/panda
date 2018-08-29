@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.defaults.keywor
 import org.panda_lang.panda.framework.language.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.handlers.FirstTokenHandler;
@@ -53,7 +53,7 @@ public class ConstructorParser extends BootstrapParser {
     }
 
     @Autowired
-    private void parse(ParserData data, LocalData local, @ComponentQualifier ClassScope classScope, @Redactor("parameters") TokenizedSource parametersSource) {
+    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Redactor("parameters") TokenizedSource parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
@@ -65,7 +65,7 @@ public class ConstructorParser extends BootstrapParser {
     }
 
     @Autowired(order = 2, value = Delegation.DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @ComponentQualifier ClassScope classScope, @Redactor("body") TokenizedSource body) {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Redactor("body") TokenizedSource body) {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

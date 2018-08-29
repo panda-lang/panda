@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.defaults.keywor
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT)
 public class ContinueParser implements UnifiedParser, ParserHandler {
@@ -52,7 +52,7 @@ public class ContinueParser implements UnifiedParser, ParserHandler {
     }
 
     @Autowired
-    private void parseContinue(@ComponentQualifier SourceStream source, @ComponentQualifier Container container) {
+    private void parseContinue(@Component SourceStream source, @Component Container container) {
         Continue continueStatement = new Continue();
         container.addStatement(continueStatement);
         continueStatement.setStatementData(PandaStatementData.of(source));

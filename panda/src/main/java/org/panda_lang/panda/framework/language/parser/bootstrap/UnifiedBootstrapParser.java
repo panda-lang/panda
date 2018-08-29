@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.language.parser.bootstrap;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Interceptor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
@@ -108,7 +108,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         };
     }
 
-    private Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, GenerationLayer layer, InterceptorData interceptor, LocalData local) {
+    private @Nullable Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, GenerationLayer layer, InterceptorData interceptor, LocalData local) {
         if (type.isAssignableFrom(ParserData.class) && annotations.length == 0) {
             return data;
         }
@@ -132,22 +132,20 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         Annotation annotation = annotations[0];
         Class<?> annotationType = annotation.annotationType();
 
-        if (annotationType == ComponentQualifier.class) {
-            ComponentQualifier componentQualifier = (ComponentQualifier) annotation;
+        if (annotationType == Component.class) {
+            Component componentQualifier = (Component) annotation;
 
-            for (Map.Entry<? extends Component<?>, ?> entry : data.getComponents().entrySet()) {
-                Component<?> component = entry.getKey();
+            return data.getComponents().entrySet().stream()
+                    .filter(entry -> {
+                        if (!StringUtils.isEmpty(componentQualifier.name()) && entry.getKey().getName().equals(componentQualifier.name())) {
+                            return true;
+                        }
 
-                if (!StringUtils.isEmpty(componentQualifier.name()) && component.getName().equals(componentQualifier.name())) {
-                    return entry.getValue();
-                }
-
-                if (type == component.getType()) {
-                    return entry.getValue();
-                }
-            }
-
-            return null;
+                        return type == entry.getKey().getType();
+                    })
+                    .map(Map.Entry::getValue)
+                    .findFirst()
+                    .get();
         }
 
         if (annotationType == Local.class) {

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ComponentQualifier {
+public @interface Component {
 
     Class<?> type() default Object.class;
 

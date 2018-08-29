@@ -37,7 +37,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
 
 @ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
@@ -63,7 +63,7 @@ public class StatementParser implements UnifiedParser, ParserHandler {
     }
 
     @Autowired
-    private void parse(ParserData data, GenerationLayer nextLayer, @ComponentQualifier PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) {
+    private void parse(ParserData data, GenerationLayer nextLayer, @Component PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) {
         SourceStream declarationStream = new PandaSourceStream(statement);
 
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.STATEMENT);

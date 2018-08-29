@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.defaults.keywor
 import org.panda_lang.panda.framework.language.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.ComponentQualifier;
+import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.parser.bootstrap.handlers.FirstTokenHandler;
 
@@ -46,7 +46,7 @@ public class ModuleParser extends BootstrapParser {
     }
 
     @Autowired
-    private void parse(ParserData data, @ComponentQualifier ModulePath modulePath, @ComponentQualifier PandaScript script, @Redactor("module") TokenizedSource moduleSource) {
+    private void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Redactor("module") TokenizedSource moduleSource) {
         StringBuilder moduleName = new StringBuilder();
 
         for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
