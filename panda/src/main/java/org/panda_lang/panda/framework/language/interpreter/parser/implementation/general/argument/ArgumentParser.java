@@ -28,7 +28,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.implementation.general.expression.*;
 
 import java.util.*;
 

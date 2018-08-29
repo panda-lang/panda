@@ -16,38 +16,39 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.accessor.*;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.FieldAccessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
+import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
-import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.*;
-import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.architecture.module.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.*;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.*;
-import org.panda_lang.panda.framework.design.architecture.statement.*;
-import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.resource.syntax.keyword.*;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.design.runtime.expression.*;
-import org.panda_lang.panda.framework.language.architecture.value.*;
-import org.panda_lang.panda.framework.language.interpreter.parser.*;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
-import org.panda_lang.panda.framework.language.runtime.expression.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.implementation.general.expression.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.implementation.general.expression.callbacks.instance.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.implementation.statement.variable.*;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUtils;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-import java.util.*;
+import java.util.List;
 
 public class VarParser {
 

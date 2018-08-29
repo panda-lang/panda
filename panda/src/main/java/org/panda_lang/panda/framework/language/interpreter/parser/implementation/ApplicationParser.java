@@ -38,7 +38,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.defaults.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.PandaCasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.comment.CommentAssistant;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
-import org.panda_lang.panda.framework.design.interpreter.parser.implementation.general.comment.*;
 import org.panda_lang.panda.utilities.commons.BenchmarkUtils;
 import org.panda_lang.panda.utilities.commons.objects.*;
 
