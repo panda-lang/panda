@@ -24,12 +24,12 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.Operators;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separator;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separators;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.VagueExtractor;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.VagueResult;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
 
 public class VagueExtractorTest {
 

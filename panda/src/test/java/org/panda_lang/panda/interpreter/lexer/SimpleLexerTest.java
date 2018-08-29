@@ -17,7 +17,7 @@
 package org.panda_lang.panda.interpreter.lexer;
 
 import org.junit.jupiter.api.*;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.lexer.*;
 import org.panda_lang.panda.framework.language.interpreter.source.*;

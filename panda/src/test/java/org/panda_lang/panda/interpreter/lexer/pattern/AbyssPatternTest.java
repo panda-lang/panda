@@ -17,10 +17,10 @@
 package org.panda_lang.panda.interpreter.lexer.pattern;
 
 import org.junit.jupiter.api.*;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.*;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.*;
 import org.panda_lang.panda.framework.language.interpreter.token.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 

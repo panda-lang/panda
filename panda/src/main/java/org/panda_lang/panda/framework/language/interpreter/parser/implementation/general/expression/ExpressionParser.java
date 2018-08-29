@@ -33,12 +33,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.operator.Operators;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaTokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;

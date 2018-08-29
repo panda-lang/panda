@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
 
 import java.util.*;
 

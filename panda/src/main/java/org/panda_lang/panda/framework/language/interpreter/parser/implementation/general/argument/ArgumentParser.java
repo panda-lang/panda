@@ -17,17 +17,17 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
 import org.panda_lang.panda.framework.design.runtime.expression.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.*;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.*;
 import org.panda_lang.panda.framework.design.interpreter.parser.implementation.general.expression.*;
 
 import java.util.*;

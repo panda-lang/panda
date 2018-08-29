@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
+import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 
 import java.util.Collection;

@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 public class BootstrapTest {

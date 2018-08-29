@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
 public class PandaStatementData implements StatementData {
 

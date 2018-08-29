@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
 import java.util.Collection;
 

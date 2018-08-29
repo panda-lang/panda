@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.separator.Separators;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class ExpressionPatterns {
 

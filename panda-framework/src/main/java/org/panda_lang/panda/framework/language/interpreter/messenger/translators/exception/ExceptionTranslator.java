@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.translator
 
 import org.panda_lang.panda.framework.design.interpreter.*;
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.*;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.*;
 import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;

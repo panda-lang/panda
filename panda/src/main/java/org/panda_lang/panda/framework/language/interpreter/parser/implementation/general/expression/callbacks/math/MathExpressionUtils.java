@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.VagueElement;
-import org.panda_lang.panda.framework.language.interpreter.token.utils.vague.VagueResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 public class MathExpressionUtils {

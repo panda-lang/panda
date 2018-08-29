@@ -20,11 +20,11 @@ import org.panda_lang.panda.framework.design.interpreter.source.*;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
+import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.defaults.auxiliary.Indentation;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Indentation;
 import org.panda_lang.panda.utilities.commons.objects.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.objects.StringUtils;
 
