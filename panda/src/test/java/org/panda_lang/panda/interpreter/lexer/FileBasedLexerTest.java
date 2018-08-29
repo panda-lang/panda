@@ -19,7 +19,7 @@ package org.panda_lang.panda.interpreter.lexer;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.framework.design.interpreter.PandaLanguage;
+import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.token.Syntax;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;

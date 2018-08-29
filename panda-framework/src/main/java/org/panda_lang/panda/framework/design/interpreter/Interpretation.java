@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter;
 
 import org.panda_lang.panda.framework.design.architecture.*;
 import org.panda_lang.panda.framework.design.interpreter.messenger.*;
-import org.panda_lang.panda.framework.language.*;
+import org.panda_lang.panda.framework.design.resource.Language;
 
 import java.util.*;
 import java.util.function.*;

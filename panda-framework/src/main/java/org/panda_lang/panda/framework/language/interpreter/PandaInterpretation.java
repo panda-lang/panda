@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
-import org.panda_lang.panda.framework.language.Language;
+import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessenger;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultOutputListener;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.InterpreterFailureTranslator;

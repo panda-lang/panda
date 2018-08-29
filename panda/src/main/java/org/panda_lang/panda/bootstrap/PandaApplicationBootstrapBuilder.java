@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.jetbrains.annotations.*;
 import org.panda_lang.panda.*;
-import org.panda_lang.panda.framework.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 
 public class PandaApplicationBootstrapBuilder {
 
