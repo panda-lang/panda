@@ -14,17 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.runtime;
+package org.panda_lang.panda.framework.design.runtime.flow;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public interface ExecutableProcess {
+public interface ControlFlowCaller {
 
-    /**
-     * Execute the process
-     *
-     * @return a result of the execution process
-     */
-    Value execute();
+    void call(ExecutableBranch branch, ControlFlow flow);
 
 }

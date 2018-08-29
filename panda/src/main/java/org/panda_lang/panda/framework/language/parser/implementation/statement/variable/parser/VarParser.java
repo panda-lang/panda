@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.A
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
 import org.panda_lang.panda.framework.language.parser.implementation.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.language.runtime.expression.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
 import org.panda_lang.panda.framework.language.architecture.value.*;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.*;

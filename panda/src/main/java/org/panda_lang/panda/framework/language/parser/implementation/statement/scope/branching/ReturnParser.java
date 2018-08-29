@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT)
 public class ReturnParser implements UnifiedParser, ParserHandler {

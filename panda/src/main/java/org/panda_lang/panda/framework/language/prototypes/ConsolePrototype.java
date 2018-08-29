@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.prototypes;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.ModuleDeclaration;

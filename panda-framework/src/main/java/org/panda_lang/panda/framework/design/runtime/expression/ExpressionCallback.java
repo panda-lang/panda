@@ -14,22 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.runtime.expression;
+package org.panda_lang.panda.framework.design.runtime.expression;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public interface Expression {
+public interface ExpressionCallback {
 
-    default boolean isNull() {
-        return getReturnType() == null;
-    }
-
-    Value getExpressionValue(ExecutableBranch branch);
-
-    ClassPrototype getReturnType();
-
-    ExpressionType getType();
+    Value call(Expression expression, ExecutableBranch branch);
 
 }

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
-import org.panda_lang.panda.language.runtime.ExecutableProcess;
+import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.utilities.commons.objects.*;

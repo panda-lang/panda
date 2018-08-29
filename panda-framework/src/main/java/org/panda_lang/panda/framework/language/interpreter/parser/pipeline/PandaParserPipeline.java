@@ -65,7 +65,7 @@ public class PandaParserPipeline implements ParserPipeline {
         return handle(stream, representations);
     }
 
-    private @Nullable UnifiedParser handle(SourceStream stream, Collection<ParserRepresentation> representations) {
+    private @Nullable UnifiedParser handle(SourceStream stream, Collection<? extends ParserRepresentation> representations) {
         long currentTime = System.nanoTime();
 
         for (ParserRepresentation representation : representations) {
@@ -101,7 +101,7 @@ public class PandaParserPipeline implements ParserPipeline {
     }
 
     @Override
-    public List<ParserRepresentation> getRepresentations() {
+    public List<? extends ParserRepresentation> getRepresentations() {
         return representations;
     }
 

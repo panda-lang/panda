@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.language.runtime.expression;
+package org.panda_lang.panda.framework.design.runtime.expression;
 
 public enum ExpressionType {
 

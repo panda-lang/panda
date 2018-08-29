@@ -42,6 +42,6 @@ public interface ParserPipeline {
     /**
      * @return a collection of registered parser
      */
-    Collection<ParserRepresentation> getRepresentations();
+    Collection<? extends ParserRepresentation> getRepresentations();
 
 }

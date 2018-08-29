@@ -46,7 +46,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.List;
 

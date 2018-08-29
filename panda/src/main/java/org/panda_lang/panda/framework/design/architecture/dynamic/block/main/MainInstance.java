@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic.block.main;
 
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
 
 public class MainInstance extends AbstractScopeInstance<MainScope> {

@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaStaticVal
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;

@@ -56,7 +56,7 @@ import org.panda_lang.panda.framework.language.parser.implementation.general.num
 import org.panda_lang.panda.framework.language.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.List;
 

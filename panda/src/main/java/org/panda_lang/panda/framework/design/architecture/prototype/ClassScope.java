@@ -23,8 +23,8 @@ import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.List;
 

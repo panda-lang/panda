@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class PandaStaticValue implements StaticValue {
 

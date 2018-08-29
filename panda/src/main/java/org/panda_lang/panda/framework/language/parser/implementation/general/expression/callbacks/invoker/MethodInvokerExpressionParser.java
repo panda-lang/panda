@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.parser.implementation.general.argument.ArgumentParser;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionUtils;

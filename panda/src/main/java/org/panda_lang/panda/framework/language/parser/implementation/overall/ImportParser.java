@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.parser.implementation.overall.module;
+package org.panda_lang.panda.framework.language.parser.implementation.overall;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.statement.ModuleStatement;
+import org.panda_lang.panda.framework.design.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
@@ -35,40 +35,33 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Reda
 import org.panda_lang.panda.framework.language.parser.bootstrap.handlers.FirstTokenHandler;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL)
-public class ModuleParser extends BootstrapParser {
+public class ImportParser extends BootstrapParser {
 
     {
         bootstrapParser = PandaParserBootstrap.builder()
-                .handler(new FirstTokenHandler(Keywords.MODULE))
-                .pattern("module +** ;", "module")
+                .handler(new FirstTokenHandler(Keywords.IMPORT))
+                .pattern("import +** ;", "import")
                 .instance(this)
                 .build();
     }
 
     @Autowired
-    private void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Redactor("module") TokenizedSource moduleSource) {
+    public void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Redactor("import") TokenizedSource importSource) {
         StringBuilder moduleName = new StringBuilder();
 
-        for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
+        for (TokenRepresentation representation : importSource.getTokensRepresentations()) {
             moduleName.append(representation.getTokenValue());
         }
 
-        String groupName = moduleName.toString();
+        Module module = modulePath.get(moduleName.toString());
+        ImportStatement importStatement = new ImportStatement(module);
 
-        if (!modulePath.hasModule(groupName)) {
-            modulePath.create(groupName);
+        if (module == null) {
+            throw new PandaParserException("Unknown module " + moduleName);
         }
 
-        if (script.select(ModuleStatement.class).size() > 0) {
-            throw new PandaParserException("Script contains more than one declaration of the group");
-        }
-
-        Module module = modulePath.get(groupName);
-        ModuleStatement moduleStatement = new ModuleStatement(module);
-
-        script.setModule(module);
         script.getModuleLoader().include(module);
-        script.getStatements().add(moduleStatement);
+        script.getStatements().add(importStatement);
     }
 
 }

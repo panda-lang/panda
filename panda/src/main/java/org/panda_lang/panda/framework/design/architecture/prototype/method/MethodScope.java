@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 
 import java.util.List;

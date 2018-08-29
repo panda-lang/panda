@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.*;
 import org.panda_lang.panda.framework.design.architecture.module.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.*;
 import org.panda_lang.panda.framework.design.interpreter.token.distributor.*;
-import org.panda_lang.panda.language.runtime.expression.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.*;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.*;

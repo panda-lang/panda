@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.constructor
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class ConstructorUtils {
 

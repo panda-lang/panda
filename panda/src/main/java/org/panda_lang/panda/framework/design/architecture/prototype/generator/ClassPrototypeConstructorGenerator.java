@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 import java.lang.reflect.Constructor;
 

@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.parser.implementation.general.arg
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParser;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser, ParserHandler {

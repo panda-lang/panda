@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.constructor;
 
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 

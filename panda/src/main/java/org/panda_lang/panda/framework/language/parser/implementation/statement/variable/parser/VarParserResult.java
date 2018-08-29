@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.parser.implementation.statement.
 
 import org.panda_lang.panda.framework.design.architecture.statement.*;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class VarParserResult {
 

@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Auto
 import org.panda_lang.panda.framework.language.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.scope.block.BlockComponents;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.BLOCK)
 public class WhileParser implements UnifiedParser, ParserHandler {

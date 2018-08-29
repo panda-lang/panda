@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.parser.implementation.statement.variable;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.component.*;
-import org.panda_lang.panda.language.runtime.expression.*;
+import org.panda_lang.panda.framework.design.runtime.expression.*;
 
 public class VariableComponents {
 

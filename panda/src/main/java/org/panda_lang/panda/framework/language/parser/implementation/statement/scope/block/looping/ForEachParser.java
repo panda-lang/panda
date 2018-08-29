@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.language.parser.implementation.statement.s
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.framework.language.parser.implementation.statement.variable.parser.VarParserResult;
-import org.panda_lang.panda.language.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 @ParserRegistration(target = PandaPipelines.BLOCK)
 public class ForEachParser implements UnifiedParser, ParserHandler {

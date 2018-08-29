@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.runtime.memory;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.language.runtime.memory.MemorySegment;
+import org.panda_lang.panda.framework.design.runtime.memory.MemorySegment;
 
 import java.util.ArrayList;
 import java.util.List;

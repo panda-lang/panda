@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.generator.Cl
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.*;
 import org.panda_lang.panda.framework.design.architecture.value.*;
-import org.panda_lang.panda.language.runtime.*;
+import org.panda_lang.panda.framework.design.runtime.*;
 import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.*;
 import org.panda_lang.panda.utilities.commons.objects.*;
 

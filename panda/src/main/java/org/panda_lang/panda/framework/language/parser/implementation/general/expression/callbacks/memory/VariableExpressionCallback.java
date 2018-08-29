@@ -18,9 +18,9 @@ package org.panda_lang.panda.framework.language.parser.implementation.general.ex
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
-import org.panda_lang.panda.language.runtime.expression.Expression;
-import org.panda_lang.panda.language.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 
 public class VariableExpressionCallback implements ExpressionCallback {
 

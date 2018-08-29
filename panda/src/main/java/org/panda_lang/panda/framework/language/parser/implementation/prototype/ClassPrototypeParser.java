@@ -53,7 +53,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSyntax;
 import org.panda_lang.panda.framework.language.interpreter.token.defaults.keyword.Keywords;
 import org.panda_lang.panda.framework.language.interpreter.token.distributor.PandaSourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.utils.TokenUtils;
-import org.panda_lang.panda.language.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL)
 public class ClassPrototypeParser implements UnifiedParser, ParserHandler {
