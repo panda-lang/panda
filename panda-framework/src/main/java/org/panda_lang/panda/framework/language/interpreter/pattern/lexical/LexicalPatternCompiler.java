@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternDynamic;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
@@ -32,7 +33,7 @@ import java.util.List;
 
 public class LexicalPatternCompiler {
 
-    private static final char[] IDENTIFIER_CHARACTERS = CharacterUtils.mergeArrays(CharacterUtils.LETTERS, CharacterUtils.DIGITS, CharacterUtils.arrayOf('-'));
+    private static final char[] IDENTIFIER_CHARACTERS = CharacterUtils.mergeArrays(CharacterUtils.LITERALS, CharacterUtils.arrayOf('-'));
 
     public LexicalPatternElement compile(String pattern) {
         List<LexicalPatternElement> elements = new ArrayList<>();
@@ -43,54 +44,28 @@ public class LexicalPatternCompiler {
 
         while (distributor.hasNext()) {
             char currentChar = distributor.next();
+            char previousChar = distributor.getPrevious();
             String identifier = null;
 
-            if ((currentChar == '[' || currentChar == '<' || currentChar == '(' || currentChar == '*') && unitBuilder.length() > 0) {
-                String unitContent = unitBuilder.toString();
-                unitBuilder.setLength(0);
-
-                if (!StringUtils.isEmpty(unitContent)) {
-                    identifier = this.compileIdentifier(unitContent);
-                    boolean current = false;
-
-                    if (identifier != null) {
-                        int identifierIndex = unitContent.trim().indexOf(identifier);
-
-                        if (identifierIndex == 0) {
-                            current = true;
-                            unitContent = unitContent.substring(unitContent.indexOf(':') + 1);
-                        }
-                        else {
-                            unitContent = unitContent.substring(0, unitContent.lastIndexOf(':') - identifier.length());
-                        }
-                    }
-
-                    if (!StringUtils.isEmpty(unitContent)) {
-                        LexicalPatternUnit unit = new LexicalPatternUnit(unitContent);
-
-                        if (current) {
-                            unit.setIdentifier(identifier);
-                            identifier = null;
-                        }
-
-                        elements.add(unit);
-                    }
-                }
+            if (isPatternOperator(previousChar, currentChar, '<', '(', '{', '[', '*') && unitBuilder.length() > 0) {
+                identifier = compile(elements, unitBuilder);
             }
 
-            char previousChar = distributor.getPrevious();
             LexicalPatternElement element = null;
 
-            if (currentChar == '[') {
+            if (isPatternOperator(previousChar, currentChar, '[')) {
                 element = this.compileOptional(contentReader.readCurrent());
             }
-            else if (currentChar == '(') {
+            else if (isPatternOperator(previousChar, currentChar, '(')) {
                 element = this.compileVariant(contentReader.readCurrent());
             }
-            else if (currentChar == '<') {
+            else if (isPatternOperator(previousChar, currentChar, '{')) {
+                element = new LexicalPatternDynamic(contentReader.readCurrent());
+            }
+            else if (isPatternOperator(previousChar, currentChar, '<')) {
                 element = new LexicalPatternWildcard(contentReader.readCurrent());
             }
-            else if (currentChar == '*') {
+            else if (isPatternOperator(previousChar, currentChar, '*')) {
                 element = new LexicalPatternWildcard();
             }
             else {
@@ -120,6 +95,43 @@ public class LexicalPatternCompiler {
         }
 
         return elements.size() == 1 ? elements.get(0) : new LexicalPatternNode(elements);
+    }
+
+    private @Nullable String compile(List<LexicalPatternElement> elements, StringBuilder unitBuilder) {
+        String unitContent = unitBuilder.toString();
+        unitBuilder.setLength(0);
+
+        if (!StringUtils.isEmpty(unitContent)) {
+            String identifier = this.compileIdentifier(unitContent);
+            boolean current = false;
+
+            if (identifier != null) {
+                int identifierIndex = unitContent.trim().indexOf(identifier);
+
+                if (identifierIndex == 0) {
+                    current = true;
+                    unitContent = unitContent.substring(unitContent.indexOf(':') + 1);
+                }
+                else {
+                    unitContent = unitContent.substring(0, unitContent.lastIndexOf(':') - identifier.length());
+                }
+            }
+
+            if (!StringUtils.isEmpty(unitContent)) {
+                LexicalPatternUnit unit = new LexicalPatternUnit(unitContent);
+
+                if (current) {
+                    unit.setIdentifier(identifier);
+                    identifier = null;
+                }
+
+                elements.add(unit);
+            }
+
+            return identifier;
+        }
+
+        return null;
     }
 
     private LexicalPatternElement compileOptional(String pattern) {
@@ -178,6 +190,20 @@ public class LexicalPatternCompiler {
         }
 
         return identifier;
+    }
+
+    private boolean isPatternOperator(char previous, char current, char... compared) {
+        if (previous == '\\') {
+            return false;
+        }
+
+        for (char selected : compared) {
+            if (selected == current) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
 }
