@@ -20,8 +20,9 @@ public class CharacterUtils {
 
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
-    public static final char[] LETTERS = mergeArrays(ALPHABET.toCharArray(), ALPHABET.toUpperCase().toCharArray());
     public static final char[] DIGITS = "0123456789".toCharArray();
+    public static final char[] LETTERS = mergeArrays(ALPHABET.toCharArray(), ALPHABET.toUpperCase().toCharArray());
+    public static final char[] LITERALS = mergeArrays(LETTERS, DIGITS);
 
     public static final char TAB = '\t';
     public static final char NO_BREAK_SPACE = '\u00A0';

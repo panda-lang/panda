@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-public class PandaFrameworkConstants {
+public class LexicalPatternDynamic extends DefaultLexicalPatternElement {
 
-    public static final String VERSION = "indev-0.9.0";
+    private final String resolverName;
+
+    public LexicalPatternDynamic(String resolverName) {
+        this.resolverName = resolverName;
+    }
+
+    public String getResolverName() {
+        return resolverName;
+    }
 
 }
