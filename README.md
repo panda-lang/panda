@@ -1,4 +1,4 @@
-# Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda) [![Build status](https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true)](https://ci.appveyor.com/project/Panda-Programming-Language/panda)
+# Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda) [![Build status](https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true)](https://ci.appveyor.com/project/Panda-Programming-Language/panda) [![CodeFactor](https://www.codefactor.io/repository/github/panda-programming-language/panda/badge)](https://www.codefactor.io/repository/github/panda-programming-language/panda)
 Panda is a lightweight and powerful programming language written in Java<br>
 Project website: [panda-lang.org](https://panda-lang.org/)
 
@@ -28,7 +28,7 @@ The latest indev build:
 <dependency>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-0.8.829</version>
+    <version>indev-0.9.0</version>
 </dependency>
 ```
 
