@@ -16,23 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.progressive;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPattern;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-public class ProgressivePattern {
+public class ProgressivePatternTest {
 
-    private LexicalPattern<TokenizedSource> pattern;
+    @Test
+    void testProgressivePatternBuilder() {
+        ProgressivePattern pattern = ProgressivePattern.builder()
+                .compile("module name:*")
+                .build();
 
-    protected ProgressivePattern(ProgressivePatternBuilder builder) {
-        this.pattern = builder.pattern;
-    }
-
-    protected LexicalPattern<TokenizedSource> getLexicalPattern() {
-        return pattern;
-    }
-
-    public static ProgressivePatternBuilder builder() {
-        return new ProgressivePatternBuilder();
+        Assertions.assertNotNull(pattern.getLexicalPattern());
     }
 
 }

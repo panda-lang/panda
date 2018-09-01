@@ -16,12 +16,25 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.progressive;
 
+import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPattern;
+
 public class ProgressivePatternBuilder {
+
+    protected LexicalPattern<TokenizedSource> pattern;
 
     protected ProgressivePatternBuilder() { }
 
+    public ProgressivePatternBuilder compile(String pattern) {
+        this.pattern = LexicalPattern.<TokenizedSource> builder()
+                .compile(pattern)
+                .build();
+
+        return this;
+    }
+
     public ProgressivePattern build() {
-        return new ProgressivePattern();
+        return new ProgressivePattern(this);
     }
 
 }
