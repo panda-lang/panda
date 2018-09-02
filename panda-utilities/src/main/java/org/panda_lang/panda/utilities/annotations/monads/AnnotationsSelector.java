@@ -21,8 +21,8 @@ import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Collection;
 
-public interface AnnotationsSelector {
+public interface AnnotationsSelector<T> {
 
-    Collection<String> select(AnnotationsScannerProcess process, AnnotationScannerStore store);
+    Collection<T> select(AnnotationsScannerProcess process, AnnotationScannerStore store) throws Exception;
 
 }

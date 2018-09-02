@@ -16,9 +16,10 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.Set;
+import java.util.Collection;
 
 @AnnotationTest
 public class AnnotationsScannerTest implements WrappedTestType {
@@ -26,17 +27,18 @@ public class AnnotationsScannerTest implements WrappedTestType {
     @Test
     void testScanner() {
         AnnotationsScanner scanner = AnnotationsScanner.createScanner()
-                .includeSources(AnnotationsScanner.class)
+                .includeSources(AnnotationsScannerTest.class)
                 .build();
 
         AnnotationsScannerProcess process = scanner.createWorker()
                 .addDefaultProjectFilters("org.panda_lang")
                 .fetch();
 
-        Set<Class<?>> classes = process.createSelector()
+        Collection<Class<?>> classes = process.createSelector()
                 .selectTypesAnnotatedWith(AnnotationTest.class);
 
-        System.out.println(classes);
+        Assertions.assertEquals(1, classes.size());
+        Assertions.assertEquals(AnnotationsScannerTest.class, classes.iterator().next());
     }
 
 }

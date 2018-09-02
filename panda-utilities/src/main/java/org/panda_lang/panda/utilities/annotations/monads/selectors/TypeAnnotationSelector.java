@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.annotations.monads.selectors;
 import javassist.bytecode.ClassFile;
 import org.panda_lang.panda.utilities.annotations.AnnotationScannerStore;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerUtils;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
 
 import java.lang.annotation.Annotation;
@@ -27,7 +28,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class TypeAnnotationSelector implements AnnotationsSelector {
+public class TypeAnnotationSelector implements AnnotationsSelector<Class<?>> {
 
     private Class<? extends Annotation> annotationType;
 
@@ -36,7 +37,7 @@ public class TypeAnnotationSelector implements AnnotationsSelector {
     }
 
     @Override
-    public Collection<String> select(AnnotationsScannerProcess process, AnnotationScannerStore store) {
+    public Collection<Class<?>> select(AnnotationsScannerProcess process, AnnotationScannerStore store) throws Exception {
         Set<String> selectedClasses = new HashSet<>();
 
         for (ClassFile cachedClassFile : store.getCachedClassFiles()) {
@@ -52,7 +53,7 @@ public class TypeAnnotationSelector implements AnnotationsSelector {
             }
         }
 
-        return selectedClasses;
+        return AnnotationsScannerUtils.forNames(process, selectedClasses);
     }
 
 }
