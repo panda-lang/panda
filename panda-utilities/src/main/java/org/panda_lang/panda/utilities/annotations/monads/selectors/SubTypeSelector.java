@@ -18,11 +18,12 @@ package org.panda_lang.panda.utilities.annotations.monads.selectors;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationScannerStore;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerUtils;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
 
 import java.util.Collection;
 
-public class SubTypeSelector implements AnnotationsSelector {
+public class SubTypeSelector implements AnnotationsSelector<Class<?>> {
 
     private final Class<?> type;
 
@@ -31,8 +32,8 @@ public class SubTypeSelector implements AnnotationsSelector {
     }
 
     @Override
-    public Collection<String> select(AnnotationsScannerProcess process, AnnotationScannerStore store) {
-        return store.getInheritorsOf(type.getName());
+    public Collection<Class<?>> select(AnnotationsScannerProcess process, AnnotationScannerStore store) {
+        return AnnotationsScannerUtils.forNames(process, store.getInheritorsOf(type.getName()));
     }
 
 }

@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.redact;
 
+import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.Function;
@@ -61,7 +63,7 @@ public class ContentJoiner {
 
     @Override
     public String toString() {
-        return builder.substring(0, builder.length() - separator.length());
+        return builder.length() == 0 ? StringUtils.EMPTY : builder.substring(0, builder.length() - separator.length());
     }
 
     public static ContentJoiner on(String separator) {
