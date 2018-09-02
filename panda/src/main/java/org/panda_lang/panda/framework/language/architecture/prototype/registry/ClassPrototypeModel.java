@@ -26,7 +26,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 public interface ClassPrototypeModel {
 
@@ -35,7 +34,7 @@ public interface ClassPrototypeModel {
         PandaFramework.getLogger().debug("Looking for subtypes of ClassPrototypeModel");
 
         Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
-        Set<Class<? extends ClassPrototypeModel>> models = PandaUtils.DEFAULT_PANDA_SCANNER.createSelector().selectSubtypesOf(ClassPrototypeModel.class);
+        Collection<Class<? extends ClassPrototypeModel>> models = PandaUtils.DEFAULT_PANDA_SCANNER.createSelector().selectSubtypesOf(ClassPrototypeModel.class);
 
         for (Class<? extends ClassPrototypeModel> clazz : models) {
             ModuleDeclaration module = clazz.getAnnotation(ModuleDeclaration.class);
