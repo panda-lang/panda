@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-0.9.0</version>
+        <version>indev-0.9.2</version>
     </parent>
 
     <artifactId>panda-utilities</artifactId>
