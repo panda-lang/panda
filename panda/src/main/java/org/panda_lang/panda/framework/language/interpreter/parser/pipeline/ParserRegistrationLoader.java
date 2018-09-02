@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
-import java.util.Set;
+import java.util.Collection;
 
 public class ParserRegistrationLoader {
 
@@ -41,7 +41,7 @@ public class ParserRegistrationLoader {
     }
 
     private void loadPipelines(PandaPipelineRegistry registry, AnnotationsScannerProcess scannerProcess) throws Exception {
-        Set<Class<?>> annotated = scannerProcess.createSelector().selectTypesAnnotatedWith(ParserRegistration.class);
+        Collection<Class<?>> annotated = scannerProcess.createSelector().selectTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);

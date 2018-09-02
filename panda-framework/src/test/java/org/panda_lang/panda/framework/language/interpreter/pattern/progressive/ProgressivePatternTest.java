@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.annotations.monads;
+package org.panda_lang.panda.framework.language.interpreter.pattern.progressive;
 
-import org.panda_lang.panda.utilities.annotations.AnnotationScannerStore;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import java.util.Collection;
+public class ProgressivePatternTest {
 
-public interface AnnotationsSelector<T> {
+    @Test
+    void testProgressivePatternBuilder() {
+        ProgressivePattern pattern = ProgressivePattern.builder()
+                .compile("module name:*")
+                .build();
 
-    Collection<T> select(AnnotationsScannerProcess process, AnnotationScannerStore store) throws Exception;
+        Assertions.assertNotNull(pattern.getLexicalPattern());
+    }
 
 }

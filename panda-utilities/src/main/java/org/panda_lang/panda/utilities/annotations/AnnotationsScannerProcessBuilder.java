@@ -50,7 +50,7 @@ public class AnnotationsScannerProcessBuilder {
 
     public AnnotationsScannerProcessBuilder addDefaultFilters() {
         addURLFilter(new JavaFilter());
-        addFileFilters(new AnonymousFileFilter(), new PackageFileFilter(true, AnnotationsScannerUtils.PANDA_PACKAGES));
+        addFileFilters(new AnonymousFileFilter(), new PackageFileFilter(true, AnnotationsScannerConstants.PANDA_PACKAGES));
         addClassFileFilters(new PublicClassFileFilter());
         return this;
     }

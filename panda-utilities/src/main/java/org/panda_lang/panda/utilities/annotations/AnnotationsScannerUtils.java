@@ -17,39 +17,42 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.annotations.utils.MethodDescriptorUtils;
 
-import java.util.Arrays;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class AnnotationsScannerUtils {
-
-    protected static final String[] PANDA_PACKAGES = {
-            "META-INF",
-            "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // Java
-            "org.apache", "com.google", "org.slf4j",                                            // Popular
-            "org.junit", "junit", "org.opentest4j",                                            // Tests
-            "org.jetbrains", "org.intellij", "com.intellij",                                    // IDE
-            "javassist", "org.fusesource", "org.apiguardian"                                    // Internal
-    };
-
-    static List<String> primitiveNames = Arrays.asList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
-    static List<String> primitiveDescriptors = Arrays.asList("Z", "C", "B", "S", "I", "J", "F", "D", "V");
-    static List<Class> primitiveTypes = Arrays.asList(boolean.class, char.class, byte.class, short.class, int.class, long.class, float.class, double.class, void.class);
 
     public static String toClassPath(String path) {
         return path.replace("/", ".").replace(".class", "");
     }
 
-    static Set<Class<?>> forNames(AnnotationsScanner scanner, Collection<String> types) {
+    public static Set<Method> forMethods(AnnotationsScannerProcess process, Collection<String> descriptors) {
+        return MethodDescriptorUtils.getMembersFromDescriptors(descriptors, process.getScanner().getConfiguration().getClassLoaders()).stream()
+                .filter(member -> member instanceof Method)
+                .map(member -> (Method) member)
+                .collect(Collectors.toSet());
+    }
+
+    public static Set<Class<?>> forNames(AnnotationsScannerProcess process, Collection<String> types) {
+        return forNames(process.getScanner(), types);
+    }
+
+    public static Set<Class<?>> forNames(AnnotationsScanner scanner, Collection<String> types) {
         Set<Class<?>> classes = new HashSet<>();
 
         for (String type : types) {
-            Class<?> clazz = forName(scanner, type);
-
             if (type == null) {
+                continue;
+            }
+
+            Class<?> clazz = forName(type, scanner.getConfiguration().getClassLoaders());
+
+            if (clazz == null) {
                 continue;
             }
 
@@ -59,9 +62,9 @@ public class AnnotationsScannerUtils {
         return classes;
     }
 
-    static @Nullable Class<?> forName(AnnotationsScanner scanner, String typeName, @Nullable ClassLoader... classLoaders) {
-        if (primitiveNames.contains(typeName)) {
-            return primitiveTypes.get(primitiveNames.indexOf(typeName));
+    public static @Nullable Class<?> forName(String typeName, @Nullable Collection<ClassLoader> classLoaders) {
+        if (AnnotationsScannerConstants.primitiveNames.contains(typeName)) {
+            return AnnotationsScannerConstants.primitiveTypes.get(AnnotationsScannerConstants.primitiveNames.indexOf(typeName));
         }
 
         String type;
@@ -71,8 +74,8 @@ public class AnnotationsScannerUtils {
             type = typeName.substring(0, i);
             String array = typeName.substring(i).replace("]", "");
 
-            if (primitiveNames.contains(type)) {
-                type = primitiveDescriptors.get(primitiveNames.indexOf(type));
+            if (AnnotationsScannerConstants.primitiveNames.contains(type)) {
+                type = AnnotationsScannerConstants.primitiveDescriptors.get(AnnotationsScannerConstants.primitiveNames.indexOf(type));
             }
             else {
                 type = "L" + type + ";";
@@ -84,22 +87,26 @@ public class AnnotationsScannerUtils {
             type = typeName;
         }
 
-        for (ClassLoader classLoader : scanner.getConfiguration().getClassLoaders()) {
+        if (classLoaders == null) {
+            return null;
+        }
+
+        for (ClassLoader classLoader : classLoaders) {
             if (type.contains("[")) {
                 try {
                     return Class.forName(type, false, classLoader);
-                } catch (Throwable e) {
-                    scanner.getLogger().exception(e);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
                 }
             }
+
             try {
                 return classLoader.loadClass(type);
-            } catch (Throwable e) {
-                scanner.getLogger().exception(e);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
             }
         }
 
-        scanner.getLogger().warn("Could not get type for name " + typeName + " from any class loader");
         return null;
     }
 

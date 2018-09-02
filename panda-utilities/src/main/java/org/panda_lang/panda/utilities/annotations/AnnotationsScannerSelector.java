@@ -17,11 +17,13 @@
 package org.panda_lang.panda.utilities.annotations;
 
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
+import org.panda_lang.panda.utilities.annotations.monads.selectors.MethodAnnotationSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.SubTypeSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.TypeAnnotationSelector;
 import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -36,18 +38,20 @@ public class AnnotationsScannerSelector {
         this.store = store;
     }
 
-    public Set<Class<?>> select(AnnotationsSelector selector) {
+    public <T> Collection<T> select(AnnotationsSelector<T> selector) {
         long uptime = System.nanoTime();
 
-        Collection<String> selected = selector.select(process, store);
-        Set<Class<?>> classes = AnnotationsScannerUtils.forNames(process.getScanner(), selected);
-
-        process.getScanner().getLogger().debug("Selected classes: " + classes.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
-        return classes;
+        try {
+            Collection<T> selected = selector.select(process, store);
+            process.getScanner().getLogger().debug("Selected classes: " + selected.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
+            return selected;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @SuppressWarnings("unchecked")
-    public <T> Set<Class<? extends T>> selectSubtypesOf(Class<? extends T> type) {
+    public <T> Collection<Class<? extends T>> selectSubtypesOf(Class<? extends T> type) {
         Set<Class<? extends T>> selectedClasses = new HashSet<>();
 
         for (Class<?> clazz : select(new SubTypeSelector(type))) {
@@ -57,8 +61,12 @@ public class AnnotationsScannerSelector {
         return selectedClasses;
     }
 
-    public Set<Class<?>> selectTypesAnnotatedWith(Class<? extends Annotation> annotationType) {
+    public Collection<Class<?>> selectTypesAnnotatedWith(Class<? extends Annotation> annotationType) {
         return select(new TypeAnnotationSelector(annotationType));
+    }
+
+    public Collection<Method> selectMethodsAnnotatedWith(Class<? extends Annotation> annotationType) {
+        return select(new MethodAnnotationSelector(annotationType));
     }
 
 }
