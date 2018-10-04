@@ -27,7 +27,7 @@ public class AnnotationsScannerTest implements WrappedTestType {
     @Test
     void testScanner() {
         AnnotationsScanner scanner = AnnotationsScanner.createScanner()
-                .includeSources(AnnotationsScannerTest.class)
+                .includeClass(AnnotationsScannerTest.class)
                 .build();
 
         AnnotationsScannerProcess process = scanner.createWorker()

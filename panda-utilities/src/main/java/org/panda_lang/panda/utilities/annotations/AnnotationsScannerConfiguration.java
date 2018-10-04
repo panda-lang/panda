@@ -113,7 +113,7 @@ public class AnnotationsScannerConfiguration {
         return this;
     }
 
-    public AnnotationsScannerConfiguration includeSources(Class<?> clazz) {
+    public AnnotationsScannerConfiguration includeClass(Class<?> clazz) {
         includeResources(clazz.getProtectionDomain().getCodeSource().getLocation());
         return this;
     }

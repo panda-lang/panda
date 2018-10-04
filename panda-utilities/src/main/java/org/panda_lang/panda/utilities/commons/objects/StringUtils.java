@@ -122,6 +122,45 @@ public class StringUtils {
     }
 
     /**
+     * Replaces respectively substring of this string that matches the literal target sequence with the specified literal replacement sequence.
+     * The replacement proceeds from the beginning of the string to the end, using the next element of the specified values
+     *
+     * @param text The sequence of char values to be replace replacement – The replacement sequence of char values
+     * @param pattern The pattern to search
+     * @param values The replacement sequences
+     * @return the resulting string
+     * @throws java.lang.IllegalArgumentException if the amount of patterns is different than the amount of values
+     */
+    public static String replaceRespectivelyInternal(String text, String pattern, String... values) {
+        return replaceRespectivelyInternal(text, pattern, false, values);
+    }
+
+    /**
+     * Replaces respectively substring of this string that matches the literal target sequence with the specified literal replacement sequence.
+     * The replacement proceeds from the beginning of the string to the end, using the next element of the specified values
+     *
+     * @param text The sequence of char values to be replace replacement – The replacement sequence of char values
+     * @param pattern The pattern to search
+     * @param values The replacement sequences
+     * @return the resulting string
+     */
+    public static String replaceRespectivelyAndSoftly(String text, String pattern, String... values) {
+        return replaceRespectivelyInternal(text, pattern, true, values);
+    }
+
+    private static String replaceRespectivelyInternal(String text, String pattern, boolean soft, String... values) {
+        if (!soft && values.length != countOccurrences(text, pattern)) {
+            throw new IllegalArgumentException("");
+        }
+
+        for (String value : values) {
+            text = text.replaceFirst(pattern, value);
+        }
+
+        return text;
+    }
+
+    /**
      * Capitalize characters in string, merged from StringUtils.capitalize [modules - commons-lang:commons-lang3]
      *
      * @param str the String to capitalize, may be null
