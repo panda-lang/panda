@@ -131,8 +131,8 @@ public class StringUtils {
      * @return the resulting string
      * @throws java.lang.IllegalArgumentException if the amount of patterns is different than the amount of values
      */
-    public static String replaceRespectively(String text, String pattern, String... values) {
-        return replaceRespectively(text, pattern, false, values);
+    public static String replaceRespectivelyInternal(String text, String pattern, String... values) {
+        return replaceRespectivelyInternal(text, pattern, false, values);
     }
 
     /**
@@ -145,10 +145,10 @@ public class StringUtils {
      * @return the resulting string
      */
     public static String replaceRespectivelyAndSoftly(String text, String pattern, String... values) {
-        return replaceRespectively(text, pattern, true, values);
+        return replaceRespectivelyInternal(text, pattern, true, values);
     }
 
-    private static String replaceRespectively(String text, String pattern, boolean soft, String... values) {
+    private static String replaceRespectivelyInternal(String text, String pattern, boolean soft, String... values) {
         if (!soft && values.length != countOccurrences(text, pattern)) {
             throw new IllegalArgumentException("");
         }
