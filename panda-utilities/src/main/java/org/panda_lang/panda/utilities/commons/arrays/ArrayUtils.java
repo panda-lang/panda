@@ -18,17 +18,24 @@ package org.panda_lang.panda.utilities.commons.arrays;
 
 public class ArrayUtils {
 
-    public static <T> boolean contains(T[] array, T object) {
-        for (T element : array) {
-            if (object == null) {
-                if (element == null) {
+    /**
+     * Check if the specified array contains the element
+     *
+     * @param array the array to search
+     * @param element the element to search for
+     * @return true if the specified array contains the element, otherwise false
+     */
+    public static boolean contains(Object[] array, Object element) {
+        for (Object arrayElement : array) {
+            if (element == null) {
+                if (arrayElement == null) {
                     return true;
                 }
 
                 continue;
             }
 
-            if (object.equals(element)) {
+            if (element.equals(arrayElement)) {
                 return true;
             }
         }
