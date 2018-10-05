@@ -24,6 +24,37 @@ public class StringUtils {
     public static final String EMPTY = "";
 
     /**
+     * Check if the specified text is null or empty, throw exception if it is
+     *
+     * @param text to check
+     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
+     * @return the checked text
+     */
+    public static String isEmpty(String text, String exceptionMessage) {
+        if (isEmpty(text)) {
+            throw new IllegalArgumentException(exceptionMessage);
+        }
+
+        return text;
+    }
+
+    /**
+     * Check if the specified text is null or empty
+     *
+     * @param text to check
+     * @return true if a specified text is null or empty
+     */
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
+    }
+
+    /**
+     * Check if the specified string can be parsed as a number
+     * Allowed characters:
+     *   0-9 - digits
+     *   x   - hexadecimal
+     *   .   - float
+     *
      * @param str string to check
      * @return true if the specified text can be a number
      */
@@ -44,27 +75,6 @@ public class StringUtils {
     }
 
     /**
-     * @param text             to check
-     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
-     * @return the checked text
-     */
-    public static String isEmpty(String text, String exceptionMessage) {
-        if (text == null || text.isEmpty()) {
-            throw new IllegalArgumentException(exceptionMessage);
-        }
-
-        return text;
-    }
-
-    /**
-     * @param text to check
-     * @return true if a specified text is null or is empty
-     */
-    public static boolean isEmpty(String text) {
-        return text == null || text.trim().isEmpty();
-    }
-
-    /**
      * Returns the index within this string of the last occurrence of the specified substring
      *
      * @param text    the text to search
@@ -81,10 +91,24 @@ public class StringUtils {
     }
 
     /**
-     * Faster alternative to String#replace, pulled from StringUtils.replace [modules - commons-lang:commons-lang3]
+     * Faster alternative to String#replace
+     *
+     * @param text the text to search and replace in
+     * @param searchString the text to search for
+     * @param replacement the text to replace with
+     * @return the processed text
      */
     public static String replace(String text, String searchString, String replacement) {
-        if (text == null || text.isEmpty() || searchString.isEmpty()) {
+        return replace(text, searchString, replacement, -1);
+    }
+
+    /**
+     * Pulled from Apache Commons Lang :: StringUtils#replace
+     *
+     * @author Apache Commons Lang
+     */
+    private static String replace(String text, String searchString, String replacement, int max) {
+        if (isEmpty(text) || isEmpty(searchString)) {
             return text;
         }
 
@@ -93,7 +117,6 @@ public class StringUtils {
         }
 
         int start = 0;
-        int max = -1;
         int end = text.indexOf(searchString, start);
 
         if (end == -1) {
@@ -122,6 +145,18 @@ public class StringUtils {
     }
 
     /**
+     * Replace the first occurrence of the specified pattern in the text
+     *
+     * @param text the text to search and replace in
+     * @param pattern the text to search for
+     * @param replacement the text to replace with
+     * @return the processed text
+     */
+    public static String replaceFirst(String text, String pattern, String replacement) {
+        return replace(text, pattern, replacement, 1);
+    }
+
+    /**
      * Replaces respectively substring of this string that matches the literal target sequence with the specified literal replacement sequence.
      * The replacement proceeds from the beginning of the string to the end, using the next element of the specified values
      *
@@ -131,7 +166,7 @@ public class StringUtils {
      * @return the resulting string
      * @throws java.lang.IllegalArgumentException if the amount of patterns is different than the amount of values
      */
-    public static String replaceRespectivelyInternal(String text, String pattern, String... values) {
+    public static String replaceRespectively(String text, String pattern, String... values) {
         return replaceRespectivelyInternal(text, pattern, false, values);
     }
 
@@ -150,11 +185,11 @@ public class StringUtils {
 
     private static String replaceRespectivelyInternal(String text, String pattern, boolean soft, String... values) {
         if (!soft && values.length != countOccurrences(text, pattern)) {
-            throw new IllegalArgumentException("");
+            throw new IllegalArgumentException("The amount of values does not match the amount of pattern occurrences");
         }
 
         for (String value : values) {
-            text = text.replaceFirst(pattern, value);
+            text = replaceFirst(text, pattern, value);
         }
 
         return text;
