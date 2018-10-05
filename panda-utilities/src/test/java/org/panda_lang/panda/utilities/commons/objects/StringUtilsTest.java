@@ -33,7 +33,28 @@ public class StringUtilsTest {
 
     @Test
     public void testReplace() {
-        Assertions.assertEquals("Test", StringUtils.replace("Tests x", "s x", ""));
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("Test", StringUtils.replace("Tests x", "s x", "")),
+                () -> Assertions.assertEquals("b b b", StringUtils.replace("a a a", "a", "b"))
+        );
+    }
+
+    @Test
+    public void testReplaceFist() {
+        Assertions.assertEquals("a b c", StringUtils.replaceFirst("b b c", "b", "a"));
+    }
+
+    @Test
+    public void testReplaceRespectively() {
+        Assertions.assertAll(
+                // Hard
+                () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectively("? ? ?", "?", "a", "b", "c")),
+                () -> Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtils.replaceRespectively("? ?", "?", "a")),
+
+                // Soft
+                () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b", "c")),
+                () -> Assertions.assertEquals("a b ?", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b"))
+        );
     }
 
     @Test
@@ -105,6 +126,15 @@ public class StringUtilsTest {
     @Test
     public void testCreateIndentation() {
         Assertions.assertEquals("  test", StringUtils.createIndentation(2) + "test");
+    }
+
+    @Test
+    public void testLastIndexOf() {
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(2, StringUtils.lastIndexOf("abc", "c", 3)),
+                () -> Assertions.assertEquals(-1, StringUtils.lastIndexOf("abc", "c", 1)),
+                () -> Assertions.assertEquals(-1, StringUtils.lastIndexOf("abc", "d", 3))
+        );
     }
 
 }
