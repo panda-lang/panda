@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 public class PackageUtils {
 
     public static @Nullable String getPackageName(Class<?> clazz) {
-        return clazz.getPackage() == null ? null : clazz.getPackage().toString();
+        return clazz.getPackage() == null ? null : clazz.getPackage().getName();
     }
 
 }
