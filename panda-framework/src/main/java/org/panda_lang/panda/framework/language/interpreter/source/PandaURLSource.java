@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.source;
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.utilities.commons.io.IOUtils;
+import org.panda_lang.panda.utilities.commons.IOUtils;
 
 import java.io.File;
 import java.io.IOException;

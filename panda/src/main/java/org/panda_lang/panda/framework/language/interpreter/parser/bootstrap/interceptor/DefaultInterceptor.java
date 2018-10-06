@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redacto
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class DefaultInterceptor implements BootstrapInterceptor {
 

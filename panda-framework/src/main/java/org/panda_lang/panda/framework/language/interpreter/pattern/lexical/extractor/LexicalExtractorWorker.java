@@ -23,8 +23,8 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.eleme
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.ProcessedValue;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.WildcardProcessor;
-import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.List;
 import java.util.Stack;
@@ -177,7 +177,7 @@ public class LexicalExtractorWorker<T> {
         }
 
         if (index < phrase.length()) {
-            dynamics[dynamics.length - 1] = phrase.substring(index, phrase.length());
+            dynamics[dynamics.length - 1] = phrase.substring(index);
         }
 
         return dynamics;

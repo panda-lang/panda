@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.utilities.commons.io.FileUtils;
+import org.panda_lang.panda.utilities.commons.FileUtils;
 
 import java.io.File;
 import java.util.Collection;

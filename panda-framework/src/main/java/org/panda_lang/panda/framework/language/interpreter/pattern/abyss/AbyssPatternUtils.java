@@ -22,7 +22,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 
 import java.util.List;
@@ -35,7 +34,7 @@ public class AbyssPatternUtils {
         List<TokenizedSource> gaps = extractor.extract(reader);
 
         if (gaps == null) {
-            throw new PandaParserException("Cannot parse source at line " + TokenUtils.getLine(source.toTokenizedSource()));
+            throw new PandaParserException("Cannot parse source at line " + source.toTokenizedSource().getCurrentLine());
         }
 
         source.readDifference(reader);

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.objects.PackageUtils;
+import org.panda_lang.panda.utilities.commons.PackageUtils;
 
 import java.util.Collection;
 

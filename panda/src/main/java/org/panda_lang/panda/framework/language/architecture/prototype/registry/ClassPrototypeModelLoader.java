@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.method.Pan
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.MethodDeclaration;
 import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLeve
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
-import org.panda_lang.panda.utilities.commons.collection.ReverseIterator;
+import org.panda_lang.panda.utilities.commons.iterable.ReverseIterator;
 
 import java.util.ArrayList;
 import java.util.List;

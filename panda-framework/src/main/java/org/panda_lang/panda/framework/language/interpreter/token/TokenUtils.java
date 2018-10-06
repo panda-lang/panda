@@ -16,20 +16,17 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class TokenUtils {
 
     public static boolean isNumber(Token token) {
         return StringUtils.isNumber(token.getTokenValue());
-    }
-
-    public static int getLine(TokenizedSource tokenizedSource) {
-        return tokenizedSource.size() > 0 ? tokenizedSource.get(0).getLine() + 1 : -1;
     }
 
     public static boolean equals(TokenRepresentation tokenRepresentation, Token token) {
@@ -48,12 +45,17 @@ public class TokenUtils {
         return anotherToken.getType() == tokenType && anotherToken.getTokenValue().equals(tokenValue);
     }
 
-    public static String extractToken(TokenizedSource tokenizedSource, int i) {
+    public static @Nullable String extractToken(TokenizedSource tokenizedSource, int i) {
         if (i >= tokenizedSource.size()) {
             return null;
         }
 
         Token token = tokenizedSource.getToken(0);
+
+        if (token == null) {
+            return null;
+        }
+
         return token.getName();
     }
 

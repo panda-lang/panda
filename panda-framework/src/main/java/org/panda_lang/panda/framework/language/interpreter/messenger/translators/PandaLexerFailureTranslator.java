@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerExcep
 import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessengerMessage;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultFailureTemplateBuilder;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultMessageFormatter;
-import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
+import org.panda_lang.panda.utilities.commons.text.MessageFormatter;
 
 public class PandaLexerFailureTranslator implements MessengerMessageTranslator<PandaLexerException> {
 

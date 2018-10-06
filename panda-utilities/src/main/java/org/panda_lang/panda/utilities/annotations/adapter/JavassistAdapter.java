@@ -27,8 +27,8 @@ import javassist.bytecode.annotation.Annotation;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
-import org.panda_lang.panda.utilities.commons.io.IOUtils;
-import org.panda_lang.panda.utilities.commons.redact.ContentJoiner;
+import org.panda_lang.panda.utilities.commons.IOUtils;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -68,12 +68,23 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     public boolean isPublic(Object o) {
-        int accessFlags = o instanceof ClassFile ?
-                ((ClassFile) o).getAccessFlags() :
-                o instanceof FieldInfo ? ((FieldInfo) o).getAccessFlags() :
-                        o instanceof MethodInfo ? ((MethodInfo) o).getAccessFlags() : null;
+        if (o == null) {
+            return false;
+        }
 
-        return AccessFlag.isPublic(accessFlags);
+        if (o instanceof ClassFile) {
+            return AccessFlag.isPublic(((ClassFile) o).getAccessFlags());
+        }
+
+        if (o instanceof MethodInfo) {
+            return AccessFlag.isPublic(((MethodInfo) o).getAccessFlags());
+        }
+
+        if (o instanceof FieldInfo) {
+            return AccessFlag.isPublic(((FieldInfo) o).getAccessFlags());
+        }
+
+        return false;
     }
 
     public List<FieldInfo> getFields(ClassFile cls) {

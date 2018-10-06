@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.source.providers;
 import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
-import org.panda_lang.panda.utilities.commons.io.FileUtils;
+import org.panda_lang.panda.utilities.commons.FileUtils;
 
 import java.io.File;
 import java.util.Iterator;

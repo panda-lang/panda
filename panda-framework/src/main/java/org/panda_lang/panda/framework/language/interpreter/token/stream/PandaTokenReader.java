@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
+import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {
 

@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
-import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;

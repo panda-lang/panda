@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extr
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.ProcessedValue;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;

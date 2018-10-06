@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 import org.fusesource.jansi.Ansi;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
-import org.panda_lang.panda.utilities.commons.redact.MessageFormatter;
+import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.text.MessageFormatter;
 
 public class DefaultFailureTemplateBuilder {
 
@@ -42,7 +42,7 @@ public class DefaultFailureTemplateBuilder {
                         .fgRed()
                         .a(source.substring(index, endIndex))
                         .reset()
-                        .a(source.substring(endIndex, source.length()))
+                        .a(source.substring(endIndex))
                         .toString())
                 .register("{{stacktrace}}", () -> {
                     StringBuilder message = new StringBuilder();

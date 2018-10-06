@@ -20,7 +20,7 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.MethodAnnotationSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.SubTypeSelector;
 import org.panda_lang.panda.utilities.annotations.monads.selectors.TypeAnnotationSelector;
-import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

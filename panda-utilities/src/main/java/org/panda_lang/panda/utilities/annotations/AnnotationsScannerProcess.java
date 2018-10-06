@@ -22,8 +22,8 @@ import javassist.bytecode.MethodInfo;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
-import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.net.URL;
 import java.util.HashSet;

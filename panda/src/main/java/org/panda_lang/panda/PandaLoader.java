@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.language.architecture.PandaEnvironment;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
-import org.panda_lang.panda.utilities.commons.io.FileUtils;
+import org.panda_lang.panda.utilities.commons.FileUtils;
 
 import java.io.File;
 
