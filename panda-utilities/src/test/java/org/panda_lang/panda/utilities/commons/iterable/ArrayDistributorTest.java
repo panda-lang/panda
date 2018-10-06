@@ -18,9 +18,8 @@ package org.panda_lang.panda.utilities.commons.iterable;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
-public class ArrayDistributorTest {
+class ArrayDistributorTest {
 
     private static final String[] array = { "a", "b", "c", "d", "e" };
 

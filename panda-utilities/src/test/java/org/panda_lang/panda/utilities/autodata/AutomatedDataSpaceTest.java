@@ -25,7 +25,7 @@ import org.panda_lang.panda.utilities.autodata.database.ADSDatabaseRepository;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AutomatedDataSpaceTest {
+class AutomatedDataSpaceTest {
 
     @Test
     public void test() {

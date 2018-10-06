@@ -18,11 +18,10 @@ package org.panda_lang.panda.utilities.commons.text;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.commons.text.AttentiveContentReader;
 
 import java.util.List;
 
-public class AttentiveContentReaderTest {
+class AttentiveContentReaderTest {
 
     private static final String CONTENT = "Test|Bracket(|)|String\"|\"|Test";
     private static final char SEPARATOR = '|';

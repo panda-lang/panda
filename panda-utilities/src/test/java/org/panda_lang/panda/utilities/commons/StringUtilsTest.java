@@ -18,9 +18,8 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.commons.StringUtils;
 
-public class StringUtilsTest {
+class StringUtilsTest {
 
     @Test
     public void testIsEmpty() {

@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Collection;
 
 @AnnotationTest
-public class AnnotationsScannerTest implements WrappedTestType {
+class AnnotationsScannerTest implements WrappedTestType {
 
     @Test
     void testScanner() {

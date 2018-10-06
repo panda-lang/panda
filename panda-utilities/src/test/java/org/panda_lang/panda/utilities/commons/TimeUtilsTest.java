@@ -18,9 +18,8 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
 
-public class TimeUtilsTest {
+class TimeUtilsTest {
 
     @Test
     public void testToMilliseconds() {
