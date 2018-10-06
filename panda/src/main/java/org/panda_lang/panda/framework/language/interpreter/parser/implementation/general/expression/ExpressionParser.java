@@ -37,6 +37,7 @@ import org.panda_lang.panda.framework.language.architecture.module.PrimitiveProt
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
@@ -178,14 +179,14 @@ public class ExpressionParser implements ParticularParser<Expression> {
             }
 
             if (instanceType == null) {
-                throw new PandaParserException("Unknown instance source at line " + TokenUtils.getLine(instanceSource));
+                throw new PandaParserFailure("Unknown instance source", data);
             }
 
             String instanceFieldName = fieldMatches.get(1).asString();
             PrototypeField instanceField = instanceType.getFields().getField(instanceFieldName);
 
             if (instanceField == null) {
-                throw new PandaParserException("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName + " at " + TokenUtils.getLine(expressionSource));
+                throw new PandaParserFailure("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName, data);
             }
 
             int memoryIndex = instanceType.getFields().getIndexOfField(instanceField);

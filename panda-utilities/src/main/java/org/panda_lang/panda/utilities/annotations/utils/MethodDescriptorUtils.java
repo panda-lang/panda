@@ -2,7 +2,7 @@ package org.panda_lang.panda.utilities.annotations.utils;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerUtils;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -32,7 +32,7 @@ public class MethodDescriptorUtils {
 
         if (!StringUtils.isEmpty(methodParameters)) {
             String[] parameterNames = methodParameters.split(",");
-            List<Class<?>> result = new ArrayList<Class<?>>(parameterNames.length);
+            List<Class<?>> result = new ArrayList<>(parameterNames.length);
 
             for (String name : parameterNames) {
                 result.add(AnnotationsScannerUtils.forName(name.trim(), classLoaders));
@@ -108,6 +108,7 @@ public class MethodDescriptorUtils {
         String fieldName = field.substring(field.lastIndexOf('.') + 1);
 
         try {
+            //noinspection ConstantConditions
             return AnnotationsScannerUtils.forName(className, classLoaders).getDeclaredField(fieldName);
         } catch (Exception e) {
             throw new RuntimeException("Can't resolve field named " + fieldName, e);

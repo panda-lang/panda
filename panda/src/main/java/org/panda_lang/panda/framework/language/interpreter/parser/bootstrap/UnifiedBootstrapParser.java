@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.laye
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -145,7 +145,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
                     })
                     .map(Map.Entry::getValue)
                     .findFirst()
-                    .get();
+                    .orElse(null);
         }
 
         if (annotationType == Local.class) {

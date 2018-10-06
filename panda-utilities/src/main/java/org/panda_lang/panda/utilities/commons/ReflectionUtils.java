@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-import org.panda_lang.panda.utilities.commons.objects.CollectionUtils;
-
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

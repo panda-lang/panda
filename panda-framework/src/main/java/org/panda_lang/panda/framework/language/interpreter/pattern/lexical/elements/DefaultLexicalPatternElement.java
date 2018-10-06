@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public abstract class DefaultLexicalPatternElement implements LexicalPatternElement {
 

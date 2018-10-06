@@ -35,6 +35,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Var
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
@@ -126,7 +127,7 @@ public class VarParser {
                 ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
                 if (prototype == null) {
-                    throw new PandaParserException("Cannot get field from non-prototype scope at line " + TokenUtils.getLine(left));
+                    throw new PandaParserFailure("Cannot get field from non-prototype scope", delegatedData);
                 }
 
                 Expression instanceExpression = new PandaExpression(prototype, new ThisExpressionCallback());
@@ -156,8 +157,9 @@ public class VarParser {
 
         if (result.isLocal()) {
             if (!expressionValue.isNull() && !expressionValue.getReturnType().isAssociatedWith(variable.getType())) {
-                throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right)
-                        + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")");
+                throw new PandaParserFailure("Return type is incompatible with the type of variable"
+                        + " (var: " + variable.getType().getClassName() + "; expr: " + expressionValue.getReturnType().getClassName() + ")",
+                        delegatedData);
             }
 
             assigner = new VariableAccessor(variable, VariableParserUtils.indexOf(result.getScope(), variable), expressionValue);
@@ -174,7 +176,7 @@ public class VarParser {
             }
 
             if (!field.getType().equals(expressionValue.getReturnType())) {
-                throw new PandaParserException("Return type is incompatible with the type of variable at line " + TokenUtils.getLine(right));
+                throw new PandaParserFailure("Return type is incompatible with the type of variable", delegatedData);
             }
 
             assigner = new FieldAccessor(instanceExpression, field, expressionValue);

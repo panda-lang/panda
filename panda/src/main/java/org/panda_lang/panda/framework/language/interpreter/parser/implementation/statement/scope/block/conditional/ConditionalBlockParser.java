@@ -29,7 +29,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ElseBlock;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
@@ -94,7 +93,7 @@ public class ConditionalBlockParser implements UnifiedParser, ParserHandler {
                 Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
                 if (!(previousBlock instanceof ConditionalBlock)) {
-                    throw new PandaParserException("The If-Else-block without associated If-block at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+                    throw new PandaParserFailure("The If-Else-block without associated If-block", data);
                 }
 
                 ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
@@ -102,7 +101,7 @@ public class ConditionalBlockParser implements UnifiedParser, ParserHandler {
                 data.setComponent(BlockComponents.UNLISTED_BLOCK, true);
                 break;
             default:
-                throw new PandaParserException("Unrecognized condition type at line " + TokenUtils.getLine(conditionType));
+                throw new PandaParserFailure("Unrecognized condition type", data);
         }
 
         return true;

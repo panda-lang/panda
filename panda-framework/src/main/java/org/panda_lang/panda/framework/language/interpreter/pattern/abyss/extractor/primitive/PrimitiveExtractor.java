@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
-import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
+import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.runtime.memory;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.math.BitwiseUtils;
+import org.panda_lang.panda.utilities.commons.BitwiseUtils;
 
 public interface Memory {
 

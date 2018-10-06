@@ -17,7 +17,7 @@
 package org.panda_lang.panda.utilities.configuration;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.io.FileUtils;
+import org.panda_lang.panda.utilities.commons.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -36,6 +36,7 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
@@ -48,7 +49,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPa
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
@@ -118,7 +118,7 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
                 PrototypeField field = prototype.getFields().getField(methodName);
 
                 if (field == null) {
-                    throw new PandaParserException("Method " + methodName + " not found in class " + prototype.getClassName() + " at line " + TokenUtils.getLine(instanceSource));
+                    throw new PandaParserFailure("Method " + methodName + " not found in class " + prototype.getClassName(), delegatedData);
                 }
 
                 throw new PandaParserException("Not implemented");

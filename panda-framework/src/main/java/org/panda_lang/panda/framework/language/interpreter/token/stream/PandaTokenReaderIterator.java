@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.token.stream;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReaderIterator;
-import org.panda_lang.panda.utilities.commons.arrays.ArrayDistributor;
+import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 public class PandaTokenReaderIterator implements TokenReaderIterator {
 

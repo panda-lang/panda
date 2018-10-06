@@ -19,7 +19,7 @@ package org.panda_lang.panda.utilities.annotations.resource;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
-import org.panda_lang.panda.utilities.commons.io.IOUtils;
+import org.panda_lang.panda.utilities.commons.IOUtils;
 
 import java.io.Closeable;
 import java.io.IOException;

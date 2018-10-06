@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.cas
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.comment.CommentAssistant;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.BenchmarkUtils;
-import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 public class ApplicationParser implements Parser {
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class AbyssTokenRepresentation {
 

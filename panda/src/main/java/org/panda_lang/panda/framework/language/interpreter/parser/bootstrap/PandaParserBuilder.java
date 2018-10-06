@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.inte
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
-import org.panda_lang.panda.utilities.commons.objects.StringUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

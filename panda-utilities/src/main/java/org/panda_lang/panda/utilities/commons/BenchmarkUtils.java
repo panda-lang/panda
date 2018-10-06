@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-import org.panda_lang.panda.utilities.commons.objects.TimeUtils;
-
 import java.util.function.Supplier;
 
 public class BenchmarkUtils {

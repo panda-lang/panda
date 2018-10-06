@@ -28,9 +28,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registr
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 public class ContainerParser implements Parser {
@@ -59,15 +58,16 @@ public class ContainerParser implements Parser {
             int sourceLength = stream.getUnreadLength();
 
             if (parser == null) {
-                throw new PandaParserException("Unrecognized syntax at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+                throw new PandaParserFailure("Unrecognized syntax", data);
             }
 
             parser.parse(delegatedData, generation.getLayer(CasualParserGenerationType.NEXT));
-            delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
             if (sourceLength == stream.getUnreadLength()) {
-                throw new PandaParserException(parser.getClass().getSimpleName() + " did nothing with source at line " + TokenUtils.getLine(stream.toTokenizedSource()));
+                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData);
             }
+
+            delegatedData.setComponent(PandaComponents.CONTAINER, container);
         }
 
         delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);

@@ -109,4 +109,9 @@ public interface TokenizedSource {
         return getLast(0);
     }
 
+    default int getCurrentLine() {
+        TokenRepresentation current = get(0);
+        return current != null ? current.getLine() + 1 : -1;
+    }
+
 }
