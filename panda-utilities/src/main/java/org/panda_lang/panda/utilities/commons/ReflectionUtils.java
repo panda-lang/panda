@@ -16,49 +16,72 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import org.panda_lang.panda.utilities.commons.objects.CollectionUtils;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ReflectionUtils {
 
-    public static List<Method> getMethods(Class<?> type, String name) {
+    /**
+     * Collect methods annotated with the specified annotation
+     *
+     * @param clazz class to search
+     * @param annotation annotation to search for
+     * @return the list of annotated methods
+     */
+    public static List<Method> getMethodsAnnotatedWith(Class<?> clazz, Class<? extends Annotation> annotation) {
         List<Method> methods = new ArrayList<>();
+        Class<?> currentClazz = clazz;
 
-        for (Method method : type.getMethods()) {
-            if (method.getName().equals(name)) {
+        while (currentClazz != Object.class) {
+            Method[] declaredMethods = currentClazz.getDeclaredMethods();
+
+            for (Method method : declaredMethods) {
+                if (!method.isAnnotationPresent(annotation)) {
+                   continue;
+                }
+
+                Annotation annotationInstance = method.getAnnotation(annotation);
                 methods.add(method);
             }
-        }
 
-        for (Method declaredMethod : type.getDeclaredMethods()) {
-            if (declaredMethod.getName().equals(name)) {
-                methods.add(declaredMethod);
-            }
+            currentClazz = currentClazz.getSuperclass();
         }
 
         return methods;
     }
 
-    public static List<Method> getMethodsAnnotatedWith(Class<?> type, Class<? extends Annotation> annotation) {
-        List<Method> methods = new ArrayList<Method>();
-        Class<?> clazz = type;
+    /**
+     * Collect all methods with the same name
+     *
+     * @param clazz class to search
+     * @param methodName name to search for
+     * @return the list of the matching methods
+     */
+    public static List<Method> getMethods(Class<?> clazz, String methodName) {
+        return CollectionUtils.listOf(getMethods(clazz.getMethods(), methodName), getMethods(clazz.getDeclaredMethods(), methodName));
+    }
 
-        while (clazz != Object.class) {
-            List<Method> allMethods = new ArrayList<>(Arrays.asList(clazz.getDeclaredMethods()));
+    /**
+     * Collect all methods with same name
+     *
+     * @param methods methods to search
+     * @param methodName name to search for
+     * @return the list of the matching methods
+     */
+    public static List<Method> getMethods(Method[] methods, String methodName) {
+        List<Method> matchedMethods = new ArrayList<>();
 
-            for (final Method method : allMethods) {
-                if (method.isAnnotationPresent(annotation)) {
-                    Annotation annotInstance = method.getAnnotation(annotation);
-                    methods.add(method);
-                }
+        for (Method method : methods) {
+            if (method.getName().equals(methodName)) {
+                matchedMethods.add(method);
             }
-            clazz = clazz.getSuperclass();
         }
 
-        return methods;
+        return matchedMethods;
     }
 
 }

@@ -50,6 +50,7 @@ public class StringUtilsTest {
                 // Hard
                 () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectively("? ? ?", "?", "a", "b", "c")),
                 () -> Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtils.replaceRespectively("? ?", "?", "a")),
+                () -> Assertions.assertEquals("a? b c", StringUtils.replaceRespectively("? b ?", "?", "a?", "c")),
 
                 // Soft
                 () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b", "c")),

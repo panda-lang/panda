@@ -22,22 +22,43 @@ import java.util.function.Supplier;
 
 public class BenchmarkUtils {
 
+    /**
+     * Execute the runnable with the specified title and print an execution time in the console
+     *
+     * @param title the title of test
+     * @param runnable the runnable to execute
+     */
     public static void execute(String title, Runnable runnable) {
         long time = System.nanoTime();
         runnable.run();
         System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
     }
 
-    public static <T> T execute(String title, Supplier<T> runnable) {
+    /**
+     * Execute the supplier with the specified title, print an execution time in the console and return resulting value
+     *
+     * @param title the title of test
+     * @param supplier the supplier to execute
+     * @param <T> generic type of the value to return
+     * @return the resulting value
+     */
+    public static <T> T execute(String title, Supplier<T> supplier) {
         long time = System.nanoTime();
 
-        T value = runnable.get();
+        T value = supplier.get();
         System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
 
         return value;
     }
 
-    public static void print(long start, int av, String message) {
+    /**
+     * Display the message with the specified time in different formats
+     *
+     * @param start the period of time
+     * @param attempts the amount of attempts required to calculate an average time
+     * @param message the message of test
+     */
+    public static void print(long start, int attempts, String message) {
         long nsDif = System.nanoTime() - start;
         float msDif = nsDif / 1000000F;
         float sDif = msDif / 1000;
@@ -50,25 +71,25 @@ public class BenchmarkUtils {
         stringBuilder.append("    ns: ");
         stringBuilder.append(nsDif);
         stringBuilder.append(" | av: ");
-        stringBuilder.append(nsDif / av);
+        stringBuilder.append(nsDif / attempts);
         stringBuilder.append(System.lineSeparator());
 
         stringBuilder.append("    ms: ");
         stringBuilder.append(msDif);
         stringBuilder.append(" | av: ");
-        stringBuilder.append(msDif / av);
+        stringBuilder.append(msDif / attempts);
         stringBuilder.append(System.lineSeparator());
 
         stringBuilder.append("    s: ");
         stringBuilder.append(sDif);
         stringBuilder.append(" | av: ");
-        stringBuilder.append(sDif / av);
+        stringBuilder.append(sDif / attempts);
         stringBuilder.append(System.lineSeparator());
 
         stringBuilder.append("    m: ");
         stringBuilder.append(mDif);
         stringBuilder.append(" | av: ");
-        stringBuilder.append(mDif / av);
+        stringBuilder.append(mDif / attempts);
         stringBuilder.append(System.lineSeparator());
 
         System.out.println(stringBuilder);

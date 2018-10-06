@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.objects;
 
+import org.panda_lang.panda.utilities.commons.arrays.ArrayUtils;
+
 public class StringUtils {
 
     /**
@@ -96,19 +98,27 @@ public class StringUtils {
      * @param text the text to search and replace in
      * @param searchString the text to search for
      * @param replacement the text to replace with
-     * @return the processed text
+     * @return the resulting text
      */
     public static String replace(String text, String searchString, String replacement) {
-        return replace(text, searchString, replacement, -1);
+        return replace(text, searchString, replacement, 0, -1);
     }
 
     /**
-     * Pulled from Apache Commons Lang :: StringUtils#replace
+     * Replaces each substring of the string that equals
+     * to the literal target sequence with the specified literal replacement sequence
      *
-     * @author Apache Commons Lang
+     * ~ Based on Apache Commons Lang :: StringUtils#replace
+     *
+     * @param text the text to search and replace in
+     * @param pattern the text to search for
+     * @param replacement the text to replace with
+     * @param fromIndex the index from which to start the search
+     * @param max amount of occurrences to replace
+     * @return the resulting string
      */
-    private static String replace(String text, String searchString, String replacement, int max) {
-        if (isEmpty(text) || isEmpty(searchString)) {
+    private static String replace(String text, String pattern, String replacement, int fromIndex, int max) {
+        if (isEmpty(text) || isEmpty(pattern)) {
             return text;
         }
 
@@ -117,31 +127,31 @@ public class StringUtils {
         }
 
         int start = 0;
-        int end = text.indexOf(searchString, start);
+        int end = text.indexOf(pattern, fromIndex);
 
         if (end == -1) {
             return text;
         }
 
-        int replaceLength = searchString.length();
+        int replaceLength = pattern.length();
         int increase = replacement.length() - replaceLength;
         increase = (increase < 0 ? 0 : increase);
         increase *= 16;
-        StringBuilder sb = new StringBuilder(text.length() + increase);
+        StringBuilder builder = new StringBuilder(text.length() + increase);
 
         while (end != -1) {
-            sb.append(text, start, end).append(replacement);
+            builder.append(text, start, end).append(replacement);
             start = end + replaceLength;
 
             if (--max == 0) {
                 break;
             }
 
-            end = text.indexOf(searchString, start);
+            end = text.indexOf(pattern, start);
         }
 
-        sb.append(text.substring(start));
-        return sb.toString();
+        builder.append(text.substring(start));
+        return builder.toString();
     }
 
     /**
@@ -153,7 +163,20 @@ public class StringUtils {
      * @return the processed text
      */
     public static String replaceFirst(String text, String pattern, String replacement) {
-        return replace(text, pattern, replacement, 1);
+        return replaceFirst(text, pattern, replacement, 0);
+    }
+
+    /**
+     * Replace the first occurrence of the specified pattern in the text
+     *
+     * @param text the text to search and replace in
+     * @param pattern the text to search for
+     * @param replacement the text to replace with
+     * @param start position to start searching for
+     * @return the processed text
+     */
+    public static String replaceFirst(String text, String pattern, String replacement, int start) {
+        return replace(text, pattern, replacement, start, 1);
     }
 
     /**
@@ -188,8 +211,24 @@ public class StringUtils {
             throw new IllegalArgumentException("The amount of values does not match the amount of pattern occurrences");
         }
 
-        for (String value : values) {
-            text = replaceFirst(text, pattern, value);
+        if (ArrayUtils.containsNull(values)) {
+            throw new IllegalArgumentException("Array of values contains null");
+        }
+
+        int[] positions = new int[values.length];
+        int previousIndex = 0;
+
+        for (int i = 0; i < positions.length; i++) {
+            int index = text.indexOf(pattern, previousIndex);
+            positions[i] = index;
+            previousIndex = index + pattern.length();
+        }
+
+        int diff = 0;
+
+        for (int i = 0; i < values.length; i++) {
+            text = replaceFirst(text, pattern, values[i], positions[i] + diff);
+            diff += -pattern.length() + values[i].length();
         }
 
         return text;
@@ -215,7 +254,7 @@ public class StringUtils {
             return str;
         }
 
-        int newCodePoints[] = new int[strLen];
+        int[] newCodePoints = new int[strLen];
         int outOffset = 0;
         newCodePoints[outOffset++] = newCodePoint;
 

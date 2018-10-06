@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.ads;
+package org.panda_lang.panda.utilities.autodata;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.autodata.AutomatedDataInterface;
-import org.panda_lang.panda.utilities.autodata.AutomatedDataSpace;
 import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionHandler;
 import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionService;
 import org.panda_lang.panda.utilities.autodata.database.ADSDatabaseRepository;

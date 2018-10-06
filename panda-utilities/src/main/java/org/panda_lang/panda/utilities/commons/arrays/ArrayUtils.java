@@ -19,6 +19,15 @@ package org.panda_lang.panda.utilities.commons.arrays;
 public class ArrayUtils {
 
     /**
+     * Check if the specified array contains null
+     *
+     * @return the array to search
+     */
+    public static boolean containsNull(Object[] array) {
+        return contains(array, null);
+    }
+
+    /**
      * Check if the specified array contains the element
      *
      * @param array the array to search
