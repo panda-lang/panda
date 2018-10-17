@@ -47,7 +47,7 @@ public class LayerMethod {
     }
 
     public Delegation getDelegation() {
-        return autowired.value();
+        return autowired.delegation();
     }
 
     public Method getMethod() {

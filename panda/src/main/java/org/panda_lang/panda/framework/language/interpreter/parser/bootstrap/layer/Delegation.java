@@ -18,9 +18,24 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.lay
 
 public enum Delegation {
 
-    IMMEDIATELY,
-    BEFORE,
-    DEFAULT,
-    AFTER
+    IMMEDIATELY(0),
+
+    CURRENT_BEFORE(1),
+    CURRENT_DEFAULT(2),
+    CURRENT_AFTER(3),
+
+    NEXT_BEFORE(4),
+    NEXT_DEFAULT(5),
+    NEXT_AFTER(6);
+
+    private final int priority;
+
+    Delegation(int priority) {
+        this.priority = priority;
+    }
+
+    public int getPriority() {
+        return priority;
+    }
 
 }

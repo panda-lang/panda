@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-import java.util.function.Supplier;
+import org.panda_lang.panda.utilities.commons.function.ThrowingRunnable;
+import org.panda_lang.panda.utilities.commons.function.ThrowingSupplier;
 
 public class BenchmarkUtils {
 
@@ -26,9 +27,15 @@ public class BenchmarkUtils {
      * @param title the title of test
      * @param runnable the runnable to execute
      */
-    public static void execute(String title, Runnable runnable) {
+    public static void execute(String title, ThrowingRunnable runnable) {
         long time = System.nanoTime();
-        runnable.run();
+
+        try {
+            runnable.run();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
     }
 
@@ -40,12 +47,18 @@ public class BenchmarkUtils {
      * @param <T> generic type of the value to return
      * @return the resulting value
      */
-    public static <T> T execute(String title, Supplier<T> supplier) {
+    public static <T> T execute(String title, ThrowingSupplier<T> supplier) {
         long time = System.nanoTime();
 
-        T value = supplier.get();
-        System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
+        T value;
 
+        try {
+            value = supplier.get();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("[" + title + "] " + TimeUtils.toMilliseconds(System.nanoTime() - time));
         return value;
     }
 

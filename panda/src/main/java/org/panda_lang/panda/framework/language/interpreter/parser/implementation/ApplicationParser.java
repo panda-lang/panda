@@ -41,7 +41,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.defaults.Overa
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.casual.PandaCasualParserGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.comment.CommentAssistant;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.utilities.commons.BenchmarkUtils;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 public class ApplicationParser implements Parser {
@@ -95,7 +94,7 @@ public class ApplicationParser implements Parser {
                 application.addScript(pandaScript);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
-                    BenchmarkUtils.execute("OverallParser#parseNext", () -> interpretation.execute(() -> overallParser.parseNext(delegatedData)));
+                    interpretation.execute(() -> overallParser.parseNext(delegatedData));
                 }
 
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
@@ -107,7 +106,7 @@ public class ApplicationParser implements Parser {
         }
 
         return interpretation
-                .execute(() -> BenchmarkUtils.execute("Generation#execute", () -> generation.execute(baseData)))
+                .execute(() -> generation.execute(baseData))
                 .execute(() -> application);
     }
 

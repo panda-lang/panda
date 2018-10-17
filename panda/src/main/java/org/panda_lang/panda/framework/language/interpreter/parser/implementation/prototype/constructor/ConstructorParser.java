@@ -52,7 +52,7 @@ public class ConstructorParser extends BootstrapParser {
                 .build();
     }
 
-    @Autowired
+    @Autowired(order = 1)
     private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Redactor("parameters") TokenizedSource parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
@@ -64,8 +64,8 @@ public class ConstructorParser extends BootstrapParser {
         classScope.getPrototype().getConstructors().addConstructor(constructor);
     }
 
-    @Autowired(order = 2, value = Delegation.DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Redactor("body") TokenizedSource body) {
+    @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Redactor("body") TokenizedSource body) throws Exception {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

@@ -17,41 +17,30 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.looping;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK)
-public class WhileParser implements UnifiedParser, ParserHandler {
+public class WhileParser extends BootstrapParser {
 
-    private final ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
-            .pattern("while ( +* )", "while-expression")
-            .instance(this)
-            .build();
-
-    @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.WHILE);
-    }
-
-    @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
-        return bootstrapParser.getParser().parse(data, nextLayer);
+    {
+        bootstrapParser = PandaParserBootstrap.builder()
+                .handler(new FirstTokenHandler(Keywords.WHILE))
+                .pattern("while ( +* )", "while-expression")
+                .instance(this)
+                .build();
     }
 
     @Autowired

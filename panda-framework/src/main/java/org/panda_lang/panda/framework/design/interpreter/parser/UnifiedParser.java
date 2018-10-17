@@ -23,6 +23,6 @@ public interface UnifiedParser extends Parser {
     /**
      * @param data set of information about source and interpretation process
      */
-    boolean parse(ParserData data, GenerationLayer nextLayer);
+    boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception;
 
 }

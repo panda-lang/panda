@@ -40,7 +40,7 @@ public class ContainerParser implements Parser {
         this.container = container;
     }
 
-    public void parse(ParserData data, TokenizedSource body) {
+    public void parse(ParserData data, TokenizedSource body) throws Exception {
         ParserData delegatedData = data.fork();
 
         CasualParserGeneration generation = delegatedData.getComponent(UniversalComponents.GENERATION);

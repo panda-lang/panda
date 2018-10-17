@@ -153,7 +153,7 @@ public class MethodParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
+        public void call(ParserData delegatedData, GenerationLayer nextLayer) throws Exception {
             ScopeParser.createParser(methodScope, delegatedData)
                     .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                     .parse(redactor.get("method-body"));

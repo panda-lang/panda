@@ -27,16 +27,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
@@ -49,39 +45,33 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL)
-public class ClassPrototypeParser implements UnifiedParser, ParserHandler {
+public class ClassPrototypeParser extends BootstrapParser {
 
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "class +** { +* }")
-            .build();
-
-    @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.CLASS);
+    {
+        bootstrapParser = PandaParserBootstrap.builder()
+                .instance(this)
+                .handler(new FirstTokenHandler(Keywords.CLASS))
+                .pattern("class +** { +* }",  "declaration", "body")
+                .build();
     }
 
-    @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
+    @Autowired
+    public void parse(ParserData data, GenerationLayer nextLayer, @Redactor("declaration") TokenizedSource declaration, @Redactor("body") TokenizedSource body) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
-
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "class-declaration", "class-body");
-        data.setComponent(PandaComponents.REDACTOR, redactor);
-
-        TokenizedSource classDeclaration = redactor.get("class-declaration");
-        String className = classDeclaration.getTokenValue(0);
+        String className = declaration.getTokenValue(0);
 
         if (className == null) {
             throw new PandaParserException("Class name cannot be null");
@@ -107,95 +97,65 @@ public class ClassPrototypeParser implements UnifiedParser, ParserHandler {
 
         ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
         data.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
-
-        if (classDeclaration.size() > 1) {
-            nextLayer.delegate(new ClassPrototypeDeclarationCasualParserCallback(), data);
-        }
-
-        nextLayer.delegate(new ClassPrototypeBodyCasualParserCallback(redactor), data);
-        nextLayer.delegateAfter(new ClassPrototypeAfterCasualCallback(), data);
-        return true;
     }
 
-    @LocalCallback
-    private static class ClassPrototypeDeclarationCasualParserCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
-            ClassPrototypeParserUtils.readDeclaration(delegatedData);
+    @Autowired(delegation = Delegation.CURRENT_AFTER)
+    public void parseDeclaration(ParserData data, @Redactor("declaration") TokenizedSource declaration) {
+        if (declaration.size() > 1) {
+            ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
-
     }
 
-    @LocalCallback
-    private static class ClassPrototypeBodyCasualParserCallback implements CasualParserGenerationCallback {
+    @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
+    public void parseBody(ParserData data, GenerationLayer nextLayer, @Redactor("body") TokenizedSource body) throws Exception {
+        PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
+        ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 
-        private final AbyssRedactor redactor;
+        SourceStream stream = new PandaSourceStream(body);
+        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
 
-        private ClassPrototypeBodyCasualParserCallback(AbyssRedactor redactor) {
-            this.redactor = redactor;
+        ParserData bodyInfo = data.fork();
+        bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
+
+        while (stream.hasUnreadSource()) {
+            UnifiedParser parser = pipeline.handle(stream);
+
+            if (parser == null) {
+                throw new PandaParserFailure("Cannot parse the element of the prototype", data);
+            }
+
+            parser.parse(bodyInfo, nextLayer);
+        }
+    }
+
+    @Autowired(order = 1, delegation = Delegation.NEXT_AFTER)
+    public void parseAfter(ParserData data) {
+        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        ClassScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+
+        if (prototype.getConstructors().getAmountOfConstructors() > 0) {
+            return;
         }
 
-        @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
-            PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
-            ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
-
-            TokenizedSource bodySource = redactor.get("class-body");
-            SourceStream stream = new PandaSourceStream(bodySource);
-
-            CasualParserGeneration generation = delegatedData.getComponent(UniversalComponents.GENERATION);
-            ParserData bodyInfo = delegatedData.fork();
-            bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
-
-            while (stream.hasUnreadSource()) {
-                UnifiedParser parser = pipeline.handle(stream);
-
-                if (parser == null) {
-                    throw new PandaParserFailure("Cannot parse the element of the prototype", delegatedData);
-                }
-
-                parser.parse(bodyInfo, nextLayer);
+        for (PrototypeField field : prototype.getFields().getListOfFields()) {
+            if (!field.hasDefaultValue()) {
+                // assign
             }
         }
 
-    }
-
-    @LocalCallback
-    private static class ClassPrototypeAfterCasualCallback implements CasualParserGenerationCallback {
-
-        @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
-            ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-            ClassScope scope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
-
-            if (prototype.getConstructors().getAmountOfConstructors() > 0) {
-                return;
+        PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
+            @Override
+            public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+                return scope.createInstance(branch);
             }
 
-            for (PrototypeField field : prototype.getFields().getListOfFields()) {
-                // TODO: Do sth
-                if (!field.hasDefaultValue()) {
-
-                }
+            @Override
+            public ClassPrototype[] getParameterTypes() {
+                return ConstructorUtils.PARAMETERLESS;
             }
+        };
 
-            PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
-                @Override
-                public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
-                    // TODO: assign def values
-                    return scope.createInstance(branch);
-                }
-
-                @Override
-                public ClassPrototype[] getParameterTypes() {
-                    return ConstructorUtils.PARAMETERLESS;
-                }
-            };
-
-            prototype.getConstructors().addConstructor(defaultConstructor);
-        }
-
+        prototype.getConstructors().addConstructor(defaultConstructor);
     }
 
 }

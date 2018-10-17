@@ -27,10 +27,11 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessen
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultOutputListener;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.InterpreterFailureTranslator;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.PandaLexerFailureTranslator;
+import org.panda_lang.panda.utilities.commons.function.ThrowingRunnable;
+import org.panda_lang.panda.utilities.commons.function.ThrowingSupplier;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.function.Supplier;
 
 public class PandaInterpretation implements Interpretation {
 
@@ -53,7 +54,7 @@ public class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public Interpretation execute(Runnable runnable) {
+    public Interpretation execute(ThrowingRunnable runnable) {
         if (!this.isHealthy()) {
             return this;
         }
@@ -68,7 +69,7 @@ public class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public @Nullable <T> T execute(Supplier<T> callback) {
+    public @Nullable <T> T execute(ThrowingSupplier<T> callback) {
         try {
             return isHealthy() ? callback.get() : null;
         } catch (Exception exception) {

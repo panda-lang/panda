@@ -71,7 +71,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
     }
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception {
         CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
         CasualParserGenerationCallback callback;
 

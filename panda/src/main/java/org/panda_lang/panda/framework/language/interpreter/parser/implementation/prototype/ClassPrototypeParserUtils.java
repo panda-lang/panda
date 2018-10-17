@@ -19,52 +19,62 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 public class ClassPrototypeParserUtils {
 
-    public static void readDeclaration(ParserData delegatedInfo) {
-        ClassPrototype classPrototype = delegatedInfo.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        AbyssRedactor redactor = delegatedInfo.getComponent(PandaComponents.REDACTOR);
-        TokenizedSource classDeclaration = redactor.get("class-declaration");
+    public static void readDeclaration(ParserData data, TokenizedSource classDeclaration) {
+        ClassPrototype classPrototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         Token next = classDeclaration.getToken(1);
 
-        if (next.getType() != TokenType.KEYWORD) {
+        if (next == null || next.getType() != TokenType.KEYWORD) {
             throw new PandaParserException("Unknown element " + next);
         }
 
         switch (next.getTokenValue()) {
+            case "implements": //temp
             case "extends":
-                for (int i = 2; i < classDeclaration.size(); i++) {
-                    Token classNameToken = classDeclaration.getToken(i);
-
-                    if (classNameToken.getType() == TokenType.UNKNOWN) {
-                        PandaScript script = delegatedInfo.getComponent(PandaComponents.PANDA_SCRIPT);
-                        ModuleLoader registry = script.getModuleLoader();
-                        ClassPrototype extendedPrototype = registry.forClass(classNameToken.getTokenValue());
-
-                        if (extendedPrototype == null) {
-                            throw new PandaParserException("Class " + classNameToken.getTokenValue() + " not found");
-                        }
-
-                        classPrototype.getExtended().add(extendedPrototype);
-                        continue;
-                    }
-                    else if (classNameToken.getType() == TokenType.SEPARATOR) {
-                        continue;
-                    }
-
-                    break;
-                }
+                readExtends(data, classDeclaration, classPrototype);
                 break;
             default:
                 throw new PandaParserException("Illegal keyword " + next);
+        }
+    }
+
+    private static void readExtends(ParserData data, TokenizedSource classDeclaration, ClassPrototype prototype) {
+        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+        ModuleLoader registry = script.getModuleLoader();
+
+        for (int i = 2; i < classDeclaration.size(); i++) {
+            Token classNameToken = classDeclaration.getToken(i);
+
+            if (classNameToken == null) {
+                throw new PandaParserFailure("Declaration token not found", data);
+            }
+            else if (classNameToken.getType() == TokenType.SEPARATOR) {
+                continue;
+            }
+            else if (classNameToken.getType() == TokenType.UNKNOWN) {
+                ClassPrototype extendedPrototype = registry.forClass(classNameToken.getTokenValue());
+
+                if (extendedPrototype == null) {
+                    data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(classDeclaration));
+                    throw new PandaParserFailure("Class " + classNameToken.getTokenValue() + " not found", data);
+                }
+
+                prototype.getExtended().add(extendedPrototype);
+                continue;
+            }
+
+            break;
         }
     }
 
