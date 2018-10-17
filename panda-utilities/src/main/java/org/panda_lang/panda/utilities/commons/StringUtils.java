@@ -294,6 +294,8 @@ public class StringUtils {
     }
 
     /**
+     * Extract paragraph/indentation before the text
+     *
      * @param str a string to search
      * @return whitespaces at the beginning of the specified string
      */
