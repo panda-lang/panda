@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface GenerationLayer {
 
-    void call(ParserData currentData, GenerationLayer nextLayer);
+    void call(ParserData currentData, GenerationLayer nextLayer) throws Exception;
 
     GenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated);
 

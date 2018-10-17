@@ -37,13 +37,13 @@ public class PandaCasualParserGenerationLayer implements GenerationLayer {
     }
 
     @Override
-    public void call(ParserData currentData, GenerationLayer nextLayer) {
+    public void call(ParserData currentData, GenerationLayer nextLayer) throws Exception {
         call(before, currentData, nextLayer);
         call(delegates, currentData, nextLayer);
         call(after, currentData, nextLayer);
     }
 
-    private void call(List<CasualParserGenerationUnit> units, ParserData currentInfo, GenerationLayer nextLayer) {
+    private void call(List<CasualParserGenerationUnit> units, ParserData currentInfo, GenerationLayer nextLayer) throws Exception {
         List<CasualParserGenerationUnit> unitList = new ArrayList<>(units);
         units.clear();
 

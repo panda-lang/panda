@@ -28,7 +28,7 @@ public abstract class BootstrapParser implements UnifiedParser, ParserHandler {
     protected ParserRepresentation bootstrapParser;
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
+    public boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception {
         return bootstrapParser.getParser().parse(data, nextLayer);
     }
 

@@ -18,42 +18,31 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL)
-public class MainParser implements UnifiedParser, ParserHandler {
+public class MainParser extends BootstrapParser {
 
-    private final ParserRepresentation bootstrapParser = PandaParserBootstrap.builder()
-            .pattern("main { +* }", "main-body")
-            .instance(this)
-            .build();
-
-    @Override
-    public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), TokenType.KEYWORD, "main");
-    }
-
-    @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
-        return bootstrapParser.getParser().parse(data, nextLayer);
+    {
+        bootstrapParser = PandaParserBootstrap.builder()
+                .handler(new FirstTokenHandler(Keywords.MAIN))
+                .pattern("main { +* }", "main-body")
+                .instance(this)
+                .build();
     }
 
     @Autowired(order = 1)
@@ -62,8 +51,8 @@ public class MainParser implements UnifiedParser, ParserHandler {
         script.getStatements().add(main);
     }
 
-    @Autowired(value = Delegation.DEFAULT, order = 2)
-    private void parseScope(ParserData data, @Local MainScope main, @Redactor("main-body") TokenizedSource body) {
+    @Autowired(delegation = Delegation.NEXT_DEFAULT, order = 2)
+    private void parseScope(ParserData data, @Local MainScope main, @Redactor("main-body") TokenizedSource body) throws Exception{
         ScopeParser.createParser(main, data)
                 .forkData()
                 .initializeLinker()

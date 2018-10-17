@@ -51,7 +51,7 @@ public class BlockParser extends BootstrapParser {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, GenerationLayer layer, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource declaration) {
+    private void parse(ParserData data, LocalData local, GenerationLayer layer, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource declaration) throws Exception {
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.BLOCK);
 
         SourceStream declarationStream = new PandaSourceStream(declaration);
@@ -80,7 +80,7 @@ public class BlockParser extends BootstrapParser {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Redactor("block-body") TokenizedSource body) {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Redactor("block-body") TokenizedSource body) throws Exception {
         ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(blockData, body);
     }

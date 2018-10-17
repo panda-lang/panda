@@ -48,7 +48,6 @@ public class PandaParserBuilder {
 
     public PandaParserBuilder instance(Object object) {
         this.instance = object;
-
         return this;
     }
 

@@ -19,15 +19,16 @@ package org.panda_lang.panda.framework.design.interpreter;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.resource.Language;
+import org.panda_lang.panda.utilities.commons.function.ThrowingRunnable;
+import org.panda_lang.panda.utilities.commons.function.ThrowingSupplier;
 
 import java.util.Collection;
-import java.util.function.Supplier;
 
 public interface Interpretation {
 
-    Interpretation execute(Runnable runnable);
+    Interpretation execute(ThrowingRunnable runnable);
 
-    <T> T execute(Supplier<T> callback);
+    <T> T execute(ThrowingSupplier<T> callback);
 
     default boolean isHealthy() {
         return getFailures().size() == 0;

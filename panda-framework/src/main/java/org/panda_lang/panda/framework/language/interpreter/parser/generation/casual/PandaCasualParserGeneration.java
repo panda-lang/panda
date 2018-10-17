@@ -32,7 +32,7 @@ public class PandaCasualParserGeneration implements CasualParserGeneration {
     }
 
     @Override
-    public void execute(ParserData currentData) {
+    public void execute(ParserData currentData) throws Exception {
         while (currentLayer != null) {
             currentLayer.call(currentData, nextLayer);
 
