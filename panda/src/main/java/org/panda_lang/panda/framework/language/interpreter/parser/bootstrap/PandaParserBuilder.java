@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.AbyssPatternHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
@@ -43,8 +44,7 @@ public class PandaParserBuilder {
     protected BootstrapInterceptor interceptor;
     protected final List<LayerMethod> layers = new ArrayList<>();
 
-    protected PandaParserBuilder() {
-    }
+    protected PandaParserBuilder() { }
 
     public PandaParserBuilder instance(Object object) {
         this.instance = object;
@@ -120,6 +120,10 @@ public class PandaParserBuilder {
 
         if (pattern == null) {
             pattern = StringUtils.EMPTY;
+        }
+
+        if (handler == null) {
+            handler = new AbyssPatternHandler(pattern);
         }
 
         if (layers.isEmpty()) {

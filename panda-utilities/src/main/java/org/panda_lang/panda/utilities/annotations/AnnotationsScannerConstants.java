@@ -3,7 +3,7 @@ package org.panda_lang.panda.utilities.annotations;
 import java.util.Arrays;
 import java.util.List;
 
-public class AnnotationsScannerConstants {
+class AnnotationsScannerConstants {
 
     static final String[] PANDA_PACKAGES = {
             "META-INF",

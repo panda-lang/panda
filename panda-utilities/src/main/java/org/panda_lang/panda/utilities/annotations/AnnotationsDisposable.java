@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
-public interface AnnotationsDisposable {
+interface AnnotationsDisposable {
 
     void dispose();
 

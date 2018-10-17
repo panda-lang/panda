@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-18.10.7</version>
+        <version>indev-18.10.17</version>
     </parent>
 
     <artifactId>panda</artifactId>
@@ -34,7 +34,6 @@
         <dependency>
             <groupId>org.panda-lang</groupId>
             <artifactId>panda-framework</artifactId>
-            <scope>compile</scope>
         </dependency>
 
         <!-- Benchmarks -->
