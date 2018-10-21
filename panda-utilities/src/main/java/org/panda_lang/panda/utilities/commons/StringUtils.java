@@ -32,6 +32,13 @@ public class StringUtils {
      */
     public static final String[] EMPTY_ARRAY = new String[0];
 
+    /**
+     * Split text by the specified delimiter (without regex)
+     *
+     * @param text the text to split
+     * @param delimiter the delimiting text
+     * @return the array of elements
+     */
     public static String[] split(String text, String delimiter) {
         List<String> list = new ArrayList<>();
         int index = 0;
@@ -55,6 +62,14 @@ public class StringUtils {
         return list.toArray(EMPTY_ARRAY);
     }
 
+    /**
+     * Last index of the element with given amount of last occurrences to ignore
+     *
+     * @param text the text to search in
+     * @param element the element to search for
+     * @param occurrences amount of occurrences to ignore before the element to search for
+     * @return index of the element, -1 when the element is not found
+     */
     public static int lastIndexOfBefore(String text, String element, int occurrences) {
         int occurrence = 0;
         int index = text.length() - 1;
