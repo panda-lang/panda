@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation;
+package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface ParserGenerationHandler {
+public interface ParserGenerationUnit {
 
-    void callDelegates(ParserGenerationPipeline pipeline, ParserData data);
+    ParserData getDelegated();
 
-    ParserGenerationHandler delegateBefore(ParserGenerationCallback callback, ParserData delegated);
-
-    ParserGenerationHandler delegate(ParserGenerationCallback callback, ParserData delegated);
-
-    ParserGenerationHandler delegateAfter(ParserGenerationCallback callback, ParserData delegated);
-
-    int countDelegates();
+    ParserGenerationCallback getCallback();
 
 }

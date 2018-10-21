@@ -19,13 +19,37 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 import org.panda_lang.panda.framework.PandaFrameworkConstants;
 import org.panda_lang.panda.utilities.commons.text.MessageFormatter;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public class DefaultMessageFormatter {
 
+    private static final Map<String, String> ENVIRONMENT = new LinkedHashMap<>();
+
     private static final MessageFormatter formatter = new MessageFormatter()
-            .register("{{newline}}", System::lineSeparator)
-            .register("{{java.version}}", () -> System.getProperty("java.version"))
-            .register("{{panda.version}}", () -> PandaFrameworkConstants.VERSION)
-            .register("{{os}}", () -> System.getProperty("os.name"));
+            .register("{{environment}}", () -> {
+                StringBuilder content = new StringBuilder();
+
+                ENVIRONMENT.forEach((key, value) -> content
+                        .append("{{newline}}  ")
+                        .append(key)
+                        .append(": ")
+                        .append(value)
+                );
+
+                return content.toString();
+            })
+            .register("{{newline}}", System::lineSeparator);
+
+    static {
+        ENVIRONMENT.put("Panda", PandaFrameworkConstants.VERSION);
+        ENVIRONMENT.put("Java", System.getProperty("java.version"));
+        ENVIRONMENT.put("OS",  System.getProperty("os.name"));
+    }
+
+    public static void addEnvironmentInfo(String title, String content) {
+        ENVIRONMENT.put(title, content);
+    }
 
     public static MessageFormatter getOriginalFormatter() {
         return formatter;

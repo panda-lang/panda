@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.commons.text;
 
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -31,7 +31,7 @@ public class MessageFormatter {
     }
 
     public MessageFormatter() {
-        this(new HashMap<>());
+        this(new LinkedHashMap<>());
     }
 
     public String format(String message) {
@@ -59,7 +59,7 @@ public class MessageFormatter {
     }
 
     public MessageFormatter fork() {
-        return new MessageFormatter(new HashMap<>(this.placeholders));
+        return new MessageFormatter(new LinkedHashMap<>(this.placeholders));
     }
 
     @SuppressWarnings("unchecked")

@@ -45,13 +45,13 @@ public class MainParser extends BootstrapParser {
                 .build();
     }
 
-    @Autowired(order = 1)
+    @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
     private void createScope(ParserData data, LocalData localData, @Component Script script) {
         MainScope main = localData.allocateInstance(new MainScope());
         script.getStatements().add(main);
     }
 
-    @Autowired(delegation = Delegation.NEXT_DEFAULT, order = 2)
+    @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
     private void parseScope(ParserData data, @Local MainScope main, @Redactor("main-body") TokenizedSource body) throws Exception{
         ScopeParser.createParser(main, data)
                 .forkData()

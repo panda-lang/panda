@@ -39,7 +39,7 @@ public class AbyssTokenRepresentation {
 
     @Override
     public String toString() {
-        return StringUtils.createIndentation(nestingLevel * 2) + tokenRepresentation + " [" + nestingLevel + "]";
+        return StringUtils.buildSpace(nestingLevel * 2) + tokenRepresentation + " [" + nestingLevel + "]";
     }
 
 }

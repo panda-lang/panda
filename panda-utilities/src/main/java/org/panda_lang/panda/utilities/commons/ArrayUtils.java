@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import org.jetbrains.annotations.Nullable;
+
 public class ArrayUtils {
 
     /**
@@ -50,6 +52,18 @@ public class ArrayUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
+     *
+     * @param array the array to process
+     * @param index the index of element to get
+     * @param <T> type of the array
+     * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified array
+     */
+    public static <T> @Nullable T get(T[] array, int index) {
+        return index > -1 && index < array.length ? array[index] : null;
     }
 
 }
