@@ -16,6 +16,10 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+
 public class StringUtils {
 
     /**
@@ -24,54 +28,54 @@ public class StringUtils {
     public static final String EMPTY = "";
 
     /**
-     * Check if the specified text is null or empty, throw exception if it is
-     *
-     * @param text to check
-     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
-     * @return the checked text
+     * Instance of the empty array of string
      */
-    public static String isEmpty(String text, String exceptionMessage) {
-        if (isEmpty(text)) {
-            throw new IllegalArgumentException(exceptionMessage);
-        }
+    public static final String[] EMPTY_ARRAY = new String[0];
 
-        return text;
-    }
+    public static String[] split(String text, String delimiter) {
+        List<String> list = new ArrayList<>();
+        int index = 0;
 
-    /**
-     * Check if the specified text is null or empty
-     *
-     * @param text to check
-     * @return true if a specified text is null or empty
-     */
-    public static boolean isEmpty(String text) {
-        return text == null || text.trim().isEmpty();
-    }
+        while (index < text.length()) {
+            int currentIndex = text.indexOf(delimiter, index);
 
-    /**
-     * Check if the specified string can be parsed as a number
-     * Allowed characters:
-     *   0-9 - digits
-     *   x   - hexadecimal
-     *   .   - float
-     *
-     * @param str string to check
-     * @return true if the specified text can be a number
-     */
-    public static boolean isNumber(String str) {
-        for (char c : str.toCharArray()) {
-            if (Character.isDigit(c)) {
-                continue;
+            if (currentIndex == -1) {
+                list.add(text.substring(index));
+                break;
             }
 
-            if (c == 'x' || c == '.') {
-                continue;
-            }
-
-            return false;
+            list.add(text.substring(index, currentIndex));
+            index = currentIndex + delimiter.length();
         }
 
-        return true;
+        if (text.endsWith(delimiter)) {
+            list.add(EMPTY);
+        }
+
+        return list.toArray(EMPTY_ARRAY);
+    }
+
+    public static int lastIndexOfBefore(String text, String element, int occurrences) {
+        int occurrence = 0;
+        int index = text.length() - 1;
+
+        while (index > -1) {
+            int currentIndex = lastIndexOf(text, element, index);
+
+            if (currentIndex == -1) {
+                break;
+            }
+
+            occurrence++;
+
+            if (occurrence == occurrences) {
+                return currentIndex;
+            }
+
+            index = currentIndex + text.length();
+        }
+
+        return -1;
     }
 
     /**
@@ -235,8 +239,8 @@ public class StringUtils {
     /**
      * Capitalize characters in string, merged from StringUtils.capitalize [modules - commons-lang:commons-lang3]
      *
-     * @param str the String to capitalize, may be null
-     * @return the capitalized String, {@code null} if null String input
+     * @param str the string to capitalize, may be null
+     * @return the capitalized string, {@code null} if null string input
      */
     public static String capitalize(String str) {
         int strLen;
@@ -266,35 +270,41 @@ public class StringUtils {
     }
 
     /**
+     * Trim the beginning of the text
+     *
+     * @param text the text to trim
      * @return trimmed string
      */
-    public static String trimStart(String s) {
-        char[] val = s.toCharArray();
-        int i = 0;
+    public static String trimStart(String text) {
+        char[] chars = text.toCharArray();
+        int index = 0;
 
-        while (i < val.length && val[i] <= ' ') {
-            i++;
+        while (index < chars.length && chars[index] <= ' ') {
+            index++;
         }
 
-        return s.substring(i, val.length);
+        return text.substring(index, chars.length);
     }
 
     /**
+     * Trim the of end of the specified text
+     *
+     * @param text the text to trim
      * @return trimmed string
      */
-    public static String trimEnd(String s) {
-        int len = s.length();
-        char[] val = s.toCharArray();
+    public static String trimEnd(String text) {
+        int length = text.length();
+        char[] chars = text.toCharArray();
 
-        while (len > 0 && val[len - 1] <= ' ') {
-            len--;
+        while (length > 0 && chars[length - 1] <= ' ') {
+            length--;
         }
 
-        return s.substring(0, len);
+        return text.substring(0, length);
     }
 
     /**
-     * Extract paragraph/indentation before the text
+     * Extracts paragraph/indentation from the beginning of the text
      *
      * @param str a string to search
      * @return whitespaces at the beginning of the specified string
@@ -305,20 +315,44 @@ public class StringUtils {
     }
 
     /**
-     * @param str     a string to search
-     * @param findStr a searched string
-     * @return amount of occurrences
+     * Generate space
+     *
+     * @param spaces number of spaces
+     * @return generated indentation
      */
-    public static int countOccurrences(String str, String findStr) {
+    public static String buildSpace(int spaces) {
+        return build(spaces, " ");
+    }
+
+    private static String build(int repetitions, String... elements) {
+        StringBuilder content = new StringBuilder();
+
+        for (int i = 0; i < repetitions; i++) {
+            for (String element : elements) {
+                content.append(element);
+            }
+        }
+
+        return content.toString();
+    }
+
+    /**
+     * Amount of the occurrences of the specified text in string
+     *
+     * @param text     the string to search in
+     * @param element the string to search for
+     * @return amount of the occurrences
+     */
+    public static int countOccurrences(String text, String element) {
         int lastIndex = 0;
         int count = 0;
 
         while (lastIndex != -1) {
-            lastIndex = str.indexOf(findStr, lastIndex);
+            lastIndex = text.indexOf(element, lastIndex);
 
             if (lastIndex != -1) {
                 count++;
-                lastIndex += findStr.length();
+                lastIndex += element.length();
             }
         }
 
@@ -326,43 +360,39 @@ public class StringUtils {
     }
 
     /**
-     * @param string     a string to search
+     * Checks if the specified text contains any character from the specified array
+     *
+     * @param text a string to search
      * @param characters searched characters
      * @return true if the specified string contains any of the specified characters
      */
-    public static boolean containsCharacter(String string, char... characters) {
-        for (char c : string.toCharArray()) {
-            for (char character : characters) {
-                if (c == character) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+    public static boolean containsCharacter(String text, char... characters) {
+        return contains(text, character -> CharacterUtils.belongsTo(character, characters));
     }
 
     /**
-     * @param str a string to search
+     * Checks if the specified text contains character other than letter or digit
+     *
+     * @param text the string to search in
      * @return true if the specified string contains a character other than a letter or a digit
      */
-    public static boolean containsSpecialCharacters(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isLetterOrDigit(c)) {
-                return true;
-            }
-        }
-
-        return false;
+    public static boolean containsSpecialCharacters(String text) {
+        return contains(text, character -> !Character.isLetterOrDigit(character));
     }
 
     /**
-     * @param str a string to search
+     * Checks if the specified text contains other characters than these from the specified array
+     *
+     * @param text the string to search in
      * @return true if the string contains a character other than the specified in arrays
      */
-    public static boolean containsOtherCharacters(String str, char[]... characters) {
-        for (char c : str.toCharArray()) {
-            if (CharacterUtils.belongsTo(c, characters)) {
+    public static boolean containsOtherCharacters(String text, char[]... characters) {
+        return contains(text, character -> CharacterUtils.belongsTo(character, characters));
+    }
+
+    private static boolean contains(String text, Function<Character, Boolean> condition) {
+        for (char c : text.toCharArray()) {
+            if (!condition.apply(c)) {
                 continue;
             }
 
@@ -373,33 +403,42 @@ public class StringUtils {
     }
 
     /**
-     * @param str string to convert
-     * @return char codes separated by spaces
+     * Check if the specified string can be parsed as a number
+     * Allowed characters:
+     *   0-9 - digits
+     *   x   - hexadecimal
+     *   .   - float
+     *
+     * @param str string to check
+     * @return true if the specified text can be a number
      */
-    @Deprecated
-    public static String toCharCodes(String str) {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (char c : str.toCharArray()) {
-            stringBuilder.append((int) c);
-            stringBuilder.append(" ");
-        }
-
-        return stringBuilder.toString();
+    public static boolean isNumber(String str) {
+        return contains(str, character -> Character.isDigit(character) || character == 'x' || character == '.');
     }
 
     /**
-     * @param spaces number of spaces
-     * @return generated indentation
+     * Checks if the specified text is null or empty, throw exception if it is
+     *
+     * @param text to check
+     * @param exceptionMessage the message is used by {@link IllegalArgumentException}
+     * @return the checked text
      */
-    public static String createIndentation(int spaces) {
-        StringBuilder gapBuilder = new StringBuilder();
-
-        for (int i = 0; i < spaces; i++) {
-            gapBuilder.append(" ");
+    public static String isEmpty(String text, String exceptionMessage) {
+        if (isEmpty(text)) {
+            throw new IllegalArgumentException(exceptionMessage);
         }
 
-        return gapBuilder.toString();
+        return text;
+    }
+
+    /**
+     * Checks if the specified text is null or empty
+     *
+     * @param text to check
+     * @return true if a specified text is null or empty
+     */
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
     }
 
 }

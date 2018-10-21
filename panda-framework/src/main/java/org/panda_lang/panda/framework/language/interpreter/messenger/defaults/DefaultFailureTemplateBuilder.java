@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 import org.fusesource.jansi.Ansi;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.utilities.commons.PackageUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.text.MessageFormatter;
 
@@ -44,22 +46,22 @@ public class DefaultFailureTemplateBuilder {
                         .reset()
                         .a(source.substring(endIndex))
                         .toString())
-                .register("{{stacktrace}}", () -> {
-                    StringBuilder message = new StringBuilder();
+                .register("{{stacktrace}}", stacktraceToString(exception))
+                .register("{{stacktrace-last}}", () -> {
+                    StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
 
-                    for (StackTraceElement stackTraceElement : exception.getStackTrace()) {
-                        message.append(stackTraceElement);
-                        message.append(System.lineSeparator());
+                    if (lastElement == null) {
+                        return "<unknown>";
                     }
 
-                    return DefaultFailureTemplateBuilder.indentation(message.toString());
+                    return PackageUtils.getShortenPackage(lastElement.getClassName()) + " (" + lastElement.getFileName() + ":" + lastElement.getLineNumber() + ")";
                 });
 
         return this;
     }
 
     public DefaultFailureTemplateBuilder includeCause() {
-        content += "{{newline}}Caused by: {{message}} [in {{location}} at line {{line}}]{{newline}}";
+        content += getAsSection("Caused by: {{message}}");
         return this;
     }
 
@@ -68,12 +70,17 @@ public class DefaultFailureTemplateBuilder {
             return this;
         }
 
-        content += "{{newline}}Details:{{newline}}  {{details}}{{newline}}";
+        content += getAsSection("Details:{{newline}}  {{details}}");
         return this;
     }
 
     public DefaultFailureTemplateBuilder includeSource() {
-        content += "{{newline}}Source:{{newline}}  {{source}}{{newline}}";
+        content += getAsSection("Source:{{newline}}  {{source}}");
+        return this;
+    }
+
+    public DefaultFailureTemplateBuilder includeLocation() {
+        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}{{newline}}  Framework: {{stacktrace-last}}");
         return this;
     }
 
@@ -82,23 +89,27 @@ public class DefaultFailureTemplateBuilder {
             return this;
         }
 
-        content += "  " + StringUtils.createIndentation(index) + "^{{newline}}";
+        content += "  " + StringUtils.buildSpace(index) + "^{{newline}}";
         return this;
     }
 
     public DefaultFailureTemplateBuilder includeEnvironment() {
-        content += "{{newline}}Environment:{{newline}}  OS: {{os}}{{newline}}  Panda: {{panda.version}}{{newline}}  Java: {{java.version}}{{newline}}";
+        content += getAsSection("Environment:{{environment}}");
         return this;
     }
 
     public DefaultFailureTemplateBuilder includeEnd() {
-        content += "{{newline}}End of Failure {{newline}} ";
+        content += getAsSection("End of Failure");
         return this;
+    }
+
+    private String getAsSection(String content) {
+        return "{{newline}}" + content + "{{newline}}";
     }
 
     public String[] getAsLines(MessageFormatter formatter, String title) {
         String formattedContent = formatter.format(content);
-        String[] lines = formattedContent.split(System.lineSeparator());
+        String[] lines = StringUtils.split(formattedContent, System.lineSeparator());
 
         for (int i = 0; i < lines.length; i++) {
             lines[i] = "[" + title + "] #!# " + lines[i];
@@ -113,6 +124,17 @@ public class DefaultFailureTemplateBuilder {
 
     public static @Nullable String indentation(String message) {
         return message == null ? null : message.replace(System.lineSeparator(), System.lineSeparator() + "  ");
+    }
+
+    public static String stacktraceToString(Throwable exception) {
+        StringBuilder message = new StringBuilder();
+
+        for (StackTraceElement stackTraceElement : exception.getStackTrace()) {
+            message.append(stackTraceElement);
+            message.append(System.lineSeparator());
+        }
+
+        return DefaultFailureTemplateBuilder.indentation(message.toString());
     }
 
 }

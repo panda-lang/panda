@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation;
+package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface ParserGeneration {
+public interface ParserGenerationContext {
 
-    void execute(ParserData data);
-
-    ParserGenerationPipeline getPipeline();
+    void fireHandle(ParserGenerationCallback callback, ParserData delegated);
 
 }

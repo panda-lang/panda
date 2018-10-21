@@ -41,26 +41,17 @@ public class ExceptionTranslator implements MessengerMessageTranslator<Throwable
         interpretation.getFailures().add(new EmptyPandaExceptionFailure());
         // source.restoreCachedSource();
 
-        MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())
-                .register("{{location}}", () -> location != null ? location : "?")
-                .register("{{line}}", () -> source != null && source.getCurrentLine() > -1 ? source.getCurrentLine() + 1 : "?")
-                .register("{{details}}", () -> {
-                    StringBuilder message = new StringBuilder();
-
-                    for (StackTraceElement stackTraceElement : element.getStackTrace()) {
-                        message.append(stackTraceElement);
-                        message.append(System.lineSeparator());
-                    }
-
-                    return DefaultFailureTemplateBuilder.indentation(message.toString());
-                });
-
         DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
                 .includeCause()
                 .includeDetails(element.getStackTrace())
                 .includeEnvironment()
                 .includeEnd();
+
+        MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
+                .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())
+                .register("{{location}}", () -> location != null ? location : "?")
+                .register("{{line}}", () -> source != null && source.getCurrentLine() > -1 ? source.getCurrentLine() + 1 : "?")
+                .register("{{details}}", () -> DefaultFailureTemplateBuilder.stacktraceToString(element));
 
         PandaMessengerMessage message = new PandaMessengerMessage(MessengerLevel.FAILURE, templateBuilder.getAsLines(formatter, "InterpreterFailure"));
         messenger.sendMessage(message);

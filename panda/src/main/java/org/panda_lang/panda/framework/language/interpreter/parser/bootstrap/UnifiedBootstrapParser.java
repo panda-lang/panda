@@ -96,6 +96,8 @@ public class UnifiedBootstrapParser implements UnifiedParser {
             case NEXT_AFTER:
                 nextLayer.delegateAfter(callback, data);
                 break;
+            default:
+                throw new ParserBootstrapException("Unknown delegation: " + delegation);
         }
     }
 

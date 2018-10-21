@@ -36,6 +36,7 @@ public class PandaLexerFailureTranslator implements MessengerMessageTranslator<P
                 .includeCause()
                 .includeSource()
                 .includeMarker(formatter.getValue("{{index}}"))
+                .includeLocation()
                 .includeEnvironment()
                 .includeEnd();
 

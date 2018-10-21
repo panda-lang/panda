@@ -20,16 +20,36 @@ import org.jetbrains.annotations.Nullable;
 
 public class PackageUtils {
 
+    public static String getShortenPackage(Class<?> clazz) {
+        return getShortenPackage(clazz.getName());
+    }
+
+    public static String getShortenPackage(String pack) {
+        int separator = StringUtils.lastIndexOfBefore(pack, ".", 1);
+
+        String className = pack.substring(separator + 1);
+        String packagePath = pack.substring(0, separator - 1);
+
+        String[] packages = packagePath.split("\\.");
+        StringBuilder builder = new StringBuilder();
+
+        for (String element : packages) {
+            builder.append(element, 0, 1).append(".");
+        }
+
+        return builder.append(className).toString();
+    }
+
     public static @Nullable String getPackageName(Class<?> clazz) {
         return clazz.getPackage() == null ? null : clazz.getPackage().getName();
     }
 
-    public static String toString(Package pckg, String defaultValue) {
-        return pckg != null ? pckg.getName() : defaultValue;
+    public static String toString(Package pack, String defaultValue) {
+        return pack != null ? pack.getName() : defaultValue;
     }
 
-    public static @Nullable String toString(Package pckg) {
-        return pckg != null ? pckg.getName() : null;
+    public static @Nullable String toString(Package pack) {
+        return pack != null ? pack.getName() : null;
     }
 
 }

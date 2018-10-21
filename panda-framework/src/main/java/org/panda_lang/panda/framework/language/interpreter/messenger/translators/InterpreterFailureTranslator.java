@@ -47,6 +47,7 @@ public class InterpreterFailureTranslator implements MessengerMessageTranslator<
                 .includeDetails(element.getDetails())
                 .includeSource()
                 .includeMarker(formatter.getValue("{{index}}"))
+                .includeLocation()
                 .includeEnvironment()
                 .includeEnd();
 

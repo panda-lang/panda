@@ -106,7 +106,7 @@ public class ClassPrototypeParser extends BootstrapParser {
         }
     }
 
-    @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
+    @Autowired(delegation = Delegation.CURRENT_AFTER)
     public void parseBody(ParserData data, GenerationLayer nextLayer, @Redactor("body") TokenizedSource body) throws Exception {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);

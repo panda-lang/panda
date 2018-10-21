@@ -126,7 +126,7 @@ class StringUtilsTest {
 
     @Test
     public void testCreateIndentation() {
-        Assertions.assertEquals("  test", StringUtils.createIndentation(2) + "test");
+        Assertions.assertEquals("  test", StringUtils.buildSpace(2) + "test");
     }
 
     @Test
