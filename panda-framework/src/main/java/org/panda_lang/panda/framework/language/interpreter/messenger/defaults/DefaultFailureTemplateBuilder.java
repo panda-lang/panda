@@ -46,7 +46,22 @@ public class DefaultFailureTemplateBuilder {
                         .reset()
                         .a(source.substring(endIndex))
                         .toString())
-                .register("{{stacktrace}}", stacktraceToString(exception))
+                .register("{{stacktrace}}", () -> {
+                    StringBuilder content = new StringBuilder("[..]");
+                    StackTraceElement[] elements = exception.getStackTrace();
+
+                    for (int i = 4; i > 0; i--) {
+                        StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), i);
+
+                        if (lastElement == null) {
+                            break;
+                        }
+
+                        content.append(" -> (").append(lastElement.getFileName()).append(":").append(lastElement.getLineNumber()).append(")");
+                    }
+
+                    return content.toString();
+                })
                 .register("{{stacktrace-last}}", () -> {
                     StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
 
@@ -80,7 +95,7 @@ public class DefaultFailureTemplateBuilder {
     }
 
     public DefaultFailureTemplateBuilder includeLocation() {
-        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}{{newline}}  Framework: {{stacktrace-last}}");
+        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}{{newline}}  Framework: {{stacktrace-last}}{{newline}}  Stack: {{stacktrace}}");
         return this;
     }
 
