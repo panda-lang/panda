@@ -24,7 +24,7 @@ class ArrayUtilsTest {
     @Test
     public void testContains() {
         Assertions.assertAll(
-                () -> Assertions.assertFalse(ArrayUtils.contains(ARRAY, "b")),
+                () -> Assertions.assertTrue(ArrayUtils.contains(ARRAY, "b")),
 
                 () -> Assertions.assertFalse(ArrayUtils.contains(EMPTY_ARRAY, "d")),
                 () -> Assertions.assertFalse(ArrayUtils.contains(ARRAY_WITH_NULL, "d"))
