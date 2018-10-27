@@ -31,7 +31,7 @@ public class PandaClassPrototype extends AbstractClassPrototype {
         super(className, associated, aliases);
     }
 
-    protected PandaClassPrototype(PandaClassPrototypeBuilder builder) {
+    protected PandaClassPrototype(PandaClassPrototypeBuilder<?, ?> builder) {
         this(builder.name, builder.associated, builder.aliases);
     }
 

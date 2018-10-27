@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuilder<BUILDER, ?>, TYPE extends PandaClassPrototype> {
 
@@ -28,7 +28,7 @@ public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuild
 
     protected PandaClassPrototypeBuilder() {
         this.associated = Object.class;
-        this.aliases = Collections.emptyList();
+        this.aliases = new ArrayList<>(1);
     }
 
     public BUILDER name(String name) {
@@ -54,7 +54,7 @@ public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuild
     @SuppressWarnings("unchecked")
     public TYPE build() {
         if (name == null) {
-            throw new IllegalArgumentException("ClassPrototype name is not definied");
+            throw new IllegalArgumentException("ClassPrototype name is not defined");
         }
 
         return (TYPE) new PandaClassPrototype(this);
