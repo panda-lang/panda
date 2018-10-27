@@ -112,6 +112,14 @@ class StringUtilsTest {
     }
 
     @Test
+    public void testContainsOtherCharacters() {
+        Assertions.assertAll(
+                () -> Assertions.assertTrue(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b' })),
+                () -> Assertions.assertFalse(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b', 'c'}))
+        );
+    }
+
+    @Test
     public void testIsNumber() {
         Assertions.assertAll(
                 () -> Assertions.assertFalse(StringUtils.isNumber("test")),
