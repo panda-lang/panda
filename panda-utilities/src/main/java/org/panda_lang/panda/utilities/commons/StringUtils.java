@@ -402,7 +402,7 @@ public class StringUtils {
      * @return true if the string contains a character other than the specified in arrays
      */
     public static boolean containsOtherCharacters(String text, char[]... characters) {
-        return contains(text, character -> CharacterUtils.belongsTo(character, characters));
+        return contains(text, character -> !CharacterUtils.belongsTo(character, characters));
     }
 
     private static boolean contains(String text, Function<Character, Boolean> condition) {

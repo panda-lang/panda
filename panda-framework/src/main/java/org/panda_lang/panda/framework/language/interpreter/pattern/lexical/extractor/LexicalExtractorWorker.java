@@ -31,6 +31,9 @@ import java.util.Stack;
 
 public class LexicalExtractorWorker<T> {
 
+    private static final int NOT_FOUND = -1;
+    private static final int INVALID = -2;
+
     private final @Nullable WildcardProcessor<T> wildcardProcessor;
 
     public LexicalExtractorWorker(@Nullable WildcardProcessor<T> wildcardProcessor) {
@@ -103,7 +106,7 @@ public class LexicalExtractorWorker<T> {
 
             ArrayDistributor<LexicalPatternUnit> unitArrayDistributor = new ArrayDistributor<>(units, LexicalPatternUnit.class);
             unitArrayDistributor.reverse();
-            int unitIndex = -1;
+            int unitIndex = NOT_FOUND;
 
             for (LexicalPatternUnit currentUnit : unitArrayDistributor) {
                 if (index < 0) {
@@ -127,7 +130,7 @@ public class LexicalExtractorWorker<T> {
                 boolean isolation = unit.getIsolationType().isStart() || (previousUnit != null && previousUnit.getIsolationType().isEnd());
                 unitIndex = phrase.indexOf(unit.getValue(), index + (isolation ? 1 : 0));
 
-                if (unitIndex != -1) {
+                if (unitIndex != NOT_FOUND) {
                     break;
                 }
 
@@ -135,7 +138,7 @@ public class LexicalExtractorWorker<T> {
                     break;
                 }
 
-                unitIndex = -2;
+                unitIndex = INVALID;
 
                 if (previousUnit == null) {
                     break;
@@ -144,12 +147,12 @@ public class LexicalExtractorWorker<T> {
                 index -= previousUnit.getValue().length();
             }
 
-            if (unitIndex == -2) {
-                return null;
+            if (unitIndex == NOT_FOUND) {
+                continue;
             }
 
-            if (unitIndex == -1) {
-                continue;
+            if (unitIndex == INVALID) {
+                return null;
             }
 
             String before = phrase.substring(index, unitIndex).trim();
