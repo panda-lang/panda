@@ -31,15 +31,20 @@ public @interface ParserRegistration {
     /**
      * Default pipelines: {@link org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines}
      *
-     * @return an array of pipelines
+     * @return the array of pipelines
      */
     String[] target();
+
+    /**
+     * Default priorities {@link org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities}
+     *
+     * @return the priority
+     */
+    int priority() default 0;
 
     Class<? extends UnifiedParser> parserClass() default UnifiedParser.class;
 
     Class<? extends ParserHandler> handlerClass() default ParserHandler.class;
-
-    int priority() default 0;
 
 }
 

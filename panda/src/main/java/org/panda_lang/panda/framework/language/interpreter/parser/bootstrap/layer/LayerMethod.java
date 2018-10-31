@@ -50,6 +50,10 @@ public class LayerMethod {
         return autowired.delegation();
     }
 
+    public String getType() {
+        return autowired.type();
+    }
+
     public Method getMethod() {
         return method;
     }
