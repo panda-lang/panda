@@ -51,6 +51,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.types.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -67,7 +68,7 @@ public class ClassPrototypeParser extends BootstrapParser {
                 .build();
     }
 
-    @Autowired
+    @Autowired(type = PandaTypes.TYPES_LABEL)
     public void parse(ParserData data, GenerationLayer nextLayer, @Redactor("declaration") TokenizedSource declaration, @Redactor("body") TokenizedSource body) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
@@ -99,14 +100,14 @@ public class ClassPrototypeParser extends BootstrapParser {
         data.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
     }
 
-    @Autowired(delegation = Delegation.CURRENT_AFTER)
+    @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void parseDeclaration(ParserData data, @Redactor("declaration") TokenizedSource declaration) {
         if (declaration.size() > 1) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
-    @Autowired(delegation = Delegation.CURRENT_AFTER)
+    @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void parseBody(ParserData data, GenerationLayer nextLayer, @Redactor("body") TokenizedSource body) throws Exception {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
@@ -128,7 +129,7 @@ public class ClassPrototypeParser extends BootstrapParser {
         }
     }
 
-    @Autowired(order = 1, delegation = Delegation.NEXT_AFTER)
+    @Autowired(order = 1, type = PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);

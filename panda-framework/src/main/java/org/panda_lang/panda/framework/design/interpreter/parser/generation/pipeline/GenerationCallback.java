@@ -18,10 +18,8 @@ package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipe
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface ParserGenerationUnit {
+public interface GenerationCallback {
 
-    ParserData getDelegated();
-
-    ParserGenerationCallback getCallback();
+    void call(Generation generation, ParserData delegatedData) throws Throwable;
 
 }

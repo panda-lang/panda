@@ -18,26 +18,10 @@ package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipe
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-import java.util.List;
+public interface GenerationPipeline {
 
-public interface ParserGenerationPipeline {
+    void execute(ParserData data) throws Throwable;
 
-    void execute(ParserData data);
-
-    ParserGenerationHandler first();
-
-    ParserGenerationHandler last();
-
-    List<String> names();
-
-    void addAfter(String baseName, String name, ParserGenerationHandler handler);
-
-    void addBefore(String baseName, String name, ParserGenerationHandler handler);
-
-    void addFirst(String name, ParserGenerationHandler handler);
-
-    void addLast(String name, ParserGenerationHandler handler);
-
-    ParserGenerationHandler get(String name);
+    GenerationLayer getNextLayer();
 
 }

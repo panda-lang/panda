@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.types.PandaTypes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -26,6 +27,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
+
+    String type() default PandaTypes.CONTENT_LABEL;
 
     Delegation delegation() default Delegation.IMMEDIATELY;
 

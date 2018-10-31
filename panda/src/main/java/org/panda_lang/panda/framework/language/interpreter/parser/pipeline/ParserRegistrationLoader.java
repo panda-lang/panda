@@ -26,6 +26,24 @@ import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Collection;
 
+/*
+
+Parsers {
+
+}
+
+Generations {
+    raw_syntax:
+    types:
+    syntax:
+    content:
+        all:
+        scope:
+
+}
+
+ */
+
 public class ParserRegistrationLoader {
 
     public PipelineRegistry load(AnnotationsScannerProcess scannerProcess) {

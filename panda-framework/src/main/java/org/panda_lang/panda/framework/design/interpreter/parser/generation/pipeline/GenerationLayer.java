@@ -18,8 +18,16 @@ package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipe
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface ParserGenerationContext {
+public interface GenerationLayer {
 
-    void fireHandle(ParserGenerationCallback callback, ParserData delegated);
+    void callDelegates(GenerationPipeline pipeline, ParserData data) throws Throwable;
+
+    GenerationLayer delegateBefore(GenerationCallback callback, ParserData delegated);
+
+    GenerationLayer delegate(GenerationCallback callback, ParserData delegated);
+
+    GenerationLayer delegateAfter(GenerationCallback callback, ParserData delegated);
+
+    int countDelegates();
 
 }
