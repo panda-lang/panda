@@ -54,12 +54,12 @@ public class PandaGeneration implements Generation {
     }
 
     @Override
-    public GenerationPipeline getPipeline(PipelineType type) {
-        return getPipeline(type.getName());
+    public GenerationPipeline pipeline(PipelineType type) {
+        return pipeline(type.getName());
     }
 
     @Override
-    public GenerationPipeline getPipeline(String name) {
+    public GenerationPipeline pipeline(String name) {
         return pipelines.get(name);
     }
 

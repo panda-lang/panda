@@ -1,7 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
@@ -16,17 +15,15 @@ public class PandaGenerationLayer implements GenerationLayer {
     private static final AtomicInteger idAssigner = new AtomicInteger();
 
     private final int id;
-    private final Generation generation;
     private final GenerationPipeline pipeline;
 
     private final List<GenerationUnit> before = new ArrayList<>(1);
     private final List<GenerationUnit> delegates = new ArrayList<>();
     private final List<GenerationUnit> after = new ArrayList<>(1);
 
-    public PandaGenerationLayer(Generation generation, GenerationPipeline pipeline) {
+    public PandaGenerationLayer(GenerationPipeline pipeline) {
         this.id = idAssigner.getAndIncrement();
         this.pipeline = pipeline;
-        this.generation = generation;
     }
 
     public void call(ParserData currentData, GenerationLayer nextLayer) throws Throwable {
@@ -42,7 +39,7 @@ public class PandaGenerationLayer implements GenerationLayer {
         for (GenerationUnit unit : unitList) {
             GenerationCallback callback = unit.getCallback();
             ParserData delegatedInfo = unit.getDelegated();
-            callback.call(generation, nextLayer, unit.getDelegated());
+            callback.call(pipeline, unit.getDelegated());
         }
     }
 

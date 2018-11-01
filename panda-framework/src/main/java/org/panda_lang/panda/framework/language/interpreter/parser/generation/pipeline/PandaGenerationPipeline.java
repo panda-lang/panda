@@ -15,8 +15,8 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     public PandaGenerationPipeline(Generation generation, String name) {
         this.name = name;
         this.generation = generation;
-        this.currentLayer = new PandaGenerationLayer(generation, this);
-        this.nextLayer = new PandaGenerationLayer(generation, this);
+        this.currentLayer = new PandaGenerationLayer(this);
+        this.nextLayer = new PandaGenerationLayer(this);
     }
 
     @Override
@@ -29,7 +29,7 @@ public class PandaGenerationPipeline implements GenerationPipeline {
             }
 
             currentLayer = nextLayer;
-            nextLayer = new PandaGenerationLayer(generation, this);
+            nextLayer = new PandaGenerationLayer(this);
 
             if (generation.countDelegates(this) > 0) {
                 return false;
@@ -52,6 +52,11 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     @Override
     public GenerationLayer nextLayer() {
         return nextLayer;
+    }
+
+    @Override
+    public Generation generation() {
+        return generation;
     }
 
     @Override

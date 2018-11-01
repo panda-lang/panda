@@ -24,15 +24,15 @@ class GenerationTest {
     public void testPipelineGeneration() throws Throwable {
         StringBuilder outputBuilder = new StringBuilder();
 
-        generation.getPipeline("b").nextLayer().delegate((generation, nextLayer, delegatedData) -> outputBuilder.append("b "), null);
-        generation.getPipeline("a").nextLayer().delegate((generation, nextLayer, delegatedData) -> outputBuilder.append("a "), null);
-        generation.getPipeline("c").nextLayer().delegate((generation, nextLayer, delegatedData) -> outputBuilder.append("c "), null);
+        generation.pipeline("b").nextLayer().delegate((pipeline, data) -> outputBuilder.append("b "), null);
+        generation.pipeline("a").nextLayer().delegate((pipeline, data) -> outputBuilder.append("a "), null);
+        generation.pipeline("c").nextLayer().delegate((pipeline, data) -> outputBuilder.append("c "), null);
 
-        generation.getPipeline("b").nextLayer().delegate((generation, nextLayer, delegatedData) -> {
+        generation.pipeline("b").nextLayer().delegate((pipeline, delegatedData) -> {
             outputBuilder.append("b2 ");
 
-            nextLayer.delegate((generation1, nextLayer1, delegatedData1) -> {
-                generation.getPipeline("a").nextLayer().delegate((generation2, nextLayer2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
+            pipeline.nextLayer().delegate((pipeline1, delegatedData1) -> {
+                pipeline1.generation().pipeline("a").nextLayer().delegate((pipeline2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
                 outputBuilder.append("b3 ");
             }, delegatedData);
         }, null);
