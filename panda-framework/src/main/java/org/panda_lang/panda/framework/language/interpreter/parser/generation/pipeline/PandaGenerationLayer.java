@@ -9,19 +9,24 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class PandaGenerationLayer implements GenerationLayer {
 
-    private final Generation generation;
-    private final List<GenerationUnit> before;
-    private final List<GenerationUnit> delegates;
-    private final List<GenerationUnit> after;
+    private static final AtomicInteger idAssigner = new AtomicInteger();
 
-    public PandaGenerationLayer(Generation generation) {
+    private final int id;
+    private final Generation generation;
+    private final GenerationPipeline pipeline;
+
+    private final List<GenerationUnit> before = new ArrayList<>(1);
+    private final List<GenerationUnit> delegates = new ArrayList<>();
+    private final List<GenerationUnit> after = new ArrayList<>(1);
+
+    public PandaGenerationLayer(Generation generation, GenerationPipeline pipeline) {
+        this.id = idAssigner.getAndIncrement();
+        this.pipeline = pipeline;
         this.generation = generation;
-        this.before = new ArrayList<>(1);
-        this.delegates = new ArrayList<>();
-        this.after = new ArrayList<>(1);
     }
 
     public void call(ParserData currentData, GenerationLayer nextLayer) throws Throwable {
@@ -37,13 +42,13 @@ public class PandaGenerationLayer implements GenerationLayer {
         for (GenerationUnit unit : unitList) {
             GenerationCallback callback = unit.getCallback();
             ParserData delegatedInfo = unit.getDelegated();
-            callback.call(generation, unit.getDelegated());
+            callback.call(generation, nextLayer, unit.getDelegated());
         }
     }
 
     @Override
     public void callDelegates(GenerationPipeline pipeline, ParserData data) throws Throwable {
-        call(data, null);
+        call(data, pipeline.getNextLayer());
     }
 
     @Override
@@ -69,6 +74,11 @@ public class PandaGenerationLayer implements GenerationLayer {
     @Override
     public int countDelegates() {
         return before.size() + delegates.size() + after.size();
+    }
+
+    @Override
+    public String toString() {
+        return "PandaGenerationLayer(" + pipeline.getName() + "#" + id + ")";
     }
 
 }

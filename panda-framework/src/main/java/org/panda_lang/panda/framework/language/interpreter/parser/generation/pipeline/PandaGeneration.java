@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
@@ -18,15 +19,38 @@ public class PandaGeneration implements Generation {
         Collections.sort(types);
 
         for (PipelineType type : types) {
-            pipelines.put(type.getName(), new PandaGenerationPipeline(this));
+            pipelines.put(type.getName(), new PandaGenerationPipeline(this, type.getName()));
         }
     }
 
     @Override
     public void execute(ParserData data) throws Throwable {
-        for (GenerationPipeline pipeline : pipelines.values()) {
-            pipeline.execute(data);
+        while (countDelegates(null) > 0) {
+            executeOnce(data);
         }
+    }
+
+    private void executeOnce(ParserData data) throws Throwable {
+        for (GenerationPipeline pipeline : pipelines.values()) {
+            if (!pipeline.execute(data)) {
+                break;
+            }
+        }
+    }
+
+    @Override
+    public int countDelegates(@Nullable GenerationPipeline toPipeline) {
+        int count = 0;
+
+        for (GenerationPipeline pipeline : pipelines.values()) {
+            if (pipeline.equals(toPipeline)) {
+                break;
+            }
+
+            count += pipeline.countDelegates();
+        }
+
+        return count;
     }
 
     @Override

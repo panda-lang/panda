@@ -20,8 +20,11 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface GenerationPipeline {
 
-    void execute(ParserData data) throws Throwable;
+    boolean execute(ParserData data) throws Throwable;
+
+    int countDelegates();
 
     GenerationLayer getNextLayer();
 
+    String getName();
 }
