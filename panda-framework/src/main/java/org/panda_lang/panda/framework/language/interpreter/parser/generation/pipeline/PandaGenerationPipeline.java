@@ -44,17 +44,18 @@ public class PandaGenerationPipeline implements GenerationPipeline {
         return currentLayer.countDelegates() + nextLayer.countDelegates();
     }
 
-    public GenerationLayer getCurrentLayer() {
+    @Override
+    public GenerationLayer currentLayer() {
         return currentLayer;
     }
 
     @Override
-    public GenerationLayer getNextLayer() {
+    public GenerationLayer nextLayer() {
         return nextLayer;
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return name;
     }
 

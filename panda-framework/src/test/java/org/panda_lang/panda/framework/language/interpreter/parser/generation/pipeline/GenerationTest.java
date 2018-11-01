@@ -1,8 +1,9 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.types.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
 
 import java.util.Arrays;
 
@@ -21,25 +22,27 @@ class GenerationTest {
 
     @Test
     public void testPipelineGeneration() throws Throwable {
-        generation.getPipeline("b").getNextLayer().delegate((generation, nextLayer, delegatedData) -> System.out.println("b"), null);
-        generation.getPipeline("a").getNextLayer().delegate((generation, nextLayer, delegatedData) -> System.out.println("a"), null);
-        generation.getPipeline("c").getNextLayer().delegate((generation, nextLayer, delegatedData) -> System.out.println("c"), null);
+        StringBuilder outputBuilder = new StringBuilder();
 
-        generation.getPipeline("b").getNextLayer().delegate((generation, nextLayer, delegatedData) -> {
-            System.out.println("b2");
+        generation.getPipeline("b").nextLayer().delegate((generation, nextLayer, delegatedData) -> outputBuilder.append("b "), null);
+        generation.getPipeline("a").nextLayer().delegate((generation, nextLayer, delegatedData) -> outputBuilder.append("a "), null);
+        generation.getPipeline("c").nextLayer().delegate((generation, nextLayer, delegatedData) -> outputBuilder.append("c "), null);
+
+        generation.getPipeline("b").nextLayer().delegate((generation, nextLayer, delegatedData) -> {
+            outputBuilder.append("b2 ");
 
             nextLayer.delegate((generation1, nextLayer1, delegatedData1) -> {
-                System.out.println("b3");
-
-                generation.getPipeline("a").getNextLayer().delegate((generation2, nextLayer2, delegatedData2) -> {
-                    System.out.println("a2");
-                }, delegatedData1);
+                generation.getPipeline("a").nextLayer().delegate((generation2, nextLayer2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
+                outputBuilder.append("b3 ");
             }, delegatedData);
         }, null);
 
         generation.execute(null);
-        System.out.println("-");
+        Assertions.assertEquals("a b b2 b3 a2 c", outputBuilder.toString().trim());
+
+        outputBuilder.setLength(0);
         generation.execute(null);
+        Assertions.assertEquals("", outputBuilder.toString());
     }
 
 }

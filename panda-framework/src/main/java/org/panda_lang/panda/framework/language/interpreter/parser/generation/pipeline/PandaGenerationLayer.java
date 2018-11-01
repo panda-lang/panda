@@ -48,7 +48,7 @@ public class PandaGenerationLayer implements GenerationLayer {
 
     @Override
     public void callDelegates(GenerationPipeline pipeline, ParserData data) throws Throwable {
-        call(data, pipeline.getNextLayer());
+        call(data, pipeline.nextLayer());
     }
 
     @Override
@@ -78,7 +78,7 @@ public class PandaGenerationLayer implements GenerationLayer {
 
     @Override
     public String toString() {
-        return "PandaGenerationLayer(" + pipeline.getName() + "#" + id + ")";
+        return "PandaGenerationLayer(" + pipeline.name() + "#" + id + ")";
     }
 
 }

@@ -24,7 +24,9 @@ public interface GenerationPipeline {
 
     int countDelegates();
 
-    GenerationLayer getNextLayer();
+    GenerationLayer nextLayer();
 
-    String getName();
+    GenerationLayer currentLayer();
+
+    String name();
 }
