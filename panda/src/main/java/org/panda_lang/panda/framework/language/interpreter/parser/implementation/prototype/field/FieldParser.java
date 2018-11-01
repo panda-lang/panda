@@ -23,9 +23,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -41,6 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
@@ -71,16 +71,15 @@ public class FieldParser implements UnifiedParser, ParserHandler {
     }
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception {
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
-        CasualParserGenerationCallback callback;
-
+    public boolean parse(ParserData data) throws Throwable {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
 
         List<TokenizedSource> hollows = FieldParser.ASSIGNATION_PATTERN
                 .extractor()
                 .extract(copyOfStream.toTokenReader());
+
+        GenerationCallback callback;
 
         if (hollows == null || hollows.size() < 2) {
             callback = new FieldDeclarationCasualParserCallback(false);
@@ -89,11 +88,11 @@ public class FieldParser implements UnifiedParser, ParserHandler {
             callback = new FieldDeclarationCasualParserCallback(true);
         }
 
-        callback.call(data, nextLayer);
+        callback.call(data.getComponent(UniversalComponents.GENERATION).pipeline(PandaTypes.TYPES_LABEL), data);
         return true;
     }
 
-    private static class FieldDeclarationCasualParserCallback implements CasualParserGenerationCallback {
+    private static class FieldDeclarationCasualParserCallback implements GenerationCallback {
 
         private final boolean assignation;
 
@@ -102,7 +101,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
+        public void call(GenerationPipeline pipeline, ParserData delegatedData) {
             AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedData);
             AbyssRedactor redactor = new AbyssRedactor(hollows);
 
@@ -192,14 +191,14 @@ public class FieldParser implements UnifiedParser, ParserHandler {
             // linker.getCurrentScope().addStatement(statement); class scope [without statements]
 
             if (assignation) {
-                nextLayer.delegate(new FieldAssignationCasualParserCallback(field, redactor), delegatedData);
+                pipeline.nextLayer().delegate(new FieldAssignationCasualParserCallback(field, redactor), delegatedData);
             }
         }
 
     }
 
     @LocalCallback
-    private static class FieldAssignationCasualParserCallback implements CasualParserGenerationCallback {
+    private static class FieldAssignationCasualParserCallback implements GenerationCallback {
 
         private final PrototypeField field;
         private final AbyssRedactor redactor;
@@ -210,7 +209,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
+        public void call(GenerationPipeline pipeline, ParserData delegatedData) {
             TokenizedSource right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();

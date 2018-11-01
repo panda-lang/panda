@@ -18,23 +18,41 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 public abstract class BootstrapParser implements UnifiedParser, ParserHandler {
 
     protected ParserRepresentation bootstrapParser;
+    protected BootstrapParserBuilder parserBuilder;
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception {
-        return bootstrapParser.getParser().parse(data, nextLayer);
+    public boolean parse(ParserData data) throws Throwable {
+        return get().getParser().parse(data);
     }
 
     @Override
     public boolean handle(TokenReader reader) {
-        return bootstrapParser.getHandler().handle(reader);
+        return get().getHandler().handle(reader);
+    }
+
+    private ParserRepresentation get() {
+        if (bootstrapParser != null) {
+            return bootstrapParser;
+        }
+
+        if (parserBuilder == null) {
+            throw new PandaParserException("BootstrapParser does not have associated ParserRepresentation or BootstrapBuilder");
+        }
+
+        bootstrapParser = parserBuilder.build();
+        return bootstrapParser;
+    }
+
+    protected BootstrapParserBuilder builder() {
+        return PandaParserBootstrap.builder().instance(this);
     }
 
 }

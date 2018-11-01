@@ -26,8 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
@@ -69,7 +68,7 @@ public class ClassPrototypeParser extends BootstrapParser {
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
-    public void parse(ParserData data, GenerationLayer nextLayer, @Redactor("declaration") TokenizedSource declaration, @Redactor("body") TokenizedSource body) {
+    public void parse(ParserData data, Generation generation, @Redactor("declaration") TokenizedSource declaration, @Redactor("body") TokenizedSource body) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
         String className = declaration.getTokenValue(0);
@@ -108,13 +107,11 @@ public class ClassPrototypeParser extends BootstrapParser {
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    public void parseBody(ParserData data, GenerationLayer nextLayer, @Redactor("body") TokenizedSource body) throws Exception {
+    public void parseBody(ParserData data, Generation generation, @Redactor("body") TokenizedSource body) throws Throwable {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 
         SourceStream stream = new PandaSourceStream(body);
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
-
         ParserData bodyInfo = data.fork();
         bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
@@ -125,7 +122,7 @@ public class ClassPrototypeParser extends BootstrapParser {
                 throw new PandaParserFailure("Cannot parse the element of the prototype", data);
             }
 
-            parser.parse(bodyInfo, nextLayer);
+            parser.parse(bodyInfo);
         }
     }
 

@@ -30,15 +30,17 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 public class DefaultInterceptor implements BootstrapInterceptor {
 
     private final boolean lastIndexAlgorithm;
+    private final int maxNestingLevel;
     private AbyssPattern pattern;
     private String[] wildcards;
 
-    public DefaultInterceptor(boolean lastIndexAlgorithm) {
+    public DefaultInterceptor(boolean lastIndexAlgorithm, int maxNestingLevel) {
         this.lastIndexAlgorithm = lastIndexAlgorithm;
+        this.maxNestingLevel = maxNestingLevel;
     }
 
     public DefaultInterceptor() {
-        this(false);
+        this(false, 0);
     }
 
     @Override
@@ -52,6 +54,7 @@ public class DefaultInterceptor implements BootstrapInterceptor {
         this.pattern = new AbyssPatternBuilder()
                 .compile(PandaSyntax.getInstance(), generator.getPattern())
                 .lastIndexAlgorithm(lastIndexAlgorithm)
+                .maxNestingLevel(maxNestingLevel)
                 .build();
     }
 

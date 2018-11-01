@@ -16,13 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-
 public interface UnifiedParser extends Parser {
 
     /**
      * @param data set of information about source and interpretation process
      */
-    boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception;
+    boolean parse(ParserData data) throws Throwable;
 
 }

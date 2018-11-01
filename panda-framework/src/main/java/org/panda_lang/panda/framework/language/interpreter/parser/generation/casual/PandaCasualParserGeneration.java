@@ -19,16 +19,16 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.ca
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualGenerationLayer;
 
-public class PandaCasualParserGeneration implements CasualParserGeneration {
+class PandaCasualParserGeneration implements CasualParserGeneration {
 
-    private GenerationLayer currentLayer;
-    private GenerationLayer nextLayer;
+    private CasualGenerationLayer currentLayer;
+    private CasualGenerationLayer nextLayer;
 
     public PandaCasualParserGeneration() {
-        this.currentLayer = new PandaCasualParserGenerationLayer();
-        this.nextLayer = new PandaCasualParserGenerationLayer();
+        this.currentLayer = new PandaCasualParserCasualGenerationLayer();
+        this.nextLayer = new PandaCasualParserCasualGenerationLayer();
     }
 
     @Override
@@ -41,12 +41,12 @@ public class PandaCasualParserGeneration implements CasualParserGeneration {
             }
 
             currentLayer = nextLayer;
-            nextLayer = new PandaCasualParserGenerationLayer();
+            nextLayer = new PandaCasualParserCasualGenerationLayer();
         }
     }
 
     @Override
-    public GenerationLayer getLayer(CasualParserGenerationType generationType) {
+    public CasualGenerationLayer getLayer(CasualParserGenerationType generationType) {
         return generationType == CasualParserGenerationType.CURRENT ? currentLayer : nextLayer;
     }
 

@@ -19,11 +19,10 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
@@ -51,32 +50,33 @@ public class UnifiedBootstrapParser implements UnifiedParser {
     }
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) throws Exception {
+    public boolean parse(ParserData data) throws Throwable {
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();
-        return delegate(data, nextLayer, interceptorData, new LocalData(), index);
+        return delegate(data, data.getComponent(UniversalComponents.GENERATION), interceptorData, new LocalData(), index);
     }
 
-    protected boolean delegate(ParserData data, GenerationLayer nextLayer, InterceptorData interceptorData, LocalData localData, int lastIndex) throws Exception {
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
-        GenerationLayer currentLayer = generation.getLayer(CasualParserGenerationType.CURRENT);
-
+    protected boolean delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int lastIndex) throws Throwable {
         List<LayerMethod> methods = layers.stream()
                 .filter((method) -> method.getOrder() == lastIndex)
                 .sorted(Comparator.comparingInt(method -> method.getDelegation().getPriority()))
                 .collect(Collectors.toList());
 
         for (int i = 0; i < methods.size(); i++) {
-            CasualParserGenerationCallback callback = generator.callback(interceptorData, localData, methods.get(i), lastIndex + methods.size(), methods.size() == i + 1);
-            delegate(data, callback, methods.get(i).getDelegation(), currentLayer, nextLayer);
+            GenerationCallback callback = generator.callback(interceptorData, localData, methods.get(i), lastIndex + methods.size(), methods.size() == i + 1);
+            delegate(generation, data, callback, methods.get(i));
         }
 
         return true;
     }
 
-    private void delegate(ParserData data, CasualParserGenerationCallback callback, Delegation delegation, GenerationLayer currentLayer, GenerationLayer nextLayer) throws Exception {
-        switch (delegation) {
+    private void delegate(Generation generation, ParserData data, GenerationCallback callback, LayerMethod method) throws Throwable {
+        GenerationPipeline pipeline = generation.pipeline(method.getType());
+        GenerationLayer currentLayer = pipeline.currentLayer();
+        GenerationLayer nextLayer = pipeline.nextLayer();
+
+        switch (method.getDelegation()) {
             case IMMEDIATELY:
-                callback.call(data, nextLayer);
+                callback.call(pipeline, data);
                 break;
             case CURRENT_BEFORE:
                 currentLayer.delegateBefore(callback, data);
@@ -97,7 +97,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
                 nextLayer.delegateAfter(callback, data);
                 break;
             default:
-                throw new ParserBootstrapException("Unknown delegation: " + delegation);
+                throw new ParserBootstrapException("Unknown delegation: " + method.getDelegation());
         }
     }
 

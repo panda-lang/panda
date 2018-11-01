@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.language.architecture.prototype.constructo
 import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
@@ -45,11 +44,9 @@ import java.util.List;
 public class ConstructorParser extends BootstrapParser {
 
     {
-        bootstrapParser = PandaParserBootstrap.builder()
+        parserBuilder = builder()
                 .handler(new FirstTokenHandler(Keywords.CONSTRUCTOR))
-                .pattern("constructor ( +** ) { +* }", "parameters", "body")
-                .instance(this)
-                .build();
+                .pattern("constructor ( +** ) { +* }", "parameters", "body");
     }
 
     @Autowired(order = 1)
@@ -65,7 +62,7 @@ public class ConstructorParser extends BootstrapParser {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Redactor("body") TokenizedSource body) throws Exception {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Redactor("body") TokenizedSource body) throws Throwable {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

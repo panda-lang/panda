@@ -61,7 +61,7 @@ public class PandaInterpretation implements Interpretation {
 
         try {
             runnable.run();
-        } catch (Exception exception) {
+        } catch (Throwable exception) {
             this.getMessenger().send(exception);
         }
 
@@ -72,7 +72,7 @@ public class PandaInterpretation implements Interpretation {
     public @Nullable <T> T execute(ThrowingSupplier<T> callback) {
         try {
             return isHealthy() ? callback.get() : null;
-        } catch (Exception exception) {
+        } catch (Throwable exception) {
             this.getMessenger().send(exception);
         }
 

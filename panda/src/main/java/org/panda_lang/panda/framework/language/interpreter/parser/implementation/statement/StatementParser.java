@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -46,7 +45,7 @@ public class StatementParser extends BootstrapParser {
     }
 
     @Autowired
-    private void parse(ParserData data, GenerationLayer nextLayer, @Component PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) throws Exception {
+    private void parse(ParserData data, @Component PipelineRegistry registry, @Redactor("statement") TokenizedSource statement) throws Throwable {
         SourceStream declarationStream = new PandaSourceStream(statement);
 
         ParserPipeline pipeline = registry.getPipeline(PandaPipelines.STATEMENT);
@@ -58,7 +57,7 @@ public class StatementParser extends BootstrapParser {
 
         ParserData statementParserData = data.fork();
         statementParserData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-        statementParser.parse(statementParserData, nextLayer);
+        statementParser.parse(statementParserData);
     }
 
 }

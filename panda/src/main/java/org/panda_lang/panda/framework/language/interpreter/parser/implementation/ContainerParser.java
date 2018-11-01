@@ -21,8 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -40,10 +39,10 @@ public class ContainerParser implements Parser {
         this.container = container;
     }
 
-    public void parse(ParserData data, TokenizedSource body) throws Exception {
+    public void parse(ParserData data, TokenizedSource body) throws Throwable {
         ParserData delegatedData = data.fork();
 
-        CasualParserGeneration generation = delegatedData.getComponent(UniversalComponents.GENERATION);
+        Generation generation = delegatedData.getComponent(UniversalComponents.GENERATION);
         PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.SCOPE);
 
@@ -61,7 +60,7 @@ public class ContainerParser implements Parser {
                 throw new PandaParserFailure("Unrecognized syntax", data);
             }
 
-            parser.parse(delegatedData, generation.getLayer(CasualParserGenerationType.NEXT));
+            parser.parse(delegatedData);
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData);

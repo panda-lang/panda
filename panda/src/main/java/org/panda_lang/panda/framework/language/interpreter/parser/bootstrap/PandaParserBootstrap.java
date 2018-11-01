@@ -25,9 +25,9 @@ import java.util.List;
 
 public class PandaParserBootstrap {
 
-    private final PandaParserBuilder bootstrap;
+    private final BootstrapParserBuilder bootstrap;
 
-    protected PandaParserBootstrap(PandaParserBuilder bootstrap) {
+    protected PandaParserBootstrap(BootstrapParserBuilder bootstrap) {
         this.bootstrap = bootstrap;
     }
 
@@ -69,8 +69,8 @@ public class PandaParserBootstrap {
         return bootstrap.name;
     }
 
-    public static PandaParserBuilder builder() {
-        return new PandaParserBuilder();
+    public static BootstrapParserBuilder builder() {
+        return new BootstrapParserBuilder();
     }
 
 }

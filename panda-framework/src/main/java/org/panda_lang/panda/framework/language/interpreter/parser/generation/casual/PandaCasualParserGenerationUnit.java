@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationUnit;
 
-public class PandaCasualParserGenerationUnit implements CasualParserGenerationUnit {
+class PandaCasualParserGenerationUnit implements CasualParserGenerationUnit {
 
     private final CasualParserGenerationCallback callback;
     private final ParserData delegated;

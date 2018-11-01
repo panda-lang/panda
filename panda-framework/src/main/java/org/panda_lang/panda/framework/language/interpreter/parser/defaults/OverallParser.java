@@ -22,8 +22,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationType;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -33,16 +31,14 @@ public class OverallParser implements Parser {
     private final Interpretation interpretation;
     private final ParserPipeline pipeline;
     private final SourceStream stream;
-    private final CasualParserGeneration generation;
 
     public OverallParser(ParserData data) {
         this.interpretation = data.getComponent(UniversalComponents.INTERPRETATION);
         this.pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(UniversalPipelines.OVERALL);
-        this.generation = data.getComponent(UniversalComponents.GENERATION);
         this.stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
     }
 
-    public void parseNext(ParserData data) throws Exception {
+    public void parseNext(ParserData data) throws Throwable {
         if (!interpretation.isHealthy() || !hasNext()) {
             return;
         }
@@ -54,7 +50,7 @@ public class OverallParser implements Parser {
             throw new PandaParserFailure("Unrecognized syntax", data);
         }
 
-        parser.parse(data.fork(), generation.getLayer(CasualParserGenerationType.NEXT));
+        parser.parse(data.fork());
 
         if (sourceLength == stream.getUnreadLength()) {
             throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with the current source", data);

@@ -23,8 +23,9 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -42,6 +43,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.parameter.ParameterParser;
@@ -68,12 +70,12 @@ public class MethodParser implements UnifiedParser, ParserHandler {
     }
 
     @Override
-    public boolean parse(ParserData delegatedData, GenerationLayer nextLayer) {
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, delegatedData, "method-declaration", "method-parameters", "method-body");
+    public boolean parse(ParserData data) {
+        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "method-declaration", "method-parameters", "method-body");
 
         TokenizedSource methodDeclaration = redactor.get("method-declaration");
-        ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope classScope = delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         MethodVisibility visibility = null;
         ClassPrototype returnType = null;
@@ -90,7 +92,7 @@ public class MethodParser implements UnifiedParser, ParserHandler {
             }
 
             if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 2) {
-                PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
+                PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
                 ModuleLoader registry = script.getModuleLoader();
 
                 String returnTypeName = token.getTokenValue();
@@ -119,12 +121,12 @@ public class MethodParser implements UnifiedParser, ParserHandler {
 
         TokenizedSource parametersSource = redactor.get("method-parameters");
         ParameterParser parameterParser = new ParameterParser();
-        List<Parameter> parameters = parameterParser.parse(delegatedData, parametersSource);
+        List<Parameter> parameters = parameterParser.parse(data, parametersSource);
         ClassPrototype[] parameterTypes = ParameterUtils.toTypes(parameters);
 
         MethodScope methodScope = new MethodScope(methodName, parameters);
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
-        delegatedData.setComponent(PandaComponents.SCOPE, methodScope);
+        data.setComponent(PandaComponents.SCOPE, methodScope);
 
         PrototypeMethod method = PandaMethod.builder()
                 .prototype(prototype)
@@ -137,12 +139,16 @@ public class MethodParser implements UnifiedParser, ParserHandler {
                 .build();
         prototype.getMethods().registerMethod(method);
 
-        nextLayer.delegate(new MethodBodyCasualParserCallback(methodScope, redactor), delegatedData);
+        data.getComponent(UniversalComponents.GENERATION)
+                .pipeline(PandaTypes.CONTENT)
+                .nextLayer()
+                .delegate(new MethodBodyCasualParserCallback(methodScope, redactor), data);
+
         return true;
     }
 
     @LocalCallback
-    private static class MethodBodyCasualParserCallback implements CasualParserGenerationCallback {
+    private static class MethodBodyCasualParserCallback implements GenerationCallback {
 
         private final MethodScope methodScope;
         private final AbyssRedactor redactor;
@@ -153,7 +159,7 @@ public class MethodParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) throws Exception {
+        public void call(GenerationPipeline pipeline, ParserData delegatedData) throws Throwable {
             ScopeParser.createParser(methodScope, delegatedData)
                     .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                     .parse(redactor.get("method-body"));

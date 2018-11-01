@@ -32,70 +32,79 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class PandaParserBuilder {
+public class BootstrapParserBuilder {
 
     protected Object instance;
     protected String name;
+
     protected String pipeline;
     protected ParserHandler handler;
+    protected int priority;
+
     protected String pattern;
     protected String[] wildcardNames;
-    protected int priority;
+    protected int maxNestingLevel;
+
     protected BootstrapInterceptor interceptor;
     protected final List<LayerMethod> layers = new ArrayList<>();
 
-    protected PandaParserBuilder() { }
+    protected BootstrapParserBuilder() { }
 
-    public PandaParserBuilder instance(Object object) {
+    public BootstrapParserBuilder instance(Object object) {
         this.instance = object;
         return this;
     }
 
-    public PandaParserBuilder name(String name) {
+    public BootstrapParserBuilder name(String name) {
         this.name = name;
         return this;
     }
 
-    public PandaParserBuilder pipeline(String pipeline) {
+    public BootstrapParserBuilder pipeline(String pipeline) {
         this.pipeline = pipeline;
         return this;
     }
 
-    public PandaParserBuilder interceptor(BootstrapInterceptor interceptor) {
+    public BootstrapParserBuilder interceptor(BootstrapInterceptor interceptor) {
         this.interceptor = interceptor;
         return this;
     }
 
-    public PandaParserBuilder handler(ParserHandler handler) {
+    public BootstrapParserBuilder handler(ParserHandler handler) {
         this.handler = handler;
         return this;
     }
 
-    public PandaParserBuilder pattern(String pattern, String... wildcardNames) {
+    public BootstrapParserBuilder pattern(String pattern, String... wildcardNames) {
         this.pattern = pattern;
         this.wildcardNames = wildcardNames;
         return this;
     }
 
-    public PandaParserBuilder priority(int priority) {
+    public BootstrapParserBuilder pattern(String pattern, int maxNestingLevel, String... wildcardNames) {
+        this.maxNestingLevel = maxNestingLevel;
+        return pattern(pattern, wildcardNames);
+    }
+
+    public BootstrapParserBuilder priority(int priority) {
         this.priority = priority;
         return this;
     }
 
-    public PandaParserBuilder layer(LayerMethod layer) {
+    public BootstrapParserBuilder layer(LayerMethod layer) {
         layers.add(layer);
         return this;
     }
 
-    public PandaParserBuilder layers(Class<?> clazz) {
+    public BootstrapParserBuilder layers(Class<?> clazz) {
         return layers(ReflectionUtils.getMethodsAnnotatedWith(clazz, Autowired.class));
     }
 
-    public PandaParserBuilder layers(Class<?> clazz, String methodName) {
+    public BootstrapParserBuilder layers(Class<?> clazz, String methodName) {
         return layers(ReflectionUtils.getMethods(clazz, methodName));
     }
 
-    public PandaParserBuilder layers(Collection<Method> methods) {
+    public BootstrapParserBuilder layers(Collection<Method> methods) {
         methods.stream()
                 .map(LayerMethod::new)
                 .sorted(Comparator.comparingInt(LayerMethod::getOrder))

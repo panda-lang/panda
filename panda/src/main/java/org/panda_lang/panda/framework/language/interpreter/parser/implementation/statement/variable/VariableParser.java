@@ -19,13 +19,12 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserResult;
@@ -45,9 +44,7 @@ public class VariableParser implements UnifiedParser, ParserHandler {
     }
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
-        CasualParserGeneration generation = data.getComponent(UniversalComponents.GENERATION);
-
+    public boolean parse(ParserData data) {
         VarParser varParser = new VarParser();
         VarParserData parserData = varParser.toVarParserData(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
         VarParserResult parserResult = varParser.parseVariable(parserData, data);
@@ -60,7 +57,11 @@ public class VariableParser implements UnifiedParser, ParserHandler {
             return true;
         }
 
-        nextLayer.delegate((delegatedData, delegatedNextLayer) -> varParser.parseAssignation(parserData, parserResult, delegatedData), data);
+        data.getComponent(UniversalComponents.GENERATION)
+                .pipeline(PandaTypes.CONTENT)
+                .nextLayer()
+                .delegate((pipeline, delegatedData) -> varParser.parseAssignation(parserData, parserResult, delegatedData), data);
+
         return true;
     }
 

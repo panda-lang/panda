@@ -19,31 +19,31 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.ca
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationUnit;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualGenerationLayer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PandaCasualParserGenerationLayer implements GenerationLayer {
+class PandaCasualParserCasualGenerationLayer implements CasualGenerationLayer {
 
     private final List<CasualParserGenerationUnit> before;
     private final List<CasualParserGenerationUnit> delegates;
     private final List<CasualParserGenerationUnit> after;
 
-    public PandaCasualParserGenerationLayer() {
+    public PandaCasualParserCasualGenerationLayer() {
         this.before = new ArrayList<>(1);
         this.delegates = new ArrayList<>();
         this.after = new ArrayList<>(1);
     }
 
     @Override
-    public void call(ParserData currentData, GenerationLayer nextLayer) throws Exception {
+    public void call(ParserData currentData, CasualGenerationLayer nextLayer) throws Exception {
         call(before, currentData, nextLayer);
         call(delegates, currentData, nextLayer);
         call(after, currentData, nextLayer);
     }
 
-    private void call(List<CasualParserGenerationUnit> units, ParserData currentInfo, GenerationLayer nextLayer) throws Exception {
+    private void call(List<CasualParserGenerationUnit> units, ParserData currentInfo, CasualGenerationLayer nextLayer) throws Exception {
         List<CasualParserGenerationUnit> unitList = new ArrayList<>(units);
         units.clear();
 
@@ -55,21 +55,21 @@ public class PandaCasualParserGenerationLayer implements GenerationLayer {
     }
 
     @Override
-    public GenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated) {
+    public CasualGenerationLayer delegateBefore(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(before, callback, delegated);
     }
 
     @Override
-    public GenerationLayer delegate(CasualParserGenerationCallback callback, ParserData delegated) {
+    public CasualGenerationLayer delegate(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(delegates, callback, delegated);
     }
 
     @Override
-    public GenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserData delegated) {
+    public CasualGenerationLayer delegateAfter(CasualParserGenerationCallback callback, ParserData delegated) {
         return delegate(after, callback, delegated);
     }
 
-    public GenerationLayer delegate(List<CasualParserGenerationUnit> units, CasualParserGenerationCallback callback, ParserData delegated) {
+    public CasualGenerationLayer delegate(List<CasualParserGenerationUnit> units, CasualParserGenerationCallback callback, ParserData delegated) {
         CasualParserGenerationUnit unit = new PandaCasualParserGenerationUnit(callback, delegated);
         units.add(unit);
         return this;
