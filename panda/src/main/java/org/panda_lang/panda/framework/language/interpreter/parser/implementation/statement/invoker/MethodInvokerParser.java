@@ -25,8 +25,9 @@ import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -39,6 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionUtils;
@@ -65,18 +67,22 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
     }
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
+    public boolean parse(ParserData data) {
         AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "instance", "method-name", "arguments");
 
         Container container = data.getComponent(PandaComponents.CONTAINER);
         StatementCell cell = container.reserveCell();
 
-        nextLayer.delegate(new MethodInvokerCasualParserCallback(cell, redactor), data);
+        data.getComponent(UniversalComponents.GENERATION)
+                .pipeline(PandaTypes.CONTENT)
+                .nextLayer()
+                .delegate(new MethodInvokerCasualParserCallback(cell, redactor), data);
+
         return true;
     }
 
     @LocalCallback
-    private static class MethodInvokerCasualParserCallback implements CasualParserGenerationCallback {
+    private static class MethodInvokerCasualParserCallback implements GenerationCallback {
 
         private final StatementCell cell;
         private final AbyssRedactor redactor;
@@ -87,7 +93,7 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(ParserData delegatedData, GenerationLayer nextLayer) {
+        public void call(GenerationPipeline pipeline, ParserData delegatedData) {
             TokenizedSource instanceSource = redactor.get("instance");
             TokenizedSource methodSource = redactor.get("method-name");
             TokenizedSource argumentsSource = redactor.get("arguments");

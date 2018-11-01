@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGeneration;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -39,7 +39,7 @@ public class UniversalComponents {
 
     public static final Component<SourceStream> SOURCE_STREAM = Component.of("source-stream", SourceStream.class);
 
-    public static final Component<CasualParserGeneration> GENERATION = Component.of("generation", CasualParserGeneration.class);
+    public static final Component<Generation> GENERATION = Component.of("generation", Generation.class);
 
     public static final Component<ParserData> PARENT_DATA = Component.of("parent-data", ParserData.class);
 

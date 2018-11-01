@@ -2,7 +2,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Interceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
@@ -17,13 +17,13 @@ import java.util.Map;
 
 class ParserLayerGeneratorUtils {
 
-    protected static @Nullable Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, GenerationLayer layer, InterceptorData interceptor, LocalData local) {
+    protected static @Nullable Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, Generation generation, InterceptorData interceptor, LocalData local) {
         if (type.isAssignableFrom(ParserData.class) && annotations.length == 0) {
             return data;
         }
 
-        if (type.isAssignableFrom(GenerationLayer.class) && annotations.length == 0) {
-            return layer;
+        if (type.isAssignableFrom(Generation.class) && annotations.length == 0) {
+            return generation;
         }
 
         if (type.isAssignableFrom(InterceptorData.class) && annotations.length == 0) {

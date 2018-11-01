@@ -51,7 +51,7 @@ public class ScopeParser implements Parser {
         return this;
     }
 
-    public void parse(TokenizedSource body) throws Exception {
+    public void parse(TokenizedSource body) throws Throwable {
         ContainerParser parser = new ContainerParser(scope);
         parser.parse(data, body);
     }

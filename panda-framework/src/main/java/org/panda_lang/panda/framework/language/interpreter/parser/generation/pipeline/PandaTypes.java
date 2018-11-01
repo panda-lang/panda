@@ -2,6 +2,9 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.pi
 
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class PandaTypes {
 
     public static final String RAW_SYNTAX_LABEL = "RAW_SYNTAX";
@@ -25,8 +28,8 @@ public class PandaTypes {
         VALUES[3] = CONTENT;
     }
 
-    public static PipelineType[] getValues() {
-        return VALUES;
+    public static List<? extends PipelineType> getValues() {
+        return Arrays.asList(VALUES);
     }
 
 }

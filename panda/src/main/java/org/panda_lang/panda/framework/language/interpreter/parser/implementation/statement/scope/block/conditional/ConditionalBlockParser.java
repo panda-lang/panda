@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
@@ -56,7 +55,7 @@ public class ConditionalBlockParser implements UnifiedParser, ParserHandler {
     }
 
     @Override
-    public boolean parse(ParserData data, GenerationLayer nextLayer) {
+    public boolean parse(ParserData data) {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         ParserData parentData = data.getComponent(UniversalComponents.PARENT_DATA);
 

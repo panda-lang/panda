@@ -22,12 +22,19 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ClassScopeInstance extends AbstractScopeInstance<ClassScope> {
 
+    private static final AtomicInteger idAssigner = new AtomicInteger();
+
+    private final int id;
     private final ClassPrototype prototype;
 
     public ClassScopeInstance(ClassScope scope, ClassPrototype classPrototype) {
         super(scope, classPrototype.getFields().getAmountOfFields());
+
+        this.id = idAssigner.getAndIncrement();
         this.prototype = classPrototype;
     }
 
@@ -42,7 +49,7 @@ public class ClassScopeInstance extends AbstractScopeInstance<ClassScope> {
 
     @Override
     public String toString() {
-        return "@(instance of " + prototype.getClassName() + ")";
+        return "@(" + prototype.getClassName() + " :: " + id + ")";
     }
 
 }

@@ -32,7 +32,7 @@ public class BenchmarkUtils {
 
         try {
             runnable.run();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw new RuntimeException(e);
         }
 
@@ -54,7 +54,7 @@ public class BenchmarkUtils {
 
         try {
             value = supplier.get();
-        } catch (Exception e) {
+        } catch (Throwable e) {
             throw new RuntimeException(e);
         }
 

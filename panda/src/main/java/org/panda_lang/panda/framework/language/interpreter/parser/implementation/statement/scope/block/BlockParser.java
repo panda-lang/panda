@@ -20,9 +20,8 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
@@ -32,7 +31,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPrioritie
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
@@ -51,10 +49,10 @@ public class BlockParser extends BootstrapParser {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, GenerationLayer layer, @Component PipelineRegistry registry, @Redactor("block-declaration") TokenizedSource declaration) throws Exception {
-        ParserPipeline pipeline = registry.getPipeline(PandaPipelines.BLOCK);
-
+    private void parse(ParserData data, LocalData local, Generation generation, @Redactor("block-declaration") TokenizedSource declaration) throws Throwable {
         SourceStream declarationStream = new PandaSourceStream(declaration);
+
+        ParserPipeline pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
         UnifiedParser blockParser = pipeline.handle(declarationStream);
 
         if (blockParser == null) {
@@ -63,7 +61,7 @@ public class BlockParser extends BootstrapParser {
 
         ParserData blockData = local.allocateInstance(data.fork());
         blockData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-        blockParser.parse(blockData, layer);
+        blockParser.parse(blockData);
 
         Block block = local.allocateInstance(blockData.getComponent(BlockComponents.BLOCK));
         Boolean unlisted = blockData.getComponent(BlockComponents.UNLISTED_BLOCK);
@@ -80,7 +78,7 @@ public class BlockParser extends BootstrapParser {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Redactor("block-body") TokenizedSource body) throws Exception {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Redactor("block-body") TokenizedSource body) throws Throwable {
         ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(blockData, body);
     }

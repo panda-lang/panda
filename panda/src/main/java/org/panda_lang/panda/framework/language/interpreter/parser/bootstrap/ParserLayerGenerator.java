@@ -1,8 +1,8 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.CasualParserGenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.casual.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
@@ -19,15 +19,15 @@ class ParserLayerGenerator {
         this.bootstrapParser = bootstrapParser;
     }
 
-    protected CasualParserGenerationCallback callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextIndex, boolean last) {
+    protected GenerationCallback callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextIndex, boolean last) {
         Method autowiredMethod = layer.getMethod();
 
-        return (delegatedData, nextLayer) -> {
-            Object[] parameters = convertParameters(autowiredMethod, delegatedData, nextLayer, interceptorData, localData);
+        return (pipeline, data) -> {
+            Object[] parameters = convertParameters(autowiredMethod, data, pipeline.generation(), interceptorData, localData);
             invoke(autowiredMethod, parameters);
 
             if (last && (nextIndex - bootstrapParser.getIndex()) < bootstrapParser.getLayers().size()) {
-                bootstrapParser.delegate(delegatedData.fork(), nextLayer, interceptorData, localData, nextIndex);
+                bootstrapParser.delegate(data.fork(), pipeline.generation(), interceptorData, localData, nextIndex);
             }
         };
     }
@@ -46,13 +46,13 @@ class ParserLayerGenerator {
         }
     }
 
-    private Object[] convertParameters(Method autowiredMethod, ParserData delegatedData, GenerationLayer nextLayer, InterceptorData interceptorData, LocalData localData) {
+    private Object[] convertParameters(Method autowiredMethod, ParserData delegatedData, Generation generation, InterceptorData interceptorData, LocalData localData) {
         Annotation[][] parameterAnnotations = autowiredMethod.getParameterAnnotations();
         Class<?>[] parameterTypes = autowiredMethod.getParameterTypes();
         Object[] parameters = new Object[parameterTypes.length];
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            Object parameter = ParserLayerGeneratorUtils.findParameter(parameterTypes[i], parameterAnnotations[i], delegatedData, nextLayer, interceptorData, localData);
+            Object parameter = ParserLayerGeneratorUtils.findParameter(parameterTypes[i], parameterAnnotations[i], delegatedData, generation, interceptorData, localData);
 
             if (parameter == null) {
                 throw new ParserBootstrapException("Cannot find parameter: " + parameterTypes[i] + " of " + bootstrapParser.getBootstrap().getName());
