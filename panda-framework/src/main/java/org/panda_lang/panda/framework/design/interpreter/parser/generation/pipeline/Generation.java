@@ -16,11 +16,14 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface Generation {
 
     void execute(ParserData data) throws Throwable;
+
+    int countDelegates(@Nullable GenerationPipeline toPipeline);
 
     GenerationPipeline getPipeline(String name);
 

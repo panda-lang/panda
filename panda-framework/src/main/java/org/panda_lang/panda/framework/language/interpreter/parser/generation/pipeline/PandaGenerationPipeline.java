@@ -7,18 +7,20 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 
 public class PandaGenerationPipeline implements GenerationPipeline {
 
+    private final String name;
     private final Generation generation;
     private GenerationLayer currentLayer;
     private GenerationLayer nextLayer;
 
-    public PandaGenerationPipeline(Generation generation) {
+    public PandaGenerationPipeline(Generation generation, String name) {
+        this.name = name;
         this.generation = generation;
-        this.currentLayer = new PandaGenerationLayer(generation);
-        this.nextLayer = new PandaGenerationLayer(generation);
+        this.currentLayer = new PandaGenerationLayer(generation, this);
+        this.nextLayer = new PandaGenerationLayer(generation, this);
     }
 
     @Override
-    public void execute(ParserData data) throws Throwable {
+    public boolean execute(ParserData data) throws Throwable {
         while (true) {
             currentLayer.callDelegates(this, data);
 
@@ -27,8 +29,19 @@ public class PandaGenerationPipeline implements GenerationPipeline {
             }
 
             currentLayer = nextLayer;
-            nextLayer = new PandaGenerationLayer(generation);
+            nextLayer = new PandaGenerationLayer(generation, this);
+
+            if (generation.countDelegates(this) > 0) {
+                return false;
+            }
         }
+
+        return true;
+    }
+
+    @Override
+    public int countDelegates() {
+        return currentLayer.countDelegates() + nextLayer.countDelegates();
     }
 
     public GenerationLayer getCurrentLayer() {
@@ -38,6 +51,11 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     @Override
     public GenerationLayer getNextLayer() {
         return nextLayer;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
 }
