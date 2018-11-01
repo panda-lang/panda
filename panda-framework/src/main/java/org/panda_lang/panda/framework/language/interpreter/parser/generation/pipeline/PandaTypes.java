@@ -1,4 +1,6 @@
-package org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.types;
+package org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline;
+
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
 
 public class PandaTypes {
 

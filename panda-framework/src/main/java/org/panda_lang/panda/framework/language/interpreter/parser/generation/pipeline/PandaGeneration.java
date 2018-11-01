@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.types.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -51,6 +51,11 @@ public class PandaGeneration implements Generation {
         }
 
         return count;
+    }
+
+    @Override
+    public GenerationPipeline getPipeline(PipelineType type) {
+        return getPipeline(type.getName());
     }
 
     @Override

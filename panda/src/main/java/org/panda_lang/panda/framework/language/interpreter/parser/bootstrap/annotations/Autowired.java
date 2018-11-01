@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.types.PandaTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
