@@ -129,7 +129,7 @@ public class ClassPrototypeParser extends BootstrapParser {
         }
     }
 
-    @Autowired(order = 1, type = PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
+    @Autowired(order = 0, type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER) // should be order = 1
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);

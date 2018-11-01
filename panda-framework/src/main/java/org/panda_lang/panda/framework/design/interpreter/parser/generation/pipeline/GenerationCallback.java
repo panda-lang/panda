@@ -20,6 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface GenerationCallback {
 
-    void call(Generation generation, GenerationLayer nextLayer, ParserData delegatedData) throws Throwable;
+    void call(GenerationPipeline pipeline, ParserData data) throws Throwable;
 
 }

@@ -28,5 +28,7 @@ public interface GenerationPipeline {
 
     GenerationLayer currentLayer();
 
+    Generation generation();
+
     String name();
 }
