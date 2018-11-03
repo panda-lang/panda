@@ -14,6 +14,7 @@ import java.util.Map;
 public class PandaGeneration implements Generation {
 
     private final Map<String, GenerationPipeline> pipelines = new LinkedHashMap<>();
+    private GenerationPipeline currentPipeline;
 
     public void initialize(List<? extends PipelineType> types) {
         Collections.sort(types);
@@ -32,10 +33,15 @@ public class PandaGeneration implements Generation {
 
     private void executeOnce(ParserData data) throws Throwable {
         for (GenerationPipeline pipeline : pipelines.values()) {
+            // System.out.println("Called " + pipeline.name());
+            currentPipeline = pipeline;
+
             if (!pipeline.execute(data)) {
                 break;
             }
         }
+
+        currentPipeline = null;
     }
 
     @Override
@@ -43,14 +49,19 @@ public class PandaGeneration implements Generation {
         int count = 0;
 
         for (GenerationPipeline pipeline : pipelines.values()) {
+            count += pipeline.countDelegates();
+
             if (pipeline.equals(toPipeline)) {
                 break;
             }
-
-            count += pipeline.countDelegates();
         }
 
         return count;
+    }
+
+    @Override
+    public @Nullable GenerationPipeline currentPipeline() {
+        return currentPipeline;
     }
 
     @Override
@@ -61,6 +72,22 @@ public class PandaGeneration implements Generation {
     @Override
     public GenerationPipeline pipeline(String name) {
         return pipelines.get(name);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder message = new StringBuilder("Panda Generation { ");
+
+        for (GenerationPipeline pipeline : pipelines.values()) {
+            if (pipeline.countDelegates() == 0) {
+                continue;
+            }
+
+            message.append(pipeline.toString()).append(", ");
+        }
+
+        message.setLength(message.length() - 2);
+        return message.append(" }").toString();
     }
 
 }

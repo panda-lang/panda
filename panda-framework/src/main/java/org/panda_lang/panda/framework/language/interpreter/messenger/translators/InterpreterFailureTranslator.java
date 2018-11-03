@@ -21,6 +21,11 @@ import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessengerMessage;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultFailureTemplateBuilder;
 import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultMessageFormatter;
@@ -39,15 +44,31 @@ public class InterpreterFailureTranslator implements MessengerMessageTranslator<
         interpretation.getFailures().add(element);
 
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{details}}", () -> DefaultFailureTemplateBuilder.indentation(element.getDetails()));
+                .register("{{details}}", () -> DefaultFailureTemplateBuilder.indentation(element.getDetails()))
+                .register("{{generation}}", () -> {
+                    if (!(element instanceof ParserFailure)) {
+                        return "<unknown>";
+                    }
+
+                    ParserData data = ((ParserFailure) element).getData();
+                    Generation generation = data.getComponent(UniversalComponents.GENERATION);
+                    GenerationPipeline pipeline = generation.currentPipeline();
+
+                    if (pipeline == null) {
+                        return "<out of pipeline>";
+                    }
+
+                    return pipeline.currentLayer().toString() + " (" + pipeline.name() + ")";
+                });
 
         DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
                 .applyPlaceholders(formatter, element)
                 .includeCause()
-                .includeDetails(element.getDetails())
+                .includeSourceDetails(element.getDetails())
                 .includeSource()
                 .includeMarker(formatter.getValue("{{index}}"))
                 .includeLocation()
+                .includeSourceDetails()
                 .includeEnvironment()
                 .includeEnd();
 

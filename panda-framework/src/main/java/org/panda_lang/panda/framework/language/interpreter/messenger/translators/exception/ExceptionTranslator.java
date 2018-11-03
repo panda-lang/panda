@@ -43,7 +43,7 @@ public class ExceptionTranslator implements MessengerMessageTranslator<Throwable
 
         DefaultFailureTemplateBuilder templateBuilder = new DefaultFailureTemplateBuilder()
                 .includeCause()
-                .includeDetails(element.getStackTrace())
+                .includeSourceDetails(element.getStackTrace())
                 .includeEnvironment()
                 .includeEnd();
 

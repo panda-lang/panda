@@ -21,12 +21,14 @@ public class PandaGenerationLayer implements GenerationLayer {
     private final List<GenerationUnit> delegates = new ArrayList<>();
     private final List<GenerationUnit> after = new ArrayList<>(1);
 
+    private GenerationUnit currentUnit;
+
     public PandaGenerationLayer(GenerationPipeline pipeline) {
         this.id = idAssigner.getAndIncrement();
         this.pipeline = pipeline;
     }
 
-    public void call(ParserData currentData, GenerationLayer nextLayer) throws Throwable {
+    private void call(ParserData currentData, GenerationLayer nextLayer) throws Throwable {
         call(before, currentData, nextLayer);
         call(delegates, currentData, nextLayer);
         call(after, currentData, nextLayer);
@@ -37,10 +39,11 @@ public class PandaGenerationLayer implements GenerationLayer {
         units.clear();
 
         for (GenerationUnit unit : unitList) {
-            GenerationCallback callback = unit.getCallback();
-            ParserData delegatedInfo = unit.getDelegated();
-            callback.call(pipeline, unit.getDelegated());
+            currentUnit = unit;
+            unit.getCallback().call(pipeline, unit.getDelegated());
         }
+
+        currentUnit = null;
     }
 
     @Override
@@ -75,7 +78,12 @@ public class PandaGenerationLayer implements GenerationLayer {
 
     @Override
     public String toString() {
-        return "PandaGenerationLayer(" + pipeline.name() + "#" + id + ")";
+        if (countDelegates() == 0) {
+            return "<empty>";
+        }
+
+        String layerName = currentUnit != null ? currentUnit.getCallback().toString() : "<ne";
+        return layerName + ":" + id + ">/" + countDelegates();
     }
 
 }

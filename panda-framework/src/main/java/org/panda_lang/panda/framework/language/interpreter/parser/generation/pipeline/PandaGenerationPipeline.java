@@ -22,7 +22,12 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     @Override
     public boolean execute(ParserData data) throws Throwable {
         while (true) {
+            // System.out.println(generation.toString());
             currentLayer.callDelegates(this, data);
+
+            if (currentLayer.countDelegates() > 0) {
+                continue;
+            }
 
             if (nextLayer.countDelegates() == 0) {
                 break;
@@ -30,6 +35,8 @@ public class PandaGenerationPipeline implements GenerationPipeline {
 
             currentLayer = nextLayer;
             nextLayer = new PandaGenerationLayer(this);
+
+            //System.out.println("CNT: " + generation.countDelegates(this));
 
             if (generation.countDelegates(this) > 0) {
                 return false;
@@ -62,6 +69,15 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     @Override
     public String name() {
         return name;
+    }
+
+    @Override
+    public String toString() {
+        if (countDelegates() == 0) {
+            return name + " { <empty> }";
+        }
+
+        return name + " { c: " + currentLayer + " | n: " + nextLayer + " }";
     }
 
 }

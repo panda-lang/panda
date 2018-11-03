@@ -25,6 +25,8 @@ public interface Generation {
 
     int countDelegates(@Nullable GenerationPipeline toPipeline);
 
+    @Nullable GenerationPipeline currentPipeline();
+
     GenerationPipeline pipeline(PipelineType type);
 
     GenerationPipeline pipeline(String name);

@@ -124,7 +124,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
 
             for (int i = 0; i < left.size(); i++) {
                 TokenRepresentation representation = left.get(i);
-                Token token = representation.getToken();
+                Token token = left.getToken(i);
 
                 if (token.getType() == TokenType.UNKNOWN && i == left.size() - 1) {
                     name = token.getTokenValue();
