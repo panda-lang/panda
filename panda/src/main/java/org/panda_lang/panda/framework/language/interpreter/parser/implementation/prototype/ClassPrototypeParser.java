@@ -45,7 +45,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
@@ -60,11 +59,9 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ClassPrototypeParser extends BootstrapParser {
 
     {
-        bootstrapParser = PandaParserBootstrap.builder()
-                .instance(this)
+        parserBuilder = builder()
                 .handler(new FirstTokenHandler(Keywords.CLASS))
-                .pattern("class +** { +* }",  "declaration", "body")
-                .build();
+                .pattern("class +** { +* }",  "declaration", "body");
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
@@ -106,7 +103,7 @@ public class ClassPrototypeParser extends BootstrapParser {
         }
     }
 
-    @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
     public void parseBody(ParserData data, Generation generation, @Redactor("body") TokenizedSource body) throws Throwable {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
@@ -126,7 +123,7 @@ public class ClassPrototypeParser extends BootstrapParser {
         }
     }
 
-    @Autowired(order = 0, type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER) // should be order = 1
+    @Autowired(order = 1, type = PandaTypes.TYPES_LABEL)
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);

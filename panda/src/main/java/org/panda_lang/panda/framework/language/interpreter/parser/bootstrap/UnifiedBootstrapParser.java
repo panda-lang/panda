@@ -55,14 +55,16 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         return delegate(data, data.getComponent(UniversalComponents.GENERATION), interceptorData, new LocalData(), index);
     }
 
-    protected boolean delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int lastIndex) throws Throwable {
+    protected boolean delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int order) throws Throwable {
         List<LayerMethod> methods = layers.stream()
-                .filter((method) -> method.getOrder() == lastIndex)
+                .filter((method) -> method.getOrder() == order)
                 .sorted(Comparator.comparingInt(method -> method.getDelegation().getPriority()))
                 .collect(Collectors.toList());
 
+        // System.out.println("sel::" + bootstrap.getClass() + " = " + methods.size());
+
         for (int i = 0; i < methods.size(); i++) {
-            GenerationCallback callback = generator.callback(interceptorData, localData, methods.get(i), lastIndex + methods.size(), methods.size() == i + 1);
+            GenerationCallback callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
             delegate(generation, data, callback, methods.get(i));
         }
 

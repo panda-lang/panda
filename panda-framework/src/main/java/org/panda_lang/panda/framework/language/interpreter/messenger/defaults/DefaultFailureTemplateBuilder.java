@@ -47,20 +47,20 @@ public class DefaultFailureTemplateBuilder {
                         .a(source.substring(endIndex))
                         .toString())
                 .register("{{stacktrace}}", () -> {
-                    StringBuilder content = new StringBuilder("[..]");
+                    StringBuilder content = new StringBuilder();
                     StackTraceElement[] elements = exception.getStackTrace();
 
-                    for (int i = 4; i > 0; i--) {
+                    for (int i = 0; i < 5; i++) {
                         StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), i);
 
                         if (lastElement == null) {
                             break;
                         }
 
-                        content.append(" -> (").append(lastElement.getFileName()).append(":").append(lastElement.getLineNumber()).append(")");
+                        content.append("(").append(lastElement.getFileName()).append(":").append(lastElement.getLineNumber()).append(") <- ");
                     }
 
-                    return content.toString();
+                    return content.append("[...]").toString();
                 })
                 .register("{{stacktrace-last}}", () -> {
                     StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
@@ -80,7 +80,7 @@ public class DefaultFailureTemplateBuilder {
         return this;
     }
 
-    public DefaultFailureTemplateBuilder includeDetails(Object details) {
+    public DefaultFailureTemplateBuilder includeSourceDetails(Object details) {
         if (details == null) {
             return this;
         }
@@ -95,7 +95,15 @@ public class DefaultFailureTemplateBuilder {
     }
 
     public DefaultFailureTemplateBuilder includeLocation() {
-        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}{{newline}}  Framework: {{stacktrace-last}}{{newline}}  Stack: {{stacktrace}}");
+        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}");
+        return this;
+    }
+
+    public DefaultFailureTemplateBuilder includeSourceDetails() {
+        content += getAsSection("Details:{{newline}}" +
+                "  Generation: {{generation}}{{newline}}" +
+                // "  Framework: {{stacktrace-last}}{{newline}}" +
+                "  Stack: {{stacktrace}}");
         return this;
     }
 

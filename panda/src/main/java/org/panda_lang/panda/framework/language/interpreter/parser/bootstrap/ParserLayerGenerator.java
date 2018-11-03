@@ -3,6 +3,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
@@ -19,20 +20,30 @@ class ParserLayerGenerator {
         this.bootstrapParser = bootstrapParser;
     }
 
-    protected GenerationCallback callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextIndex, boolean last) {
+    protected GenerationCallback callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextOrder, boolean last) {
         Method autowiredMethod = layer.getMethod();
 
-        return (pipeline, data) -> {
-            Object[] parameters = convertParameters(autowiredMethod, data, pipeline.generation(), interceptorData, localData);
-            invoke(autowiredMethod, parameters);
+        return new GenerationCallback() {
+            @Override
+            public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
+                Object[] parameters = convertParameters(autowiredMethod, data, pipeline.generation(), interceptorData, localData);
+                invoke(autowiredMethod, parameters);
 
-            if (last && (nextIndex - bootstrapParser.getIndex()) < bootstrapParser.getLayers().size()) {
-                bootstrapParser.delegate(data.fork(), pipeline.generation(), interceptorData, localData, nextIndex);
+                if (last && (nextOrder - bootstrapParser.getIndex()) < bootstrapParser.getLayers().size()) {
+                    // System.out.println("DELEGATE >> " + bootstrapParser.getLayers().get(nextOrder - bootstrapParser.getIndex()).getMethod());
+                    bootstrapParser.delegate(data.fork(), pipeline.generation(), interceptorData, localData, nextOrder);
+                }
+            }
+
+            @Override
+            public String toString() {
+                return "Autowired " + layer.getMethod().getName();
             }
         };
     }
 
     private void invoke(Method autowiredMethod, Object... parameters) throws Exception {
+        // System.out.println(autowiredMethod);
         autowiredMethod.setAccessible(true);
 
         try {

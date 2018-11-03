@@ -17,52 +17,56 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
-public class VariableParser implements UnifiedParser, ParserHandler {
+public class VariableParser extends BootstrapParser {
 
-    @Override
-    public boolean handle(TokenReader reader) {
-        AbyssExtractor extractor = VarParser.PATTERN.extractor();
-        List<TokenizedSource> hollows = extractor.extract(reader);
-        return hollows != null && hollows.size() > 0;
+    {
+        parserBuilder = builder();
     }
 
     @Override
-    public boolean parse(ParserData data) {
-        VarParser varParser = new VarParser();
-        VarParserData parserData = varParser.toVarParserData(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
-        VarParserResult parserResult = varParser.parseVariable(parserData, data);
+    public boolean handle(TokenReader reader) {
+        List<TokenizedSource> hollows = VarParser.PATTERN.extractor().extract(reader);
+        return hollows != null && hollows.size() > 0;
+    }
+
+    @Autowired
+    public boolean parse(ParserData data, LocalData localData, @Component SourceStream sourceStream) {
+        VarParser varParser = localData.allocateInstance(new VarParser());
+        VarParserData parserData = localData.allocateInstance(varParser.toVarParserData(data, sourceStream));
+        VarParserResult parserResult = localData.allocateInstance(varParser.parseVariable(parserData, data));
 
         if (parserResult.isFreshVariable()) {
             parserResult.getScope().addVariable(parserResult.getVariable());
         }
 
+        return true;
+    }
+
+    @Autowired(order = 1)
+    public void parseAssignation(ParserData data, @Local VarParser varParser, @Local VarParserData parserData, @Local VarParserResult parserResult) {
         if (!parserData.hasAssignation()) {
-            return true;
+            return;
         }
 
-        data.getComponent(UniversalComponents.GENERATION)
-                .pipeline(PandaTypes.CONTENT)
-                .nextLayer()
-                .delegate((pipeline, delegatedData) -> varParser.parseAssignation(parserData, parserResult, delegatedData), data);
-
-        return true;
+        varParser.parseAssignation(parserData, parserResult, data);
     }
 
 }
