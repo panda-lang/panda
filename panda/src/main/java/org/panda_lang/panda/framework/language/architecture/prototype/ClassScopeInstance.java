@@ -49,7 +49,7 @@ public class ClassScopeInstance extends AbstractScopeInstance<ClassScope> {
 
     @Override
     public String toString() {
-        return "@(" + prototype.getClassName() + " :: " + id + ")";
+        return prototype.getClassName() + "#" + String.format("%06X", id & 0xFFFFF);
     }
 
 }
