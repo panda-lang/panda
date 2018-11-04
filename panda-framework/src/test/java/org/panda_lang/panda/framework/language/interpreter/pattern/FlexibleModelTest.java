@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.language.interpreter.pattern.flexible.FlexibleModel;
 import org.panda_lang.panda.framework.language.interpreter.pattern.flexible.tree.FlexibleTree;
 
-public class FlexibleModelTest {
+class FlexibleModelTest {
 
     @Test
     public void testModel() {

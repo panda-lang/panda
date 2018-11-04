@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractorResult;
 
-public class LexicalPatternTest {
+class LexicalPatternTest {
 
     @Test
     public void testLexicalPattern() {
