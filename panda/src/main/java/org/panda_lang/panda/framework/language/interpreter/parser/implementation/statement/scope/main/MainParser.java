@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
@@ -38,7 +38,7 @@ public class MainParser extends BootstrapParser {
 
     {
         parserBuilder = builder()
-                .handler(new FirstTokenHandler(Keywords.MAIN))
+                .handler(new TokenHandler(Keywords.MAIN))
                 .pattern("main { +* }", "main-body");
     }
 

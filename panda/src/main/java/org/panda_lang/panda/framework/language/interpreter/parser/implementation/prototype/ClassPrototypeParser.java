@@ -47,7 +47,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
@@ -60,7 +60,7 @@ public class ClassPrototypeParser extends BootstrapParser {
 
     {
         parserBuilder = builder()
-                .handler(new FirstTokenHandler(Keywords.CLASS))
+                .handler(new TokenHandler(Keywords.CLASS))
                 .pattern("class +** { +* }",  "declaration", "body");
     }
 
