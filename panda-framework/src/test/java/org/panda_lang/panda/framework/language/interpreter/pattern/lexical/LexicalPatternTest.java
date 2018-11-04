@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.pattern;
+package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
