@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
@@ -46,7 +46,7 @@ public class ForEachParser extends BootstrapParser {
 
     {
         parserBuilder = builder()
-                .handler(new FirstTokenHandler(Keywords.FOREACH))
+                .handler(new TokenHandler(Keywords.FOREACH))
                 .pattern("foreach ( +* : +* )", "foreach-var", "foreach-iterable")
                 .interceptor(new DefaultInterceptor(false, 1));
     }

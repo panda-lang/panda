@@ -21,11 +21,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
-public class FirstTokenHandler implements ParserHandler {
+public class TokenHandler implements ParserHandler {
 
     private final Token[] tokens;
 
-    public FirstTokenHandler(Token... tokens) {
+    public TokenHandler(Token... tokens) {
         this.tokens = tokens;
     }
 
