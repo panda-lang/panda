@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.block.loopin
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.FirstTokenHandler;
@@ -36,11 +35,9 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class WhileParser extends BootstrapParser {
 
     {
-        bootstrapParser = PandaParserBootstrap.builder()
+        parserBuilder = builder()
                 .handler(new FirstTokenHandler(Keywords.WHILE))
-                .pattern("while ( +* )", "while-expression")
-                .instance(this)
-                .build();
+                .pattern("while ( +* )", "while-expression");
     }
 
     @Autowired

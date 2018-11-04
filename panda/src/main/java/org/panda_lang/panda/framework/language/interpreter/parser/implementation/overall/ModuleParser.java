@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.statement.ModuleStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
@@ -38,11 +37,9 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ModuleParser extends BootstrapParser {
 
     {
-        bootstrapParser = PandaParserBootstrap.builder()
+        parserBuilder = builder()
                 .handler(new FirstTokenHandler(Keywords.MODULE))
-                .pattern("module +** ;", "module")
-                .instance(this)
-                .build();
+                .pattern("module +** ;", "module");
     }
 
     @Autowired
