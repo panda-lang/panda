@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.prototype.registry;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
+import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -148,12 +149,15 @@ public class ClassPrototypeModelLoader {
                 }
                 bodyBuilder.append("}");
 
-                String body = bodyBuilder.toString();
-                callbackImplementation.setBody(body);
+                callbackImplementation.setBody(bodyBuilder.toString());
                 generatedMethodCallbackClass.addMethod(callbackImplementation);
+                Class<?> methodCallbackClass = generatedMethodCallbackClass.toClass();
 
-                Class<MethodCallback<?>> methodCallbackClass = generatedMethodCallbackClass.toClass();
-                MethodCallback<?> methodCallback = methodCallbackClass.newInstance();
+                if (!MethodCallback.class.isAssignableFrom(methodCallbackClass)) {
+                    throw new PandaException("Cannot load prototype, internal error - generated class is not MethodCallback");
+                }
+
+                MethodCallback<?> methodCallback = (MethodCallback<?>) methodCallbackClass.newInstance();
                 ClassPrototype[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(modulePath, method.getParameterTypes());
 
                 methodRegisters.add(() -> {
