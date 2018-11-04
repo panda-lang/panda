@@ -27,7 +27,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
@@ -38,10 +37,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 public class StatementParser extends BootstrapParser {
 
     {
-        bootstrapParser = PandaParserBootstrap.builder()
-                .pattern("+* ;", "statement")
-                .instance(this)
-                .build();
+        parserBuilder = builder()
+                .pattern("+* ;", "statement");
     }
 
     @Autowired

@@ -36,10 +36,9 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class LoopParser extends BootstrapParser {
 
     {
-        bootstrapParser = builder()
+        parserBuilder = builder()
                 .handler(new FirstTokenHandler(Keywords.LOOP))
-                .pattern("loop ( +* )", "loop-expression")
-                .build();
+                .pattern("loop ( +* )", "loop-expression");
     }
 
     @Autowired
