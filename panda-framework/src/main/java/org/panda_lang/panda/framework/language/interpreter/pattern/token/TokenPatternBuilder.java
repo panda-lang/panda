@@ -1,15 +1,17 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPatternCompiler;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 
 public class TokenPatternBuilder {
 
-    protected TokenPatternElement patternContent;
+    protected LexicalPatternElement patternContent;
 
     TokenPatternBuilder() { }
 
     public TokenPatternBuilder compile(String pattern) {
-        TokenPatternCompiler compiler = new TokenPatternCompiler();
+        LexicalPatternCompiler compiler = new LexicalPatternCompiler();
         this.patternContent = compiler.compile(pattern);
         return this;
     }
