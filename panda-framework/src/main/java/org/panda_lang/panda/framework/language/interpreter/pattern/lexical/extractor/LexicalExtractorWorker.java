@@ -56,7 +56,7 @@ public class LexicalExtractorWorker<T> {
         }
 
         List<LexicalPatternElement> elements = node.getElements();
-        String[] dynamics = this.matchUnits(phrase, elements);
+        String[] dynamics = this.extractDynamics(phrase, elements);
 
         if (dynamics == null) {
             return new LexicalExtractorResult<>(false);
@@ -96,7 +96,7 @@ public class LexicalExtractorWorker<T> {
                 .addWildcard(wildcard);
     }
 
-    private @Nullable String[] matchUnits(String phrase, List<LexicalPatternElement> elements) {
+    private @Nullable String[] extractDynamics(String phrase, List<LexicalPatternElement> elements) {
         Stack<LexicalPatternUnit> units = new Stack<>();
         String[] dynamics = new String[elements.size()];
         int index = 0;

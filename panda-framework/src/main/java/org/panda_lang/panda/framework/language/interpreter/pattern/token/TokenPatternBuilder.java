@@ -12,6 +12,8 @@ public class TokenPatternBuilder {
 
     public TokenPatternBuilder compile(String pattern) {
         LexicalPatternCompiler compiler = new LexicalPatternCompiler();
+        compiler.enableSplittingByWhitespaces();
+
         this.patternContent = compiler.compile(pattern);
         return this;
     }

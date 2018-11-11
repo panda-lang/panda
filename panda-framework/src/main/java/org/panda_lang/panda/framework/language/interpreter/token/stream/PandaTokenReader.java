@@ -41,7 +41,9 @@ public class PandaTokenReader implements TokenReader {
 
     @Override
     public TokenRepresentation read() {
-        return representationsDistributor.next();
+        TokenRepresentation representation = representationsDistributor.next();
+        iterator.synchronize();
+        return representation;
     }
 
     @NotNull
@@ -64,6 +66,11 @@ public class PandaTokenReader implements TokenReader {
     @Override
     public TokenizedSource getTokenizedSource() {
         return tokenizedSource;
+    }
+
+    @Override
+    public int length() {
+        return representationsDistributor.getLength();
     }
 
 }
