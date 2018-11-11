@@ -1,10 +1,12 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -21,30 +23,30 @@ public class TokenExtractorWorker {
 
     public TokenExtractorResult extract(TokenizedSource source) {
         LexicalPatternElement content = pattern.getPatternContent();
-        return extract(pattern.getPatternContent(), new PandaTokenReader(source));
+        return extract(pattern.getPatternContent(), new TokenDistributor(source));
     }
 
-    protected TokenExtractorResult extract(LexicalPatternElement element, TokenReader reader) {
-        if (!reader.hasNext()) {
+    protected TokenExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
+        if (!distributor.hasNext()) {
             return new TokenExtractorResult();
         }
 
         if (element.isUnit()) {
-            return new TokenExtractorResult(element.toUnit().getValue().equals(reader.next().getTokenValue()));
+            return new TokenExtractorResult(element.toUnit().getValue().equals(distributor.next().getTokenValue()));
         }
 
         if (element.isWildcard()) {
-            return null;
+            return new TokenExtractorResult();
         }
 
         LexicalPatternNode node = element.toNode();
 
         if (node.isVariant()) {
-            return this.matchVariant(node, reader);
+            return this.matchVariant(node, distributor);
         }
 
         List<LexicalPatternElement> elements = node.getElements();
-        TokenizedSource[] dynamics = this.matchUnits(elements, reader);
+        TokenizedSource[] dynamics = this.matchUnits(elements, distributor);
 
         if (dynamics == null) {
             return new TokenExtractorResult();
@@ -53,9 +55,49 @@ public class TokenExtractorWorker {
         return this.matchDynamics(elements, dynamics);
     }
 
-    private TokenizedSource[] matchUnits(List<LexicalPatternElement> elements, TokenReader reader) {
+    private @Nullable TokenizedSource[] matchUnits(List<LexicalPatternElement> elements, TokenDistributor distributor) {
         TokenizedSource[] dynamics = new TokenizedSource[elements.size()];
-        return null;
+
+        for (int i = 0; i < elements.size(); i++) {
+            LexicalPatternElement element = elements.get(i);
+
+            if (!element.isUnit()) {
+                continue;
+            }
+
+            LexicalPatternUnit unit = element.toUnit();
+            boolean found = false;
+            int dynamic = 0;
+
+            for (TokenRepresentation representation : distributor) {
+                if (representation.getTokenValue().equals(unit.getValue())) {
+                    found = true;
+                    break;
+                }
+
+                dynamic++;
+            }
+
+            if (!found && unit.isOptional()) {
+                continue;
+            }
+
+            if (!found && (distributor.getIndex() + dynamic != distributor.length()) && !unit.isOptional()) {
+                return null;
+            }
+
+            if (dynamic == 0) {
+                distributor.next();
+                continue;
+            }
+
+            if ((found) || (distributor.getIndex() + dynamic == distributor.length() && unit.isOptional())) {
+                dynamics[getLastDynamicIndex(dynamics)] = new PandaTokenizedSource(distributor.next(dynamic));
+                distributor.next();
+            }
+        }
+
+        return dynamics;
     }
 
     private TokenExtractorResult matchDynamics(List<LexicalPatternElement> elements, TokenizedSource[] dynamics) {
@@ -79,10 +121,21 @@ public class TokenExtractorWorker {
                 return new TokenExtractorResult();
             }
 
-            TokenExtractorResult nodeElementResult = this.extract(nodeElement, new PandaTokenReader(nodeContent));
+            TokenDistributor content = new TokenDistributor(nodeContent);
+            TokenExtractorResult nodeElementResult = this.extract(nodeElement, content);
 
             if (!nodeElementResult.isMatched()) {
                 return new TokenExtractorResult();
+            }
+
+            if (content.hasNext()) {
+                int nextIndex = i + 1;
+
+                if (nextIndex >= dynamics.length || dynamics[nextIndex] != null) {
+                    return new TokenExtractorResult();
+                }
+
+                dynamics[nextIndex] = new PandaTokenizedSource(content.next(content.length() - content.getIndex()));
             }
 
             result.addIdentifier(nodeElement.getIdentifier());
@@ -91,14 +144,14 @@ public class TokenExtractorWorker {
 
         for (TokenizedSource dynamicContent : dynamics) {
             if (dynamicContent != null) {
-                return new TokenExtractorResult(false);
+                return new TokenExtractorResult();
             }
         }
 
         return result;
     }
 
-    private TokenExtractorResult matchVariant(LexicalPatternNode variantNode, TokenReader reader) {
+    private TokenExtractorResult matchVariant(LexicalPatternNode variantNode, TokenDistributor reader) {
         if (!variantNode.isVariant()) {
             throw new RuntimeException("The specified node is not marked as a variant node");
         }
@@ -112,6 +165,18 @@ public class TokenExtractorWorker {
         }
 
         return new TokenExtractorResult();
+    }
+
+    private int getLastDynamicIndex(TokenizedSource[] dynamics) {
+        for (int i = dynamics.length - 1; i > -1; i--) {
+            if (dynamics[i] == null) {
+                continue;
+            }
+
+            return i + 1;
+        }
+
+        return 0;
     }
 
 }
