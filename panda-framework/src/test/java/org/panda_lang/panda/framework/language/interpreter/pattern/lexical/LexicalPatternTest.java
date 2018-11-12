@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.pattern;
+package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.LexicalPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractorResult;
 
-public class LexicalPatternTest {
+class LexicalPatternTest {
 
     @Test
     public void testLexicalPattern() {
@@ -29,7 +28,7 @@ public class LexicalPatternTest {
                 .compile("(send msg:[message] wildcard:* 3:to (console|terminalIdentifier:terminal[ ][screen *])|rand)")
                 .build();
 
-        LexicalExtractorResult<String> result = pattern.extract("send 'test' to terminal screen X11");
+        LexicalExtractorResult<String> result = pattern.extract("send message 'test' to terminal screen X11");
 
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isMatched());

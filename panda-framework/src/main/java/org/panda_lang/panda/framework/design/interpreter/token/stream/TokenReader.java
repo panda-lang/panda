@@ -16,17 +16,29 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token.stream;
 
-import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
 
     TokenRepresentation read();
 
-    @NotNull TokenReaderIterator iterator();
+    default List<TokenRepresentation> read(int size) {
+        List<TokenRepresentation> representations = new ArrayList<>(size);
+
+        for (int i = 0; i < size; i++) {
+            representations.add(read());
+        }
+
+        return representations;
+    }
+
+    @Override
+    TokenReaderIterator iterator();
 
     default void synchronize() {
         iterator().synchronize();
@@ -49,5 +61,7 @@ public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<Tok
     int getIndex();
 
     TokenizedSource getTokenizedSource();
+
+    int length();
 
 }

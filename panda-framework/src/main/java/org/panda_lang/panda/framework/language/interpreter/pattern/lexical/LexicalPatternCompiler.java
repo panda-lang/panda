@@ -35,6 +35,9 @@ public class LexicalPatternCompiler {
 
     private static final char[] IDENTIFIER_CHARACTERS = CharacterUtils.mergeArrays(CharacterUtils.LITERALS, CharacterUtils.arrayOf('-'));
 
+    private char escapeCharacter = '\\';
+    private boolean splitByWhitespaces = false;
+
     public LexicalPatternElement compile(String pattern) {
         List<LexicalPatternElement> elements = new ArrayList<>();
         StringBuilder unitBuilder = new StringBuilder();
@@ -68,7 +71,15 @@ public class LexicalPatternCompiler {
             else if (isPatternOperator(previousChar, currentChar, '*')) {
                 element = new LexicalPatternWildcard();
             }
+            else if (splitByWhitespaces && isPatternOperator(previousChar, currentChar, ' ') && unitBuilder.toString().trim().length() > 0) {
+                element = new LexicalPatternUnit(unitBuilder.toString());
+                unitBuilder.setLength(0);
+            }
             else {
+                if (currentChar == escapeCharacter) {
+                    continue;
+                }
+
                 unitBuilder.append(currentChar);
             }
 
@@ -193,7 +204,7 @@ public class LexicalPatternCompiler {
     }
 
     private boolean isPatternOperator(char previous, char current, char... compared) {
-        if (previous == '\\') {
+        if (previous == escapeCharacter) {
             return false;
         }
 
@@ -204,6 +215,14 @@ public class LexicalPatternCompiler {
         }
 
         return false;
+    }
+
+    public void enableSplittingByWhitespaces() {
+        this.splitByWhitespaces = true;
+    }
+
+    public void setEscapeCharacter(char escapeCharacter) {
+        this.escapeCharacter = escapeCharacter;
     }
 
 }

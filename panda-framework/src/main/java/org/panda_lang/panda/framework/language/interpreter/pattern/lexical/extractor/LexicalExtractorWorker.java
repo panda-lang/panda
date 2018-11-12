@@ -42,35 +42,11 @@ public class LexicalExtractorWorker<T> {
 
     public LexicalExtractorResult<T> extract(LexicalPatternElement pattern, String phrase) {
         if (pattern.isUnit()) {
-            boolean matched = phrase.equals(pattern.toUnit().getValue());
-
-            if (!matched) {
-                return new LexicalExtractorResult<>(false);
-            }
-
-            return new LexicalExtractorResult<T>(true).addIdentifier(pattern.getIdentifier());
+           return matchUnit(pattern, phrase);
         }
 
         if (pattern.isWildcard()) {
-            LexicalPatternWildcard wilcardElement = pattern.toWildcard();
-            String wildcard = phrase.trim();
-
-            if (wildcardProcessor != null) {
-                T result = wildcardProcessor.handle(wilcardElement.getDetails(), wildcard);
-
-                if (result == null) {
-                    return new LexicalExtractorResult<>(false);
-                }
-
-                return new LexicalExtractorResult<T>(true)
-                        .addProcessedValue(new ProcessedValue<>(result, pattern.getIdentifier()))
-                        .addIdentifier(pattern.getIdentifier())
-                        .addWildcard(wildcard);
-            }
-
-            return new LexicalExtractorResult<T>(true)
-                    .addIdentifier(pattern.getIdentifier())
-                    .addWildcard(wildcard);
+            return extractWildcard(pattern.toWildcard(), phrase);
         }
 
         LexicalPatternNode node = pattern.toNode();
@@ -80,7 +56,7 @@ public class LexicalExtractorWorker<T> {
         }
 
         List<LexicalPatternElement> elements = node.getElements();
-        String[] dynamics = this.matchUnits(phrase, elements);
+        String[] dynamics = this.extractDynamics(phrase, elements);
 
         if (dynamics == null) {
             return new LexicalExtractorResult<>(false);
@@ -89,7 +65,38 @@ public class LexicalExtractorWorker<T> {
         return this.matchDynamics(elements, dynamics);
     }
 
-    private @Nullable String[] matchUnits(String phrase, List<LexicalPatternElement> elements) {
+    private @Nullable LexicalExtractorResult<T> matchUnit(LexicalPatternElement pattern, String phrase) {
+        boolean matched = phrase.equals(pattern.toUnit().getValue());
+
+        if (!matched) {
+            return new LexicalExtractorResult<>(false);
+        }
+
+        return new LexicalExtractorResult<T>(true).addIdentifier(pattern.getIdentifier());
+    }
+
+    private @Nullable LexicalExtractorResult<T> extractWildcard(LexicalPatternWildcard pattern, String phrase) {
+        String wildcard = phrase.trim();
+
+        if (wildcardProcessor == null) {
+            return new LexicalExtractorResult<T>(true)
+                    .addIdentifier(pattern.getIdentifier())
+                    .addWildcard(wildcard);
+        }
+
+        T result = wildcardProcessor.handle(pattern.getDetails(), wildcard);
+
+        if (result == null) {
+            return new LexicalExtractorResult<>(false);
+        }
+
+        return new LexicalExtractorResult<T>(true)
+                .addProcessedValue(new ProcessedValue<>(result, pattern.getIdentifier()))
+                .addIdentifier(pattern.getIdentifier())
+                .addWildcard(wildcard);
+    }
+
+    private @Nullable String[] extractDynamics(String phrase, List<LexicalPatternElement> elements) {
         Stack<LexicalPatternUnit> units = new Stack<>();
         String[] dynamics = new String[elements.size()];
         int index = 0;

@@ -73,4 +73,8 @@ public class TokenUtils {
         return false;
     }
 
+    public static boolean isTypeOf(TokenRepresentation representation, TokenType type) {
+        return type.equals(representation.getToken().getType());
+    }
+
 }
