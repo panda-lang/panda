@@ -38,7 +38,7 @@ class WorkerDynamicContent {
         TokenizedSource[] dynamics = new TokenizedSource[elements.size()];
         int minIndex = 0;
 
-        for (int i = 0; i < elements.size(); i++) {
+        for (int i = 0; i < dynamics.length; i++) {
             LexicalPatternElement element = elements.get(i);
 
             if (!element.isUnit()) {
