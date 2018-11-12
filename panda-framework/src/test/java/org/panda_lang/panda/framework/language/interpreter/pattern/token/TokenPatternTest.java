@@ -11,7 +11,7 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class TokenPatternTest {
 
-    private static final String CONTENT = "method void test(15, 25) { Console.print('test') }";
+    private static final String CONTENT = "method void test(15, ()25) { Console.print('test') }";
     private static final TokenizedSource SOURCE = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("Test", CONTENT)).convert();
 
     @Test
@@ -30,13 +30,13 @@ class TokenPatternTest {
             System.out.println("Error message: " + result.getErrorMessage());
         }
 
-        System.out.println(result.isMatched());
         Assertions.assertTrue(result.isMatched());
-
         Assertions.assertNotNull(result.getWildcards());
+        Assertions.assertEquals(4, result.getWildcards().size());
+
         Assertions.assertEquals("void", result.getWildcards().get(0).asString());
         Assertions.assertEquals("test", result.getWildcards().get(1).asString());
-        Assertions.assertEquals("15,25", result.getWildcards().get(2).asString());
+        Assertions.assertEquals("15,()25", result.getWildcards().get(2).asString());
         Assertions.assertEquals("Console.print(test)", result.getWildcards().get(3).asString());
     }
 
