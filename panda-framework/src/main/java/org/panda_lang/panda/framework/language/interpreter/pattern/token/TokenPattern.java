@@ -2,6 +2,8 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractorResult;
 
 public class TokenPattern {
 
@@ -16,7 +18,7 @@ public class TokenPattern {
         return extractor.extract(source);
     }
 
-    protected LexicalPatternElement getPatternContent() {
+    public LexicalPatternElement getPatternContent() {
         return patternContent;
     }
 
