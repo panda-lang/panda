@@ -33,6 +33,7 @@ class TokenPatternTest {
         System.out.println(result.isMatched());
         Assertions.assertTrue(result.isMatched());
 
+        Assertions.assertNotNull(result.getWildcards());
         Assertions.assertEquals("void", result.getWildcards().get(0).asString());
         Assertions.assertEquals("test", result.getWildcards().get(1).asString());
         Assertions.assertEquals("15,25", result.getWildcards().get(2).asString());
