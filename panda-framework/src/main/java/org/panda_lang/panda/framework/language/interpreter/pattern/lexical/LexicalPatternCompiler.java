@@ -34,9 +34,9 @@ import java.util.List;
 public class LexicalPatternCompiler {
 
     private static final char[] IDENTIFIER_CHARACTERS = CharacterUtils.mergeArrays(CharacterUtils.LITERALS, CharacterUtils.arrayOf('-'));
-    private static final char ESCAPE_CHARACTER = '\\';
 
-    private boolean splitByWhitespaces;
+    private char escapeCharacter = '\\';
+    private boolean splitByWhitespaces = false;
 
     public LexicalPatternElement compile(String pattern) {
         List<LexicalPatternElement> elements = new ArrayList<>();
@@ -76,7 +76,7 @@ public class LexicalPatternCompiler {
                 unitBuilder.setLength(0);
             }
             else {
-                if (currentChar == ESCAPE_CHARACTER) {
+                if (currentChar == escapeCharacter) {
                     continue;
                 }
 
@@ -204,7 +204,7 @@ public class LexicalPatternCompiler {
     }
 
     private boolean isPatternOperator(char previous, char current, char... compared) {
-        if (previous == ESCAPE_CHARACTER) {
+        if (previous == escapeCharacter) {
             return false;
         }
 
@@ -219,6 +219,10 @@ public class LexicalPatternCompiler {
 
     public void enableSplittingByWhitespaces() {
         this.splitByWhitespaces = true;
+    }
+
+    public void setEscapeCharacter(char escapeCharacter) {
+        this.escapeCharacter = escapeCharacter;
     }
 
 }

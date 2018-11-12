@@ -17,7 +17,7 @@ class TokenPatternTest {
     @Test
     public void testTokenPattern() {
         TokenPattern pattern = TokenPattern.builder()
-                .compile("(method|hidden|local) [static] <return-type> <name> \\(<*parameters>\\) \\{ <*body> \\}[;]")
+                .compile("(method|hidden|local) [static] <return-type> <name> `(<*parameters>`) `{ <*body> `}[;]")
                 .build();
 
         LexicalPatternElement content = pattern.getPatternContent();
