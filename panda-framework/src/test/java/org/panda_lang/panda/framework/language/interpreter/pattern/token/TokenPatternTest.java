@@ -16,7 +16,7 @@ class TokenPatternTest {
     @Test
     public void testTokenPattern() {
         TokenPattern pattern = TokenPattern.builder()
-                .compile("(method|hidden|local) [static] <return-type> <name>\\(<*parameters>\\) \\{ <*body> \\}[;]")
+                .compile("(method|hidden|local) [static] <return-type> <name> \\(<*parameters>\\) \\{ <*body> \\}[;]")
                 .build();
 
         LexicalPatternElement content = pattern.getPatternContent();
@@ -25,8 +25,17 @@ class TokenPatternTest {
         TokenExtractorResult result = pattern.extract(SOURCE);
         Assertions.assertNotNull(result);
 
+        if (result.hasErrorMessage()) {
+            System.out.println("Error message: " + result.getErrorMessage());
+        }
+
         System.out.println(result.isMatched());
         Assertions.assertTrue(result.isMatched());
+
+        Assertions.assertEquals("void", result.getWildcards().get(0).asString());
+        Assertions.assertEquals("test", result.getWildcards().get(1).asString());
+        Assertions.assertEquals("15,25", result.getWildcards().get(2).asString());
+        Assertions.assertEquals("Console.print(test)", result.getWildcards().get(3).asString());
     }
 
 }

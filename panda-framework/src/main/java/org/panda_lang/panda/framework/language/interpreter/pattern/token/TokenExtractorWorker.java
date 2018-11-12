@@ -38,17 +38,16 @@ public class TokenExtractorWorker {
 
         if (element.isWildcard()) {
             LexicalPatternWildcard wildcard = element.toWildcard();
+            TokenizedSource wildcardContent;
 
             if (wildcard.getDetails() != null && wildcard.getDetails().startsWith("*")) {
-                while (distributor.hasNext()) {
-                    distributor.next();
-                }
+                wildcardContent = new PandaTokenizedSource(distributor.next(distributor.length() - distributor.getIndex()));
             }
             else {
-                distributor.next(); // wildcard content
+                wildcardContent = new PandaTokenizedSource(distributor.next());
             }
 
-            return new TokenExtractorResult(true); // #to-do
+            return new TokenExtractorResult(true).addWildcard(wildcardContent);
         }
 
         LexicalPatternNode node = element.toNode();
@@ -147,7 +146,7 @@ public class TokenExtractorWorker {
             dynamics[i] = null;
 
             if (nodeContent == null) {
-                return new TokenExtractorResult();
+                return new TokenExtractorResult("Node content is null");
             }
 
             TokenDistributor content = new TokenDistributor(nodeContent);
