@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.eleme
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractorResult;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.LexicalExtractorWorker;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.WildcardProcessor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.processed.WildcardProcessor;
 
 public class LexicalPattern<T> {
 

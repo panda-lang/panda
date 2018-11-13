@@ -1,6 +1,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
@@ -21,9 +22,15 @@ class TokenExtractorWorker {
         this.pattern = pattern;
     }
 
-    TokenExtractorResult extract(TokenizedSource source) {
-        LexicalPatternElement content = pattern.getPatternContent();
-        return extract(pattern.getPatternContent(), new TokenDistributor(source));
+    TokenExtractorResult extract(SourceStream source) {
+        TokenDistributor distributor = new TokenDistributor(source.toTokenizedSource());
+        TokenExtractorResult result = extract(pattern.getPatternContent(), distributor);
+
+        if (result.isMatched()) {
+            source.read(distributor.getIndex());
+        }
+
+        return result;
     }
 
     protected TokenExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
