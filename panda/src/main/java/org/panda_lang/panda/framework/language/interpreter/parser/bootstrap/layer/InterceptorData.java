@@ -40,7 +40,7 @@ public class InterceptorData {
                 continue;
             }
 
-            if (datum.getClass().isAssignableFrom(type)) {
+            if (type.isAssignableFrom(datum.getClass())) {
                 return (T) datum;
             }
         }
