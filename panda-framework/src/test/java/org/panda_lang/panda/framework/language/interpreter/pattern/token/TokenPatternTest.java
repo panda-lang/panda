@@ -34,10 +34,10 @@ class TokenPatternTest {
         Assertions.assertNotNull(result.getWildcards());
         Assertions.assertEquals(4, result.getWildcards().size());
 
-        Assertions.assertEquals("void", result.getWildcards().get(0).asString());
-        Assertions.assertEquals("test", result.getWildcards().get(1).asString());
-        Assertions.assertEquals("15,()25", result.getWildcards().get(2).asString());
-        Assertions.assertEquals("Console.print(test)", result.getWildcards().get(3).asString());
+        Assertions.assertEquals("void", result.getWildcards().get("return-type").asString());
+        Assertions.assertEquals("test", result.getWildcards().get("name").asString());
+        Assertions.assertEquals("15,()25", result.getWildcards().get("*parameters").asString());
+        Assertions.assertEquals("Console.print(test)", result.getWildcards().get("*body").asString());
     }
 
 }

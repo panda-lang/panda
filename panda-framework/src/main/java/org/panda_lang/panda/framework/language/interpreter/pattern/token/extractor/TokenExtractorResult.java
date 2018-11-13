@@ -3,19 +3,21 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TokenExtractorResult {
 
     private final boolean matched;
     private final List<String> identifiers;
-    private final List<TokenizedSource> wildcards;
+    private final Map<String, TokenizedSource> wildcards;
     private String errorMessage;
 
     public TokenExtractorResult(boolean matched) {
         this.matched = matched;
         this.identifiers = matched ? new ArrayList<>() : null;
-        this.wildcards = matched ? new ArrayList<>() : null;
+        this.wildcards = matched ? new LinkedHashMap<>() : null;
         this.errorMessage = matched ? null : "<unknown>";
     }
 
@@ -47,12 +49,12 @@ public class TokenExtractorResult {
         }
 
         identifiers.addAll(otherResult.identifiers);
-        wildcards.addAll(otherResult.wildcards);
+        wildcards.putAll(otherResult.wildcards);
         return this;
     }
 
-    public TokenExtractorResult addWildcard(TokenizedSource wildcard) {
-        wildcards.add(wildcard);
+    public TokenExtractorResult addWildcard(String details, TokenizedSource wildcard) {
+        wildcards.put(details, wildcard);
         return this;
     }
 
@@ -78,7 +80,7 @@ public class TokenExtractorResult {
         return errorMessage;
     }
 
-    public List<TokenizedSource> getWildcards() {
+    public Map<String, TokenizedSource> getWildcards() {
         return wildcards;
     }
 
