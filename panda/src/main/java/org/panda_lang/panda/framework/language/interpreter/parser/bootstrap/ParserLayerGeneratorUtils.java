@@ -9,7 +9,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.annotation.Annotation;
@@ -85,7 +85,7 @@ class ParserLayerGeneratorUtils {
     }
 
     private static @Nullable Object findRedacted(Redactor redactorQualifier, InterceptorData interceptorData) {
-        AbyssRedactor redactor = interceptorData.getValue(AbyssRedactor.class);
+        AbyssPatternMapping redactor = interceptorData.getValue(AbyssPatternMapping.class);
 
         if (redactor == null) {
             return null;

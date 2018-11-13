@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components
@@ -38,7 +38,7 @@ public class PandaComponents {
 
     public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
 
-    public static final Component<AbyssRedactor> REDACTOR = Component.of("panda-redactor", AbyssRedactor.class);
+    public static final Component<AbyssPatternMapping> REDACTOR = Component.of("panda-redactor", AbyssPatternMapping.class);
 
     public static final Component<Container> CONTAINER = Component.of("panda-container", Container.class);
 

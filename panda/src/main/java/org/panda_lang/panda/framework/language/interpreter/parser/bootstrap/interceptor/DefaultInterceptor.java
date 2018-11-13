@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Pand
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.UnifiedBootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.PatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -63,8 +63,8 @@ public class DefaultInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
-            AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(pattern, data, wildcards);
-            interceptorData.addElement(redactor);
+            PatternMapping patternMapping = AbyssPatternAssistant.traditionalMapping(pattern, data, wildcards);
+            interceptorData.addElement(patternMapping);
         }
 
         return interceptorData;
