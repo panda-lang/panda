@@ -1,21 +1,22 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 import java.util.List;
 
-public class AbyssPatternHandler implements ParserHandler {
+public class AbyssPatternHandler implements BootstrapHandler {
 
-    private final AbyssPattern pattern;
+    private AbyssPattern pattern;
 
-    public AbyssPatternHandler(String pattern) {
+    @Override
+    public void initialize(PandaParserBootstrap bootstrap) {
         this.pattern = new AbyssPatternBuilder()
-                .compile(PandaSyntax.getInstance(), pattern)
+                .compile(PandaSyntax.getInstance(), bootstrap.getPattern())
                 .build();
     }
 
