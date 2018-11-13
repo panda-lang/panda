@@ -65,7 +65,7 @@ class TokenExtractorWorker {
             wildcardContent = new PandaTokenizedSource(distributor.next());
         }
 
-        return new TokenExtractorResult(true).addWildcard(wildcardContent);
+        return new TokenExtractorResult(true).addWildcard(wildcard.getDetails(), wildcardContent);
     }
 
     private TokenExtractorResult matchVariant(LexicalPatternNode variantNode, TokenDistributor reader) {
