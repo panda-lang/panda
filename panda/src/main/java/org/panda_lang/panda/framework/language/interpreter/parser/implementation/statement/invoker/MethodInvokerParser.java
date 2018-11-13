@@ -48,7 +48,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUtils;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -68,7 +68,7 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
 
     @Override
     public boolean parse(ParserData data) {
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "instance", "method-name", "arguments");
+        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "instance", "method-name", "arguments");
 
         Container container = data.getComponent(PandaComponents.CONTAINER);
         StatementCell cell = container.reserveCell();
@@ -85,9 +85,9 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
     private static class MethodInvokerCasualParserCallback implements GenerationCallback {
 
         private final StatementCell cell;
-        private final AbyssRedactor redactor;
+        private final AbyssPatternMapping redactor;
 
-        private MethodInvokerCasualParserCallback(StatementCell cell, AbyssRedactor redactor) {
+        private MethodInvokerCasualParserCallback(StatementCell cell, AbyssPatternMapping redactor) {
             this.cell = cell;
             this.redactor = redactor;
         }

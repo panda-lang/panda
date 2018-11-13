@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -69,7 +69,7 @@ public class ConditionalBlockParser extends BootstrapParser {
             return true;
         }
 
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
+        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
         TokenizedSource conditionType = redactor.get("condition-type");
         TokenizedSource conditionExpression = redactor.get("condition-expression");
 

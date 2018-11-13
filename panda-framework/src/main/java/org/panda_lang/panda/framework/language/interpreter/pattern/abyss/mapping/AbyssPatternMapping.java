@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -23,17 +23,17 @@ import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AbyssRedactor {
+public class AbyssPatternMapping implements PatternMapping {
 
-    private final AbyssRedactorHollows hollows;
+    private final AbyssPatternMappingHollows hollows;
     private final Map<String, Integer> map;
 
-    public AbyssRedactor(AbyssRedactorHollows hollows) {
+    public AbyssPatternMapping(AbyssPatternMappingHollows hollows) {
         this.hollows = hollows;
         this.map = new HashMap<>();
     }
 
-    public AbyssRedactor map(String... names) {
+    public AbyssPatternMapping map(String... names) {
         if (names.length != hollows.getGaps().size()) {
             throw new PandaParserException("Cannot map mismatched hollows");
         }
@@ -45,6 +45,7 @@ public class AbyssRedactor {
         return this;
     }
 
+    @Override
     public TokenizedSource get(String name) {
         Integer index = this.map.get(name);
 

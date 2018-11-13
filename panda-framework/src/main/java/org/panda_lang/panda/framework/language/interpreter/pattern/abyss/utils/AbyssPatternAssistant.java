@@ -20,18 +20,18 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUtils;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMappingHollows;
 
 public class AbyssPatternAssistant {
 
-    public static AbyssRedactor traditionalMapping(AbyssPattern pattern, ParserData info, String... mapping) {
-        AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(pattern, info);
-        AbyssRedactor redactor = new AbyssRedactor(hollows);
+    public static AbyssPatternMapping traditionalMapping(AbyssPattern pattern, ParserData info, String... mapping) {
+        AbyssPatternMappingHollows hollows = AbyssPatternAssistant.extract(pattern, info);
+        AbyssPatternMapping redactor = new AbyssPatternMapping(hollows);
         return redactor.map(mapping);
     }
 
-    public static AbyssRedactorHollows extract(AbyssPattern pattern, ParserData data) {
+    public static AbyssPatternMappingHollows extract(AbyssPattern pattern, ParserData data) {
         return AbyssPatternUtils.extract(pattern, data.getComponent(UniversalComponents.SOURCE_STREAM));
     }
 

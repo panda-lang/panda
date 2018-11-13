@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -22,11 +22,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 
 import java.util.List;
 
-public class AbyssRedactorHollows {
+public class AbyssPatternMappingHollows {
 
     private final List<TokenizedSource> gaps;
 
-    public AbyssRedactorHollows(List<TokenizedSource> gaps) {
+    public AbyssPatternMappingHollows(List<TokenizedSource> gaps) {
         this.gaps = gaps;
     }
 
