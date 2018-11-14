@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
@@ -94,9 +94,9 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
 
         @Override
         public void call(GenerationPipeline pipeline, ParserData delegatedData) {
-            TokenizedSource instanceSource = redactor.get("instance");
-            TokenizedSource methodSource = redactor.get("method-name");
-            TokenizedSource argumentsSource = redactor.get("arguments");
+            Tokens instanceSource = redactor.get("instance");
+            Tokens methodSource = redactor.get("method-name");
+            Tokens argumentsSource = redactor.get("arguments");
 
             PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
             ModuleLoader registry = script.getModuleLoader();

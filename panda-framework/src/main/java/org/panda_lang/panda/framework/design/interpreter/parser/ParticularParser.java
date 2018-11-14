@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 public interface ParticularParser<T> extends Parser {
 
@@ -24,6 +24,6 @@ public interface ParticularParser<T> extends Parser {
      * @param source matched and checked before tokenized source for parser
      * @param data   set of information about source and interpretation process
      */
-    T parse(ParserData data, TokenizedSource source);
+    T parse(ParserData data, Tokens source);
 
 }

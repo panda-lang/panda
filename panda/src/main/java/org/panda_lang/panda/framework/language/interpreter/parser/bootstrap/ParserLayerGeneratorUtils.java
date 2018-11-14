@@ -3,10 +3,11 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Interceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.PatternMapping;
@@ -35,7 +36,7 @@ class ParserLayerGeneratorUtils {
         }
 
         if (annotations.length == 0 || annotations.length > 1) {
-            return null;
+            throw new ParserBootstrapException("Unknown not annotated DI type: " + type.getName());
         }
 
         Annotation annotation = annotations[0];
@@ -45,8 +46,8 @@ class ParserLayerGeneratorUtils {
             return findComponent((Component) annotation, type, data);
         }
 
-        if (annotationType == Redactor.class) {
-            return findRedacted((Redactor) annotation, interceptor);
+        if (annotationType == Src.class) {
+            return findRedacted((Src) annotation, interceptor, type);
         }
 
         if (annotationType == Local.class) {
@@ -57,7 +58,7 @@ class ParserLayerGeneratorUtils {
             return interceptor.getValue(type);
         }
 
-        return null;
+        throw new ParserBootstrapException("Unknown annotation: " + annotationType.getName());
     }
 
     private static @Nullable Object findComponent(Component componentQualifier, Class<?> type, ParserData data) {
@@ -84,14 +85,20 @@ class ParserLayerGeneratorUtils {
         return localData.getValue(type);
     }
 
-    private static @Nullable Object findRedacted(Redactor redactorQualifier, InterceptorData interceptorData) {
+    private static @Nullable Object findRedacted(Src srcQualifier, InterceptorData interceptorData, Class<?> requiredType) {
         PatternMapping redactor = interceptorData.getValue(PatternMapping.class);
 
         if (redactor == null) {
-            return null;
+            return new ParserBootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
-        return redactor.get(redactorQualifier.value());
+        Tokens value = redactor.get(srcQualifier.value());
+
+        if (requiredType == String.class) {
+            return value.asString();
+        }
+
+        return value;
     }
 
 }

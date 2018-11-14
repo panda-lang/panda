@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
@@ -47,7 +47,7 @@ public class MathParser implements Parser {
             Operators.DIVISION,
             Operators.MULTIPLICATION });
 
-    public MathExpressionCallback parse(TokenizedSource source, ParserData data) {
+    public MathExpressionCallback parse(Tokens source, ParserData data) {
         TokenReader reader = new PandaTokenReader(source);
         VagueResult result = EXTRACTOR.extract(reader);
 

@@ -63,13 +63,7 @@ class ParserLayerGenerator {
         Object[] parameters = new Object[parameterTypes.length];
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            Object parameter = ParserLayerGeneratorUtils.findParameter(parameterTypes[i], parameterAnnotations[i], delegatedData, generation, interceptorData, localData);
-
-            if (parameter == null) {
-                throw new ParserBootstrapException("Cannot find parameter: " + parameterTypes[i] + " of " + bootstrapParser.getBootstrap().getName());
-            }
-
-            parameters[i] = parameter;
+            parameters[i] = ParserLayerGeneratorUtils.findParameter(parameterTypes[i], parameterAnnotations[i], delegatedData, generation, interceptorData, localData);
         }
 
         return parameters;

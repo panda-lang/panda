@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
 public class UniversalComponents {
@@ -35,7 +35,7 @@ public class UniversalComponents {
 
     public static final Component<PipelineRegistry> PIPELINE = Component.of("pipeline-registry", PipelineRegistry.class);
 
-    public static final Component<TokenizedSource> SOURCE = Component.of("source", TokenizedSource.class);
+    public static final Component<Tokens> SOURCE = Component.of("source", Tokens.class);
 
     public static final Component<SourceStream> SOURCE_STREAM = Component.of("source-stream", SourceStream.class);
 

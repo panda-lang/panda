@@ -18,7 +18,7 @@ package org.panda_lang.panda.interpreter.lexer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -28,7 +28,7 @@ public class SimpleLexerTest {
     @Test
     public void testKeywordsInUnknown() {
         PandaLexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(SimpleLexerTest.class, "this.intValue()"));
-        TokenizedSource source = lexer.convert();
+        Tokens source = lexer.convert();
 
         Assertions.assertEquals("this . intValue ( )", source.toString());
     }

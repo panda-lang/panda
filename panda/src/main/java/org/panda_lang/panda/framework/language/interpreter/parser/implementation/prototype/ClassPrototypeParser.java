@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
@@ -46,8 +46,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
@@ -61,11 +62,12 @@ public class ClassPrototypeParser extends BootstrapParser {
     {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.CLASS))
-                .pattern("class +** { +* }",  "declaration", "body");
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("class <name> [extends <inherited>] `{ <*body> `}");
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
-    public void parse(ParserData data, Generation generation, @Redactor("declaration") TokenizedSource declaration, @Redactor("body") TokenizedSource body) {
+    public void parse(ParserData data, Generation generation, @Src("declaration") Tokens declaration, @Src("body") Tokens body) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
         String className = declaration.getTokenValue(0);
@@ -97,14 +99,14 @@ public class ClassPrototypeParser extends BootstrapParser {
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    public void parseDeclaration(ParserData data, @Redactor("declaration") TokenizedSource declaration) {
+    public void parseDeclaration(ParserData data, @Src("declaration") Tokens declaration) {
         if (declaration.size() > 1) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Redactor("body") TokenizedSource body) throws Throwable {
+    public void parseBody(ParserData data, Generation generation, @Src("body") Tokens body) throws Throwable {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 

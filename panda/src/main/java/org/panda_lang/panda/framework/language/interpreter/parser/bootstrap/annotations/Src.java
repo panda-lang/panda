@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Redactor {
+public @interface Src {
 
     String value();
 

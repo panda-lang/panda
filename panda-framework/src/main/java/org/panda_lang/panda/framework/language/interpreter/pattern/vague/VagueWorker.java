@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.vague;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
@@ -34,7 +34,7 @@ public class VagueWorker {
     private final TokenReader source;
 
     private Stack<Separator> separators = new Stack<>();
-    private PandaTokenizedSource expression = new PandaTokenizedSource();
+    private PandaTokens expression = new PandaTokens();
 
     public VagueWorker(VagueExtractor extractor, VagueResult result, TokenReader source) {
         this.extractor = extractor;
@@ -103,7 +103,7 @@ public class VagueWorker {
     private void pullFragment(TokenRepresentation operatorRepresentation) {
         if (this.expression.size() != 0) {
             this.addExpression(this.expression);
-            this.expression = new PandaTokenizedSource();
+            this.expression = new PandaTokens();
         }
 
         this.addOperator(operatorRepresentation);
@@ -119,7 +119,7 @@ public class VagueWorker {
         return false;
     }
 
-    private void addExpression(TokenizedSource expressionSource) {
+    private void addExpression(Tokens expressionSource) {
         VagueElement expressionElement = new VagueElement(expressionSource);
         this.result.addElement(expressionElement);
     }

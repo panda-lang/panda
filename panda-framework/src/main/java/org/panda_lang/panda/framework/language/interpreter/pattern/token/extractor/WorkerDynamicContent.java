@@ -3,12 +3,12 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.utilities.commons.StackUtils;
@@ -26,7 +26,7 @@ class WorkerDynamicContent {
 
     protected TokenExtractorResult matchDynamicContent(LexicalPatternNode node, TokenDistributor distributor) {
         List<LexicalPatternElement> elements = node.getElements();
-        TokenizedSource[] dynamics = matchUnits(elements, distributor);
+        Tokens[] dynamics = matchUnits(elements, distributor);
 
         if (dynamics == null) {
             return new TokenExtractorResult("Dynamics are null");
@@ -46,8 +46,8 @@ class WorkerDynamicContent {
         return matchDynamics(elements, dynamics);
     }
 
-    private @Nullable TokenizedSource[] matchUnits(List<LexicalPatternElement> elements, TokenDistributor distributor) {
-        TokenizedSource[] dynamics = new TokenizedSource[elements.size()];
+    private @Nullable Tokens[] matchUnits(List<LexicalPatternElement> elements, TokenDistributor distributor) {
+        Tokens[] dynamics = new Tokens[elements.size()];
         Stack<Separator> separators = new Stack<>();
 
         int lockState = separators.size();
@@ -113,7 +113,7 @@ class WorkerDynamicContent {
                     return null;
                 }
 
-                dynamics[index] = new PandaTokenizedSource(distributor.next(dynamic));
+                dynamics[index] = new PandaTokens(distributor.next(dynamic));
                 minIndex = i;
 
                 TokenRepresentation representation = distributor.next();
@@ -159,7 +159,7 @@ class WorkerDynamicContent {
         return false;
     }
 
-    private TokenExtractorResult matchDynamics(List<LexicalPatternElement> elements, TokenizedSource[] dynamics) {
+    private TokenExtractorResult matchDynamics(List<LexicalPatternElement> elements, Tokens[] dynamics) {
         TokenExtractorResult result = new TokenExtractorResult(true);
 
         for (int i = 0; i < elements.size(); i++) {
@@ -182,7 +182,7 @@ class WorkerDynamicContent {
                 continue;
             }
 
-            TokenizedSource nodeContent = dynamics[i];
+            Tokens nodeContent = dynamics[i];
             dynamics[i] = null;
 
             if (nodeContent == null) {
@@ -203,14 +203,14 @@ class WorkerDynamicContent {
                     return new TokenExtractorResult();
                 }
 
-                dynamics[nextIndex] = new PandaTokenizedSource(content.next(content.length() - content.getIndex()));
+                dynamics[nextIndex] = new PandaTokens(content.next(content.length() - content.getIndex()));
             }
 
             result.addIdentifier(nodeElement.getIdentifier());
             result.merge(nodeElementResult);
         }
 
-        for (TokenizedSource dynamicContent : dynamics) {
+        for (Tokens dynamicContent : dynamics) {
             if (dynamicContent != null) {
                 return new TokenExtractorResult();
             }
@@ -219,7 +219,7 @@ class WorkerDynamicContent {
         return result;
     }
 
-    private int getLastDynamicIndex(TokenizedSource[] dynamics, int minIndex) {
+    private int getLastDynamicIndex(Tokens[] dynamics, int minIndex) {
         for (int i = minIndex; i < dynamics.length; i++) {
             if (dynamics[i] != null) {
                 continue;

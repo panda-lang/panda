@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
@@ -70,8 +70,8 @@ public class ConditionalBlockParser extends BootstrapParser {
         }
 
         AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
-        TokenizedSource conditionType = redactor.get("condition-type");
-        TokenizedSource conditionExpression = redactor.get("condition-expression");
+        Tokens conditionType = redactor.get("condition-type");
+        Tokens conditionExpression = redactor.get("condition-expression");
 
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(data, conditionExpression);

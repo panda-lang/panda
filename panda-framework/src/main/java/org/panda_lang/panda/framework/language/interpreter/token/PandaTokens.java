@@ -18,31 +18,31 @@ package org.panda_lang.panda.framework.language.interpreter.token;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class PandaTokenizedSource implements TokenizedSource {
+public class PandaTokens implements Tokens {
 
     private final List<TokenRepresentation> tokens;
 
-    public PandaTokenizedSource() {
+    public PandaTokens() {
         this.tokens = new ArrayList<>();
     }
 
-    public PandaTokenizedSource(TokenRepresentation... tokenRepresentations) {
+    public PandaTokens(TokenRepresentation... tokenRepresentations) {
         this(Arrays.asList(tokenRepresentations));
     }
 
-    public PandaTokenizedSource(List<TokenRepresentation> tokenRepresentations) {
+    public PandaTokens(List<TokenRepresentation> tokenRepresentations) {
         this.tokens = tokenRepresentations;
     }
 
     @Override
-    public TokenizedSource subSource(int fromIndex, int toIndex) {
-        return new PandaTokenizedSource(tokens.subList(fromIndex, toIndex));
+    public Tokens subSource(int fromIndex, int toIndex) {
+        return new PandaTokens(tokens.subList(fromIndex, toIndex));
     }
 
     @Override

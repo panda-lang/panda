@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodScope;
@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPrioritie
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
@@ -57,7 +57,7 @@ public class MethodParser extends BootstrapParser {
     }
 
     @Autowired
-    boolean parse(ParserData data, LocalData local, @Redactor("declaration") TokenizedSource methodDeclaration, @Redactor("parameters") TokenizedSource parametersSource) {
+    boolean parse(ParserData data, LocalData local, @Src("declaration") Tokens methodDeclaration, @Src("parameters") Tokens parametersSource) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
@@ -126,7 +126,7 @@ public class MethodParser extends BootstrapParser {
     }
 
     @Autowired(order = 1)
-    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Redactor("body") TokenizedSource body) throws Throwable {
+    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Tokens body) throws Throwable {
         ScopeParser.createParser(methodScope, delegatedData)
                 .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                 .parse(body);

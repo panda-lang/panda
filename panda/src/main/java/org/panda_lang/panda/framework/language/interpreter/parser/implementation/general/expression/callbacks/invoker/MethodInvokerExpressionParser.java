@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
@@ -54,19 +54,19 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             .lastIndexAlgorithm(true)
             .build();
 
-    private final TokenizedSource instanceSource;
-    private final TokenizedSource methodNameSource;
-    private final TokenizedSource argumentsSource;
+    private final Tokens instanceSource;
+    private final Tokens methodNameSource;
+    private final Tokens argumentsSource;
     private MethodInvoker invoker;
 
-    public MethodInvokerExpressionParser(TokenizedSource instanceSource, TokenizedSource methodNameSource, TokenizedSource argumentsSource) {
+    public MethodInvokerExpressionParser(Tokens instanceSource, Tokens methodNameSource, Tokens argumentsSource) {
         this.instanceSource = instanceSource;
         this.methodNameSource = methodNameSource;
         this.argumentsSource = argumentsSource;
     }
 
     @Override
-    public void parse(TokenizedSource source, ParserData info) {
+    public void parse(Tokens source, ParserData info) {
         PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
         ModuleLoader registry = script.getModuleLoader();
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMappingHollows;
 
@@ -25,8 +25,8 @@ import java.util.List;
 
 public class MethodInvokerExpressionUtils {
 
-    public static @Nullable MethodInvokerExpressionParser match(TokenizedSource source) {
-        List<TokenizedSource> methodMatches = MethodInvokerExpressionParser.PATTERN.match(source);
+    public static @Nullable MethodInvokerExpressionParser match(Tokens source) {
+        List<Tokens> methodMatches = MethodInvokerExpressionParser.PATTERN.match(source);
 
         if (methodMatches == null || methodMatches.size() == 0) {
             return null;
@@ -36,12 +36,12 @@ public class MethodInvokerExpressionUtils {
         AbyssPatternMapping redactor = new AbyssPatternMapping(hollows);
         redactor.map("method-call", "arguments");
 
-        TokenizedSource methodCallSource = redactor.get("method-call");
-        List<TokenizedSource> methodCallMatches = MethodInvokerExpressionParser.CALL_PATTERN.match(methodCallSource);
+        Tokens methodCallSource = redactor.get("method-call");
+        List<Tokens> methodCallMatches = MethodInvokerExpressionParser.CALL_PATTERN.match(methodCallSource);
 
-        TokenizedSource argumentsSource = redactor.get("arguments");
-        TokenizedSource methodNameSource = methodCallSource;
-        TokenizedSource instanceSource = null;
+        Tokens argumentsSource = redactor.get("arguments");
+        Tokens methodNameSource = methodCallSource;
+        Tokens instanceSource = null;
 
         if (methodCallMatches != null && methodCallMatches.size() > 0) {
             AbyssPatternMappingHollows methodCallHollows = new AbyssPatternMappingHollows(methodCallMatches);

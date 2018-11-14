@@ -17,18 +17,18 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.vague;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 public class VagueElement {
 
     private TokenRepresentation operator;
-    private TokenizedSource expression;
+    private Tokens expression;
 
     public VagueElement(TokenRepresentation operator) {
         this.operator = operator;
     }
 
-    public VagueElement(TokenizedSource expression) {
+    public VagueElement(Tokens expression) {
         this.expression = expression;
     }
 
@@ -40,7 +40,7 @@ public class VagueElement {
         return operator != null;
     }
 
-    public TokenizedSource getExpression() {
+    public Tokens getExpression() {
         return expression;
     }
 

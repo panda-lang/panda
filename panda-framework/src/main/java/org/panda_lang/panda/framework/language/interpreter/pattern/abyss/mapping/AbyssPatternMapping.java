@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
@@ -46,7 +46,7 @@ public class AbyssPatternMapping implements PatternMapping {
     }
 
     @Override
-    public TokenizedSource get(String name) {
+    public Tokens get(String name) {
         Integer index = this.map.get(name);
 
         if (index == null) {

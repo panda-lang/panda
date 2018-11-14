@@ -17,18 +17,18 @@
 package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public interface TokenizedSource {
+public interface Tokens {
 
-    TokenizedSource subSource(int fromIndex, int toIndex);
+    Tokens subSource(int fromIndex, int toIndex);
 
     TokenRepresentation[] toArray();
 
-    default TokenizedSource selectLine(int line) {
+    default Tokens selectLine(int line) {
         List<TokenRepresentation> selected = new ArrayList<>();
 
         for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
@@ -43,7 +43,7 @@ public interface TokenizedSource {
             selected.add(tokenRepresentation);
         }
 
-        return new PandaTokenizedSource(selected);
+        return new PandaTokens(selected);
     }
 
     default int size() {
@@ -61,7 +61,7 @@ public interface TokenizedSource {
         return node.toString();
     }
 
-    default TokenizedSource addToken(TokenRepresentation tokenRepresentation) {
+    default Tokens addToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().add(tokenRepresentation);
         return this;
     }

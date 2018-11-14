@@ -18,20 +18,20 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mappin
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.List;
 
 public class AbyssPatternMappingHollows {
 
-    private final List<TokenizedSource> gaps;
+    private final List<Tokens> gaps;
 
-    public AbyssPatternMappingHollows(List<TokenizedSource> gaps) {
+    public AbyssPatternMappingHollows(List<Tokens> gaps) {
         this.gaps = gaps;
     }
 
     public @Nullable Token getToken(int gapIndex, int tokenIndex) {
-        TokenizedSource gap = getGap(gapIndex);
+        Tokens gap = getGap(gapIndex);
 
         if (gap == null) {
             return null;
@@ -40,11 +40,11 @@ public class AbyssPatternMappingHollows {
         return gap.getToken(tokenIndex);
     }
 
-    public TokenizedSource getGap(int index) {
+    public Tokens getGap(int index) {
         return index < gaps.size() ? gaps.get(index) : null;
     }
 
-    public List<TokenizedSource> getGaps() {
+    public List<Tokens> getGaps() {
         return gaps;
     }
 

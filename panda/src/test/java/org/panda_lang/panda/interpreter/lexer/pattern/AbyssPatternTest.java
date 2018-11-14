@@ -19,11 +19,11 @@ package org.panda_lang.panda.interpreter.lexer.pattern;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -33,13 +33,13 @@ public class AbyssPatternTest {
             .compile(PandaSyntax.getInstance(), "test [;] source")
             .build();
 
-    private static final TokenizedSource FULL_SOURCE = new PandaTokenizedSource(
+    private static final Tokens FULL_SOURCE = new PandaTokens(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
             PandaTokenRepresentation.of(Separators.SEMICOLON),
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );
 
-    private static final TokenizedSource OPTIONAL_SOURCE = new PandaTokenizedSource(
+    private static final Tokens OPTIONAL_SOURCE = new PandaTokens(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );
