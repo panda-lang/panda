@@ -1,4 +1,5 @@
 # Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda) [![Build status](https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true)](https://ci.appveyor.com/project/Panda-Programming-Language/panda) [![CodeFactor](https://www.codefactor.io/repository/github/panda-programming-language/panda/badge)](https://www.codefactor.io/repository/github/panda-programming-language/panda)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPanda-Programming-Language%2FPanda.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FPanda-Programming-Language%2FPanda?ref=badge_shield)
 Panda is lightweight and powerful programming language written in Java.<br>
 Project website: [panda-lang.org](https://panda-lang.org/)
 
@@ -45,3 +46,7 @@ Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 #### Other
 - Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
 - Light: https://github.com/dzikoysk/Light
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FPanda-Programming-Language%2FPanda.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FPanda-Programming-Language%2FPanda?ref=badge_large)
