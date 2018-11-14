@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extrac
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 import java.util.ArrayList;
@@ -32,20 +32,20 @@ import java.util.List;
 public class PrimitiveExtractor {
 
     private final AbyssPattern pattern;
-    private final List<TokenizedSource> gaps;
+    private final List<Tokens> gaps;
 
     public PrimitiveExtractor(AbyssPattern pattern) {
         this.pattern = pattern;
         this.gaps = new ArrayList<>();
     }
 
-    public List<TokenizedSource> extract(TokenReader tokenReader) {
+    public List<Tokens> extract(TokenReader tokenReader) {
         tokenReader.synchronize();
 
         AbyssPatternUnit[] units = pattern.getUnits();
         ArrayDistributor<AbyssPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
         PrimitiveOppositesKeeper extractorOpposites = new PrimitiveOppositesKeeper(this);
-        TokenizedSource gap = new PandaTokenizedSource();
+        Tokens gap = new PandaTokens();
 
         for (int unitIndex = 0; unitIndex < units.length; unitIndex++) {
             AbyssPatternUnit unit = unitsDistributor.get(unitIndex);
@@ -91,7 +91,7 @@ public class PrimitiveExtractor {
                 }
 
                 gaps.add(gap);
-                gap = new PandaTokenizedSource();
+                gap = new PandaTokens();
                 break;
             }
         }

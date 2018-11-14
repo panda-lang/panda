@@ -17,17 +17,17 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser;
 
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.List;
 
 public class VarParserData {
 
     private final StatementCell cell;
-    private final List<TokenizedSource> hollows;
+    private final List<Tokens> hollows;
     private final boolean assignation;
 
-    public VarParserData(StatementCell cell, List<TokenizedSource> hollows, boolean assignation) {
+    public VarParserData(StatementCell cell, List<Tokens> hollows, boolean assignation) {
         this.cell = cell;
         this.hollows = hollows;
         this.assignation = assignation;
@@ -37,7 +37,7 @@ public class VarParserData {
         return assignation;
     }
 
-    public List<TokenizedSource> getHollows() {
+    public List<Tokens> getHollows() {
         return hollows;
     }
 

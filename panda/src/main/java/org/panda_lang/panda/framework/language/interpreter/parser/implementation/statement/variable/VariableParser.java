@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
@@ -43,7 +43,7 @@ public class VariableParser extends BootstrapParser {
 
     @Override
     public boolean handle(TokenReader reader) {
-        List<TokenizedSource> hollows = VarParser.PATTERN.extractor().extract(reader);
+        List<Tokens> hollows = VarParser.PATTERN.extractor().extract(reader);
         return hollows != null && hollows.size() > 0;
     }
 

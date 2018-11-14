@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extrac
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 import java.util.ArrayList;
@@ -31,19 +31,19 @@ import java.util.List;
 public class AbyssExtractor {
 
     private final AbyssPattern pattern;
-    private final List<TokenizedSource> gaps;
+    private final List<Tokens> gaps;
 
     public AbyssExtractor(AbyssPattern pattern) {
         this.pattern = pattern;
         this.gaps = new ArrayList<>();
     }
 
-    public @Nullable List<TokenizedSource> extract(TokenReader tokenReader) {
+    public @Nullable List<Tokens> extract(TokenReader tokenReader) {
         gaps.clear();
 
         AbyssPatternUnit[] units = pattern.getUnits();
-        TokenizedSource tokenizedSource = tokenReader.getTokenizedSource();
-        AbyssExtractorSource source = new AbyssExtractorSource(tokenizedSource);
+        Tokens tokens = tokenReader.getTokenizedSource();
+        AbyssExtractorSource source = new AbyssExtractorSource(tokens);
 
         int hardTypedUnits = AbyssExtractorSourceUtils.countHardTypedUnits(units);
         int[] positions = new int[hardTypedUnits];
@@ -117,7 +117,7 @@ public class AbyssExtractor {
                 }
             }
 
-            TokenizedSource gap = new PandaTokenizedSource();
+            Tokens gap = new PandaTokens();
 
             for (TokenRepresentation representation : tokenReader) {
                 int index = tokenReader.getIndex();
@@ -153,13 +153,13 @@ public class AbyssExtractor {
         }
         else*/
         if (pattern.endsWithGap()) {
-            TokenizedSource lastGap;
+            Tokens lastGap;
 
             if (indexes.length > 0) {
-                lastGap = tokenizedSource.subSource(positions[positions.length - 1] + 1, tokenizedSource.size());
+                lastGap = tokens.subSource(positions[positions.length - 1] + 1, tokens.size());
             }
             else {
-                lastGap = tokenizedSource.subSource(0, tokenizedSource.size());
+                lastGap = tokens.subSource(0, tokens.size());
             }
 
             gaps.add(lastGap);

@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -98,7 +98,7 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
 
         @Override
         public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
-            TokenizedSource expressionSource = redactor.get("return-expression");
+            Tokens expressionSource = redactor.get("return-expression");
             ExpressionParser expressionParser = new ExpressionParser();
             Expression expression = expressionParser.parse(data, expressionSource);
 

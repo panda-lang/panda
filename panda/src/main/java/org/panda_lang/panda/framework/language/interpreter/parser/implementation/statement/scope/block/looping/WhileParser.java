@@ -17,14 +17,14 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.looping;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
@@ -41,7 +41,7 @@ public class WhileParser extends BootstrapParser {
     }
 
     @Autowired
-    private void parserWhile(ParserData data, @Redactor("while-expression") TokenizedSource expressionSource) {
+    private void parserWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
         Expression expression = new ExpressionParser().parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {

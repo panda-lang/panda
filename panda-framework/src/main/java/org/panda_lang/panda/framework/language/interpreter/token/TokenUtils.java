@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class TokenUtils {
@@ -45,12 +45,12 @@ public class TokenUtils {
         return anotherToken.getType() == tokenType && anotherToken.getTokenValue().equals(tokenValue);
     }
 
-    public static @Nullable String extractToken(TokenizedSource tokenizedSource, int i) {
-        if (i >= tokenizedSource.size()) {
+    public static @Nullable String extractToken(Tokens tokens, int i) {
+        if (i >= tokens.size()) {
             return null;
         }
 
-        Token token = tokenizedSource.getToken(0);
+        Token token = tokens.getToken(0);
 
         if (token == null) {
             return null;
@@ -59,11 +59,11 @@ public class TokenUtils {
         return token.getName();
     }
 
-    public static boolean contains(TokenizedSource source, Token token) {
+    public static boolean contains(Tokens source, Token token) {
         return contains(source, token.getType(), token.getTokenValue());
     }
 
-    public static boolean contains(TokenizedSource source, TokenType type, String value) {
+    public static boolean contains(Tokens source, TokenType type, String value) {
         for (TokenRepresentation representation : source.getTokensRepresentations()) {
             if (equals(representation, type, value)) {
                 return true;

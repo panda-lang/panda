@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.interpreter.token.stream;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,10 @@ import java.util.NoSuchElementException;
 
 public class PandaSourceStream implements SourceStream {
 
-    private TokenizedSource source;
-    private TokenizedSource cachedSource;
+    private Tokens source;
+    private Tokens cachedSource;
 
-    public PandaSourceStream(TokenizedSource source) {
+    public PandaSourceStream(Tokens source) {
         this.source = source;
         this.cachedSource = source;
     }
@@ -46,13 +46,13 @@ public class PandaSourceStream implements SourceStream {
         List<TokenRepresentation> tokens = source.getTokensRepresentations().subList(1, source.size());
 
         this.cachedSource = this.source;
-        this.source = new PandaTokenizedSource(tokens);
+        this.source = new PandaTokens(tokens);
 
         return representation;
     }
 
     @Override
-    public TokenizedSource read(int length) {
+    public Tokens read(int length) {
         TokenRepresentation[] array = new TokenRepresentation[length];
 
         for (int i = 0; i < array.length; i++) {
@@ -63,17 +63,17 @@ public class PandaSourceStream implements SourceStream {
             array[i] = this.read();
         }
 
-        return new PandaTokenizedSource(array);
+        return new PandaTokens(array);
     }
 
     @Override
-    public TokenizedSource readDifference(TokenReader reader) {
+    public Tokens readDifference(TokenReader reader) {
         int length = reader.getIndex() + 1;
         return this.read(length);
     }
 
     @Override
-    public TokenizedSource readLineResidue() {
+    public Tokens readLineResidue() {
         List<TokenRepresentation> residue = new ArrayList<>();
         int currentLine = this.getCurrentLine();
 
@@ -88,7 +88,7 @@ public class PandaSourceStream implements SourceStream {
             residue.add(representation);
         }
 
-        return new PandaTokenizedSource(residue);
+        return new PandaTokens(residue);
     }
 
     @Override
@@ -102,8 +102,8 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public TokenizedSource toTokenizedSource() {
-        return new PandaTokenizedSource(new ArrayList<>(this.source.getTokensRepresentations()));
+    public Tokens toTokenizedSource() {
+        return new PandaTokens(new ArrayList<>(this.source.getTokensRepresentations()));
     }
 
     @Override

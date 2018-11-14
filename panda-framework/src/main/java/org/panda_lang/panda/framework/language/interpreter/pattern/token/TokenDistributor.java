@@ -1,7 +1,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,10 +10,10 @@ import java.util.NoSuchElementException;
 
 public class TokenDistributor implements Iterable<TokenRepresentation> {
 
-    private final TokenizedSource source;
+    private final Tokens source;
     private int index;
 
-    public TokenDistributor(TokenizedSource source) {
+    public TokenDistributor(Tokens source) {
         this.source = source;
     }
 

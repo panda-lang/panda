@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
@@ -42,15 +42,15 @@ public class AbyssPattern {
         this.amountOfHollows = AbyssPatternUtils.countGaps(units);
     }
 
-    public List<TokenizedSource> match(TokenizedSource source) {
+    public List<Tokens> match(Tokens source) {
         return match(new PandaTokenReader(source));
     }
 
-    public List<TokenizedSource> match(TokenReader tokenReader) {
+    public List<Tokens> match(TokenReader tokenReader) {
         int index = tokenReader.getIndex();
 
         AbyssExtractor extractor = extractor();
-        List<TokenizedSource> result = extractor.extract(tokenReader);
+        List<Tokens> result = extractor.extract(tokenReader);
 
         tokenReader.setIndex(index);
         return result;

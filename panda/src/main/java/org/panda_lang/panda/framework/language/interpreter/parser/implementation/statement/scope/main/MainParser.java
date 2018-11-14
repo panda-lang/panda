@@ -19,13 +19,13 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
@@ -51,7 +51,7 @@ public class MainParser extends BootstrapParser {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    private void parseScope(ParserData data, @Local MainScope main, @Redactor("*main-body") TokenizedSource body) throws Throwable {
+    private void parseScope(ParserData data, @Local MainScope main, @Src("*main-body") Tokens body) throws Throwable {
         ScopeParser.createParser(main, data)
                 .forkData()
                 .initializeLinker()

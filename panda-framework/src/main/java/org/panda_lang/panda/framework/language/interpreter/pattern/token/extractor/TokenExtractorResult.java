@@ -1,6 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -11,7 +11,7 @@ public class TokenExtractorResult {
 
     private final boolean matched;
     private final List<String> identifiers;
-    private final Map<String, TokenizedSource> wildcards;
+    private final Map<String, Tokens> wildcards;
     private String errorMessage;
 
     public TokenExtractorResult(boolean matched) {
@@ -53,7 +53,7 @@ public class TokenExtractorResult {
         return this;
     }
 
-    public TokenExtractorResult addWildcard(String details, TokenizedSource wildcard) {
+    public TokenExtractorResult addWildcard(String details, Tokens wildcard) {
         wildcards.put(details, wildcard);
         return this;
     }
@@ -80,7 +80,7 @@ public class TokenExtractorResult {
         return errorMessage;
     }
 
-    public Map<String, TokenizedSource> getWildcards() {
+    public Map<String, Tokens> getWildcards() {
         return wildcards;
     }
 

@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -75,7 +75,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
 
-        List<TokenizedSource> hollows = FieldParser.ASSIGNATION_PATTERN
+        List<Tokens> hollows = FieldParser.ASSIGNATION_PATTERN
                 .extractor()
                 .extract(copyOfStream.toTokenReader());
 
@@ -112,7 +112,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
                 redactor.map("left");
             }
 
-            TokenizedSource left = redactor.get("left");
+            Tokens left = redactor.get("left");
             ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             String name = null;
@@ -210,7 +210,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
 
         @Override
         public void call(GenerationPipeline pipeline, ParserData delegatedData) {
-            TokenizedSource right = redactor.get("right");
+            Tokens right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
             Expression expressionValue = expressionParser.parse(delegatedData, right);

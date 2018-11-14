@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.abyss;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -31,7 +31,7 @@ public class AbyssPatternUtils {
     public static AbyssPatternMappingHollows extract(AbyssPattern pattern, SourceStream source) {
         AbyssExtractor extractor = pattern.extractor();
         TokenReader reader = source.toTokenReader();
-        List<TokenizedSource> gaps = extractor.extract(reader);
+        List<Tokens> gaps = extractor.extract(reader);
 
         if (gaps == null) {
             throw new PandaParserException("Cannot parse source at line " + source.toTokenizedSource().getCurrentLine());
@@ -45,7 +45,7 @@ public class AbyssPatternUtils {
         TokenReader copyOfReader = new PandaTokenReader(reader);
         AbyssExtractor extractor = pattern.extractor();
 
-        List<TokenizedSource> hollows = extractor.extract(copyOfReader);
+        List<Tokens> hollows = extractor.extract(copyOfReader);
         return hollows != null && hollows.size() == pattern.getAmountOfHollows();
     }
 

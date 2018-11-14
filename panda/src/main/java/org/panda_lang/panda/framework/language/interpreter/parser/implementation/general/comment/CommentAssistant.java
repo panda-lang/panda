@@ -19,15 +19,15 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CommentAssistant {
 
-    public static TokenizedSource uncomment(TokenizedSource source) {
+    public static Tokens uncomment(Tokens source) {
         List<TokenRepresentation> uncommentedSource = new ArrayList<>(source.size());
 
         for (TokenRepresentation tokenRepresentation : source.getTokensRepresentations()) {
@@ -40,7 +40,7 @@ public class CommentAssistant {
             uncommentedSource.add(tokenRepresentation);
         }
 
-        return new PandaTokenizedSource(uncommentedSource);
+        return new PandaTokens(uncommentedSource);
     }
 
 }

@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
@@ -50,12 +50,12 @@ public class InstanceExpressionParser implements ExpressionCallbackParser<Instan
     private Expression[] arguments;
 
     @Override
-    public void parse(TokenizedSource source, ParserData data) {
+    public void parse(Tokens source, ParserData data) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 
         AbyssExtractor extractor = PATTERN.extractor();
-        List<TokenizedSource> gaps = extractor.extract(reader);
+        List<Tokens> gaps = extractor.extract(reader);
 
         if (gaps == null) {
             throw new PandaParserException("Cannot parse expression::instance");

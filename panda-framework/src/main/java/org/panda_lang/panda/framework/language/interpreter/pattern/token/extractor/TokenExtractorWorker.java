@@ -1,13 +1,13 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenizedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -16,7 +16,7 @@ class TokenExtractorWorker {
 
     private final TokenPattern pattern;
     private final WorkerDynamicContent dynamicContent = new WorkerDynamicContent(this);
-    private final Map<String, TokenizedSource> results = new LinkedHashMap<>();
+    private final Map<String, Tokens> results = new LinkedHashMap<>();
 
     TokenExtractorWorker(TokenPattern pattern) {
         this.pattern = pattern;
@@ -56,13 +56,13 @@ class TokenExtractorWorker {
     }
 
     private TokenExtractorResult matchWildcard(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
-        TokenizedSource wildcardContent;
+        Tokens wildcardContent;
 
         if (wildcard.getDetails() != null && wildcard.getDetails().startsWith("*")) {
-            wildcardContent = new PandaTokenizedSource(distributor.next(distributor.length() - distributor.getIndex()));
+            wildcardContent = new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
         }
         else {
-            wildcardContent = new PandaTokenizedSource(distributor.next());
+            wildcardContent = new PandaTokens(distributor.next());
         }
 
         return new TokenExtractorResult(true).addWildcard(wildcard.getDetails(), wildcardContent);
