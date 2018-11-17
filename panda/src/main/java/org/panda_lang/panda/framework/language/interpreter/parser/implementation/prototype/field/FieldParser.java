@@ -38,6 +38,7 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
@@ -162,7 +163,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
                         nullable = true;
                         continue;
                     default:
-                        throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1) + ": " + token.getTokenValue());
+                        throw new PandaParserFailure("Unexpected token " + token.getTokenValue(), delegatedData);
                 }
             }
 

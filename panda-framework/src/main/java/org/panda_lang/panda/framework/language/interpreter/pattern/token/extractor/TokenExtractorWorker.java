@@ -35,7 +35,7 @@ class TokenExtractorWorker {
 
     protected TokenExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
         if (!distributor.hasNext()) {
-            return new TokenExtractorResult();
+            return new TokenExtractorResult("Distributor does not have content");
         }
 
         if (element.isUnit()) {
@@ -81,7 +81,7 @@ class TokenExtractorWorker {
             }
         }
 
-        return new TokenExtractorResult();
+        return new TokenExtractorResult("Variant does not matched");
     }
 
 }

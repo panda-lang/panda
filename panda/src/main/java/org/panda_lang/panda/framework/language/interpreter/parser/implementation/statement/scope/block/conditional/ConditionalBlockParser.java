@@ -58,7 +58,7 @@ public class ConditionalBlockParser extends BootstrapParser {
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
-                throw new PandaParserFailure("The Else-block without associated If-block at line", data);
+                throw new PandaParserFailure("The Else-block without associated If-block", data);
             }
 
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;

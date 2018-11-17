@@ -67,10 +67,9 @@ public class ClassPrototypeParser extends BootstrapParser {
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
-    public void parse(ParserData data, Generation generation, @Src("declaration") Tokens declaration, @Src("body") Tokens body) {
+    public void parse(ParserData data, Generation generation, @Src("name") String className) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
-        String className = declaration.getTokenValue(0);
 
         if (className == null) {
             throw new PandaParserException("Class name cannot be null");
@@ -100,13 +99,13 @@ public class ClassPrototypeParser extends BootstrapParser {
 
     @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void parseDeclaration(ParserData data, @Src("declaration") Tokens declaration) {
-        if (declaration.size() > 1) {
+        if (declaration != null) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Src("body") Tokens body) throws Throwable {
+    public void parseBody(ParserData data, Generation generation, @Src("*body") Tokens body) throws Throwable {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 

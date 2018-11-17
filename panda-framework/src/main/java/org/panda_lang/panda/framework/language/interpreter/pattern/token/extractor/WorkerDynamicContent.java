@@ -28,7 +28,7 @@ class WorkerDynamicContent {
         List<LexicalPatternElement> elements = node.getElements();
         Tokens[] dynamics = matchUnits(elements, distributor);
 
-        if (dynamics == null) {
+        if (dynamics == null || dynamics.length == 0) {
             return new TokenExtractorResult("Dynamics are null");
         }
 
@@ -50,12 +50,14 @@ class WorkerDynamicContent {
         Tokens[] dynamics = new Tokens[elements.size()];
         Stack<Separator> separators = new Stack<>();
 
+        boolean lastWildcard = false;
         int lockState = separators.size();
         int minIndex = 0;
 
         for (int i = 0; i < dynamics.length; i++) {
             StackUtils.popSilently(separators, separators.size() - lockState);
             LexicalPatternElement element = elements.get(i);
+            lastWildcard = element.isWildcard();
 
             if (!element.isUnit()) {
                 continue;
@@ -126,6 +128,10 @@ class WorkerDynamicContent {
             return null;
         }
 
+        if (lastWildcard && distributor.hasNext()) {
+            dynamics[dynamics.length - 1] = new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
+        }
+
         return dynamics;
     }
 
@@ -167,7 +173,7 @@ class WorkerDynamicContent {
 
 
             if (nodeElement.isUnit() || (dynamics.length == 0 && nodeElement.isOptional())) {
-                if (nodeElement.isOptional() && dynamics[i] == null) {
+                if (dynamics[i] == null || nodeElement.isOptional() && dynamics[i] == null) {
                     continue;
                 }
 
@@ -186,6 +192,10 @@ class WorkerDynamicContent {
             dynamics[i] = null;
 
             if (nodeContent == null) {
+                if (nodeElement.isOptional()) {
+                    continue;
+                }
+
                 return new TokenExtractorResult("Node content is null");
             }
 
@@ -193,14 +203,18 @@ class WorkerDynamicContent {
             TokenExtractorResult nodeElementResult = worker.extract(nodeElement, content);
 
             if (!nodeElementResult.isMatched()) {
-                return new TokenExtractorResult();
+                if (nodeElement.isOptional()) {
+                    continue;
+                }
+
+                return nodeElementResult;
             }
 
             if (content.hasNext()) {
                 int nextIndex = i + 1;
 
                 if (nextIndex >= dynamics.length || dynamics[nextIndex] != null) {
-                    return new TokenExtractorResult();
+                    return new TokenExtractorResult("Index out of dynamics' range or dynamics' content still exists");
                 }
 
                 dynamics[nextIndex] = new PandaTokens(content.next(content.length() - content.getIndex()));
@@ -212,7 +226,7 @@ class WorkerDynamicContent {
 
         for (Tokens dynamicContent : dynamics) {
             if (dynamicContent != null) {
-                return new TokenExtractorResult();
+                return new TokenExtractorResult("Not all dynamic content has been matched");
             }
         }
 

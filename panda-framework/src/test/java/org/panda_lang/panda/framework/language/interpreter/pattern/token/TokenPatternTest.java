@@ -11,13 +11,17 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class TokenPatternTest {
 
-    private static final String CONTENT = "method void test(15, ()25) { Console.print('test') }";
+    private static final String CONTENT = "class Foo {" +
+            "    method anotherEcho(String message) {" +
+            "        Console.print(message);" +
+            "    }" +
+            "}";
     private static final Tokens SOURCE = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("Test", CONTENT)).convert();
 
     @Test
     public void testTokenPattern() {
         TokenPattern pattern = TokenPattern.builder()
-                .compile("(method|hidden|local) [static] <return-type> <name> `(<*parameters>`) `{ <*body> `}[;]")
+                .compile("class <name> [extends <inherited>] `{ <*body> `}")
                 .build();
 
         LexicalPatternElement content = pattern.getPatternContent();
@@ -32,12 +36,12 @@ class TokenPatternTest {
 
         Assertions.assertTrue(result.isMatched());
         Assertions.assertNotNull(result.getWildcards());
-        Assertions.assertEquals(4, result.getWildcards().size());
 
-        Assertions.assertEquals("void", result.getWildcards().get("return-type").asString());
-        Assertions.assertEquals("test", result.getWildcards().get("name").asString());
-        Assertions.assertEquals("15,()25", result.getWildcards().get("*parameters").asString());
-        Assertions.assertEquals("Console.print(test)", result.getWildcards().get("*body").asString());
+        System.out.println(result.getWildcards());
+
+        Assertions.assertEquals(2, result.getWildcards().size());
+        Assertions.assertEquals("Foo", result.getWildcards().get("name").asString());
+        Assertions.assertEquals("methodanotherEcho(Stringmessage){Console.print(message);}", result.getWildcards().get("*body").asString());
     }
 
 }

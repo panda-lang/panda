@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.annotation.ElementType;
@@ -28,7 +27,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Component {
 
-    @Nullable Class<?> type() default Object.class;
+    Class<?> type() default Object.class;
 
     String name() default StringUtils.EMPTY;
 
