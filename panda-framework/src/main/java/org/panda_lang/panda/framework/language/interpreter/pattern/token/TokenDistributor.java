@@ -60,6 +60,10 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return index < length();
     }
 
+    public TokenRepresentation getNext() {
+        return source.get(index + 1);
+    }
+
     public int getIndex() {
         return index;
     }

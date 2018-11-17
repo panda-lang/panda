@@ -1,5 +1,8 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
@@ -9,7 +12,10 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDi
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 class TokenExtractorWorker {
@@ -17,6 +23,7 @@ class TokenExtractorWorker {
     private final TokenPattern pattern;
     private final WorkerDynamicContent dynamicContent = new WorkerDynamicContent(this);
     private final Map<String, Tokens> results = new LinkedHashMap<>();
+    private final Collection<WildcardConditionFactory> wildcardConditionFactories = new ArrayList<>();
 
     TokenExtractorWorker(TokenPattern pattern) {
         this.pattern = pattern;
@@ -56,16 +63,74 @@ class TokenExtractorWorker {
     }
 
     private TokenExtractorResult matchWildcard(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
-        Tokens wildcardContent;
+        Tokens wildcardContent = null;
 
-        if (wildcard.getDetails() != null && wildcard.getDetails().startsWith("*")) {
-            wildcardContent = new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
+        if (wildcard.getDetails() != null) {
+            wildcardContent = matchWildcardWithCondition(wildcard.getDetails(), distributor);
         }
-        else {
+
+        if (wildcardContent == null) {
             wildcardContent = new PandaTokens(distributor.next());
         }
 
         return new TokenExtractorResult(true).addWildcard(wildcard.getDetails(), wildcardContent);
+    }
+
+    private @Nullable Tokens matchWildcardWithCondition(String details, TokenDistributor distributor) {
+        if (details.startsWith("*")) {
+            return new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
+        }
+
+        if (!details.contains(":")) {
+            return null;
+        }
+
+        String[] conditions = details.split(":")[1].split(",");
+        List<WildcardCondition> wildcardConditions = new ArrayList<>(conditions.length);
+
+        for (String condition : conditions) {
+            WildcardCondition wildcardCondition = createWildcardCondition(condition);
+
+            if (wildcardCondition == null) {
+                throw new PandaFrameworkException("Unknown wildcard condition: " + condition);
+            }
+
+            wildcardConditions.add(wildcardCondition);
+        }
+
+        List<TokenRepresentation> tokens = new ArrayList<>(distributor.length() - distributor.getIndex());
+
+        while (distributor.hasNext()) {
+            TokenRepresentation next = distributor.getNext();
+
+            if (!checkWildcard(wildcardConditions, next)) {
+                break;
+            }
+
+            tokens.add(distributor.next());
+        }
+
+        return new PandaTokens(tokens);
+    }
+
+    private @Nullable WildcardCondition createWildcardCondition(String condition) {
+        for (WildcardConditionFactory factory : wildcardConditionFactories) {
+            if (factory.handle(condition)) {
+                return factory.create(condition);
+            }
+        }
+
+        return null;
+    }
+
+    private boolean checkWildcard(List<WildcardCondition> wildcardConditions, TokenRepresentation next) {
+        for (WildcardCondition wildcardCondition : wildcardConditions) {
+            if (!wildcardCondition.accept(next)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private TokenExtractorResult matchVariant(LexicalPatternNode variantNode, TokenDistributor reader) {

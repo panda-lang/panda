@@ -40,6 +40,7 @@ public class ImportParser extends BootstrapParser {
     {
         bootstrapParser = PandaParserBootstrap.builder()
                 .handler(new TokenHandler(Keywords.IMPORT))
+                .pattern("import <import: token unknown, token separator, token operator>[;]")
                 .pattern("import +** ;", "import")
                 .instance(this)
                 .build();
