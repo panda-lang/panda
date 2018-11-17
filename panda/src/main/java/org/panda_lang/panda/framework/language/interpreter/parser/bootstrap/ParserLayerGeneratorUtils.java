@@ -94,7 +94,7 @@ class ParserLayerGeneratorUtils {
 
         Tokens value = redactor.get(srcQualifier.value());
 
-        if (requiredType == String.class) {
+        if (value != null && requiredType == String.class) {
             return value.asString();
         }
 

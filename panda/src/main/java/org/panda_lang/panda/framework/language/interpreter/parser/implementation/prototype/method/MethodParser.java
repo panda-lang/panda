@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.method.Pan
 import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethodCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
@@ -99,7 +99,7 @@ public class MethodParser extends BootstrapParser {
                     visibility = visibility != null ? visibility : MethodVisibility.PUBLIC;
                     continue;
                 default:
-                    throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1) + ": " + token.getTokenValue());
+                    throw new PandaParserFailure("Unexpected token " + token.getTokenValue(), data);
             }
         }
 

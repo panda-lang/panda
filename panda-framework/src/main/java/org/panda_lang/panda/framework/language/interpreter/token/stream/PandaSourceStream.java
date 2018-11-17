@@ -32,6 +32,10 @@ public class PandaSourceStream implements SourceStream {
     private Tokens cachedSource;
 
     public PandaSourceStream(Tokens source) {
+        if (source == null) {
+            throw new IllegalArgumentException("Source cannot be null");
+        }
+
         this.source = source;
         this.cachedSource = source;
     }
@@ -55,13 +59,12 @@ public class PandaSourceStream implements SourceStream {
     public Tokens read(int length) {
         TokenRepresentation[] array = new TokenRepresentation[length];
 
-        for (int i = 0; i < array.length; i++) {
-            if (!this.hasUnreadSource()) {
-                break;
-            }
-
-            array[i] = this.read();
+        for (int i = 0; i < length; i++) {
+            array[i] = source.get(i);
         }
+
+        this.cachedSource = this.source;
+        this.source = new PandaTokens(source.getTokensRepresentations().subList(length, source.size()));
 
         return new PandaTokens(array);
     }

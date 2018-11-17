@@ -4,7 +4,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
@@ -42,18 +41,14 @@ class ParserLayerGenerator {
         };
     }
 
-    private void invoke(Method autowiredMethod, Object... parameters) throws Exception {
+    private void invoke(Method autowiredMethod, Object... parameters) throws Throwable {
         // System.out.println(autowiredMethod);
         autowiredMethod.setAccessible(true);
 
         try {
             autowiredMethod.invoke(bootstrapParser.getBootstrap().getInstance(), parameters);
         } catch (Exception e) {
-            if (e.getCause() instanceof PandaParserFailure) {
-                throw (PandaParserFailure) e.getCause();
-            }
-
-            throw new Exception(e.getCause());
+            throw e.getCause();
         }
     }
 
