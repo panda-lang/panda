@@ -11,6 +11,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.PatternMapping;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractorResult;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.annotation.Annotation;
@@ -19,20 +20,26 @@ import java.util.Map;
 class ParserLayerGeneratorUtils {
 
     protected static @Nullable Object findParameter(Class<?> type, Annotation[] annotations, ParserData data, Generation generation, InterceptorData interceptor, LocalData local) {
-        if (type.isAssignableFrom(ParserData.class) && annotations.length == 0) {
-            return data;
-        }
+        if (annotations.length == 0) {
+            if (type.isAssignableFrom(ParserData.class)) {
+                return data;
+            }
 
-        if (type.isAssignableFrom(Generation.class) && annotations.length == 0) {
-            return generation;
-        }
+            if (type.isAssignableFrom(Generation.class)) {
+                return generation;
+            }
 
-        if (type.isAssignableFrom(InterceptorData.class) && annotations.length == 0) {
-            return interceptor;
-        }
+            if (type.isAssignableFrom(InterceptorData.class)) {
+                return interceptor;
+            }
 
-        if (type.isAssignableFrom(LocalData.class) && annotations.length == 0) {
-            return local;
+            if (type.isAssignableFrom(LocalData.class)) {
+                return local;
+            }
+
+            if (type.isAssignableFrom(TokenExtractorResult.class)) {
+                return interceptor.getValue(TokenExtractorResult.class);
+            }
         }
 
         if (annotations.length == 0 || annotations.length > 1) {

@@ -54,12 +54,18 @@ public class TokenExtractorResult {
     }
 
     public TokenExtractorResult addWildcard(String details, Tokens wildcard) {
-        wildcards.put(details, wildcard);
+        if (wildcard != null) {
+            wildcards.put(details, wildcard);
+        }
+
         return this;
     }
 
-    public TokenExtractorResult addIdentifier(String identifier) {
-        this.identifiers.add(identifier);
+    public TokenExtractorResult identified(String identifier) {
+        if (identifier != null) {
+            this.identifiers.add(identifier);
+        }
+
         return this;
     }
 
