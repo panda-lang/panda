@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.lay
 
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.ParserBootstrapException;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -29,6 +30,7 @@ public class LayerObject {
 
     public LayerObject() {
         List<Method> methods = ReflectionUtils.getMethodsAnnotatedWith(getClass(), Autowired.class);
+        methods.addAll(ReflectionUtils.getMethodsAnnotatedWith(getClass(), AutowiredParameters.class));
 
         if (methods.size() == 0) {
             throw new ParserBootstrapException("InjectedLayer does not have annotated by @Autowired methods");

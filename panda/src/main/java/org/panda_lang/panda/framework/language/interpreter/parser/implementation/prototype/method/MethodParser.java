@@ -34,6 +34,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Type;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.AutowiredParameters;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
@@ -59,14 +62,16 @@ public class MethodParser extends BootstrapParser {
     }
 
     @Autowired
-    boolean parse(ParserData data, LocalData local, TokenExtractorResult result, @Src("return") String type, @Src("name") String method, @Src("*parameters") Tokens parametersSource) {
-        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
-
+    @AutowiredParameters(detectTo = 3, value = {
+            @Type(with = Src.class, value = "return"),
+            @Type(with = Src.class, value = "name"),
+            @Type(with = Src.class, value = "*parameters"),
+            @Type(with = Component.class)
+    })
+    boolean parse(ParserData data, LocalData local, TokenExtractorResult result, String type, String method, Tokens parametersSource, PandaScript script) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
         boolean isStatic = result.getIdentifiers().contains("static");
 
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         ModuleLoader registry = script.getModuleLoader();
         ClassPrototype returnType = registry.forClass(type);
 
@@ -77,6 +82,9 @@ public class MethodParser extends BootstrapParser {
         MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
         data.setComponent(PandaComponents.SCOPE, methodScope);
+
+        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype)

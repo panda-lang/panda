@@ -29,6 +29,6 @@ public @interface Component {
 
     Class<?> type() default Object.class;
 
-    String name() default StringUtils.EMPTY;
+    String value() default StringUtils.EMPTY;
 
 }
