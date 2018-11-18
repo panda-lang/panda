@@ -146,4 +146,18 @@ class StringUtilsTest {
         );
     }
 
+    @Test
+    public void testSplitFirst() {
+        String[] splitted = StringUtils.splitFirst("aa,bb,cc", ",");
+        String[] splittedEmpty = StringUtils.splitFirst("aaa", ",");
+
+        Assertions.assertEquals(2, splitted.length);
+        Assertions.assertEquals(0, splittedEmpty.length);
+
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("aa", splitted[0]),
+                () -> Assertions.assertEquals("bb,cc", splitted[1])
+        );
+    }
+
 }

@@ -76,6 +76,13 @@
                 <version>${panda.version}</version>
             </dependency>
 
+            <!-- General -->
+            <dependency>
+                <groupId>com.eclipsesource.minimal-json</groupId>
+                <artifactId>minimal-json</artifactId>
+                <version>0.9.5</version>
+            </dependency>
+
             <!-- Reflections -->
             <dependency>
                 <groupId>org.javassist</groupId>
