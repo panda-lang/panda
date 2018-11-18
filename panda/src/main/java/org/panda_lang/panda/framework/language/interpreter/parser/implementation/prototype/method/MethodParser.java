@@ -22,9 +22,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Metho
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
@@ -33,19 +30,22 @@ import org.panda_lang.panda.framework.language.architecture.prototype.method.Pan
 import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethodCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractorResult;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE, priority = PandaPriorities.PROTOTYPE_METHOD_PARSER)
@@ -53,80 +53,47 @@ public class MethodParser extends BootstrapParser {
 
     {
         parserBuilder = builder()
-                .pattern("+** ( +** ) { +* }", "declaration", "parameters", "body");
+                .handler(new TokenPatternHandler())
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ <*body> `}");
     }
 
     @Autowired
-    boolean parse(ParserData data, LocalData local, @Src("declaration") Tokens methodDeclaration, @Src("parameters") Tokens parametersSource) {
+    boolean parse(ParserData data, LocalData local, TokenExtractorResult result, @Src("return") String type, @Src("name") String method, @Src("*parameters") Tokens parametersSource) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
-        MethodVisibility visibility = null;
-        ClassPrototype returnType = null;
-        String methodName = null;
-        boolean isStatic = false;
+        MethodVisibility visibility = MethodVisibility.PUBLIC;
+        boolean isStatic = result.getIdentifiers().contains("static");
 
-        for (int i = 0; i < methodDeclaration.size(); i++) {
-            TokenRepresentation representation = methodDeclaration.get(i);
-            Token token = representation.getToken();
-
-            if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 1) {
-                methodName = token.getTokenValue();
-                continue;
-            }
-
-            if (token.getType() == TokenType.UNKNOWN && i == methodDeclaration.size() - 2) {
-                PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-                ModuleLoader registry = script.getModuleLoader();
-
-                String returnTypeName = token.getTokenValue();
-                returnType = registry.forClass(returnTypeName);
-                continue;
-            }
-
-            switch (token.getTokenValue()) {
-                case "method":
-                    visibility = MethodVisibility.PUBLIC;
-                    continue;
-                case "local":
-                    visibility = MethodVisibility.LOCAL;
-                    continue;
-                case "hidden":
-                    visibility = MethodVisibility.HIDDEN;
-                    continue;
-                case "static":
-                    isStatic = true;
-                    visibility = visibility != null ? visibility : MethodVisibility.PUBLIC;
-                    continue;
-                default:
-                    throw new PandaParserFailure("Unexpected token " + token.getTokenValue(), data);
-            }
-        }
+        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+        ModuleLoader registry = script.getModuleLoader();
+        ClassPrototype returnType = registry.forClass(type);
 
         ParameterParser parameterParser = new ParameterParser();
-        List<Parameter> parameters = parameterParser.parse(data, parametersSource);
+        List<Parameter> parameters = parametersSource != null ? parameterParser.parse(data, parametersSource) : new ArrayList<>();
         ClassPrototype[] parameterTypes = ParameterUtils.toTypes(parameters);
 
-        MethodScope methodScope = local.allocateInstance(new MethodScope(methodName, parameters));
+        MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
         data.setComponent(PandaComponents.SCOPE, methodScope);
 
-        PrototypeMethod method = PandaMethod.builder()
+        PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype)
                 .parameterTypes(parameterTypes)
-                .methodName(methodName)
+                .methodName(method)
                 .visibility(visibility)
                 .returnType(returnType)
                 .isStatic(isStatic)
                 .methodBody(new PandaMethodCallback(methodScope))
                 .build();
 
-        prototype.getMethods().registerMethod(method);
+        prototype.getMethods().registerMethod(prototypeMethod);
         return true;
     }
 
     @Autowired(order = 1)
-    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Tokens body) throws Throwable {
+    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("*body") Tokens body) throws Throwable {
         ScopeParser.createParser(methodScope, delegatedData)
                 .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                 .parse(body);
