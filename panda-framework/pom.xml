@@ -32,6 +32,13 @@
             <artifactId>panda-utilities</artifactId>
         </dependency>
 
+        <!-- General -->
+        <dependency>
+            <groupId>org.hjson</groupId>
+            <artifactId>hjson</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
         <!-- Output -->
         <dependency>
             <groupId>org.fusesource.jansi</groupId>

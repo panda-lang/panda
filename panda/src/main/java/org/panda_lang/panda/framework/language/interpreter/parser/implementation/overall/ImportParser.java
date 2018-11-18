@@ -26,11 +26,11 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
@@ -38,12 +38,10 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ImportParser extends BootstrapParser {
 
     {
-        bootstrapParser = PandaParserBootstrap.builder()
+        parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.IMPORT))
-                .pattern("import <import: token unknown, token separator, token operator>[;]")
-                .pattern("import +** ;", "import")
-                .instance(this)
-                .build();
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("import <import: token {type:unknown}, token {type:separator}, token {type:operator}>[;]");
     }
 
     @Autowired

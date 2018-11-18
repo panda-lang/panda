@@ -33,6 +33,23 @@ public class StringUtils {
     public static final String[] EMPTY_ARRAY = new String[0];
 
     /**
+     * Split text by the specified delimiter, but only once (to the first occurrence of the specified delimiter)
+     *
+     * @param text the text to split
+     * @param delimiter the delimiter to search for
+     * @return array of splitted text
+     */
+    public static String[] splitFirst(String text, String delimiter) {
+        int index = text.indexOf(delimiter);
+
+        if (index == -1) {
+            return EMPTY_ARRAY;
+        }
+
+        return new String[] { text.substring(0, index), text.substring(index + 1) };
+    }
+
+    /**
      * Split text by the specified delimiter (without regex)
      *
      * @param text the text to split

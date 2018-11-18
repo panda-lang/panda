@@ -18,18 +18,38 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elem
 
 public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
 
-    private final String details;
+    private final String originalDetails;
+    private String name;
+    private String details;
 
     public LexicalPatternWildcard(String details) {
-        this.details = details;
+        this.originalDetails = details;
+        this.details = originalDetails;
+        this.name = originalDetails;
     }
 
     public LexicalPatternWildcard() {
         this(null);
     }
 
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getDetails() {
         return details;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getOriginalDetails() {
+        return originalDetails;
     }
 
 }

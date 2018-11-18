@@ -29,7 +29,7 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
             TokenExtractorResult result = pattern.extract(data.getComponent(UniversalComponents.SOURCE_STREAM));
 
             if (!result.isMatched()) {
-                data.getComponent(UniversalComponents.SOURCE_STREAM).restoreCachedSource();
+                data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();
                 throw new PandaParserFailure("Interceptor could not match token pattern, error: " + result.getErrorMessage(), data);
             }
 
