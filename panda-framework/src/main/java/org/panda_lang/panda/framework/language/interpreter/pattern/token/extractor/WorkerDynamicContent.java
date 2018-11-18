@@ -34,6 +34,7 @@ class WorkerDynamicContent {
 
         /*
         System.out.println("---");
+
         for (TokenizedSource dynamic : dynamics) {
             if (dynamic == null) {
                 continue;
@@ -43,7 +44,14 @@ class WorkerDynamicContent {
         }
         */
 
-        return matchDynamics(elements, dynamics);
+        TokenExtractorResult result = matchDynamics(elements, dynamics);
+        Tokens last = dynamics[dynamics.length - 1];
+
+        if (last != null) {
+            distributor.setIndex(distributor.getIndex() - last.size());
+        }
+
+        return result;
     }
 
     private @Nullable Tokens[] matchUnits(List<LexicalPatternElement> elements, TokenDistributor distributor) {
@@ -51,13 +59,21 @@ class WorkerDynamicContent {
         Stack<Separator> separators = new Stack<>();
 
         boolean lastWildcard = false;
+        int lastWildcardIndex = -1;
+
         int lockState = separators.size();
         int minIndex = 0;
 
         for (int i = 0; i < dynamics.length; i++) {
             StackUtils.popSilently(separators, separators.size() - lockState);
             LexicalPatternElement element = elements.get(i);
+
+            boolean wasWildcard = lastWildcard;
             lastWildcard = element.isWildcard();
+
+            if (element.isWildcard()) {
+                lastWildcardIndex = i;
+            }
 
             if (!element.isUnit()) {
                 continue;
@@ -90,12 +106,16 @@ class WorkerDynamicContent {
                 dynamic++;
             }
 
-            if (!found && unit.isOptional()) {
-                continue;
-            }
+            if (!found && wasWildcard) {
+                lastWildcard = true;
 
-            if (!found && (distributor.getIndex() + dynamic != distributor.length()) && !unit.isOptional()) {
-                return null;
+                if (unit.isOptional()) {
+                    continue;
+                }
+
+                if (distributor.getIndex() + dynamic != distributor.length() && !unit.isOptional()) {
+                    return null;
+                }
             }
 
             if (separators.size() > 1) {
@@ -129,7 +149,7 @@ class WorkerDynamicContent {
         }
 
         if (lastWildcard && distributor.hasNext()) {
-            dynamics[dynamics.length - 1] = new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
+            dynamics[lastWildcardIndex] = new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
         }
 
         return dynamics;
@@ -170,7 +190,6 @@ class WorkerDynamicContent {
 
         for (int i = 0; i < elements.size(); i++) {
             LexicalPatternElement nodeElement = elements.get(i);
-
 
             if (nodeElement.isUnit() || (dynamics.length == 0 && nodeElement.isOptional())) {
                 if (dynamics[i] == null || nodeElement.isOptional() && dynamics[i] == null) {
@@ -224,9 +243,9 @@ class WorkerDynamicContent {
             result.merge(nodeElementResult);
         }
 
-        for (Tokens dynamicContent : dynamics) {
-            if (dynamicContent != null) {
-                return new TokenExtractorResult("Not all dynamic content has been matched");
+        for (int i = 0; i < dynamics.length - 1; i++) {
+            if (dynamics[i] != null) {
+                return new TokenExtractorResult("Not moved dynamic content left in the array");
             }
         }
 
