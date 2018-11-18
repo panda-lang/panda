@@ -39,20 +39,20 @@ class TokenExtractorWorker {
         }
 
         if (element.isUnit()) {
-            return new TokenExtractorResult(element.toUnit().getValue().equals(distributor.next().getTokenValue()));
+            return new TokenExtractorResult(element.toUnit().getValue().equals(distributor.next().getTokenValue())).identified(element.getIdentifier());
         }
 
         if (element.isWildcard()) {
-            return wildcardContent.matchWildcard(element.toWildcard(), distributor);
+            return wildcardContent.matchWildcard(element.toWildcard(), distributor).identified(element.getIdentifier());
         }
 
         LexicalPatternNode node = element.toNode();
 
         if (node.isVariant()) {
-            return matchVariant(node, distributor);
+            return matchVariant(node, distributor).identified(node.getIdentifier());
         }
 
-        return dynamicContent.matchDynamicContent(node, distributor);
+        return dynamicContent.matchDynamicContent(node, distributor).identified(node.getIdentifier());
     }
 
 
@@ -65,7 +65,7 @@ class TokenExtractorWorker {
             TokenExtractorResult result = this.extract(variantElement, reader);
 
             if (result.isMatched()) {
-                return result;
+                return result.identified(variantElement.getIdentifier());
             }
         }
 

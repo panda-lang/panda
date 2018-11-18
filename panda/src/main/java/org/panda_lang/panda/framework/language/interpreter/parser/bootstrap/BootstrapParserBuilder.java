@@ -135,7 +135,7 @@ public class BootstrapParserBuilder {
         }
 
         if (layers.isEmpty()) {
-            throw new ParserBootstrapException("Bootstrap does not contain any layers");
+//            throw new ParserBootstrapException("Bootstrap does not contain any layers");
         }
 
         return new PandaParserBootstrap(this).generate();

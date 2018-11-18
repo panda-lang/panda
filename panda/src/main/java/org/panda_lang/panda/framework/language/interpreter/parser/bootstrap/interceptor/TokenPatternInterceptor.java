@@ -34,6 +34,7 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
             }
 
             interceptorData.addElement(new TokenPatternMapping(result));
+            interceptorData.addElement(result);
         }
 
         return interceptorData;

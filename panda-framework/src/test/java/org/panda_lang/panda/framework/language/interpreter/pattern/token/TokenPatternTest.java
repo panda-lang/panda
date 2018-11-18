@@ -11,17 +11,15 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class TokenPatternTest {
 
-    private static final String CONTENT = "class Foo {" +
-            "    method anotherEcho(String message) {" +
-            "        Console.print(message);" +
-            "    }" +
-            "}";
+    private static final String CONTENT = "method void anotherEcho(String message) {" +
+                                          "    Console.print(message);" +
+                                          "}";
     private static final Tokens SOURCE = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("Test", CONTENT)).convert();
 
     @Test
     public void testTokenPattern() {
         TokenPattern pattern = TokenPattern.builder()
-                .compile("class <name> [extends <inherited>] `{ <*body> `}")
+                .compile("(method|local|hidden) [static] [<return-type>] <name> `( <*parameters> `) `{ <*body> `}")
                 .build();
 
         LexicalPatternElement content = pattern.getPatternContent();

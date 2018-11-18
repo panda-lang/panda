@@ -26,36 +26,25 @@ class WorkerDynamicContent {
 
     protected TokenExtractorResult matchDynamicContent(LexicalPatternNode node, TokenDistributor distributor) {
         List<LexicalPatternElement> elements = node.getElements();
-        Tokens[] dynamics = matchUnits(elements, distributor);
 
-        if (dynamics == null || dynamics.length == 0) {
+        TokenExtractorResult result = new TokenExtractorResult(true);
+        Stack<DynamicContent> dynamics = matchUnits(result, elements, distributor);
+
+        if (dynamics == null || dynamics.size() == 0) {
             return new TokenExtractorResult("Dynamics are null");
         }
 
-        /*
-        System.out.println("---");
+        result = matchDynamics(result, elements, dynamics);
 
-        for (TokenizedSource dynamic : dynamics) {
-            if (dynamic == null) {
-                continue;
-            }
-
-            System.out.println(dynamic.asString());
-        }
-        */
-
-        TokenExtractorResult result = matchDynamics(elements, dynamics);
-        Tokens last = dynamics[dynamics.length - 1];
-
-        if (last != null) {
-            distributor.setIndex(distributor.getIndex() - last.size());
+        if (!dynamics.isEmpty()) {
+            distributor.setIndex(distributor.getIndex() - dynamics.pop().getTokens().size());
         }
 
         return result;
     }
 
-    private @Nullable Tokens[] matchUnits(List<LexicalPatternElement> elements, TokenDistributor distributor) {
-        Tokens[] dynamics = new Tokens[elements.size()];
+    private @Nullable Stack<DynamicContent> matchUnits(TokenExtractorResult result, List<LexicalPatternElement> elements, TokenDistributor distributor) {
+        Stack<DynamicContent> dynamics = new Stack<>();
         Stack<Separator> separators = new Stack<>();
 
         boolean lastWildcard = false;
@@ -64,7 +53,7 @@ class WorkerDynamicContent {
         int lockState = separators.size();
         int minIndex = 0;
 
-        for (int i = 0; i < dynamics.length; i++) {
+        for (int i = 0; i < elements.size(); i++) {
             StackUtils.popSilently(separators, separators.size() - lockState);
             LexicalPatternElement element = elements.get(i);
 
@@ -98,6 +87,7 @@ class WorkerDynamicContent {
                 }
 
                 if (representation.getTokenValue().equals(unit.getValue())) {
+                    result.identified(unit.getIdentifier());
                     found = true;
                     break;
                 }
@@ -106,8 +96,10 @@ class WorkerDynamicContent {
                 dynamic++;
             }
 
-            if (!found && wasWildcard) {
-                lastWildcard = true;
+            if (!found) {
+                if (wasWildcard) {
+                    lastWildcard = true;
+                }
 
                 if (unit.isOptional()) {
                     continue;
@@ -116,7 +108,12 @@ class WorkerDynamicContent {
                 if (distributor.getIndex() + dynamic != distributor.length() && !unit.isOptional()) {
                     return null;
                 }
+
+                continue;
             }
+
+            int previousMinIndex = minIndex;
+            minIndex = i;
 
             if (separators.size() > 1) {
                 return null;
@@ -128,28 +125,16 @@ class WorkerDynamicContent {
                 continue;
             }
 
-            if ((found) || (distributor.getIndex() + dynamic == distributor.length() && unit.isOptional())) {
-                int index = getLastDynamicIndex(dynamics, minIndex);
+            Tokens tokens = new PandaTokens(distributor.next(dynamic));
+            dynamics.push(new DynamicContent(previousMinIndex, tokens));
 
-                if (index == -1) {
-                    return null;
-                }
-
-                dynamics[index] = new PandaTokens(distributor.next(dynamic));
-                minIndex = i;
-
-                TokenRepresentation representation = distributor.next();
-                checkOpening(separators, representation);
-                lockState = separators.size();
-
-                continue;
-            }
-
-            return null;
+            TokenRepresentation representation = distributor.next();
+            checkOpening(separators, representation);
+            lockState = separators.size();
         }
 
         if (lastWildcard && distributor.hasNext()) {
-            dynamics[lastWildcardIndex] = new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
+            dynamics.push(new DynamicContent(lastWildcardIndex, new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()))));
         }
 
         return dynamics;
@@ -185,30 +170,22 @@ class WorkerDynamicContent {
         return false;
     }
 
-    private TokenExtractorResult matchDynamics(List<LexicalPatternElement> elements, Tokens[] dynamics) {
-        TokenExtractorResult result = new TokenExtractorResult(true);
+    private TokenExtractorResult matchDynamics(TokenExtractorResult result, List<LexicalPatternElement> elements, Stack<DynamicContent> dynamicsStack) {
+        Stack<DynamicContent> dynamics = StackUtils.reverse(dynamicsStack);
 
         for (int i = 0; i < elements.size(); i++) {
             LexicalPatternElement nodeElement = elements.get(i);
 
-            if (nodeElement.isUnit() || (dynamics.length == 0 && nodeElement.isOptional())) {
-                if (dynamics[i] == null || nodeElement.isOptional() && dynamics[i] == null) {
-                    continue;
-                }
-
-                int nextIndex = i + 1;
-
-                if (nextIndex >= dynamics.length) {
-                    continue;
-                }
-
-                dynamics[nextIndex] = dynamics[i];
-                dynamics[i] = null;
+            if (dynamics.isEmpty()) {
+                // return new TokenExtractorResult("Out of content");
                 continue;
             }
 
-            Tokens nodeContent = dynamics[i];
-            dynamics[i] = null;
+            if (nodeElement.isUnit()) {
+                continue;
+            }
+
+            DynamicContent nodeContent = dynamics.peek();
 
             if (nodeContent == null) {
                 if (nodeElement.isOptional()) {
@@ -218,7 +195,11 @@ class WorkerDynamicContent {
                 return new TokenExtractorResult("Node content is null");
             }
 
-            TokenDistributor content = new TokenDistributor(nodeContent);
+            if (nodeContent.getIndex() > i) {
+                continue;
+            }
+
+            TokenDistributor content = new TokenDistributor(nodeContent.getTokens());
             TokenExtractorResult nodeElementResult = worker.extract(nodeElement, content);
 
             if (!nodeElementResult.isMatched()) {
@@ -229,39 +210,33 @@ class WorkerDynamicContent {
                 return nodeElementResult;
             }
 
+            dynamics.pop();
+
             if (content.hasNext()) {
+                /*
                 int nextIndex = i + 1;
 
                 if (nextIndex >= dynamics.length || dynamics[nextIndex] != null) {
                     return new TokenExtractorResult("Index out of dynamics' range or dynamics' content still exists");
                 }
+                */
 
-                dynamics[nextIndex] = new PandaTokens(content.next(content.length() - content.getIndex()));
+                dynamics.push(new DynamicContent(i, new PandaTokens(content.next(content.length() - content.getIndex()))));
             }
 
-            result.addIdentifier(nodeElement.getIdentifier());
+            result.identified(nodeElement.getIdentifier());
             result.merge(nodeElementResult);
         }
 
-        for (int i = 0; i < dynamics.length - 1; i++) {
+        /*
+        for (int i = 0; i < dynamics.size() - 1; i++) {
             if (dynamics[i] != null) {
                 return new TokenExtractorResult("Not moved dynamic content left in the array");
             }
         }
+        */
 
         return result;
-    }
-
-    private int getLastDynamicIndex(Tokens[] dynamics, int minIndex) {
-        for (int i = minIndex; i < dynamics.length; i++) {
-            if (dynamics[i] != null) {
-                continue;
-            }
-
-            return i;
-        }
-
-        return -1;
     }
 
 }
