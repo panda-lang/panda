@@ -1,4 +1,4 @@
-module example-test;
+module example-test
 
 import panda-lang
 

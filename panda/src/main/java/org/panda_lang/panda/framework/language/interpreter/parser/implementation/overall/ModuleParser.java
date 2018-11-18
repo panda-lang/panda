@@ -30,6 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
@@ -39,7 +40,8 @@ public class ModuleParser extends BootstrapParser {
     {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.MODULE))
-                .pattern("module +** ;", "module");
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]");
     }
 
     @Autowired
