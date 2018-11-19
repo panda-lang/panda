@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
@@ -50,8 +51,13 @@ class ParserLayerGenerator {
 
         try {
             autowiredMethod.invoke(bootstrapParser.getBootstrap().getInstance(), parameters);
-        } catch (Exception e) {
-            throw e.getCause();
+        }
+        catch (IllegalArgumentException e) {
+            PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations");
+            throw e;
+        }
+        catch (Exception e) {
+            throw new ParserBootstrapException("Internal error: " + e.getMessage(), e);
         }
     }
 
@@ -88,7 +94,7 @@ class ParserLayerGenerator {
         Object[] parameters = new Object[parameterTypes.length];
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            parameters[i] = ParserLayerGeneratorUtils.findParameter(parameterTypes[i], processedAnnotations[i], delegatedData, generation, interceptorData, localData);
+            parameters[i] = ParserLayerGeneratorUtils.findParameter(i, parameterTypes[i], processedAnnotations[i], delegatedData, generation, interceptorData, localData);
         }
 
         return parameters;
