@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractorResult;
 
 import java.util.ArrayList;
 import java.util.List;

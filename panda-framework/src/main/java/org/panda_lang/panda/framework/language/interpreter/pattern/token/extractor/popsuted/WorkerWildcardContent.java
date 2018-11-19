@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
