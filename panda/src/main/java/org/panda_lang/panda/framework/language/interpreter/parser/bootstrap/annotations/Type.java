@@ -3,7 +3,13 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.ann
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Type {
 
     Class<? extends Annotation> with();
@@ -11,5 +17,7 @@ public @interface Type {
     int index() default -1;
 
     String value() default StringUtils.EMPTY;
+
+    boolean nullable() default false;
 
 }

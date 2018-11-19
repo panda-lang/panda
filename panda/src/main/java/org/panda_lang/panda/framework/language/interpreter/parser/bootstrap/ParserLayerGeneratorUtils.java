@@ -19,7 +19,7 @@ import java.util.Map;
 
 class ParserLayerGeneratorUtils {
 
-    protected static @Nullable Object findParameter(Class<?> type, ProcessedAnnotation annotation, ParserData data, Generation generation, InterceptorData interceptor, LocalData local) {
+    protected static @Nullable Object findParameter(int i, Class<?> type, ProcessedAnnotation annotation, ParserData data, Generation generation, InterceptorData interceptor, LocalData local) {
         if (annotation == null) {
             if (type.isAssignableFrom(ParserData.class)) {
                 return data;
@@ -41,7 +41,7 @@ class ParserLayerGeneratorUtils {
                 return interceptor.getValue(TokenExtractorResult.class);
             }
 
-            throw new ParserBootstrapException("Unknown not annotated DI type: " + type.getName());
+            throw new ParserBootstrapException("Unknown not annotated DI type: " + type.getName() + " (index: " + i + ")");
         }
 
         Class<?> annotationType = annotation.getAnnotationType();
