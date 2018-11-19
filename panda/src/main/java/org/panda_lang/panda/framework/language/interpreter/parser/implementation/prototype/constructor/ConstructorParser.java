@@ -31,6 +31,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
@@ -46,11 +47,12 @@ public class ConstructorParser extends BootstrapParser {
     {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .pattern("constructor ( +** ) { +* }", "parameters", "body");
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Src("parameters") Tokens parametersSource) {
+    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Src("*parameters") Tokens parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
@@ -62,7 +64,7 @@ public class ConstructorParser extends BootstrapParser {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Src("body") Tokens body) throws Throwable {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Src("*body") Tokens body) throws Throwable {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);
