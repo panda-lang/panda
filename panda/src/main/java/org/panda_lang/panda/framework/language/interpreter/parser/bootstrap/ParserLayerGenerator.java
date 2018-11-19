@@ -57,7 +57,7 @@ class ParserLayerGenerator {
             throw e;
         }
         catch (Exception e) {
-            throw new ParserBootstrapException("Internal error: " + e.getMessage(), e);
+            throw e.getCause();
         }
     }
 

@@ -23,6 +23,12 @@ class Test {
         //echo(this.i);
     }
 
+    /*
+    constructor() {
+        // empty constructor
+    }
+    */
+
     method void echo(Object message) {
         Console.print(message);
     }
