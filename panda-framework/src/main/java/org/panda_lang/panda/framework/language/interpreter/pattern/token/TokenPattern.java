@@ -3,8 +3,8 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractorResult;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.defaults.DefaultWildcardConditionFactories;
 

@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
