@@ -3,7 +3,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.PopsutedTokenExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractorResult;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.defaults.DefaultWildcardConditionFactories;
@@ -27,8 +27,8 @@ public class TokenPattern {
         return extractor().extract(source);
     }
 
-    public TokenExtractor extractor() {
-        return new TokenExtractor(this);
+    public PopsutedTokenExtractor extractor() {
+        return new PopsutedTokenExtractor(this);
     }
 
     public TokenPattern addWildcardConditionFactory(WildcardConditionFactory factory) {

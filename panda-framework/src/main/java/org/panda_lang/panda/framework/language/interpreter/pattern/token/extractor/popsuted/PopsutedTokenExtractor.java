@@ -9,12 +9,12 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class TokenExtractor {
+public class PopsutedTokenExtractor {
 
     private final TokenPattern pattern;
     private final Collection<WildcardConditionFactory> wildcardConditionFactories = new ArrayList<>();
 
-    public TokenExtractor(TokenPattern pattern) {
+    public PopsutedTokenExtractor(TokenPattern pattern) {
         this.pattern = pattern;
     }
 

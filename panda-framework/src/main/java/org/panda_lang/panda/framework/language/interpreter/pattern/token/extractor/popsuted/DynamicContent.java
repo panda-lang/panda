@@ -2,7 +2,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
-public class DynamicContent {
+class DynamicContent {
 
     private final int index;
     private final Tokens tokens;
