@@ -1,19 +1,14 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 class TokenExtractorWorker {
 
     protected final TokenPattern pattern;
-    protected final Map<String, Tokens> results = new LinkedHashMap<>();
 
     private final WorkerDynamicContent dynamicContent = new WorkerDynamicContent(this);
     private final WorkerWildcardContent wildcardContent = new WorkerWildcardContent(this);
