@@ -8,13 +8,44 @@ import java.util.List;
 class NodeLookupExtractor  {
 
     private final NodeExtractor nodeExtractor;
+    private final NodeElementLookupExtractor elementLookupExtractor = new NodeElementLookupExtractor(this);
 
     NodeLookupExtractor(NodeExtractor nodeExtractor) {
         this.nodeExtractor = nodeExtractor;
     }
 
     protected LookupResult extractNode(List<LexicalPatternElement> nextElements, TokenDistributor distributor) {
-        return null;
+        int skip = 0;
+
+        for (LexicalPatternElement nextElement : nextElements) {
+            if (!nextElement.isWildcard()) {
+                break;
+            }
+
+            skip++;
+        }
+
+        int indexBackup = distributor.getIndex();
+
+        for (int i = skip; i < nextElements.size(); i++) {
+            LexicalPatternElement element = nextElements.get(i);
+            distributor.setIndex(indexBackup);
+
+            LookupResult result = elementLookupExtractor.extractNode(nextElements.subList(0, skip), element, distributor);
+            result.matchedIndex = i;
+
+            if (result.getMergedResults().isMatched()) {
+                return result;
+            }
+
+            if (element.isOptional()) {
+                continue;
+            }
+
+            break;
+        }
+
+        return new LookupResult();
     }
 
     static class LookupResult {
