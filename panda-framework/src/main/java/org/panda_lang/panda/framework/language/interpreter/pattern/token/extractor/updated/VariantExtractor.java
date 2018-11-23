@@ -4,7 +4,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.eleme
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
 
-public class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode> {
+class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode> {
 
     protected VariantExtractor(ExtractorWorker worker) {
         super(worker);
