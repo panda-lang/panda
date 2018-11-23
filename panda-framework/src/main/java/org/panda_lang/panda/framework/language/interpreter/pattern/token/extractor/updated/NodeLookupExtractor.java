@@ -7,7 +7,7 @@ import java.util.List;
 
 class NodeLookupExtractor  {
 
-    private final NodeExtractor nodeExtractor;
+    protected final NodeExtractor nodeExtractor;
     private final NodeElementLookupExtractor elementLookupExtractor = new NodeElementLookupExtractor(this);
 
     NodeLookupExtractor(NodeExtractor nodeExtractor) {
@@ -30,6 +30,8 @@ class NodeLookupExtractor  {
         for (int i = skip; i < nextElements.size(); i++) {
             LexicalPatternElement element = nextElements.get(i);
             distributor.setIndex(indexBackup);
+
+            // consider exclusion of wildcards here
 
             LookupResult result = elementLookupExtractor.extractNode(nextElements.subList(0, skip), element, distributor);
             result.matchedIndex = i;
