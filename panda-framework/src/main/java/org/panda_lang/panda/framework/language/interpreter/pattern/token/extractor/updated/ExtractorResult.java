@@ -24,6 +24,16 @@ public class ExtractorResult {
         this.errorMessage = errorMessage;
     }
 
+    public ExtractorResult merge(ExtractorResult otherResult) {
+        if (!otherResult.isMatched()) {
+            throw new RuntimeException("Cannot merge unmatched result");
+        }
+
+        identifiers.addAll(otherResult.identifiers);
+        wildcards.putAll(otherResult.wildcards);
+        return this;
+    }
+
     public ExtractorResult identified(String identifier) {
         identifiers.add(identifier);
         return this;
