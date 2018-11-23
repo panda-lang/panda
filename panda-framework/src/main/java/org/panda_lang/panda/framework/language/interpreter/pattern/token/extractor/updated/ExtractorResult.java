@@ -14,8 +14,8 @@ public class ExtractorResult {
     private final List<String> identifiers = new ArrayList<>();
     private final Map<String, Tokens> wildcards = new HashMap<>();
 
-    public ExtractorResult(boolean matched) {
-        this.matched = matched;
+    public ExtractorResult() {
+        this.matched = true;
         this.errorMessage = "<unknown>";
     }
 

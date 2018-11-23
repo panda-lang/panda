@@ -11,7 +11,14 @@ class UnitExtractor extends AbstractElementExtractor<LexicalPatternUnit> {
 
     @Override
     public ExtractorResult extract(LexicalPatternUnit element, TokenDistributor distributor) {
-        return null;
+        String unitValue = element.getValue();
+        String tokenValue = distributor.next().getTokenValue();
+
+        if (!unitValue.equals(tokenValue)) {
+            return new ExtractorResult("Unit does not match");
+        }
+
+        return new ExtractorResult().identified(element.getIdentifier());
     }
 
 }
