@@ -24,7 +24,10 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
     public ExtractorResult extract(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
         Tokens wildcardContent = null;
 
-        if (wildcard.getDetails() != null) {
+        if (!distributor.hasNext()) {
+            wildcardContent = new PandaTokens();
+        }
+        else if (wildcard.getDetails() != null) {
             wildcardContent = matchWildcardWithCondition(wildcard, distributor);
         }
 

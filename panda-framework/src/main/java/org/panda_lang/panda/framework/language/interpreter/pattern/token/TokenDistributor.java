@@ -52,6 +52,10 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return representations;
     }
 
+    public int length() {
+        return source.size();
+    }
+
     public void setIndex(int index) {
         this.index = index;
     }
@@ -68,8 +72,8 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return index;
     }
 
-    public int length() {
-        return source.size();
+    public Tokens getSource() {
+        return source;
     }
 
 }
