@@ -32,7 +32,7 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
             wildcardContent = new PandaTokens(distributor.next());
         }
 
-        return new ExtractorResult(true).addWildcard(wildcard.getName(), wildcardContent);
+        return new ExtractorResult().addWildcard(wildcard.getName(), wildcardContent);
     }
 
     private @Nullable Tokens matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
