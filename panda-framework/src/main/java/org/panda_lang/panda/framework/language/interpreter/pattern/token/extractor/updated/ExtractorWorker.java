@@ -11,11 +11,10 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPa
 class ExtractorWorker {
 
     protected final TokenPattern pattern;
-
-    private final UnitExtractor unitExtractor = new UnitExtractor(this);
-    private final WildcardExtractor wildcardExtractor = new WildcardExtractor(this);
-    private final VariantExtractor variantExtractor = new VariantExtractor(this);
-    private final NodeExtractor nodeExtractor = new NodeExtractor(this);
+    protected final UnitExtractor unitExtractor = new UnitExtractor(this);
+    protected final WildcardExtractor wildcardExtractor = new WildcardExtractor(this);
+    protected final VariantExtractor variantExtractor = new VariantExtractor(this);
+    protected final NodeExtractor nodeExtractor = new NodeExtractor(this);
 
     ExtractorWorker(TokenPattern pattern) {
         this.pattern = pattern;
@@ -23,7 +22,7 @@ class ExtractorWorker {
 
     protected ExtractorResult extract(SourceStream source) {
         TokenDistributor distributor = new TokenDistributor(source.toTokenizedSource());
-        ExtractorResult result = extract(pattern.getPatternContent(), distributor);
+        ExtractorResult result = extract(distributor, pattern.getPatternContent());
 
         if (result.isMatched()) {
             source.read(distributor.length() - distributor.getIndex());
@@ -32,7 +31,7 @@ class ExtractorWorker {
         return result;
     }
 
-    private ExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
+    protected ExtractorResult extract(TokenDistributor distributor, LexicalPatternElement element) {
         if (element.isUnit()) {
             return extractUnit(element.toUnit(), distributor);
         }
