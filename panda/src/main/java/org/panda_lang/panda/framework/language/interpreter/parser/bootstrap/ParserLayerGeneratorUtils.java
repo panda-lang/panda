@@ -12,7 +12,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.PatternMapping;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated.ExtractorResult;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Map;
@@ -37,8 +37,8 @@ class ParserLayerGeneratorUtils {
                 return local;
             }
 
-            if (type.isAssignableFrom(TokenExtractorResult.class)) {
-                return interceptor.getValue(TokenExtractorResult.class);
+            if (type.isAssignableFrom(ExtractorResult.class)) {
+                return interceptor.getValue(ExtractorResult.class);
             }
 
             throw new ParserBootstrapException("Unknown not annotated DI type: " + type.getName() + " (index: " + i + ")");
