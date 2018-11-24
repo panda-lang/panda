@@ -21,14 +21,19 @@ class MatchableDistributor {
 
     public @Nullable TokenRepresentation verify() {
         TokenRepresentation next = distributor.getNext();
+        verify(next);
+        return next;
+    }
+
+    public void verify(@Nullable TokenRepresentation next) {
         this.previousSize = separators.size();
 
         if (next == null) {
-            return null;
+            return;
         }
 
         if (!TokenUtils.isTypeOf(next, TokenType.SEPARATOR)) {
-            return next;
+            return;
         }
 
         Separator separator = (Separator) next.getToken();
@@ -39,8 +44,12 @@ class MatchableDistributor {
         else if (!separators.isEmpty() && TokenUtils.equals(next, separators.peek().getOpposite())) {
             separators.pop();
         }
+    }
 
-        return next;
+    public @Nullable void verifyBefore() {
+        for (int i = 0; i < distributor.getIndex(); i++) {
+            verify(distributor.get(i));
+        }
     }
 
     public TokenRepresentation current() {

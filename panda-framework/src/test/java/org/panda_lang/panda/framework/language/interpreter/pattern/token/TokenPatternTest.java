@@ -34,7 +34,7 @@ class TokenPatternTest {
         TokenPatternTester.test(
                 "module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
-                "module example-test",
+                "module example-test import",
 
                 TokenPatternTester.Wildcard.of("module", "example-test")
         );
