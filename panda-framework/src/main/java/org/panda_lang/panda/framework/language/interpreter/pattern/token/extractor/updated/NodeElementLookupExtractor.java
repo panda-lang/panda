@@ -18,32 +18,40 @@ class NodeElementLookupExtractor {
         ExtractorResult precedingResult = null;
         ExtractorResult currentResult = null;
 
-        MatchableDistributor matchable = new MatchableDistributor(distributor);
         int startIndex = distributor.getIndex();
+        // distributor.setIndex(startIndex - 1);
+
+        MatchableDistributor matchable = new MatchableDistributor(distributor);
         int index = startIndex;
 
         while (matchable.hasNext()) {
+            matchable.next();
+            index = distributor.getIndex();
+
             if (!matchable.isMatchable()) {
                 continue;
             }
 
-            index = distributor.getIndex();
+            if (!distributor.hasNext()) {
+                break;
+            }
+
             currentResult = lookupExtractor.nodeExtractor.getWorker().extract(distributor, element);
 
             if (currentResult.isMatched()) {
                 break;
             }
 
-            distributor.next();
+            distributor.setIndex(index);
         }
 
-        if (currentResult != null) {
+        if (currentResult != null && currentResult.isMatched()) {
             Tokens before = distributor.getSource().subSource(startIndex, index);
             TokenDistributor beforeDistributor = new TokenDistributor(before);
             precedingResult = new ExtractorResult();
 
             for (LexicalPatternElement elementBefore : elementsBefore) {
-                ExtractorResult result = lookupExtractor.nodeExtractor.getWorker().extract(distributor, element);
+                ExtractorResult result = lookupExtractor.nodeExtractor.getWorker().extract(beforeDistributor, elementBefore);
 
                 if (!result.isMatched()) {
                     precedingResult = new ExtractorResult("Could not match element before, caused by: " + result.getErrorMessage());

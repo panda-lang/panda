@@ -2,6 +2,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.List;
 
@@ -58,14 +59,32 @@ class NodeLookupExtractor  {
 
         protected ExtractorResult getMergedResults() {
             if (precedingResult == null || currentResult == null) {
-                return new ExtractorResult("Undefined result");
+                return new ExtractorResult("Undefined result (" + getMergedErrorMessage() + ")");
             }
 
-            if (precedingResult.isMatched() && currentResult.isMatched()) {
-                return new ExtractorResult("Lookup result not matched");
+            if (!precedingResult.isMatched() || !currentResult.isMatched()) {
+                return new ExtractorResult("Lookup result not matched (" + getMergedErrorMessage() + ")");
             }
 
             return precedingResult.merge(currentResult);
+        }
+
+        private String getMergedErrorMessage() {
+            String error = "";
+
+            if (currentResult != null) {
+                error += currentResult.getErrorMessage();
+            }
+
+            if (precedingResult != null) {
+                error += precedingResult.getErrorMessage();
+            }
+
+            if (StringUtils.isEmpty(error)) {
+                error = "<unknown>";
+            }
+
+            return error;
         }
 
     }

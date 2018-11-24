@@ -8,7 +8,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Unif
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPatternMapping;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated.ExtractorResult;
 
 public class TokenPatternInterceptor implements BootstrapInterceptor {
 
@@ -26,7 +26,7 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
-            TokenExtractorResult result = pattern.extract(data.getComponent(UniversalComponents.SOURCE_STREAM));
+            ExtractorResult result = pattern.extract(data.getComponent(UniversalComponents.SOURCE_STREAM));
 
             if (!result.isMatched()) {
                 data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();

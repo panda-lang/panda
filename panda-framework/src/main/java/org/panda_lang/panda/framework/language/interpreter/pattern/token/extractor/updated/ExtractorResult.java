@@ -3,7 +3,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,7 +12,7 @@ public class ExtractorResult {
     private final boolean matched;
     private final String errorMessage;
     private final List<String> identifiers = new ArrayList<>();
-    private final Map<String, Tokens> wildcards = new HashMap<>();
+    private final Map<String, Tokens> wildcards = new LinkedHashMap<>();
 
     public ExtractorResult() {
         this.matched = true;
@@ -40,7 +40,8 @@ public class ExtractorResult {
     }
 
     public ExtractorResult addWildcard(String name, Tokens wildcardContent) {
-        return null;
+        wildcards.put(name, wildcardContent);
+        return this;
     }
 
     public boolean hasErrorMessage() {
