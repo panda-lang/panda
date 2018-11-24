@@ -45,7 +45,7 @@ class NodeLookupExtractor  {
                 continue;
             }
 
-            return new LookupResult();
+            return result;
         }
 
         distributor.setIndex(indexBackup);

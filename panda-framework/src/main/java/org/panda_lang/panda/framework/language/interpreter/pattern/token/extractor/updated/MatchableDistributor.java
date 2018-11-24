@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
@@ -18,9 +19,13 @@ class MatchableDistributor {
         this.distributor = distributor;
     }
 
-    public TokenRepresentation next() {
-        TokenRepresentation next = distributor.next();
+    public @Nullable TokenRepresentation verify() {
+        TokenRepresentation next = distributor.getNext();
         this.previousSize = separators.size();
+
+        if (next == null) {
+            return null;
+        }
 
         if (!TokenUtils.isTypeOf(next, TokenType.SEPARATOR)) {
             return next;
@@ -36,6 +41,10 @@ class MatchableDistributor {
         }
 
         return next;
+    }
+
+    public TokenRepresentation current() {
+        return distributor.current();
     }
 
     public boolean isMatchable() {

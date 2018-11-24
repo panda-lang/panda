@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 class TokenPatternTest {
 
-    //@Test
+    @Test
     public void testMethodPattern() {
         TokenPatternTester.test(
                 "(method|local|hidden) [static] [<return-type>] <name> `( <*parameters> `) `{ <*body> `}",
 
-                "method void anotherEcho(String message) { Console.print(message); }",
+                "method void anotherEcho() { Console.print(message); }",
 
                 TokenPatternTester.Wildcard.of("return-type", "void"),
                 TokenPatternTester.Wildcard.of("name", "anotherEcho"),
-                TokenPatternTester.Wildcard.of("*parameters", "Stringmessage"),
+                TokenPatternTester.Wildcard.of("*parameters", ""),
                 TokenPatternTester.Wildcard.of("*body", "Console.print(message);")
         );
     }
@@ -26,6 +26,17 @@ class TokenPatternTest {
                 "import panda-lang",
 
                 TokenPatternTester.Wildcard.of("import", "panda-lang")
+        );
+    }
+
+    @Test
+    public void testModulePattern() {
+        TokenPatternTester.test(
+                "module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
+
+                "module example-test",
+
+                TokenPatternTester.Wildcard.of("module", "example-test")
         );
     }
 
