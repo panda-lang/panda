@@ -16,7 +16,7 @@ public class ExtractorResult {
 
     public ExtractorResult() {
         this.matched = true;
-        this.errorMessage = "<unknown>";
+        this.errorMessage = null;
     }
 
     public ExtractorResult(String errorMessage) {

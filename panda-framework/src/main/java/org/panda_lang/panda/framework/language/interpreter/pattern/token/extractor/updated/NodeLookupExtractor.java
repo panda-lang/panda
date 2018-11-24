@@ -45,10 +45,18 @@ class NodeLookupExtractor  {
                 continue;
             }
 
-            break;
+            return new LookupResult();
         }
 
-        return new LookupResult();
+        distributor.setIndex(indexBackup);
+        ExtractorResult result = elementLookupExtractor.extractWildcards(nextElements.subList(0, skip), distributor);
+
+        LookupResult lookupResult = new LookupResult();
+        lookupResult.precedingResult = result;
+        lookupResult.currentResult = new ExtractorResult();
+        lookupResult.matchedIndex = nextElements.size();
+
+        return lookupResult;
     }
 
     static class LookupResult {

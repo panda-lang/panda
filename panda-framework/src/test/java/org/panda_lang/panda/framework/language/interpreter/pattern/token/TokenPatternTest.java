@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 class TokenPatternTest {
 
-    @Test
+    //@Test
     public void testMethodPattern() {
         TokenPatternTester.test(
                 "(method|local|hidden) [static] [<return-type>] <name> `( <*parameters> `) `{ <*body> `}",
@@ -19,8 +19,14 @@ class TokenPatternTest {
     }
 
     @Test
-    public void testClassPattern() {
+    public void testImportPattern() {
+        TokenPatternTester.test(
+                "import <import: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
+                "import panda-lang",
+
+                TokenPatternTester.Wildcard.of("import", "panda-lang")
+        );
     }
 
 }
