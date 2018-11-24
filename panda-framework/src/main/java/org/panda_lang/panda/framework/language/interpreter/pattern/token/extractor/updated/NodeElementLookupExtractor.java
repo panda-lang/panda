@@ -19,23 +19,24 @@ class NodeElementLookupExtractor {
         ExtractorResult currentResult = null;
 
         int startIndex = distributor.getIndex();
-        // distributor.setIndex(startIndex - 1);
+        distributor.setIndex(startIndex - 1);
 
         MatchableDistributor matchable = new MatchableDistributor(distributor);
         int index = startIndex;
 
-        while (matchable.hasNext()) {
-            matchable.next();
-            index = distributor.getIndex();
-
-            if (!matchable.isMatchable()) {
-                continue;
-            }
+        while (true) {
+            matchable.verify();
 
             if (!distributor.hasNext()) {
                 break;
             }
 
+            if (!matchable.isMatchable()) {
+                distributor.next();
+                continue;
+            }
+
+            index = distributor.getIndex();
             currentResult = lookupExtractor.nodeExtractor.getWorker().extract(distributor, element);
 
             if (currentResult.isMatched()) {
@@ -43,6 +44,7 @@ class NodeElementLookupExtractor {
             }
 
             distributor.setIndex(index);
+            distributor.next();
         }
 
         if (currentResult != null && currentResult.isMatched()) {
