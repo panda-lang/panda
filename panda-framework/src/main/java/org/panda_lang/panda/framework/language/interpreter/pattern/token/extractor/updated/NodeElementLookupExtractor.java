@@ -47,19 +47,7 @@ class NodeElementLookupExtractor {
 
         if (currentResult != null && currentResult.isMatched()) {
             Tokens before = distributor.getSource().subSource(startIndex, index);
-            TokenDistributor beforeDistributor = new TokenDistributor(before);
-            precedingResult = new ExtractorResult();
-
-            for (LexicalPatternElement elementBefore : elementsBefore) {
-                ExtractorResult result = lookupExtractor.nodeExtractor.getWorker().extract(beforeDistributor, elementBefore);
-
-                if (!result.isMatched()) {
-                    precedingResult = new ExtractorResult("Could not match element before, caused by: " + result.getErrorMessage());
-                    break;
-                }
-
-                precedingResult.merge(result);
-            }
+            precedingResult = extractWildcards(elementsBefore, new TokenDistributor(before));
         }
 
         NodeLookupExtractor.LookupResult result = new NodeLookupExtractor.LookupResult();
@@ -67,6 +55,23 @@ class NodeElementLookupExtractor {
         result.currentResult = currentResult;
 
         return result;
+    }
+
+    protected ExtractorResult extractWildcards(List<LexicalPatternElement> elements,  TokenDistributor distributor) {
+        ExtractorResult precedingResult = new ExtractorResult();
+
+        for (LexicalPatternElement element : elements) {
+            ExtractorResult result = lookupExtractor.nodeExtractor.getWorker().extract(distributor, element);
+
+            if (!result.isMatched()) {
+                precedingResult = new ExtractorResult("Could not match element before, caused by: " + result.getErrorMessage());
+                break;
+            }
+
+            precedingResult.merge(result);
+        }
+
+        return precedingResult;
     }
 
 }
