@@ -1,13 +1,13 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 
-public class UpdatedTokenExtractor {
+public class TokenExtractor {
 
     private final TokenPattern pattern;
 
-    public UpdatedTokenExtractor(TokenPattern pattern) {
+    public TokenExtractor(TokenPattern pattern) {
         this.pattern = pattern;
     }
 

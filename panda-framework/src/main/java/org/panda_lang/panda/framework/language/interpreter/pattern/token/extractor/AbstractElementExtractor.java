@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
 abstract class AbstractElementExtractor<T> implements ElementExtractor<T> {
 

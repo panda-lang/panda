@@ -12,7 +12,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.PatternMapping;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated.ExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Map;

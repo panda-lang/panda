@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
