@@ -27,6 +27,7 @@ class NodeLookupExtractor  {
         }
 
         int indexBackup = distributor.getIndex();
+        boolean matchable = true;
 
         for (int i = skip; i < nextElements.size(); i++) {
             LexicalPatternElement element = nextElements.get(i);
@@ -48,13 +49,13 @@ class NodeLookupExtractor  {
             return result;
         }
 
-        distributor.setIndex(indexBackup);
-        ExtractorResult result = elementLookupExtractor.extractWildcards(nextElements.subList(0, skip), distributor);
 
         LookupResult lookupResult = new LookupResult();
-        lookupResult.precedingResult = result;
         lookupResult.currentResult = new ExtractorResult();
         lookupResult.matchedIndex = nextElements.size();
+
+        distributor.setIndex(indexBackup);
+        lookupResult.precedingResult = elementLookupExtractor.extractWildcards(nextElements.subList(0, skip), distributor);
 
         return lookupResult;
     }
@@ -63,6 +64,7 @@ class NodeLookupExtractor  {
 
         protected ExtractorResult precedingResult;
         protected ExtractorResult currentResult;
+        protected boolean notMatchable;
         protected int matchedIndex;
 
         protected ExtractorResult getMergedResults() {

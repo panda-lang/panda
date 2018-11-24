@@ -25,7 +25,7 @@ class ExtractorWorker {
         ExtractorResult result = extract(distributor, pattern.getPatternContent());
 
         if (result.isMatched()) {
-            source.read(distributor.length() - distributor.getIndex());
+            source.read(distributor.getIndex());
         }
 
         return result;

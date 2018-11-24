@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
@@ -52,7 +53,7 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return representations;
     }
 
-    public TokenRepresentation current() {
+    public @Nullable TokenRepresentation current() {
         return source.get(index);
     }
 
@@ -68,7 +69,11 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return index < length();
     }
 
-    public TokenRepresentation getNext() {
+    public @Nullable TokenRepresentation get(int index) {
+        return source.get(index);
+    }
+
+    public @Nullable TokenRepresentation getNext() {
         return source.get(index);
     }
 
