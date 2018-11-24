@@ -1,8 +1,7 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenDistributor;
 
 import java.util.List;
 

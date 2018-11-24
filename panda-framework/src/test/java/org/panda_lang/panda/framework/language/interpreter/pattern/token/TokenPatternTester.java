@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated.ExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
