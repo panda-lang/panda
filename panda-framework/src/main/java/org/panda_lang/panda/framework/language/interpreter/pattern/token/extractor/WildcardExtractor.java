@@ -8,7 +8,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.eleme
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardCondition;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +25,7 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
         if (!distributor.hasNext()) {
             wildcardContent = new PandaTokens();
         }
-        else if (wildcard.getDetails() != null) {
+        else if (wildcard.getData() != null) {
             wildcardContent = matchWildcardWithCondition(wildcard, distributor);
         }
 
@@ -38,21 +37,15 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
     }
 
     private @Nullable Tokens matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
-        String details = wildcard.getOriginalDetails();
-
-        if (details.startsWith("*")) {
+        if (wildcard.getName().startsWith("*")) {
             return new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
         }
 
-        if (!details.contains(":")) {
+        if (!wildcard.hasCondition()) {
             return null;
         }
 
-        String[] elements = StringUtils.splitFirst(details, ":");
-        wildcard.setName(elements[0]);
-        wildcard.setDetails(elements[1]);
-
-        String[] conditions = wildcard.getDetails().split(",");
+        String[] conditions = wildcard.getCondition().split(",");
         List<WildcardCondition> wildcardConditions = new ArrayList<>(conditions.length);
 
         for (String condition : conditions) {

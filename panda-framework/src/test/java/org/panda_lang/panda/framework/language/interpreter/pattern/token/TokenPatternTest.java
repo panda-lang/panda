@@ -34,7 +34,7 @@ class TokenPatternTest {
         TokenPatternTester.test(
                 "module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
-                "module example-test import",
+                "module example-test import panda-lang;",
 
                 TokenPatternTester.Wildcard.of("module", "example-test")
         );

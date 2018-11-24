@@ -84,7 +84,7 @@ public class LexicalExtractorWorker<T> {
                     .addWildcard(wildcard);
         }
 
-        T result = wildcardProcessor.handle(pattern.getDetails(), wildcard);
+        T result = wildcardProcessor.handle(pattern.getCondition(), wildcard);
 
         if (result == null) {
             return new LexicalExtractorResult<>(false);
