@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted.TokenExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.updated.ExtractorResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +65,7 @@ public class MethodParser extends BootstrapParser {
             @Type(with = Src.class, value = "name"),
             @Type(with = Src.class, value = "*parameters")
     })
-    boolean parse(ParserData data, LocalData local, TokenExtractorResult result, String type, String method, Tokens parametersSource) {
+    boolean parse(ParserData data, LocalData local, ExtractorResult result, String type, String method, Tokens parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
         boolean isStatic = result.getIdentifiers().contains("static");
 

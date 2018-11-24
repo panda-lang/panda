@@ -9,7 +9,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class PopsutedTokenExtractor {
+class PopsutedTokenExtractor {
 
     private final TokenPattern pattern;
     private final Collection<WildcardConditionFactory> wildcardConditionFactories = new ArrayList<>();

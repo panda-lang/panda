@@ -7,7 +7,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TokenExtractorResult {
+class TokenExtractorResult {
 
     private final boolean matched;
     private final List<String> identifiers;
