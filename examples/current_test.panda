@@ -1,6 +1,7 @@
 module example-test
 
 import panda-lang
+import panda-lang;
 
 class Foo extends Test {
 
