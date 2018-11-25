@@ -24,7 +24,7 @@ public class PandaParserRepresentation implements ParserRepresentation {
 
     private final UnifiedParser parser;
     private final ParserHandler handler;
-    private final int priority;
+    private final double priority;
     private int usages;
 
     public PandaParserRepresentation(UnifiedParser parser, ParserHandler parserHandler, int priority) {
@@ -44,7 +44,7 @@ public class PandaParserRepresentation implements ParserRepresentation {
     }
 
     @Override
-    public int getPriority() {
+    public double getPriority() {
         return priority;
     }
 

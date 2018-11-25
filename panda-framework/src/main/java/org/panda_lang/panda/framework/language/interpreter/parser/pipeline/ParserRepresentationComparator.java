@@ -24,7 +24,7 @@ public class ParserRepresentationComparator implements Comparator<ParserRepresen
 
     @Override
     public int compare(ParserRepresentation parserRepresentation, ParserRepresentation parserRepresentationTo) {
-        int priority = Integer.compare(parserRepresentation.getPriority(), parserRepresentationTo.getPriority());
+        int priority = Double.compare(parserRepresentation.getPriority(), parserRepresentationTo.getPriority());
 
         if (priority != 0) {
             return priority;

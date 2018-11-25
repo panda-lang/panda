@@ -33,7 +33,7 @@ public interface ParserRepresentation {
     /**
      * @return priority
      */
-    int getPriority();
+    double getPriority();
 
     /**
      * @return associated handler
