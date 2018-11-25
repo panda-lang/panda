@@ -18,25 +18,25 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extrac
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 class AbyssExtractorSource {
 
-    private final TokenizedSource tokenizedSource;
+    private final Tokens tokens;
     private final AbyssTokenRepresentation[] abyssRepresentations;
 
-    protected AbyssExtractorSource(TokenizedSource tokenizedSource) {
-        this.tokenizedSource = tokenizedSource;
-        this.abyssRepresentations = new AbyssTokenRepresentation[tokenizedSource.size()];
+    protected AbyssExtractorSource(Tokens tokens) {
+        this.tokens = tokens;
+        this.abyssRepresentations = new AbyssTokenRepresentation[tokens.size()];
         this.prepare();
     }
 
     private void prepare() {
         AbyssExtractorOpposites opposites = new AbyssExtractorOpposites();
 
-        for (int i = 0; i < tokenizedSource.size(); i++) {
-            TokenRepresentation representation = tokenizedSource.get(i);
+        for (int i = 0; i < tokens.size(); i++) {
+            TokenRepresentation representation = tokens.get(i);
 
             if (representation == null) {
                 throw new PandaRuntimeException("Representation is null");

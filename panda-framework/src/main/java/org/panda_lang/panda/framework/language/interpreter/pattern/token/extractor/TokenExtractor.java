@@ -1,6 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 
 public class TokenExtractor {
@@ -11,9 +11,8 @@ public class TokenExtractor {
         this.pattern = pattern;
     }
 
-    public TokenExtractorResult extract(TokenizedSource source) {
-        TokenExtractorWorker worker = new TokenExtractorWorker(pattern);
-        return worker.extract(source);
+    public ExtractorResult extract(SourceStream source) {
+        return new ExtractorWorker(pattern).extract(source);
     }
 
 }

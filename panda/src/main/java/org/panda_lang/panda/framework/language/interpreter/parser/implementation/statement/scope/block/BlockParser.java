@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Boot
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ContainerParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
@@ -49,7 +49,7 @@ public class BlockParser extends BootstrapParser {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, Generation generation, @Redactor("block-declaration") TokenizedSource declaration) throws Throwable {
+    private void parse(ParserData data, LocalData local, Generation generation, @Src("block-declaration") Tokens declaration) throws Throwable {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
@@ -78,7 +78,7 @@ public class BlockParser extends BootstrapParser {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Redactor("block-body") TokenizedSource body) throws Throwable {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Src("block-body") Tokens body) throws Throwable {
         ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(blockData, body);
     }

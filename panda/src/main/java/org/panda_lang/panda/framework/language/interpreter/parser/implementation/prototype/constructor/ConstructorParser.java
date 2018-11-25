@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.constructor.ConstructorScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.constructor.PandaConstructor;
@@ -29,8 +29,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Boot
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ScopeParser;
@@ -46,11 +47,12 @@ public class ConstructorParser extends BootstrapParser {
     {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .pattern("constructor ( +** ) { +* }", "parameters", "body");
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("constructor `( <*parameters> `) `{ <*body> `}");
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Redactor("parameters") TokenizedSource parametersSource) {
+    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Src("*parameters") Tokens parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
@@ -62,7 +64,7 @@ public class ConstructorParser extends BootstrapParser {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Redactor("body") TokenizedSource body) throws Throwable {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Src("*body") Tokens body) throws Throwable {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

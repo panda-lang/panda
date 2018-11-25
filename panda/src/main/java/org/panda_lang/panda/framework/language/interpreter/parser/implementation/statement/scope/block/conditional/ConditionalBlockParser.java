@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -58,7 +58,7 @@ public class ConditionalBlockParser extends BootstrapParser {
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
-                throw new PandaParserFailure("The Else-block without associated If-block at line", data);
+                throw new PandaParserFailure("The Else-block without associated If-block", data);
             }
 
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;
@@ -69,9 +69,9 @@ public class ConditionalBlockParser extends BootstrapParser {
             return true;
         }
 
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
-        TokenizedSource conditionType = redactor.get("condition-type");
-        TokenizedSource conditionExpression = redactor.get("condition-expression");
+        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
+        Tokens conditionType = redactor.get("condition-type");
+        Tokens conditionExpression = redactor.get("condition-expression");
 
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expression = expressionParser.parse(data, conditionExpression);

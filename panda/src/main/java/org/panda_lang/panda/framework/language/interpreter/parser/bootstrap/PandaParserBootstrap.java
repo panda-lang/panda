@@ -16,7 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.BootstrapHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
@@ -38,7 +40,15 @@ public class PandaParserBootstrap {
             getInterceptor().initialize(this);
         }
 
+        if (hasBootstrapHandler()) {
+            getBootstrapHandler().initialize(this);
+        }
+
         return new PandaParserRepresentation(bootstrapParser, bootstrap.handler, bootstrap.priority);
+    }
+
+    public boolean hasBootstrapHandler() {
+        return getHandler() != null && getHandler() instanceof BootstrapHandler;
     }
 
     public boolean hasInterceptor() {
@@ -47,6 +57,14 @@ public class PandaParserBootstrap {
 
     public Object getInstance() {
         return bootstrap.instance;
+    }
+
+    public BootstrapHandler getBootstrapHandler() {
+        return hasBootstrapHandler() ? (BootstrapHandler) getHandler() : null;
+    }
+
+    public ParserHandler getHandler() {
+        return bootstrap.handler;
     }
 
     public BootstrapInterceptor getInterceptor() {

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical;
 
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed.WildcardProcessor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.processed.WildcardProcessor;
 
 public class LexicalPatternBuilder<T> {
 

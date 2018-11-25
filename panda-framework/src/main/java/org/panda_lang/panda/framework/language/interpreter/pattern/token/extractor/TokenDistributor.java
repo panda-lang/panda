@@ -1,7 +1,8 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -10,10 +11,10 @@ import java.util.NoSuchElementException;
 
 public class TokenDistributor implements Iterable<TokenRepresentation> {
 
-    private final TokenizedSource source;
+    private final Tokens source;
     private int index;
 
-    public TokenDistributor(TokenizedSource source) {
+    public TokenDistributor(Tokens source) {
         this.source = source;
     }
 
@@ -52,6 +53,14 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return representations;
     }
 
+    public @Nullable TokenRepresentation current() {
+        return source.get(index);
+    }
+
+    public int length() {
+        return source.size();
+    }
+
     public void setIndex(int index) {
         this.index = index;
     }
@@ -60,12 +69,20 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return index < length();
     }
 
+    public @Nullable TokenRepresentation get(int index) {
+        return source.get(index);
+    }
+
+    public @Nullable TokenRepresentation getNext() {
+        return source.get(index);
+    }
+
     public int getIndex() {
         return index;
     }
 
-    public int length() {
-        return source.size();
+    public Tokens getSource() {
+        return source;
     }
 
 }

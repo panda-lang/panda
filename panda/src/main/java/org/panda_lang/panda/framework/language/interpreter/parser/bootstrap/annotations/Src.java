@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016-2018 Dzikoysk
+ * Copyright (c) 2015-2018 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.extractor.processed;
+package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations;
 
-import org.jetbrains.annotations.Nullable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public interface WildcardProcessor<T> {
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Src {
 
-    T handle(@Nullable String details, String wildcard);
+    String value();
 
 }

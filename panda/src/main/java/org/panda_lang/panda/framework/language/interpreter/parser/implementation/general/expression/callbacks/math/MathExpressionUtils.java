@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
 
 public class MathExpressionUtils {
 
-    public static boolean isMathExpression(TokenizedSource source) {
+    public static boolean isMathExpression(Tokens source) {
         VagueResult result = MathParser.EXTRACTOR.extract(source);
 
         if (result.size() % 2 == 0) {

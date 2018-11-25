@@ -1,10 +1,11 @@
-module example-test;
+module example-test
 
+import panda-lang
 import panda-lang;
 
 class Foo extends Test {
 
-    method anotherEcho(String message) {
+    method static void anotherEcho(String message) {
         Console.print(message);
     }
 
@@ -23,11 +24,15 @@ class Test {
         //echo(this.i);
     }
 
-    method echo(Object message) {
+    constructor() {
+        // empty constructor
+    }
+
+    method void echo(Object message) {
         Console.print(message);
     }
 
-    method testField() {
+    method void testField() {
         this.echo(this.getTestField());
     }
 
@@ -88,3 +93,6 @@ main {
         break;
     }
 }
+
+import panda-lang;
+import panda-lang

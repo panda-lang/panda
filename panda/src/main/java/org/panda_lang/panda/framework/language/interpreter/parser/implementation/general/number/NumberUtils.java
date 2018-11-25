@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 
 public class NumberUtils {
 
     protected static final char[] NUMBER_EXTENSIONS = new char[]{ 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
 
-    public static boolean isNumeric(TokenizedSource source) {
+    public static boolean isNumeric(Tokens source) {
         return isNumber(source.asString());
     }
 
@@ -54,7 +54,7 @@ public class NumberUtils {
         return digit;
     }
 
-    public static boolean startsWithNumber(TokenizedSource source) {
+    public static boolean startsWithNumber(Tokens source) {
         String str = source.asString();
         return isNumber(str.substring(0, 1));
     }

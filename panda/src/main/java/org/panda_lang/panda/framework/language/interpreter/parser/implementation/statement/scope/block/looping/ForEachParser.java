@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
 import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Redactor;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
@@ -52,7 +52,7 @@ public class ForEachParser extends BootstrapParser {
     }
 
     @Autowired
-    public boolean parse(ParserData data, @Redactor("foreach-var") TokenizedSource varSource, @Redactor("foreach-iterable") TokenizedSource iterableSource) {
+    public boolean parse(ParserData data, @Src("foreach-var") Tokens varSource, @Src("foreach-iterable") Tokens iterableSource) {
         VarParser varParser = new VarParser();
         VarParserData varData = varParser.toVarParserData(data, varSource);
         VarParserResult result = varParser.parseVariable(varData, data);

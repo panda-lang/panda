@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.lay
 
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.ParserBootstrapException;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -26,20 +27,35 @@ public class LayerMethod {
 
     protected final Method method;
     protected final Autowired autowired;
+    protected final AutowiredParameters autowiredParameters;
 
     public LayerMethod(Method method) {
         this.method = method;
-        this.autowired = getAnnotation();
+        this.autowired = getAnnotation(Autowired.class);
+        this.autowiredParameters = getAnnotation(AutowiredParameters.class);
+
+        if (autowired == null && autowiredParameters == null) {
+            throw new ParserBootstrapException("Method " + method.getName() + " is not annotated by @Autowired");
+        }
     }
 
-    private Autowired getAnnotation() {
+    public boolean hasAutowiredParameters() {
+        return autowiredParameters != null;
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> T getAnnotation(Class<T> autowiredClass) {
         for (Annotation annotation : method.getAnnotations()) {
-            if (annotation.annotationType() == Autowired.class) {
-                return (Autowired) annotation;
+            if (annotation.annotationType() == autowiredClass) {
+                return (T) annotation;
             }
         }
 
-        throw new ParserBootstrapException("Method " + method.getName() + " is not annotated by @Autowired");
+        return null;
+    }
+
+    public AutowiredParameters getAutowiredParameters() {
+        return autowiredParameters;
     }
 
     public int getOrder() {

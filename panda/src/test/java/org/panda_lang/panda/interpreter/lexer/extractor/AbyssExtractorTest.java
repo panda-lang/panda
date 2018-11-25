@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
@@ -53,18 +53,18 @@ public class AbyssExtractorTest {
     @Test
     public void testExtractor() {
         Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(AbyssExtractorTest.class, SOURCE));
-        TokenizedSource tokenizedSource = lexer.convert();
-        TokenReader tokenReader = new PandaTokenReader(tokenizedSource);
+        Tokens tokens = lexer.convert();
+        TokenReader tokenReader = new PandaTokenReader(tokens);
 
         AbyssExtractor extractor = new AbyssExtractor(PATTERN);
-        List<TokenizedSource> gaps = extractor.extract(tokenReader);
+        List<Tokens> gaps = extractor.extract(tokenReader);
 
         if (gaps == null) {
             System.out.println("Cannot extract gaps for PATTERN '" + PATTERN + "' and source '" + SOURCE + "'");
             return;
         }
 
-        for (TokenizedSource gap : gaps) {
+        for (Tokens gap : gaps) {
             System.out.println("--- Gap:");
 
             for (TokenRepresentation tokenRepresentation : gap.getTokensRepresentations()) {

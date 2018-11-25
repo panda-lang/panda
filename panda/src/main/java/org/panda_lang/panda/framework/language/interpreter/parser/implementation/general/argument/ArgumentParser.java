@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -39,8 +39,8 @@ public class ArgumentParser implements Parser {
             .compile(PandaSyntax.getInstance(), "+* , +*")
             .build();
 
-    public Expression[] parse(ParserData info, TokenizedSource tokenizedSource) {
-        SourceStream sourceStream = new PandaSourceStream(tokenizedSource);
+    public Expression[] parse(ParserData info, Tokens tokens) {
+        SourceStream sourceStream = new PandaSourceStream(tokens);
 
         List<Expression> expressions = new ArrayList<>();
         ExpressionParser expressionParser = new ExpressionParser();
@@ -48,7 +48,7 @@ public class ArgumentParser implements Parser {
 
         while (sourceStream.hasUnreadSource()) {
             TokenReader reader = sourceStream.toTokenReader();
-            List<TokenizedSource> gaps = extractor.extract(reader);
+            List<Tokens> gaps = extractor.extract(reader);
 
             if (gaps == null) {
                 Expression expression = readArgument(info, expressionParser, sourceStream.toTokenizedSource());
@@ -56,7 +56,7 @@ public class ArgumentParser implements Parser {
                 break;
             }
 
-            TokenizedSource argument = gaps.get(0);
+            Tokens argument = gaps.get(0);
             Expression expression = readArgument(info, expressionParser, argument);
 
             expressions.add(expression);
@@ -69,7 +69,7 @@ public class ArgumentParser implements Parser {
         return expressionsArray;
     }
 
-    private Expression readArgument(ParserData data, ExpressionParser expressionParser, TokenizedSource argument) {
+    private Expression readArgument(ParserData data, ExpressionParser expressionParser, Tokens argument) {
         Expression expression = expressionParser.parse(data, argument);
 
         if (expression == null) {

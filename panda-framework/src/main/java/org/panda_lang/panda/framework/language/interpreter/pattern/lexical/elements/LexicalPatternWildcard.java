@@ -16,20 +16,52 @@
 
 package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
+
 public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
 
-    private final String details;
+    private final String data;
+    private String name;
+    private String condition;
 
-    public LexicalPatternWildcard(String details) {
-        this.details = details;
+    public LexicalPatternWildcard(String condition) {
+        this.data = condition;
+        this.initialize();
     }
 
     public LexicalPatternWildcard() {
-        this(null);
+        this(StringUtils.EMPTY);
     }
 
-    public String getDetails() {
-        return details;
+    private void initialize() {
+        if (StringUtils.isEmpty(data)) {
+            return;
+        }
+
+        if (!data.contains(":")) {
+            this.name = data;
+            return;
+        }
+
+        String[] elements = StringUtils.splitFirst(data, ":");
+        this.name = elements[0];
+        this.condition = elements[1];
+    }
+
+    public boolean hasCondition() {
+        return condition != null;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getData() {
+        return data;
     }
 
 }

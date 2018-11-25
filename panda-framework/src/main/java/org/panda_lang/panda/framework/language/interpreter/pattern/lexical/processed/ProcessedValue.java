@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015-2018 Dzikoysk
+ * Copyright (c) 2016-2018 Dzikoysk
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,17 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations;
+package org.panda_lang.panda.framework.language.interpreter.pattern.lexical.processed;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.jetbrains.annotations.Nullable;
 
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Redactor {
+public class ProcessedValue<T> {
 
-    String value();
+    private final T value;
+    private final String identifier;
+
+    public ProcessedValue(T value, @Nullable String identifier) {
+        this.value = value;
+        this.identifier = identifier;
+    }
+
+    public @Nullable String getIdentifier() {
+        return identifier;
+    }
+
+    public T getValue() {
+        return value;
+    }
 
 }

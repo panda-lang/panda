@@ -18,11 +18,10 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extrac
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
 
 /**
- * Utils for {@link TokenizedSource} based on {@link AbyssExtractorSource}
+ * Utils for {@link org.panda_lang.panda.framework.design.interpreter.token.Tokens} based on {@link AbyssExtractorSource}
  */
 public class AbyssExtractorSourceUtils {
 

@@ -1,21 +1,23 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.popsuted;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
-public class TokenExtractorResult {
+class TokenExtractorResult {
 
     private final boolean matched;
     private final List<String> identifiers;
-    private final List<TokenizedSource> wildcards;
+    private final Map<String, Tokens> wildcards;
     private String errorMessage;
 
     public TokenExtractorResult(boolean matched) {
         this.matched = matched;
         this.identifiers = matched ? new ArrayList<>() : null;
-        this.wildcards = matched ? new ArrayList<>() : null;
+        this.wildcards = matched ? new LinkedHashMap<>() : null;
         this.errorMessage = matched ? null : "<unknown>";
     }
 
@@ -47,17 +49,23 @@ public class TokenExtractorResult {
         }
 
         identifiers.addAll(otherResult.identifiers);
-        wildcards.addAll(otherResult.wildcards);
+        wildcards.putAll(otherResult.wildcards);
         return this;
     }
 
-    public TokenExtractorResult addWildcard(TokenizedSource wildcard) {
-        wildcards.add(wildcard);
+    public TokenExtractorResult addWildcard(String details, Tokens wildcard) {
+        if (wildcard != null) {
+            wildcards.put(details, wildcard);
+        }
+
         return this;
     }
 
-    public TokenExtractorResult addIdentifier(String identifier) {
-        this.identifiers.add(identifier);
+    public TokenExtractorResult identified(String identifier) {
+        if (identifier != null) {
+            this.identifiers.add(identifier);
+        }
+
         return this;
     }
 
@@ -78,7 +86,7 @@ public class TokenExtractorResult {
         return errorMessage;
     }
 
-    public List<TokenizedSource> getWildcards() {
+    public Map<String, Tokens> getWildcards() {
         return wildcards;
     }
 

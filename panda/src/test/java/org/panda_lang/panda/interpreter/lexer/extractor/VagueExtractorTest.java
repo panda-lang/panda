@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
@@ -50,9 +50,9 @@ public class VagueExtractorTest {
         Source source = new PandaSource(VagueExtractorTest.class, SOURCE);
 
         Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), source);
-        TokenizedSource tokenizedSource = lexer.convert();
+        Tokens tokens = lexer.convert();
 
-        VagueResult result = EXTRACTOR.extract(tokenizedSource);
+        VagueResult result = EXTRACTOR.extract(tokens);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isSucceeded());
         Assertions.assertEquals(5, result.size());

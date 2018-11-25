@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 public class NumberExpressionParser implements ParticularParser<Value> {
 
     @Override
-    public @Nullable Value parse(ParserData data, TokenizedSource source) {
+    public @Nullable Value parse(ParserData data, Tokens source) {
         if (!NumberUtils.isNumeric(source)) {
             return null;
         }

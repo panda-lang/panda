@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.pip
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
@@ -75,7 +75,7 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
         }
 
         StatementCell cell = container.reserveCell();
-        AbyssRedactor redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "return-expression");
+        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "return-expression");
 
         data.getComponent(UniversalComponents.GENERATION)
                 .pipeline(PandaTypes.CONTENT)
@@ -89,16 +89,16 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
     private static class ReturnExpressionCasualParserCallback implements GenerationCallback {
 
         private final StatementCell cell;
-        private final AbyssRedactor redactor;
+        private final AbyssPatternMapping redactor;
 
-        public ReturnExpressionCasualParserCallback(StatementCell cell, AbyssRedactor redactor) {
+        public ReturnExpressionCasualParserCallback(StatementCell cell, AbyssPatternMapping redactor) {
             this.cell = cell;
             this.redactor = redactor;
         }
 
         @Override
         public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
-            TokenizedSource expressionSource = redactor.get("return-expression");
+            Tokens expressionSource = redactor.get("return-expression");
             ExpressionParser expressionParser = new ExpressionParser();
             Expression expression = expressionParser.parse(data, expressionSource);
 

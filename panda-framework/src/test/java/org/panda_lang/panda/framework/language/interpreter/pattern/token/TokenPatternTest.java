@@ -1,43 +1,43 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractorResult;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class TokenPatternTest {
 
-    private static final String CONTENT = "method void test(15, ()25) { Console.print('test') }";
-    private static final TokenizedSource SOURCE = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("Test", CONTENT)).convert();
+    @Test
+    public void testMethodPattern() {
+        TokenPatternTester.test(
+                "(method|local|hidden) [static] [<return-type>] <name> `( <*parameters> `) `{ <*body> `}",
+
+                "method void anotherEcho() { Console.print(message); }",
+
+                TokenPatternTester.Wildcard.of("return-type", "void"),
+                TokenPatternTester.Wildcard.of("name", "anotherEcho"),
+                TokenPatternTester.Wildcard.of("*parameters", ""),
+                TokenPatternTester.Wildcard.of("*body", "Console.print(message);")
+        );
+    }
 
     @Test
-    public void testTokenPattern() {
-        TokenPattern pattern = TokenPattern.builder()
-                .compile("(method|hidden|local) [static] <return-type> <name> `(<*parameters>`) `{ <*body> `}[;]")
-                .build();
+    public void testImportPattern() {
+        TokenPatternTester.test(
+                "import <import: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
-        LexicalPatternElement content = pattern.getPatternContent();
-        Assertions.assertNotNull(content);
+                "import panda-lang",
 
-        TokenExtractorResult result = pattern.extract(SOURCE);
-        Assertions.assertNotNull(result);
+                TokenPatternTester.Wildcard.of("import", "panda-lang")
+        );
+    }
 
-        if (result.hasErrorMessage()) {
-            System.out.println("Error message: " + result.getErrorMessage());
-        }
+    @Test
+    public void testModulePattern() {
+        TokenPatternTester.test(
+                "module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
-        Assertions.assertTrue(result.isMatched());
-        Assertions.assertNotNull(result.getWildcards());
-        Assertions.assertEquals(4, result.getWildcards().size());
+                "module example-test import panda-lang;",
 
-        Assertions.assertEquals("void", result.getWildcards().get(0).asString());
-        Assertions.assertEquals("test", result.getWildcards().get(1).asString());
-        Assertions.assertEquals("15,()25", result.getWildcards().get(2).asString());
-        Assertions.assertEquals("Console.print(test)", result.getWildcards().get(3).asString());
+                TokenPatternTester.Wildcard.of("module", "example-test")
+        );
     }
 
 }

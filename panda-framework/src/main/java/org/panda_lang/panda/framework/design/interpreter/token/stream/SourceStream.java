@@ -17,23 +17,25 @@
 package org.panda_lang.panda.framework.design.interpreter.token.stream;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 public interface SourceStream {
 
     TokenRepresentation read();
 
-    TokenizedSource read(int length);
+    Tokens read(int length);
 
-    TokenizedSource readDifference(TokenReader reader);
+    Tokens readDifference(TokenReader reader);
 
-    TokenizedSource readLineResidue();
+    Tokens readLineResidue();
 
     void restoreCachedSource();
 
+    void updateCachedSource();
+
     TokenReader toTokenReader();
 
-    TokenizedSource toTokenizedSource();
+    Tokens toTokenizedSource();
 
     default boolean hasUnreadSource() {
         return toTokenizedSource().size() > 0;

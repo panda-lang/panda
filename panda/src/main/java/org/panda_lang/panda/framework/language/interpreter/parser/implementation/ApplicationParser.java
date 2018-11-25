@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
@@ -81,13 +81,13 @@ public class ApplicationParser implements Parser {
                 pandaScript.getModuleLoader().include(defaultModule);
 
                 PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
-                TokenizedSource tokenizedSource = CommentAssistant.uncomment(lexer.convert());
+                Tokens tokens = CommentAssistant.uncomment(lexer.convert());
 
-                PandaSourceStream sourceStream = new PandaSourceStream(tokenizedSource);
+                PandaSourceStream sourceStream = new PandaSourceStream(tokens);
                 exceptionTranslator.updateSource(sourceStream);
 
                 ParserData delegatedData = baseData.fork();
-                delegatedData.setComponent(UniversalComponents.SOURCE, tokenizedSource);
+                delegatedData.setComponent(UniversalComponents.SOURCE, tokens);
                 delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
                 delegatedData.setComponent(UniversalComponents.SCRIPT, pandaScript);
                 delegatedData.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);

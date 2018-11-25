@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -38,6 +38,7 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
@@ -45,8 +46,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.redactor.AbyssRedactorHollows;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
+import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMappingHollows;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -75,7 +76,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
 
-        List<TokenizedSource> hollows = FieldParser.ASSIGNATION_PATTERN
+        List<Tokens> hollows = FieldParser.ASSIGNATION_PATTERN
                 .extractor()
                 .extract(copyOfStream.toTokenReader());
 
@@ -102,8 +103,8 @@ public class FieldParser implements UnifiedParser, ParserHandler {
 
         @Override
         public void call(GenerationPipeline pipeline, ParserData delegatedData) {
-            AbyssRedactorHollows hollows = AbyssPatternAssistant.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedData);
-            AbyssRedactor redactor = new AbyssRedactor(hollows);
+            AbyssPatternMappingHollows hollows = AbyssPatternAssistant.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedData);
+            AbyssPatternMapping redactor = new AbyssPatternMapping(hollows);
 
             if (assignation) {
                 redactor.map("left", "right");
@@ -112,7 +113,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
                 redactor.map("left");
             }
 
-            TokenizedSource left = redactor.get("left");
+            Tokens left = redactor.get("left");
             ClassPrototype prototype = delegatedData.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             String name = null;
@@ -162,7 +163,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
                         nullable = true;
                         continue;
                     default:
-                        throw new PandaParserException("Unexpected token at line " + (representation.getLine() + 1) + ": " + token.getTokenValue());
+                        throw new PandaParserFailure("Unexpected token " + token.getTokenValue(), delegatedData);
                 }
             }
 
@@ -201,16 +202,16 @@ public class FieldParser implements UnifiedParser, ParserHandler {
     private static class FieldAssignationCasualParserCallback implements GenerationCallback {
 
         private final PrototypeField field;
-        private final AbyssRedactor redactor;
+        private final AbyssPatternMapping redactor;
 
-        public FieldAssignationCasualParserCallback(PrototypeField field, AbyssRedactor redactor) {
+        public FieldAssignationCasualParserCallback(PrototypeField field, AbyssPatternMapping redactor) {
             this.field = field;
             this.redactor = redactor;
         }
 
         @Override
         public void call(GenerationPipeline pipeline, ParserData delegatedData) {
-            TokenizedSource right = redactor.get("right");
+            Tokens right = redactor.get("right");
 
             ExpressionParser expressionParser = new ExpressionParser();
             Expression expressionValue = expressionParser.parse(delegatedData, right);

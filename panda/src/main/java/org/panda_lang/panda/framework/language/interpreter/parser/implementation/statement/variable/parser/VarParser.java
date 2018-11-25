@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.StatementCel
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
@@ -61,12 +61,12 @@ public class VarParser {
             .compile(PandaSyntax.getInstance(), "+** = +*")
             .build();
 
-    public VarParserData toVarParserData(ParserData delegatedData, TokenizedSource source) {
+    public VarParserData toVarParserData(ParserData delegatedData, Tokens source) {
         return toVarParserData(delegatedData, new PandaSourceStream(source));
     }
 
     public VarParserData toVarParserData(ParserData delegatedData, SourceStream sourceStream) {
-        List<TokenizedSource> hollows = ASSIGNATION_PATTERN.extractor().extract(sourceStream.toTokenReader());
+        List<Tokens> hollows = ASSIGNATION_PATTERN.extractor().extract(sourceStream.toTokenReader());
         boolean assignation = hollows != null && hollows.size() == 2;
 
         if (assignation) {
@@ -83,7 +83,7 @@ public class VarParser {
     }
 
     public VarParserResult parseVariable(VarParserData data, ParserData delegatedData) {
-        TokenizedSource left = data.getHollows().get(0);
+        Tokens left = data.getHollows().get(0);
         ScopeLinker linker = delegatedData.getComponent(PandaComponents.SCOPE_LINKER);
         Scope scope = linker.getCurrentScope();
 
@@ -144,7 +144,7 @@ public class VarParser {
 
     public void parseAssignation(VarParserData data, VarParserResult result, ParserData delegatedData) {
         Variable variable = result.getVariable();
-        TokenizedSource right = data.getHollows().get(1);
+        Tokens right = data.getHollows().get(1);
 
         ExpressionParser expressionParser = new ExpressionParser();
         Expression expressionValue = expressionParser.parse(delegatedData, right);

@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.registry.PipelineRegistry;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenizedSource;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -39,7 +39,7 @@ public class ContainerParser implements Parser {
         this.container = container;
     }
 
-    public void parse(ParserData data, TokenizedSource body) throws Throwable {
+    public void parse(ParserData data, Tokens body) throws Throwable {
         ParserData delegatedData = data.fork();
 
         Generation generation = delegatedData.getComponent(UniversalComponents.GENERATION);

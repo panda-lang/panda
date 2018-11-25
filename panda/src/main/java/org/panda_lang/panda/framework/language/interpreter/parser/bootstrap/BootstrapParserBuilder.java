@@ -131,7 +131,7 @@ public class BootstrapParserBuilder {
         }
 
         if (handler == null) {
-            handler = new AbyssPatternHandler(pattern);
+            handler = new AbyssPatternHandler();
         }
 
         if (layers.isEmpty()) {
