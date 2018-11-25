@@ -41,7 +41,7 @@ public class ModuleParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.MODULE))
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]");
+                .pattern("module <module: token {type:unknown}, token {value:-}>[;]");
     }
 
     @Autowired

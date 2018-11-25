@@ -4,6 +4,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 
 public interface WildcardCondition {
 
-    boolean accept(TokenRepresentation representation);
+    WildcardConditionResult accept(TokenRepresentation representation);
 
 }

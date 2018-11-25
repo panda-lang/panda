@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternNode;
 
@@ -25,7 +26,11 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
             int index = distributor.getIndex();
 
             if (!element.isWildcard()) {
-                 workerResult = super.getWorker().extract(distributor, element);
+                workerResult = extract(element, distributor);
+
+                if (workerResult == null) {
+                    break;
+                }
             }
             else {
                 NodeLookupExtractor.LookupResult lookupResult = nodeLookupExtractor.extractNode(elements.subList(i, elements.size()), distributor);
@@ -47,6 +52,18 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
         }
 
         return result;
+    }
+
+    private @Nullable ExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
+        if (!distributor.hasNext()) {
+            if (element.isOptional()) {
+                return null;
+            }
+
+            return new ExtractorResult("Out of source");
+        }
+
+        return super.getWorker().extract(distributor, element);
     }
 
 }
