@@ -48,7 +48,7 @@ public class ConstructorParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");
+                .pattern("constructor `( <*parameters> `) `{ <*body> `}");
     }
 
     @Autowired(order = 1)
