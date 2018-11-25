@@ -46,7 +46,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.ExtractorResult;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE, priority = PandaPriorities.PROTOTYPE_METHOD_PARSER)
@@ -56,7 +55,7 @@ public class MethodParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ <*body> `}");
+                .pattern("(method|local|hidden) static:[static] <return> <name> `( <*parameters> `) `{ <*body> `}");
     }
 
     @Autowired
@@ -73,7 +72,7 @@ public class MethodParser extends BootstrapParser {
         ClassPrototype returnType = registry.forClass(type);
 
         ParameterParser parameterParser = new ParameterParser();
-        List<Parameter> parameters = parametersSource != null ? parameterParser.parse(data, parametersSource) : new ArrayList<>();
+        List<Parameter> parameters = parameterParser.parse(data, parametersSource);
         ClassPrototype[] parameterTypes = ParameterUtils.toTypes(parameters);
 
         MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
