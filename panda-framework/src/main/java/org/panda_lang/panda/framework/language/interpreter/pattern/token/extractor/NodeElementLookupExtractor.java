@@ -20,7 +20,6 @@ class NodeElementLookupExtractor {
         int startIndex = distributor.getIndex();
 
         MatchableDistributor matchable = new MatchableDistributor(distributor);
-        distributor.setIndex(startIndex - 1);
         matchable.verifyBefore();
 
         int index = startIndex;

@@ -10,7 +10,7 @@ public class DefaultWildcardConditionFactories {
     private static final Collection<WildcardConditionFactory> factories = new ArrayList<>();
 
     static {
-        factories.add(new TokenTypeWildcardConditionFactory());
+        factories.add(new TokenWildcardConditionFactory());
     }
 
     public static Collection<WildcardConditionFactory> getDefaultFactories() {

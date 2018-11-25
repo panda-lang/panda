@@ -86,9 +86,11 @@ class WorkerWildcardContent {
 
     private boolean checkWildcard(List<WildcardCondition> wildcardConditions, TokenRepresentation next) {
         for (WildcardCondition wildcardCondition : wildcardConditions) {
+            /*
             if (wildcardCondition.accept(next)) {
                 return true;
             }
+            */
         }
 
         return false;

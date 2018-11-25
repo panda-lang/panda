@@ -7,6 +7,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardCondition;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionResult;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;
@@ -86,13 +87,13 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
     }
 
     private boolean checkWildcard(List<WildcardCondition> wildcardConditions, TokenRepresentation next) {
+        WildcardConditionResult result = WildcardConditionResult.NEUTRAL;
+
         for (WildcardCondition wildcardCondition : wildcardConditions) {
-            if (wildcardCondition.accept(next)) {
-                return true;
-            }
+            result = result.merge(wildcardCondition.accept(next));
         }
 
-        return false;
+        return result == WildcardConditionResult.ALLOWED;
     }
 
 }

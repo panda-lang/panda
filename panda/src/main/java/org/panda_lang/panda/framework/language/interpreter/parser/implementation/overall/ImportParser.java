@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
@@ -41,7 +41,7 @@ public class ImportParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.IMPORT))
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("import <import: token {type:unknown}, token {type:separator}, token {type:operator}>[;]");
+                .pattern("import <import: token {type:unknown}, token {value:-}>[;]");
     }
 
     @Autowired
@@ -56,7 +56,7 @@ public class ImportParser extends BootstrapParser {
         ImportStatement importStatement = new ImportStatement(module);
 
         if (module == null) {
-            throw new PandaParserException("Unknown module " + moduleName);
+            throw new PandaParserFailure("Unknown module " + moduleName, data);
         }
 
         script.getModuleLoader().include(module);

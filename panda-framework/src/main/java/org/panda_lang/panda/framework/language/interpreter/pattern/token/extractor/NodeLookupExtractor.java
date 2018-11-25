@@ -22,6 +22,10 @@ class NodeLookupExtractor  {
                 break;
             }
 
+            if (nextElement.toWildcard().hasCondition()) {
+                break;
+            }
+
             skip++;
         }
 

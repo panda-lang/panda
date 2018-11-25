@@ -96,3 +96,4 @@ main {
 }
 
 import panda-lang;
+import panda-lang
