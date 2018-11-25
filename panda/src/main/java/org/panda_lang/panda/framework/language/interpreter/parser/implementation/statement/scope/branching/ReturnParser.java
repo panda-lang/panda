@@ -46,11 +46,11 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT)
+@ParserRegistration(target = PandaPipelines.SCOPE)
 public class ReturnParser implements UnifiedParser, ParserHandler {
 
     private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "return +*")
+            .compile(PandaSyntax.getInstance(), "return +* ;")
             .build();
 
     @Override

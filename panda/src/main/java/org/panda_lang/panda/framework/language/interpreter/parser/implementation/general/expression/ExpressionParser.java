@@ -207,7 +207,7 @@ public class ExpressionParser implements ParticularParser<Expression> {
         }
 
         if (!silence) {
-            throw new PandaParserException("Cannot recognize expression: " + expressionSource);
+            throw new PandaParserFailure("Cannot recognize expression: " + expressionSource, data);
         }
 
         return null;
