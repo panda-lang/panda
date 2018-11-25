@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.Parse
 
 import java.util.List;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
+@ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.STATEMENT_VARIABLE_PARSER)
 public class VariableParser extends BootstrapParser {
 
     {

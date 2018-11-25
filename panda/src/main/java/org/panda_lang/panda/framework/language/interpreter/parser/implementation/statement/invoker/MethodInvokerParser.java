@@ -53,7 +53,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.A
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
+@ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser, ParserHandler {
 
     public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
@@ -61,14 +61,19 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
             .lastIndexAlgorithm(true)
             .build();
 
+    private static final AbyssPattern LOCAL_PATTERN = new AbyssPatternBuilder()
+            .compile(PandaSyntax.getInstance(), "+** . +** ( +* ) ;")
+            .lastIndexAlgorithm(true)
+            .build();
+
     @Override
     public boolean handle(TokenReader reader) {
-        return AbyssPatternUtils.match(MethodInvokerParser.PATTERN, reader) && !AbyssPatternUtils.match(VarParser.ASSIGNATION_PATTERN, reader);
+        return AbyssPatternUtils.match(MethodInvokerParser.LOCAL_PATTERN, reader) && !AbyssPatternUtils.match(VarParser.ASSIGNATION_PATTERN, reader);
     }
 
     @Override
     public boolean parse(ParserData data) {
-        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "instance", "method-name", "arguments");
+        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(LOCAL_PATTERN, data, "instance", "method-name", "arguments");
 
         Container container = data.getComponent(PandaComponents.CONTAINER);
         StatementCell cell = container.reserveCell();

@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.hand
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.STATEMENT)
+@ParserRegistration(target = PandaPipelines.SCOPE)
 public class BreakParser extends BootstrapParser {
 
     {
