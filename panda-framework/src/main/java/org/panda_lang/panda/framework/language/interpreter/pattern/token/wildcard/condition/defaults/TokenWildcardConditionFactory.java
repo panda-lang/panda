@@ -1,12 +1,12 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.defaults;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.defaults;
 
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardCondition;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardCondition;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionFactory;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionResult;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 class TokenWildcardConditionFactory implements WildcardConditionFactory {

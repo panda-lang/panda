@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition;
 
 public interface WildcardConditionFactory {
 

@@ -5,9 +5,9 @@ import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardCondition;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionResult;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardCondition;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionFactory;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionResult;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;

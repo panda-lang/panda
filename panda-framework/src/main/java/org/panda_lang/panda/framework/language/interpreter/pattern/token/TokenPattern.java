@@ -5,8 +5,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenExtractor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.defaults.DefaultWildcardConditionFactories;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionFactory;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.defaults.DefaultWildcardConditionFactories;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.Collection;
