@@ -6,8 +6,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardCondition;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardCondition;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionFactory;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;

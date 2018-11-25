@@ -1,6 +1,6 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.defaults;
+package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.defaults;
 
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardConditionFactory;
+import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.condition.WildcardConditionFactory;
 
 import java.util.ArrayList;
 import java.util.Collection;
