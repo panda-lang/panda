@@ -14,6 +14,14 @@ public class WildcardReaderCompiler {
     }
 
     public @Nullable Tokens extract(String data, TokenDistributor distributor) {
+        for (WildcardReader wildcardReader : pattern.getWildcardReaders()) {
+            if (!wildcardReader.match(data)) {
+                continue;
+            }
+
+            return wildcardReader.read(data, distributor);
+        }
+
         return null;
     }
 
