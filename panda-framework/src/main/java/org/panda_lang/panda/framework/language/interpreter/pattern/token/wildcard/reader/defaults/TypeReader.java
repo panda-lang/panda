@@ -8,7 +8,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.extract
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
-public class TypeReader implements WildcardReader {
+class TypeReader implements WildcardReader {
 
     @Override
     public boolean match(String data) {
