@@ -6,6 +6,8 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.extract
 
 public interface WildcardReader {
 
-    @Nullable Tokens read(TokenDistributor distributor);
+    boolean match(String data);
+
+    @Nullable Tokens read(String data, TokenDistributor distributor);
 
 }
