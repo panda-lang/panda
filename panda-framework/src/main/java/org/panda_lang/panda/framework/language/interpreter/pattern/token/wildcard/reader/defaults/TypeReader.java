@@ -1,8 +1,12 @@
 package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.reader.defaults;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.reader.WildcardReader;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 public class TypeReader implements WildcardReader {
 
@@ -12,8 +16,14 @@ public class TypeReader implements WildcardReader {
     }
 
     @Override
-    public Tokens read(String data, TokenDistributor distributor) {
-        return null;
+    public @Nullable Tokens read(String data, TokenDistributor distributor) {
+        TokenRepresentation type = distributor.next();
+
+        if (type.getToken().getType() != TokenType.UNKNOWN) {
+            return null;
+        }
+
+        return new PandaTokens(type);
     }
 
 }
