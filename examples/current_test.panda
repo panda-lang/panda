@@ -11,6 +11,17 @@ class Foo extends Test {
 
 }
 
+/*
+[mutable] [nullable] <type:reader type> <name> [= <expression:reader expression]
+String s
+String s = [...]
+
+<expression>(<parameters>);
+call();
+call.x();
+
+*/
+
 class Test {
 
     hidden mutable Test testField;

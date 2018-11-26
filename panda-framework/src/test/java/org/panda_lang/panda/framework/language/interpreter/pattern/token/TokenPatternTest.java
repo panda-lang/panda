@@ -21,7 +21,7 @@ class TokenPatternTest {
     @Test
     public void testImportPattern() {
         TokenPatternTester.test(
-                "import <import: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
+                "import <import:condition token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
                 "import panda-lang",
 
@@ -32,11 +32,23 @@ class TokenPatternTest {
     @Test
     public void testModulePattern() {
         TokenPatternTester.test(
-                "module <module: token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
+                "module <module:condition token {type:unknown}, token {type:separator}, token {type:operator}>[;]",
 
                 "module example-test import panda-lang;",
 
                 TokenPatternTester.Wildcard.of("module", "example-test")
+        );
+    }
+
+    @Test
+    public void testMethod() {
+        TokenPatternTester.test(
+                "<*expression> `( <*parameters> `)",
+
+                "a.b().c(d)",
+
+                TokenPatternTester.Wildcard.of("*expression", "a.b"),
+                TokenPatternTester.Wildcard.of("*parameters", "")
         );
     }
 
