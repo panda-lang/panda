@@ -41,7 +41,7 @@ public class ImportParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.IMPORT))
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("import <import: token {type:unknown}, token {value:-}>[;]");
+                .pattern("import <import:condition token {type:unknown}, token {value:-}>[;]");
     }
 
     @Autowired

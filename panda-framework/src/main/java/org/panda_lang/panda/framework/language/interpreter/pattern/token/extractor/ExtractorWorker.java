@@ -10,13 +10,17 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPa
 class ExtractorWorker {
 
     protected final TokenPattern pattern;
-    protected final UnitExtractor unitExtractor = new UnitExtractor(this);
-    protected final WildcardExtractor wildcardExtractor = new WildcardExtractor(this);
-    protected final VariantExtractor variantExtractor = new VariantExtractor(this);
-    protected final NodeExtractor nodeExtractor = new NodeExtractor(this);
+    protected final UnitExtractor unitExtractor;
+    protected final WildcardExtractor wildcardExtractor;
+    protected final VariantExtractor variantExtractor;
+    protected final NodeExtractor nodeExtractor;
 
     ExtractorWorker(TokenPattern pattern) {
         this.pattern = pattern;
+        this.unitExtractor = new UnitExtractor(this);
+        this.wildcardExtractor = new WildcardExtractor(this);
+        this.variantExtractor = new VariantExtractor(this);
+        this.nodeExtractor = new NodeExtractor(this);
     }
 
     protected ExtractorResult extract(SourceStream source) {
