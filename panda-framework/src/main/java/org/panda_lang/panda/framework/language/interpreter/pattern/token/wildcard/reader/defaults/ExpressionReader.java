@@ -4,7 +4,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.reader.WildcardReader;
 
-public class ExpressionReader implements WildcardReader {
+class ExpressionReader implements WildcardReader {
 
     @Override
     public boolean match(String data) {
@@ -13,6 +13,11 @@ public class ExpressionReader implements WildcardReader {
 
     @Override
     public Tokens read(String data, TokenDistributor distributor) {
+        /*
+
+        ExpressionParser patterns or sth? D:
+
+         */
         return null;
     }
 
