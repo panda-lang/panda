@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionCallbackParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
@@ -78,7 +78,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             prototype = registry.forClass(surmiseClassName);
 
             if (prototype == null) {
-                ExpressionParser expressionParser = new ExpressionParser();
+                OldExpressionParser expressionParser = new OldExpressionParser();
 
                 instance = expressionParser.parse(info, instanceSource);
                 prototype = instance.getReturnType();

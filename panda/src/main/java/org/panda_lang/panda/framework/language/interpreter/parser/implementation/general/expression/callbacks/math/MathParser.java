@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
@@ -53,7 +53,7 @@ public class MathParser implements Parser {
 
         Stack<Object> math = new Stack<>();
         Stack<Token> operators = new Stack<>();
-        ExpressionParser expressionParser = new ExpressionParser();
+        OldExpressionParser expressionParser = new OldExpressionParser();
 
         for (VagueElement element : result.getElements()) {
             if (element.isExpression()) {

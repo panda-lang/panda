@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
@@ -88,7 +88,7 @@ public class VarParser {
         Scope scope = linker.getCurrentScope();
 
         if (left.size() > 2) {
-            ExpressionParser expressionParser = new ExpressionParser();
+            OldExpressionParser expressionParser = new OldExpressionParser();
             Expression instanceExpression = expressionParser.parse(delegatedData, left.subSource(0, left.size() - 2), true);
 
             if (instanceExpression != null) {
@@ -146,7 +146,7 @@ public class VarParser {
         Variable variable = result.getVariable();
         Tokens right = data.getHollows().get(1);
 
-        ExpressionParser expressionParser = new ExpressionParser();
+        OldExpressionParser expressionParser = new OldExpressionParser();
         Expression expressionValue = expressionParser.parse(delegatedData, right);
 
         if (expressionValue == null) {

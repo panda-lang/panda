@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Boot
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -42,7 +42,7 @@ public class WhileParser extends BootstrapParser {
 
     @Autowired
     private void parserWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
-        Expression expression = new ExpressionParser().parse(data, expressionSource);
+        Expression expression = new OldExpressionParser().parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Loop requires boolean as an argument");

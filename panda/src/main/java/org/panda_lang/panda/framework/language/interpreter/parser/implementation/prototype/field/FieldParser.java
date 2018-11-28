@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
@@ -213,7 +213,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         public void call(GenerationPipeline pipeline, ParserData delegatedData) {
             Tokens right = redactor.get("right");
 
-            ExpressionParser expressionParser = new ExpressionParser();
+            OldExpressionParser expressionParser = new OldExpressionParser();
             Expression expressionValue = expressionParser.parse(delegatedData, right);
 
             if (expressionValue == null) {
