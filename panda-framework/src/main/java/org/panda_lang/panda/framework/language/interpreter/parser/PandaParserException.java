@@ -20,8 +20,8 @@ import org.panda_lang.panda.framework.PandaFrameworkException;
 
 public class PandaParserException extends PandaFrameworkException {
 
-    public PandaParserException(String str) {
-        super(str);
+    public PandaParserException(String message) {
+        super(message);
     }
 
 }

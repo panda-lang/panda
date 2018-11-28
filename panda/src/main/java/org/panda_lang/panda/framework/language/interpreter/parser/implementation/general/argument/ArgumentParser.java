@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
@@ -43,7 +43,7 @@ public class ArgumentParser implements Parser {
         SourceStream sourceStream = new PandaSourceStream(tokens);
 
         List<Expression> expressions = new ArrayList<>();
-        ExpressionParser expressionParser = new ExpressionParser();
+        OldExpressionParser expressionParser = new OldExpressionParser();
         AbyssExtractor extractor = PATTERN.extractor();
 
         while (sourceStream.hasUnreadSource()) {
@@ -69,7 +69,7 @@ public class ArgumentParser implements Parser {
         return expressionsArray;
     }
 
-    private Expression readArgument(ParserData data, ExpressionParser expressionParser, Tokens argument) {
+    private Expression readArgument(ParserData data, OldExpressionParser expressionParser, Tokens argument) {
         Expression expression = expressionParser.parse(data, argument);
 
         if (expression == null) {

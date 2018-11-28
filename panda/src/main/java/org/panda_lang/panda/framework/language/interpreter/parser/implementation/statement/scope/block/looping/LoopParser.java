@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Boot
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -43,7 +43,7 @@ public class LoopParser extends BootstrapParser {
 
     @Autowired
     public boolean parse(ParserData data, Generation generation, @Src("loop-expression") Tokens expressionSource) {
-        ExpressionParser expressionParser = new ExpressionParser();
+        OldExpressionParser expressionParser = new OldExpressionParser();
         Expression expression = expressionParser.parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Int")) {

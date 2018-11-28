@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserData;
@@ -61,7 +61,7 @@ public class ForEachParser extends BootstrapParser {
         Scope scope = scopeLinker.getCurrentScope();
         int variableId = scope.addVariable(result.getVariable());
 
-        ExpressionParser expressionParser = new ExpressionParser();
+        OldExpressionParser expressionParser = new OldExpressionParser();
         Expression expression = expressionParser.parse(data, iterableSource);
 
         if (expression == null) {

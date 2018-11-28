@@ -61,7 +61,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 import java.util.List;
 
-public class ExpressionParser implements ParticularParser<Expression> {
+public class OldExpressionParser implements ParticularParser<Expression> {
 
     @Override
     public Expression parse(ParserData data, Tokens expressionSource) {

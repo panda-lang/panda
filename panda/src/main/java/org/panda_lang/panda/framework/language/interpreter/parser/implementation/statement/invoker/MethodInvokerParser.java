@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
@@ -113,7 +113,7 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
             Expression instance = null;
 
             if (prototype == null) {
-                ExpressionParser expressionParser = new ExpressionParser();
+                OldExpressionParser expressionParser = new OldExpressionParser();
 
                 instance = expressionParser.parse(delegatedData, instanceSource);
                 prototype = instance.getReturnType();

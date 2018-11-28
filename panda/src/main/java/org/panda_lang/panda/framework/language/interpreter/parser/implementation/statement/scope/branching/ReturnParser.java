@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.architecture.statement.PandaState
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
@@ -99,7 +99,7 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
         @Override
         public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
             Tokens expressionSource = redactor.get("return-expression");
-            ExpressionParser expressionParser = new ExpressionParser();
+            OldExpressionParser expressionParser = new OldExpressionParser();
             Expression expression = expressionParser.parse(data, expressionSource);
 
             Return returnStatement = new Return(expression);
