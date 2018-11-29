@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-public class AbyssPatternTest {
+class AbyssPatternTest {
 
     private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "test [;] source")
