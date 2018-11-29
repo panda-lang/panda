@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.updated;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 

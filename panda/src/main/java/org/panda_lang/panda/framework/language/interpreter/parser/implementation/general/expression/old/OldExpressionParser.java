@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
@@ -38,19 +38,19 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.InstanceExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.invoker.MethodInvokerExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.invoker.MethodInvokerExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.invoker.MethodInvokerExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.logic.NotLogicalExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math.MathExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math.MathExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math.MathParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.memory.FieldExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.memory.VariableExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.InstanceExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.InstanceExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.logic.NotLogicalExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math.MathExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math.MathExpressionUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math.MathParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.memory.FieldExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.memory.VariableExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
@@ -106,8 +106,8 @@ public class OldExpressionParser implements ParticularParser<Expression> {
                 }
             }
 
-            NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
-            Value numericValue = numberExpressionParser.parse(data, expressionSource);
+            NumberParser numberParser = new NumberParser();
+            Value numericValue = numberParser.parse(data, expressionSource);
 
             if (numericValue != null) {
                 return new PandaExpression(numericValue);
@@ -193,8 +193,8 @@ public class OldExpressionParser implements ParticularParser<Expression> {
             return new PandaExpression(instanceField.getType(), new FieldExpressionCallback(fieldLocationExpression, instanceField, memoryIndex));
         }
 
-        NumberExpressionParser numberExpressionParser = new NumberExpressionParser();
-        Value numericValue = numberExpressionParser.parse(data, expressionSource);
+        NumberParser numberParser = new NumberParser();
+        Value numericValue = numberParser.parse(data, expressionSource);
 
         if (numericValue != null) {
             return new PandaExpression(numericValue);

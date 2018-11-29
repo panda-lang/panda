@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.invoker;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -28,10 +28,10 @@ import org.panda_lang.panda.framework.language.architecture.prototype.method.Met
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionCallbackParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.ExpressionCallbackParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.OldExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.ExpressionUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;

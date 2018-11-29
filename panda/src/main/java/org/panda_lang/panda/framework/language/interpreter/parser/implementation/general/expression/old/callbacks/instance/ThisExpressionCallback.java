@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.memory;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class VariableExpressionCallback implements ExpressionCallback {
-
-    private final int internalPointer;
-
-    public VariableExpressionCallback(int internalPointer) {
-        this.internalPointer = internalPointer;
-    }
+public class ThisExpressionCallback implements ExpressionCallback {
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        ScopeInstance currentScope = branch.getCurrentScope();
-        return currentScope.get(internalPointer);
+        return branch.getInstance();
+    }
+
+    public static Expression asExpression(ClassPrototype type) {
+        return new PandaExpression(type, new ThisExpressionCallback());
     }
 
 }

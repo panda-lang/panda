@@ -14,34 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.logic;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.memory;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
-import java.security.InvalidParameterException;
+public class VariableExpressionCallback implements ExpressionCallback {
 
-public class NotLogicalExpressionCallback implements ExpressionCallback {
+    private final int internalPointer;
 
-    private final Expression logicalExpression;
-
-    public NotLogicalExpressionCallback(Expression logicalExpression) {
-        if (!logicalExpression.getReturnType().isClassOf("Boolean")) {
-            throw new InvalidParameterException("Cannot reverse non logical value");
-        }
-
-        this.logicalExpression = logicalExpression;
+    public VariableExpressionCallback(int internalPointer) {
+        this.internalPointer = internalPointer;
     }
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        Value value = logicalExpression.getExpressionValue(branch);
-        boolean val = value.getValue(); // TODO: Handle null?
-
-        return new PandaValue(expression.getReturnType(), !val);
+        ScopeInstance currentScope = branch.getCurrentScope();
+        return currentScope.get(internalPointer);
     }
 
 }

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionCallbackParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.extractor.AbyssExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;

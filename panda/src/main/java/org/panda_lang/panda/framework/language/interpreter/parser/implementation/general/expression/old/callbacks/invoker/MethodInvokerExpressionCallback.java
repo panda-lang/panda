@@ -14,35 +14,31 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
 
-public class ExpressionUtils {
+public class MethodInvokerExpressionCallback implements ExpressionCallback {
 
-    public static Value[] getValues(ExecutableBranch branch, Expression... expressions) {
-        Value[] values = new Value[expressions.length];
+    private final MethodInvoker invoker;
 
-        for (int i = 0; i < values.length; i++) {
-            Expression expression = expressions[i];
-            values[i] = expression.getExpressionValue(branch);
-        }
-
-        return values;
+    public MethodInvokerExpressionCallback(MethodInvoker invoker) {
+        this.invoker = invoker;
     }
 
-    public static ClassPrototype[] toTypes(Expression... expressions) {
-        ClassPrototype[] prototypes = new ClassPrototype[expressions.length];
+    @Override
+    public Value call(Expression expression, ExecutableBranch branch) {
+        invoker.execute(branch);
+        return branch.getReturnedValue();
+    }
 
-        for (int i = 0; i < prototypes.length; i++) {
-            Expression expression = expressions[i];
-            prototypes[i] = expression.getReturnType();
-        }
-
-        return prototypes;
+    public ClassPrototype getReturnType() {
+        return invoker.getMethod().getReturnType();
     }
 
 }
