@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueElement;

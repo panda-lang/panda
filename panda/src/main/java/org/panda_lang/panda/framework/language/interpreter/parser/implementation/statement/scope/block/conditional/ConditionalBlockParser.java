@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.Boot
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;

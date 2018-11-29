@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;

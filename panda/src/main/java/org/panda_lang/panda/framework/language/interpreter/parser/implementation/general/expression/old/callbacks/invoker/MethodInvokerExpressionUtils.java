@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.invoker;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;

@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;

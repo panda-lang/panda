@@ -14,24 +14,34 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.instance;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.logic;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
-public class ThisExpressionCallback implements ExpressionCallback {
+import java.security.InvalidParameterException;
+
+public class NotLogicalExpressionCallback implements ExpressionCallback {
+
+    private final Expression logicalExpression;
+
+    public NotLogicalExpressionCallback(Expression logicalExpression) {
+        if (!logicalExpression.getReturnType().isClassOf("Boolean")) {
+            throw new InvalidParameterException("Cannot reverse non logical value");
+        }
+
+        this.logicalExpression = logicalExpression;
+    }
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        return branch.getInstance();
-    }
+        Value value = logicalExpression.getExpressionValue(branch);
+        boolean val = value.getValue(); // TODO: Handle null?
 
-    public static Expression asExpression(ClassPrototype type) {
-        return new PandaExpression(type, new ThisExpressionCallback());
+        return new PandaValue(expression.getReturnType(), !val);
     }
 
 }

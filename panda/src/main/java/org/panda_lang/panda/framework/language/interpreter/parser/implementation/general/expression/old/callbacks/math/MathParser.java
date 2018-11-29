@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.callbacks.math;
+package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.OldExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;

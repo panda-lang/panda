@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
-public class NumberExpressionParser implements ParticularParser<Value> {
+public class NumberParser implements ParticularParser<Value> {
 
     @Override
     public @Nullable Value parse(ParserData data, Tokens source) {
