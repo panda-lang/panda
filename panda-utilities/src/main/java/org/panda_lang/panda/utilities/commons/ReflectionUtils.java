@@ -16,9 +16,13 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ReflectionUtils {
@@ -80,6 +84,33 @@ public class ReflectionUtils {
         }
 
         return matchedMethods;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> Collection<T> getFieldValues(Class<?> clazz, Class<T> type, @Nullable T instance) {
+        Collection<Field> fields = new ArrayList<>(type.getDeclaredFields().length);
+
+        for (Field declaredField : clazz.getDeclaredFields()) {
+            if (declaredField.getType() != type) {
+                continue;
+            }
+
+            fields.add(declaredField);
+        }
+
+        Collection<T> values = new ArrayList<>(fields.size());
+
+        try {
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object value = field.get(instance);
+                values.add(value != null ? (T) value : null);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return values;
     }
 
 }
