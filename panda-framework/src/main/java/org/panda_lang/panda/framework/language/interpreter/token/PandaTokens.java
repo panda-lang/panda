@@ -41,11 +41,6 @@ public class PandaTokens implements Tokens {
     }
 
     @Override
-    public Tokens subSource(int fromIndex, int toIndex) {
-        return new PandaTokens(tokens.subList(fromIndex, toIndex));
-    }
-
-    @Override
     public TokenRepresentation[] toArray() {
         TokenRepresentation[] array = new TokenRepresentation[tokens.size()];
         return tokens.toArray(array);
