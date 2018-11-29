@@ -74,7 +74,7 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
     }
 
     public @Nullable TokenRepresentation getNext() {
-        return source.get(index);
+        return source.hasElement(index) ? source.get(index) : null;
     }
 
     public int getIndex() {
