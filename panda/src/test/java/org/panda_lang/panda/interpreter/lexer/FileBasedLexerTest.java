@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 
 import java.io.File;
 
-public class FileBasedLexerTest {
+class FileBasedLexerTest {
 
     private static final File SOURCE_FILE = new File("examples/hello_world.panda");
 

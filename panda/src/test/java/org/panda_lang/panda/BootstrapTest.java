@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.registry.C
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
-public class BootstrapTest {
+class BootstrapTest {
 
     @Test
     public void testBootstraps() {

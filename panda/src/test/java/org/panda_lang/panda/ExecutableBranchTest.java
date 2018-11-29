@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.block.PandaB
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
 
-public class ExecutableBranchTest {
+class ExecutableBranchTest {
 
     @Test
     public void test() {

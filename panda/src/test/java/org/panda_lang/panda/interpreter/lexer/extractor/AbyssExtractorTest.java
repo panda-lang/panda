@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 import java.util.List;
 
-public class AbyssExtractorTest {
+class AbyssExtractorTest {
 
     //private static final String SOURCE = "a('z').b.c(new Clazz { public void x(String m) { System.out.println(m); } }).d('x');";
     // private static final String SOURCE = "class A {} class B {}";

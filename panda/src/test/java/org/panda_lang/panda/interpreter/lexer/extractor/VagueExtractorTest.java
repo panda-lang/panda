@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-public class VagueExtractorTest {
+class VagueExtractorTest {
 
     private static final String SOURCE = "(new Integer(5).intValue() + 3)";
 
