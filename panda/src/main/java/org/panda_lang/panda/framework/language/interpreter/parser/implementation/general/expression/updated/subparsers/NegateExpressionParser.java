@@ -14,7 +14,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public class NegateExpressionParser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(Tokens source) {
+    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         if (!TokenUtils.equals(source.getFirst(), Operators.NOT)) {
             return null;
         }

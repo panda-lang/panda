@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public class SingleExpressionParser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(Tokens source) {
+    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         return SubparserUtils.readFirstOfType(source, TokenType.UNKNOWN);
     }
 
@@ -66,7 +66,7 @@ public class SingleExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return 0;
+        return DefaultSubparserPriorities.SINGLE;
     }
 
 }

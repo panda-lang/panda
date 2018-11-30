@@ -11,8 +11,12 @@ public class DefaultSubparsers {
     private static final List<ExpressionSubparser> SUBPARSERS = new ArrayList<>();
 
     static {
+        SUBPARSERS.add(new InstanceExpressionParser());
+        SUBPARSERS.add(new MethodExpressionParser());
+
         SUBPARSERS.add(new LiteralExpressionParser());
         SUBPARSERS.add(new SequenceExpressionParser());
+        SUBPARSERS.add(new SingleExpressionParser());
 
         Collections.sort(SUBPARSERS);
     }

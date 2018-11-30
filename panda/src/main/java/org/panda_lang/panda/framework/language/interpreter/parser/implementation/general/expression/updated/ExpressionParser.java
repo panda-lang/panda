@@ -35,8 +35,12 @@ public class ExpressionParser {
     }
 
     private @Nullable Result readResult(Tokens source) {
+        if (source.isEmpty()) {
+            return null;
+        }
+
         for (ExpressionSubparser subparser : subparsers) {
-            Tokens tokens = subparser.read(source);
+            Tokens tokens = subparser.read(this, source);
 
             if (tokens == null || tokens.size() == 0) {
                 continue;

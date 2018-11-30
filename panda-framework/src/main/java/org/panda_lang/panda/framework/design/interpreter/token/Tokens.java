@@ -55,6 +55,10 @@ public interface Tokens {
         return getTokensRepresentations().size();
     }
 
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
     default boolean hasElement(int index) {
         return index > -1 && index < size();
     }

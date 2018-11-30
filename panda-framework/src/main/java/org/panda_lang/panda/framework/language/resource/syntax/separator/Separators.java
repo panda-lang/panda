@@ -75,6 +75,10 @@ public class Separators {
         return null;
     }
 
+    public static Separator[] getClosingSeparators() {
+        return new Separator[] { RIGHT_BRACE_DELIMITER, RIGHT_BRACKET_DELIMITER, RIGHT_PARENTHESIS_DELIMITER };
+    }
+
     public static Separator[] values() {
         return VALUES.toArray(new Separator[0]);
     }

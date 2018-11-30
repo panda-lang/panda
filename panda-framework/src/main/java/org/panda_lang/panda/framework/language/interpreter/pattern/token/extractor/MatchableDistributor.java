@@ -8,13 +8,13 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 import java.util.Stack;
 
-class MatchableDistributor {
+public class MatchableDistributor {
 
     private final TokenDistributor distributor;
     private final Stack<Separator> separators = new Stack<>();
     private int previousSize = 0;
 
-    MatchableDistributor(TokenDistributor distributor) {
+    public MatchableDistributor(TokenDistributor distributor) {
         this.distributor = distributor;
     }
 

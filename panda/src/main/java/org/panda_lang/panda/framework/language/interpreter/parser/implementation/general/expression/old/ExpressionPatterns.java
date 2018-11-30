@@ -23,13 +23,13 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class ExpressionPatterns {
 
-    protected static final AbyssPattern FIELD_PATTERN = new AbyssPatternBuilder()
+    public static final AbyssPattern FIELD_PATTERN = new AbyssPatternBuilder()
             .hollow()
             .unit(Separators.PERIOD)
             .simpleHollow()
             .build();
 
-    protected static final AbyssPattern INSTANCE_PATTERN = new AbyssPatternBuilder()
+    public static final AbyssPattern INSTANCE_PATTERN = new AbyssPatternBuilder()
             .unit(TokenType.KEYWORD, "new")
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
