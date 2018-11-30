@@ -1,37 +1,72 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public interface ExpressionParser {
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
-    @Nullable Tokens read(Tokens source);
+public class ExpressionParser {
 
-    Expression parse(ParserData data, Tokens source);
+    private final List<ExpressionSubparser> subparsers;
 
-    default @Nullable Expression parseSilently(ParserData data, Tokens source) {
-        try {
-            return parse(data, source);
-        } catch (Throwable throwable) {
-            // mute, we don't want to catch any error that comes from ExpressionParser#parse method
+    public ExpressionParser(Collection<? extends ExpressionSubparser> subparsers) {
+        this.subparsers = new ArrayList<>(subparsers);
+        this.sortSubparsers();
+    }
+
+    public Expression parse(ParserData data, Tokens source) {
+        Result result = readResult(source);
+
+        if (result == null) {
+            throw new PandaExpressionException("Cannot read the specified source");
+        }
+
+        return result.subparser.parse(this, data, result.source);
+    }
+
+    public @Nullable Tokens read(Tokens source) {
+        Result result = readResult(source);
+        return result != null ? result.source : null;
+    }
+
+    private @Nullable Result readResult(Tokens source) {
+        for (ExpressionSubparser subparser : subparsers) {
+            Tokens tokens = subparser.read(source);
+
+            if (tokens == null || tokens.size() == 0) {
+                continue;
+            }
+
+            return new Result(subparser, tokens);
         }
 
         return null;
     }
 
-    default Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
-        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
-        return toSimpleKnownExpression(type, value);
+    private void sortSubparsers() {
+        Collections.sort(subparsers);
     }
 
-    default Expression toSimpleKnownExpression(ClassPrototype type, Object value) {
-        return new PandaExpression(new PandaValue(type, value));
+    public void addSubparser(ExpressionSubparser subparser) {
+        this.subparsers.add(subparser);
+        this.sortSubparsers();
+    }
+
+    private final class Result {
+
+        private final ExpressionSubparser subparser;
+        private final Tokens source;
+
+        public Result(ExpressionSubparser subparser, Tokens source) {
+            this.subparser = subparser;
+            this.source = source;
+        }
+
     }
 
 }

@@ -5,14 +5,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.DefaultSubparsers;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.PandaExpressionParser;
 
 class ExpressionParserTest {
 
     @Test
     public void testRead() {
-        PandaExpressionParser parser = new PandaExpressionParser(DefaultSubparsers.getDefaultSubparsers());
+        ExpressionParser parser = new ExpressionParser(DefaultSubparsers.getDefaultSubparsers());
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals("true", read(parser, "true")),
@@ -20,7 +20,7 @@ class ExpressionParserTest {
         );
     }
 
-    private @Nullable String read(PandaExpressionParser parser, String source) {
+    private @Nullable String read(ExpressionParser parser, String source) {
         Tokens tokens = parser.read(PandaLexerUtils.convert(source));
         return tokens != null ? tokens.asString() : null;
     }

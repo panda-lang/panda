@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
@@ -15,7 +16,7 @@ class DontLetMeTryParser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         return null;
     }
 

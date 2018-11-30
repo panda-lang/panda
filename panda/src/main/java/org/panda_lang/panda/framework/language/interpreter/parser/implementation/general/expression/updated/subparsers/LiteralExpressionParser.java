@@ -11,6 +11,7 @@ import org.panda_lang.panda.framework.language.architecture.module.PrimitiveProt
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
@@ -23,7 +24,7 @@ class LiteralExpressionParser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         TokenRepresentation token = source.get(0);
 
         switch (token.getTokenValue()) {
