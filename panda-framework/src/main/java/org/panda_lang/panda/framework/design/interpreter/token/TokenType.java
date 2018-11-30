@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TokenType {
@@ -38,17 +40,10 @@ public class TokenType {
 
     public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
 
-    private static final TokenType[] VALUES = new TokenType[8];
+    private static final TokenType[] VALUES;
 
     static {
-        VALUES[0] = IDENTIFIER;
-        VALUES[1] = LITERAL;
-        VALUES[2] = KEYWORD;
-        VALUES[3] = SEPARATOR;
-        VALUES[4] = SEQUENCE;
-        VALUES[5] = OPERATOR;
-        VALUES[6] = INDENTATION;
-        VALUES[7] = UNKNOWN;
+        VALUES = ReflectionUtils.getFieldValues(TokenType.class, TokenType.class, null).toArray(new TokenType[0]);
     }
 
     private final int id;
