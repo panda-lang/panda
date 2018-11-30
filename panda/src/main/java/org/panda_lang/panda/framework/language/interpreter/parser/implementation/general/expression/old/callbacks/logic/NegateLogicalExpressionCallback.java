@@ -24,11 +24,11 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 import java.security.InvalidParameterException;
 
-public class NotLogicalExpressionCallback implements ExpressionCallback {
+public class NegateLogicalExpressionCallback implements ExpressionCallback {
 
     private final Expression logicalExpression;
 
-    public NotLogicalExpressionCallback(Expression logicalExpression) {
+    public NegateLogicalExpressionCallback(Expression logicalExpression) {
         if (!logicalExpression.getReturnType().isClassOf("Boolean")) {
             throw new InvalidParameterException("Cannot reverse non logical value");
         }

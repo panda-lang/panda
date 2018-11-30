@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.logic.NotLogicalExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.logic.NegateLogicalExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math.MathExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math.MathExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.math.MathParser;
@@ -136,7 +136,7 @@ public class OldExpressionParser implements ParticularParser<Expression> {
 
         if (TokenUtils.equals(expressionSource.getFirst(), Operators.NOT)) {
             Expression expression = parse(data, expressionSource.subSource(1, expressionSource.size()));
-            return new PandaExpression(expression.getReturnType(), new NotLogicalExpressionCallback(expression));
+            return new PandaExpression(expression.getReturnType(), new NegateLogicalExpressionCallback(expression));
         }
 
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(expressionSource);

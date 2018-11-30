@@ -16,6 +16,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.memory.VariableExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
@@ -30,7 +31,7 @@ public class SingleExpressionParser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         TokenRepresentation token = source.get(0);
 
         NumberParser numberParser = new NumberParser();
