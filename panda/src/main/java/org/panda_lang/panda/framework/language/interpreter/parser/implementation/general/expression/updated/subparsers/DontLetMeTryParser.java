@@ -2,34 +2,26 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
-class SequenceExpressionParser implements ExpressionSubparser {
+class DontLetMeTryParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(Tokens source) {
-        return SubparserUtils.readFirstOfType(source, TokenType.SEQUENCE);
+        return source.size() > 1 ? null : new PandaTokens();
     }
 
     @Override
     public Expression parse(ParserData data, Tokens source) {
-        TokenRepresentation token = source.get(0);
-
-        if (token.getTokenName().equals("String")) {
-            return toSimpleKnownExpression(data, "String", token.getTokenValue());
-        }
-
-        throw new PandaParserFailure("Unknown sequence: " + token, data);
+        return null;
     }
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.SINGLE;
+        return DefaultSubparserPriorities.AFTER_SINGLE;
     }
 
 }
