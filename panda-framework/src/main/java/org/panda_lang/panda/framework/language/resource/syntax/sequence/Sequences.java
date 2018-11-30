@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.resource.syntax.sequence;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 /**
  * Default sequences
@@ -35,14 +36,10 @@ public class Sequences {
 
     public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("Documentation", "/**", "*/");
 
-    private static final Sequence[] VALUES = new Sequence[5];
+    private static final Sequence[] VALUES;
 
     static {
-        VALUES[0] = STRING;
-        VALUES[1] = RAW_STRING;
-        VALUES[2] = LINE_ORIENTED_COMMENT;
-        VALUES[3] = BLOCK_ORIENTED_COMMENT;
-        VALUES[4] = DOCUMENTATION_ORIENTED_COMMENT;
+        VALUES = ReflectionUtils.getFieldValues(Sequences.class, Sequence.class, null).toArray(new Sequence[0]);
     }
 
     public static Sequence[] values() {
