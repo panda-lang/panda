@@ -45,7 +45,7 @@ public class TokenType {
     private static final Collection<TokenType> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(TokenType.class, TokenType.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(TokenType.class, TokenType.class);
     }
 
     private final int id;

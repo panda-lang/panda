@@ -87,6 +87,10 @@ public class ReflectionUtils {
         return matchedMethods;
     }
 
+    public static <T> Collection<T> getStaticFieldValues(Class<?> clazz, Class<T> type) {
+        return getFieldValues(clazz, type, null);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> Collection<T> getFieldValues(Class<?> clazz, Class<T> type, @Nullable T instance) {
         Collection<Field> fields = new ArrayList<>(type.getDeclaredFields().length);

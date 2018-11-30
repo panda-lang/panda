@@ -24,7 +24,7 @@ public class PandaTypes {
     private static final Collection<PipelineType> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(PandaTypes.class, PipelineType.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(PandaTypes.class, PipelineType.class);
     }
 
     public static List<? extends PipelineType> getValues() {
