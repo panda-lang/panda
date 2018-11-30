@@ -16,7 +16,11 @@ class ExpressionParserTest {
 
         Assertions.assertAll(
                 () -> Assertions.assertEquals("true", read(parser, "true")),
-                () -> Assertions.assertEquals("true", read(parser, "true false"))
+                () -> Assertions.assertEquals("true", read(parser, "true false")),
+
+                () -> Assertions.assertEquals("this.call(a,b)", read(parser, "this.call(a,b)")),
+                () -> Assertions.assertEquals("this.get().call(a,b)", read(parser, "this.get().call(a,b) this.call(a,b)"))
+                // () -> Assertions.assertEquals("newObject(){}.toString()", read(parser, "newObject(){}.toString()"))
         );
     }
 

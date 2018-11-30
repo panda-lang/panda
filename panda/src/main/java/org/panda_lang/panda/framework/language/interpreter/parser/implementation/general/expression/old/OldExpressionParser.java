@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.InstanceExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.InstanceExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ConstructorExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionParser;
@@ -152,7 +152,7 @@ public class OldExpressionParser implements ParticularParser<Expression> {
         List<Tokens> constructorMatches = ExpressionPatterns.INSTANCE_PATTERN.match(expressionReader);
 
         if (constructorMatches != null && constructorMatches.size() == 3 && constructorMatches.get(2).size() == 0) {
-            InstanceExpressionParser callbackParser = new InstanceExpressionParser();
+            ConstructorExpressionParser callbackParser = new ConstructorExpressionParser();
 
             callbackParser.parse(expressionSource, data);
             InstanceExpressionCallback callback = callbackParser.toCallback();

@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import java.util.Arrays;
 import java.util.List;
 
-public class InstanceExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
+public class ConstructorExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
 
     private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "new +** ( +* )")

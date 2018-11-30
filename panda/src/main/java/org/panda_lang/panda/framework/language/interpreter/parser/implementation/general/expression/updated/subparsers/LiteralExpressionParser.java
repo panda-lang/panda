@@ -19,7 +19,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 class LiteralExpressionParser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(Tokens source) {
+    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         return SubparserUtils.readFirstOfType(source, TokenType.LITERAL);
     }
 

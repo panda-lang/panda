@@ -13,7 +13,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 class SequenceExpressionParser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(Tokens source) {
+    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         return SubparserUtils.readFirstOfType(source, TokenType.SEQUENCE);
     }
 
