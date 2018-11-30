@@ -11,7 +11,6 @@ import org.panda_lang.panda.framework.language.architecture.module.PrimitiveProt
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.DefaultSubparserPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
@@ -44,7 +43,7 @@ class LiteralExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.SIMPLE;
+        return DefaultSubparserPriorities.SINGLE;
     }
 
 }
