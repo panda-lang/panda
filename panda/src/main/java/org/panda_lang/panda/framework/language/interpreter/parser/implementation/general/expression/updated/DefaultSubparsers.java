@@ -1,6 +1,6 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.BooleanExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.LiteralExpressionParser;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +11,7 @@ public class DefaultSubparsers {
     private static final List<ExpressionSubparser> subparsers = new ArrayList<>();
 
     static {
-        subparsers.add(new BooleanExpressionParser());
+        subparsers.add(new LiteralExpressionParser());
 
         Collections.sort(subparsers);
     }
