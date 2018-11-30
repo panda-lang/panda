@@ -48,7 +48,7 @@ public class Separators {
     private static final Collection<Separator> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Separators.class, Separator.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(Separators.class, Separator.class);
 
         LEFT_BRACE_DELIMITER.setOpposite(RIGHT_BRACE_DELIMITER);
         LEFT_BRACKET_DELIMITER.setOpposite(RIGHT_BRACKET_DELIMITER);

@@ -36,7 +36,7 @@ public class Literals {
     private static final Collection<Literal> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Literals.class, Literal.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(Literals.class, Literal.class);
     }
 
     public static Literal[] values() {

@@ -76,7 +76,7 @@ public class Operators {
     private static final Collection<Operator> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Operators.class, Operator.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(Operators.class, Operator.class);
     }
 
     public static Operator[] values() {

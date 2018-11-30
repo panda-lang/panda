@@ -120,7 +120,7 @@ public class Keywords {
     private static final Collection<Keyword> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Keywords.class, Keyword.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(Keywords.class, Keyword.class);
     }
 
     public static Keyword[] values() {

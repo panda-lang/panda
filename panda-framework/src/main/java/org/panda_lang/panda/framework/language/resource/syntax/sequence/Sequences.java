@@ -41,7 +41,7 @@ public class Sequences {
     private static final Collection<Sequence> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Sequences.class, Sequence.class, null);
+        VALUES = ReflectionUtils.getStaticFieldValues(Sequences.class, Sequence.class);
     }
 
     public static @Nullable Sequence valueOf(Token token) {
