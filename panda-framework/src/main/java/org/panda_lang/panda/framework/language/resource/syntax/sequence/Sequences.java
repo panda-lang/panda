@@ -21,6 +21,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
+import java.util.Collection;
+
 /**
  * Default sequences
  */
@@ -36,14 +38,10 @@ public class Sequences {
 
     public static final Sequence DOCUMENTATION_ORIENTED_COMMENT = new Sequence("Documentation", "/**", "*/");
 
-    private static final Sequence[] VALUES;
+    private static final Collection<Sequence> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Sequences.class, Sequence.class, null).toArray(new Sequence[0]);
-    }
-
-    public static Sequence[] values() {
-        return VALUES;
+        VALUES = ReflectionUtils.getFieldValues(Sequences.class, Sequence.class, null);
     }
 
     public static @Nullable Sequence valueOf(Token token) {
@@ -66,6 +64,10 @@ public class Sequences {
         }
 
         return null;
+    }
+
+    public static Sequence[] values() {
+        return VALUES.toArray(new Sequence[0]);
     }
 
 }
