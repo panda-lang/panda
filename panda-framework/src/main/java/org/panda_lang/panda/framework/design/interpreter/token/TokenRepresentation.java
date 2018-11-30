@@ -22,6 +22,10 @@ public interface TokenRepresentation {
 
     Token getToken();
 
+    default String getTokenName() {
+        return getToken().getName();
+    }
+
     default String getTokenValue() {
         return getToken().getTokenValue();
     }

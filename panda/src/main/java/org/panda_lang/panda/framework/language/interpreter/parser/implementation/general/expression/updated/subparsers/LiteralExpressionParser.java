@@ -14,10 +14,14 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.DefaultSubparserPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class LiteralExpressionParser implements ExpressionSubparser {
+class LiteralExpressionParser implements ExpressionSubparser {
+
+    @Override
+    public @Nullable Tokens read(Tokens source) {
+        return SubparserUtils.readFirstOfType(source, TokenType.LITERAL);
+    }
 
     @Override
     public Expression parse(ParserData data, Tokens source) {
@@ -36,17 +40,6 @@ public class LiteralExpressionParser implements ExpressionSubparser {
             default:
                 throw new PandaParserException("Unknown literal: " + token);
         }
-    }
-
-    @Override
-    public @Nullable Tokens read(Tokens source) {
-        TokenRepresentation token = source.get(0);
-
-        if (token.getToken().getType() != TokenType.LITERAL) {
-            return null;
-        }
-
-        return new PandaTokens(token);
     }
 
     @Override
