@@ -20,6 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
+import java.util.Collection;
+
 /**
  * Default separators
  */
@@ -43,10 +45,10 @@ public class Separators {
 
     public static final Separator RIGHT_BRACKET_DELIMITER = new Separator("]");
 
-    private static final Separator[] VALUES;
+    private static final Collection<Separator> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Separators.class, Separator.class, null).toArray(new Separator[0]);
+        VALUES = ReflectionUtils.getFieldValues(Separators.class, Separator.class, null);
 
         LEFT_BRACE_DELIMITER.setOpposite(RIGHT_BRACE_DELIMITER);
         LEFT_BRACKET_DELIMITER.setOpposite(RIGHT_BRACKET_DELIMITER);
@@ -74,7 +76,7 @@ public class Separators {
     }
 
     public static Separator[] values() {
-        return VALUES;
+        return VALUES.toArray(new Separator[0]);
     }
 
 }

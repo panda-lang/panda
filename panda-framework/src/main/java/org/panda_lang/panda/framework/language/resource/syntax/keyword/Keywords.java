@@ -18,6 +18,8 @@ package org.panda_lang.panda.framework.language.resource.syntax.keyword;
 
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
+import java.util.Collection;
+
 /**
  * Default keywords
  */
@@ -115,14 +117,14 @@ public class Keywords {
 
     public static final Keyword WHILE = new Keyword("while");
 
-    private static final Keyword[] VALUES;
+    private static final Collection<Keyword> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Keywords.class, Keyword.class, null).toArray(new Keyword[0]);
+        VALUES = ReflectionUtils.getFieldValues(Keywords.class, Keyword.class, null);
     }
 
     public static Keyword[] values() {
-        return VALUES;
+        return VALUES.toArray(new Keyword[0]);
     }
 
 }

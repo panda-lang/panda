@@ -18,6 +18,8 @@ package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TokenType {
@@ -40,10 +42,10 @@ public class TokenType {
 
     public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
 
-    private static final TokenType[] VALUES;
+    private static final Collection<TokenType> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(TokenType.class, TokenType.class, null).toArray(new TokenType[0]);
+        VALUES = ReflectionUtils.getFieldValues(TokenType.class, TokenType.class, null);
     }
 
     private final int id;
@@ -86,8 +88,8 @@ public class TokenType {
         return getTypeName();
     }
 
-    public static TokenType[] values() {
-        return VALUES;
+    public static Collection<? extends TokenType> values() {
+        return new ArrayList<>(VALUES);
     }
 
 }

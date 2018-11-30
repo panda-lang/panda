@@ -18,6 +18,8 @@ package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
+import java.util.Collection;
+
 /**
  * Default operators
  */
@@ -71,14 +73,14 @@ public class Operators {
 
     public static final Operator COLON = new Operator(":");
 
-    private static final Operator[] VALUES;
+    private static final Collection<Operator> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getFieldValues(Operators.class, Operator.class, null).toArray(new Operator[0]);
+        VALUES = ReflectionUtils.getFieldValues(Operators.class, Operator.class, null);
     }
 
     public static Operator[] values() {
-        return VALUES;
+        return VALUES.toArray(new Operator[0]);
     }
 
 }
