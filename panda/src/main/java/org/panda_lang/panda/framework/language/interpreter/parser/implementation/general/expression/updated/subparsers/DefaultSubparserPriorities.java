@@ -6,4 +6,10 @@ public class DefaultSubparserPriorities {
 
     public static final double SINGLE = 2;
 
+    public static class Dynamic {
+
+        public static final double CONSTRUCTOR_CALL = DYNAMIC + 0.01D;
+
+    }
+
 }

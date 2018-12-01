@@ -3,7 +3,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionCallback;
@@ -14,10 +13,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 class MethodExpressionParser implements ExpressionSubparser {
 
@@ -25,6 +22,7 @@ class MethodExpressionParser implements ExpressionSubparser {
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         TokenDistributor distributor = new TokenDistributor(source);
         MatchableDistributor matchable = new MatchableDistributor(distributor);
+        int lastIndexOfPeriod = 0;
 
         while (matchable.hasNext()) {
             TokenRepresentation representation = distributor.next();
@@ -34,26 +32,31 @@ class MethodExpressionParser implements ExpressionSubparser {
                 continue;
             }
 
-            if (representation.getToken().getType() != TokenType.SEPARATOR) {
+            if (!TokenUtils.equals(representation.getToken(), Separators.PERIOD)) {
                 continue;
             }
 
-            Separator separator = (Separator) representation.getToken();
+            Tokens selected = source.subSource(0, distributor.getIndex() - 1);
+            Tokens matched = main.read(selected);
 
-            if (!ArrayUtils.contains(Separators.getClosingSeparators(), separator)) {
-                continue;
-            }
-
-            boolean requiresPeriod = TokenUtils.equals(representation, Separators.RIGHT_PARENTHESIS_DELIMITER);
-
-            if (!matchable.hasNext()) {
+            if (matched == null || matched.size() != selected.size()) {
                 break;
             }
 
-            TokenRepresentation next = distributor.next();
+            lastIndexOfPeriod = distributor.getIndex();
+        }
 
-            if (!TokenUtils.equals(next, Separators.PERIOD)) {
-                distributor.setIndex(distributor.getIndex() - 1);
+        distributor.setIndex(lastIndexOfPeriod);
+
+        while (distributor.hasNext()) {
+            TokenRepresentation representation = distributor.next();
+            matchable.verify();
+
+            if (!matchable.isMatchable()) {
+                continue;
+            }
+
+            if (TokenUtils.equals(representation, Separators.RIGHT_PARENTHESIS_DELIMITER)) {
                 break;
             }
         }
@@ -65,6 +68,10 @@ class MethodExpressionParser implements ExpressionSubparser {
         }
 
         if (!TokenUtils.equals(selected.getLast(), Separators.RIGHT_PARENTHESIS_DELIMITER)) {
+            return null;
+        }
+
+        if (lastIndexOfPeriod == 0 && !TokenUtils.equals(selected.get(1), Separators.LEFT_PARENTHESIS_DELIMITER)) {
             return null;
         }
 

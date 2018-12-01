@@ -11,7 +11,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class NegateExpressionParser implements ExpressionSubparser {
+class NegateExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
@@ -30,7 +30,7 @@ public class NegateExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return 0;
+        return DefaultSubparserPriorities.SINGLE;
     }
 
 }
