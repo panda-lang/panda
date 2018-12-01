@@ -55,6 +55,10 @@ public class MatchableDistributor {
         return distributor.current();
     }
 
+    public TokenRepresentation next() {
+        return distributor.next();
+    }
+
     public boolean isMatchable() {
         return separators.size() == 0 || previousSize == 0;
     }

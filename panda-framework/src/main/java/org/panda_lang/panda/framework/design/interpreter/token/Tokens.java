@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,16 @@ public interface Tokens {
     default Tokens addToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().add(tokenRepresentation);
         return this;
+    }
+
+    default boolean contains(Token token) {
+        for (TokenRepresentation representation : getTokensRepresentations()) {
+            if (TokenUtils.equals(representation, token)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     default int size() {
@@ -84,11 +95,11 @@ public interface Tokens {
         return get(index).getToken();
     }
 
-    default @Nullable TokenRepresentation getFirst() {
-        return hasElement(0) ? get(0) : null;
+    default TokenRepresentation getFirst() {
+        return get(0);
     }
 
-    default @Nullable TokenRepresentation getLast() {
+    default TokenRepresentation getLast() {
         return getLast(0);
     }
 

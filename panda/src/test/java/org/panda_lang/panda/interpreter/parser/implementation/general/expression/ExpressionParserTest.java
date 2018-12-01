@@ -10,24 +10,27 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 
 class ExpressionParserTest {
 
+    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.getDefaultSubparsers());
+
     @Test
     public void testRead() {
-        ExpressionParser parser = new ExpressionParser(DefaultSubparsers.getDefaultSubparsers());
-
         Assertions.assertAll(
-                () -> Assertions.assertEquals("true", read(parser, "true")),
-                () -> Assertions.assertEquals("true", read(parser, "true false")),
+                () -> Assertions.assertEquals("true", read("true")),
+                () -> Assertions.assertEquals("true", read("true false")),
 
-                () -> Assertions.assertEquals("this.call(a,b)", read(parser, "this.call(a,b)")),
-                () -> Assertions.assertEquals("this.get().call(a,b)", read(parser, "this.get().call(a,b) this.call(a,b)")),
+                () -> Assertions.assertEquals("this.call(a,b)", read("this.call(a,b)")),
+                () -> Assertions.assertEquals("this.get().call(a,b)", read("this.get().call(a,b) this.call(a,b)")),
 
-                () -> Assertions.assertEquals("newObject(){}", read(parser, "new Object(){}")),
-                () -> Assertions.assertEquals("newObject(){}.toString()", read(parser, "new Object(){}.toString() call()"))
+                () -> Assertions.assertEquals("newObject(){}", read("new Object(){}")),
+                () -> Assertions.assertEquals("newObject(){}.toString()", read("new Object(){}.toString() call()")),
+
+                () -> Assertions.assertEquals("this.instance", read("this.instance")),
+                () -> Assertions.assertEquals("this.instance.field", read("this.instance.field this.instance.anotherField"))
         );
     }
 
-    private @Nullable String read(ExpressionParser parser, String source) {
-        Tokens tokens = parser.read(PandaLexerUtils.convert(source));
+    private @Nullable String read(String source) {
+        Tokens tokens = PARSER.read(PandaLexerUtils.convert(source));
         return tokens != null ? tokens.asString() : null;
     }
 
