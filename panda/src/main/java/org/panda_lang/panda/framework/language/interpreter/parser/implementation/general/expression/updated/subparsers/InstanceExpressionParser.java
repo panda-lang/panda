@@ -16,7 +16,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 import java.util.List;
 
-public class InstanceExpressionParser implements ExpressionSubparser {
+class InstanceExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
@@ -41,7 +41,7 @@ public class InstanceExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.DYNAMIC;
+        return DefaultSubparserPriorities.Dynamic.CONSTRUCTOR_CALL;
     }
 
 }
