@@ -31,7 +31,11 @@ public interface TokenRepresentation {
     }
 
     default String getTokenType() {
-        return getToken().getType().getTypeName();
+        return getType().getTypeName();
+    }
+
+    default TokenType getType() {
+        return getToken().getType();
     }
 
 }

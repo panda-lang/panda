@@ -18,33 +18,32 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class NumberUtils {
 
-    protected static final char[] NUMBER_EXTENSIONS = new char[]{ 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
+    public static final char[] ALLOWED_CHARACTERS = new char[] { '.', '_', 'x' };
+
+    public static final char[] NUMBER_EXTENSIONS = new char[]{ 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
 
     public static boolean isNumeric(Tokens source) {
-        return isNumber(source.asString());
+        return isNumeric(source.asString());
     }
 
-    public static boolean isNumber(String s) {
-        if (s == null || s.length() == 0) {
+    public static boolean isNumeric(String content) {
+        if (StringUtils.isEmpty(content)) {
             return false;
         }
 
         boolean digit = false;
 
-        for (char c : s.toCharArray()) {
+        for (char c : content.toCharArray()) {
             if (Character.isDigit(c)) {
                 digit = true;
                 continue;
             }
 
-            if (c == '.' || c == '_' || c == 'x') {
-                continue;
-            }
-
-            if (CharacterUtils.belongsTo(c, NUMBER_EXTENSIONS)) {
+            if (CharacterUtils.belongsTo(c, ALLOWED_CHARACTERS, NUMBER_EXTENSIONS)) {
                 continue;
             }
 
@@ -55,8 +54,7 @@ public class NumberUtils {
     }
 
     public static boolean startsWithNumber(Tokens source) {
-        String str = source.asString();
-        return isNumber(str.substring(0, 1));
+        return isNumeric(source.asString().substring(0, 1));
     }
 
 }
