@@ -25,7 +25,11 @@ class ExpressionParserTest {
                 () -> Assertions.assertEquals("newObject(){}.toString()", read("new Object(){}.toString() call()")),
 
                 () -> Assertions.assertEquals("this.instance", read("this.instance")),
-                () -> Assertions.assertEquals("this.instance.field", read("this.instance.field this.instance.anotherField"))
+                () -> Assertions.assertEquals("this.instance.field", read("this.instance.field this.instance.anotherField")),
+
+                () -> Assertions.assertEquals("1", read("1")),
+                () -> Assertions.assertEquals("1.0", read("1.0"))
+                // () -> Assertions.assertEquals("0x001", read("0x001"))
         );
     }
 
