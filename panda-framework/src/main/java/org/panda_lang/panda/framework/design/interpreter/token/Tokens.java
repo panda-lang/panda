@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.design.interpreter.token;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public interface Tokens {
 
     default boolean contains(Token token) {
         for (TokenRepresentation representation : getTokensRepresentations()) {
-            if (TokenUtils.equals(representation, token)) {
+            if (representation.contentEquals(token)) {
                 return true;
             }
         }

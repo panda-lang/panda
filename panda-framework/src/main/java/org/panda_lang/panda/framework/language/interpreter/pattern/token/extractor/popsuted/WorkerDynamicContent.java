@@ -146,7 +146,7 @@ class WorkerDynamicContent {
                 return false;
             }
 
-            if (!TokenUtils.equals(representation, separators.peek().getOpposite())) {
+            if (!representation.contentEquals(separators.peek().getOpposite())) {
                 return false;
             }
 

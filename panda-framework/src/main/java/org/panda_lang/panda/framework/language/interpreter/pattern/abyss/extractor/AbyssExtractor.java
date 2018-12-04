@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +66,7 @@ public class AbyssExtractor {
 
             int lastIndexOfUnit;
 
-            if (!pattern.hasLastIndexAlgorithmEnabled() || (simpleAbyss && TokenUtils.equals(unit, pattern.getFissureToken()))) {
+            if (!pattern.hasLastIndexAlgorithmEnabled() || (simpleAbyss && unit.equals(pattern.getFissureToken()))) {
                 lastIndexOfUnit = AbyssExtractorSourceUtils.indexOf(source, unit, positions[j], pattern.getMaxNestingLevel(), simpleAbyss ? pattern.getFissureToken() : null);
             }
             else {
@@ -109,7 +108,7 @@ public class AbyssExtractor {
                     AbyssPatternUnit currentUnit = units[currentIndex];
                     TokenRepresentation sourceToken = tokenReader.read();
 
-                    if (!TokenUtils.equals(sourceToken, currentUnit) && !unit.isOptional()) {
+                    if (!sourceToken.contentEquals(currentUnit) && !unit.isOptional()) {
                         return null;
                     }
 

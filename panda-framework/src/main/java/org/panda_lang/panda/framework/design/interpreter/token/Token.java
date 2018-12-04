@@ -24,4 +24,12 @@ public interface Token {
 
     TokenType getType();
 
+    default boolean equals(TokenType tokenType, String tokenValue) {
+        return getType() == tokenType && getTokenValue().equals(tokenValue);
+    }
+
+    default boolean equals(Token token) {
+        return getType().equals(token.getType()) && getTokenValue().equals(token.getTokenValue());
+    }
+
 }

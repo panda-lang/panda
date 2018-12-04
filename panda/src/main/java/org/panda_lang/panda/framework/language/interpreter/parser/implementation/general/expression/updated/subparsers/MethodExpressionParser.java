@@ -10,7 +10,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
@@ -27,7 +26,7 @@ class MethodExpressionParser implements ExpressionSubparser {
                     continue;
                 }
 
-                if (TokenUtils.equals(representation, Separators.RIGHT_PARENTHESIS_DELIMITER)) {
+                if (representation.contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER)) {
                     break;
                 }
             }
@@ -37,11 +36,11 @@ class MethodExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        if (!TokenUtils.equals(selected.getLast(), Separators.RIGHT_PARENTHESIS_DELIMITER)) {
+        if (!selected.getLast().contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER)) {
             return null;
         }
 
-        if (!selected.contains(Separators.PERIOD) && !TokenUtils.equals(selected.get(1), Separators.LEFT_PARENTHESIS_DELIMITER)) {
+        if (!selected.contains(Separators.PERIOD) && !selected.get(1).contentEquals(Separators.LEFT_PARENTHESIS_DELIMITER)) {
             return null;
         }
 
