@@ -28,7 +28,7 @@ public class TimeUtils {
 
     public static float getUptime(long uptime) {
         long current = System.currentTimeMillis() - uptime;
-        return current / 1000F;
+        return current / 1000.0F;
     }
 
 }

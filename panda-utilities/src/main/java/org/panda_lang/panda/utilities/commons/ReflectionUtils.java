@@ -92,7 +92,7 @@ public class ReflectionUtils {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> Collection<T> getFieldValues(Class<?> clazz, Class<T> type, @Nullable T instance) {
+    public static <R, T> Collection<R> getFieldValues(Class<T> clazz, Class<R> type, @Nullable T instance) {
         Collection<Field> fields = new ArrayList<>(type.getDeclaredFields().length);
 
         for (Field declaredField : clazz.getDeclaredFields()) {
@@ -107,13 +107,13 @@ public class ReflectionUtils {
             fields.add(declaredField);
         }
 
-        Collection<T> values = new ArrayList<>(fields.size());
+        Collection<R> values = new ArrayList<>(fields.size());
 
         try {
             for (Field field : fields) {
                 field.setAccessible(true);
                 Object value = field.get(instance);
-                values.add(value != null ? (T) value : null);
+                values.add(value != null ? (R) value : null);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
