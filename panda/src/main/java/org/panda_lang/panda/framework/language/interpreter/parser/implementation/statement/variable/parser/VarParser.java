@@ -43,7 +43,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUtils;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -109,8 +108,8 @@ public class VarParser {
             ModuleLoader moduleLoader = script.getModuleLoader();
             ClassPrototype type = moduleLoader.forClass(variableType);
 
-            boolean mutable = TokenUtils.contains(left, Keywords.MUTABLE);
-            boolean nullable = TokenUtils.contains(left, Keywords.NULLABLE);
+            boolean mutable = left.contains(Keywords.MUTABLE);
+            boolean nullable = left.contains(Keywords.NULLABLE);
 
             if (type == null) {
                 throw new PandaParserException("Unknown type '" + variableType + "'");

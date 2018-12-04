@@ -38,8 +38,8 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ConstructorExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionParser;
@@ -54,7 +54,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
@@ -134,7 +133,7 @@ public class OldExpressionParser implements ParticularParser<Expression> {
             }
         }
 
-        if (TokenUtils.equals(expressionSource.getFirst(), Operators.NOT)) {
+        if (expressionSource.getFirst().contentEquals(Operators.NOT)) {
             Expression expression = parse(data, expressionSource.subSource(1, expressionSource.size()));
             return new PandaExpression(expression.getReturnType(), new NegateLogicalExpressionCallback(expression));
         }

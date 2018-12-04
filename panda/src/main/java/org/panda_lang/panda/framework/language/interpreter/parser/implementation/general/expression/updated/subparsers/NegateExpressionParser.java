@@ -7,7 +7,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.logic.NegateLogicalExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
@@ -15,7 +14,7 @@ class NegateExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        if (!TokenUtils.equals(source.getFirst(), Operators.NOT)) {
+        if (!source.getFirst().contentEquals(Operators.NOT)) {
             return null;
         }
 

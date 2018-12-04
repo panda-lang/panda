@@ -8,7 +8,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 class SubparserUtils {
@@ -36,7 +35,7 @@ class SubparserUtils {
                 continue;
             }
 
-            if (!TokenUtils.equals(representation.getToken(), Separators.PERIOD)) {
+            if (!representation.contentEquals(Separators.PERIOD)) {
                 continue;
             }
 

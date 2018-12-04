@@ -22,7 +22,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
 import java.util.Stack;
@@ -111,7 +110,7 @@ public class VagueWorker {
 
     private boolean contains(Token[] tokens, TokenRepresentation representation) {
         for (Token token : tokens) {
-            if (TokenUtils.equals(representation, token)) {
+            if (representation.contentEquals(token)) {
                 return true;
             }
         }

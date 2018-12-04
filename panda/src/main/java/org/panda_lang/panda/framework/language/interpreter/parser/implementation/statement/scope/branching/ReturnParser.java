@@ -42,7 +42,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPa
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
@@ -55,7 +54,7 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
 
     @Override
     public boolean handle(TokenReader reader) {
-        return TokenUtils.equals(reader.read(), Keywords.RETURN);
+        return reader.read().contentEquals(Keywords.RETURN);
     }
 
     @Override

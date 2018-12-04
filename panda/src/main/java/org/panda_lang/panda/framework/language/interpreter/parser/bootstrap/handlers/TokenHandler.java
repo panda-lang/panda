@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.han
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 public class TokenHandler implements ParserHandler {
 
@@ -34,7 +33,7 @@ public class TokenHandler implements ParserHandler {
         Token currentToken = reader.read().getToken();
 
         for (Token token : tokens) {
-            if (TokenUtils.equals(currentToken, token)) {
+            if (currentToken.equals(token)) {
                 return true;
             }
         }
