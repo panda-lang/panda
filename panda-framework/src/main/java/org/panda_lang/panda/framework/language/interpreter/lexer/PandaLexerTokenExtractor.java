@@ -65,14 +65,22 @@ public class PandaLexerTokenExtractor {
 
     @SafeVarargs
     protected final @Nullable Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
+        String preparedTokenPreview = lexer.isEqualsIgnoreCase() ? tokenPreview.toLowerCase() : tokenPreview;
+
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
-                if (!tokenPreview.startsWith(token.getTokenValue())) {
+                String value = token.getTokenValue();
+
+                if (lexer.isEqualsIgnoreCase()) {
+                    value = value.toLowerCase();
+                }
+
+                if (!preparedTokenPreview.startsWith(value)) {
                     continue;
                 }
 
                 if (token.getType() == TokenType.KEYWORD || token.getType() == TokenType.LITERAL) {
-                    if (tokenPreview.length() > token.getTokenValue().length()) {
+                    if (tokenPreview.length() > value.length()) {
                         continue;
                     }
                 }
