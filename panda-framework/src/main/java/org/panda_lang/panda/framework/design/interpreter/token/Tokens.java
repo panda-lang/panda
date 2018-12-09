@@ -51,6 +51,20 @@ public interface Tokens {
         return this;
     }
 
+    default boolean startsWith(Token... tokens) {
+        if (tokens.length > size()) {
+            return false;
+        }
+
+        for (int i = 0; i < tokens.length; i++) {
+            if (!get(i).contentEquals(tokens[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     default boolean contains(Token token) {
         for (TokenRepresentation representation : getTokensRepresentations()) {
             if (representation.contentEquals(token)) {

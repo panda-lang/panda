@@ -3,7 +3,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker.MethodInvokerExpressionCallback;
@@ -22,30 +21,41 @@ class MethodExpressionParser implements ExpressionSubparser {
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         Tokens selected = SubparserUtils.readDotted(main, source, METHOD_SEPARATORS, matchable -> {
-            while (matchable.hasNext()) {
-                TokenRepresentation representation = matchable.next();
-                matchable.verify();
-
-                if (!matchable.isMatchable()) {
-                    continue;
-                }
-
-                if (representation.contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER)) {
-                    break;
-                }
+            // at least 3 elements required: <method-name> ( )
+            if (matchable.getDistributor().size() - matchable.getIndex() < 3) {
+                return false;
             }
 
-            return true;
+            // read method name
+            matchable.nextVerified();
+
+            if (!matchable.nextVerified().contentEquals(Separators.LEFT_PARENTHESIS_DELIMITER)) {
+                return false;
+            }
+
+            // parameters content
+            while (matchable.hasNext() && !matchable.isMatchable()) {
+                matchable.nextVerified();
+            }
+
+            if (!matchable.isMatchable()) {
+               return false;
+            }
+
+            return matchable.next().contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER);
         });
 
+        // at least 3 elements required: <method-name> ( )
         if (selected == null || selected.size() < 3 ) {
             return null;
         }
 
+        // method source has to end with parenthesis
         if (!selected.getLast().contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER)) {
             return null;
         }
 
+        // verify period-less structure
         if (!selected.contains(Separators.PERIOD) && !selected.get(1).contentEquals(Separators.LEFT_PARENTHESIS_DELIMITER)) {
             return null;
         }
@@ -57,13 +67,14 @@ class MethodExpressionParser implements ExpressionSubparser {
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(source);
 
-        if (methodInvokerParser != null) {
-            methodInvokerParser.parse(source, data);
-            MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
-            return new PandaExpression(callback.getReturnType(), callback);
+        if (methodInvokerParser == null) {
+            return null;
         }
 
-        return null;
+        methodInvokerParser.parse(source, data);
+        MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
+
+        return new PandaExpression(callback.getReturnType(), callback);
     }
 
     @Override

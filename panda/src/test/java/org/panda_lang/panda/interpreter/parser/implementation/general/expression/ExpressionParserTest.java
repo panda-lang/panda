@@ -32,7 +32,10 @@ class ExpressionParserTest {
                 () -> Assertions.assertEquals("0x001", read("0x001 call()")),
 
                 () -> Assertions.assertEquals("1+1", read("1 + 1")),
-                () -> Assertions.assertEquals("1+1", read("1 + 1 call() + 1"))
+                () -> Assertions.assertEquals("1+1", read("1 + 1 call() + 1")),
+
+                () -> Assertions.assertEquals("(1.0)", read("(1.0)")),
+                () -> Assertions.assertEquals("(1.0)+1.0", read("(1.0) + 1.0 call()"))
         );
     }
 
