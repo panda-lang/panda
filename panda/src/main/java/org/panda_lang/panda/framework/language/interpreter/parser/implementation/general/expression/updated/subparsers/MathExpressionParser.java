@@ -13,7 +13,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class MathExpressionParser implements ExpressionSubparser {
+class MathExpressionParser implements ExpressionSubparser {
 
     private static final MathParser MATH_PARSER = new MathParser();
 

@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class SingleExpressionParser implements ExpressionSubparser {
+class SingleExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {

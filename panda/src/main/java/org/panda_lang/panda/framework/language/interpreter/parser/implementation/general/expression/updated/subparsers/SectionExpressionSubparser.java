@@ -10,7 +10,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.extract
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-public class SectionExpressionSubparser implements ExpressionSubparser {
+class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
