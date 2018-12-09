@@ -38,14 +38,11 @@ import org.panda_lang.panda.framework.language.architecture.prototype.method.Met
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.argument.ArgumentParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.ExpressionUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.AbyssPatternUtils;
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
@@ -53,7 +50,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.A
 import org.panda_lang.panda.framework.language.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
-@ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
+// @ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser implements UnifiedParser, ParserHandler {
 
     public static final AbyssPattern PATTERN = new AbyssPatternBuilder()

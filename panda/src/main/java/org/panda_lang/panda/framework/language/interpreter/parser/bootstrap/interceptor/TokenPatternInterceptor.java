@@ -6,6 +6,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.UnifiedBootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.framework.language.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPatternMapping;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.ExtractorResult;
@@ -16,7 +17,7 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
 
     @Override
     public void initialize(PandaParserBootstrap bootstrap) {
-        this.pattern = TokenPattern.builder()
+        this.pattern = PandaTokenPattern.builder()
                 .compile(bootstrap.getPattern())
                 .build();
     }

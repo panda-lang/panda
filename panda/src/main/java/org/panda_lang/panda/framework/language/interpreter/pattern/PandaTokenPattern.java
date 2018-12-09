@@ -16,7 +16,7 @@ public class PandaTokenPattern {
     }
 
     public TokenPattern build() {
-        TokenPattern pattern = TokenPattern.builder()
+        TokenPattern pattern = builder
                 .build();
 
         return pattern.addWildcardReaders(PandaExpressionReaders.getDefaults());

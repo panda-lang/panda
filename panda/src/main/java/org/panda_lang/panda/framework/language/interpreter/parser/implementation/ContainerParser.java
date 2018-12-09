@@ -57,7 +57,7 @@ public class ContainerParser implements Parser {
             int sourceLength = stream.getUnreadLength();
 
             if (parser == null) {
-                throw new PandaParserFailure("Unrecognized syntax", data);
+                throw PandaParserFailure.builder().message("Unrecognized syntax").data(data).source(body).build();
             }
 
             parser.parse(delegatedData);
