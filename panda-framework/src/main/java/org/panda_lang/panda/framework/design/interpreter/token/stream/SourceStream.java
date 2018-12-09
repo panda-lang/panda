@@ -25,8 +25,6 @@ public interface SourceStream {
 
     Tokens read(int length);
 
-    Tokens readDifference(TokenReader reader);
-
     Tokens readLineResidue();
 
     void restoreCachedSource();
@@ -36,6 +34,14 @@ public interface SourceStream {
     TokenReader toTokenReader();
 
     Tokens toTokenizedSource();
+
+    default Tokens readDifference(Tokens source) {
+        return read(source.size());
+    }
+
+    default Tokens readDifference(TokenReader reader) {
+        return read(reader.getIndex() + 1);
+    }
 
     default boolean hasUnreadSource() {
         return toTokenizedSource().size() > 0;

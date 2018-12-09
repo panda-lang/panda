@@ -3,7 +3,7 @@ package org.panda_lang.panda.interpreter.parser.implementation.general.expressio
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.DefaultSubparsers;
@@ -28,14 +28,16 @@ class ExpressionParserTest {
                 () -> Assertions.assertEquals("this.instance.field", read("this.instance.field this.instance.anotherField")),
 
                 () -> Assertions.assertEquals("1", read("1")),
-                () -> Assertions.assertEquals("1.0", read("1.0"))
-                // () -> Assertions.assertEquals("0x001", read("0x001"))
+                () -> Assertions.assertEquals("1.0", read("1.0")),
+                () -> Assertions.assertEquals("0x001", read("0x001 call()")),
+
+                () -> Assertions.assertEquals("1+1", read("1 + 1")),
+                () -> Assertions.assertEquals("1+1", read("1 + 1 call() + 1"))
         );
     }
 
     private @Nullable String read(String source) {
-        Tokens tokens = PARSER.read(PandaLexerUtils.convert(source));
-        return tokens != null ? tokens.asString() : null;
+        return TokensUtils.asString(PARSER.read(PandaLexerUtils.convert(source)));
     }
 
 }

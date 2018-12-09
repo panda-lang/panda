@@ -105,7 +105,7 @@ class WorkerDynamicContent {
                     continue;
                 }
 
-                if (distributor.getIndex() + dynamic != distributor.length() && !unit.isOptional()) {
+                if (distributor.getIndex() + dynamic != distributor.size() && !unit.isOptional()) {
                     return null;
                 }
 
@@ -134,7 +134,7 @@ class WorkerDynamicContent {
         }
 
         if (lastWildcard && distributor.hasNext()) {
-            dynamics.push(new DynamicContent(lastWildcardIndex, new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()))));
+            dynamics.push(new DynamicContent(lastWildcardIndex, new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()))));
         }
 
         return dynamics;
@@ -221,7 +221,7 @@ class WorkerDynamicContent {
                 }
                 */
 
-                dynamics.push(new DynamicContent(i, new PandaTokens(content.next(content.length() - content.getIndex()))));
+                dynamics.push(new DynamicContent(i, new PandaTokens(content.next(content.size() - content.getIndex()))));
             }
 
             result.identified(nodeElement.getIdentifier());

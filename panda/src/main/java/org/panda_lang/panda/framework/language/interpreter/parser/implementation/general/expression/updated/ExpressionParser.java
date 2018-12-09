@@ -3,7 +3,10 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,19 +22,39 @@ public class ExpressionParser {
         this.sortSubparsers();
     }
 
-    public Expression parse(ParserData data, Tokens source) {
-        Result result = readResult(source);
+    public Expression parse(ParserData data, Tokens tokens) {
+        return parse(data, new PandaSourceStream(tokens));
+    }
+
+    public Expression parse(ParserData data, SourceStream source) {
+        Result result = readResult(source.toTokenizedSource());
 
         if (result == null) {
-            throw new PandaExpressionException("Cannot read the specified source");
+            throw new PandaExpressionFailure("Cannot read the specified source", data);
         }
 
-        return result.subparser.parse(this, data, result.source);
+        Expression expression = result.subparser.parse(this, data, result.source);
+
+        if (expression == null) {
+            throw new PandaExpressionFailure("Cannot parse expression", data);
+        }
+
+        source.readDifference(result.source);
+        return expression;
     }
 
     public @Nullable Tokens read(Tokens source) {
         Result result = readResult(source);
-        return result != null ? result.source : null;
+
+        if (result == null) {
+            return null;
+        }
+
+        if (TokensUtils.isEmpty(result.source)) {
+            return null;
+        }
+
+        return result.source;
     }
 
     private @Nullable Result readResult(Tokens source) {

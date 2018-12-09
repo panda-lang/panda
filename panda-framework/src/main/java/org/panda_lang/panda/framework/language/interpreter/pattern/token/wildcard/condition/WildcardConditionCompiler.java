@@ -33,7 +33,7 @@ public class WildcardConditionCompiler {
             wildcardConditions.add(wildcardCondition);
         }
 
-        List<TokenRepresentation> tokens = new ArrayList<>(distributor.length() - distributor.getIndex());
+        List<TokenRepresentation> tokens = new ArrayList<>(distributor.size() - distributor.getIndex());
 
         while (distributor.hasNext()) {
             TokenRepresentation next = distributor.getNext();

@@ -13,7 +13,7 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     @Nullable Tokens read(ExpressionParser main, Tokens source);
 
-    Expression parse(ExpressionParser main, ParserData data, Tokens source);
+    @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source);
 
     default @Nullable Expression parseSilently(ExpressionParser main, ParserData data, Tokens source) {
         try {
