@@ -11,7 +11,6 @@ public class DefaultWildcardReaders {
 
     static {
         readers.add(new TypeReader());
-        readers.add(new ExpressionReader());
     }
 
     public static Collection<WildcardReader> getDefaultReaders() {

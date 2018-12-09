@@ -6,6 +6,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.eleme
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 class ExtractorWorker {
 

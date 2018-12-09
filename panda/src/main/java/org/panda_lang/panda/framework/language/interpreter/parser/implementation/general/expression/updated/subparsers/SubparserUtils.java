@@ -6,8 +6,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.MatchableDistributor;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 

@@ -5,6 +5,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.WildcardCompiler;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
 

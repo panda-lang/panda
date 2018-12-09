@@ -2,6 +2,8 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 import java.util.List;
 
