@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class TokensUtils {
 
-    public static boolean contains(Tokens source, Token[] tokens) {
+    public static boolean contains(Tokens source, Token... tokens) {
         for (Token token : tokens) {
             if (source.contains(token)) {
                 return true;

@@ -19,23 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.token;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 public class TokenUtils {
-
-    public static boolean startsWith(Tokens source, Token... tokens) {
-        if (tokens.length > source.size()) {
-            return false;
-        }
-
-        for (int i = 0; i < tokens.length; i++) {
-            if (!source.get(i).contentEquals(tokens[i])) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     public static boolean contains(Token[] tokens, Token element) {
         for (Token token : tokens) {

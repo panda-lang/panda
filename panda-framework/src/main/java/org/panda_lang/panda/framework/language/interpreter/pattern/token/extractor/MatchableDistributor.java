@@ -19,6 +19,12 @@ public class MatchableDistributor {
         this.distributor = distributor;
     }
 
+    public TokenRepresentation nextVerified() {
+        TokenRepresentation next = next();
+        verify();
+        return next;
+    }
+
     public @Nullable TokenRepresentation verify() {
         TokenRepresentation next = distributor.getNext();
         verify(next);

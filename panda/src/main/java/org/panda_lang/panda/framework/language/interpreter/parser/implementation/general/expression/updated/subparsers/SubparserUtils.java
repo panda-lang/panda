@@ -25,11 +25,13 @@ class SubparserUtils {
 
     static @Nullable Tokens readDotted(ExpressionParser main, Tokens source, Token[] separators, DottedFinisher finisher) {
         TokenDistributor distributor = new TokenDistributor(source);
-        MatchableDistributor matchable = new MatchableDistributor(distributor);
         int lastIndexOfPeriod = -1;
 
+        MatchableDistributor matchable = new MatchableDistributor(distributor);
+        matchable.verify();
+
         while (matchable.hasNext()) {
-            TokenRepresentation representation = distributor.next();
+            TokenRepresentation representation = matchable.next();
             matchable.verify();
 
             if (!matchable.isMatchable()) {
@@ -40,14 +42,14 @@ class SubparserUtils {
                 continue;
             }
 
-            Tokens selected = source.subSource(0, distributor.getIndex() - 1);
+            Tokens selected = source.subSource(0, matchable.getIndex() - 1);
             Tokens matched = main.read(selected);
 
             if (matched == null || matched.size() != selected.size()) {
                 break;
             }
 
-            lastIndexOfPeriod = distributor.getIndex() - 1;
+            lastIndexOfPeriod = matchable.getIndex() - 1;
         }
 
         if (lastIndexOfPeriod == -1) {
@@ -56,7 +58,7 @@ class SubparserUtils {
 
         distributor.setIndex(lastIndexOfPeriod + 1);
 
-        if (!distributor.hasNext()) {
+        if (!matchable.hasNext()) {
            return null;
         }
 
@@ -66,7 +68,7 @@ class SubparserUtils {
             return null;
         }
 
-        return source.subSource(0, distributor.getIndex());
+        return source.subSource(0, matchable.getIndex());
     }
 
     interface DottedFinisher {

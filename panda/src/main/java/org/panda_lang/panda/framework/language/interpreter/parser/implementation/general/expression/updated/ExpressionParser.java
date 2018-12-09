@@ -65,7 +65,7 @@ public class ExpressionParser {
         for (ExpressionSubparser subparser : subparsers) {
             Tokens tokens = subparser.read(this, source);
 
-            if (tokens == null || tokens.size() == 0) {
+            if (TokensUtils.isEmpty(tokens)) {
                 continue;
             }
 
