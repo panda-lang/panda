@@ -10,7 +10,7 @@ public class PandaExpressionReaders {
     private static final Collection<WildcardReader> READERS = new ArrayList<>();
 
     static {
-        READERS.add(new ExpressionReader());
+        READERS.add(new ExpressionWildcardReader());
     }
 
     public static Collection<WildcardReader> getDefaults() {

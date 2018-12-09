@@ -40,7 +40,7 @@ public class PandaParserFailure extends ParserFailure {
         this(builder().message(message).details(details).data(data));
     }
 
-    private PandaParserFailure(PandaParserFailureBuilder builder) {
+    public PandaParserFailure(PandaParserFailureBuilder builder) {
         super(builder.message);
 
         this.message = builder.message;

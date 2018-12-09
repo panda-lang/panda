@@ -52,4 +52,17 @@ class TokenPatternTest {
         );
     }
 
+    @Test
+    public void testStaticMethod() {
+        TokenPatternTester.test(
+                "[<*instance> .] <name> `( <*arguments> `) [;]",
+
+                "Console.print(message3);",
+
+                TokenPatternTester.Wildcard.of("*instance", "Console"),
+                TokenPatternTester.Wildcard.of("name", "print"),
+                TokenPatternTester.Wildcard.of("*arguments", "message3")
+        );
+    }
+
 }

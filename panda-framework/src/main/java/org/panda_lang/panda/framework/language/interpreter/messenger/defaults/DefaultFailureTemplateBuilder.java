@@ -50,7 +50,7 @@ public class DefaultFailureTemplateBuilder {
                     StringBuilder content = new StringBuilder();
                     StackTraceElement[] elements = exception.getStackTrace();
 
-                    for (int i = 0; i < 5; i++) {
+                    for (int i = 0; i < 7; i++) {
                         StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), i);
 
                         if (lastElement == null) {

@@ -6,7 +6,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.reader.WildcardReader;
 
-class ExpressionReader implements WildcardReader {
+class ExpressionWildcardReader implements WildcardReader {
 
     private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.getDefaultSubparsers());
 

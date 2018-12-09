@@ -2,6 +2,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.han
 
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 
 public class TokenPatternHandler implements BootstrapHandler {
@@ -10,7 +11,7 @@ public class TokenPatternHandler implements BootstrapHandler {
 
     @Override
     public void initialize(PandaParserBootstrap bootstrap) {
-        this.pattern = TokenPattern.builder()
+        this.pattern = PandaTokenPattern.builder()
                 .compile(bootstrap.getPattern())
                 .build();
     }
