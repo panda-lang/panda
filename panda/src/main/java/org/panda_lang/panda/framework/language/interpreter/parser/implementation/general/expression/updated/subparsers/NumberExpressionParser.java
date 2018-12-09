@@ -27,7 +27,7 @@ public class NumberExpressionParser implements ExpressionSubparser {
             tokens.addToken(representation);
         }
 
-        if (tokens.size() == 0) {
+        if (tokens.size() < 2) {
             return null;
         }
 
@@ -48,7 +48,7 @@ public class NumberExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.DYNAMIC;
+        return DefaultSubparserPriorities.SIMPLE_DYNAMIC;
     }
 
 }

@@ -16,7 +16,7 @@ public class DefaultSubparsers {
         SUBPARSERS.add(new FieldParserExpression());
         SUBPARSERS.add(new MathExpressionParser());
 
-        //SUBPARSERS.add(new NumberExpressionParser());
+        SUBPARSERS.add(new NumberExpressionParser());
         SUBPARSERS.add(new SectionExpressionSubparser());
 
         SUBPARSERS.add(new LiteralExpressionParser());
