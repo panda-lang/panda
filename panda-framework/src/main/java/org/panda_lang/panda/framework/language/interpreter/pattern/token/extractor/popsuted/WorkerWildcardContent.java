@@ -37,7 +37,7 @@ class WorkerWildcardContent {
 
     private @Nullable Tokens matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
         if (wildcard.getName().startsWith("*")) {
-            return new PandaTokens(distributor.next(distributor.length() - distributor.getIndex()));
+            return new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()));
         }
 
         if (!wildcard.hasCondition()) {
@@ -57,7 +57,7 @@ class WorkerWildcardContent {
             wildcardConditions.add(wildcardCondition);
         }
 
-        List<TokenRepresentation> tokens = new ArrayList<>(distributor.length() - distributor.getIndex());
+        List<TokenRepresentation> tokens = new ArrayList<>(distributor.size() - distributor.getIndex());
 
         while (distributor.hasNext()) {
             TokenRepresentation next = distributor.getNext();

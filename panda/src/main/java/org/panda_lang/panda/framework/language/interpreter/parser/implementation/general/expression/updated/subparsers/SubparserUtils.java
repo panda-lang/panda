@@ -1,6 +1,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -8,7 +9,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 
 class SubparserUtils {
 
@@ -22,10 +23,10 @@ class SubparserUtils {
         return new PandaTokens(token);
     }
 
-    static @Nullable Tokens readDotted(ExpressionParser main, Tokens source, DottedFinisher finisher) {
+    static @Nullable Tokens readDotted(ExpressionParser main, Tokens source, Token[] separators, DottedFinisher finisher) {
         TokenDistributor distributor = new TokenDistributor(source);
         MatchableDistributor matchable = new MatchableDistributor(distributor);
-        int lastIndexOfPeriod = 0;
+        int lastIndexOfPeriod = -1;
 
         while (matchable.hasNext()) {
             TokenRepresentation representation = distributor.next();
@@ -35,7 +36,7 @@ class SubparserUtils {
                 continue;
             }
 
-            if (!representation.contentEquals(Separators.PERIOD)) {
+            if (!TokenUtils.contains(separators, representation.getToken())) {
                 continue;
             }
 
@@ -46,18 +47,31 @@ class SubparserUtils {
                 break;
             }
 
-            lastIndexOfPeriod = distributor.getIndex();
+            lastIndexOfPeriod = distributor.getIndex() - 1;
         }
 
-        distributor.setIndex(lastIndexOfPeriod);
-        finisher.finish(matchable);
+        if (lastIndexOfPeriod == -1) {
+            return null;
+        }
+
+        distributor.setIndex(lastIndexOfPeriod + 1);
+
+        if (!distributor.hasNext()) {
+           return null;
+        }
+
+        boolean result = finisher.finish(matchable);
+
+        if (!result) {
+            return null;
+        }
 
         return source.subSource(0, distributor.getIndex());
     }
 
     interface DottedFinisher {
 
-        void finish(MatchableDistributor distributor);
+        boolean finish(MatchableDistributor distributor);
 
     }
 

@@ -37,6 +37,16 @@ public class TokenUtils {
         return true;
     }
 
+    public static boolean contains(Token[] tokens, Token element) {
+        for (Token token : tokens) {
+            if (element.equals(token)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public static boolean isTypeOf(TokenRepresentation representation, TokenType type) {
         return type.equals(representation.getToken().getType());
     }

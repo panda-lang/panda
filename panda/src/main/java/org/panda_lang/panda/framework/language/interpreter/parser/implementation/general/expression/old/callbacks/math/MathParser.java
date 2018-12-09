@@ -30,7 +30,6 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueEl
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueExtractor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.vague.VagueResult;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -38,14 +37,10 @@ import java.util.Stack;
 
 public class MathParser implements Parser {
 
-    protected static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
+    public static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
             Separators.LEFT_PARENTHESIS_DELIMITER,
             Separators.RIGHT_PARENTHESIS_DELIMITER
-    }, new Token[]{
-            Operators.ADDITION,
-            Operators.SUBTRACTION,
-            Operators.DIVISION,
-            Operators.MULTIPLICATION });
+    }, MathUtils.MATH_OPERATORS);
 
     public MathExpressionCallback parse(Tokens source, ParserData data) {
         TokenReader reader = new PandaTokenReader(source);
@@ -88,7 +83,7 @@ public class MathParser implements Parser {
                     operators.pop();
                     break;
                 default:
-                    throw new PandaParserException("Unexpected operator " + operator);
+                    throw new PandaParserException("Unexpected or unsupported operator " + operator);
             }
         }
 
@@ -114,7 +109,6 @@ public class MathParser implements Parser {
                 return 1;
             default:
                 return 0;
-            // throw new PandaParserException("Unexpected token " + tokenValue);
         }
     }
 

@@ -3,6 +3,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.extrac
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
@@ -59,12 +60,24 @@ public class MatchableDistributor {
         return distributor.next();
     }
 
+    public Tokens subSource(int startIndex, int endIndex) {
+        return getDistributor().getSource().subSource(startIndex, endIndex);
+    }
+
+    public Tokens currentSubSource() {
+        return subSource(getIndex(), getDistributor().getSource().size());
+    }
+
     public boolean isMatchable() {
         return separators.size() == 0 || previousSize == 0;
     }
 
     public boolean hasNext() {
         return distributor.hasNext();
+    }
+
+    public int getIndex() {
+        return distributor.getIndex();
     }
 
     public TokenDistributor getDistributor() {

@@ -57,7 +57,7 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return source.get(index);
     }
 
-    public int length() {
+    public int size() {
         return source.size();
     }
 
@@ -66,7 +66,7 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
     }
 
     public boolean hasNext() {
-        return index < length();
+        return index < size();
     }
 
     public @Nullable TokenRepresentation get(int index) {

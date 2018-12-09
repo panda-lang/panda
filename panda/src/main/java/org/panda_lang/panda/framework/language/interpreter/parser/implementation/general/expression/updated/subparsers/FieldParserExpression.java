@@ -5,6 +5,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -16,17 +17,20 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.number.NumberUtils;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.List;
 
 public class FieldParserExpression implements ExpressionSubparser {
 
+    private static final Token[] FIELD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
+
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readDotted(main, source, MatchableDistributor::next);
+        Tokens selected = SubparserUtils.readDotted(main, source, FIELD_SEPARATORS, distributor -> distributor.next() != null);
 
         if (selected == null) {
             return null;

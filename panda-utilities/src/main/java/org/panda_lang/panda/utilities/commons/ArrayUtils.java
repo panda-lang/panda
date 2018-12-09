@@ -66,4 +66,16 @@ public class ArrayUtils {
         return index > -1 && index < array.length ? array[index] : null;
     }
 
+    /**
+     * Return array of the specified elements using varargs parameter
+     *
+     * @param elements elements in array
+     * @param <T> type of the array
+     * @return the array of the specified elements
+     */
+    @SafeVarargs
+    public static <T> T[] of(T... elements) {
+        return elements;
+    }
+
 }

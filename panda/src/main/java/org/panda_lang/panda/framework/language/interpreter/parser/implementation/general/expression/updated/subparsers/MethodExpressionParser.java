@@ -2,6 +2,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -12,12 +13,15 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 class MethodExpressionParser implements ExpressionSubparser {
 
+    private static final Token[] METHOD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
+
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readDotted(main, source, matchable -> {
+        Tokens selected = SubparserUtils.readDotted(main, source, METHOD_SEPARATORS, matchable -> {
             while (matchable.hasNext()) {
                 TokenRepresentation representation = matchable.next();
                 matchable.verify();
@@ -30,6 +34,8 @@ class MethodExpressionParser implements ExpressionSubparser {
                     break;
                 }
             }
+
+            return true;
         });
 
         if (selected == null || selected.size() < 3 ) {
