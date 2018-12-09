@@ -43,6 +43,17 @@ public class ExpressionParser {
         return expression;
     }
 
+    public @Nullable Tokens read(SourceStream source) {
+        Tokens result = read(source.toTokenizedSource());
+
+        if (result == null) {
+            return null;
+        }
+
+        source.readDifference(result);
+        return result;
+    }
+
     public @Nullable Tokens read(Tokens source) {
         Result result = readResult(source);
 

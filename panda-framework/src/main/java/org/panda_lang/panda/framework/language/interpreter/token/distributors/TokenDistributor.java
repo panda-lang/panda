@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
+package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -55,6 +55,14 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
 
     public @Nullable TokenRepresentation current() {
         return source.get(index);
+    }
+
+    public Tokens currentSubSource() {
+        return subSource(getIndex(), size());
+    }
+
+    public Tokens subSource(int startIndex, int endIndex) {
+        return source.subSource(startIndex, endIndex);
     }
 
     public int size() {

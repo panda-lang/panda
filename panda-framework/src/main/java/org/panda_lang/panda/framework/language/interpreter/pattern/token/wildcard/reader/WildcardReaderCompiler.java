@@ -3,7 +3,7 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.token.wildca
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
-import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.TokenDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 public class WildcardReaderCompiler {
 

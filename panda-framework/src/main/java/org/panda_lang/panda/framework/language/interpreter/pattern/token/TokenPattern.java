@@ -35,8 +35,18 @@ public class TokenPattern {
         return new TokenExtractor(this);
     }
 
+    public TokenPattern addWildcardConditionFactories(Collection<? extends WildcardConditionFactory> factories) {
+        wildcardConditionFactories.addAll(factories);
+        return this;
+    }
+
     public TokenPattern addWildcardConditionFactory(WildcardConditionFactory factory) {
         wildcardConditionFactories.add(factory);
+        return this;
+    }
+
+    public TokenPattern addWildcardReaders(Collection<? extends WildcardReader> readers) {
+        wildcardReaders.addAll(readers);
         return this;
     }
 

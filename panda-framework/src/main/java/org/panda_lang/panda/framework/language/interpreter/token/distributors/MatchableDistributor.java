@@ -1,4 +1,4 @@
-package org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor;
+package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -19,7 +19,7 @@ public class MatchableDistributor {
         this.distributor = distributor;
     }
 
-    public TokenRepresentation nextVerified() {
+    public @Nullable TokenRepresentation nextVerified() {
         TokenRepresentation next = next();
         verify();
         return next;
@@ -67,11 +67,11 @@ public class MatchableDistributor {
     }
 
     public Tokens subSource(int startIndex, int endIndex) {
-        return getDistributor().getSource().subSource(startIndex, endIndex);
+        return distributor.subSource(startIndex, endIndex);
     }
 
     public Tokens currentSubSource() {
-        return subSource(getIndex(), getDistributor().getSource().size());
+        return distributor.currentSubSource();
     }
 
     public boolean isMatchable() {
