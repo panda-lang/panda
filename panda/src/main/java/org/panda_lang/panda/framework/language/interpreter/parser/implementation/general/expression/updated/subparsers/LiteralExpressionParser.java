@@ -44,7 +44,12 @@ class LiteralExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.SINGLE;
+        return DefaultSubparsers.Priorities.SINGLE;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.LITERAL;
     }
 
 }

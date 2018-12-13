@@ -48,7 +48,12 @@ class NumberExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.SIMPLE_DYNAMIC;
+        return DefaultSubparsers.Priorities.SIMPLE_DYNAMIC;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.NUMBER;
     }
 
 }

@@ -41,4 +41,6 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     double getPriority();
 
+    String getName();
+
 }

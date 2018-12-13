@@ -40,7 +40,12 @@ class InstanceExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.Dynamic.CONSTRUCTOR_CALL;
+        return DefaultSubparsers.Priorities.Dynamic.CONSTRUCTOR_CALL;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.INSTANCE;
     }
 
 }

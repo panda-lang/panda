@@ -10,7 +10,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 
 class ExpressionParserTest {
 
-    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.getDefaultSubparsers());
+    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
 
     @Test
     public void testRead() {

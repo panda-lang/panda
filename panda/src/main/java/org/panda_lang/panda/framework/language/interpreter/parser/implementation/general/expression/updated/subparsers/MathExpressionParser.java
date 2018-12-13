@@ -63,7 +63,12 @@ class MathExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.ADVANCED_DYNAMIC;
+        return DefaultSubparsers.Priorities.ADVANCED_DYNAMIC;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.MATH;
     }
 
 }
