@@ -79,7 +79,12 @@ class MethodExpressionParser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.DYNAMIC;
+        return DefaultSubparsers.Priorities.DYNAMIC;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.METHOD;
     }
 
 }

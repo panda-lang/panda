@@ -35,19 +35,13 @@ public class PandaPriorities {
     public static final int SCOPE_BLOCK_PARSER = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.StatementParser}
-     */
-    public static final int SCOPE_STATEMENT_PARSER = 2;
-
-
-    /**
      * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.invoker.MethodInvokerParser}
      */
-    public static final int STATEMENT_METHOD_INVOKER_PARSER = 1;
+    public static final int SCOPE_METHOD_INVOKER_PARSER = 2;
 
     /**
      * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.VariableParser}
      */
-    public static final int STATEMENT_VARIABLE_PARSER = 2;
+    public static final int SCOPE_VARIABLE_PARSER = 3;
 
 }

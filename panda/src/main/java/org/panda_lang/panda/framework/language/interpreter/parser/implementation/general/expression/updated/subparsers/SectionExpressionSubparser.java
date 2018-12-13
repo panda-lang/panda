@@ -42,7 +42,12 @@ class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public double getPriority() {
-        return DefaultSubparserPriorities.DYNAMIC;
+        return DefaultSubparsers.Priorities.DYNAMIC;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.SECTION;
     }
 
 }

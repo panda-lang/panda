@@ -8,7 +8,7 @@ import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcar
 
 class ExpressionWildcardReader implements WildcardReader {
 
-    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.getDefaultSubparsers());
+    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
 
     @Override
     public boolean match(String data) {
