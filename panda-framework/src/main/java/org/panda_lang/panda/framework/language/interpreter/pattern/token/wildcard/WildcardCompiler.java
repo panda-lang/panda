@@ -33,7 +33,7 @@ public class WildcardCompiler {
             return readerCompiler.extract(value, distributor);
         }
 
-        throw new TokenPatternWildcardException("Unknown condition");
+        throw new TokenPatternWildcardException("Unknown condition: " + type);
     }
 
 }

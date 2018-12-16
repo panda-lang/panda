@@ -6,6 +6,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.DefaultSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
 
 public class ExpressionParser {
 
+    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
     private final List<ExpressionSubparser> subparsers;
 
     public ExpressionParser(Collection<? extends ExpressionSubparser> subparsers) {
@@ -33,7 +35,7 @@ public class ExpressionParser {
             throw new PandaExpressionFailure("Cannot read the specified source", data);
         }
 
-        Expression expression = result.subparser.parse(this, data, result.source);
+        Expression expression = result.subparser.parse(PARSER, data, result.source);
 
         if (expression == null) {
             throw new PandaExpressionFailure("Cannot parse expression", data);
@@ -74,7 +76,7 @@ public class ExpressionParser {
         }
 
         for (ExpressionSubparser subparser : subparsers) {
-            Tokens tokens = subparser.read(this, source);
+            Tokens tokens = subparser.read(PARSER, source);
 
             if (TokensUtils.isEmpty(tokens)) {
                 continue;
@@ -93,6 +95,16 @@ public class ExpressionParser {
     public void addSubparser(ExpressionSubparser subparser) {
         this.subparsers.add(subparser);
         this.sortSubparsers();
+    }
+
+    public void removeSubparsers(Collection<String> names) {
+        for (String name : names) {
+            removeSubparser(name.trim());
+        }
+    }
+
+    public void removeSubparser(String name) {
+        subparsers.removeIf(expressionSubparser -> expressionSubparser.getName().equals(name));
     }
 
     private final class Result {

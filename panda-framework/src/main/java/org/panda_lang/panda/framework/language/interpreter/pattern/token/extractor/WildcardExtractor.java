@@ -25,10 +25,14 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
         }
         else if (wildcard.getData() != null) {
             wildcardContent = matchWildcardWithCondition(wildcard, distributor);
-        }
 
-        if (wildcardContent == null) {
-            wildcardContent = new PandaTokens(distributor.next());
+            if (wildcardContent == null) {
+                wildcardContent = new PandaTokens(distributor.next());
+            }
+
+            if (wildcardContent.isEmpty()) {
+                return new ExtractorResult("Empty wildcard");
+            }
         }
 
         return new ExtractorResult().addWildcard(wildcard.getName(), wildcardContent);

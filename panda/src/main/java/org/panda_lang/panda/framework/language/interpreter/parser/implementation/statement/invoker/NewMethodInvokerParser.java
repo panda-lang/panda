@@ -18,12 +18,12 @@ public class NewMethodInvokerParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("[<instance:reader expression> .] <name> `( <*arguments> `) [;]");
+                .pattern("[<instance:reader expression exclude method, field> .] <name> `( <*arguments> `) [;]");
     }
 
     @Autowired
     public void parse(@Src("instance") Tokens instance, @Src("name") Tokens name, @Src("*arguments") Tokens arguments) {
-        System.out.println("M: " + TokensUtils.asString(instance) + "." + TokensUtils.asString(name) + "#" + TokensUtils.asString(arguments));
+        System.out.println(name.getFirst().getLine() + "M: " + TokensUtils.asString(instance) + "." + TokensUtils.asString(name) + "#" + TokensUtils.asString(arguments));
     }
 
 }

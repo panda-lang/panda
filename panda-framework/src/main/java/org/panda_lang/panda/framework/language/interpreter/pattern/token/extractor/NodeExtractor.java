@@ -19,16 +19,18 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
     public ExtractorResult extract(LexicalPatternNode node, TokenDistributor distributor) {
         List<LexicalPatternElement> elements = node.getElements();
         ExtractorResult result = new ExtractorResult();
+        int matches = 0;
 
         for (int i = 0; i < elements.size(); i++) {
             LexicalPatternElement element = elements.get(i);
+            int index = distributor.getIndex();
 
             ExtractorResult workerResult;
-            int index = distributor.getIndex();
 
             if (!element.isWildcard()) {
                 workerResult = extract(element, distributor);
 
+                // out of source, but element was optional
                 if (workerResult == null) {
                     break;
                 }
@@ -36,10 +38,15 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
             else {
                 NodeLookupExtractor.LookupResult lookupResult = nodeLookupExtractor.extractNode(elements.subList(i, elements.size()), distributor);
                 workerResult = lookupResult.getMergedResults();
-                i += lookupResult.matchedIndex;
+
+                // skip elements only if matched
+                if (workerResult.isMatched()) {
+                    i += lookupResult.matchedIndex;
+                }
             }
 
             if (!workerResult.isMatched()) {
+                // restore index for the next searches
                 distributor.setIndex(index);
 
                 if (element.isOptional()) {
@@ -50,11 +57,21 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
             }
 
             result.merge(workerResult);
+            matches++;
+        }
+
+        if (matches == 0) {
+            // return new ExtractorResult("Cannot match node, 0 matches");
         }
 
         return result;
     }
 
+    /**
+     * @param element the element to match
+     * @param distributor source
+     * @return subresult or null if distributor does not contains source
+     */
     private @Nullable ExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
         if (!distributor.hasNext()) {
             if (element.isOptional()) {

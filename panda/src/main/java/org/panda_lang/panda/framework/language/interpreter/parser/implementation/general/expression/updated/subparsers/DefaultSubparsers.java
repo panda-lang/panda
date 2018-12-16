@@ -76,6 +76,18 @@ public class DefaultSubparsers {
             }
         }
 
+        public static List<ExpressionSubparser> getDefaultSubparsers(Collection<String> names) {
+            List<ExpressionSubparser> subparsers = new ArrayList<>();
+
+            for (ExpressionSubparser subparser : SUBPARSERS) {
+                if (names.contains(subparser.getName().trim())) {
+                    subparsers.add(subparser);
+                }
+            }
+
+            return subparsers;
+        }
+
         public static List<ExpressionSubparser> getDefaultSubparsers() {
             return new ArrayList<>(SUBPARSERS);
         }

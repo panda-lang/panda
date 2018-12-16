@@ -44,6 +44,16 @@ public class ExtractorResult {
         return this;
     }
 
+    protected int contentLength() {
+        int count = 0;
+
+        for (Tokens value : wildcards.values()) {
+            count += value.size();
+        }
+
+        return count;
+    }
+
     public boolean hasErrorMessage() {
         return errorMessage != null;
     }
