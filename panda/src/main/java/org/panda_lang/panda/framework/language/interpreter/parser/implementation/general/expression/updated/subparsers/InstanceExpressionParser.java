@@ -11,6 +11,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.implementation
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 import java.util.List;
@@ -19,7 +20,17 @@ class InstanceExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        return source.getFirst().contentEquals(Keywords.NEW) ? source : null;
+        if (!source.getFirst().contentEquals(Keywords.NEW)) {
+           return null;
+        }
+
+        Tokens args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.LEFT_PARENTHESIS_DELIMITER);
+
+        if (args == null) {
+            return null;
+        }
+
+        return source.subSource(0, 2 + args.size());
     }
 
     @Override
