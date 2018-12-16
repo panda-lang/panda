@@ -47,4 +47,16 @@ class PandaPatternTest {
         );
     }
 
+    @Test
+    public void testFieldBasedVariable() {
+        PandaPatternTester.test(
+                VARIABLE,
+
+                "this.variable = 'Test';",
+
+                PandaPatternTester.Wildcard.of("name", "this.variable"),
+                PandaPatternTester.Wildcard.of("assignation", "Test")
+        );
+    }
+
 }
