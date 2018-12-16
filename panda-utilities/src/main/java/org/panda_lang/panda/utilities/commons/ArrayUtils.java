@@ -55,6 +55,16 @@ public class ArrayUtils {
     }
 
     /**
+     * Checks if the specified array is null or empty
+     *
+     * @param array the array to check
+     * @return true if array is null or empty
+     */
+    public static boolean isEmpty(@Nullable Object[] array) {
+        return array == null || array.length == 0;
+    }
+
+    /**
      * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
      *
      * @param array the array to process

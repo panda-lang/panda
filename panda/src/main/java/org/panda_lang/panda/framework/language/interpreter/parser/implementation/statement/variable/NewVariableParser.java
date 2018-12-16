@@ -19,12 +19,12 @@ public class NewVariableParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("<type> <name> [= <assignation:reader expression>][;]");
+                .pattern("[<type>] <name> [= <assignation:reader expression>][;]");
     }
 
     @Autowired
-    public void parse(@Src("type") Tokens instance, @Src("name") Tokens name, @Src("*assignation") @Nullable Tokens arguments) {
-        System.out.println("V: " + TokensUtils.asString(instance) + "." + TokensUtils.asString(name) + "#" + TokensUtils.asString(arguments));
+    public void parse(@Src("type") Tokens type, @Src("name") Tokens name, @Src("assignation") @Nullable Tokens assignation) {
+        System.out.println(type.getFirst().getLine() + "V: " + TokensUtils.asString(type) + " " + TokensUtils.asString(name) + " = " + TokensUtils.asString(assignation));
     }
 
 }

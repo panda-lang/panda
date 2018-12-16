@@ -7,7 +7,7 @@ class TokenPatternTest {
     @Test
     public void testMethodPattern() {
         TokenPatternTester.test(
-                "(method|local|hidden) [static] [<return-type>] <name> `( <*parameters> `) `{ <*body> `}",
+                "(method|local|hidden) [static] [<return-type>] <name> `( [<*parameters>] `) `{ <*body> `}",
 
                 "method void anotherEcho() { Console.print(message); }",
 
@@ -43,7 +43,7 @@ class TokenPatternTest {
     @Test
     public void testMethod() {
         TokenPatternTester.test(
-                "<*expression> `( <*parameters> `)",
+                "<*expression> `( [<*parameters>] `)",
 
                 "a.b().c(d)",
 

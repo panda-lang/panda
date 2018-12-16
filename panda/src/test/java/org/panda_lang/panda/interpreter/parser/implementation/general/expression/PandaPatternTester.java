@@ -13,6 +13,19 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 class PandaPatternTester {
 
     protected static void test(String patternContent, String source, Wildcard... expected) {
+        ExtractorResult result = build(patternContent, source);
+
+        Assertions.assertNotNull(result);
+        Assertions.assertTrue(result.isMatched());
+        Assertions.assertNotNull(result.getWildcards());
+        Assertions.assertEquals(expected.length, result.getWildcards().size());
+
+        for (Wildcard wildcard : expected) {
+            Assertions.assertEquals(wildcard.expected, result.getWildcards().get(wildcard.name).asString());
+        }
+    }
+
+    protected static ExtractorResult build(String patternContent, String source) {
         TokenPattern pattern = PandaTokenPattern.builder()
                 .compile(patternContent)
                 .build();
@@ -22,21 +35,16 @@ class PandaPatternTester {
 
         Tokens tokenizedSource = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("PandaPatternTester", source)).convert();
         ExtractorResult result = pattern.extract(tokenizedSource);
-        Assertions.assertNotNull(result);
 
         if (result.hasErrorMessage()) {
             System.out.println("Error message: " + result.getErrorMessage());
         }
 
-        Assertions.assertTrue(result.isMatched());
-        Assertions.assertNotNull(result.getWildcards());
-
-        System.out.println(result.getWildcards());
-        Assertions.assertEquals(expected.length, result.getWildcards().size());
-
-        for (Wildcard wildcard : expected) {
-            Assertions.assertEquals(wildcard.expected, result.getWildcards().get(wildcard.name).asString());
+        if (result.isMatched()) {
+            System.out.println(result.getWildcards());
         }
+
+        return result;
     }
 
     static class Wildcard {

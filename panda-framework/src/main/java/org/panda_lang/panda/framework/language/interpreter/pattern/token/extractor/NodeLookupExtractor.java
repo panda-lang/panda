@@ -23,9 +23,12 @@ class NodeLookupExtractor  {
                 break;
             }
 
+            // wildcards with condition could be excluded in the future
+            /*
             if (nextElement.toWildcard().hasCondition()) {
                 break;
             }
+            */
 
             skip++;
         }
@@ -52,7 +55,6 @@ class NodeLookupExtractor  {
 
             return result;
         }
-
 
         LookupResult lookupResult = new LookupResult();
         lookupResult.currentResult = new ExtractorResult();
@@ -91,6 +93,10 @@ class NodeLookupExtractor  {
             }
 
             if (precedingResult != null) {
+                if (!StringUtils.isEmpty(error)) {
+                    error += "; ";
+                }
+
                 error += precedingResult.getErrorMessage();
             }
 

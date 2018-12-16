@@ -3,8 +3,13 @@ package org.panda_lang.panda.framework.language.interpreter.pattern.readers;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.DefaultSubparsers;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.wildcard.reader.WildcardReader;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 class ExpressionWildcardReader implements WildcardReader {
 
@@ -17,7 +22,38 @@ class ExpressionWildcardReader implements WildcardReader {
 
     @Override
     public Tokens read(String data, TokenDistributor distributor) {
-        return PARSER.read(distributor.currentSubSource());
+        String[] datum = StringUtils.splitFirst(data, " ");
+
+        if (ArrayUtils.isEmpty(datum)) {
+            return PARSER.read(distributor.currentSubSource());
+        }
+
+        String condition = datum[1];
+        Collection<String> names = convert(StringUtils.splitFirst(condition, " ")[1]);
+
+        boolean exclude = condition.startsWith("exclude");
+        ExpressionParser parser;
+
+        if (exclude) {
+            parser = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
+            parser.removeSubparsers(names);
+        }
+        else {
+            parser = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers(names));
+        }
+
+        Tokens source = parser.read(distributor.currentSubSource());
+
+        if (source == null) {
+            return null;
+        }
+
+        distributor.next(source.size());
+        return source;
+    }
+
+    private Collection<String> convert(String elements) {
+        return Arrays.asList(elements.split(","));
     }
 
 }
