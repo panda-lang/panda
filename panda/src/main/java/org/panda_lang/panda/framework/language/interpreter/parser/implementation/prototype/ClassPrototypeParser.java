@@ -117,7 +117,7 @@ public class ClassPrototypeParser extends BootstrapParser {
             UnifiedParser parser = pipeline.handle(stream);
 
             if (parser == null) {
-                throw new PandaParserFailure("Cannot parse the element of the prototype", data);
+                throw new PandaParserFailure("Cannot parse the element of the prototype", data.setComponent(UniversalComponents.SOURCE_STREAM, stream));
             }
 
             parser.parse(bodyInfo);
