@@ -59,4 +59,16 @@ class PandaPatternTest {
         );
     }
 
+    @Test
+    public void testAssignationWithConstructor() {
+        PandaPatternTester.test(
+                VARIABLE,
+
+                "varFoo = new Foo();",
+
+                PandaPatternTester.Wildcard.of("name", "varFoo"),
+                PandaPatternTester.Wildcard.of("assignation", "newFoo()")
+        );
+    }
+
 }

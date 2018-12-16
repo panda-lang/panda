@@ -6,10 +6,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
 class SubparserUtils {
 
@@ -21,6 +22,28 @@ class SubparserUtils {
         }
 
         return new PandaTokens(token);
+    }
+
+    static @Nullable Tokens readBetweenSeparators(Tokens source, Separator first) {
+        if (!source.startsWith(first)) {
+            return null;
+        }
+
+        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
+        matchable.verify();
+
+        // at least 1 element required
+        matchable.nextVerified();
+
+        while (!matchable.isMatchable() && matchable.hasNext()) {
+            matchable.nextVerified();
+        }
+
+        if (!matchable.isMatchable()) {
+            return null;
+        }
+
+        return source.subSource(0, matchable.getIndex() + 1);
     }
 
     static @Nullable Tokens readDotted(ExpressionParser main, Tokens source, Token[] separators, DottedFinisher finisher) {
