@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.parameter;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
@@ -25,6 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.parameter.PandaParameter;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
@@ -35,7 +37,11 @@ import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserData info, Tokens tokens) {
+    public List<Parameter> parse(ParserData info, @Nullable Tokens tokens) {
+        if (TokensUtils.isEmpty(tokens)) {
+            return new ArrayList<>(0);
+        }
+
         TokenRepresentation[] tokenRepresentations = tokens.toArray();
         List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
 

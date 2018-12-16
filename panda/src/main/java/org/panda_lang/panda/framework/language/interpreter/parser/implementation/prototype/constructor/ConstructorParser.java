@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.prototype.constructor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -48,11 +49,11 @@ public class ConstructorParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("constructor `( <*parameters> `) `{ <*body> `}");
+                .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Src("*parameters") Tokens parametersSource) {
+    private void parse(ParserData data, LocalData local, @Component ClassScope classScope, @Src("*parameters") @Nullable Tokens parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
@@ -64,7 +65,7 @@ public class ConstructorParser extends BootstrapParser {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Src("*body") Tokens body) throws Throwable {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassScope classScope, @Src("*body") @Nullable Tokens body) throws Throwable {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

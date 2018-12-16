@@ -55,7 +55,7 @@ public class MethodParser extends BootstrapParser {
         parserBuilder = builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("(method|local|hidden) static:[static] <return> <name> `( <*parameters> `) `{ <*body> `}");
+                .pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
     @Autowired

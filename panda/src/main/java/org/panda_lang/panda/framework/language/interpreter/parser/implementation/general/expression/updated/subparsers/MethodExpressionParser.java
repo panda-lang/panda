@@ -14,9 +14,18 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
-class MethodExpressionParser implements ExpressionSubparser {
+public class MethodExpressionParser implements ExpressionSubparser {
 
     private static final Token[] METHOD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
+    private final boolean voids;
+
+    public MethodExpressionParser(boolean voids) {
+        this.voids = voids;
+    }
+
+    public MethodExpressionParser() {
+        this(false);
+    }
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {

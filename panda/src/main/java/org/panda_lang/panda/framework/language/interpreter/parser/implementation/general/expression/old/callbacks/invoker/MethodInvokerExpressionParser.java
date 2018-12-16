@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.old.callbacks.invoker;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
@@ -57,7 +58,9 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
     private final Tokens instanceSource;
     private final Tokens methodNameSource;
     private final Tokens argumentsSource;
+
     private MethodInvoker invoker;
+    private boolean voids;
 
     public MethodInvokerExpressionParser(Tokens instanceSource, Tokens methodNameSource, Tokens argumentsSource) {
         this.instanceSource = instanceSource;
@@ -66,7 +69,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
     }
 
     @Override
-    public void parse(Tokens source, ParserData info) {
+    public void parse(@Nullable Tokens source, ParserData info) {
         PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
         ModuleLoader registry = script.getModuleLoader();
 
@@ -100,11 +103,19 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             throw new PandaParserException("Class " + prototype.getClassName() + " does not have method " + methodName);
         }
 
-        if (prototypeMethod.isVoid()) {
-            throw new PandaParserException("Method " + prototypeMethod.getMethodName() + " returns nothing [" + source.getLast().getLine() + "]");
+        if (!voids && prototypeMethod.isVoid()) {
+            throw new PandaParserException("Method " + prototypeMethod.getMethodName() + " returns nothing");
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);
+    }
+
+    public void setVoids(boolean voids) {
+        this.voids = voids;
+    }
+
+    public MethodInvoker getInvoker() {
+        return invoker;
     }
 
     @Override
