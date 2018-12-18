@@ -59,7 +59,7 @@ public class MethodParser extends BootstrapParser {
     }
 
     @Autowired
-    @AutowiredParameters(detectTo = 3, value = {
+    @AutowiredParameters(skip = 3, value = {
             @Type(with = Src.class, value = "return"),
             @Type(with = Src.class, value = "name"),
             @Type(with = Src.class, value = "*parameters")

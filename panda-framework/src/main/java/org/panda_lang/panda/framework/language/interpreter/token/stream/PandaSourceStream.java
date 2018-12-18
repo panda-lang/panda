@@ -89,13 +89,15 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public void restoreCachedSource() {
+    public PandaSourceStream restoreCachedSource() {
         this.source = cachedSource;
+        return this;
     }
 
     @Override
-    public void updateCachedSource() {
+    public PandaSourceStream updateCachedSource() {
         this.cachedSource = source;
+        return this;
     }
 
     @Override

@@ -2,12 +2,14 @@ package org.panda_lang.panda.interpreter.parser.implementation.general.expressio
 
 import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class PandaPatternTester {
@@ -26,6 +28,9 @@ class PandaPatternTester {
     }
 
     protected static ExtractorResult build(String patternContent, String source) {
+        System.out.println("");
+        System.out.println("src: " + source);
+
         TokenPattern pattern = PandaTokenPattern.builder()
                 .compile(patternContent)
                 .build();
@@ -34,7 +39,8 @@ class PandaPatternTester {
         Assertions.assertNotNull(content);
 
         Tokens tokenizedSource = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("PandaPatternTester", source)).convert();
-        ExtractorResult result = pattern.extract(tokenizedSource);
+        SourceStream stream = new PandaSourceStream(tokenizedSource);
+        ExtractorResult result = pattern.extract(stream);
 
         if (result.hasErrorMessage()) {
             System.out.println("Error message: " + result.getErrorMessage());
@@ -42,6 +48,10 @@ class PandaPatternTester {
 
         if (result.isMatched()) {
             System.out.println(result.getWildcards());
+
+            if (stream.hasUnreadSource()) {
+                System.out.println("Unread source: " + stream.toTokenizedSource().asString());
+            }
         }
 
         return result;

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 class PandaPatternTest {
 
     private static final String METHOD = "[<instance:reader expression exclude method, field> .] <name> `( [<*arguments>] `) [;]";
-    private static final String VARIABLE = "([<type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
+    private static final String VARIABLE = "([[mutable] [nullable] <type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
 
     @Test
     public void testMethod() {
@@ -52,10 +52,10 @@ class PandaPatternTest {
         PandaPatternTester.test(
                 VARIABLE,
 
-                "this.variable = 'Test';",
+                "this.variable = this;",
 
                 PandaPatternTester.Wildcard.of("name", "this.variable"),
-                PandaPatternTester.Wildcard.of("assignation", "Test")
+                PandaPatternTester.Wildcard.of("assignation", "this")
         );
     }
 
@@ -68,6 +68,30 @@ class PandaPatternTest {
 
                 PandaPatternTester.Wildcard.of("name", "varFoo"),
                 PandaPatternTester.Wildcard.of("assignation", "newFoo()")
+        );
+    }
+
+    @Test
+    public void testVariableNameAssignation() {
+        PandaPatternTester.test(
+                VARIABLE,
+
+                "testField = this;",
+
+                PandaPatternTester.Wildcard.of("name", "testField"),
+                PandaPatternTester.Wildcard.of("assignation", "this")
+        );
+    }
+
+    @Test
+    public void testMutableNullableVariableDeclaration() {
+        PandaPatternTester.test(
+                VARIABLE,
+
+                "mutable nullable String x;",
+
+                PandaPatternTester.Wildcard.of("type", "String"),
+                PandaPatternTester.Wildcard.of("name", "x")
         );
     }
 

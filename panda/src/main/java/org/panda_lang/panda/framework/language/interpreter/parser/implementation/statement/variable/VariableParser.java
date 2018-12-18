@@ -20,8 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Component;
@@ -30,11 +28,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.laye
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.variable.parser.VarParserResult;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.ParserRegistration;
 
 import java.util.List;
 
-@ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.SCOPE_VARIABLE_PARSER)
+//@ParserRegistration(target = PandaPipelines.SCOPE, priority = PandaPriorities.SCOPE_VARIABLE_PARSER)
 public class VariableParser extends BootstrapParser {
 
     {

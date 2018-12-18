@@ -61,7 +61,7 @@ main {
     test.echo("Method");
     test.testField();
 
-    nullable mutable Foo varFoo = null;
+    mutable nullable Foo varFoo = null;
     varFoo = new Foo();
 
     mutable String s = "Hello Panda v1";

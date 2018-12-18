@@ -16,12 +16,16 @@ class VariantExtractor extends AbstractElementExtractor<LexicalPatternNode> {
             throw new RuntimeException("The specified node is not marked as a variant node");
         }
 
+        int index = distributor.getIndex();
+
         for (LexicalPatternElement variantElement : element.getElements()) {
             ExtractorResult result = super.getWorker().extract(distributor, variantElement);
 
             if (result.isMatched()) {
                 return result.identified(variantElement.getIdentifier());
             }
+
+            distributor.setIndex(index);
         }
 
         return new ExtractorResult("Variant does not matched");

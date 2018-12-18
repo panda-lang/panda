@@ -14,4 +14,14 @@ public class ObjectUtils {
         return false;
     }
 
+    public static boolean areNull(Object... objects) {
+        for (Object object : objects) {
+            if (object != null) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 }
