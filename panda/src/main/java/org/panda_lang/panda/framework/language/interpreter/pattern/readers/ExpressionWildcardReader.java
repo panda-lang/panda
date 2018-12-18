@@ -25,7 +25,14 @@ class ExpressionWildcardReader implements WildcardReader {
         String[] datum = StringUtils.splitFirst(data, " ");
 
         if (ArrayUtils.isEmpty(datum)) {
-            return PARSER.read(distributor.currentSubSource());
+            Tokens tokens = PARSER.read(distributor.currentSubSource());
+
+            if (tokens == null) {
+                return null;
+            }
+
+            distributor.next(tokens.size());
+            return tokens;
         }
 
         String condition = datum[1];

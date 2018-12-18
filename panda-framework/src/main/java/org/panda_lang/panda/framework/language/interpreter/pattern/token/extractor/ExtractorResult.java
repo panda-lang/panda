@@ -54,6 +54,10 @@ public class ExtractorResult {
         return count;
     }
 
+    public boolean hasIdentifier(String identifier) {
+        return identifiers.contains(identifier);
+    }
+
     public boolean hasErrorMessage() {
         return errorMessage != null;
     }

@@ -54,6 +54,11 @@ public class PandaParserFailure extends ParserFailure {
         this.element = source.readLineResidue().toString();
     }
 
+    public PandaParserFailure withUpdatedSource() {
+        data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();
+        return this;
+    }
+
     @Override
     public ParserData getData() {
         return data;

@@ -27,9 +27,9 @@ public interface SourceStream {
 
     Tokens readLineResidue();
 
-    void restoreCachedSource();
+    SourceStream restoreCachedSource();
 
-    void updateCachedSource();
+    SourceStream updateCachedSource();
 
     TokenReader toTokenReader();
 

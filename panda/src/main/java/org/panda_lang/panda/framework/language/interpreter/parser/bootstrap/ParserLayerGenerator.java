@@ -82,7 +82,7 @@ class ParserLayerGenerator {
 
         if (layerMethod.hasAutowiredParameters()) {
             AutowiredParameters autowiredParameters = layerMethod.getAutowiredParameters();
-            int index = autowiredParameters.detectTo();
+            int index = autowiredParameters.skip();
 
             for (Type type : autowiredParameters.value()) {
                 ProcessedAnnotation processedAnnotation = new ProcessedAnnotation(type.with());
