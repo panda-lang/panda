@@ -105,48 +105,50 @@ public class NewVariableParser extends BootstrapParser {
             return;
         }
 
-        if (name.size() == 1) {
-            Variable variable = VariableParserUtils.getVariable(scope, name.asString());
+        if (name.size() > 1) {
+            OldExpressionParser expressionParser = new OldExpressionParser();
+            Expression instanceExpression = expressionParser.parse(data, name.subSource(0, name.size() - 2), true);
 
-            if (variable == null) {
-                ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-
-                if (prototype == null) {
-                    throw new PandaParserFailure("Cannot get field from non-prototype scope", data);
-                }
-
-                Expression instanceExpression = new PandaExpression(prototype, new ThisExpressionCallback());
-                PrototypeField field = prototype.getFields().getField(name.asString());
-
-                if (field != null) {
-                    local.allocateInstance(instanceExpression);
-                    local.allocateInstance(field);
-                    return;
-                }
-
-                throw new PandaParserFailure("Unknown variable: " + name.asString(), BootstrapUtils.updated(data));
+            if (instanceExpression == null) {
+                throw new PandaParserException("Cannot parse variable reference: " + name);
             }
 
+            String fieldName = name.getLast().getTokenValue();
+            PrototypeField field = instanceExpression.getReturnType().getFields().getField(fieldName);
+
+            if (field == null) {
+                throw new PandaParserException("Field " + fieldName + " does not exist");
+            }
+
+            local.allocateInstance(instanceExpression);
+            local.allocateInstance(field);
+            return;
+        }
+
+        Variable variable = VariableParserUtils.getVariable(scope, name.asString());
+
+        if (variable != null) {
             local.allocateInstance(variable);
             return;
         }
 
-        OldExpressionParser expressionParser = new OldExpressionParser();
-        Expression instanceExpression = expressionParser.parse(data, name.subSource(0, name.size() - 2), true);
+        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
-        if (instanceExpression != null) {
-            ClassPrototype prototype = instanceExpression.getReturnType();
-            PrototypeField field = prototype.getFields().getField(name.getLast().getTokenValue());
-
-            // local false
-            if (field != null) {
-                local.allocateInstance(instanceExpression);
-                local.allocateInstance(field);
-                return;
-            }
+        if (prototype == null) {
+            throw new PandaParserFailure("Cannot get field from non-prototype scope", data);
         }
 
-        throw new PandaParserException("Cannot parse variable reference: " + name);
+        Expression instanceExpression = new PandaExpression(prototype, new ThisExpressionCallback());
+        PrototypeField field = prototype.getFields().getField(name.asString());
+
+        if (field != null) {
+            local.allocateInstance(instanceExpression);
+            local.allocateInstance(field);
+            return;
+        }
+
+        throw new PandaParserFailure("Unknown variable: " + name.asString(), BootstrapUtils.updated(data));
+
     }
 
     @Autowired(order = 3, delegation = Delegation.NEXT_AFTER)
@@ -164,32 +166,34 @@ public class NewVariableParser extends BootstrapParser {
 
         ExpressionParser parser = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
         Expression assignationExpression = parser.parse(data, assignation);
-        Statement accessor;
 
         if (instanceExpression == null) {
             if (!assignationExpression.isNull() && !assignationExpression.getReturnType().isAssociatedWith(variable.getType())) {
-                throw new PandaParserFailure("Return type is incompatible with the type of variable"
-                        + " (var: " + variable.getType().getClassName() + "; expr: " + assignationExpression.getReturnType().getClassName() + ")", data);
+                throw new PandaParserFailure(data,
+                        "Return type is incompatible with the type of variable (",
+                        "var: ", variable.getType().getClassName(),
+                        "; expr: ", assignationExpression.getReturnType().getClassName(),
+                        ")");
             }
 
-            accessor = new VariableAccessor(variable, VariableParserUtils.indexOf(scope, variable), assignationExpression);
-        }
-        else {
-            String fieldName = variable.getName();
-            ClassPrototype type = instanceExpression.getReturnType();
-            PrototypeField field = type.getFields().getField(fieldName);
-
-            if (field == null) {
-                throw new PandaParserException("Field '" + fieldName + "' does not belong to " + type.getClassName());
-            }
-
-            if (!field.getType().equals(assignationExpression.getReturnType())) {
-                throw new PandaParserFailure("Return type is incompatible with the type of variable", data);
-            }
-
-            accessor = new FieldAccessor(instanceExpression, field, assignationExpression);
+            Statement accessor = new VariableAccessor(variable, VariableParserUtils.indexOf(scope, variable), assignationExpression);
+            cell.setStatement(accessor);
+            return;
         }
 
+        String fieldName = variable.getName();
+        ClassPrototype type = instanceExpression.getReturnType();
+        PrototypeField field = type.getFields().getField(fieldName);
+
+        if (field == null) {
+            throw new PandaParserException("Field '" + fieldName + "' does not belong to " + type.getClassName());
+        }
+
+        if (!field.getType().equals(assignationExpression.getReturnType())) {
+            throw new PandaParserFailure("Return type is incompatible with the type of variable", data);
+        }
+
+        Statement accessor = new FieldAccessor(instanceExpression, field, assignationExpression);
         cell.setStatement(accessor);
     }
 

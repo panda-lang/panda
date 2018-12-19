@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 public class PandaParserFailure extends ParserFailure {
 
@@ -31,14 +32,6 @@ public class PandaParserFailure extends ParserFailure {
 
     private final int currentLine;
     private final String element;
-
-    public PandaParserFailure(String message, ParserData data) {
-        this(message, null, data);
-    }
-
-    public PandaParserFailure(String message, String details, ParserData data) {
-        this(builder().message(message).details(details).data(data));
-    }
 
     public PandaParserFailure(PandaParserFailureBuilder builder) {
         super(builder.message);
@@ -52,6 +45,18 @@ public class PandaParserFailure extends ParserFailure {
 
         this.currentLine = source.getCurrentLine();
         this.element = source.readLineResidue().toString();
+    }
+
+    public PandaParserFailure(ParserData data, Object... values) {
+        this(ContentJoiner.on("").join(values).toString(), data);
+    }
+
+    public PandaParserFailure(String message, ParserData data) {
+        this(message, null, data);
+    }
+
+    public PandaParserFailure(String message, String details, ParserData data) {
+        this(builder().message(message).details(details).data(data));
     }
 
     public PandaParserFailure withUpdatedSource() {
