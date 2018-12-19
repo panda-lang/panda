@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.updated.subparsers.DefaultSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.updated.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.updated.subparsers.DefaultSubparsers;
 
 class ExpressionParserTest {
 

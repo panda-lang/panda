@@ -18,7 +18,7 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.PandaFrameworkConstants;
 
-public class PandaConstants {
+public final class PandaConstants {
 
     public static final String VERSION = PandaFrameworkConstants.VERSION;
 

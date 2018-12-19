@@ -16,32 +16,32 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
 import java.util.Collection;
 
-public interface ParserPipeline {
+public interface ParserPipeline<P extends Parser> {
 
     /**
      * @param sourceStream the source
      * @return parser which fits to the source
      */
-    UnifiedParser handle(SourceStream sourceStream);
+    P handle(SourceStream sourceStream);
 
     /**
      * @param parserRepresentation specified parser representation which will be registered in the pipeline
      */
-    void registerParserRepresentation(ParserRepresentation parserRepresentation);
+    void registerParserRepresentation(ParserRepresentation<P> parserRepresentation);
+
+    /**
+     * @return a collection of registered parser
+     */
+    Collection<? extends ParserRepresentation<P>> getRepresentations();
 
     /**
      * @return total handle nano time
      */
     long getHandleTime();
-
-    /**
-     * @return a collection of registered parser
-     */
-    Collection<? extends ParserRepresentation> getRepresentations();
 
 }
