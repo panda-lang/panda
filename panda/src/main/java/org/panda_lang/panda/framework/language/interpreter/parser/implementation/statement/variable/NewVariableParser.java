@@ -64,7 +64,7 @@ public class NewVariableParser extends BootstrapParser {
 
     @Autowired
     public void parse(ParserData data, LocalData local, @Src("type") @Nullable Tokens type, @Src("name") Tokens name, @Src("assignation") @Nullable Tokens assignation) {
-        // System.out.println(name.getFirst().getLine() + "V: " + TokensUtils.asString(type) + " " + TokensUtils.asString(name) + " = " + TokensUtils.asString(assignation));
+        //System.out.println(name.getFirst().getLine() + "V: " + TokensUtils.asString(type) + " " + TokensUtils.asString(name) + " = " + TokensUtils.asString(assignation));
 
         if (ObjectUtils.areNull(type, assignation)) {
             throw new PandaParserFailure("Cannot parse variable statement", data).withUpdatedSource();

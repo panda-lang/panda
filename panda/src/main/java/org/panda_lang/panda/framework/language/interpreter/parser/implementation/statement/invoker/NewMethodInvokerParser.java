@@ -1,6 +1,5 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.invoker;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -29,20 +28,20 @@ public class NewMethodInvokerParser extends BootstrapParser {
                 .pattern("[<instance:reader expression exclude method, field> .] <name> `( [<*args>] `) [;]");
     }
 
-    @Autowired(order = 1)
+    @Autowired
     public void parse(ParserData data, LocalData localData) {
         localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER).reserveCell());
     }
 
-    @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") @Nullable Tokens instance, @Src("name") Tokens name, @Src("*args") @Nullable Tokens arguments) {
+    @Autowired(order = 1, delegation = Delegation.NEXT_AFTER)
+    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Tokens instance, @Src("name") Tokens name, @Src("*args") Tokens arguments) {
         MethodInvokerExpressionParser methodInvokerParser = new MethodInvokerExpressionParser(instance, name, arguments);
-
         methodInvokerParser.setVoids(true);
-        methodInvokerParser.parse(null, data);
 
+        methodInvokerParser.parse(null, data);
         MethodInvoker invoker = methodInvokerParser.getInvoker();
-        cell.setStatement(invoker);
+
+        cell.setStatement(methodInvokerParser.getInvoker());
     }
 
 }
