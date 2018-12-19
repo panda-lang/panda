@@ -24,7 +24,7 @@ public class Panda {
     private final PandaLoader pandaLoader;
     private final PandaLanguage pandaLanguage;
 
-    public Panda() {
+    protected Panda() {
         this.pandaLoader = new PandaLoader(this);
         this.pandaLanguage = new PandaLanguage();
     }

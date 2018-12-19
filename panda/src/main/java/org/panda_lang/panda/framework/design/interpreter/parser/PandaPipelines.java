@@ -17,10 +17,12 @@
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.panda.framework.design.resource.Autoload;
 
 /**
  * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration}
  */
+@Autoload
 public class PandaPipelines {
 
     /**
