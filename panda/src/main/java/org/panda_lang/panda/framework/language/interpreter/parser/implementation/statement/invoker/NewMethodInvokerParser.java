@@ -1,7 +1,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.implementation.statement.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
@@ -10,6 +10,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.BootstrapParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
@@ -30,18 +31,18 @@ public class NewMethodInvokerParser extends BootstrapParser {
 
     @Autowired(order = 1)
     public void parse(ParserData data, LocalData localData) {
-        localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER));
+        localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER).reserveCell());
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    public void parse(ParserData data, LocalData localData, @Src("instance") @Nullable Tokens instance, @Src("name") Tokens name, @Src("*args") @Nullable Tokens arguments) {
+    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") @Nullable Tokens instance, @Src("name") Tokens name, @Src("*args") @Nullable Tokens arguments) {
         MethodInvokerExpressionParser methodInvokerParser = new MethodInvokerExpressionParser(instance, name, arguments);
 
         methodInvokerParser.setVoids(true);
         methodInvokerParser.parse(null, data);
 
         MethodInvoker invoker = methodInvokerParser.getInvoker();
-        localData.getValue(Container.class).addStatement(invoker);
+        cell.setStatement(invoker);
     }
 
 }
