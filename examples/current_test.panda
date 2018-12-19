@@ -6,7 +6,7 @@ import panda-lang;
 class Foo extends Test {
 
     method static void anotherEcho(String message1) {
-        Console.print(message1);
+        Console.print(message1)
     }
 
 }
@@ -28,11 +28,11 @@ class Test {
     hidden Double i = 1.0D;
 
     constructor(String message2) {
-        Console.print(message2);
-        this.testField = this;
-        testField = this;
-        this.echo(String.valueOf(i));
-        //echo(this.i);
+        Console.print(message2)
+        this.testField = this
+        testField = this
+        this.echo(String.valueOf(i))
+        //echo(this.i)
     }
 
     constructor() {
@@ -40,11 +40,11 @@ class Test {
     }
 
     method void echo(Object message3) {
-        Console.print(message3);
+        Console.print(message3)
     }
 
     method void testField() {
-        this.echo(this.getTestField());
+        this.echo(this.getTestField())
     }
 
     method Test getTestField() {
@@ -54,53 +54,53 @@ class Test {
  }
 
 main {
-    String init;
-    nullable Object req = null;
+    String init
+    nullable Object req = null
 
-    Test test = new Test('"Constructor"');
-    test.echo("Method");
-    test.testField();
+    Test test = new Test('"Constructor"')
+    test.echo("Method")
+    test.testField()
 
-    mutable nullable Foo varFoo = null;
-    varFoo = new Foo();
+    mutable nullable Foo varFoo = null
+    varFoo = new Foo()
 
-    mutable String s = "Hello Panda v1";
-    s = "Hello Panda v2";
+    mutable String s = "Hello Panda v1"
+    s = "Hello Panda v2"
 
-    Int i = 0x000001;
-    Int math = 10 + (3 + 4 + i) * 2 /*+ "test" */;
-    Boolean flag = true;
+    Int i = 0x000001
+    Int math = 10 + (3 + 4 + i) * 2 /*+ "test" */
+    Boolean flag = true
 
-    Console.print("Hello Panda", flag, varFoo, s, test, i);
+    Console.print("Hello Panda", flag, varFoo, s, test, i)
     Console.print(math);
 
     if (!flag) {
-        Console.print("Nope");
+        Console.print("Nope")
     }
     else {
-        Console.print("Yay");
+        Console.print("Yay")
     }
 
-    List list = new ArrayList();
-    list.add("val1");
-    list.add("val2");
+    List list = new ArrayList()
+    list.add("val1")
+    list.add("val2")
 
-    StringBuilder builder = new StringBuilder();
+    StringBuilder builder = new StringBuilder()
     builder.append(list);
 
     loop (i) {
-        builder.append(" Loop x1 ");
+        builder.append(" Loop x1 ")
 
         foreach (String var; : list) {
-            builder.append(var);
+            builder.append(var)
         }
 
         continue;
-        builder.append(" Loop x3 ");
+        builder.append(" Loop x3 ")
     }
 
     while (flag) {
-        Console.print(builder.toString());
+        Console.print(builder.toString())
         break;
     }
 }
