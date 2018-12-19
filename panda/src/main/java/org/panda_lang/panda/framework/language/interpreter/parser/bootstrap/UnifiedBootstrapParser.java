@@ -23,6 +23,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
@@ -51,7 +53,17 @@ public class UnifiedBootstrapParser implements UnifiedParser {
 
     @Override
     public boolean parse(ParserData data) throws Throwable {
+        SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+        Tokens source = stream.toTokenizedSource();
+        int length = stream.getUnreadLength();
+
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();
+        int difference = length - stream.getUnreadLength();
+
+        if (difference > 0) {
+            data.setComponent(BootstrapComponents.CURRENT_SOURCE, source.subSource(0, difference));
+        }
+
         return delegate(data, data.getComponent(UniversalComponents.GENERATION), interceptorData, new LocalData(), index);
     }
 

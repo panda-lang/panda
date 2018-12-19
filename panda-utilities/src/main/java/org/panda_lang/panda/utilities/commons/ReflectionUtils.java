@@ -28,6 +28,14 @@ import java.util.List;
 
 public class ReflectionUtils {
 
+    public static @Nullable Class<?> forName(String name) {
+        try {
+            return Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
+
     /**
      * Collect methods annotated with the specified annotation
      *
