@@ -2,6 +2,8 @@ package org.panda_lang.panda.framework.language.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
@@ -11,8 +13,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.anno
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.language.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 class ParserLayerGenerator {
@@ -30,7 +34,14 @@ class ParserLayerGenerator {
             @Override
             public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
                 Object[] parameters = convertParameters(layer, data, pipeline.generation(), interceptorData, localData);
-                invoke(autowiredMethod, parameters);
+
+                try {
+                    invoke(autowiredMethod, parameters);
+                }
+                catch (ParserFailure failure) {
+                    failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(failure.getData().getComponent(BootstrapComponents.CURRENT_SOURCE)));
+                    throw failure;
+                }
 
                 if (last && (nextOrder - bootstrapParser.getIndex()) < bootstrapParser.getLayers().size()) {
                     // System.out.println("DELEGATE >> " + bootstrapParser.getLayers().get(nextOrder - bootstrapParser.getIndex()).getMethod());
@@ -56,8 +67,8 @@ class ParserLayerGenerator {
             PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations");
             throw e;
         }
-        catch (Exception e) {
-            throw e.getCause();
+        catch (InvocationTargetException e) {
+            throw e.getTargetException();
         }
     }
 

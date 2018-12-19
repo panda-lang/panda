@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.implementatio
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
@@ -60,7 +61,13 @@ public class ContainerParser implements Parser {
                 throw PandaParserFailure.builder().message("Unrecognized syntax").data(data).source(stream.updateCachedSource()).build();
             }
 
-            parser.parse(delegatedData);
+            try {
+                parser.parse(delegatedData);
+            }
+            catch (ParserFailure failure) {
+                failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, stream);
+                throw failure;
+            }
 
             if (sourceLength == stream.getUnreadLength()) {
                 throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData);
