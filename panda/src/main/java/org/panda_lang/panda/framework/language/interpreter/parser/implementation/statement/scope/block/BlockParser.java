@@ -22,8 +22,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
@@ -46,6 +48,17 @@ public class BlockParser extends BootstrapParser {
                 .pattern("+** { +* }", "block-declaration", "block-body")
                 .instance(this)
                 .build();
+    }
+
+    @Override
+    public boolean handle(TokenReader reader) {
+        // TODO: yyy
+
+        if (reader.getTokenizedSource().getFirst().getType() == TokenType.KEYWORD) {
+            return super.handle(reader);
+        }
+
+        return false;
     }
 
     @Autowired(order = 1)
