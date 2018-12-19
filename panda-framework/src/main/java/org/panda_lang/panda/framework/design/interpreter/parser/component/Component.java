@@ -16,42 +16,19 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.component;
 
-import org.panda_lang.panda.framework.PandaFrameworkException;
-
 import java.util.HashMap;
 import java.util.Map;
 
-public class Component<T> {
+public class Component<T> extends AbstractComponent<T> {
 
-    private static final Map<String, Component<?>> components = new HashMap<>();
-
-    private final String name;
-    private final Class<T> type;
+    private static final Map<String, AbstractComponent> COMPONENTS = new HashMap<>();
 
     private Component(String name, Class<T> type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Class<T> getType() {
-        return type;
+        super(name, type);
     }
 
     public static <T> Component<T> of(String name, Class<T> type) {
-        Component<?> existingComponent = components.get(name);
-
-        if (existingComponent != null) {
-            throw new PandaFrameworkException("Component '" + name + "' already exists (type: " + existingComponent.getType() + ")");
-        }
-
-        Component<T> component = new Component<>(name, type);
-        components.put(name, component);
-
-        return component;
+        return ofComponents(COMPONENTS, name, () -> new Component<>(name, type));
     }
 
 }

@@ -54,6 +54,10 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.panda-lang</groupId>
+            <artifactId>panda-framework</artifactId>
+        </dependency>
     </dependencies>
 
     <distributionManagement>

@@ -16,9 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-
-public interface ParserRepresentation {
+public interface ParserRepresentation<P> {
 
     /**
      * Add 1 to number of use. It's used to optimization process of parsing.
@@ -43,6 +41,6 @@ public interface ParserRepresentation {
     /**
      * @return associated parser
      */
-    UnifiedParser getParser();
+    P getParser();
 
 }
