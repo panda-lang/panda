@@ -9,9 +9,9 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface AutowiredParameters {
 
-    int from() default 0;
-
     int skip() default 0;
+
+    int to() default -1;
 
     Type[] value();
 
