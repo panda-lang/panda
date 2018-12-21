@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 
@@ -45,31 +46,31 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     }
 
     @Override
-    public P handle(SourceStream stream) {
+    public P handle(ParserData data, SourceStream stream) {
         if (count > 100) {
             count = 0;
             sort();
         }
 
         if (parentPipeline != null) {
-            P parser = handle(stream, parentPipeline.getRepresentations());
+            P parser = handle(data, stream, parentPipeline.getRepresentations());
 
             if (parser != null) {
                 return parser;
             }
         }
 
-        return handle(stream, representations);
+        return handle(data, stream, representations);
     }
 
-    private @Nullable P handle(SourceStream stream, Collection<? extends ParserRepresentation<P>> representations) {
+    private @Nullable P handle(ParserData data, SourceStream stream, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
 
         for (ParserRepresentation<P> representation : representations) {
-            ParserHandler parserHandler = representation.getHandler();
-            TokenReader tokenReader = stream.toTokenReader();
+            ParserHandler handler = representation.getHandler();
+            TokenReader reader = stream.toTokenReader();
 
-            if (parserHandler.handle(tokenReader)) {
+            if (handler.handle(data, reader)) {
                 representation.increaseUsages();
                 count++;
 
