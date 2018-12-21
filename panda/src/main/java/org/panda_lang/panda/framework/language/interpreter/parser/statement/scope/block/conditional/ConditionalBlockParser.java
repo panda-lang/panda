@@ -16,44 +16,42 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.conditional;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ElseBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
-public class ConditionalBlockParser extends BootstrapParser {
-
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "+* ( +* )")
-            .build();
+public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     {
         parserBuilder = builder()
-                .handler(new TokenHandler(Keywords.IF, Keywords.ELSE));
+                .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("((if:if|elseif:else if) `( <*condition> `)|else:else)");
     }
 
     @Autowired
-    public boolean parse(ParserData data, @Component SourceStream stream, @Component ParserData parentData) {
-        if (stream.getUnreadLength() == 1) {
+    public BlockData parse(ParserData data, ExtractorResult pattern, @Component ParserData parentData, @Src("*condition") @Nullable Tokens condition) {
+        if (pattern.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock();
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
@@ -64,40 +62,34 @@ public class ConditionalBlockParser extends BootstrapParser {
             ConditionalBlock conditionalBlock = (ConditionalBlock) previousBlock;
             conditionalBlock.setElseBlock(elseBlock);
 
-            data.setComponent(BlockComponents.BLOCK, elseBlock);
-            data.setComponent(BlockComponents.UNLISTED_BLOCK, true);
-            return true;
+            return new BlockData(elseBlock, true);
         }
 
-        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "condition-type", "condition-expression");
-        Tokens conditionType = redactor.get("condition-type");
-        Tokens conditionExpression = redactor.get("condition-expression");
+        if (TokensUtils.isEmpty(condition)) {
+            throw new PandaParserFailure("Empty condition", data);
+        }
 
         OldExpressionParser expressionParser = new OldExpressionParser();
-        Expression expression = expressionParser.parse(data, conditionExpression);
-
+        Expression expression = expressionParser.parse(data, condition);
         ConditionalBlock conditionalBlock = new ConditionalBlock(expression);
-        data.setComponent(BlockComponents.BLOCK, conditionalBlock);
 
-        switch (conditionType.asString()) {
-            case "if":
-                break;
-            case "else if":
-                Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
-
-                if (!(previousBlock instanceof ConditionalBlock)) {
-                    throw new PandaParserFailure("The If-Else-block without associated If-block", data);
-                }
-
-                ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
-                conditionalBlock.setElseBlock(previousConditionalBlock);
-                data.setComponent(BlockComponents.UNLISTED_BLOCK, true);
-                break;
-            default:
-                throw new PandaParserFailure("Unrecognized condition type", data);
+        if (pattern.hasIdentifier("if")) {
+            return new BlockData(conditionalBlock);
         }
 
-        return true;
+        if (pattern.hasIdentifier("elseif")) {
+            Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
+
+            if (!(previousBlock instanceof ConditionalBlock)) {
+                throw new PandaParserFailure("The If-Else-block without associated If-block", data);
+            }
+
+            ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
+            conditionalBlock.setElseBlock(previousConditionalBlock);
+            return new BlockData(previousBlock, true);
+        }
+
+        throw new PandaParserFailure("Unrecognized condition type", data);
     }
 
 }

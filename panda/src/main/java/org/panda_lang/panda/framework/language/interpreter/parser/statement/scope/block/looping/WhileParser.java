@@ -16,23 +16,23 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.looping;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
-public class WhileParser extends BootstrapParser {
+public class WhileParser extends BlockSubparserBootstrap {
 
     {
         parserBuilder = builder()
@@ -41,14 +41,14 @@ public class WhileParser extends BootstrapParser {
     }
 
     @Autowired
-    private void parserWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
+    private BlockData parserWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
         Expression expression = new OldExpressionParser().parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 
-        data.setComponent(BlockComponents.BLOCK, new WhileBlock(expression));
+        return new BlockData(new WhileBlock(expression));
     }
 
 }

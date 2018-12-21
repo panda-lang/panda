@@ -19,30 +19,30 @@ package org.panda_lang.panda.framework.language.interpreter.parser.statement.sco
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
+import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.parser.VarParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.parser.VarParserResult;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
-public class ForEachParser extends BootstrapParser {
+public class ForEachParser extends BlockSubparserBootstrap {
 
     {
         parserBuilder = builder()
@@ -52,7 +52,7 @@ public class ForEachParser extends BootstrapParser {
     }
 
     @Autowired
-    public boolean parse(ParserData data, @Src("foreach-var") Tokens varSource, @Src("foreach-iterable") Tokens iterableSource) {
+    public BlockData parse(ParserData data, @Src("foreach-var") Tokens varSource, @Src("foreach-iterable") Tokens iterableSource) {
         VarParser varParser = new VarParser();
         VarParserData varData = varParser.toVarParserData(data, varSource);
         VarParserResult result = varParser.parseVariable(varData, data);
@@ -75,8 +75,7 @@ public class ForEachParser extends BootstrapParser {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
-        data.setComponent(BlockComponents.BLOCK, new ForEachBlock(variableId, result.getVariable().getType(), expression));
-        return true;
+        return new BlockData(new ForEachBlock(variableId, result.getVariable().getType(), expression));
     }
 
 }
