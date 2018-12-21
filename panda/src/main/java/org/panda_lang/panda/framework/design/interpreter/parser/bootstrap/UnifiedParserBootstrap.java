@@ -23,22 +23,22 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
-public abstract class BootstrapParser implements UnifiedParser, ParserHandler {
+public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
 
-    protected ParserRepresentation<UnifiedParser> bootstrapParser;
-    protected BootstrapParserBuilder parserBuilder;
+    protected ParserRepresentation<UnifiedParser<T>> bootstrapParser;
+    protected BootstrapParserBuilder<T> parserBuilder;
 
     @Override
-    public boolean parse(ParserData data) throws Throwable {
+    public boolean handle(ParserData data, TokenReader reader) {
+        return get().getHandler().handle(data, reader);
+    }
+
+    @Override
+    public T parse(ParserData data) throws Throwable {
         return get().getParser().parse(data);
     }
 
-    @Override
-    public boolean handle(TokenReader reader) {
-        return get().getHandler().handle(reader);
-    }
-
-    private ParserRepresentation<UnifiedParser> get() {
+    private ParserRepresentation<UnifiedParser<T>> get() {
         if (bootstrapParser != null) {
             return bootstrapParser;
         }
@@ -51,8 +51,8 @@ public abstract class BootstrapParser implements UnifiedParser, ParserHandler {
         return bootstrapParser;
     }
 
-    protected BootstrapParserBuilder builder() {
-        return PandaParserBootstrap.builder().instance(this);
+    protected BootstrapParserBuilder<T> builder() {
+        return PandaParserBootstrap.<T> builder().instance(this);
     }
 
 }

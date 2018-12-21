@@ -33,17 +33,17 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UnifiedBootstrapParser implements UnifiedParser {
+public class UnifiedBootstrapParser<T> implements UnifiedParser<T> {
 
     private final PandaParserBootstrap bootstrap;
     private final List<? extends LayerMethod> layers;
-    private final ParserLayerGenerator generator;
+    private final ParserLayerGenerator<T> generator;
     private final int index;
 
-    public UnifiedBootstrapParser(PandaParserBootstrap bootstrap) {
+    public UnifiedBootstrapParser(PandaParserBootstrap<T> bootstrap) {
         this.bootstrap = bootstrap;
         this.layers = bootstrap.getLayers();
-        this.generator = new ParserLayerGenerator(this);
+        this.generator = new ParserLayerGenerator<>(this);
 
         this.index = layers.stream()
                 .min(Comparator.comparingInt(LayerMethod::getOrder))
@@ -52,7 +52,7 @@ public class UnifiedBootstrapParser implements UnifiedParser {
     }
 
     @Override
-    public boolean parse(ParserData data) throws Throwable {
+    public T parse(ParserData data) throws Throwable {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         Tokens source = stream.toTokenizedSource();
         int length = stream.getUnreadLength();
@@ -67,31 +67,34 @@ public class UnifiedBootstrapParser implements UnifiedParser {
         return delegate(data, data.getComponent(UniversalComponents.GENERATION), interceptorData, new LocalData(), index);
     }
 
-    protected boolean delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int order) throws Throwable {
+    protected T delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int order) throws Throwable {
         List<LayerMethod> methods = layers.stream()
                 .filter((method) -> method.getOrder() == order)
                 .sorted(Comparator.comparingInt(method -> method.getDelegation().getPriority()))
                 .collect(Collectors.toList());
 
-        // System.out.println("sel::" + bootstrap.getClass() + " = " + methods.size());
+        T result = null;
 
         for (int i = 0; i < methods.size(); i++) {
-            GenerationCallback callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
-            delegate(generation, data, callback, methods.get(i));
+            GenerationCallback<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
+            T currentResult = delegate(generation, data, callback, methods.get(i));
+
+            if (result == null) {
+                result = currentResult;
+            }
         }
 
-        return true;
+        return result;
     }
 
-    private void delegate(Generation generation, ParserData data, GenerationCallback callback, LayerMethod method) throws Throwable {
+    private T delegate(Generation generation, ParserData data, GenerationCallback<T> callback, LayerMethod method) throws Throwable {
         GenerationPipeline pipeline = generation.pipeline(method.getType());
         GenerationLayer currentLayer = pipeline.currentLayer();
         GenerationLayer nextLayer = pipeline.nextLayer();
 
         switch (method.getDelegation()) {
             case IMMEDIATELY:
-                callback.call(pipeline, data);
-                break;
+                return callback.call(pipeline, data);
             case CURRENT_BEFORE:
                 currentLayer.delegateBefore(callback, data);
                 break;
@@ -113,6 +116,8 @@ public class UnifiedBootstrapParser implements UnifiedParser {
             default:
                 throw new ParserBootstrapException("Unknown delegation: " + method.getDelegation());
         }
+
+        return null;
     }
 
     protected int getIndex() {
