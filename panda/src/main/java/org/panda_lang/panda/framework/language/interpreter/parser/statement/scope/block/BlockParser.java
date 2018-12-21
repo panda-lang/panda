@@ -17,61 +17,75 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.language.interpreter.parser.ContainerParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.ContainerParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_BLOCK_PARSER)
-public class BlockParser extends BootstrapParser {
+public class BlockParser extends UnifiedParserBootstrap {
 
     {
         bootstrapParser = PandaParserBootstrap.builder()
-                .pattern("+** { +* }", "block-declaration", "block-body")
+                .pattern("+* { +* }", "block-declaration", "block-body")
                 .instance(this)
                 .build();
     }
 
     @Override
-    public boolean handle(TokenReader reader) {
-        // TODO: yyy
-
-        if (reader.getTokenizedSource().getFirst().getType() == TokenType.KEYWORD) {
-            return super.handle(reader);
-        }
-
-        return false;
+    public boolean handle(ParserData data, TokenReader reader) {
+        return ObjectUtils.isNotNull(data
+                .getComponent(UniversalComponents.PIPELINE)
+                .getPipeline(PandaPipelines.BLOCK)
+                .handle(data, new PandaSourceStream(reader.getTokenizedSource())));
     }
 
     @Autowired(order = 1)
     private void parse(ParserData data, LocalData local, Generation generation, @Src("block-declaration") Tokens declaration) throws Throwable {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
-        ParserPipeline<UnifiedParser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
-        UnifiedParser blockParser = pipeline.handle(declarationStream);
+        ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
+        BlockSubparser blockParser = pipeline.handle(data, declarationStream);
 
         if (blockParser == null) {
             throw new PandaParserFailure("Unknown block", data);
         }
 
+        ParserData delegatedData = local.allocateInstance(data.fork());
+        BlockData blockData = blockParser.parse(delegatedData, declaration);
+
+        if (blockData == null || blockData.getBlock() == null) {
+            throw new PandaParserFailure(blockParser.getClass().getSimpleName() + " cannot parse current block", data);
+        }
+
+        local.allocateInstance(blockData.getBlock());
+
+        if (blockData.isUnlisted()) {
+            return;
+        }
+
+        data.getComponent(PandaComponents.CONTAINER).addStatement(blockData.getBlock());
+        data.setComponent(BlockComponents.PREVIOUS_BLOCK, blockData.getBlock());
+    }
+
+    /*
         ParserData blockData = local.allocateInstance(data.fork());
         blockData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
         blockParser.parse(blockData);
@@ -88,7 +102,7 @@ public class BlockParser extends BootstrapParser {
         }
 
         data.setComponent(BlockComponents.PREVIOUS_BLOCK, block);
-    }
+        */
 
     @Autowired(order = 2)
     private void parseContent(@Local ParserData blockData, @Local Block block, @Src("block-body") Tokens body) throws Throwable {
