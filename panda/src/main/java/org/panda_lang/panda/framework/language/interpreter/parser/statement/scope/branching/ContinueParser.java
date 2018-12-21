@@ -17,15 +17,18 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.branching;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Continue;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Continue;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL)
@@ -33,14 +36,18 @@ public class ContinueParser extends UnifiedParserBootstrap {
 
     {
         super.builder()
-                .handler(new TokenHandler(Keywords.CONTINUE));
+                .handler(new TokenHandler(Keywords.CONTINUE))
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("continue [;]");
     }
 
     @Autowired
-    private void parseContinue(@Component SourceStream source, @Component Container container) {
+    private void parseContinue(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Tokens source, @Component Container container) {
         Continue continueStatement = new Continue();
         container.addStatement(continueStatement);
-        continueStatement.setStatementData(PandaStatementData.of(source));
+
+        StatementData statementData = new PandaStatementData(source.getCurrentLine());
+        continueStatement.setStatementData(statementData);
     }
 
 }
