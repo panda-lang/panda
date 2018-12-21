@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-public interface UnifiedParser extends Parser {
+public interface UnifiedParser<T> extends Parser {
 
     /**
      * @param data set of information about source and interpretation process
      */
-    boolean parse(ParserData data) throws Throwable;
+    T parse(ParserData data) throws Throwable;
 
 }
