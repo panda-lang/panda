@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
@@ -25,8 +26,13 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.A
 
 public class AbyssPatternAssistant {
 
-    public static AbyssPatternMapping traditionalMapping(AbyssPattern pattern, ParserData info, String... mapping) {
+    public static @Nullable AbyssPatternMapping traditionalMapping(AbyssPattern pattern, ParserData info, String... mapping) {
         AbyssPatternMappingHollows hollows = AbyssPatternAssistant.extract(pattern, info);
+
+        if (hollows == null) {
+            return null;
+        }
+
         AbyssPatternMapping redactor = new AbyssPatternMapping(hollows);
         return redactor.map(mapping);
     }

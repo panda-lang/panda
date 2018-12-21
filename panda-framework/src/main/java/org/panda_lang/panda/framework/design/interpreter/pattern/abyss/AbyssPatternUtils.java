@@ -16,25 +16,25 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.abyss;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.extractor.AbyssExtractor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMappingHollows;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.extractor.AbyssExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMappingHollows;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 
 import java.util.List;
 
 public class AbyssPatternUtils {
 
-    public static AbyssPatternMappingHollows extract(AbyssPattern pattern, SourceStream source) {
+    public static @Nullable AbyssPatternMappingHollows extract(AbyssPattern pattern, SourceStream source) {
         AbyssExtractor extractor = pattern.extractor();
         TokenReader reader = source.toTokenReader();
         List<Tokens> gaps = extractor.extract(reader);
 
         if (gaps == null) {
-            throw new PandaParserException("Cannot parse source at line " + source.toTokenizedSource().getCurrentLine());
+            return null;
         }
 
         source.readDifference(reader);
