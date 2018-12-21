@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
@@ -19,24 +20,26 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-class ParserLayerGenerator {
+class ParserLayerGenerator<T> {
 
-    private final UnifiedBootstrapParser bootstrapParser;
+    private final UnifiedBootstrapParser<T> bootstrapParser;
 
-    ParserLayerGenerator(UnifiedBootstrapParser bootstrapParser) {
+    ParserLayerGenerator(UnifiedBootstrapParser<T> bootstrapParser) {
         this.bootstrapParser = bootstrapParser;
     }
 
-    protected GenerationCallback callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextOrder, boolean last) {
+    protected GenerationCallback<T> callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextOrder, boolean last) {
         Method autowiredMethod = layer.getMethod();
 
-        return new GenerationCallback() {
+        return new GenerationCallback<T>() {
             @Override
-            public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
+            public @Nullable T call(GenerationPipeline pipeline, ParserData data) throws Throwable {
                 Object[] parameters = convertParameters(layer, data, pipeline.generation(), interceptorData, localData);
+                T result;
 
                 try {
-                    invoke(autowiredMethod, parameters);
+                    //noinspection unchecked
+                    result = (T) invoke(autowiredMethod, parameters);
                 }
                 catch (ParserFailure failure) {
                     failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(failure.getData().getComponent(BootstrapComponents.CURRENT_SOURCE)));
@@ -44,9 +47,10 @@ class ParserLayerGenerator {
                 }
 
                 if (last && (nextOrder - bootstrapParser.getIndex()) < bootstrapParser.getLayers().size()) {
-                    // System.out.println("DELEGATE >> " + bootstrapParser.getLayers().get(nextOrder - bootstrapParser.getIndex()).getMethod());
                     bootstrapParser.delegate(data.fork(), pipeline.generation(), interceptorData, localData, nextOrder);
                 }
+
+                return result;
             }
 
             @Override
@@ -56,12 +60,11 @@ class ParserLayerGenerator {
         };
     }
 
-    private void invoke(Method autowiredMethod, Object... parameters) throws Throwable {
-        // System.out.println(autowiredMethod);
+    private @Nullable Object invoke(Method autowiredMethod, Object... parameters) throws Throwable {
         autowiredMethod.setAccessible(true);
 
         try {
-            autowiredMethod.invoke(bootstrapParser.getBootstrap().getInstance(), parameters);
+            return autowiredMethod.invoke(bootstrapParser.getBootstrap().getInstance(), parameters);
         }
         catch (IllegalArgumentException e) {
             PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations");

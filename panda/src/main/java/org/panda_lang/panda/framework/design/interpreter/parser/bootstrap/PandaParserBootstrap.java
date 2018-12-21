@@ -26,16 +26,16 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaPa
 
 import java.util.List;
 
-public class PandaParserBootstrap {
+public class PandaParserBootstrap<T> {
 
-    private final BootstrapParserBuilder bootstrap;
+    private final BootstrapParserBuilder<T> bootstrap;
 
-    protected PandaParserBootstrap(BootstrapParserBuilder bootstrap) {
+    protected PandaParserBootstrap(BootstrapParserBuilder<T> bootstrap) {
         this.bootstrap = bootstrap;
     }
 
-    protected ParserRepresentation<UnifiedParser> generate() {
-        UnifiedBootstrapParser bootstrapParser = new UnifiedBootstrapParser(this);
+    protected ParserRepresentation<UnifiedParser<T>> generate() {
+        UnifiedBootstrapParser<T> bootstrapParser = new UnifiedBootstrapParser<>(this);
 
         if (hasInterceptor()) {
             getInterceptor().initialize(this);
@@ -88,8 +88,8 @@ public class PandaParserBootstrap {
         return bootstrap.name;
     }
 
-    public static BootstrapParserBuilder builder() {
-        return new BootstrapParserBuilder();
+    public static <T> BootstrapParserBuilder<T> builder() {
+        return new BootstrapParserBuilder<>();
     }
 
 }

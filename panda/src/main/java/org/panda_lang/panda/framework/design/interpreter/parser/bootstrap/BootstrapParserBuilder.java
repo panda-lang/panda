@@ -33,7 +33,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
-public class BootstrapParserBuilder {
+public class BootstrapParserBuilder<T> {
 
     protected Object instance;
     protected String name;
@@ -51,61 +51,61 @@ public class BootstrapParserBuilder {
 
     protected BootstrapParserBuilder() { }
 
-    public BootstrapParserBuilder instance(Object object) {
+    public BootstrapParserBuilder<T> instance(Object object) {
         this.instance = object;
         return this;
     }
 
-    public BootstrapParserBuilder name(String name) {
+    public BootstrapParserBuilder<T> name(String name) {
         this.name = name;
         return this;
     }
 
-    public BootstrapParserBuilder pipeline(String pipeline) {
+    public BootstrapParserBuilder<T> pipeline(String pipeline) {
         this.pipeline = pipeline;
         return this;
     }
 
-    public BootstrapParserBuilder interceptor(BootstrapInterceptor interceptor) {
+    public BootstrapParserBuilder<T> interceptor(BootstrapInterceptor interceptor) {
         this.interceptor = interceptor;
         return this;
     }
 
-    public BootstrapParserBuilder handler(ParserHandler handler) {
+    public BootstrapParserBuilder<T> handler(ParserHandler handler) {
         this.handler = handler;
         return this;
     }
 
-    public BootstrapParserBuilder pattern(String pattern, String... wildcardNames) {
+    public BootstrapParserBuilder<T> pattern(String pattern, String... wildcardNames) {
         this.pattern = pattern;
         this.wildcardNames = wildcardNames;
         return this;
     }
 
-    public BootstrapParserBuilder pattern(String pattern, int maxNestingLevel, String... wildcardNames) {
+    public BootstrapParserBuilder<T> pattern(String pattern, int maxNestingLevel, String... wildcardNames) {
         this.maxNestingLevel = maxNestingLevel;
         return pattern(pattern, wildcardNames);
     }
 
-    public BootstrapParserBuilder priority(int priority) {
+    public BootstrapParserBuilder<T> priority(int priority) {
         this.priority = priority;
         return this;
     }
 
-    public BootstrapParserBuilder layer(LayerMethod layer) {
+    public BootstrapParserBuilder<T> layer(LayerMethod layer) {
         layers.add(layer);
         return this;
     }
 
-    public BootstrapParserBuilder layers(Class<?> clazz) {
+    public BootstrapParserBuilder<T> layers(Class<?> clazz) {
         return layers(ReflectionUtils.getMethodsAnnotatedWith(clazz, Autowired.class));
     }
 
-    public BootstrapParserBuilder layers(Class<?> clazz, String methodName) {
+    public BootstrapParserBuilder<T> layers(Class<?> clazz, String methodName) {
         return layers(ReflectionUtils.getMethods(clazz, methodName));
     }
 
-    public BootstrapParserBuilder layers(Collection<Method> methods) {
+    public BootstrapParserBuilder<T> layers(Collection<Method> methods) {
         methods.stream()
                 .map(LayerMethod::new)
                 .sorted(Comparator.comparingInt(LayerMethod::getOrder))
@@ -114,7 +114,7 @@ public class BootstrapParserBuilder {
         return this;
     }
 
-    public ParserRepresentation<UnifiedParser> build() {
+    public ParserRepresentation<UnifiedParser<T>> build() {
         if (name == null && instance != null) {
             name(instance.getClass().getSimpleName());
         }
@@ -139,7 +139,7 @@ public class BootstrapParserBuilder {
             throw new ParserBootstrapException("Bootstrap does not contain any layers");
         }
 
-        return new PandaParserBootstrap(this).generate();
+        return new PandaParserBootstrap<>(this).generate();
     }
 
 }
