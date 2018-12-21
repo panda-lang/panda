@@ -1,5 +1,6 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
@@ -21,7 +22,7 @@ public class AbyssPatternHandler implements BootstrapHandler {
     }
 
     @Override
-    public boolean handle(TokenReader reader) {
+    public boolean handle(ParserData data, TokenReader reader) {
         List<Tokens> result = pattern.extractor().extract(reader);
         return result != null && result.size() == pattern.getAmountOfHollows();
     }
