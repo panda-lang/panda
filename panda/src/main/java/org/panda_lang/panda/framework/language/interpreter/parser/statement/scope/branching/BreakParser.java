@@ -17,16 +17,16 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.branching;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Break;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Break;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL)
@@ -34,14 +34,14 @@ public class BreakParser extends UnifiedParserBootstrap {
 
     {
         super.builder()
-                .handler(new TokenHandler(Keywords.BREAK));
+                .handler(new TokenHandler(Keywords.BREAK))
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("break [;]");
     }
 
     @Autowired
-    private void parseBreak(ParserData data, @Component SourceStream source, @Component Container container) {
-        Break breakStatement = new Break();
-        container.addStatement(breakStatement);
-        breakStatement.setStatementData(PandaStatementData.of(source));
+    private void parseBreak(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Tokens source, @Component Container container) {
+        BranchingUtils.parseBranchingStatement(source, container, Break::new);
     }
 
 }
