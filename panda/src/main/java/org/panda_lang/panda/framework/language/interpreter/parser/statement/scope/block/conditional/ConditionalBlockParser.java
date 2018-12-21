@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("((if:if|elseif:else if) `( <*condition> `)|else:else)");

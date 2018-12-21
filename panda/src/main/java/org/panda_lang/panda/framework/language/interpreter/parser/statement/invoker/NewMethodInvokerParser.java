@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 public class NewMethodInvokerParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("[<instance:reader expression exclude method, field> .] <name> `( [<*args>] `) [;]");
@@ -30,10 +30,6 @@ public class NewMethodInvokerParser extends UnifiedParserBootstrap {
 
     @Autowired
     public void parse(ParserData data, LocalData localData) {
-        if (localData == null || data.getComponent(PandaComponents.CONTAINER) == null) {
-            System.out.println("xxx");
-        }
-
         localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER).reserveCell());
     }
 

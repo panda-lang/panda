@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ForEachParser extends BlockSubparserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenHandler(Keywords.FOREACH))
                 .pattern("foreach ( +* : +* )", "foreach-var", "foreach-iterable")
                 .interceptor(new DefaultInterceptor(false, 1));

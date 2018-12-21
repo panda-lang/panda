@@ -52,7 +52,7 @@ import java.util.List;
 public class MethodParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ [<*body>] `}");

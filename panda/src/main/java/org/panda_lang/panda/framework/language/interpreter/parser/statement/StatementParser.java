@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 public class StatementParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .pattern("+* ;", "statement");
     }
 

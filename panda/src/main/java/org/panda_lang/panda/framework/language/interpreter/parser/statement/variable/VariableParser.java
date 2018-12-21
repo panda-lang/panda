@@ -35,7 +35,7 @@ import java.util.List;
 public class VariableParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder();
+        builder = builder();
     }
 
     @Override

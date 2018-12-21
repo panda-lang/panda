@@ -46,7 +46,7 @@ import java.util.List;
 public class ConstructorParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");

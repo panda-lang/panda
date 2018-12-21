@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class WhileParser extends BlockSubparserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenHandler(Keywords.WHILE))
                 .pattern("while ( +* )", "while-expression");
     }

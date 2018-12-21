@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ContinueParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenHandler(Keywords.CONTINUE));
     }
 
