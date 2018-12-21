@@ -22,4 +22,8 @@ public class TokensUtils {
         return tokens != null ? tokens.asString() : null;
     }
 
+    public static int getLine(@Nullable Tokens tokens) {
+        return tokens != null ? tokens.getCurrentLine() : -2;
+    }
+
 }

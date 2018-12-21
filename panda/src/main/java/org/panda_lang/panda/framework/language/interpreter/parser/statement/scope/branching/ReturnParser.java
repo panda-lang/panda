@@ -16,98 +16,58 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.branching;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL)
 public class ReturnParser extends UnifiedParserBootstrap {
 
-    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "return +* ;")
-            .build();
-
-    @Override
-    public boolean handle(ParserData data, TokenReader reader) {
-        return reader.read().contentEquals(Keywords.RETURN);
+    {
+        super.builder()
+                .handler(new TokenHandler(Keywords.RETURN))
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("return [<value:reader expression>][;]");
     }
 
-    @Override
-    public Boolean parse(ParserData data) {
-        SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
-        Container container = data.getComponent(PandaComponents.CONTAINER);
+    @Autowired
+    @AutowiredParameters(skip = 2, to = 4, value = {
+            @Type(with = Component.class, value = BootstrapComponents.CURRENT_SOURCE_LABEL),
+            @Type(with = Src.class, value = "value")
+    })
+    public void parse(ParserData data, @Component Container container, Tokens source, @Nullable Tokens value) {
+        Return returnStatement;
 
-        if (stream.getUnreadLength() == 1) {
-            Return returnStatement = new Return(null);
-            container.addStatement(returnStatement);
-
-            TokenRepresentation returnToken = stream.read();
-            StatementData statementData = new PandaStatementData(returnToken.getLine());
-            returnStatement.setStatementData(statementData);
-
-            return true;
+        if (TokensUtils.isEmpty(value)) {
+            returnStatement = new Return(null);
+        }
+        else {
+            Expression expression = new OldExpressionParser().parse(data, value);
+            returnStatement = new Return(expression);
         }
 
-        StatementCell cell = container.reserveCell();
-        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(PATTERN, data, "return-expression");
-
-        data.getComponent(UniversalComponents.GENERATION)
-                .pipeline(PandaTypes.CONTENT)
-                .nextLayer()
-                .delegate(new ReturnExpressionCasualParserCallback(cell, redactor), data);
-
-        return true;
-    }
-
-    @LocalCallback
-    private static class ReturnExpressionCasualParserCallback implements GenerationCallback {
-
-        private final StatementCell cell;
-        private final AbyssPatternMapping redactor;
-
-        public ReturnExpressionCasualParserCallback(StatementCell cell, AbyssPatternMapping redactor) {
-            this.cell = cell;
-            this.redactor = redactor;
-        }
-
-        @Override
-        public Object call(GenerationPipeline pipeline, ParserData data) throws Throwable {
-            Tokens expressionSource = redactor.get("return-expression");
-            OldExpressionParser expressionParser = new OldExpressionParser();
-            Expression expression = expressionParser.parse(data, expressionSource);
-
-            Return returnStatement = new Return(expression);
-            cell.setStatement(returnStatement);
-
-            StatementData statementData = new PandaStatementData(expressionSource.getFirst().getLine());
-            returnStatement.setStatementData(statementData);
-            return null;
-        }
-
+        StatementData statementData = new PandaStatementData(source.getCurrentLine());
+        returnStatement.setStatementData(statementData);
+        container.addStatement(returnStatement);
     }
 
 }
