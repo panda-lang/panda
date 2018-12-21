@@ -41,7 +41,7 @@ public class WhileParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    private BlockData parserWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
+    private BlockData parseWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
         Expression expression = new OldExpressionParser().parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {

@@ -45,10 +45,11 @@ class Test {
 
     method void testField() {
         this.echo(this.getTestField())
+        return
     }
 
     method Test getTestField() {
-        return this.testField;
+        return this.testField
     }
 
  }
@@ -95,7 +96,7 @@ main {
             builder.append(var)
         }
 
-        continue;
+        continue
         builder.append(" Loop x3 ")
     }
 
