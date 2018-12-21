@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -32,14 +32,14 @@ import org.panda_lang.panda.framework.language.interpreter.parser.statement.vari
 import java.util.List;
 
 //@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_VARIABLE_PARSER)
-public class VariableParser extends BootstrapParser {
+public class VariableParser extends UnifiedParserBootstrap {
 
     {
         parserBuilder = builder();
     }
 
     @Override
-    public boolean handle(TokenReader reader) {
+    public boolean handle(ParserData data, TokenReader reader) {
         List<Tokens> hollows = VarParser.PATTERN.extractor().extract(reader);
         return hollows != null && hollows.size() > 0;
     }

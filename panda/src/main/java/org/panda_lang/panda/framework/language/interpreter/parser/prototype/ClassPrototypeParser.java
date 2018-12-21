@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
@@ -57,7 +57,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
-public class ClassPrototypeParser extends BootstrapParser {
+public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
     {
         parserBuilder = builder()
@@ -114,7 +114,7 @@ public class ClassPrototypeParser extends BootstrapParser {
         bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(stream);
+            UnifiedParser parser = pipeline.handle(data, stream);
 
             if (parser == null) {
                 throw new PandaParserFailure("Cannot parse the element of the prototype", data.setComponent(UniversalComponents.SOURCE_STREAM, stream));

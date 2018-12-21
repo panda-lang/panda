@@ -7,7 +7,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.method.Met
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
@@ -19,7 +19,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.general.expres
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER_PARSER)
-public class NewMethodInvokerParser extends BootstrapParser {
+public class NewMethodInvokerParser extends UnifiedParserBootstrap {
 
     {
         parserBuilder = builder()
@@ -30,6 +30,10 @@ public class NewMethodInvokerParser extends BootstrapParser {
 
     @Autowired
     public void parse(ParserData data, LocalData localData) {
+        if (localData == null || data.getComponent(PandaComponents.CONTAINER) == null) {
+            System.out.println("xxx");
+        }
+
         localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER).reserveCell());
     }
 

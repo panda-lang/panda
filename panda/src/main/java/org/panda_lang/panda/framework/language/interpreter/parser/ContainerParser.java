@@ -17,6 +17,8 @@
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
@@ -27,9 +29,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserP
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 public class ContainerParser implements Parser {
@@ -54,7 +53,7 @@ public class ContainerParser implements Parser {
         delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
         while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(stream);
+            UnifiedParser parser = pipeline.handle(delegatedData, stream);
             int sourceLength = stream.getUnreadLength();
 
             if (parser == null) {

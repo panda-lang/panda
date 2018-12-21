@@ -46,19 +46,19 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL)
-public class ReturnParser implements UnifiedParser, ParserHandler {
+public class ReturnParser implements UnifiedParser<Boolean>, ParserHandler {
 
     private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "return +* ;")
             .build();
 
     @Override
-    public boolean handle(TokenReader reader) {
+    public boolean handle(ParserData data, TokenReader reader) {
         return reader.read().contentEquals(Keywords.RETURN);
     }
 
     @Override
-    public boolean parse(ParserData data) {
+    public Boolean parse(ParserData data) {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         Container container = data.getComponent(PandaComponents.CONTAINER);
 
@@ -96,7 +96,7 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(GenerationPipeline pipeline, ParserData data) throws Throwable {
+        public Object call(GenerationPipeline pipeline, ParserData data) throws Throwable {
             Tokens expressionSource = redactor.get("return-expression");
             OldExpressionParser expressionParser = new OldExpressionParser();
             Expression expression = expressionParser.parse(data, expressionSource);
@@ -106,6 +106,7 @@ public class ReturnParser implements UnifiedParser, ParserHandler {
 
             StatementData statementData = new PandaStatementData(expressionSource.getFirst().getLine());
             returnStatement.setStatementData(statementData);
+            return null;
         }
 
     }
