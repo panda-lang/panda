@@ -16,42 +16,12 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.invoker;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.util.LocalCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.argument.ArgumentParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.ExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.parser.VarParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPatternUtils;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 // @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
-public class MethodInvokerParser implements UnifiedParser, ParserHandler {
+public class MethodInvokerParser /*implements UnifiedParser, ParserHandler*/ {
 
     public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+** . +** ( +* )")
@@ -63,8 +33,9 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
             .lastIndexAlgorithm(true)
             .build();
 
+    /*
     @Override
-    public boolean handle(TokenReader reader) {
+    public boolean handle(ParserData data, TokenReader reader) {
         return AbyssPatternUtils.match(MethodInvokerParser.LOCAL_PATTERN, reader) && !AbyssPatternUtils.match(VarParser.ASSIGNATION_PATTERN, reader);
     }
 
@@ -138,4 +109,5 @@ public class MethodInvokerParser implements UnifiedParser, ParserHandler {
 
     }
 
+*/
 }

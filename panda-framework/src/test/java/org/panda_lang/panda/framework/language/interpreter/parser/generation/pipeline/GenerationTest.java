@@ -34,7 +34,10 @@ class GenerationTest {
             pipeline.nextLayer().delegate((pipeline1, delegatedData1) -> {
                 pipeline1.generation().pipeline("a").nextLayer().delegate((pipeline2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
                 outputBuilder.append("b3 ");
+                return null;
             }, delegatedData);
+
+            return null;
         }, null);
 
         generation.execute(null);

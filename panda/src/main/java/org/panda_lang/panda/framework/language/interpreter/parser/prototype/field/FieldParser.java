@@ -56,7 +56,7 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
-public class FieldParser implements UnifiedParser, ParserHandler {
+public class FieldParser implements UnifiedParser<Boolean>, ParserHandler {
 
     protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+** ;")
@@ -67,12 +67,12 @@ public class FieldParser implements UnifiedParser, ParserHandler {
             .build();
 
     @Override
-    public boolean handle(TokenReader reader) {
+    public boolean handle(ParserData data, TokenReader reader) {
         return FieldParser.PATTERN.match(reader) != null;
     }
 
     @Override
-    public boolean parse(ParserData data) throws Throwable {
+    public Boolean parse(ParserData data) throws Throwable {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         SourceStream copyOfStream = new PandaSourceStream(stream.toTokenizedSource());
 
@@ -102,7 +102,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(GenerationPipeline pipeline, ParserData delegatedData) {
+        public Object call(GenerationPipeline pipeline, ParserData delegatedData) {
             AbyssPatternMappingHollows hollows = AbyssPatternAssistant.extract(assignation ? ASSIGNATION_PATTERN : PATTERN, delegatedData);
             AbyssPatternMapping redactor = new AbyssPatternMapping(hollows);
 
@@ -194,6 +194,8 @@ public class FieldParser implements UnifiedParser, ParserHandler {
             if (assignation) {
                 pipeline.nextLayer().delegate(new FieldAssignationCasualParserCallback(field, redactor), delegatedData);
             }
+
+            return null;
         }
 
     }
@@ -210,7 +212,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
         }
 
         @Override
-        public void call(GenerationPipeline pipeline, ParserData delegatedData) {
+        public Object call(GenerationPipeline pipeline, ParserData delegatedData) {
             Tokens right = redactor.get("right");
 
             OldExpressionParser expressionParser = new OldExpressionParser();
@@ -221,6 +223,7 @@ public class FieldParser implements UnifiedParser, ParserHandler {
             }
 
             field.setDefaultValue(expressionValue);
+            return null;
         }
 
     }

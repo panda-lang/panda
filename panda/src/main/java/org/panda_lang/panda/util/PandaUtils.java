@@ -23,6 +23,7 @@ import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 public class PandaUtils {
 
     public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.createScanner()
+            .logger(null)
             .includeClassLoaders(false, Panda.class.getClassLoader())
             .build()
             .createWorker()

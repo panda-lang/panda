@@ -95,4 +95,15 @@ class PandaPatternTest {
         );
     }
 
+    @Test
+    public void testNestedVariants() {
+        PandaPatternTester.test(
+                "((if:if|else if) `( <*condition> `)|else)",
+
+                "if (!flag)",
+
+                PandaPatternTester.Wildcard.of("*condition", "!flag")
+        );
+    }
+
 }
