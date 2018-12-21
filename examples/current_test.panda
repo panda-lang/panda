@@ -72,7 +72,7 @@ main {
     Boolean flag = true
 
     Console.print("Hello Panda", flag, varFoo, s, test, i)
-    Console.print(math);
+    Console.print(math)
 
     if (!flag) {
         Console.print("Nope")
@@ -86,7 +86,7 @@ main {
     list.add("val2")
 
     StringBuilder builder = new StringBuilder()
-    builder.append(list);
+    builder.append(list)
 
     loop (i) {
         builder.append(" Loop x1 ")
