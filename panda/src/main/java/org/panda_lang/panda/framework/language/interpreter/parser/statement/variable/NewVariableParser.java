@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_VARIABLE_PARSER)
-public class NewVariableParser extends BootstrapParser {
+public class NewVariableParser extends UnifiedParserBootstrap {
 
     {
         parserBuilder = builder()

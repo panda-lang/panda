@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
-public class MainParser extends BootstrapParser {
+public class MainParser extends UnifiedParserBootstrap {
 
     {
         parserBuilder = builder()
