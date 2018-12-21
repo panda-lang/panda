@@ -97,8 +97,7 @@ public class LexicalPatternCompiler {
         }
 
         if (unitBuilder.length() > 0) {
-            LexicalPatternUnit unit = new LexicalPatternUnit(unitBuilder.toString());
-            elements.add(unit);
+            compile(elements, unitBuilder);
         }
 
         if (elements.size() == 0) {
