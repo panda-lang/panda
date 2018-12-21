@@ -48,7 +48,7 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 public class NewVariableParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
                 .pattern(PatternContentBuilder.create()

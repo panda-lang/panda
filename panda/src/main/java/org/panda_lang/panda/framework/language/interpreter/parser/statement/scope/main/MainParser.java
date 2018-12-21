@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class MainParser extends UnifiedParserBootstrap {
 
     {
-        parserBuilder = builder()
+        super.builder()
                 .handler(new TokenHandler(Keywords.MAIN))
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("main `{ <*main-body> `}");

@@ -25,8 +25,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 
 public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
 
-    protected ParserRepresentation<UnifiedParser<T>> bootstrapParser;
-    protected BootstrapParserBuilder<T> parserBuilder;
+    protected BootstrapParserBuilder<T> builder = PandaParserBootstrap.<T> builder().instance(this);
+    protected ParserRepresentation<UnifiedParser<T>> parser;
 
     @Override
     public boolean handle(ParserData data, TokenReader reader) {
@@ -39,20 +39,20 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
     }
 
     private ParserRepresentation<UnifiedParser<T>> get() {
-        if (bootstrapParser != null) {
-            return bootstrapParser;
+        if (parser != null) {
+            return parser;
         }
 
-        if (parserBuilder == null) {
+        if (builder == null) {
             throw new PandaParserException("BootstrapParser does not have associated ParserRepresentation or BootstrapBuilder");
         }
 
-        bootstrapParser = parserBuilder.build();
-        return bootstrapParser;
+        parser = builder.build();
+        return parser;
     }
 
     protected BootstrapParserBuilder<T> builder() {
-        return PandaParserBootstrap.<T> builder().instance(this);
+        return this.builder;
     }
 
 }
