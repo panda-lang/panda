@@ -24,6 +24,22 @@ import java.util.List;
 
 public interface Tokens {
 
+    default Tokens[] split(Token token) {
+        List<Tokens> tokens = new ArrayList<>();
+        int previousIndex = 0;
+
+        for (int i = 0; i < size(); i++) {
+            TokenRepresentation current = get(i);
+
+            if (current.contentEquals(token)) {
+                tokens.add(subSource(previousIndex, i - 1));
+                previousIndex = i;
+            }
+        }
+
+        return tokens.toArray(new Tokens[0]);
+    }
+
     default Tokens subSource(int fromIndex, int toIndex) {
         return new PandaTokens(getTokensRepresentations().subList(fromIndex, toIndex));
     }

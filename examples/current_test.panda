@@ -91,7 +91,7 @@ main {
     loop (i) {
         builder.append(" Loop x1 ")
 
-        foreach (String var; : list) {
+        foreach (String var : list) {
             builder.append(var)
         }
 

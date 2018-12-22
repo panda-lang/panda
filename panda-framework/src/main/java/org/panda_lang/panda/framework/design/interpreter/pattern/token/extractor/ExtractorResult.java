@@ -66,6 +66,10 @@ public class ExtractorResult {
         return matched;
     }
 
+    public Tokens getWildcard(String name) {
+        return wildcards.get(name);
+    }
+
     public String getErrorMessage() {
         return errorMessage;
     }

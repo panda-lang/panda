@@ -28,6 +28,14 @@ public class PandaVariable implements Variable {
     protected final boolean nullable;
 
     public PandaVariable(ClassPrototype variableType, String variableName, int nestingLevel, boolean mutable, boolean nullable) {
+        if (variableType == null) {
+            throw new IllegalArgumentException("Variable type cannot be null");
+        }
+
+        if (variableName == null) {
+            throw new IllegalArgumentException("Variable name cannot be null");
+        }
+
         this.variableType = variableType;
         this.variableName = variableName;
         this.nestingLevel = nestingLevel;
