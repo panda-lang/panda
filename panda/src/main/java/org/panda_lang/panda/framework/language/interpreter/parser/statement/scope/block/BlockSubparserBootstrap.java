@@ -6,10 +6,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
-public class BlockSubparserBootstrap extends UnifiedParserBootstrap<BlockData> implements BlockSubparser {
-    
+public abstract class BlockSubparserBootstrap extends UnifiedParserBootstrap<BlockData> implements BlockSubparser {
+
     @Override
-    public BlockData parse(ParserData data, Tokens declaration) throws Throwable {
+    public final BlockData parse(ParserData data, Tokens declaration) throws Throwable {
         return super.parse(data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(declaration)));
     }
 

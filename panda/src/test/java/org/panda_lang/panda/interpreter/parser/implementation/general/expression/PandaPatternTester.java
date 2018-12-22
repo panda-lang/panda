@@ -11,6 +11,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 class PandaPatternTester {
 
@@ -28,7 +29,7 @@ class PandaPatternTester {
     }
 
     protected static ExtractorResult build(String patternContent, String source) {
-        System.out.println("");
+        System.out.println(StringUtils.EMPTY);
         System.out.println("src: " + source);
 
         TokenPattern pattern = PandaTokenPattern.builder()

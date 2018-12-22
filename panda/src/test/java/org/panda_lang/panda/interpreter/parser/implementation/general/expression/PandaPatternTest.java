@@ -9,6 +9,11 @@ class PandaPatternTest {
     private static final String VARIABLE = "([[mutable] [nullable] <type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
 
     @Test
+    public void testClass() {
+
+    }
+
+    @Test
     public void testMethod() {
         PandaPatternTester.test(
                 METHOD,
@@ -103,6 +108,17 @@ class PandaPatternTest {
                 "if (!flag)",
 
                 PandaPatternTester.Wildcard.of("*condition", "!flag")
+        );
+    }
+
+    @Test
+    public void testNested() {
+        PandaPatternTester.test(
+                "foreach `( <*content> `)",
+
+                "foreach(String var : list)",
+
+                PandaPatternTester.Wildcard.of("*content", "Stringvar:list")
         );
     }
 

@@ -52,7 +52,7 @@ public class UnifiedBootstrapParser<T> implements UnifiedParser<T> {
     }
 
     @Override
-    public T parse(ParserData data) throws Throwable {
+    public final T parse(ParserData data) throws Throwable {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         Tokens source = stream.toTokenizedSource();
         int length = stream.getUnreadLength();
