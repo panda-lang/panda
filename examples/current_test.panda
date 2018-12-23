@@ -15,16 +15,16 @@ class Foo extends Test {
 String s
 String s = [...]
 
-<expression>(<parameters>);
-call();
-call.x();
+<expression>(<parameters>)
+call()
+call.x()
 
 */
 
 class Test {
 
-    hidden mutable Test testField;
-    hidden Double i = 1.0D;
+    hidden mutable Test testField
+    hidden Double i = 1.0D
 
     constructor(String message2) {
         Console.print(message2)
@@ -104,6 +104,3 @@ main {
         break
     }
 }
-
-import panda-lang;
-import panda-lang
