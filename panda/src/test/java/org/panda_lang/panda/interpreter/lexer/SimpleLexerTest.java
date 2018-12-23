@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
-public class SimpleLexerTest {
+class SimpleLexerTest {
 
     @Test
     public void testKeywordsInUnknown() {

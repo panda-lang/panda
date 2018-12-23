@@ -46,22 +46,6 @@ public class DefaultFailureTemplateBuilder {
                         .reset()
                         .a(source.substring(endIndex))
                         .toString())
-                .register("{{stacktrace}}", () -> {
-                    StringBuilder content = new StringBuilder();
-                    StackTraceElement[] elements = exception.getStackTrace();
-
-                    for (int i = 0; i < 5; i++) {
-                        StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), i);
-
-                        if (lastElement == null) {
-                            break;
-                        }
-
-                        content.append("(").append(lastElement.getFileName()).append(":").append(lastElement.getLineNumber()).append(") <- ");
-                    }
-
-                    return content.append("[...]").toString();
-                })
                 .register("{{stacktrace-last}}", () -> {
                     StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
 
@@ -70,7 +54,8 @@ public class DefaultFailureTemplateBuilder {
                     }
 
                     return PackageUtils.getShortenPackage(lastElement.getClassName()) + " (" + lastElement.getFileName() + ":" + lastElement.getLineNumber() + ")";
-                });
+                })
+                .register("{{stacktrace}}", new StacktraceSupplier(exception));
 
         return this;
     }

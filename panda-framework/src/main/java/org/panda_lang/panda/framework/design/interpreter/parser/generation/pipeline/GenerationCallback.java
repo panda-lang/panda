@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface GenerationCallback {
+public interface GenerationCallback<T> {
 
-    void call(GenerationPipeline pipeline, ParserData data) throws Throwable;
+    @Nullable T call(GenerationPipeline pipeline, ParserData data) throws Throwable;
 
 }

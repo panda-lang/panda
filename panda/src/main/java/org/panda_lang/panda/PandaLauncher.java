@@ -22,7 +22,7 @@ import org.panda_lang.panda.utilities.commons.FileUtils;
 import java.io.File;
 import java.util.Collection;
 
-public class PandaLauncher {
+public final class PandaLauncher {
 
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();

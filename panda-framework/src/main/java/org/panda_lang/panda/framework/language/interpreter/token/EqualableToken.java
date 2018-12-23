@@ -45,13 +45,11 @@ public abstract class EqualableToken implements Token {
             return true;
         }
 
-        if (!(o instanceof EqualableToken)) {
+        if (!(o instanceof Token)) {
             return false;
         }
 
-        EqualableToken that = (EqualableToken) o;
-        return getType().equals(that.getType()) && getTokenValue().equals(that.getTokenValue());
-
+        return equals(o);
     }
 
     @Override

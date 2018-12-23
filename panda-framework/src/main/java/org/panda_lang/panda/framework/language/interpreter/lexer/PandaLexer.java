@@ -45,6 +45,7 @@ public class PandaLexer implements Lexer {
 
     private boolean includeIndentation;
     private boolean respectWhitespaces;
+    private boolean equalsIgnoreCase;
 
     private String linePreview;
     private String tokenPreview;
@@ -154,12 +155,20 @@ public class PandaLexer implements Lexer {
         line++;
     }
 
+    public void equalsIgnoreCase(boolean flag) {
+        this.equalsIgnoreCase = flag;
+    }
+
     public void includeIndentation(boolean flag) {
         this.includeIndentation = flag;
     }
 
     public void respectWhitespaces(boolean flag) {
         this.respectWhitespaces = flag;
+    }
+
+    protected boolean isEqualsIgnoreCase() {
+        return equalsIgnoreCase;
     }
 
     protected int getLine() {

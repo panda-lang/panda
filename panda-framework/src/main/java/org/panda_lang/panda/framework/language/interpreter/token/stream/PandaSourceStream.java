@@ -70,12 +70,6 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public Tokens readDifference(TokenReader reader) {
-        int length = reader.getIndex() + 1;
-        return this.read(length);
-    }
-
-    @Override
     public Tokens readLineResidue() {
         List<TokenRepresentation> residue = new ArrayList<>();
         int currentLine = this.getCurrentLine();
@@ -95,13 +89,15 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public void restoreCachedSource() {
+    public PandaSourceStream restoreCachedSource() {
         this.source = cachedSource;
+        return this;
     }
 
     @Override
-    public void updateCachedSource() {
+    public PandaSourceStream updateCachedSource() {
         this.cachedSource = source;
+        return this;
     }
 
     @Override

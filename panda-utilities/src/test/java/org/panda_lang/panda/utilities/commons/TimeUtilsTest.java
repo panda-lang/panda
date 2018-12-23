@@ -21,9 +21,21 @@ import org.junit.jupiter.api.Test;
 
 class TimeUtilsTest {
 
+    private final long uptime = System.currentTimeMillis();
+
     @Test
     public void testToMilliseconds() {
         Assertions.assertEquals("1.0ms", TimeUtils.toMilliseconds(1_000_000));
+    }
+
+    @Test
+    public void testToSeconds() {
+        Assertions.assertEquals("1.0s", TimeUtils.toSeconds(1_000));
+    }
+
+    @Test
+    public void testUptime() {
+        Assertions.assertTrue(TimeUtils.getUptime(uptime) > 0);
     }
 
 }

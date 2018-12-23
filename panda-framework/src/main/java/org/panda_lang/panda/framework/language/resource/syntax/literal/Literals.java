@@ -16,6 +16,10 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.literal;
 
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+
+import java.util.Collection;
+
 /**
  * Default literals
  */
@@ -29,17 +33,14 @@ public class Literals {
 
     public static final Literal THIS = new Literal("this");
 
-    private static final Literal[] VALUES = new Literal[4];
+    private static final Collection<Literal> VALUES;
 
     static {
-        VALUES[0] = FALSE;
-        VALUES[1] = TRUE;
-        VALUES[2] = NULL;
-        VALUES[3] = THIS;
+        VALUES = ReflectionUtils.getStaticFieldValues(Literals.class, Literal.class);
     }
 
     public static Literal[] values() {
-        return VALUES;
+        return VALUES.toArray(new Literal[0]);
     }
 
 }

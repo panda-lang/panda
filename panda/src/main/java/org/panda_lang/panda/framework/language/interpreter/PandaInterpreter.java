@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.architecture.PandaApplication;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.ApplicationParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.ApplicationParser;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 
 public class PandaInterpreter implements Interpreter {

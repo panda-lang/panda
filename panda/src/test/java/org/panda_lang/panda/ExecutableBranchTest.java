@@ -18,11 +18,11 @@ package org.panda_lang.panda;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.language.architecture.dynamic.block.PandaBlock;
+import org.panda_lang.panda.framework.design.architecture.dynamic.block.PandaBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
 
-public class ExecutableBranchTest {
+class ExecutableBranchTest {
 
     @Test
     public void test() {

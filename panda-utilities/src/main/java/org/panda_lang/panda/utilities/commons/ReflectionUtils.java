@@ -16,12 +16,25 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class ReflectionUtils {
+
+    public static @Nullable Class<?> forName(String name) {
+        try {
+            return Class.forName(name);
+        } catch (ClassNotFoundException e) {
+            return null;
+        }
+    }
 
     /**
      * Collect methods annotated with the specified annotation
@@ -80,6 +93,41 @@ public class ReflectionUtils {
         }
 
         return matchedMethods;
+    }
+
+    public static <T> Collection<T> getStaticFieldValues(Class<?> clazz, Class<T> type) {
+        return getFieldValues(clazz, type, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <R, T> Collection<R> getFieldValues(Class<T> clazz, Class<R> type, @Nullable T instance) {
+        Collection<Field> fields = new ArrayList<>(type.getDeclaredFields().length);
+
+        for (Field declaredField : clazz.getDeclaredFields()) {
+            if (declaredField.getType() != type) {
+                continue;
+            }
+
+            if (instance == null && !Modifier.isStatic(declaredField.getModifiers())) {
+                continue;
+            }
+
+            fields.add(declaredField);
+        }
+
+        Collection<R> values = new ArrayList<>(fields.size());
+
+        try {
+            for (Field field : fields) {
+                field.setAccessible(true);
+                Object value = field.get(instance);
+                values.add(value != null ? (R) value : null);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return values;
     }
 
 }

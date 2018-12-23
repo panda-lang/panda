@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 public class OverallParser implements Parser {
 
     private final Interpretation interpretation;
-    private final ParserPipeline pipeline;
+    private final ParserPipeline<UnifiedParser> pipeline;
     private final SourceStream stream;
 
     public OverallParser(ParserData data) {
@@ -43,7 +43,7 @@ public class OverallParser implements Parser {
             return;
         }
 
-        UnifiedParser parser = pipeline.handle(stream);
+        UnifiedParser parser = pipeline.handle(data, stream);
         int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {

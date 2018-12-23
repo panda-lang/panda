@@ -8,6 +8,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
+import java.util.Collection;
 import java.util.List;
 
 class ReflectionUtilsTest {
@@ -31,6 +32,22 @@ class ReflectionUtilsTest {
         );
     }
 
+    @Test
+    public void testStaticFieldValues() {
+        Collection<String> values = ReflectionUtils.getStaticFieldValues(Foo.class, String.class);
+
+        Assertions.assertEquals(1, values.size());
+        Assertions.assertEquals("static-value", values.iterator().next());
+    }
+
+    @Test
+    public void testFieldValues() {
+        Collection<String> values = ReflectionUtils.getFieldValues(Bar.class, String.class, new Bar());
+
+        Assertions.assertEquals(1, values.size());
+        Assertions.assertEquals("value", values.iterator().next());
+    }
+
 }
 
 @Target(ElementType.METHOD)
@@ -39,12 +56,16 @@ class ReflectionUtilsTest {
 
 class Foo {
 
+    private static final String STATIC_FIELD = "static-value";
+
     @AnnotationTest
     private void test() { }
 
 }
 
 class Bar extends Foo {
+
+    private final String FIELD = "value";
 
     @AnnotationTest
     private void test() { }

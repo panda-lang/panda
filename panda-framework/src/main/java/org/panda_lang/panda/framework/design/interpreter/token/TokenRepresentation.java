@@ -22,12 +22,28 @@ public interface TokenRepresentation {
 
     Token getToken();
 
+    default String getTokenName() {
+        return getToken().getName();
+    }
+
     default String getTokenValue() {
         return getToken().getTokenValue();
     }
 
     default String getTokenType() {
-        return getToken().getType().getTypeName();
+        return getType().getTypeName();
+    }
+
+    default TokenType getType() {
+        return getToken().getType();
+    }
+
+    default boolean contentEquals(Token token) {
+        return getToken().equals(token);
+    }
+
+    default boolean contentEquals(TokenType tokenType, String tokenValue) {
+        return getToken().equals(tokenType, tokenValue);
     }
 
 }

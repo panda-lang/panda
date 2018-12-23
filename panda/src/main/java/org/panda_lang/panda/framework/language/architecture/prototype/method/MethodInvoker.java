@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.implementation.general.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.ExpressionUtils;
 
 public class MethodInvoker extends ExecutableStatement implements StandaloneExecutable {
 

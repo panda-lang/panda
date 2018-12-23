@@ -1,8 +1,10 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class PandaTypes {
@@ -19,17 +21,14 @@ public class PandaTypes {
     public static final String CONTENT_LABEL = "CONTENT";
     public static final PipelineType CONTENT = new PipelineType(CONTENT_LABEL, 4.0);
 
-    private static final PipelineType[] VALUES = new PipelineType[4];
+    private static final Collection<PipelineType> VALUES;
 
     static {
-        VALUES[0] = RAW_SYNTAX;
-        VALUES[1] = TYPES;
-        VALUES[2] = SYNTAX;
-        VALUES[3] = CONTENT;
+        VALUES = ReflectionUtils.getStaticFieldValues(PandaTypes.class, PipelineType.class);
     }
 
     public static List<? extends PipelineType> getValues() {
-        return Arrays.asList(VALUES);
+        return new ArrayList<>(VALUES);
     }
 
 }

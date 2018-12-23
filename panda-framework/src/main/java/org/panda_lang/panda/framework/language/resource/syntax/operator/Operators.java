@@ -16,6 +16,10 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+
+import java.util.Collection;
+
 /**
  * Default operators
  */
@@ -69,37 +73,14 @@ public class Operators {
 
     public static final Operator COLON = new Operator(":");
 
-    private static final Operator[] VALUES = new Operator[24];
+    private static final Collection<Operator> VALUES;
 
     static {
-        VALUES[0] = ASSIGNMENT;
-        VALUES[1] = ADDITION;
-        VALUES[2] = SUBTRACTION;
-        VALUES[3] = MULTIPLICATION;
-        VALUES[4] = DIVISION;
-        VALUES[5] = MODULE;
-        VALUES[6] = INCREMENT;
-        VALUES[7] = DECREMENT;
-        VALUES[8] = EQUAL_TO;
-        VALUES[9] = NOT_EQUAL_TO;
-        VALUES[10] = GREATER_THAN;
-        VALUES[11] = LESS_THAN;
-        VALUES[12] = GREATER_THAN_OR_EQUAL_TO;
-        VALUES[13] = LESS_THAN_OR_EQUAL_TO;
-        VALUES[14] = NOT;
-        VALUES[15] = AND;
-        VALUES[16] = OR;
-        VALUES[17] = BITWISE_NOT;
-        VALUES[18] = BITWISE_AND;
-        VALUES[19] = BITWISE_OR;
-        VALUES[20] = BITWISE_XOR;
-        VALUES[21] = BITWISE_LEFT_SHIFT;
-        VALUES[22] = BITWISE_RIGHT_SHIFT;
-        VALUES[23] = COLON;
+        VALUES = ReflectionUtils.getStaticFieldValues(Operators.class, Operator.class);
     }
 
     public static Operator[] values() {
-        return VALUES;
+        return VALUES.toArray(new Operator[0]);
     }
 
 }

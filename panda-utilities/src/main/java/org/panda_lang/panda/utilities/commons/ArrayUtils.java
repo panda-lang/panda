@@ -55,6 +55,16 @@ public class ArrayUtils {
     }
 
     /**
+     * Checks if the specified array is null or empty
+     *
+     * @param array the array to check
+     * @return true if array is null or empty
+     */
+    public static boolean isEmpty(@Nullable Object[] array) {
+        return array == null || array.length == 0;
+    }
+
+    /**
      * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
      *
      * @param array the array to process
@@ -64,6 +74,18 @@ public class ArrayUtils {
      */
     public static <T> @Nullable T get(T[] array, int index) {
         return index > -1 && index < array.length ? array[index] : null;
+    }
+
+    /**
+     * Return array of the specified elements using varargs parameter
+     *
+     * @param elements elements in array
+     * @param <T> type of the array
+     * @return the array of the specified elements
+     */
+    @SafeVarargs
+    public static <T> T[] of(T... elements) {
+        return elements;
     }
 
 }

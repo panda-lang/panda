@@ -24,9 +24,25 @@ import java.util.List;
 
 public interface Tokens {
 
-    Tokens subSource(int fromIndex, int toIndex);
+    default Tokens[] split(Token token) {
+        List<Tokens> tokens = new ArrayList<>();
+        int previousIndex = 0;
 
-    TokenRepresentation[] toArray();
+        for (int i = 0; i < size(); i++) {
+            TokenRepresentation current = get(i);
+
+            if (current.contentEquals(token)) {
+                tokens.add(subSource(previousIndex, i - 1));
+                previousIndex = i;
+            }
+        }
+
+        return tokens.toArray(new Tokens[0]);
+    }
+
+    default Tokens subSource(int fromIndex, int toIndex) {
+        return new PandaTokens(getTokensRepresentations().subList(fromIndex, toIndex));
+    }
 
     default Tokens selectLine(int line) {
         List<TokenRepresentation> selected = new ArrayList<>();
@@ -46,8 +62,78 @@ public interface Tokens {
         return new PandaTokens(selected);
     }
 
+    default Tokens addToken(TokenRepresentation tokenRepresentation) {
+        getTokensRepresentations().add(tokenRepresentation);
+        return this;
+    }
+
+    default boolean startsWith(Token... tokens) {
+        if (tokens.length > size()) {
+            return false;
+        }
+
+        for (int i = 0; i < tokens.length; i++) {
+            if (!get(i).contentEquals(tokens[i])) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    default boolean contains(Token token) {
+        for (TokenRepresentation representation : getTokensRepresentations()) {
+            if (representation.contentEquals(token)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     default int size() {
         return getTokensRepresentations().size();
+    }
+
+    default boolean isEmpty() {
+        return size() == 0;
+    }
+
+    default boolean hasElement(int index) {
+        return index > -1 && index < size();
+    }
+
+    default TokenRepresentation get(int index) {
+        if (!hasElement(index)) {
+            throw new TokensIndexOutOfBoundsException(index);
+        }
+
+        return getTokensRepresentations().get(index);
+    }
+
+    default @Nullable TokenRepresentation getLast(int lastIndex) {
+        int index = size() - lastIndex - 1;
+        return hasElement(index) ? get(index) : null;
+    }
+
+    default String getTokenValue(int index) {
+        return getToken(index).getTokenValue();
+    }
+
+    default Token getToken(int index) {
+        return get(index).getToken();
+    }
+
+    default TokenRepresentation getFirst() {
+        return get(0);
+    }
+
+    default TokenRepresentation getLast() {
+        return getLast(0);
+    }
+
+    default int getCurrentLine() {
+        return hasElement(0) ? get(0).getLine() + 1 : -1;
     }
 
     default String asString() {
@@ -61,57 +147,8 @@ public interface Tokens {
         return node.toString();
     }
 
-    default Tokens addToken(TokenRepresentation tokenRepresentation) {
-        getTokensRepresentations().add(tokenRepresentation);
-        return this;
-    }
-
-    default @Nullable TokenRepresentation get(int id) {
-        if (id >= size() || id < 0) {
-            return null;
-        }
-
-        return getTokensRepresentations().get(id);
-    }
-
-    default @Nullable TokenRepresentation getLast(int i) {
-        int index = size() - i - 1;
-        return index > -1 ? get(index) : null;
-    }
-
-    default @Nullable String getTokenValue(int id) {
-        Token token = getToken(id);
-
-        if (token == null) {
-            return null;
-        }
-
-        return token.getTokenValue();
-    }
-
-    default @Nullable Token getToken(int id) {
-        TokenRepresentation tokenRepresentation = get(id);
-
-        if (tokenRepresentation == null) {
-            return null;
-        }
-
-        return tokenRepresentation.getToken();
-    }
-
     List<TokenRepresentation> getTokensRepresentations();
 
-    default @Nullable TokenRepresentation getFirst() {
-        return size() > 0 ? get(0) : null;
-    }
-
-    default @Nullable TokenRepresentation getLast() {
-        return getLast(0);
-    }
-
-    default int getCurrentLine() {
-        TokenRepresentation current = get(0);
-        return current != null ? current.getLine() + 1 : -1;
-    }
+    TokenRepresentation[] toArray();
 
 }

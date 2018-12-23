@@ -18,6 +18,9 @@ package org.panda_lang.panda.framework.language.resource.syntax.separator;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+
+import java.util.Collection;
 
 /**
  * Default separators
@@ -42,21 +45,10 @@ public class Separators {
 
     public static final Separator RIGHT_BRACKET_DELIMITER = new Separator("]");
 
-    private static final Separator[] VALUES = new Separator[9];
+    private static final Collection<Separator> VALUES;
 
     static {
-        VALUES[0] = SEMICOLON;
-        VALUES[1] = COMMA;
-        VALUES[2] = PERIOD;
-
-        VALUES[3] = LEFT_PARENTHESIS_DELIMITER;
-        VALUES[4] = RIGHT_PARENTHESIS_DELIMITER;
-
-        VALUES[5] = LEFT_BRACE_DELIMITER;
-        VALUES[6] = RIGHT_BRACE_DELIMITER;
-
-        VALUES[7] = LEFT_BRACKET_DELIMITER;
-        VALUES[8] = RIGHT_BRACKET_DELIMITER;
+        VALUES = ReflectionUtils.getStaticFieldValues(Separators.class, Separator.class);
 
         LEFT_BRACE_DELIMITER.setOpposite(RIGHT_BRACE_DELIMITER);
         LEFT_BRACKET_DELIMITER.setOpposite(RIGHT_BRACKET_DELIMITER);
@@ -83,8 +75,12 @@ public class Separators {
         return null;
     }
 
+    public static Separator[] getClosingSeparators() {
+        return new Separator[] { RIGHT_BRACE_DELIMITER, RIGHT_BRACKET_DELIMITER, RIGHT_PARENTHESIS_DELIMITER };
+    }
+
     public static Separator[] values() {
-        return VALUES;
+        return VALUES.toArray(new Separator[0]);
     }
 
 }
