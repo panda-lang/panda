@@ -6,13 +6,13 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.memory.VariableExpressionCallback;
@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.general.expres
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.updated.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.number.NumberParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 class SingleExpressionParser implements ExpressionSubparser {
@@ -43,10 +42,10 @@ class SingleExpressionParser implements ExpressionSubparser {
 
         ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
         Scope scope = scopeLinker.getCurrentScope();
-        Variable variable = VariableParserUtils.getVariable(scope, token.getTokenValue());
+        Variable variable = scope.getVariable(token.getTokenValue());
 
         if (variable != null) {
-            int memoryIndex = VariableParserUtils.indexOf(scope, variable);
+            int memoryIndex = scope.indexOf(variable);
             return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
         }
 

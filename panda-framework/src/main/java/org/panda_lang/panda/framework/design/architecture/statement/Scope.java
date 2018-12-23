@@ -34,6 +34,10 @@ public interface Scope extends Container {
      */
     ScopeInstance createInstance(ExecutableBranch branch);
 
+    default int indexOf(Variable variable) {
+        return getVariables().indexOf(variable);
+    }
+
     /**
      * Adds variable to the scope
      *
@@ -44,6 +48,16 @@ public interface Scope extends Container {
         int variableId = getVariables().size();
         this.getVariables().add(variable);
         return variableId;
+    }
+
+    default Variable getVariable(String name) {
+        for (Variable var : getVariables()) {
+            if (var.getName().equals(name)) {
+                return var;
+            }
+        }
+
+        return null;
     }
 
     /**
