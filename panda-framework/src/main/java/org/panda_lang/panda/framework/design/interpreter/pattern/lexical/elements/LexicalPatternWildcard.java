@@ -52,6 +52,10 @@ public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
         return condition != null;
     }
 
+    public boolean isHole() {
+        return name.startsWith("*");
+    }
+
     public String getCondition() {
         return condition;
     }

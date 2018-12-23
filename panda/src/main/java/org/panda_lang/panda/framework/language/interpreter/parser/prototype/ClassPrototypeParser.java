@@ -109,15 +109,15 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 
-        SourceStream stream = new PandaSourceStream(body);
         ParserData bodyInfo = data.fork();
+        SourceStream stream = new PandaSourceStream(body);
         bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(data, stream);
+            UnifiedParser parser = pipeline.handle(bodyInfo, stream);
 
             if (parser == null) {
-                throw new PandaParserFailure("Cannot parse the element of the prototype", data.setComponent(UniversalComponents.SOURCE_STREAM, stream));
+                throw new PandaParserFailure("Cannot parse the element of the prototype", data.setComponent(UniversalComponents.SOURCE_STREAM, stream.updateCachedSource()));
             }
 
             parser.parse(bodyInfo);

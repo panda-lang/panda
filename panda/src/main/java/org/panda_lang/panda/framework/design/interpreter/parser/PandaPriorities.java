@@ -19,26 +19,22 @@ package org.panda_lang.panda.framework.design.interpreter.parser;
 public class PandaPriorities {
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.prototype.field.FieldParser}
-     */
-    public static final int PROTOTYPE_FIELD_PARSER = 1;
-
-    /**
      * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.prototype.method.MethodParser}
      */
-    public static final int PROTOTYPE_METHOD_PARSER = 2;
-
+    public static final int PROTOTYPE_METHOD_PARSER = 1;
+    /**
+     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.prototype.field.FieldParser}
+     */
+    public static final int PROTOTYPE_FIELD_PARSER = 2;
 
     /**
      * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockParser}
      */
     public static final int SCOPE_BLOCK_PARSER = 1;
-
     /**
      * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.invoker.MethodInvokerParser}
      */
     public static final int SCOPE_METHOD_INVOKER_PARSER = 2;
-
     /**
      * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableParser}
      */
