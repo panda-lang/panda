@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPatternUnit;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +38,15 @@ public class AbyssExtractor {
         this.gaps = new ArrayList<>();
     }
 
-    public @Nullable List<Tokens> extract(TokenReader tokenReader) {
+    public @Nullable List<Tokens> extract(Tokens source) {
+        return extract(new PandaTokenReader(source));
+    }
+
+    public @Nullable List<Tokens> extract(TokenReader reader) {
         gaps.clear();
 
         AbyssPatternUnit[] units = pattern.getUnits();
-        Tokens tokens = tokenReader.getTokenizedSource();
+        Tokens tokens = reader.getTokenizedSource();
         AbyssExtractorSource source = new AbyssExtractorSource(tokens);
 
         int hardTypedUnits = AbyssExtractorSourceUtils.countHardTypedUnits(units);
@@ -95,7 +100,7 @@ public class AbyssExtractor {
         }
 
         for (int i = 0; i < positions.length; i++) {
-            tokenReader.synchronize();
+            reader.synchronize();
 
             int currentIndex = indexes[i];
             int previousIndex = currentIndex - 1 < 0 ? 0 : currentIndex - 1;
@@ -106,7 +111,7 @@ public class AbyssExtractor {
 
                 if (!unit.isAbyss()) {
                     AbyssPatternUnit currentUnit = units[currentIndex];
-                    TokenRepresentation sourceToken = tokenReader.read();
+                    TokenRepresentation sourceToken = reader.read();
 
                     if (!sourceToken.contentEquals(currentUnit) && !unit.isOptional()) {
                         return null;
@@ -118,18 +123,18 @@ public class AbyssExtractor {
 
             Tokens gap = new PandaTokens();
 
-            for (TokenRepresentation representation : tokenReader) {
-                int index = tokenReader.getIndex();
+            for (TokenRepresentation representation : reader) {
+                int index = reader.getIndex();
 
                 if (index >= indexOfUnit) {
                     break;
                 }
 
-                tokenReader.read();
+                reader.read();
                 gap.addToken(representation);
             }
 
-            tokenReader.read();
+            reader.read();
             gaps.add(gap);
         }
 

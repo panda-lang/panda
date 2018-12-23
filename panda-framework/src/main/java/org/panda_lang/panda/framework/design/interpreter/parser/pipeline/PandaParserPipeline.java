@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -68,9 +68,9 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
-            TokenReader reader = stream.toTokenReader();
+            Tokens source = stream.toTokenizedSource();
 
-            if (handler.handle(data, reader)) {
+            if (handler.handle(data, source)) {
                 representation.increaseUsages();
                 count++;
 

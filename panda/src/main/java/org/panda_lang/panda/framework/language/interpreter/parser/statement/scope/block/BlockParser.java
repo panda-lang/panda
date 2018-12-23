@@ -32,7 +32,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserP
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.ContainerParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -47,11 +46,11 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Override
-    public boolean handle(ParserData data, TokenReader reader) {
+    public boolean handle(ParserData data, Tokens source) {
         return ObjectUtils.isNotNull(data
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(data, new PandaSourceStream(reader.getTokenizedSource())));
+                .handle(data, new PandaSourceStream(source)));
     }
 
     @Autowired(order = 1)
@@ -81,25 +80,6 @@ public class BlockParser extends UnifiedParserBootstrap {
         data.getComponent(PandaComponents.CONTAINER).addStatement(blockData.getBlock());
         data.setComponent(BlockComponents.PREVIOUS_BLOCK, blockData.getBlock());
     }
-
-    /*
-        ParserData blockData = local.allocateInstance(data.fork());
-        blockData.setComponent(UniversalComponents.SOURCE_STREAM, declarationStream);
-        blockParser.parse(blockData);
-
-        Block block = local.allocateInstance(blockData.getComponent(BlockComponents.BLOCK));
-        Boolean unlisted = blockData.getComponent(BlockComponents.UNLISTED_BLOCK);
-
-        if (block == null) {
-            throw new PandaParserFailure(blockParser.getClass() + " cannot parse current block", data);
-        }
-
-        if (unlisted == null || !unlisted) {
-            data.getComponent(PandaComponents.CONTAINER).addStatement(block);
-        }
-
-        data.setComponent(BlockComponents.PREVIOUS_BLOCK, block);
-        */
 
     @Autowired(order = 2)
     private void parseContent(@Local ParserData blockData, @Local Block block, @Src("block-body") Tokens body) throws Throwable {
