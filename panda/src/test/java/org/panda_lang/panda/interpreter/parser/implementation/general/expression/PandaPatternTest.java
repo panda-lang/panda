@@ -2,6 +2,7 @@ package org.panda_lang.panda.interpreter.parser.implementation.general.expressio
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.PatternContentBuilder;
 
 class PandaPatternTest {
 
@@ -57,7 +58,7 @@ class PandaPatternTest {
         PandaPatternTester.test(
                 VARIABLE,
 
-                "this.variable = this;",
+                "this.variable = this testField",
 
                 PandaPatternTester.Wildcard.of("name", "this.variable"),
                 PandaPatternTester.Wildcard.of("assignation", "this")
@@ -84,6 +85,18 @@ class PandaPatternTest {
                 "testField = this;",
 
                 PandaPatternTester.Wildcard.of("name", "testField"),
+                PandaPatternTester.Wildcard.of("assignation", "this")
+        );
+    }
+
+    @Test
+    public void testVariableWithContent() {
+        PandaPatternTester.test(
+                VARIABLE,
+
+                "this.testField = this testField = this this.echo(String.valueOf(i))",
+
+                PandaPatternTester.Wildcard.of("name", "this.testField"),
                 PandaPatternTester.Wildcard.of("assignation", "this")
         );
     }
@@ -119,6 +132,28 @@ class PandaPatternTest {
                 "foreach(String var : list)",
 
                 PandaPatternTester.Wildcard.of("*content", "Stringvar:list")
+        );
+    }
+
+    @Test
+    public void testField() {
+        PandaPatternTester.test(
+                PatternContentBuilder.create()
+                        .element("<visibility>")
+                        .optional("static", "static")
+                        .optional("mutable", "mutable")
+                        .optional("nullable", "nullable")
+                        .element("<type> <name:condition token {type:unknown}>")
+                        .optional("= <assignation:reader expression>")
+                        .optional(";")
+                        .build(),
+
+                "hidden Double i = 1.0D; hidden mutable Test testField; ",
+
+                PandaPatternTester.Wildcard.of("visibility", "hidden"),
+                PandaPatternTester.Wildcard.of("type", "Double"),
+                PandaPatternTester.Wildcard.of("name", "i"),
+                PandaPatternTester.Wildcard.of("assignation", "1.0D")
         );
     }
 

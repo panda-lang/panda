@@ -23,6 +23,10 @@ class NodeLookupExtractor  {
                 break;
             }
 
+            if (!nextElement.toWildcard().isHole()) {
+                break;
+            }
+
             // wildcards with condition could be excluded in the future
             /*
             if (nextElement.toWildcard().hasCondition()) {
