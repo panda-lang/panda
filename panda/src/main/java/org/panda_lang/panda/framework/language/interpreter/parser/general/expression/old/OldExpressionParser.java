@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
@@ -35,7 +36,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.instance.ConstructorExpressionParser;
@@ -53,7 +53,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.general.expres
 import org.panda_lang.panda.framework.language.interpreter.parser.general.number.NumberParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
@@ -114,10 +113,10 @@ public class OldExpressionParser implements ParticularParser<Expression> {
 
             ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
-            Variable variable = VariableParserUtils.getVariable(scope, value);
+            Variable variable = scope.getVariable(value);
 
             if (variable != null) {
-                int memoryIndex = VariableParserUtils.indexOf(scope, variable);
+                int memoryIndex = scope.indexOf(variable);
                 return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
             }
 

@@ -1,113 +1,47 @@
-/*
- * Copyright (c) 2015-2018 Dzikoysk
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.invoker;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 
-// @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.STATEMENT_METHOD_INVOKER_PARSER)
-public class MethodInvokerParser /*implements UnifiedParser, ParserHandler*/ {
+@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER_PARSER)
+public class MethodInvokerParser extends UnifiedParserBootstrap {
 
-    public static final AbyssPattern PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "+** . +** ( +* )")
-            .lastIndexAlgorithm(true)
-            .build();
-
-    private static final AbyssPattern LOCAL_PATTERN = new AbyssPatternBuilder()
-            .compile(PandaSyntax.getInstance(), "+** . +** ( +* ) ;")
-            .lastIndexAlgorithm(true)
-            .build();
-
-    /*
-    @Override
-    public boolean handle(ParserData data, TokenReader reader) {
-        return AbyssPatternUtils.match(MethodInvokerParser.LOCAL_PATTERN, reader) && !AbyssPatternUtils.match(VarParser.ASSIGNATION_PATTERN, reader);
+    {
+        super.builder()
+                .handler(new TokenPatternHandler())
+                .interceptor(new TokenPatternInterceptor())
+                .pattern("[<instance:reader expression exclude method, field> .] <name> `( [<*args>] `) [;]");
     }
 
-    @Override
-    public boolean parse(ParserData data) {
-        AbyssPatternMapping redactor = AbyssPatternAssistant.traditionalMapping(LOCAL_PATTERN, data, "instance", "method-name", "arguments");
-
-        Container container = data.getComponent(PandaComponents.CONTAINER);
-        StatementCell cell = container.reserveCell();
-
-        data.getComponent(UniversalComponents.GENERATION)
-                .pipeline(PandaTypes.CONTENT)
-                .nextLayer()
-                .delegate(new MethodInvokerCasualParserCallback(cell, redactor), data);
-
-        return true;
+    @Autowired
+    public void parse(ParserData data, LocalData localData) {
+        localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER).reserveCell());
     }
 
-    @LocalCallback
-    private static class MethodInvokerCasualParserCallback implements GenerationCallback {
+    @Autowired(order = 1, delegation = Delegation.NEXT_AFTER)
+    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Tokens instance, @Src("name") Tokens name, @Src("*args") Tokens arguments) {
+        MethodInvokerExpressionParser methodInvokerParser = new MethodInvokerExpressionParser(instance, name, arguments);
+        methodInvokerParser.setVoids(true);
 
-        private final StatementCell cell;
-        private final AbyssPatternMapping redactor;
+        methodInvokerParser.parse(null, data);
+        MethodInvoker invoker = methodInvokerParser.getInvoker();
 
-        private MethodInvokerCasualParserCallback(StatementCell cell, AbyssPatternMapping redactor) {
-            this.cell = cell;
-            this.redactor = redactor;
-        }
-
-        @Override
-        public void call(GenerationPipeline pipeline, ParserData delegatedData) {
-            Tokens instanceSource = redactor.get("instance");
-            Tokens methodSource = redactor.get("method-name");
-            Tokens argumentsSource = redactor.get("arguments");
-
-            PandaScript script = delegatedData.getComponent(PandaComponents.PANDA_SCRIPT);
-            ModuleLoader registry = script.getModuleLoader();
-
-            String surmiseClassName = instanceSource.asString();
-            ClassPrototype prototype = registry.forClass(surmiseClassName);
-
-            String methodName = methodSource.asString();
-            Expression instance = null;
-
-            if (prototype == null) {
-                OldExpressionParser expressionParser = new OldExpressionParser();
-
-                instance = expressionParser.parse(delegatedData, instanceSource);
-                prototype = instance.getReturnType();
-            }
-
-            ArgumentParser argumentParser = new ArgumentParser();
-            Expression[] arguments = argumentParser.parse(delegatedData, argumentsSource);
-
-            ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
-            PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
-
-            if (prototypeMethod == null) {
-                PrototypeField field = prototype.getFields().getField(methodName);
-
-                if (field == null) {
-                    throw new PandaParserFailure("Method " + methodName + " not found in class " + prototype.getClassName(), delegatedData);
-                }
-
-                throw new PandaParserException("Not implemented");
-            }
-
-            Statement invoker = new MethodInvoker(prototypeMethod, instance, arguments);
-            cell.setStatement(invoker);
-        }
-
+        cell.setStatement(methodInvokerParser.getInvoker());
     }
 
-*/
 }

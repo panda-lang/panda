@@ -40,7 +40,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.general.expres
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableInitializer;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableParserUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
@@ -69,7 +68,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
 
         VariableInitializer initializer = new VariableInitializer();
         Variable variable = initializer.createVariable(script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
-        int variableId = VariableParserUtils.indexOf(scope, variable);
+        int variableId = scope.indexOf(variable);
 
         OldExpressionParser expressionParser = new OldExpressionParser();
         Expression expression = expressionParser.parse(data, iterable);
