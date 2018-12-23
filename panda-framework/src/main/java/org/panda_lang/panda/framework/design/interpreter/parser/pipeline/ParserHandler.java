@@ -17,14 +17,14 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 public interface ParserHandler {
 
     /**
-     * @param reader source
+     * @param source source
      * @return returns true if parsers fits to source
      */
-    boolean handle(ParserData data, TokenReader reader);
+    boolean handle(ParserData data, Tokens source);
 
 }

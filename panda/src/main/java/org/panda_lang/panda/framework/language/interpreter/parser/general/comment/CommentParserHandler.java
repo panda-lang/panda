@@ -19,17 +19,14 @@ package org.panda_lang.panda.framework.language.interpreter.parser.general.comme
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
 public class CommentParserHandler implements ParserHandler {
 
     @Override
-    public boolean handle(ParserData data, TokenReader reader) {
-        TokenRepresentation representation = reader.read();
-        Token token = representation.getToken();
-
+    public boolean handle(ParserData data, Tokens source) {
+        Token token = source.getFirst().getToken();
         return token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment");
     }
 
