@@ -15,7 +15,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.subparsers.callbacks.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER_PARSER)

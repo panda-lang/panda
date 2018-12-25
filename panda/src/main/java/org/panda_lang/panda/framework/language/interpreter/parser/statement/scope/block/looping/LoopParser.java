@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.looping;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -27,7 +28,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.LoopBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -43,8 +43,7 @@ public class LoopParser extends BlockSubparserBootstrap {
 
     @Autowired
     public BlockData parse(ParserData data, Generation generation, @Src("loop-expression") Tokens expressionSource) {
-        OldExpressionParser expressionParser = new OldExpressionParser();
-        Expression expression = expressionParser.parse(data, expressionSource);
+        Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Int")) {
             throw new PandaParserException("Loop requires number as an argument");

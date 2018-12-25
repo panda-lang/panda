@@ -24,7 +24,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 
@@ -83,8 +82,7 @@ public class FieldParser extends UnifiedParserBootstrap {
             return;
         }
 
-        OldExpressionParser expressionParser = new OldExpressionParser();
-        Expression expressionValue = expressionParser.parse(data, assignation);
+        Expression expressionValue = data.getComponent(PandaComponents.EXPRESSION).parse(data, assignation);
 
         if (expressionValue == null) {
             throw new PandaParserException("Cannot parse expression '" + assignation + "'");

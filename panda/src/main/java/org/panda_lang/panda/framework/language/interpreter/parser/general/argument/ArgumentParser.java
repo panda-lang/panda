@@ -16,17 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.general.argument;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.extractor.AbyssExtractor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.extractor.AbyssExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
@@ -39,11 +40,11 @@ public class ArgumentParser implements Parser {
             .compile(PandaSyntax.getInstance(), "+* , +*")
             .build();
 
-    public Expression[] parse(ParserData info, Tokens tokens) {
+    public Expression[] parse(ParserData data, Tokens tokens) {
         SourceStream sourceStream = new PandaSourceStream(tokens);
 
         List<Expression> expressions = new ArrayList<>();
-        OldExpressionParser expressionParser = new OldExpressionParser();
+        ExpressionParser expressionParser = data.getComponent(PandaComponents.EXPRESSION);
         AbyssExtractor extractor = PATTERN.extractor();
 
         while (sourceStream.hasUnreadSource()) {
@@ -51,13 +52,13 @@ public class ArgumentParser implements Parser {
             List<Tokens> gaps = extractor.extract(reader);
 
             if (gaps == null) {
-                Expression expression = readArgument(info, expressionParser, sourceStream.toTokenizedSource());
+                Expression expression = readArgument(data, expressionParser, sourceStream.toTokenizedSource());
                 expressions.add(expression);
                 break;
             }
 
             Tokens argument = gaps.get(0);
-            Expression expression = readArgument(info, expressionParser, argument);
+            Expression expression = readArgument(data, expressionParser, argument);
 
             expressions.add(expression);
             sourceStream.read(argument.size() + 1);
@@ -69,7 +70,7 @@ public class ArgumentParser implements Parser {
         return expressionsArray;
     }
 
-    private Expression readArgument(ParserData data, OldExpressionParser expressionParser, Tokens argument) {
+    private Expression readArgument(ParserData data, ExpressionParser expressionParser, Tokens argument) {
         Expression expression = expressionParser.parse(data, argument);
 
         if (expression == null) {

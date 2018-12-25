@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.statement.sco
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
@@ -36,7 +37,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL)
@@ -61,7 +61,7 @@ public class ReturnParser extends UnifiedParserBootstrap {
             returnStatement = new Return(null);
         }
         else {
-            Expression expression = new OldExpressionParser().parse(data, value);
+            Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, value);
             returnStatement = new Return(expression);
         }
 

@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.statement.sco
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -33,7 +34,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ElseBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
@@ -69,8 +69,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
             throw new PandaParserFailure("Empty condition", data);
         }
 
-        OldExpressionParser expressionParser = new OldExpressionParser();
-        Expression expression = expressionParser.parse(data, condition);
+        Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, condition);
         ConditionalBlock conditionalBlock = new ConditionalBlock(expression);
 
         if (pattern.hasIdentifier("if")) {
