@@ -34,10 +34,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Fie
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.updated.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.updated.subparsers.DefaultSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.subparsers.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
@@ -101,8 +98,7 @@ public class VariableParser extends UnifiedParserBootstrap {
         }
 
         if (name.size() > 1) {
-            OldExpressionParser expressionParser = new OldExpressionParser();
-            Expression instanceExpression = expressionParser.parse(data, name.subSource(0, name.size() - 2), true);
+            Expression instanceExpression = data.getComponent(PandaComponents.EXPRESSION).parse(data, name.subSource(0, name.size() - 2));
 
             if (instanceExpression == null) {
                 throw new PandaParserException("Cannot parse variable reference: " + name);
@@ -159,8 +155,7 @@ public class VariableParser extends UnifiedParserBootstrap {
             return;
         }
 
-        ExpressionParser parser = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
-        Expression assignationExpression = parser.parse(data, assignation);
+        Expression assignationExpression = data.getComponent(PandaComponents.EXPRESSION).parse(data, assignation);
 
         if (instanceExpression == null) {
             if (!assignationExpression.isNull() && !assignationExpression.getReturnType().isAssociatedWith(variable.getType())) {

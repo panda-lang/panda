@@ -36,7 +36,6 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
 import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.old.OldExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableInitializer;
@@ -65,17 +64,15 @@ public class ForEachParser extends BlockSubparserBootstrap {
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Scope scope = data.getComponent(PandaComponents.SCOPE_LINKER).getCurrentScope();
-
-        VariableInitializer initializer = new VariableInitializer();
-        Variable variable = initializer.createVariable(script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
-        int variableId = scope.indexOf(variable);
-
-        OldExpressionParser expressionParser = new OldExpressionParser();
-        Expression expression = expressionParser.parse(data, iterable);
+        Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, iterable);
 
         if (expression == null) {
             throw new PandaParserException("Cannot parse expression: " + iterable);
         }
+
+        VariableInitializer initializer = new VariableInitializer();
+        Variable variable = initializer.createVariable(script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
+        int variableId = scope.indexOf(variable);
 
         ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         ClassPrototype iterableType = new ClassPrototypeGenerator().computeIfAbsent(registry, Iterable.class);

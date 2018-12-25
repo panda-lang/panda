@@ -36,6 +36,8 @@ import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.subparsers.DefaultSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.comment.CommentAssistant;
@@ -68,6 +70,7 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
         baseData.setComponent(UniversalComponents.GENERATION, generation);
         baseData.setComponent(PandaComponents.MODULE_REGISTRY, modulePath);
+        baseData.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers()));
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
