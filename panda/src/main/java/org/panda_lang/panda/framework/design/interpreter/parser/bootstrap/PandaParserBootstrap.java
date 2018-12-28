@@ -76,12 +76,9 @@ public class PandaParserBootstrap<T> {
         return bootstrap.layers;
     }
 
-    public String[] getWildcards() {
-        return bootstrap.wildcardNames;
-    }
-
-    public String getPattern() {
-        return bootstrap.pattern;
+    @SuppressWarnings("unchecked")
+    public <R> R getPattern() {
+        return (R) bootstrap.pattern;
     }
 
     public String getName() {

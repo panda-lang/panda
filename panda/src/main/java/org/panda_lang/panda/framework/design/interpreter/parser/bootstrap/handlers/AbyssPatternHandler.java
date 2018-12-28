@@ -2,6 +2,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handl
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -15,8 +16,10 @@ public class AbyssPatternHandler implements BootstrapHandler {
 
     @Override
     public void initialize(PandaParserBootstrap bootstrap) {
+        AbyssPatternData data = (AbyssPatternData) bootstrap.getPattern();
+
         this.pattern = new AbyssPatternBuilder()
-                .compile(PandaSyntax.getInstance(), bootstrap.getPattern())
+                .compile(PandaSyntax.getInstance(), data.getPattern())
                 .build();
     }
 

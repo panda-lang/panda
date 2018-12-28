@@ -54,10 +54,7 @@ public class MethodParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
-                .handler(new TokenPatternHandler())
-                .interceptor(new TokenPatternInterceptor())
-                .pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ [<*body>] `}");
+        return defaultBuilder.pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
     @Autowired

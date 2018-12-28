@@ -34,8 +34,6 @@ public class FieldParser extends UnifiedParserBootstrap {
     @Override
     protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
-                .handler(new TokenPatternHandler())
-                .interceptor(new TokenPatternInterceptor())
                 .pattern(PatternContentBuilder.create()
                         .element("<visibility>")
                         .optional("static", "static")

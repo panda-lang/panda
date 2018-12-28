@@ -66,7 +66,6 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.CLASS))
-                .interceptor(new TokenPatternInterceptor())
                 .pattern("class <name> [extends <inherited>] `{ [<*body>] `}");
     }
 

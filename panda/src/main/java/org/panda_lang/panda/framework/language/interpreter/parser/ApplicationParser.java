@@ -40,7 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.DefaultSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.statement.CommentParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.CommentParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 

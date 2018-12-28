@@ -10,8 +10,8 @@ class PandaPatternTest {
     private static final String VARIABLE = "([[mutable] [nullable] <type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
 
     @Test
-    public void testClass() {
-
+    public void testDeclaration() {
+        Assertions.assertFalse(PandaPatternTester.build("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]", "String init nullable Object req = null").isMatched());
     }
 
     @Test
