@@ -18,7 +18,7 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
     @Override
     public void initialize(PandaParserBootstrap bootstrap) {
         this.pattern = PandaTokenPattern.builder()
-                .compile(bootstrap.getPattern())
+                .compile(bootstrap.getPattern().toString())
                 .build();
     }
 

@@ -50,7 +50,6 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .interceptor(new TokenPatternInterceptor())
                 .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");
     }
 

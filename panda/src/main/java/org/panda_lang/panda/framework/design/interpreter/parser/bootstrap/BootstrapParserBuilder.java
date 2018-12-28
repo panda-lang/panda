@@ -17,13 +17,13 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.AbyssPatternHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.DefaultInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
@@ -42,10 +42,7 @@ public class BootstrapParserBuilder<T> {
     protected ParserHandler handler;
     protected int priority;
 
-    protected String pattern;
-    protected String[] wildcardNames;
-    protected int maxNestingLevel;
-
+    protected Object pattern;
     protected BootstrapInterceptor interceptor;
     protected final List<LayerMethod> layers = new ArrayList<>();
 
@@ -76,15 +73,9 @@ public class BootstrapParserBuilder<T> {
         return this;
     }
 
-    public BootstrapParserBuilder<T> pattern(String pattern, String... wildcardNames) {
+    public BootstrapParserBuilder<T> pattern(Object pattern) {
         this.pattern = pattern;
-        this.wildcardNames = wildcardNames;
         return this;
-    }
-
-    public BootstrapParserBuilder<T> pattern(String pattern, int maxNestingLevel, String... wildcardNames) {
-        this.maxNestingLevel = maxNestingLevel;
-        return pattern(pattern, wildcardNames);
     }
 
     public BootstrapParserBuilder<T> priority(int priority) {
@@ -124,7 +115,7 @@ public class BootstrapParserBuilder<T> {
         }
 
         if (interceptor == null) {
-            interceptor(new DefaultInterceptor());
+            interceptor(new TokenPatternInterceptor());
         }
 
         if (pattern == null) {
@@ -132,7 +123,7 @@ public class BootstrapParserBuilder<T> {
         }
 
         if (handler == null) {
-            handler = new AbyssPatternHandler();
+            handler = new TokenPatternHandler();
         }
 
         if (layers.isEmpty()) {
