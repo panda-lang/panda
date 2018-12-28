@@ -15,14 +15,20 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_ASSIGNATION_PARSER)
 public class AssignationParser extends UnifiedParserBootstrap {
+
+    private static final TokenPattern PATTERN = TokenPattern.builder()
+            .compile("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]")
+            .build();
 
     @Override
     public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -30,11 +36,26 @@ public class AssignationParser extends UnifiedParserBootstrap {
     }
 
     @Override
-    public boolean handle(ParserData data, Tokens source) {
-        return ObjectUtils.isNotNull(data
+    public boolean handle(ParserData data, SourceStream source) {
+        ExtractorResult result = PATTERN.extract(source);
+
+        if (!result.isMatched()) {
+            return false;
+        }
+
+        Tokens declaration = result.getWildcard("*declaration");
+        SourceStream stream = new PandaSourceStream(declaration);
+
+        AssignationSubparser subparser = data
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.ASSIGNER)
-                .handle(data, new PandaSourceStream(source)));
+                .handleWithUpdatedSource(data, stream);
+
+        if (subparser == null) {
+            return false;
+        }
+
+        return !stream.hasUnreadSource();
     }
 
     @Autowired
@@ -43,7 +64,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
         delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(PandaComponents.SCOPE_LINKER).getCurrentScope());
 
         Expression assignationExpression = delegatedData.getComponent(PandaComponents.EXPRESSION).parse(delegatedData, assignation);
-        AssignationSubparser subparser = registry.getPipeline(PandaPipelines.ASSIGNER).handle(data, new PandaSourceStream(declaration));
+        AssignationSubparser subparser = registry.getPipeline(PandaPipelines.ASSIGNER).handle(data, declaration);
 
         StatementCell cell = delegatedData.getComponent(PandaComponents.CONTAINER).reserveCell();
         Statement statement = subparser.parseVariable(delegatedData, declaration, assignationExpression);

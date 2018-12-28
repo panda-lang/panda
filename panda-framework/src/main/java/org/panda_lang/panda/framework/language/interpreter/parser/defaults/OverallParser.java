@@ -43,7 +43,7 @@ public class OverallParser implements Parser {
             return;
         }
 
-        UnifiedParser parser = pipeline.handle(data, stream);
+        UnifiedParser parser = pipeline.handle(data, stream.toTokenizedSource());
         int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {

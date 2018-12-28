@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;
@@ -30,8 +31,8 @@ import java.util.List;
 public class CommentParser implements ParserHandler {
 
     @Override
-    public boolean handle(ParserData data, Tokens source) {
-        Token token = source.getFirst().getToken();
+    public boolean handle(ParserData data, SourceStream source) {
+        Token token = source.toTokenizedSource().getFirst().getToken();
         return token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment");
     }
 

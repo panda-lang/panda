@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -46,39 +47,48 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     }
 
     @Override
-    public P handle(ParserData data, SourceStream stream) {
+    public P handle(ParserData data, Tokens source) {
+        return handleWithUpdatedSource(data, new PandaSourceStream(source));
+    }
+
+    @Override
+    public P handleWithUpdatedSource(ParserData data, SourceStream source) {
         if (count > 100) {
             count = 0;
             sort();
         }
 
         if (parentPipeline != null) {
-            P parser = handle(data, stream, parentPipeline.getRepresentations());
+            P parser = handle(data, source, parentPipeline.getRepresentations());
 
             if (parser != null) {
                 return parser;
             }
         }
 
-        return handle(data, stream, representations);
+        return handle(data, source, representations);
     }
 
-    private @Nullable P handle(ParserData data, SourceStream stream, Collection<? extends ParserRepresentation<P>> representations) {
+    private @Nullable P handle(ParserData data, SourceStream source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
+        Tokens cached = source.toTokenizedSource();
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
-            Tokens source = stream.toTokenizedSource();
+            source.update(cached);
 
             if (handler.handle(data, source)) {
                 representation.increaseUsages();
-                count++;
+                source.updateCachedSource();
 
                 handleTime += (System.nanoTime() - currentTime);
+                count++;
+
                 return representation.getParser();
             }
         }
 
+        source.update(cached);
         handleTime += (System.nanoTime() - currentTime);
         return null;
     }

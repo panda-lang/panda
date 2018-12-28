@@ -31,6 +31,8 @@ public interface SourceStream {
 
     SourceStream updateCachedSource();
 
+    SourceStream update(Tokens source);
+
     TokenReader toTokenReader();
 
     Tokens toTokenizedSource();

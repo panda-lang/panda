@@ -2,11 +2,12 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handl
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
-public class TokenPatternHandler implements BootstrapHandler {
+public class TokenPatternHandler implements BootstrapHandler, ParserHandler {
 
     private TokenPattern pattern;
 
@@ -18,7 +19,7 @@ public class TokenPatternHandler implements BootstrapHandler {
     }
 
     @Override
-    public boolean handle(ParserData data, Tokens source) {
+    public boolean handle(ParserData data, SourceStream source) {
         return pattern.extract(source).isMatched();
     }
 
