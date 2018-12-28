@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ImportParser extends UnifiedParserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.IMPORT))
                 .pattern("import <import:condition token {type:unknown}, token {value:-}>[;]");

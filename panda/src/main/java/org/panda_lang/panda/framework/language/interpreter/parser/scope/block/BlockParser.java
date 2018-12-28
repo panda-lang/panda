@@ -44,7 +44,7 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 public class BlockParser extends UnifiedParserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .interceptor(new AbyssPatternInterceptor())
                 .pattern(new AbyssPatternData("+* { +* }", "block-declaration", "block-body"));

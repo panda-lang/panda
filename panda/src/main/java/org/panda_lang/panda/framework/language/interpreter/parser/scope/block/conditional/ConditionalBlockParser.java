@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -44,7 +43,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder<BlockData> initialize(BootstrapParserBuilder<BlockData> defaultBuilder) {
+    protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
                 .pattern("((if:if|elseif:else if) `( <*condition> `)|else:else)");

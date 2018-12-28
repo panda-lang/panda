@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder<@Nullable Statement> initialize(BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
+    protected BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
         return defaultBuilder.pattern("<name:reader expression include field>");
     }
 

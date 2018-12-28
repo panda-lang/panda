@@ -13,8 +13,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -29,7 +27,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.scope.statemen
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
     @Override
-    public BootstrapParserBuilder<@Nullable Statement> initialize(BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
+    public BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
         return defaultBuilder.pattern(VariableInitializer.DECLARATION_PARSER);
     }
 
