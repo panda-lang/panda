@@ -21,16 +21,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethodCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
@@ -40,19 +35,26 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethodCallback;
+import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.parameter.ParameterParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD_PARSER)
 public class MethodParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ [<*body>] `}");

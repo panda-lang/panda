@@ -21,12 +21,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
 
-    protected BootstrapParserBuilder<T> builder = PandaParserBootstrap.<T> builder().instance(this);
     protected ParserRepresentation<UnifiedParser<T>> parser;
+
+    protected abstract BootstrapParserBuilder<T> initialize(BootstrapParserBuilder<T> defaultBuilder);
 
     @Override
     public boolean handle(ParserData data, Tokens source) {
@@ -43,16 +43,8 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
             return parser;
         }
 
-        if (builder == null) {
-            throw new PandaParserException("BootstrapParser does not have associated ParserRepresentation or BootstrapBuilder");
-        }
-
-        parser = builder.build();
+        this.parser = initialize(PandaParserBootstrap.<T> builder().instance(this)).build();
         return parser;
-    }
-
-    protected BootstrapParserBuilder<T> builder() {
-        return this.builder;
     }
 
 }

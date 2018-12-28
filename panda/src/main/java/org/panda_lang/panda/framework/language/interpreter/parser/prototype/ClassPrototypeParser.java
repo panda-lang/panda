@@ -16,21 +16,33 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.prototype;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
@@ -40,30 +52,22 @@ import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope
 import org.panda_lang.panda.framework.language.architecture.prototype.ClassScopeInstance;
 import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.prototype.constructor.ConstructorUtils;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
 public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenHandler(Keywords.CLASS))
                 .interceptor(new TokenPatternInterceptor())
-                .pattern("class <name> [extends <inherited>] `{ <*body> `}");
+                .pattern("class <name> [extends <inherited>] `{ [<*body>] `}");
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
@@ -105,7 +109,11 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Src("*body") Tokens body) throws Throwable {
+    public void parseBody(ParserData data, Generation generation, @Nullable @Src("*body") Tokens body) throws Throwable {
+        if (TokensUtils.isEmpty(body)) {
+            return;
+        }
+
         PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
 

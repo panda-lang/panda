@@ -8,6 +8,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -30,8 +31,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.prototype.Clas
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
 public class FieldParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenPatternHandler())
                 .interceptor(new TokenPatternInterceptor())
                 .pattern(PatternContentBuilder.create()

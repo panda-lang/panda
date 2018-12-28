@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.constructor.ConstructorScope;
@@ -45,8 +46,9 @@ import java.util.List;
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");

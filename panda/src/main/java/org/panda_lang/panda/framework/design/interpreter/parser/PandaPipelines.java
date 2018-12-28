@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.resource.Autoload;
 import org.panda_lang.panda.framework.language.interpreter.parser.statement.scope.block.BlockSubparser;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.assignation.AssignationSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration}
@@ -54,12 +55,12 @@ public class PandaPipelines {
     public static final PipelineComponent<BlockSubparser> BLOCK = PipelineComponent.of(BLOCK_LABEL, BlockSubparser.class);
 
     /**
-     * Text representation of {@link PandaPipelines#STATEMENT}
+     * Text representation of {@link PandaPipelines#ASSIGNER}
      */
-    public static final String STATEMENT_LABEL = "statement";
+    public static final String ASSIGNER_LABEL = "assignation";
     /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.StatementParser}
+     * Assigner parsers, used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.assignation.AssignationParser}
      */
-    public static final PipelineComponent<UnifiedParser> STATEMENT = PipelineComponent.of(STATEMENT_LABEL, UnifiedParser.class);
+    public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(ASSIGNER_LABEL, AssignationSubparser.class);
 
 }

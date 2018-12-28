@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Compon
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components

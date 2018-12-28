@@ -13,12 +13,9 @@ class Foo extends Test {
 /*
 [mutable] [nullable] <type:reader type> <name> [= <expression:reader expression]
 String s
-String s = [...]
 
 <expression>(<parameters>)
 call()
-call.x()
-
 */
 
 class Test {
@@ -54,7 +51,7 @@ class Test {
  }
 
 main {
-    String init
+    //String init
     nullable Object req = null
 
     Test test = new Test('"Constructor"')
@@ -103,4 +100,20 @@ main {
         Console.print(builder.toString())
         break
     }
+
+}
+
+class TestArray {
+
+/*
+    hidden Object[] array
+
+    constructor(Object... elements) {
+        this.array = elements
+
+        this.array[0] = 2;
+        this.array.set(0, 2);
+    }
+*/
+
 }

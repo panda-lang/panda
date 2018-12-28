@@ -25,7 +25,7 @@ public class PandaParserRepresentation<P extends Parser> implements ParserRepres
     private final double priority;
     private int usages;
 
-    public PandaParserRepresentation(P parser, ParserHandler parserHandler, int priority) {
+    public PandaParserRepresentation(P parser, ParserHandler parserHandler, double priority) {
         this.parser = parser;
         this.handler = parserHandler;
         this.priority = priority;

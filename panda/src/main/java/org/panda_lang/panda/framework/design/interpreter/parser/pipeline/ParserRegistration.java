@@ -39,7 +39,7 @@ public @interface ParserRegistration {
      *
      * @return the priority
      */
-    int priority() default 0;
+    double priority() default 0;
 
     Class<? extends UnifiedParser> parserClass() default UnifiedParser.class;
 

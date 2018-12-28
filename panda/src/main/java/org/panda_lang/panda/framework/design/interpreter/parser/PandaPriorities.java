@@ -36,7 +36,11 @@ public class PandaPriorities {
      */
     public static final int SCOPE_METHOD_INVOKER_PARSER = 2;
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.variable.VariableParser}
+     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.statement.assignation.AssignationParser}
+     */
+    public static final int SCOPE_ASSIGNATION_PARSER = 3;
+    /**
+     *
      */
     public static final int SCOPE_VARIABLE_PARSER = 3;
 
