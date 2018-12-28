@@ -101,6 +101,12 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public SourceStream update(Tokens source) {
+        this.source = source;
+        return this;
+    }
+
+    @Override
     public TokenReader toTokenReader() {
         return new PandaTokenReader(this.toTokenizedSource());
     }

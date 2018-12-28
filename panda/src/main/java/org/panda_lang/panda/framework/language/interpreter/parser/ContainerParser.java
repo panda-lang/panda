@@ -53,7 +53,7 @@ public class ContainerParser implements Parser {
         delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
         while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(delegatedData, stream);
+            UnifiedParser parser = pipeline.handle(delegatedData, stream.toTokenizedSource());
             int sourceLength = stream.getUnreadLength();
 
             if (parser == null) {

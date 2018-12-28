@@ -51,11 +51,11 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Override
-    public boolean handle(ParserData data, Tokens source) {
+    public boolean handle(ParserData data, SourceStream source) {
         return ObjectUtils.isNotNull(data
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(data, new PandaSourceStream(source)));
+                .handle(data, source.toTokenizedSource()));
     }
 
     @Autowired(order = 1)
@@ -63,7 +63,7 @@ public class BlockParser extends UnifiedParserBootstrap {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
-        BlockSubparser blockParser = pipeline.handle(data, declarationStream);
+        BlockSubparser blockParser = pipeline.handle(data, declarationStream.toTokenizedSource());
 
         if (blockParser == null) {
             throw new PandaParserFailure("Unknown block", data);

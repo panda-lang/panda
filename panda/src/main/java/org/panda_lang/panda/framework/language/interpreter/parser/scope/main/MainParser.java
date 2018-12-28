@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.scope.main;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
@@ -41,7 +42,7 @@ public class MainParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.MAIN))
-                .pattern("main `{ <*main-body> `}");
+                .pattern("main `{ [<*main-body>] `}");
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
@@ -51,7 +52,7 @@ public class MainParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    private void parseScope(ParserData data, @Local MainScope main, @Src("*main-body") Tokens body) throws Throwable {
+    private void parseScope(ParserData data, @Local MainScope main, @Src("*main-body") @Nullable Tokens body) throws Throwable {
         ScopeParser.createParser(main, data)
                 .forkData()
                 .initializeLinker()
