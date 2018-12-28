@@ -25,7 +25,7 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 public class AssignationParser extends UnifiedParserBootstrap {
 
     @Override
-    public BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+    public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder.pattern("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]");
     }
 

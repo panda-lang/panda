@@ -27,7 +27,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Bootst
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
@@ -50,7 +49,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
             .build();
 
     @Override
-    protected BootstrapParserBuilder<BlockData> initialize(BootstrapParserBuilder<BlockData> defaultBuilder) {
+    protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.FOREACH))
                 .pattern("foreach `( <*content> `)");

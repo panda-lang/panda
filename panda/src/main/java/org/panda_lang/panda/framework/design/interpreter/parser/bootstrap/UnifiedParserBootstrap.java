@@ -26,24 +26,24 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
 
     protected ParserRepresentation<UnifiedParser<T>> parser;
 
-    protected abstract BootstrapParserBuilder<T> initialize(BootstrapParserBuilder<T> defaultBuilder);
+    protected abstract BootstrapParserBuilder<T> initialize(ParserData data, BootstrapParserBuilder<T> defaultBuilder);
 
     @Override
     public boolean handle(ParserData data, Tokens source) {
-        return get().getHandler().handle(data, source);
+        return get(data).getHandler().handle(data, source);
     }
 
     @Override
     public final T parse(ParserData data) throws Throwable {
-        return get().getParser().parse(data);
+        return get(data).getParser().parse(data);
     }
 
-    private ParserRepresentation<UnifiedParser<T>> get() {
+    private ParserRepresentation<UnifiedParser<T>> get(ParserData data) {
         if (parser != null) {
             return parser;
         }
 
-        this.parser = initialize(PandaParserBootstrap.<T> builder().instance(this)).build();
+        this.parser = initialize(data, PandaParserBootstrap.<T> builder().instance(this)).build();
         return parser;
     }
 

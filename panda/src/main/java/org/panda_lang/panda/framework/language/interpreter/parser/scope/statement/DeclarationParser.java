@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.scope.statemen
 public class DeclarationParser extends UnifiedParserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder.pattern(VariableInitializer.DECLARATION_PARSER);
     }
 

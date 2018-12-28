@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class WhileParser extends BlockSubparserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder<BlockData> initialize(BootstrapParserBuilder<BlockData> defaultBuilder) {
+    protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.WHILE))
                 .interceptor(new AbyssPatternInterceptor())
