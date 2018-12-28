@@ -18,6 +18,6 @@ package org.panda_lang.panda.framework;
 
 public class PandaFrameworkConstants {
 
-    public static final String VERSION = "indev-18.12.19";
+    public static final String VERSION = "indev-18.12.29";
 
 }
