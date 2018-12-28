@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.statement.sco
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
@@ -35,8 +36,9 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
 public class LoopParser extends BlockSubparserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder<BlockData> initialize(BootstrapParserBuilder<BlockData> defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenHandler(Keywords.LOOP))
                 .pattern("loop ( +* )", "loop-expression");
     }

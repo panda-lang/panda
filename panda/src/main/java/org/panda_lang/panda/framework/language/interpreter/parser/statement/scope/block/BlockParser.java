@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -40,9 +41,9 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_BLOCK_PARSER)
 public class BlockParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
-                .pattern("+* { +* }", "block-declaration", "block-body");
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder.pattern("+* { +* }", "block-declaration", "block-body");
     }
 
     @Override

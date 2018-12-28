@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
@@ -42,8 +43,9 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL)
 public class ReturnParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenHandler(Keywords.RETURN))
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("return [<value:reader expression>][;]");

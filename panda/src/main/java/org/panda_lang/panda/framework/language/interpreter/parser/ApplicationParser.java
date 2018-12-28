@@ -36,11 +36,11 @@ import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.expression.subparsers.DefaultSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.DefaultSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.comment.CommentAssistant;
+import org.panda_lang.panda.framework.language.interpreter.parser.statement.CommentParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
@@ -83,7 +83,7 @@ public class ApplicationParser implements Parser {
                 pandaScript.getModuleLoader().include(defaultModule);
 
                 PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
-                Tokens tokens = CommentAssistant.uncomment(lexer.convert());
+                Tokens tokens = CommentParser.uncomment(lexer.convert());
 
                 PandaSourceStream sourceStream = new PandaSourceStream(tokens);
                 exceptionTranslator.updateSource(sourceStream);

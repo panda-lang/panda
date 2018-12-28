@@ -18,9 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.statement.sco
 
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -30,15 +28,19 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
+import org.panda_lang.panda.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
 public class MainParser extends UnifiedParserBootstrap {
 
-    {
-        super.builder()
+    @Override
+    protected BootstrapParserBuilder initialize(BootstrapParserBuilder defaultBuilder) {
+        return defaultBuilder
                 .handler(new TokenHandler(Keywords.MAIN))
                 .interceptor(new TokenPatternInterceptor())
                 .pattern("main `{ <*main-body> `}");
