@@ -82,6 +82,11 @@
                 <artifactId>minimal-json</artifactId>
                 <version>0.9.5</version>
             </dependency>
+            <dependency>
+                <groupId>info.picocli</groupId>
+                <artifactId>picocli</artifactId>
+                <version>3.8.2</version>
+            </dependency>
 
             <!-- Reflections -->
             <dependency>

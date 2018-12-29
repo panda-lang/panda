@@ -36,6 +36,12 @@
             <artifactId>panda-framework</artifactId>
         </dependency>
 
+        <!-- General -->
+        <dependency>
+            <groupId>info.picocli</groupId>
+            <artifactId>picocli</artifactId>
+        </dependency>
+
         <!-- Benchmarks -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
