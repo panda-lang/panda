@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.registry.C
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
 import org.panda_lang.panda.util.PandaUtils;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class PandaLanguage implements Language {
@@ -34,6 +35,7 @@ public class PandaLanguage implements Language {
     public PandaLanguage() {
         this.syntax = PandaSyntax.getInstance();
         this.pipelineRegistry = new ParserRegistrationLoader().load(PandaUtils.DEFAULT_PANDA_SCANNER);
+        this.mappings = new ArrayList<>(1);
     }
 
     public void setMappings(Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings) {

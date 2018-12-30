@@ -16,15 +16,18 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.cli.PandaCLI;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 public class Panda {
 
+    private final PandaCLI pandaCLI;
     private final PandaLoader pandaLoader;
     private final PandaLanguage pandaLanguage;
 
     protected Panda() {
+        this.pandaCLI = new PandaCLI(this);
         this.pandaLoader = new PandaLoader(this);
         this.pandaLanguage = new PandaLanguage();
     }
@@ -39,6 +42,10 @@ public class Panda {
 
     public PandaLoader getPandaLoader() {
         return pandaLoader;
+    }
+
+    public PandaCLI getPandaCLI() {
+        return pandaCLI;
     }
 
 }
