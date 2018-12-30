@@ -36,8 +36,8 @@ class VagueExtractorTest {
     private static final String SOURCE = "(new Integer(5).intValue() + 3)";
 
     private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
-            Separators.LEFT_PARENTHESIS_DELIMITER,
-            Separators.RIGHT_PARENTHESIS_DELIMITER
+            Separators.PARENTHESIS_LEFT,
+            Separators.PARENTHESIS_RIGHT
     }, new Token[]{
             Operators.ADDITION,
             Operators.SUBTRACTION,

@@ -19,9 +19,9 @@ package org.panda_lang.panda.framework.language.interpreter.token;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.utilities.commons.ListUtils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class PandaTokens implements Tokens {
@@ -33,7 +33,7 @@ public class PandaTokens implements Tokens {
     }
 
     public PandaTokens(TokenRepresentation... tokenRepresentations) {
-        this(Arrays.asList(tokenRepresentations));
+        this(ListUtils.mutableOf(tokenRepresentations));
     }
 
     public PandaTokens(List<TokenRepresentation> tokenRepresentations) {

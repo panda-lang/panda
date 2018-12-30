@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ForEachParser extends BlockSubparserBootstrap {
 
     private static final TokenPattern CONTENT_PATTERN = TokenPattern.builder()
-            .compile("<type> <name> : <*iterable>")
+            .compile("<type:reader type> <name> : <*iterable>")
             .build();
 
     @Override
@@ -71,7 +71,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         }
 
         VariableInitializer initializer = new VariableInitializer();
-        Variable variable = initializer.createVariable(script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
+        Variable variable = initializer.createVariable(data, script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
         int variableId = scope.indexOf(variable);
 
         ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);

@@ -54,7 +54,7 @@ public class MethodExpressionParser implements ExpressionSubparser {
             // read method name
             matchable.nextVerified();
 
-            if (!matchable.nextVerified().contentEquals(Separators.LEFT_PARENTHESIS_DELIMITER)) {
+            if (!matchable.nextVerified().contentEquals(Separators.PARENTHESIS_LEFT)) {
                 return false;
             }
 
@@ -67,7 +67,7 @@ public class MethodExpressionParser implements ExpressionSubparser {
                return false;
             }
 
-            return matchable.next().contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER);
+            return matchable.next().contentEquals(Separators.PARENTHESIS_RIGHT);
         });
 
         // at least 3 elements required: <method-name> ( )
@@ -76,12 +76,12 @@ public class MethodExpressionParser implements ExpressionSubparser {
         }
 
         // method source has to end with parenthesis
-        if (!selected.getLast().contentEquals(Separators.RIGHT_PARENTHESIS_DELIMITER)) {
+        if (!selected.getLast().contentEquals(Separators.PARENTHESIS_RIGHT)) {
             return null;
         }
 
         // verify period-less structure
-        if (!selected.contains(Separators.PERIOD) && !selected.get(1).contentEquals(Separators.LEFT_PARENTHESIS_DELIMITER)) {
+        if (!selected.contains(Separators.PERIOD) && !selected.get(1).contentEquals(Separators.PARENTHESIS_LEFT)) {
             return null;
         }
 

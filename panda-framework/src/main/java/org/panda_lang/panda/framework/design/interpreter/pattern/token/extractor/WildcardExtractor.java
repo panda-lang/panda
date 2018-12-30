@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.WildcardCompiler;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
@@ -34,6 +34,7 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
 
     @Override
     public ExtractorResult extract(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
+        int index = distributor.getIndex();
         Tokens wildcardContent = null;
 
         if (!distributor.hasNext()) {
@@ -50,6 +51,9 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
                 return new ExtractorResult("Empty wildcard");
             }
         }
+
+        int wildcardSize = wildcardContent != null ? wildcardContent.size() : 0;
+        distributor.setIndex(index + wildcardSize);
 
         return new ExtractorResult().addWildcard(wildcard.getName(), wildcardContent);
     }

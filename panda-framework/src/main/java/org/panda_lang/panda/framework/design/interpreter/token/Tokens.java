@@ -67,6 +67,11 @@ public interface Tokens {
         return this;
     }
 
+    default Tokens addTokens(Tokens tokens) {
+        getTokensRepresentations().addAll(tokens.getTokensRepresentations());
+        return this;
+    }
+
     default boolean startsWith(Token... tokens) {
         if (tokens.length > size()) {
             return false;
