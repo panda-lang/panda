@@ -4,17 +4,17 @@
    <a href="https://travis-ci.org/Panda-Programming-Language/Panda"><img src="https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master" alt="Build Status"></a>
    <a href="https://ci.appveyor.com/project/Panda-Programming-Language/panda"><img src="https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true"></a>
    <a href="https://www.codefactor.io/repository/github/panda-programming-language/panda"><img src="https://www.codefactor.io/repository/github/panda-programming-language/panda/badge" alt="CodeFactor"></a>
+    
+  <hr>
    
-    <hr>
+  <p align="center">
+    Panda is lightweight and powerful programming language written in Java.<br>
+    Project website: <a href="https://panda-lang.org/">panda-lang.org</a>
+  </p>
    
-    <p align="center">
-        Panda is lightweight and powerful programming language written in Java.<br>
-        Project website: <a href="https://panda-lang.org/">panda-lang.org</a>
-    </p>
-   
-    <p align="center">
-        <img src="https://panda-lang.org/github/v1/carbon-3.png" alt="Preview">
-    </p>
+  <p align="center">
+    <img src="https://panda-lang.org/github/v1/carbon-3.png" alt="Preview">
+  </p>
 </p>
 
 #### Repository structure
