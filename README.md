@@ -12,7 +12,7 @@
       Project website: <a href="https://panda-lang.org/">panda-lang.org</a>
    </p>
    
-   <img src="https://panda-lang.org/github/v1/carbon.png" alt="Preview">
+   <img src="https://panda-lang.org/github/v1/carbon-2.png" alt="Preview">
 </p>
 
 #### Repository structure
