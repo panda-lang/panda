@@ -1,4 +1,4 @@
-![Logo](https://panda-lang.org/github/v1/logo.png)
+![Logo](https://panda-lang.org/github/v1/logo-1.png)
 
 <p align="center">
    <a href="https://travis-ci.org/Panda-Programming-Language/Panda"><img src="https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master" alt="Build Status"></a>
