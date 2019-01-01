@@ -56,4 +56,4 @@ Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 
 #### Other
 - Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
-- Light: https://github.com/dzikoysk/Light
+- Light: https://github.com/Panda-Programming-Language/Light
