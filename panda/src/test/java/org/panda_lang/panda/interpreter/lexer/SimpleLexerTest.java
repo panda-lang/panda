@@ -27,7 +27,7 @@ class SimpleLexerTest {
 
     @Test
     public void testKeywordsInUnknown() {
-        PandaLexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(SimpleLexerTest.class, "this.intValue()"));
+        PandaLexer lexer = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource(SimpleLexerTest.class, "this.intValue()")).build();
         Tokens source = lexer.convert();
 
         Assertions.assertEquals("this . intValue ( )", source.toString());

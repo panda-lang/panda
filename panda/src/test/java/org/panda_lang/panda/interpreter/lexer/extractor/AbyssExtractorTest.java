@@ -52,7 +52,7 @@ class AbyssExtractorTest {
 
     @Test
     public void testExtractor() {
-        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), new PandaSource(AbyssExtractorTest.class, SOURCE));
+        Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource(AbyssExtractorTest.class, SOURCE)).build();
         Tokens tokens = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokens);
 

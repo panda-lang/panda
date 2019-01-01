@@ -34,7 +34,7 @@ class TokenPatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Tokens tokenizedSource = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("Test", source)).convert();
+        Tokens tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
         ExtractorResult result = pattern.extract(tokenizedSource);
         Assertions.assertNotNull(result);
 

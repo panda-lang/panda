@@ -33,26 +33,25 @@ import java.util.Collection;
 
 public class PandaLexer implements Lexer {
 
+    private final PandaLexerConfiguration configuration;
+
     private final String title;
     private final String source;
     private final Collection<TokenRepresentation> tokenRepresentations;
     private final Collection<Token> tokenizedLine;
-    private final Syntax syntax;
 
     private final StringBuilder tokenBuilder;
     private final PandaLexerTokenExtractor lexerTokenExtractor;
     private final PandaLexerSequencer lexerSequencer;
-
-    private boolean includeIndentation;
-    private boolean respectWhitespaces;
-    private boolean equalsIgnoreCase;
-
     private String linePreview;
     private String tokenPreview;
     private boolean previousSpecial;
     private int line;
 
-    public PandaLexer(Syntax syntax, Source source) {
+    protected PandaLexer(PandaLexerConfiguration configuration) {
+        this.configuration = configuration;
+
+        Source source = configuration.getSource();
         String content = source.getContent();
 
         if (content == null) {
@@ -62,7 +61,6 @@ public class PandaLexer implements Lexer {
             throw new IllegalArgumentException("Source is empty");
         }
 
-        this.syntax = syntax;
         this.source = content + System.lineSeparator();
         this.title = source.getTitle();
 
@@ -70,11 +68,8 @@ public class PandaLexer implements Lexer {
         this.tokenizedLine = new ArrayList<>();
 
         this.lexerTokenExtractor = new PandaLexerTokenExtractor(this);
-        this.lexerSequencer = new PandaLexerSequencer(this, syntax.getSequences());
+        this.lexerSequencer = new PandaLexerSequencer(this, configuration.getSyntax().getSequences());
         this.tokenBuilder = new StringBuilder();
-
-        this.includeIndentation = false;
-        this.respectWhitespaces = true;
 
         this.tokenPreview = StringUtils.EMPTY;
         this.linePreview = StringUtils.EMPTY;
@@ -105,7 +100,7 @@ public class PandaLexer implements Lexer {
             return;
         }
 
-        if (respectWhitespaces && CharacterUtils.isWhitespace(c)) {
+        if (configuration.isRespectingWhitespaces() && CharacterUtils.isWhitespace(c)) {
             boolean extracted = lexerTokenExtractor.extract(tokenBuilder);
 
             if (!extracted) {
@@ -121,7 +116,7 @@ public class PandaLexer implements Lexer {
     }
 
     private void check(char c) {
-        boolean special = CharacterUtils.belongsTo(c, syntax.getSpecialCharacters());
+        boolean special = CharacterUtils.belongsTo(c, configuration.getSyntax().getSpecialCharacters());
 
         if (previousSpecial && !special) {
             lexerTokenExtractor.extract(tokenBuilder);
@@ -138,7 +133,7 @@ public class PandaLexer implements Lexer {
             return;
         }
 
-        if (includeIndentation) {
+        if (configuration.hasIncludedIndentation()) {
             String paragraph = StringUtils.extractParagraph(linePreview);
             Indentation indentation = Indentation.valueOf(paragraph);
             TokenRepresentation representation = new PandaTokenRepresentation(indentation, line);
@@ -155,21 +150,6 @@ public class PandaLexer implements Lexer {
         line++;
     }
 
-    public void equalsIgnoreCase(boolean flag) {
-        this.equalsIgnoreCase = flag;
-    }
-
-    public void includeIndentation(boolean flag) {
-        this.includeIndentation = flag;
-    }
-
-    public void respectWhitespaces(boolean flag) {
-        this.respectWhitespaces = flag;
-    }
-
-    protected boolean isEqualsIgnoreCase() {
-        return equalsIgnoreCase;
-    }
 
     protected int getLine() {
         return line;
@@ -177,10 +157,6 @@ public class PandaLexer implements Lexer {
 
     protected StringBuilder getTokenBuilder() {
         return tokenBuilder;
-    }
-
-    protected Syntax getSyntax() {
-        return syntax;
     }
 
     protected Collection<Token> getTokenizedLine() {
@@ -193,6 +169,18 @@ public class PandaLexer implements Lexer {
 
     public String getSource() {
         return source;
+    }
+
+    public PandaLexerConfiguration getConfiguration() {
+        return configuration;
+    }
+
+    public static PandaLexerConfiguration of(Syntax syntax, Source source) {
+        return new PandaLexerConfiguration(syntax, source);
+    }
+
+    public static PandaLexerConfiguration builder() {
+        return new PandaLexerConfiguration();
     }
 
 }
