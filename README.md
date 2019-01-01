@@ -1,9 +1,19 @@
-# Panda [![Build Status](https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master)](https://travis-ci.org/Panda-Programming-Language/Panda) [![Build status](https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true)](https://ci.appveyor.com/project/Panda-Programming-Language/panda) [![CodeFactor](https://www.codefactor.io/repository/github/panda-programming-language/panda/badge)](https://www.codefactor.io/repository/github/panda-programming-language/panda)
-Panda is lightweight and powerful programming language written in Java.<br>
-Project website: [panda-lang.org](https://panda-lang.org/)
+![Logo](https://panda-lang.org/github/v1/logo.png)
 
-#### Example
-![current_test.panda preview](https://panda-lang.org/screenshot/4XEbOCn8.png)
+<p align="center">
+   <a href="https://travis-ci.org/Panda-Programming-Language/Panda"><img src="https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master" alt="Build Status"></a>
+   <a href="https://ci.appveyor.com/project/Panda-Programming-Language/panda"><img src="https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true"></a>
+   <a href="https://www.codefactor.io/repository/github/panda-programming-language/panda"><img src="https://www.codefactor.io/repository/github/panda-programming-language/panda/badge" alt="CodeFactor"></a>
+   
+   <hr>
+   
+   <p align="center">
+      Panda is lightweight and powerful programming language written in Java.<br>
+      Project website: <a href="https://panda-lang.org/">panda-lang.org</a>
+   </p>
+   
+   <img src="https://panda-lang.org/github/v1/carbon.png" alt="Preview">
+</p>
 
 #### Repository structure
 ```
