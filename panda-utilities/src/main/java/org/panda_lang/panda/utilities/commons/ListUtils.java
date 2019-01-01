@@ -18,9 +18,15 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ListUtils {
+
+    public static <T> List<T> mutableOf(T... elements) {
+        return new ArrayList<>(Arrays.asList(elements));
+    }
 
     /**
      * Get element of list at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}

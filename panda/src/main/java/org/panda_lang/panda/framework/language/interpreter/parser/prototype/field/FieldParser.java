@@ -53,7 +53,7 @@ public class FieldParser extends UnifiedParserBootstrap {
                         .optional("static", "static")
                         .optional("mutable", "mutable")
                         .optional("nullable", "nullable")
-                        .element("<type> <name:condition token {type:unknown}>")
+                        .element("<type:reader type> <name:condition token {type:unknown}>")
                         .optional("= <assignation:reader expression>")
                         .optional(";")
                         .build()

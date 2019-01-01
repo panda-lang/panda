@@ -51,7 +51,7 @@ class InstanceExpressionParser implements ExpressionSubparser {
            return null;
         }
 
-        Tokens args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.LEFT_PARENTHESIS_DELIMITER);
+        Tokens args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.PARENTHESIS_LEFT);
 
         if (args == null) {
             return null;

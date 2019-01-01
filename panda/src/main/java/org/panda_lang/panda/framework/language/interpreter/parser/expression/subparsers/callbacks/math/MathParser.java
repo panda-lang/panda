@@ -37,8 +37,8 @@ import java.util.Stack;
 public class MathParser implements Parser {
 
     public static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
-            Separators.LEFT_PARENTHESIS_DELIMITER,
-            Separators.RIGHT_PARENTHESIS_DELIMITER
+            Separators.PARENTHESIS_LEFT,
+            Separators.PARENTHESIS_RIGHT
     }, MathUtils.MATH_OPERATORS);
 
     public MathExpressionCallback parse(Tokens source, ParserData data) {

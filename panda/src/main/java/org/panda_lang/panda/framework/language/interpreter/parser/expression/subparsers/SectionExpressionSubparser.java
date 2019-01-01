@@ -28,7 +28,7 @@ class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        return SubparserUtils.readBetweenSeparators(source, Separators.LEFT_PARENTHESIS_DELIMITER);
+        return SubparserUtils.readBetweenSeparators(source, Separators.PARENTHESIS_LEFT);
     }
 
     @Override

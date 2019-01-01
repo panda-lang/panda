@@ -28,31 +28,30 @@ import java.util.Collection;
 public class Separators {
 
     public static final Separator SEMICOLON = new Separator(";");
-
     public static final Separator COMMA = new Separator(",");
-
     public static final Separator PERIOD = new Separator(".");
 
-    public static final Separator LEFT_PARENTHESIS_DELIMITER = new Separator("(");
+    public static final Separator PARENTHESIS_LEFT = new Separator("(");
+    public static final Separator PARENTHESIS_RIGHT = new Separator(")");
 
-    public static final Separator RIGHT_PARENTHESIS_DELIMITER = new Separator(")");
+    public static final Separator BRACE_LEFT = new Separator("{");
+    public static final Separator BRACE_RIGHT = new Separator("}");
 
-    public static final Separator LEFT_BRACE_DELIMITER = new Separator("{");
+    public static final Separator SQUARE_BRACKET_LEFT = new Separator("[");
+    public static final Separator SQUARE_BRACKET_RIGHT = new Separator("]");
 
-    public static final Separator RIGHT_BRACE_DELIMITER = new Separator("}");
-
-    public static final Separator LEFT_BRACKET_DELIMITER = new Separator("[");
-
-    public static final Separator RIGHT_BRACKET_DELIMITER = new Separator("]");
+    public static final Separator ANGLE_BRACKET_LEFT = new Separator("<");
+    public static final Separator ANGLE_BRACKET_RIGHT = new Separator(">");
 
     private static final Collection<Separator> VALUES;
 
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Separators.class, Separator.class);
 
-        LEFT_BRACE_DELIMITER.setOpposite(RIGHT_BRACE_DELIMITER);
-        LEFT_BRACKET_DELIMITER.setOpposite(RIGHT_BRACKET_DELIMITER);
-        LEFT_PARENTHESIS_DELIMITER.setOpposite(RIGHT_PARENTHESIS_DELIMITER);
+        BRACE_LEFT.setOpposite(BRACE_RIGHT);
+        SQUARE_BRACKET_LEFT.setOpposite(SQUARE_BRACKET_RIGHT);
+        PARENTHESIS_LEFT.setOpposite(PARENTHESIS_RIGHT);
+        ANGLE_BRACKET_LEFT.setOpposite(ANGLE_BRACKET_RIGHT);
     }
 
     public static @Nullable Separator valueOf(Token token) {
@@ -76,7 +75,7 @@ public class Separators {
     }
 
     public static Separator[] getClosingSeparators() {
-        return new Separator[] { RIGHT_BRACE_DELIMITER, RIGHT_BRACKET_DELIMITER, RIGHT_PARENTHESIS_DELIMITER };
+        return new Separator[] { BRACE_RIGHT, SQUARE_BRACKET_RIGHT, PARENTHESIS_RIGHT };
     }
 
     public static Separator[] values() {

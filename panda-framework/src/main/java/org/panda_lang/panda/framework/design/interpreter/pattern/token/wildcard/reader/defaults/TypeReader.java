@@ -17,12 +17,14 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.defaults;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 class TypeReader implements WildcardReader {
 
@@ -39,7 +41,52 @@ class TypeReader implements WildcardReader {
             return null;
         }
 
-        return new PandaTokens(type);
+        PandaTokens tokens = new PandaTokens(type);
+
+        while (mayNext(distributor)) {
+            Tokens next = read(distributor);
+
+            if (next == null) {
+                break;
+            }
+
+            tokens.addTokens(next);
+        }
+
+        return tokens;
+    }
+
+    private boolean mayNext(TokenDistributor distributor) {
+        if (distributor.size() < 2) {
+            return false;
+        }
+
+        TokenRepresentation next = distributor.getNext();
+
+        if (next == null) {
+            return false;
+        }
+
+        if (next.contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
+            return true;
+        }
+
+        return next.contentEquals(Separators.ANGLE_BRACKET_LEFT);
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    private @Nullable Tokens read(TokenDistributor distributor) {
+        TokenRepresentation next = distributor.next();
+
+        if (next.contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
+            return distributor.getNext().contentEquals(Separators.SQUARE_BRACKET_RIGHT) ? new PandaTokens(next, distributor.next()) : null;
+        }
+
+        if (next.contentEquals(Separators.ANGLE_BRACKET_LEFT)) {
+            throw new PandaFrameworkException("Angle brackets not implemented yet");
+        }
+
+        return null;
     }
 
 }

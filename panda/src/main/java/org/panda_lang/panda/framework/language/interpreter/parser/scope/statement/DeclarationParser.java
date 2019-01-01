@@ -54,7 +54,7 @@ public class DeclarationParser extends UnifiedParserBootstrap {
         boolean nullable = result.hasIdentifier("nullable");
 
         VariableInitializer initializer = new VariableInitializer();
-        initializer.createVariable(script.getModuleLoader(), linker.getCurrentScope(), mutable, nullable, type.asString(), name.asString());
+        initializer.createVariable(data, script.getModuleLoader(), linker.getCurrentScope(), mutable, nullable, type.asString(), name.asString());
     }
 
 }

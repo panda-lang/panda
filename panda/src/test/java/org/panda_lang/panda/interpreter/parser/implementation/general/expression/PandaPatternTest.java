@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.PatternCo
 class PandaPatternTest {
 
     private static final String METHOD = "[<instance:reader expression exclude method, field> .] <name> `( [<*arguments>] `) [;]";
-    private static final String VARIABLE = "([[mutable] [nullable] <type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
+    private static final String VARIABLE = "([[mutable] [nullable] <type:reader type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
 
     @Test
     public void testDeclaration() {
@@ -51,7 +51,7 @@ class PandaPatternTest {
     @Test
     public void testFieldAsVariable() {
         Assertions.assertFalse(PandaPatternTester.build(
-                "[<type>] <name:condition token {type:unknown}> [= <assignation:reader expression>][;]",
+                "[<type:reader type>] <name:condition token {type:unknown}> [= <assignation:reader expression>][;]",
                 "this.testField = this;"
         ).isMatched());
     }
@@ -159,7 +159,7 @@ class PandaPatternTest {
                         .optional("static", "static")
                         .optional("mutable", "mutable")
                         .optional("nullable", "nullable")
-                        .element("<type> <name:condition token {type:unknown}>")
+                        .element("<type:reader type> <name:condition token {type:unknown}>")
                         .optional("= <assignation:reader expression>")
                         .optional(";")
                         .build(),

@@ -54,7 +54,7 @@ main {
     String init
     nullable Object req = null
 
-    Test test = new Test('"Constructor"')
+    Test[] test = new Test('"Constructor"')
     test.echo("Method")
     test.testField()
 
