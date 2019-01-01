@@ -44,7 +44,7 @@ class FileBasedLexerTest {
         PandaLanguage pandaLanguage = panda.getPandaLanguage();
         Syntax syntaxComposition = pandaLanguage.getSyntax();
 
-        Lexer lexer = new PandaLexer(syntaxComposition, new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');"));
+        Lexer lexer = PandaLexer.of(syntaxComposition, new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');")).build();
         Tokens tokens = lexer.convert();
         TokenReader tokenReader = new PandaTokenReader(tokens);
 

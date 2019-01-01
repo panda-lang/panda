@@ -32,7 +32,7 @@ public class PandaLexerTokenExtractor {
 
     public PandaLexerTokenExtractor(PandaLexer lexer) {
         this.lexer = lexer;
-        this.syntax = lexer.getSyntax();
+        this.syntax = lexer.getConfiguration().getSyntax();
     }
 
     protected boolean extract(StringBuilder tokenBuilder) {
@@ -65,13 +65,13 @@ public class PandaLexerTokenExtractor {
 
     @SafeVarargs
     protected final @Nullable Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
-        String preparedTokenPreview = lexer.isEqualsIgnoreCase() ? tokenPreview.toLowerCase() : tokenPreview;
+        String preparedTokenPreview = lexer.getConfiguration().isIgnoringCase() ? tokenPreview.toLowerCase() : tokenPreview;
 
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
                 String value = token.getTokenValue();
 
-                if (lexer.isEqualsIgnoreCase()) {
+                if (lexer.getConfiguration().isIgnoringCase()) {
                     value = value.toLowerCase();
                 }
 

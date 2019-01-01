@@ -49,7 +49,7 @@ class VagueExtractorTest {
     public void testVagueExtractor() {
         Source source = new PandaSource(VagueExtractorTest.class, SOURCE);
 
-        Lexer lexer = new PandaLexer(PandaSyntax.getInstance(), source);
+        Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), source).build();
         Tokens tokens = lexer.convert();
 
         VagueResult result = EXTRACTOR.extract(tokens);

@@ -82,7 +82,7 @@ public class ApplicationParser implements Parser {
             interpretation.execute(() -> {
                 pandaScript.getModuleLoader().include(defaultModule);
 
-                PandaLexer lexer = new PandaLexer(elements.getSyntax(), source);
+                PandaLexer lexer = PandaLexer.of(elements.getSyntax(), source).build();
                 Tokens tokens = CommentParser.uncomment(lexer.convert());
 
                 PandaSourceStream sourceStream = new PandaSourceStream(tokens);

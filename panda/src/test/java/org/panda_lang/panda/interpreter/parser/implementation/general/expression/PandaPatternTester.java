@@ -55,7 +55,7 @@ class PandaPatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Tokens tokenizedSource = new PandaLexer(PandaSyntax.getInstance(), new PandaSource("PandaPatternTester", source)).convert();
+        Tokens tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("PandaPatternTester", source)).build().convert();
         SourceStream stream = new PandaSourceStream(tokenizedSource);
         ExtractorResult result = pattern.extract(stream);
 

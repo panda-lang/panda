@@ -64,6 +64,10 @@
             <groupId>org.panda-lang</groupId>
             <artifactId>panda-framework</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.panda-lang</groupId>
+            <artifactId>panda-framework</artifactId>
+        </dependency>
     </dependencies>
 
     <distributionManagement>

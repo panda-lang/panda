@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 public class PandaLexerUtils {
 
     public static Tokens convert(String source) {
-        return new PandaLexer(PandaSyntax.getInstance(), new PandaSource("runtime::PandaLexerUtils", source)).convert();
+        return PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("runtime::PandaLexerUtils", source)).build().convert();
     }
 
 }
