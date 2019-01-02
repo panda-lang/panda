@@ -24,12 +24,16 @@ import java.util.Objects;
 public class ArrayUtils {
 
     public static Class<?> getArrayClass(Class<?> clazz) {
-        return getDimensionalArrayClass(clazz, 0);
+        return Array.newInstance(clazz, 0).getClass();
     }
 
-    public static Class<?> getDimensionalArrayClass(Class<?> type, int dimensions) {
+    public static Class<?> getDimensionalArrayType(Class<?> type, int dimensions) {
         if (dimensions == 0) {
             throw new IllegalArgumentException("Cannot get dimensional array for 0 dimensions");
+        }
+
+        if (dimensions == 1) {
+            return type;
         }
 
         return Array.newInstance(type, new int[dimensions]).getClass();

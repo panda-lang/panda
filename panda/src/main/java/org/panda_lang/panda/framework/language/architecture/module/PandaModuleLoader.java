@@ -19,8 +19,11 @@ package org.panda_lang.panda.framework.language.architecture.module;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.HashMap;
@@ -53,22 +56,23 @@ public class PandaModuleLoader implements ModuleLoader {
             if (prototype != null) {
                 return prototype;
             }
-
-            return null;
         }
 
-        if (className.endsWith("[]")) {
-            ClassPrototype prototype = forClass(className.substring(0, className.length() - 2));
+        if (className.endsWith(PandaArray.IDENTIFIER)) {
+            ClassPrototype prototype = forClass(className.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
             if (prototype == null) {
                 return null;
             }
 
-            int dimensions = StringUtils.countOccurrences(className, "[]");
+            int dimensions = StringUtils.countOccurrences(className, PandaArray.IDENTIFIER);
+            Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociated(), dimensions);
+            Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
-            //ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(dimensions);
+            ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(arrayClass, arrayType);
+            importedModules.get(null).add(arrayPrototype);
 
-            //importedModules.get(null).add(arrayClass);
+            return prototype;
         }
 
         return null;
