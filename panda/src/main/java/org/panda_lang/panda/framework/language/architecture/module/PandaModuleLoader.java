@@ -23,19 +23,19 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PandaModuleLoader implements ModuleLoader {
 
-    private final Collection<Module> importedModules;
+    private final Map<String, Module> importedModules;
 
     public PandaModuleLoader() {
-        this.importedModules = new ArrayList<>();
+        this.importedModules = new HashMap<>(2);
     }
 
     public void include(Module module) {
-        this.importedModules.add(module);
+        this.importedModules.put(module.getName(), module);
     }
 
     public @Nullable ClassPrototype forClass(String className) {
@@ -47,12 +47,28 @@ public class PandaModuleLoader implements ModuleLoader {
             throw new PandaRuntimeException("Not implemented");
         }
 
-        for (Module module : importedModules) {
+        for (Module module : importedModules.values()) {
             ClassPrototype prototype = module.get(className);
 
             if (prototype != null) {
                 return prototype;
             }
+
+            return null;
+        }
+
+        if (className.endsWith("[]")) {
+            ClassPrototype prototype = forClass(className.substring(0, className.length() - 2));
+
+            if (prototype == null) {
+                return null;
+            }
+
+            int dimensions = StringUtils.countOccurrences(className, "[]");
+
+            //ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(dimensions);
+
+            //importedModules.get(null).add(arrayClass);
         }
 
         return null;

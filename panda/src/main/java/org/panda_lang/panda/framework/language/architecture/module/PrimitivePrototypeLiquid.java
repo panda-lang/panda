@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.module;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaArray;
 import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 
@@ -36,7 +37,9 @@ public class PrimitivePrototypeLiquid {
     public static final ClassPrototype LONG = PandaClassPrototype.of(int.class, "Long");
     public static final ClassPrototype FLOAT = PandaClassPrototype.of(float.class, "Float");
     public static final ClassPrototype DOUBLE = PandaClassPrototype.of(double.class, "Double");
+
     public static final ClassPrototype OBJECT = PandaClassPrototype.of(Object.class);
+    public static final ClassPrototype ARRAY = PandaClassPrototype.of(PandaArray.class, "Array");
 
     private static final ClassPrototypeGeneratorManager MAPPER = new ClassPrototypeGeneratorManager();
 
