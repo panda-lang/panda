@@ -9,7 +9,8 @@
    
   <p align="center">
     Panda is lightweight and powerful programming language written in Java.<br>
-    Project website: <a href="https://panda-lang.org/">panda-lang.org</a>
+    Enhance the syntax dynamically or build your own language on top of the Panda Framework.<br>
+    ~ <a href="https://panda-lang.org/">panda-lang.org</a> :wq
   </p>
    
   <p align="center">
@@ -17,23 +18,7 @@
   </p>
 </p>
 
-#### Repository structure
-```
-panda/
-+--examples/                 Example scripts written in Panda
-+--panda/                    Panda module
-   +----/src                 All sources of Panda
-   +----pom.xml              The main maven build script for Panda module
-+--panda-framework/          Panda Framework module
-   +----/src                 All sources of Panda Framework
-   +----pom.xml              The main maven build script for Panda Framework module
-+--panda-utilities/          Panda Utilities module
-   +----/src                 All sources of Panda Utilities
-   +----pom.xml              The main maven build script for Panda Utilities module
-+--pom.xml                   The main maven build script
-```
-
-#### Maven
+#### 〽️ Maven
 The latest indev build:
 
 ```xml
@@ -54,6 +39,22 @@ Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 </repository>
 ```
 
-#### Other
+#### 📜 Repository structure
+```
+panda/
++--examples/                 Example scripts written in Panda
++--panda/                    Panda module
+   +----/src                 All sources of Panda
+   +----pom.xml              The main maven build script for Panda module
++--panda-framework/          Panda Framework module
+   +----/src                 All sources of Panda Framework
+   +----pom.xml              The main maven build script for Panda Framework module
++--panda-utilities/          Panda Utilities module
+   +----/src                 All sources of Panda Utilities
+   +----pom.xml              The main maven build script for Panda Utilities module
++--pom.xml                   The main maven build script
+```
+
+#### 💞 Other
 - Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
 - Light: https://github.com/Panda-Programming-Language/Light
