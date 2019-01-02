@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;

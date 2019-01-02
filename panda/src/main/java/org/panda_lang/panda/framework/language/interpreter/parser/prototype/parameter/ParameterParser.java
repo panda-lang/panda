@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.architecture.prototype.parameter.PandaParameter;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.parameter.PandaParameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 

@@ -46,11 +46,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassReference;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScopeInstance;
-import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.constructor.ConstructorUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.ClassReference;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.ClassScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.ClassScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;

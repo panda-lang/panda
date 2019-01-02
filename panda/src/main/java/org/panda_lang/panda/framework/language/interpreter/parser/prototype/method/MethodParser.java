@@ -36,11 +36,11 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.PandaMethodCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.ClassScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.MethodScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.PandaMethod;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.PandaMethodCallback;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.ScopeParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.parameter.ParameterParser;

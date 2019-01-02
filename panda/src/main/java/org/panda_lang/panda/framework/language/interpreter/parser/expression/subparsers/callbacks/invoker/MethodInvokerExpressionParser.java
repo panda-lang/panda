@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.ExpressionCallbackParser;

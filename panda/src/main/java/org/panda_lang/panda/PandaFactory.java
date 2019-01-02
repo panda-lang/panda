@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.design.resource.loader.AutoloadLoader;
+import org.panda_lang.panda.framework.language.resource.loader.AutoloadLoader;
 import org.panda_lang.panda.util.PandaUtils;
 
 public class PandaFactory {
