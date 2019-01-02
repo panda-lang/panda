@@ -14,25 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
-import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.PandaClassPrototype;
 
 import java.util.ArrayList;
 
 public class ArrayClassPrototype extends PandaClassPrototype {
 
-    private final int dimensions;
+    private final Class<?> type;
 
-    protected ArrayClassPrototype(String className, Class<?> associated, int dimension) {
-        super(className, associated, new ArrayList<>());
+    public ArrayClassPrototype(Class<?> associated, Class<?> type) {
+        super(associated.getSimpleName(), associated, new ArrayList<>());
+
+        this.type = type;
         super.extended.add(PrimitivePrototypeLiquid.ARRAY);
-        this.dimensions = dimension;
     }
 
-    public int getDimensions() {
-        return dimensions;
+    public Class<?> getType() {
+        return type;
     }
 
 }

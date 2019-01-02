@@ -19,9 +19,9 @@ package org.panda_lang.panda.framework.language.architecture.module;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaArray;
-import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator.ClassPrototypeGeneratorManager;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 public class PandaArray {
+
+    public static final String IDENTIFIER = "[]";
 
 }
