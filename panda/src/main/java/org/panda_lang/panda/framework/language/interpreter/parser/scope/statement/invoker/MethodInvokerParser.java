@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.architecture.prototype.method.MethodInvoker;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.invoker.MethodInvokerExpressionParser;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER_PARSER)
