@@ -9,7 +9,8 @@
    
   <p align="center">
     Panda is lightweight and powerful programming language written in Java.<br>
-    Project website: <a href="https://panda-lang.org/">panda-lang.org</a>
+    Enhance the syntax dynamically or build your own language on top of the Panda Framework.<br>
+    ~ <a href="https://panda-lang.org/">panda-lang.org</a> :wq
   </p>
    
   <p align="center">
