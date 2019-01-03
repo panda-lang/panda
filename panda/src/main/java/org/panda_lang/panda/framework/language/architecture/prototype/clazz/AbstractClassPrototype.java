@@ -65,10 +65,14 @@ public class AbstractClassPrototype implements ClassPrototype {
     }
 
     @Override
-    public boolean isAssociatedWith(ClassPrototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
-        return prototype != null && (prototype.equals(this)
-                || PandaClassPrototypeUtils.isAssociatedWith(associated, prototype.getAssociated())
-                || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended()));
+    public boolean isAssignableFrom(ClassPrototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
+        if (prototype == null) {
+            return true;
+        }
+
+        return prototype.equals(this)
+                || PandaClassPrototypeUtils.isAssignableFrom(associated, prototype.getAssociated())
+                || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended());
     }
 
     @Override

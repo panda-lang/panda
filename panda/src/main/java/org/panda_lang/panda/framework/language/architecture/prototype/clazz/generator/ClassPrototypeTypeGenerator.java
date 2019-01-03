@@ -16,20 +16,16 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import javassist.ClassPool;
+import javassist.CtClass;
 
-public class ClassPrototypeGeneratorUtils {
+public class ClassPrototypeTypeGenerator {
 
-    public static ClassPrototype[] toTypes(ModulePath modulePath, Class<?>... types) {
-        ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
-        ClassPrototype[] prototypes = new ClassPrototype[types.length];
+    private static final ClassPool POOL = ClassPool.getDefault();
 
-        for (int i = 0; i < types.length; i++) {
-            prototypes[i] = generator.computeIfAbsent(modulePath, types[i]);
-        }
-
-        return prototypes;
+    public Class<?> generateType(String className) throws Exception {
+        CtClass generatedClass = POOL.makeClass(className);
+        return generatedClass.toClass();
     }
 
 }

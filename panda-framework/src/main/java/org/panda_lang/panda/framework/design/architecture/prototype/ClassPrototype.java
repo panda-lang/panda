@@ -26,7 +26,7 @@ public interface ClassPrototype {
 
     boolean isClassOf(String className);
 
-    boolean isAssociatedWith(ClassPrototype prototype);
+    boolean isAssignableFrom(ClassPrototype prototype);
 
     Collection<ClassPrototype> getExtended();
 

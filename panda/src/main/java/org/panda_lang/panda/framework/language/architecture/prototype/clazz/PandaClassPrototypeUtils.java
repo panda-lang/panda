@@ -23,8 +23,8 @@ import java.util.Collection;
 
 public class PandaClassPrototypeUtils {
 
-    public static boolean isAssociatedWith(Class<?> a, Class<?> b) {
-        return a != null && b != null && (a == b || b.isAssignableFrom(a));
+    public static boolean isAssignableFrom(Class<?> a, Class<?> b) {
+        return a != null && b != null && (a == b || a.isAssignableFrom(b));
     }
 
     public static boolean hasCommonClasses(Collection<Class<?>> fromClasses, Collection<Class<?>> toClasses) {
@@ -34,7 +34,7 @@ public class PandaClassPrototypeUtils {
                     return true;
                 }
 
-                if (isAssociatedWith(a, b)) {
+                if (isAssignableFrom(a, b)) {
                     return true;
                 }
             }
@@ -50,7 +50,7 @@ public class PandaClassPrototypeUtils {
                     return true;
                 }
 
-                if (isAssociatedWith(a.getAssociated(), b.getAssociated())) {
+                if (isAssignableFrom(a.getAssociated(), b.getAssociated())) {
                     return true;
                 }
             }

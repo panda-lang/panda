@@ -77,7 +77,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         ClassPrototype iterableType = new ClassPrototypeGenerator().computeIfAbsent(registry, Iterable.class);
 
-        if (!expression.getReturnType().isAssociatedWith(iterableType)) {
+        if (!iterableType.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
