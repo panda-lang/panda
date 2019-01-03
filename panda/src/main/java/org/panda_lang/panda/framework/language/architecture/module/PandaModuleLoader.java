@@ -72,7 +72,7 @@ public class PandaModuleLoader implements ModuleLoader {
             ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(arrayClass, arrayType);
             importedModules.get(null).add(arrayPrototype);
 
-            return prototype;
+            return arrayPrototype;
         }
 
         return null;

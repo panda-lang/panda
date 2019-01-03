@@ -51,6 +51,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.clazz.Clas
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.ClassScopeInstance;
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.constructor.ConstructorUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
@@ -61,6 +62,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
 public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
+    private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();
+
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
@@ -69,7 +72,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
-    public void parse(ParserData data, Generation generation, @Src("name") String className) {
+    public void parse(ParserData data, Generation generation, @Src("name") String className) throws Exception {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
 
@@ -78,6 +81,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         }
 
         ClassPrototype classPrototype = PandaClassPrototype.builder()
+                .associated(GENERATOR.generateType(className))
                 .name(className)
                 .build();
 

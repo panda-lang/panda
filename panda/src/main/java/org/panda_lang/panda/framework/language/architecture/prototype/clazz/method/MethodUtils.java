@@ -49,7 +49,7 @@ public class MethodUtils {
             ClassPrototype methodParameterType = method.getParameterTypes()[i];
             ClassPrototype parameterType = parameterTypes[i];
 
-            if (!parameterType.isAssociatedWith(methodParameterType)) {
+            if (!methodParameterType.isAssignableFrom(parameterType)) {
                 return false;
             }
         }
