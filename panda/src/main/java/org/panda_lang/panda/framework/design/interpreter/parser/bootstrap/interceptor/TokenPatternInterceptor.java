@@ -32,10 +32,10 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
     private TokenPattern pattern;
 
     @Override
-    public void initialize(PandaParserBootstrap bootstrap) {
+    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
         this.pattern = PandaTokenPattern.builder()
                 .compile(bootstrap.getPattern().toString())
-                .build();
+                .build(data);
     }
 
     @Override

@@ -14,21 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.framework.language.architecture.prototype.clazz;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 
-public interface ModuleLoader {
+public class PandaClass {
 
-    void include(Module module);
+    private final ClassPrototype prototype;
 
-    default @Nullable ClassPrototype forClass(Class<?> clazz) {
-        return this.forClass(clazz.getSimpleName());
+    protected PandaClass(ClassPrototype prototype) {
+        this.prototype = prototype;
     }
 
-    @Nullable ClassPrototype forClass(String name);
-
-    Module get(String name);
+    public ClassPrototype getPrototype() {
+        return prototype;
+    }
 
 }

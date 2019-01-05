@@ -41,7 +41,7 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.List;
 
-class FieldParserExpression implements ExpressionSubparser {
+public class FieldParserExpression implements ExpressionSubparser {
 
     private static final Token[] FIELD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
 

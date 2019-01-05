@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.readers;
+package org.panda_lang.panda.framework.design.interpreter.pattern;
 
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.DefaultSubparsers;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
@@ -29,7 +29,15 @@ import java.util.Collection;
 
 class ExpressionWildcardReader implements WildcardReader {
 
-    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
+    private final ExpressionParser expressionParser;
+
+    public ExpressionWildcardReader(ExpressionParser expressionParser) {
+        if (expressionParser == null) {
+            throw new IllegalArgumentException("ExpressionParser cannot be null");
+        }
+
+        this.expressionParser = expressionParser;
+    }
 
     @Override
     public boolean match(String data) {
@@ -41,7 +49,7 @@ class ExpressionWildcardReader implements WildcardReader {
         String[] datum = StringUtils.splitFirst(data, " ");
 
         if (ArrayUtils.isEmpty(datum)) {
-            Tokens tokens = PARSER.read(distributor.currentSubSource());
+            Tokens tokens = expressionParser.read(distributor.currentSubSource());
 
             if (tokens == null) {
                 return null;
@@ -55,16 +63,17 @@ class ExpressionWildcardReader implements WildcardReader {
         Collection<String> names = convert(StringUtils.splitFirst(condition, " ")[1]);
 
         boolean exclude = condition.startsWith("exclude");
-        ExpressionParser parser;
+        ExpressionSubparsers subparsers;
 
         if (exclude) {
-            parser = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
-            parser.removeSubparsers(names);
+            subparsers = expressionParser.getSubparsers().fork();
+            subparsers.removeSubparsers(names);
         }
         else {
-            parser = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers(names));
+            subparsers = expressionParser.getSubparsers().select(names);
         }
 
+        ExpressionParser parser = new ExpressionParser(expressionParser, subparsers);
         Tokens source = parser.read(distributor.currentSubSource());
 
         if (source == null) {

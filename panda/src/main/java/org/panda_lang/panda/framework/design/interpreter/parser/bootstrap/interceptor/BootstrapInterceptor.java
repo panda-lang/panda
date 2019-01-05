@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 
 public interface BootstrapInterceptor {
 
-    void initialize(PandaParserBootstrap bootstrap);
+    void initialize(PandaParserBootstrap bootstrap, ParserData data);
 
     InterceptorData handle(UnifiedBootstrapParser parser, ParserData data);
 

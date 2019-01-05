@@ -1,0 +1,121 @@
+/*
+ * Copyright (c) 2015-2019 Dzikoysk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
+
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+
+import java.lang.reflect.Array;
+
+public class ArrayInstanceExpressionParser implements ExpressionSubparser {
+
+    private TokenPattern pattern;
+
+    @Override
+    public void initialize(ParserData data) {
+        this.pattern = PandaTokenPattern.builder()
+                .compile("new <type:reader type> `[ <capacity:reader expression> `]")
+                .build(data);
+    }
+
+    @Override
+    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+        if (!source.getFirst().contentEquals(Keywords.NEW)) {
+            return null;
+        }
+
+        Tokens args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.SQUARE_BRACKET_LEFT);
+
+        if (TokensUtils.isEmpty(args)) {
+            return null;
+        }
+
+        return source.subSource(0, 2 + args.size());
+    }
+
+    @Override
+    public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+        ExtractorResult result = pattern.extract(source);
+
+        if (!result.isMatched()) {
+            return null;
+        }
+
+        String type = result.getWildcard("type").asString();
+        ArrayClassPrototype prototype = ArrayClassPrototypeUtils.obtain(data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader(), type + "[]");
+
+        if (prototype == null) {
+            return null;
+        }
+
+        Tokens capacity = result.getWildcard("expression");
+        Expression capacityExpression = main.parse(data, capacity);
+
+        if (!PrimitivePrototypeLiquid.INT.isAssignableFrom(capacityExpression.getReturnType())) {
+            return null;
+        }
+
+        return new PandaExpression(prototype, new ArrayInstanceExpression(prototype, capacityExpression));
+    }
+
+    @Override
+    public double getPriority() {
+        return DefaultSubparsers.Priorities.Dynamic.CONSTRUCTOR_CALL;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.ARRAY_INSTANCE;
+    }
+
+    private static class ArrayInstanceExpression implements ExpressionCallback {
+
+        private final ArrayClassPrototype prototype;
+        private final Expression capacity;
+
+        private ArrayInstanceExpression(ArrayClassPrototype prototype, Expression capacity) {
+            this.prototype = prototype;
+            this.capacity = capacity;
+        }
+
+        @Override
+        public Value call(Expression expression, ExecutableBranch branch) {
+            return new PandaValue(prototype, Array.newInstance(prototype.getType(), (Integer) capacity.getExpressionValue(branch).getObject()));
+        }
+
+    }
+
+}

@@ -54,7 +54,7 @@ main {
     String init
     nullable Object req = null
 
-    Test[] test = new Test('"Constructor"') // known bug
+    Test test = new Test('"Constructor"')
     test.echo("Method")
     test.testField()
 
@@ -101,19 +101,18 @@ main {
         break
     }
 
+    TestArray testArray = new TestArray(7);
 }
 
 class TestArray {
 
-/*
     hidden Object[] array
 
-    constructor(Object... elements) {
-        this.array = elements
+    constructor(Int size) {
+        this.array = new Object[size];
 
-        this.array[0] = 2;
-        this.array.set(0, 2);
+        //this.array[0] = 2;
+        //this.array.set(0, 2);
     }
-*/
 
 }

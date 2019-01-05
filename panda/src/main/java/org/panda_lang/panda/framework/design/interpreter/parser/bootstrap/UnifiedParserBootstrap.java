@@ -43,7 +43,7 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
             return parser;
         }
 
-        this.parser = initialize(data, PandaParserBootstrap.<T> builder().instance(this)).build();
+        this.parser = initialize(data, PandaParserBootstrap.<T> builder().instance(this)).build(data);
         return parser;
     }
 
