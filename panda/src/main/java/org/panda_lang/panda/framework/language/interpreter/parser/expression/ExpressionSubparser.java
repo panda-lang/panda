@@ -27,6 +27,8 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
+    default void initialize(ParserData data) { }
+
     @Nullable Tokens read(ExpressionParser main, Tokens source);
 
     @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source);

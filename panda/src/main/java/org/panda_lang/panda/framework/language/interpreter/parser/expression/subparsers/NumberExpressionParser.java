@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-class NumberExpressionParser implements ExpressionSubparser {
+public class NumberExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {

@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.general.number
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-class SingleExpressionParser implements ExpressionSubparser {
+public class SingleExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {

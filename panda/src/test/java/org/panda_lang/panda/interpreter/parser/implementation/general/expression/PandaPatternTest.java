@@ -26,11 +26,6 @@ class PandaPatternTest {
     private static final String VARIABLE = "([[mutable] [nullable] <type:reader type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
 
     @Test
-    public void testDeclaration() {
-        Assertions.assertFalse(PandaPatternTester.build("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]", "String init nullable Object req = null").isMatched());
-    }
-
-    @Test
     public void testMethod() {
         PandaPatternTester.test(
                 METHOD,
@@ -172,5 +167,29 @@ class PandaPatternTest {
                 PandaPatternTester.Wildcard.of("assignation", "1.0D")
         );
     }
+
+    @Test
+    public void testReturn() {
+        PandaPatternTester.test(
+                "return [<value:reader expression>][;]",
+
+                "return this.testField",
+
+                PandaPatternTester.Wildcard.of("value", "this.testField")
+        );
+    }
+
+    @Test
+    public void testArray() {
+        PandaPatternTester.test(
+                "new <type:reader type> `[ <capacity:reader expression> `]",
+
+                "new Object[5]",
+
+                PandaPatternTester.Wildcard.of("type", "Object"),
+                PandaPatternTester.Wildcard.of("capacity", "5")
+        );
+    }
+
 
 }

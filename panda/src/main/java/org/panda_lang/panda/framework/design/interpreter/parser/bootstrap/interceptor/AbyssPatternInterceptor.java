@@ -35,7 +35,7 @@ public class AbyssPatternInterceptor implements BootstrapInterceptor {
     private AbyssPattern pattern;
 
     @Override
-    public void initialize(PandaParserBootstrap generator) {
+    public void initialize(PandaParserBootstrap generator, ParserData data) {
         this.patternData = (AbyssPatternData) generator.getPattern();
 
         if (StringUtils.isEmpty(patternData.getPattern())) {

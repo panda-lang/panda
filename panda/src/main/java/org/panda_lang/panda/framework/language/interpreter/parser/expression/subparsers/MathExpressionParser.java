@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-class MathExpressionParser implements ExpressionSubparser {
+public class MathExpressionParser implements ExpressionSubparser {
 
     private static final MathParser MATH_PARSER = new MathParser();
 

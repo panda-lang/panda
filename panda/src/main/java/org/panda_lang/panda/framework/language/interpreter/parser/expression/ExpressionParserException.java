@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.readers;
+package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-import java.util.ArrayList;
-import java.util.Collection;
+public class ExpressionParserException extends PandaRuntimeException {
 
-public class PandaExpressionReaders {
-
-    private static final Collection<WildcardReader> READERS = new ArrayList<>();
-
-    static {
-        READERS.add(new ExpressionWildcardReader());
-    }
-
-    public static Collection<WildcardReader> getDefaults() {
-        return new ArrayList<>(READERS);
+    public ExpressionParserException(String message) {
+        super(message);
     }
 
 }
