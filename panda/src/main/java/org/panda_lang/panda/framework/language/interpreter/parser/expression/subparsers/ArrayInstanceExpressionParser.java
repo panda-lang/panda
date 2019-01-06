@@ -47,7 +47,7 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
     @Override
     public void initialize(ParserData data) {
         this.pattern = PandaTokenPattern.builder()
-                .compile("new <type:reader type> `[ <capacity:reader expression> `]")
+                .compile("new <type:reader type> `[ <*capacity:reader expression> `]")
                 .build(data);
     }
 
@@ -81,7 +81,7 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        Tokens capacity = result.getWildcard("expression");
+        Tokens capacity = result.getWildcard("*capacity");
         Expression capacityExpression = main.parse(data, capacity);
 
         if (!PrimitivePrototypeLiquid.INT.isAssignableFrom(capacityExpression.getReturnType())) {

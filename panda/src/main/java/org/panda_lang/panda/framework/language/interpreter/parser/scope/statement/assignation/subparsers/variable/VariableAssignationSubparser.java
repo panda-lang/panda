@@ -75,7 +75,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
                 throw new PandaParserFailure("Field " + fieldName + " does not exist", data);
             }
 
-            if (!field.getType().isAssignableFrom(instanceExpression.getReturnType())) {
+            if (!field.getType().isAssignableFrom(expression.getReturnType())) {
                 throw new PandaParserFailure("Cannot assign " + instanceExpression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data);
             }
 
