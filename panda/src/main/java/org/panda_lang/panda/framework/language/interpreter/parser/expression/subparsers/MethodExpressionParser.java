@@ -47,7 +47,7 @@ public class MethodExpressionParser implements ExpressionSubparser {
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         Tokens selected = SubparserUtils.readSeparated(main, source, METHOD_SEPARATORS, SubparserUtils.NAMES_FILTER, matchable -> {
             // at least 3 elements required: <method-name> ( )
-            if (matchable.getDistributor().size() - matchable.getIndex() < 3) {
+            if ((matchable.getDistributor().size() - matchable.getIndex()) < 3) {
                 return false;
             }
 

@@ -23,6 +23,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
@@ -32,30 +34,40 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readSeparated(main, source, ARRAY_SEPARATORS, SubparserUtils.NAMES_FILTER, matchable -> {
-            // at least 4 elements required: <field-name> [ <index> ]
-            if ((matchable.getDistributor().size() - matchable.getIndex()) < 4) {
-                return false;
-            }
+        Tokens selected = SubparserUtils.readSeparated(main, source, ARRAY_SEPARATORS, SubparserUtils.NAMES_FILTER, MatchableDistributor::hasNext);
 
-            // read field name
+        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
+        matchable.getDistributor().setIndex(selected != null ? selected.size() : 0);
+
+        // at least 4 elements required: <field/variable> [ <index> ]
+        if ((source.size() - matchable.getIndex()) < 4) {
+            return null;
+        }
+
+        // read field name
+        matchable.nextVerified();
+
+        // check if the opening section is the square bracket
+        if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
+            return null;
+        }
+
+        // parameters content
+        while (matchable.hasNext() && !matchable.isMatchable()) {
             matchable.nextVerified();
+        }
 
-            if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
-                return false;
-            }
+        // check if the [ ] section is closed
+        if (!matchable.isMatchable()) {
+            return null;
+        }
 
-            // parameters content
-            while (matchable.hasNext() && !matchable.isMatchable()) {
-                matchable.nextVerified();
-            }
+        // check if the closing character was square brace
+        if (!matchable.current().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
+            return null;
+        }
 
-            if (!matchable.isMatchable()) {
-                return false;
-            }
-
-            return matchable.next().contentEquals(Separators.SQUARE_BRACKET_RIGHT);
-        });
+        selected = source.subSource(0, matchable.getIndex() + 1);
 
         // at least 4 elements required: <field-name> [ <index> ]
         if (selected == null || selected.size() < 4 ) {
@@ -64,11 +76,6 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
 
         // array value source has to end with parenthesis
         if (!selected.getLast().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
-            return null;
-        }
-
-        // verify period-less structure
-        if (!selected.get(1).contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
             return null;
         }
 
