@@ -17,25 +17,15 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory.FieldExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.number.NumberParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class SingleExpressionParser implements ExpressionSubparser {
@@ -54,26 +44,6 @@ public class SingleExpressionParser implements ExpressionSubparser {
 
         if (numericValue != null) {
             return new PandaExpression(numericValue);
-        }
-
-        ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
-        Scope scope = scopeLinker.getCurrentScope();
-        Variable variable = scope.getVariable(token.getTokenValue());
-
-        if (variable != null) {
-            int memoryIndex = scope.indexOf(variable);
-            return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
-        }
-
-        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-
-        if (prototype != null) {
-            PrototypeField field = prototype.getFields().getField(token.getTokenValue());
-
-            if (field != null) {
-                int memoryIndex = prototype.getFields().getIndexOfField(field);
-                return new PandaExpression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
-            }
         }
 
         return null;

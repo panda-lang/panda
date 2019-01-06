@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 public class ExpressionParser {
@@ -66,7 +67,10 @@ public class ExpressionParser {
             throw new PandaExpressionFailure("Cannot parse expression using " + result.subparser.getName() + " subparser", errorData);
         }
 
-        source.readDifference(result.source);
+        if (source.getUnreadLength() != result.source.size()) {
+            throw new PandaParserFailure("Unrecognized syntax", data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source.toTokenizedSource())));
+        }
+
         return expression;
     }
 

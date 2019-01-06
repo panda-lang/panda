@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.invoker;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
@@ -32,6 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER_PARSER)
 public class MethodInvokerParser extends UnifiedParserBootstrap {
@@ -47,7 +49,11 @@ public class MethodInvokerParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_AFTER)
-    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Tokens instance, @Src("name") Tokens name, @Src("*args") Tokens arguments) {
+    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Tokens instance, @Src("name") Tokens name, @Nullable @Src("*args") Tokens arguments) {
+        if (arguments == null) {
+            arguments = new PandaTokens();
+        }
+
         MethodInvokerExpressionParser methodInvokerParser = new MethodInvokerExpressionParser(instance, name, arguments);
         methodInvokerParser.setVoids(true);
 

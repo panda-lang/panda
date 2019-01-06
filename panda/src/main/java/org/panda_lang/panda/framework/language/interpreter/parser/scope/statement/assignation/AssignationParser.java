@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
@@ -29,8 +30,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -42,18 +45,22 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_ASSIGNATION_PARSER)
 public class AssignationParser extends UnifiedParserBootstrap {
 
-    private static final TokenPattern PATTERN = TokenPattern.builder()
-            .compile("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]")
-            .build();
+    private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]";
+
+    private TokenPattern pattern;
 
     @Override
     public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]");
+         this.pattern = PandaTokenPattern.builder()
+                .compile(PATTERN)
+                .build(data);
+
+        return defaultBuilder.pattern(PATTERN);
     }
 
     @Override
-    public boolean handle(ParserData data, SourceStream source) {
-        ExtractorResult result = PATTERN.extract(source);
+    public boolean customHandle(@Nullable ParserHandler handler, ParserData data, SourceStream source) {
+        ExtractorResult result = pattern.extract(source);
 
         if (!result.isMatched()) {
             return false;

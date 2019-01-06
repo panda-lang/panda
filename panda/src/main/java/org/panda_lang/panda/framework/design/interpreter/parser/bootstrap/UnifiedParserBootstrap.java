@@ -28,9 +28,13 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
 
     protected abstract BootstrapParserBuilder<T> initialize(ParserData data, BootstrapParserBuilder<T> defaultBuilder);
 
+    public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
+        return handler.handle(data, source);
+    }
+
     @Override
-    public boolean handle(ParserData data, SourceStream source) {
-        return get(data).getHandler().handle(data, source);
+    public final boolean handle(ParserData data, SourceStream source) {
+        return customHandle(get(data).getHandler(), data, source);
     }
 
     @Override
@@ -38,7 +42,7 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
         return get(data).getParser().parse(data);
     }
 
-    private ParserRepresentation<UnifiedParser<T>> get(ParserData data) {
+    protected ParserRepresentation<UnifiedParser<T>> get(ParserData data) {
         if (parser != null) {
             return parser;
         }
