@@ -22,6 +22,8 @@ public class DefaultSubparsers {
 
         public static final String ARRAY_INSTANCE = "array-instance";
 
+        public static final String ARRAY_VALUE = "array-value";
+
         public static final String FIELD = "field";
 
         public static final String INSTANCE = "instance";

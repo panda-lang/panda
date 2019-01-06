@@ -29,7 +29,6 @@ class TokenPatternTest {
 
                 TokenPatternTester.Wildcard.of("return-type", "void"),
                 TokenPatternTester.Wildcard.of("name", "anotherEcho"),
-                TokenPatternTester.Wildcard.of("*parameters", ""),
                 TokenPatternTester.Wildcard.of("*body", "Console.print(message);")
         );
     }
@@ -63,8 +62,7 @@ class TokenPatternTest {
 
                 "a.b().c(d)",
 
-                TokenPatternTester.Wildcard.of("*expression", "a.b"),
-                TokenPatternTester.Wildcard.of("*parameters", "")
+                TokenPatternTester.Wildcard.of("*expression", "a.b")
         );
     }
 

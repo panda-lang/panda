@@ -93,7 +93,7 @@ class PandaPatternTest {
         PandaPatternTester.test(
                 VARIABLE,
 
-                "testField = this;",
+                "testField = this this.echo(String.valueOf(i))",
 
                 PandaPatternTester.Wildcard.of("name", "testField"),
                 PandaPatternTester.Wildcard.of("assignation", "this")
@@ -191,5 +191,16 @@ class PandaPatternTest {
         );
     }
 
+    @Test
+    public void testAssignation() {
+        PandaPatternTester.test(
+                "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]",
+
+                "this.testField = this testField = this this.echo(String.valueOf(i))",
+
+                PandaPatternTester.Wildcard.of("*declaration", "this.testField"),
+                PandaPatternTester.Wildcard.of("assignation", "this")
+        );
+    }
 
 }

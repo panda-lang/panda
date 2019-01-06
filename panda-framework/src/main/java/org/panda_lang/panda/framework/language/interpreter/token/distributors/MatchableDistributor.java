@@ -35,7 +35,7 @@ public class MatchableDistributor {
         this.distributor = distributor;
     }
 
-    public @Nullable TokenRepresentation nextVerified() {
+    public TokenRepresentation nextVerified() {
         TokenRepresentation next = next();
         verify();
         return next;

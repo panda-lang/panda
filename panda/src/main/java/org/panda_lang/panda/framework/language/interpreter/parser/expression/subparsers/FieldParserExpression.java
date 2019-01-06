@@ -20,8 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -32,8 +35,12 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory.FieldExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory.VariableExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.number.NumberUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
@@ -55,11 +62,11 @@ public class FieldParserExpression implements ExpressionSubparser {
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         Tokens selected = SubparserUtils.readSeparated(main, source, FIELD_SEPARATORS, SubparserUtils.NAMES_FILTER, distributor -> distributor.next() != null);
 
-        if (selected == null) {
-            return null;
+        if (selected == null && SubparserUtils.isAllowedName(source.getFirst().getToken())) {
+            selected = new PandaTokens(source.getFirst());
         }
 
-        if (selected.getLast().getToken().getType() != TokenType.UNKNOWN) {
+        if (selected != null && selected.getLast().getToken().getType() != TokenType.UNKNOWN) {
             return null;
         }
 
@@ -68,6 +75,30 @@ public class FieldParserExpression implements ExpressionSubparser {
 
     @Override
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+        if (source.size() == 1) {
+            ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
+            Scope scope = scopeLinker.getCurrentScope();
+            Variable variable = scope.getVariable(source.asString());
+
+            if (variable != null) {
+                int memoryIndex = scope.indexOf(variable);
+                return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
+            }
+
+            ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+
+            if (prototype != null) {
+                PrototypeField field = prototype.getFields().getField(source.asString());
+
+                if (field != null) {
+                    int memoryIndex = prototype.getFields().getIndexOfField(field);
+                    return new PandaExpression(field.getType(), new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex));
+                }
+            }
+
+            throw new PandaParserFailure("Cannot find variable or field called " + source.asString(), data);
+        }
+
         List<Tokens> fieldMatches = FIELD_PATTERN.match(new PandaTokenReader(source));
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {

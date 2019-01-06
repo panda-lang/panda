@@ -30,6 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interc
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
@@ -51,7 +52,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Override
-    public boolean handle(ParserData data, SourceStream source) {
+    public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
         return ObjectUtils.isNotNull(data
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
