@@ -109,10 +109,10 @@ main {
 
 class TestArray {
 
-    hidden Object[] array
+    hidden Object[][] array
 
     constructor(Int size) {
-        this.array = new Object[size];
+        this.array = new Object[][size];
     }
 
     local void modify() {

@@ -36,7 +36,7 @@ public class ArrayUtils {
             return type;
         }
 
-        return Array.newInstance(type, new int[dimensions]).getClass();
+        return Array.newInstance(type, new int[dimensions - 1]).getClass();
     }
 
     /**

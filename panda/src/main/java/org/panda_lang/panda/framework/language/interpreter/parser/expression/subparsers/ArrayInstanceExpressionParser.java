@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPatte
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
@@ -34,8 +34,8 @@ import org.panda_lang.panda.framework.language.architecture.prototype.array.Arra
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 import java.lang.reflect.Array;
@@ -57,13 +57,14 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        Tokens args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.SQUARE_BRACKET_LEFT);
+        SourceStream stream = new PandaSourceStream(source);
+        ExtractorResult result = pattern.extract(stream);
 
-        if (TokensUtils.isEmpty(args)) {
+        if (!result.isMatched()) {
             return null;
         }
 
-        return source.subSource(0, 2 + args.size());
+        return source.subSource(0, source.size() - stream.getUnreadLength());
     }
 
     @Override

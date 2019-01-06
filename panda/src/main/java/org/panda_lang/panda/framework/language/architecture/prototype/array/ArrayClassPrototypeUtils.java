@@ -23,14 +23,14 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class ArrayClassPrototypeUtils {
 
-    public static ArrayClassPrototype obtain(ModuleLoader loader, String arrayName) {
-        ClassPrototype prototype = loader.forClass(arrayName.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
+    public static ArrayClassPrototype obtain(ModuleLoader loader, String type) {
+        ClassPrototype prototype = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
         if (prototype == null) {
             return null;
         }
 
-        int dimensions = StringUtils.countOccurrences(arrayName, PandaArray.IDENTIFIER);
+        int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
         Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociated(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
