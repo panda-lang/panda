@@ -59,12 +59,18 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
     }
 
     private @Nullable Tokens matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
+        Tokens source = null;
+
         if (wildcard.getName().startsWith("*")) {
-            return new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()));
+            source = new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()));
         }
 
         if (!wildcard.hasCondition()) {
-            return null;
+            return source;
+        }
+
+        if (source != null) {
+            distributor = new TokenDistributor(source);
         }
 
         return wildcardCompiler.compile(wildcard.getCondition(), distributor);
