@@ -18,8 +18,13 @@ package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.PandaMethod;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.Arrays;
 
 public class ArrayClassPrototypeUtils {
 
@@ -36,6 +41,18 @@ public class ArrayClassPrototypeUtils {
 
         ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(arrayClass, arrayType);
         loader.get(null).add(arrayPrototype);
+
+        arrayPrototype.getMethods().registerMethod(PandaMethod.builder()
+                .methodName("toString")
+                .returnType(PrimitivePrototypeLiquid.OBJECT)
+                .methodBody((branch, instance, parameters) -> {
+                    if (!instance.getClass().isArray()) {
+                        throw new RuntimeException();
+                    }
+
+                    branch.returnValue(new PandaValue(PrimitivePrototypeLiquid.OBJECT, Arrays.toString((Object[]) instance)));
+                })
+                .build());
 
         return arrayPrototype;
     }

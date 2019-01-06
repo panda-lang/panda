@@ -102,7 +102,7 @@ main {
     }
 
     TestArray testArray = new TestArray(7);
-    Console.print(testArray.array);
+    Console.print(testArray.array.toString());
 
     testArray.modify()
 }

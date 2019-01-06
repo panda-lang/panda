@@ -55,7 +55,6 @@ public class PrimitivePrototypeLiquid {
         defaultModule.add(LONG);
         defaultModule.add(FLOAT);
         defaultModule.add(DOUBLE);
-        defaultModule.add(OBJECT);
 
         defaultModule.add(MAPPER.generate(modulePath, String.class));
         defaultModule.add(MAPPER.generate(modulePath, List.class));
