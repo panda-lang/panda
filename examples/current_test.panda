@@ -102,6 +102,9 @@ main {
     }
 
     TestArray testArray = new TestArray(7);
+    Console.print(testArray.array);
+
+    testArray.modify()
 }
 
 class TestArray {
@@ -110,7 +113,9 @@ class TestArray {
 
     constructor(Int size) {
         this.array = new Object[size];
+    }
 
+    local void modify() {
         //this.array[0] = 2;
         //this.array.set(0, 2);
     }
