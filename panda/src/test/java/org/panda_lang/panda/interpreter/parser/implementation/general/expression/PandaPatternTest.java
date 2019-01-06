@@ -182,12 +182,12 @@ class PandaPatternTest {
     @Test
     public void testArray() {
         PandaPatternTester.test(
-                "new <type:reader type> `[ <capacity:reader expression> `]",
+                "new <type:reader type> `[ <*capacity:reader expression> `]",
 
-                "new Object[5]",
+                "new Object[][this.field]",
 
-                PandaPatternTester.Wildcard.of("type", "Object"),
-                PandaPatternTester.Wildcard.of("capacity", "5")
+                PandaPatternTester.Wildcard.of("type", "Object[]"),
+                PandaPatternTester.Wildcard.of("*capacity", "this.field")
         );
     }
 
