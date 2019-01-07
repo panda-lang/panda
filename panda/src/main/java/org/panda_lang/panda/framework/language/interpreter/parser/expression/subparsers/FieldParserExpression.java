@@ -56,6 +56,7 @@ public class FieldParserExpression implements ExpressionSubparser {
             .hollow()
             .unit(Separators.PERIOD)
             .simpleHollow()
+            .lastIndexAlgorithm(true)
             .build();
 
     @Override
@@ -135,6 +136,12 @@ public class FieldParserExpression implements ExpressionSubparser {
 
         return null;
     }
+
+    /*
+    public Variable parseVariable(ParserData data, Tokens source) {
+        return null;
+    }
+    */
 
     @Override
     public double getPriority() {
