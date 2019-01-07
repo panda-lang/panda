@@ -29,11 +29,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.MethodInvoker;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.general.ArgumentParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.ExpressionCallbackParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
@@ -97,11 +97,11 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
         if (prototypeMethod == null) {
-            throw new PandaParserException("Class " + prototype.getClassName() + " does not have method " + methodName);
+            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, source);
         }
 
         if (!voids && prototypeMethod.isVoid()) {
-            throw new PandaParserException("Method " + prototypeMethod.getMethodName() + " returns nothing");
+            throw new PandaParserFailure("Method " + prototypeMethod.getMethodName() + " returns nothing", data, source);
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);

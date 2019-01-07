@@ -75,7 +75,7 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
                 }
 
                 // try again skipping previous element
-                if (previousElement != null && previousElement.isOptional() && previousResult != null && previousResult.isMatched()) {
+                if (previousElement != null && previousElement.isOptional() && previousResult != null && previousResult.isMatched() && matches > -1) {
                     distributor.setIndex(previousIndex);
                     result.exclude(previousResult);
                     matches--;
@@ -87,14 +87,14 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
             }
 
             result.merge(workerResult);
-
-            matches++;
-            previousIndex = index;
             previousResult = workerResult;
+
+            previousIndex = index;
+            matches++;
         }
 
         if (matches == 0) {
-            // return new ExtractorResult("Cannot match node, 0 matches");
+            return new ExtractorResult("Cannot match node, 0 matches");
         }
 
         return result;
