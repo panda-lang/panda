@@ -52,7 +52,7 @@ public class MethodParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("(method|local|hidden) static:[static] <return> <name> `( [<*parameters>] `) `{ [<*body>] `}");
+        return defaultBuilder.pattern("(method|local|hidden) static:[static] <return:reader type> <name> `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
     @Autowired

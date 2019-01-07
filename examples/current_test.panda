@@ -121,4 +121,8 @@ class TestArray {
         //this.array.set(0, 2);
     }
 
+    method Object[][] getArray() {
+        return array
+    }
+
 }

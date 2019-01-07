@@ -55,6 +55,10 @@ public class PandaParserFailure extends ParserFailure {
         this(message, null, data);
     }
 
+    public PandaParserFailure(String message, ParserData data, Tokens source) {
+        this(message, null, data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source)));
+    }
+
     public PandaParserFailure(String message, String details, ParserData data) {
         this(builder().message(message).details(details).data(data));
     }
