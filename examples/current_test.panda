@@ -56,7 +56,7 @@ main {
 
     Test test = new Test('"Constructor"')
     test.echo("Method")
-    test.testField()
+    Console.print(test.getTestField().testField)
 
     mutable nullable Foo varFoo = null
     varFoo = new Foo()
@@ -103,7 +103,7 @@ main {
 
     TestArray testArray = new TestArray(7);
     Console.print(testArray.array.toString());
-    Console.print(testArray.array[0]);
+    //Console.print(testArray.array[0]);
 
     testArray.modify()
 }
