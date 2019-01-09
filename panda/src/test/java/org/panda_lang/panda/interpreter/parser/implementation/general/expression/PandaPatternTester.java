@@ -61,7 +61,7 @@ class PandaPatternTester {
         data.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(null, subparsers));
 
         ExpressionSubparsersLoader loader = new ExpressionSubparsersLoader();
-        ExpressionSubparsers loadedSubparsers = Assertions.assertDoesNotThrow(() ->  loader.load(data));
+        ExpressionSubparsers loadedSubparsers = Assertions.assertDoesNotThrow(() -> loader.load(data));
         subparsers.merge(loadedSubparsers);
 
         TokenPattern pattern = PandaTokenPattern.builder()

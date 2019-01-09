@@ -20,11 +20,16 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
@@ -34,18 +39,25 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readSeparated(main, source, ARRAY_SEPARATORS, SubparserUtils.NAMES_FILTER, MatchableDistributor::hasNext);
+        SourceStream stream = new PandaSourceStream(source);
 
-        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
-        matchable.getDistributor().setIndex(selected != null ? selected.size() : 0);
+        ExpressionSubparsers subparsers = main.getSubparsers().fork();
+        subparsers.removeSubparser(getName());
 
-        // at least 4 elements required: <field/variable> [ <index> ]
-        if ((source.size() - matchable.getIndex()) < 4) {
+        ExpressionParser parser = new ExpressionParser(main, subparsers);
+        Tokens value = parser.read(stream);
+
+        if (TokensUtils.isEmpty(value)) {
             return null;
         }
 
-        // read field name
-        matchable.nextVerified();
+        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
+        matchable.getDistributor().setIndex(source.size() - stream.getUnreadLength());
+
+        // at least 3 elements required: [ <index> ]
+        if ((source.size() - matchable.getIndex()) < 3) {
+            return null;
+        }
 
         // check if the opening section is the square bracket
         if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
@@ -67,7 +79,7 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        selected = source.subSource(0, matchable.getIndex() + 1);
+        Tokens selected = source.subSource(0, matchable.getIndex() + 1);
 
         // at least 4 elements required: <field-name> [ <index> ]
         if (selected == null || selected.size() < 4 ) {
@@ -84,7 +96,32 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+        Tokens reversed = source.reverse();
+
+        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(reversed));
+        matchable.withReplaced(DistributorUtils.REVERSED_OPERATORS);
+
+        if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
+            return null;
+        }
+
+        matchable.nextVerified();
+
+        // read the [ ] section
+        while (matchable.hasNext() && !matchable.isMatchable()) {
+            matchable.nextVerified();
+        }
+
+        if (!matchable.current().contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
+            return null;
+        }
+
         throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 4;
     }
 
     @Override

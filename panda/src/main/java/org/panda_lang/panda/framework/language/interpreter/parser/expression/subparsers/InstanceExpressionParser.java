@@ -77,6 +77,11 @@ public class InstanceExpressionParser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimumLength() {
+        return 4;
+    }
+
+    @Override
     public double getPriority() {
         return DefaultSubparsers.Priorities.Dynamic.CONSTRUCTOR_CALL;
     }

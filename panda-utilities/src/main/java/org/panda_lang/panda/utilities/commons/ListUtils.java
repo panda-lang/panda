@@ -20,10 +20,31 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ListUtils {
 
+    /**
+     * Reverse the provided list and return its
+     *
+     * @param list the list to reverse
+     * @param <T> type of the list
+     * @return the reversed list
+     */
+    public static <T> List<T> reverse(List<T> list) {
+        Collections.reverse(list);
+        return list;
+    }
+
+    /**
+     * Create mutable list from varargs
+     *
+     * @param elements to add to the array
+     * @param <T> type of the list
+     * @return created list
+     */
+    @SafeVarargs
     public static <T> List<T> mutableOf(T... elements) {
         return new ArrayList<>(Arrays.asList(elements));
     }

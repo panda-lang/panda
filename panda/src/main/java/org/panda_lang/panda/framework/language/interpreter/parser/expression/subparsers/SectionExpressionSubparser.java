@@ -37,6 +37,11 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimumLength() {
+        return 3;
+    }
+
+    @Override
     public double getPriority() {
         return DefaultSubparsers.Priorities.DYNAMIC;
     }

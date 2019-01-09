@@ -20,9 +20,16 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public interface Tokens {
+
+    default Tokens reverse() {
+        Tokens tokens = new PandaTokens(getTokensRepresentations());
+        Collections.reverse(tokens.getTokensRepresentations());
+        return tokens;
+    }
 
     default Tokens[] split(Token token) {
         List<Tokens> tokens = new ArrayList<>();

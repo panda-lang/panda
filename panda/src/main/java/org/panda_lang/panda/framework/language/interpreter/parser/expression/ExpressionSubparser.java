@@ -56,6 +56,10 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
         return Double.compare(getPriority(), subparser.getPriority());
     }
 
+    default int getMinimumLength() {
+        return -1;
+    }
+
     double getPriority();
 
     String getName();

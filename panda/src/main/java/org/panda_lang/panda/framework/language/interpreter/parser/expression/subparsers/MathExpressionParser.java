@@ -40,6 +40,7 @@ public class MathExpressionParser implements ExpressionSubparser {
                 return false;
             }
 
+            matchable.next();
             Tokens subSource = matchable.currentSubSource();
 
             if (subSource.isEmpty()) {
@@ -75,6 +76,11 @@ public class MathExpressionParser implements ExpressionSubparser {
 
         MathExpressionCallback expression = MATH_PARSER.parse(source, data);
         return new PandaExpression(expression.getReturnType(), expression);
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 3;
     }
 
     @Override

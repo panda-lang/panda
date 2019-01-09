@@ -44,6 +44,11 @@ public class NegateExpressionParser implements ExpressionSubparser {
     }
 
     @Override
+    public int getMinimumLength() {
+        return 2;
+    }
+
+    @Override
     public double getPriority() {
         return DefaultSubparsers.Priorities.SINGLE;
     }

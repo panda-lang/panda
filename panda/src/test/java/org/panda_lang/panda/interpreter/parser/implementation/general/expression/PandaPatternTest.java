@@ -203,4 +203,26 @@ class PandaPatternTest {
         );
     }
 
+    @Test
+    public void testExpression() {
+        PandaPatternTester.test(
+                "<check:reader expression>",
+
+                "this.getTestField()",
+
+                PandaPatternTester.Wildcard.of("check", "this.getTestField()")
+        );
+    }
+
+    @Test
+    public void testMath() {
+        PandaPatternTester.test(
+                "<check:reader expression>",
+
+                "10 + ( 3 + 4 + i ) * 2",
+
+                PandaPatternTester.Wildcard.of("check", "10 + ( 3 + 4 + i ) * 2")
+        );
+    }
+
 }

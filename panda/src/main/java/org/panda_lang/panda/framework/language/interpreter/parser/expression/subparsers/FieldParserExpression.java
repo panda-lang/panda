@@ -127,7 +127,7 @@ public class FieldParserExpression implements ExpressionSubparser {
             PrototypeField instanceField = instanceType.getFields().getField(instanceFieldName);
 
             if (instanceField == null) {
-                throw new PandaParserFailure("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName, data);
+                throw new PandaParserFailure("Class " + instanceType.getClassName() + " does not contain field " + instanceFieldName, data, source);
             }
 
             int memoryIndex = instanceType.getFields().getIndexOfField(instanceField);

@@ -17,17 +17,19 @@
 package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 public class MatchableDistributor {
 
     private final TokenDistributor distributor;
+    private final Map<Token, Token> replaced = new HashMap<>(0);
     private final Stack<Separator> separators = new Stack<>();
     private int previousSize = 0;
 
@@ -37,7 +39,7 @@ public class MatchableDistributor {
 
     public TokenRepresentation nextVerified() {
         TokenRepresentation next = next();
-        verify();
+        verify(next);
         return next;
     }
 
@@ -54,11 +56,17 @@ public class MatchableDistributor {
             return;
         }
 
-        if (!TokenUtils.isTypeOf(next, TokenType.SEPARATOR)) {
+        Token token = next.getToken();
+
+        if (replaced.containsKey(token)) {
+            token = replaced.get(token);
+        }
+
+        if (!(token instanceof Separator)) {
             return;
         }
 
-        Separator separator = (Separator) next.getToken();
+        Separator separator = (Separator) token;
 
         if (separator.hasOpposite()) {
             separators.push(separator);
@@ -88,6 +96,11 @@ public class MatchableDistributor {
 
     public Tokens currentSubSource() {
         return distributor.currentSubSource();
+    }
+
+    public MatchableDistributor withReplaced(Map<Token, Token> tokens) {
+        this.replaced.putAll(tokens);
+        return this;
     }
 
     public boolean isMatchable() {
