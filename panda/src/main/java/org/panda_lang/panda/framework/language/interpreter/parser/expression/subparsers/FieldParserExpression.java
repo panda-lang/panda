@@ -61,7 +61,18 @@ public class FieldParserExpression implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readSeparated(main, source, FIELD_SEPARATORS, SubparserUtils.NAMES_FILTER, distributor -> distributor.next() != null);
+        Tokens selected = SubparserUtils.readSeparated(main, source, FIELD_SEPARATORS, SubparserUtils.NAMES_FILTER, matchable -> {
+            if (matchable.getUnreadLength() < 2) {
+                return false;
+            }
+
+            // read dot
+            matchable.nextVerified();
+            // read field name
+            matchable.nextVerified();
+
+            return matchable.isMatchable();
+        });
 
         if (selected == null && SubparserUtils.isAllowedName(source.getFirst().getToken())) {
             selected = new PandaTokens(source.getFirst());
