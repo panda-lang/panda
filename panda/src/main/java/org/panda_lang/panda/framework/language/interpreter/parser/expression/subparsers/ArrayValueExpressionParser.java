@@ -17,21 +17,20 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.subparsers.array.ArrayValueAccessor;
+import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.subparsers.array.ArrayValueAccessorParser;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -109,47 +108,14 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        Tokens reversed = source.reverse();
+        ArrayValueAccessorParser parser = new ArrayValueAccessorParser();
+        ArrayValueAccessor accessor = parser.parse(data, source);
 
-        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(reversed));
-        matchable.withReplaced(DistributorUtils.REVERSED_OPERATORS);
-
-        if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
-            return null;
-        }
-
-        // update matchable reference
-        matchable.verify();
-
-        // read the [ ] section
-        while (matchable.hasNext() && !matchable.isMatchable()) {
-            matchable.nextVerified();
-        }
-
-        matchable.verify();
-
-        // check if the section is closed
-        if (!matchable.isMatchable()) {
-            return null;
-        }
-
-        Tokens instanceSource = reversed.subSource(matchable.getIndex(), reversed.size()).reverse();
-        Tokens indexSource = reversed.subSource(1, matchable.getIndex() - 1).reverse();
-
-        Expression instance = main.parse(data, instanceSource);
-        Expression index = main.parse(data, indexSource);
-
-        if (!(instance.getReturnType() instanceof ArrayClassPrototype)) {
-            throw new PandaParserFailure("Cannot use index with non-array types", data, source);
-        }
-
-        ArrayClassPrototype prototype = (ArrayClassPrototype) instance.getReturnType();
-        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(prototype.getType());
-
-        return new PandaExpression(type, (expression, branch) -> {
-            Object[] array = instance.getExpressionValue(branch).getValue();
-            Number i = index.getExpressionValue(branch).getValue();
-            return new PandaValue(type, array[i.intValue()]);
+        return new PandaExpression(accessor.getReturnType(), new ExpressionCallback() {
+            @Override
+            public Value call(Expression expression, ExecutableBranch branch) {
+                return accessor.perform(branch);
+            }
         });
     }
 
