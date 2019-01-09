@@ -111,6 +111,10 @@ public class MatchableDistributor {
         return distributor.hasNext();
     }
 
+    public int getUnreadLength() {
+        return distributor.size() - distributor.getIndex();
+    }
+
     public int getIndex() {
         return distributor.getIndex();
     }
