@@ -37,7 +37,7 @@ public class PandaTokens implements Tokens {
     }
 
     public PandaTokens(List<TokenRepresentation> tokenRepresentations) {
-        this.tokens = tokenRepresentations;
+        this.tokens = new ArrayList<>(tokenRepresentations);
     }
 
     @Override

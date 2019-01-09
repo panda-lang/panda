@@ -112,6 +112,10 @@ public class ExpressionParser {
         Result previousResult = null;
 
         for (ExpressionSubparser subparser : subparsers.getSubparsers()) {
+            if (subparser.getMinimumLength() != -1 && source.size() < subparser.getMinimumLength()) {
+                continue;
+            }
+
             Tokens tokens = subparser.read(main, source);
 
             if (TokensUtils.isEmpty(tokens)) {

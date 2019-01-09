@@ -56,17 +56,15 @@ class SubparserUtils {
     }
 
     static @Nullable Tokens readBetweenSeparators(Tokens source, Separator first) {
-        if (!source.startsWith(first)) {
+        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
+
+        if (!matchable.nextVerified().contentEquals(first)) {
             return null;
         }
 
-        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
-        matchable.verify();
-
-        // at least 1 element required
         matchable.nextVerified();
 
-        while (!matchable.isMatchable() && matchable.hasNext()) {
+        while (matchable.hasNext() && !matchable.isMatchable()) {
             matchable.nextVerified();
         }
 
@@ -74,7 +72,7 @@ class SubparserUtils {
             return null;
         }
 
-        return source.subSource(0, matchable.getIndex() + 1);
+        return source.subSource(0, matchable.getIndex());
     }
 
     static @Nullable Tokens readSeparated(ExpressionParser main, Tokens source, Token[] separators, @Nullable Predicate<Token> filter, DottedFinisher finisher) {
@@ -114,7 +112,7 @@ class SubparserUtils {
             return null;
         }
 
-        distributor.setIndex(lastIndexOfPeriod + 1);
+        distributor.setIndex(lastIndexOfPeriod);
 
         if (!matchable.hasNext()) {
            return null;
@@ -126,7 +124,7 @@ class SubparserUtils {
             return null;
         }
 
-        return source.subSource(0, matchable.getIndex());
+        return source.subSource(0, matchable.getIndex() + 1);
     }
 
     static boolean isAllowedName(Token token) {

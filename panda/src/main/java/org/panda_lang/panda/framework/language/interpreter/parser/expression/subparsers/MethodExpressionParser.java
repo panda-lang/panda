@@ -51,6 +51,9 @@ public class MethodExpressionParser implements ExpressionSubparser {
                 return false;
             }
 
+            // read dot
+            matchable.nextVerified();
+
             // read method name
             matchable.nextVerified();
 
@@ -67,7 +70,7 @@ public class MethodExpressionParser implements ExpressionSubparser {
                return false;
             }
 
-            return matchable.next().contentEquals(Separators.PARENTHESIS_RIGHT);
+            return matchable.current().contentEquals(Separators.PARENTHESIS_RIGHT);
         });
 
         // at least 3 elements required: <method-name> ( )
@@ -100,6 +103,11 @@ public class MethodExpressionParser implements ExpressionSubparser {
         MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
 
         return new PandaExpression(callback.getReturnType(), callback);
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 3;
     }
 
     @Override
