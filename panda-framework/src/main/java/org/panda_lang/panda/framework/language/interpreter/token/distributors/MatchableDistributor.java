@@ -71,7 +71,7 @@ public class MatchableDistributor {
         if (separator.hasOpposite()) {
             separators.push(separator);
         }
-        else if (!separators.isEmpty() && next.contentEquals(separators.peek().getOpposite())) {
+        else if (!separators.isEmpty() && token.equals(separators.peek().getOpposite())) {
             separators.pop();
         }
     }

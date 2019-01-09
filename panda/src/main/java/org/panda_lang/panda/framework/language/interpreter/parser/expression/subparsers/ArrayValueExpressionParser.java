@@ -17,12 +17,17 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
@@ -31,6 +36,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.Ma
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 public class ArrayValueExpressionParser implements ExpressionSubparser {
@@ -55,12 +61,19 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
         matchable.getDistributor().setIndex(source.size() - stream.getUnreadLength());
 
         // at least 3 elements required: [ <index> ]
-        if ((source.size() - matchable.getIndex()) < 3) {
+        if (matchable.getUnreadLength() < 3) {
             return null;
         }
 
         // check if the opening section is the square bracket
         if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
+            return null;
+        }
+
+        matchable.verify();
+
+        // require content in the [ ] section
+        if (matchable.isMatchable()) {
             return null;
         }
 
@@ -79,7 +92,7 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        Tokens selected = source.subSource(0, matchable.getIndex() + 1);
+        Tokens selected = source.subSource(0, matchable.getIndex());
 
         // at least 4 elements required: <field-name> [ <index> ]
         if (selected == null || selected.size() < 4 ) {
@@ -105,18 +118,39 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        matchable.nextVerified();
+        // update matchable reference
+        matchable.verify();
 
         // read the [ ] section
         while (matchable.hasNext() && !matchable.isMatchable()) {
             matchable.nextVerified();
         }
 
-        if (!matchable.current().contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
+        matchable.verify();
+
+        // check if the section is closed
+        if (!matchable.isMatchable()) {
             return null;
         }
 
-        throw new RuntimeException("Not implemented");
+        Tokens instanceSource = reversed.subSource(matchable.getIndex(), reversed.size()).reverse();
+        Tokens indexSource = reversed.subSource(1, matchable.getIndex() - 1).reverse();
+
+        Expression instance = main.parse(data, instanceSource);
+        Expression index = main.parse(data, indexSource);
+
+        if (!(instance.getReturnType() instanceof ArrayClassPrototype)) {
+            throw new PandaParserFailure("Cannot use index with non-array types", data, source);
+        }
+
+        ArrayClassPrototype prototype = (ArrayClassPrototype) instance.getReturnType();
+        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(prototype.getType());
+
+        return new PandaExpression(type, (expression, branch) -> {
+            Object[] array = instance.getExpressionValue(branch).getValue();
+            Number i = index.getExpressionValue(branch).getValue();
+            return new PandaValue(type, array[i.intValue()]);
+        });
     }
 
     @Override
