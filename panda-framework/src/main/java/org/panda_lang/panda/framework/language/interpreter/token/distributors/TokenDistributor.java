@@ -69,10 +69,6 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return representations;
     }
 
-    public @Nullable TokenRepresentation current() {
-        return source.get(index);
-    }
-
     public Tokens currentSubSource() {
         return subSource(getIndex(), size());
     }
@@ -91,6 +87,10 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
 
     public boolean hasNext() {
         return index < size();
+    }
+
+    public @Nullable TokenRepresentation current() {
+        return source.hasElement(index - 1) ? source.get(index - 1) : null;
     }
 
     public @Nullable TokenRepresentation get(int index) {
