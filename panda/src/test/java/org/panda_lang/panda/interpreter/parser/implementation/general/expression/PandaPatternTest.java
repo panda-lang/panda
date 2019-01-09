@@ -30,11 +30,11 @@ class PandaPatternTest {
         PandaPatternTester.test(
                 METHOD,
 
-                "Console.print('var');",
+                "String.valueOf(i)",
 
-                PandaPatternTester.Wildcard.of("instance", "Console"),
-                PandaPatternTester.Wildcard.of("name", "print"),
-                PandaPatternTester.Wildcard.of("*arguments", "var")
+                PandaPatternTester.Wildcard.of("instance", "String"),
+                PandaPatternTester.Wildcard.of("name", "valueOf"),
+                PandaPatternTester.Wildcard.of("*arguments", "i")
         );
     }
 
@@ -221,7 +221,7 @@ class PandaPatternTest {
 
                 "10 + ( 3 + 4 + i ) * 2",
 
-                PandaPatternTester.Wildcard.of("check", "10 + ( 3 + 4 + i ) * 2")
+                PandaPatternTester.Wildcard.of("check", "10+(3+4+i)*2")
         );
     }
 

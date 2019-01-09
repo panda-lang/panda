@@ -36,11 +36,13 @@ public class MathExpressionParser implements ExpressionSubparser {
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         Tokens selected = SubparserUtils.readSeparated(main, source, MathUtils.MATH_OPERATORS, null, matchable -> {
+            // read operator
+            matchable.next();
+
             if (!matchable.hasNext()) {
                 return false;
             }
 
-            matchable.next();
             Tokens subSource = matchable.currentSubSource();
 
             if (subSource.isEmpty()) {

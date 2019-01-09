@@ -124,7 +124,7 @@ class SubparserUtils {
             return null;
         }
 
-        return source.subSource(0, matchable.getIndex() + 1);
+        return source.subSource(0, matchable.getIndex());
     }
 
     static boolean isAllowedName(Token token) {
@@ -151,7 +151,7 @@ class SubparserUtils {
 
     interface DottedFinisher {
 
-        boolean finish(MatchableDistributor distributor);
+        boolean finish(MatchableDistributor matchable);
 
     }
 
