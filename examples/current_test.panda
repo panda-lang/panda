@@ -102,26 +102,26 @@ main {
     }
 
     TestArray testArray = new TestArray(7);
-    Console.print(testArray.array.toString());
-    Console.print("Value at array[text.i]", testArray.getArray()[test.i]);
+    Console.print(testArray.array.toString())
 
-    testArray.modify()
+    testArray.modify(test)
+    Console.print(testArray.array.toString())
 }
 
 class TestArray {
 
-    hidden Object[][] array
+    hidden String[] array
 
     constructor(Int size) {
-        this.array = new Object[][size];
+        this.array = new String[size];
     }
 
-    local void modify() {
-        //this.array[0] = 2;
-        //this.array.set(0, 2);
+    local void modify(Test test) {
+        this.getArray()[test.i] = "Hello Array"
+        Console.print("Value at array[test.i]", this.getArray()[test.i])
     }
 
-    method Object[][] getArray() {
+    method String[] getArray() {
         return array
     }
 

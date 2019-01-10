@@ -90,7 +90,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
         AssignationSubparser subparser = registry.getPipeline(PandaPipelines.ASSIGNER).handle(data, declaration);
 
         StatementCell cell = delegatedData.getComponent(PandaComponents.CONTAINER).reserveCell();
-        Statement statement = subparser.parseVariable(delegatedData, declaration, assignationExpression);
+        Statement statement = subparser.parseAssignment(delegatedData, declaration, assignationExpression);
 
         if (statement == null) {
             throw new PandaParserFailure("Cannot parse assignment", delegatedData);

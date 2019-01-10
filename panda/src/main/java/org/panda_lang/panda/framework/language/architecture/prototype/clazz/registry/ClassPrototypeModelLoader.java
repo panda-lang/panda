@@ -84,6 +84,7 @@ public class ClassPrototypeModelLoader {
             }
 
             ClassPrototype prototype = PandaClassPrototype.builder()
+                    .module(module)
                     .name(classDeclaration.value())
                     .associated(modelClass)
                     .build();

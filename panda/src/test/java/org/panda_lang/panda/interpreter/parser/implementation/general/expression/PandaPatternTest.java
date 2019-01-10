@@ -225,4 +225,17 @@ class PandaPatternTest {
         );
     }
 
+    @Test
+    public void testArrayAssignation() {
+        PandaPatternTester.test(
+                "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]",
+
+                "testArray.getArray()[test.i] = 'Hello Array' Console.print('Value at array[text.i]', testArray.getArray()[test.i]); testArray.modify()",
+
+                PandaPatternTester.Wildcard.of("*declaration", "testArray.getArray()[test.i]"),
+                PandaPatternTester.Wildcard.of("assignation", "Hello Array")
+        );
+
+    }
+
 }

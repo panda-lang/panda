@@ -25,10 +25,20 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ArrayClassPrototypeUtils {
 
+    private static final Map<String, ArrayClassPrototype> ARRAY_PROTOTYPES = new HashMap<>();
+
     public static ArrayClassPrototype obtain(ModuleLoader loader, String type) {
+        ArrayClassPrototype cached = ARRAY_PROTOTYPES.get(type);
+
+        if (cached != null) {
+            return cached;
+        }
+
         ClassPrototype prototype = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
         if (prototype == null) {
@@ -39,7 +49,7 @@ public class ArrayClassPrototypeUtils {
         Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociated(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
-        ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(arrayClass, arrayType);
+        ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(loader.get(null), arrayClass, arrayType);
         loader.get(null).add(arrayPrototype);
 
         arrayPrototype.getMethods().registerMethod(PandaMethod.builder()
@@ -50,10 +60,11 @@ public class ArrayClassPrototypeUtils {
                         throw new RuntimeException();
                     }
 
-                    branch.returnValue(new PandaValue(PrimitivePrototypeLiquid.OBJECT, Arrays.toString((Object[]) instance)));
+                    branch.setReturnValue(new PandaValue(PrimitivePrototypeLiquid.OBJECT, Arrays.toString((Object[]) instance)));
                 })
                 .build());
 
+        ARRAY_PROTOTYPES.put(type, arrayPrototype);
         return arrayPrototype;
     }
 

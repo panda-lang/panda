@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.clazz;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
@@ -32,6 +33,7 @@ import java.util.Objects;
 public class AbstractClassPrototype implements ClassPrototype {
 
     protected final String name;
+    protected final Module module;
     protected final Class<?> associated;
     protected final Collection<String> aliases;
     protected final Collection<ClassPrototype> extended = new ArrayList<>(1);
@@ -39,8 +41,9 @@ public class AbstractClassPrototype implements ClassPrototype {
     protected final PrototypeFields fields = new PandaFields();
     protected final PrototypeMethods methods = new PandaMethods();
 
-    public AbstractClassPrototype(String name, Class<?> associated, Collection<String> aliases) {
+    public AbstractClassPrototype(Module module, String name, Class<?> associated, Collection<String> aliases) {
         this.name = name;
+        this.module = module;
         this.associated = associated;
         this.aliases = new ArrayList<>(aliases);
     }
@@ -103,6 +106,11 @@ public class AbstractClassPrototype implements ClassPrototype {
     @Override
     public PrototypeConstructors getConstructors() {
         return constructors;
+    }
+
+    @Override
+    public Module getModule() {
+        return module;
     }
 
     @Override

@@ -14,17 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
-public interface AssignationSubparser extends Parser {
+public class EmptyHandler implements BootstrapHandler {
 
-    @Nullable Statement parseAssignment(ParserData data, Tokens source, Expression expression) throws Throwable;
+    @Override
+    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
+
+    }
+
+    @Override
+    public boolean handle(ParserData data, SourceStream source) {
+        return false;
+    }
 
 }

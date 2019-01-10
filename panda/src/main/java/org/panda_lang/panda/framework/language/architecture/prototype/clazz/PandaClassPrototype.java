@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.clazz;
 
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -27,12 +29,12 @@ public class PandaClassPrototype extends AbstractClassPrototype {
 
     private boolean initialized;
 
-    protected PandaClassPrototype(String className, Class<?> associated, Collection<String> aliases) {
-        super(className, associated, aliases);
+    protected PandaClassPrototype(Module module, String className, Class<?> associated, Collection<String> aliases) {
+        super(module, className, associated, aliases);
     }
 
     protected PandaClassPrototype(PandaClassPrototypeBuilder<?, ?> builder) {
-        this(builder.name, builder.associated, builder.aliases);
+        this(builder.module, builder.name, builder.associated, builder.aliases);
     }
 
     public synchronized void initialize() {
@@ -53,11 +55,14 @@ public class PandaClassPrototype extends AbstractClassPrototype {
         }
     }
 
-    public static PandaClassPrototype of(Class<?> type, String... aliases) {
-        return builder()
+    public static ClassPrototype of(Module module, Class<?> type, String... aliases) {
+        PandaClassPrototype prototype = builder()
+                .module(module)
                 .associated(type)
                 .aliases(aliases)
                 .build();
+
+        return module.add(prototype);
     }
 
     public static <T> PandaClassPrototypeBuilder<?, ?> builder() {

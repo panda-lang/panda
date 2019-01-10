@@ -17,11 +17,13 @@
 package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.security.InvalidParameterException;
 
@@ -49,6 +51,10 @@ public class PandaExpression implements Expression {
             throw new InvalidParameterException("Callback and Value cannot be null at the same time");
         }
 
+        if (value != null && !ClassPrototypeUtils.isAssignableFrom(returnType, value.getType())) {
+            throw new InvalidParameterException("Incompatible expression types " + returnType + " != " + value.getType());
+        }
+
         this.type = type;
         this.returnType = returnType;
         this.callback = callback;
@@ -58,7 +64,13 @@ public class PandaExpression implements Expression {
     @Override
     public Value getExpressionValue(ExecutableBranch branch) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            return callback.call(this, branch);
+            Value value = callback.call(this, branch);
+
+            if (!returnType.isAssignableFrom(value.getType())) {
+                throw new PandaRuntimeException("Incompatible expression types " + returnType + " != " + value.getType());
+            }
+
+            return value;
         }
 
         return value;

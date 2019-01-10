@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.clazz;
 
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -23,6 +25,7 @@ import java.util.Collection;
 public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuilder<BUILDER, ?>, TYPE extends PandaClassPrototype> {
 
     protected String name;
+    protected Module module;
     protected Class<?> associated;
     protected Collection<String> aliases;
 
@@ -33,6 +36,11 @@ public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuild
 
     public BUILDER name(String name) {
         this.name = name;
+        return getThis();
+    }
+
+    public BUILDER module(Module module) {
+        this.module = module;
         return getThis();
     }
 

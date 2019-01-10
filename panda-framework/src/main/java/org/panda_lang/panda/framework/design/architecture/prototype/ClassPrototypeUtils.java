@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation;
+package org.panda_lang.panda.framework.design.architecture.prototype;
 
-public class AssignationPriorities {
+public class ClassPrototypeUtils {
 
-    public static final double VARIABLE_DECLARATION = 1.0;
-
-    public static final double VARIABLE_ASSIGNATION = 2.0;
-
-    public static final double ARRAY_ASSIGNATION = 3.0;
+    public static boolean isAssignableFrom(ClassPrototype a, ClassPrototype b) {
+        return a != null ? a.isAssignableFrom(b) : b == null;
+    }
 
 }
