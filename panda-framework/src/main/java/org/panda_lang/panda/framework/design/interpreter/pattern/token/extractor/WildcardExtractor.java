@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.WildcardCompiler;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
@@ -40,15 +41,14 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
         if (!distributor.hasNext()) {
             wildcardContent = new PandaTokens();
         }
+        if (!wildcard.hasCondition() && !wildcard.getName().startsWith("*")) {
+            wildcardContent = new PandaTokens(distributor.next());
+        }
         else if (wildcard.getData() != null) {
             wildcardContent = matchWildcardWithCondition(wildcard, distributor);
 
-            if (wildcardContent == null) {
-                wildcardContent = new PandaTokens(distributor.next());
-            }
-
-            if (wildcardContent.isEmpty()) {
-                return new ExtractorResult("Empty wildcard");
+            if (TokensUtils.isEmpty(wildcardContent)) {
+                return new ExtractorResult("Empty wildcard with condition: " + wildcard.getData());
             }
         }
 
@@ -59,15 +59,29 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
     }
 
     private @Nullable Tokens matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
+        Tokens source = null;
+        boolean full = false;
+
         if (wildcard.getName().startsWith("*")) {
-            return new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()));
+            source = new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()));
+            full = true;
         }
 
         if (!wildcard.hasCondition()) {
+            return source;
+        }
+
+        if (source != null) {
+            distributor = new TokenDistributor(source);
+        }
+
+        Tokens matched = wildcardCompiler.compile(wildcard.getCondition(), distributor);
+
+        if (full && matched != null && matched.size() != source.size()) {
             return null;
         }
 
-        return wildcardCompiler.compile(wildcard.getCondition(), distributor);
+        return matched;
     }
 
 }

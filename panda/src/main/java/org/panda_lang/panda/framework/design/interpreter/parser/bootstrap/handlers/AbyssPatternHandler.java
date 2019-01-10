@@ -32,11 +32,11 @@ public class AbyssPatternHandler implements BootstrapHandler {
     private AbyssPattern pattern;
 
     @Override
-    public void initialize(PandaParserBootstrap bootstrap) {
-        AbyssPatternData data = (AbyssPatternData) bootstrap.getPattern();
+    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
+        AbyssPatternData patternData = (AbyssPatternData) bootstrap.getPattern();
 
         this.pattern = new AbyssPatternBuilder()
-                .compile(PandaSyntax.getInstance(), data.getPattern())
+                .compile(PandaSyntax.getInstance(), patternData.getPattern())
                 .build();
     }
 

@@ -26,20 +26,15 @@ class PandaPatternTest {
     private static final String VARIABLE = "([[mutable] [nullable] <type:reader type>] <name:condition token {type:unknown}>|<name:reader expression include field>) [= <assignation:reader expression>][;]";
 
     @Test
-    public void testDeclaration() {
-        Assertions.assertFalse(PandaPatternTester.build("<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]", "String init nullable Object req = null").isMatched());
-    }
-
-    @Test
     public void testMethod() {
         PandaPatternTester.test(
                 METHOD,
 
-                "Console.print('var');",
+                "String.valueOf(i)",
 
-                PandaPatternTester.Wildcard.of("instance", "Console"),
-                PandaPatternTester.Wildcard.of("name", "print"),
-                PandaPatternTester.Wildcard.of("*arguments", "var")
+                PandaPatternTester.Wildcard.of("instance", "String"),
+                PandaPatternTester.Wildcard.of("name", "valueOf"),
+                PandaPatternTester.Wildcard.of("*arguments", "i")
         );
     }
 
@@ -98,7 +93,7 @@ class PandaPatternTest {
         PandaPatternTester.test(
                 VARIABLE,
 
-                "testField = this;",
+                "testField = this this.echo(String.valueOf(i))",
 
                 PandaPatternTester.Wildcard.of("name", "testField"),
                 PandaPatternTester.Wildcard.of("assignation", "this")
@@ -171,6 +166,76 @@ class PandaPatternTest {
                 PandaPatternTester.Wildcard.of("name", "i"),
                 PandaPatternTester.Wildcard.of("assignation", "1.0D")
         );
+    }
+
+    @Test
+    public void testReturn() {
+        PandaPatternTester.test(
+                "return [<value:reader expression>][;]",
+
+                "return this.testField",
+
+                PandaPatternTester.Wildcard.of("value", "this.testField")
+        );
+    }
+
+    @Test
+    public void testArray() {
+        PandaPatternTester.test(
+                "new <type:reader type> `[ <*capacity:reader expression> `]",
+
+                "new Object[][this.field]",
+
+                PandaPatternTester.Wildcard.of("type", "Object[]"),
+                PandaPatternTester.Wildcard.of("*capacity", "this.field")
+        );
+    }
+
+    @Test
+    public void testAssignation() {
+        PandaPatternTester.test(
+                "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]",
+
+                "this.testField = this testField = this this.echo(String.valueOf(i))",
+
+                PandaPatternTester.Wildcard.of("*declaration", "this.testField"),
+                PandaPatternTester.Wildcard.of("assignation", "this")
+        );
+    }
+
+    @Test
+    public void testExpression() {
+        PandaPatternTester.test(
+                "<check:reader expression>",
+
+                "this.getTestField()",
+
+                PandaPatternTester.Wildcard.of("check", "this.getTestField()")
+        );
+    }
+
+    @Test
+    public void testMath() {
+        PandaPatternTester.test(
+                "<check:reader expression>",
+
+                "10 + ( 3 + 4 + i ) * 2",
+
+                PandaPatternTester.Wildcard.of("check", "10+(3+4+i)*2")
+        );
+    }
+
+    @Test
+    public void testArrayAssignation() {
+        PandaPatternTester.test(
+                "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]",
+
+                "testArray.getArray()[test.i] = 'Hello Array' Console.print('Value at array[text.i]', testArray.getArray()[test.i]); testArray.modify()",
+
+                PandaPatternTester.Wildcard.of("*declaration", "testArray.getArray()[test.i]"),
+                PandaPatternTester.Wildcard.of("assignation", "Hello Array")
+        );
+
     }
 
 }

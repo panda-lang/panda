@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.ClassScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.ClassScopeInstance;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class FieldExpressionCallback implements ExpressionCallback {
@@ -48,7 +48,8 @@ public class FieldExpressionCallback implements ExpressionCallback {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        branch.instance(instance);
+        // consider launching as a standalone env
+        // branch.instance(instance);
 
         if (field.isNative()) {
             return field.getDefaultValue().getExpressionValue(branch);

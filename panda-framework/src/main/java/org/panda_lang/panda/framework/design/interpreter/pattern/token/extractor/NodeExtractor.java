@@ -35,9 +35,13 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
     public ExtractorResult extract(LexicalPatternNode node, TokenDistributor distributor) {
         List<LexicalPatternElement> elements = node.getElements();
         ExtractorResult result = new ExtractorResult();
+
+        ExtractorResult previousResult = null;
+        int previousIndex = 0;
         int matches = 0;
 
         for (int i = 0; i < elements.size(); i++) {
+            LexicalPatternElement previousElement = i > 0 && i - 1 < elements.size() ? elements.get(i - 1) : null;
             LexicalPatternElement element = elements.get(i);
             int index = distributor.getIndex();
 
@@ -52,10 +56,11 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
                 }
             }
             else {
-                NodeLookupExtractor.LookupResult lookupResult = nodeLookupExtractor.extractNode(elements.subList(i, elements.size()), distributor);
+                List<LexicalPatternElement> nextElements = elements.subList(i, elements.size());
+                NodeLookupExtractor.LookupResult lookupResult = nodeLookupExtractor.extractNode(nextElements, distributor);
                 workerResult = lookupResult.getMergedResults();
 
-                // skip elements only if matched
+                // skip nextElements only if result is matched
                 if (workerResult.isMatched()) {
                     i += lookupResult.matchedIndex;
                 }
@@ -69,15 +74,27 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
                     continue;
                 }
 
+                // try again skipping previous element
+                if (previousElement != null && previousElement.isOptional() && previousResult != null && previousResult.isMatched() && matches > -1) {
+                    distributor.setIndex(previousIndex);
+                    result.exclude(previousResult);
+                    matches--;
+                    i--;
+                    continue;
+                }
+
                 return new ExtractorResult("Could not extract element, caused by: " + workerResult.getErrorMessage());
             }
 
             result.merge(workerResult);
+            previousResult = workerResult;
+
+            previousIndex = index;
             matches++;
         }
 
         if (matches == 0) {
-            // return new ExtractorResult("Cannot match node, 0 matches");
+            return new ExtractorResult("Cannot match node, 0 matches");
         }
 
         return result;

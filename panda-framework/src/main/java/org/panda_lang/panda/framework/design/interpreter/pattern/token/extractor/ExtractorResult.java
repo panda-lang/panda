@@ -50,6 +50,16 @@ public class ExtractorResult {
         return this;
     }
 
+    public ExtractorResult exclude(ExtractorResult otherResult) {
+        if (!otherResult.isMatched()) {
+            throw new RuntimeException("Cannot merge unmatched result");
+        }
+
+        identifiers.removeAll(otherResult.identifiers);
+        wildcards.keySet().removeAll(otherResult.wildcards.keySet());
+        return this;
+    }
+
     public ExtractorResult identified(String identifier) {
         identifiers.add(identifier);
         return this;

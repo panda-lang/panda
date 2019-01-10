@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -31,18 +32,20 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.architecture.PandaApplication;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.DefaultSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.CommentParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
+
+import java.util.Collections;
 
 public class ApplicationParser implements Parser {
 
@@ -70,10 +73,15 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
         baseData.setComponent(UniversalComponents.GENERATION, generation);
         baseData.setComponent(PandaComponents.MODULE_REGISTRY, modulePath);
-        baseData.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers()));
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
+
+        ExpressionSubparsers subparsers = new ExpressionSubparsers(Collections.emptyList());
+        baseData.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(null, subparsers));
+
+        ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
+        subparsers.merge(interpretation.execute(() -> subparsersLoader.load(baseData)));
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());

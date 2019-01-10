@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGenerator;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.block.BlockSubparserBootstrap;
@@ -77,7 +77,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
         ClassPrototype iterableType = new ClassPrototypeGenerator().computeIfAbsent(registry, Iterable.class);
 
-        if (!expression.getReturnType().isAssociatedWith(iterableType)) {
+        if (!iterableType.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 

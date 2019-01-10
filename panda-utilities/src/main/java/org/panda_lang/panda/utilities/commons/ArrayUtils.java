@@ -18,7 +18,26 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Array;
+import java.util.Objects;
+
 public class ArrayUtils {
+
+    public static Class<?> getArrayClass(Class<?> clazz) {
+        return Array.newInstance(clazz, 0).getClass();
+    }
+
+    public static Class<?> getDimensionalArrayType(Class<?> type, int dimensions) {
+        if (dimensions == 0) {
+            throw new IllegalArgumentException("Cannot get dimensional array for 0 dimensions");
+        }
+
+        if (dimensions == 1) {
+            return type;
+        }
+
+        return Array.newInstance(type, new int[dimensions - 1]).getClass();
+    }
 
     /**
      * Check if the specified array contains null
@@ -38,15 +57,7 @@ public class ArrayUtils {
      */
     public static boolean contains(Object[] array, Object element) {
         for (Object arrayElement : array) {
-            if (element == null) {
-                if (arrayElement == null) {
-                    return true;
-                }
-
-                continue;
-            }
-
-            if (element.equals(arrayElement)) {
+            if (Objects.equals(arrayElement, element)) {
                 return true;
             }
         }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
@@ -105,7 +106,7 @@ public class BootstrapParserBuilder<T> {
         return this;
     }
 
-    public ParserRepresentation<UnifiedParser<T>> build() {
+    public ParserRepresentation<UnifiedParser<T>> build(ParserData data) {
         if (name == null && instance != null) {
             name(instance.getClass().getSimpleName());
         }
@@ -130,7 +131,7 @@ public class BootstrapParserBuilder<T> {
             throw new ParserBootstrapException("Bootstrap does not contain any layers");
         }
 
-        return new PandaParserBootstrap<>(this).generate();
+        return new PandaParserBootstrap<>(this).generate(data);
     }
 
 }

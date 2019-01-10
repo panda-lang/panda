@@ -35,6 +35,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationSubparserBootstrap;
@@ -65,6 +66,10 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
 
         VariableInitializer initializer = new VariableInitializer();
         Variable variable = initializer.createVariable(data, script.getModuleLoader(), scope, mutable, nullable, type.asString(), name.asString());
+
+        if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
+            throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable", data);
+        }
 
         return new VariableAccessor(variable, scope.indexOf(variable), expression);
     }

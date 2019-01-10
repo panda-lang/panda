@@ -58,4 +58,12 @@ class ArrayUtilsTest {
         );
     }
 
+    @Test
+    public void testDimensionalArrayClass() {
+        Assertions.assertAll(
+                () -> Assertions.assertEquals(Object[][].class, ArrayUtils.getDimensionalArrayType(Object.class, 3)),
+                () -> Assertions.assertThrows(IllegalArgumentException.class, () -> ArrayUtils.getDimensionalArrayType(Object.class, 0))
+        );
+    }
+
 }

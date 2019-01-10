@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
@@ -34,15 +35,15 @@ public class PandaParserBootstrap<T> {
         this.bootstrap = bootstrap;
     }
 
-    protected ParserRepresentation<UnifiedParser<T>> generate() {
+    protected ParserRepresentation<UnifiedParser<T>> generate(ParserData data) {
         UnifiedBootstrapParser<T> bootstrapParser = new UnifiedBootstrapParser<>(this);
 
         if (hasInterceptor()) {
-            getInterceptor().initialize(this);
+            getInterceptor().initialize(this, data);
         }
 
         if (hasBootstrapHandler()) {
-            getBootstrapHandler().initialize(this);
+            getBootstrapHandler().initialize(this, data);
         }
 
         return new PandaParserRepresentation<>(bootstrapParser, bootstrap.handler, bootstrap.priority);

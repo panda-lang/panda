@@ -17,17 +17,25 @@
 package org.panda_lang.panda.interpreter.parser.implementation.general.expression;
 
 import org.junit.jupiter.api.Assertions;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.ArrayList;
 
 class PandaPatternTester {
 
@@ -48,9 +56,17 @@ class PandaPatternTester {
         System.out.println(StringUtils.EMPTY);
         System.out.println("src: " + source);
 
+        ParserData data = new PandaParserData();
+        ExpressionSubparsers subparsers = new ExpressionSubparsers(new ArrayList<>());
+        data.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(null, subparsers));
+
+        ExpressionSubparsersLoader loader = new ExpressionSubparsersLoader();
+        ExpressionSubparsers loadedSubparsers = Assertions.assertDoesNotThrow(() -> loader.load(data));
+        subparsers.merge(loadedSubparsers);
+
         TokenPattern pattern = PandaTokenPattern.builder()
                 .compile(patternContent)
-                .build();
+                .build(data);
 
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);

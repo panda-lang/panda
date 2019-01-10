@@ -25,6 +25,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface AssignationSubparser extends Parser {
 
-    @Nullable Statement parseVariable(ParserData data, Tokens source, Expression expression) throws Throwable;
+    @Nullable Statement parseAssignment(ParserData data, Tokens source, Expression expression) throws Throwable;
 
 }

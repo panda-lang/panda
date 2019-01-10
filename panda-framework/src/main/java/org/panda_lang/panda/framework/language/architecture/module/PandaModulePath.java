@@ -48,6 +48,11 @@ public class PandaModulePath implements ModulePath {
     }
 
     @Override
+    public void addModule(Module module) {
+        groups.put(module.getName(), module);
+    }
+
+    @Override
     public Module get(String groupName) {
         return this.getGroups().get(groupName);
     }

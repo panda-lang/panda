@@ -16,17 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.util.PandaUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-
 public class DefaultSubparsers {
 
     public static class Names {
+
+        public static final String ARRAY_INSTANCE = "array-instance";
+
+        public static final String ARRAY_VALUE = "array-value";
 
         public static final String FIELD = "field";
 
@@ -64,48 +60,6 @@ public class DefaultSubparsers {
 
             public static final double CONSTRUCTOR_CALL = DYNAMIC + GROUP_DIFF;
 
-        }
-
-    }
-
-    public static class Instances {
-
-        private static final List<ExpressionSubparser> SUBPARSERS = new ArrayList<>();
-
-        static {
-            Collection<Class<? extends ExpressionSubparser>> subparserClasses = PandaUtils.DEFAULT_PANDA_SCANNER
-                    .createSelector()
-                    .selectSubtypesOf(ExpressionSubparser.class);
-
-            try {
-                load(subparserClasses);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            Collections.sort(SUBPARSERS);
-        }
-
-        private static void load(Collection<Class<? extends ExpressionSubparser>> subparserClasses) throws Exception {
-            for (Class<? extends ExpressionSubparser> subparserClass : subparserClasses) {
-                SUBPARSERS.add(subparserClass.newInstance());
-            }
-        }
-
-        public static List<ExpressionSubparser> getDefaultSubparsers(Collection<String> names) {
-            List<ExpressionSubparser> subparsers = new ArrayList<>();
-
-            for (ExpressionSubparser subparser : SUBPARSERS) {
-                if (names.contains(subparser.getName().trim())) {
-                    subparsers.add(subparser);
-                }
-            }
-
-            return subparsers;
-        }
-
-        public static List<ExpressionSubparser> getDefaultSubparsers() {
-            return new ArrayList<>(SUBPARSERS);
         }
 
     }

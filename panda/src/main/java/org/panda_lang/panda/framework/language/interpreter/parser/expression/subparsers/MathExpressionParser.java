@@ -29,13 +29,16 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-class MathExpressionParser implements ExpressionSubparser {
+public class MathExpressionParser implements ExpressionSubparser {
 
     private static final MathParser MATH_PARSER = new MathParser();
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         Tokens selected = SubparserUtils.readSeparated(main, source, MathUtils.MATH_OPERATORS, null, matchable -> {
+            // read operator
+            matchable.next();
+
             if (!matchable.hasNext()) {
                 return false;
             }
@@ -75,6 +78,11 @@ class MathExpressionParser implements ExpressionSubparser {
 
         MathExpressionCallback expression = MATH_PARSER.parse(source, data);
         return new PandaExpression(expression.getReturnType(), expression);
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 3;
     }
 
     @Override

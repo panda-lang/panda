@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-class NegateExpressionParser implements ExpressionSubparser {
+public class NegateExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
@@ -41,6 +41,11 @@ class NegateExpressionParser implements ExpressionSubparser {
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         Expression expression = main.parse(data, source.subSource(1, source.size()));
         return new PandaExpression(expression.getReturnType(), new NegateLogicalExpressionCallback(expression));
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 2;
     }
 
     @Override

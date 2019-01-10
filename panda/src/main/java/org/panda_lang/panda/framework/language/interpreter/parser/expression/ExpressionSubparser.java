@@ -27,6 +27,8 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
+    default void initialize(ParserData data) { }
+
     @Nullable Tokens read(ExpressionParser main, Tokens source);
 
     @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source);
@@ -52,6 +54,10 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
     @Override
     default int compareTo(ExpressionSubparser subparser) {
         return Double.compare(getPriority(), subparser.getPriority());
+    }
+
+    default int getMinimumLength() {
+        return -1;
     }
 
     double getPriority();

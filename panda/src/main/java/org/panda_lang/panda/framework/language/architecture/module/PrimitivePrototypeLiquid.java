@@ -19,45 +19,38 @@ package org.panda_lang.panda.framework.language.architecture.module;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.generator.ClassPrototypeGeneratorManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PrimitivePrototypeLiquid {
 
-    public static final ClassPrototype VOID = PandaClassPrototype.of(void.class, "void");
-    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(boolean.class, "Boolean");
-    public static final ClassPrototype CHAR = PandaClassPrototype.of(char.class, "Char");
-    public static final ClassPrototype BYTE = PandaClassPrototype.of(byte.class, "Byte");
-    public static final ClassPrototype SHORT = PandaClassPrototype.of(short.class, "Short");
-    public static final ClassPrototype INT = PandaClassPrototype.of(int.class, "Int");
-    public static final ClassPrototype LONG = PandaClassPrototype.of(int.class, "Long");
-    public static final ClassPrototype FLOAT = PandaClassPrototype.of(float.class, "Float");
-    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(double.class, "Double");
-    public static final ClassPrototype OBJECT = PandaClassPrototype.of(Object.class);
-
+    private static final Module MODULE = new PandaModule(null);
     private static final ClassPrototypeGeneratorManager MAPPER = new ClassPrototypeGeneratorManager();
 
+    public static final ClassPrototype VOID = PandaClassPrototype.of(MODULE, void.class, "void");
+    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(MODULE, boolean.class, "Boolean");
+    public static final ClassPrototype CHAR = PandaClassPrototype.of(MODULE, char.class, "Char");
+    public static final ClassPrototype BYTE = PandaClassPrototype.of(MODULE, byte.class, "Byte");
+    public static final ClassPrototype SHORT = PandaClassPrototype.of(MODULE, short.class, "Short");
+    public static final ClassPrototype INT = PandaClassPrototype.of(MODULE, int.class, "Int");
+    public static final ClassPrototype LONG = PandaClassPrototype.of(MODULE, int.class, "Long");
+    public static final ClassPrototype FLOAT = PandaClassPrototype.of(MODULE, float.class, "Float");
+    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, double.class, "Double");
+
+    public static final ClassPrototype OBJECT = PandaClassPrototype.of(MODULE, Object.class);
+    public static final ClassPrototype ARRAY = PandaClassPrototype.of(MODULE, PandaArray.class, "Array");
+
     public void fill(ModulePath modulePath) {
-        Module defaultModule = modulePath.create((String) null);
+        modulePath.addModule(MODULE);
 
-        defaultModule.add(VOID);
-        defaultModule.add(BOOLEAN);
-        defaultModule.add(CHAR);
-        defaultModule.add(BYTE);
-        defaultModule.add(SHORT);
-        defaultModule.add(INT);
-        defaultModule.add(LONG);
-        defaultModule.add(FLOAT);
-        defaultModule.add(DOUBLE);
-        defaultModule.add(OBJECT);
-
-        defaultModule.add(MAPPER.generate(modulePath, String.class));
-        defaultModule.add(MAPPER.generate(modulePath, List.class));
-        defaultModule.add(MAPPER.generate(modulePath, ArrayList.class));
-        defaultModule.add(MAPPER.generate(modulePath, StringBuilder.class));
+        MODULE.add(MAPPER.generate(modulePath, String.class));
+        MODULE.add(MAPPER.generate(modulePath, List.class));
+        MODULE.add(MAPPER.generate(modulePath, ArrayList.class));
+        MODULE.add(MAPPER.generate(modulePath, StringBuilder.class));
     }
 
 }

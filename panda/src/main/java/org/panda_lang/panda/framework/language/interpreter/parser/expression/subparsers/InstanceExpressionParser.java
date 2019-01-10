@@ -34,9 +34,9 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 import java.util.List;
 
-class InstanceExpressionParser implements ExpressionSubparser {
+public class InstanceExpressionParser implements ExpressionSubparser {
 
-    public static final AbyssPattern INSTANCE_PATTERN = new AbyssPatternBuilder()
+    private static final AbyssPattern INSTANCE_PATTERN = new AbyssPatternBuilder()
             .unit(TokenType.KEYWORD, "new")
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
@@ -74,6 +74,11 @@ class InstanceExpressionParser implements ExpressionSubparser {
         }
 
         return null;
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 4;
     }
 
     @Override

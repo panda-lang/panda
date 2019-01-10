@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-class SectionExpressionSubparser implements ExpressionSubparser {
+public class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
@@ -34,6 +34,11 @@ class SectionExpressionSubparser implements ExpressionSubparser {
     @Override
     public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         return main.parse(data, source.subSource(1, source.size() - 1));
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 3;
     }
 
     @Override

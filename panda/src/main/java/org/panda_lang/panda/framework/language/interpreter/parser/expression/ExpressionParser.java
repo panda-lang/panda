@@ -18,32 +18,32 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.DefaultSubparsers;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 public class ExpressionParser {
 
-    private static final ExpressionParser PARSER = new ExpressionParser(DefaultSubparsers.Instances.getDefaultSubparsers());
-    private final List<ExpressionSubparser> subparsers;
+    private final ExpressionParser main;
+    private final ExpressionSubparsers subparsers;
 
-    public ExpressionParser(Collection<? extends ExpressionSubparser> subparsers) {
-        this.subparsers = new ArrayList<>(subparsers);
-        this.sortSubparsers();
+    public ExpressionParser(@Nullable ExpressionParser main, ExpressionSubparsers subparsers) {
+        this.main = main == null ? this : main;
+        this.subparsers = subparsers;
     }
 
     public @Nullable Expression parseSilently(ParserData data, Tokens tokens) {
         try {
             return parse(data, tokens);
-        } catch (Throwable throwable) {
+        }
+        catch (ExpressionParserException exception) {
+            throw exception;
+        }
+        catch (Throwable throwable) {
             // mute, we don't want to catch any error that comes from ExpressionParser#parse method
             return null;
         }
@@ -60,13 +60,17 @@ public class ExpressionParser {
             throw new PandaExpressionFailure("Cannot read the specified source", data);
         }
 
-        Expression expression = result.subparser.parse(PARSER, data, result.source);
+        Expression expression = result.subparser.parse(main, data, result.source);
 
         if (expression == null) {
-            throw new PandaExpressionFailure("Cannot parse expression", data);
+            ParserData errorData = data.fork().setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(result.source));
+            throw new PandaExpressionFailure("Cannot parse expression using " + result.subparser.getName() + " subparser", errorData);
         }
 
-        source.readDifference(result.source);
+        if (source.getUnreadLength() != result.source.size()) {
+            throw new PandaParserFailure("Unrecognized syntax", data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source.toTokenizedSource())));
+        }
+
         return expression;
     }
 
@@ -96,6 +100,10 @@ public class ExpressionParser {
     }
 
     private @Nullable Result readResult(Tokens source) {
+        if (subparsers.isEmpty()) {
+            throw new ExpressionParserException("ExpressionParser does not contain any subparsers");
+        }
+
         if (source.isEmpty()) {
             return null;
         }
@@ -103,8 +111,12 @@ public class ExpressionParser {
         // create special group of subparsers to compare
         Result previousResult = null;
 
-        for (ExpressionSubparser subparser : subparsers) {
-            Tokens tokens = subparser.read(PARSER, source);
+        for (ExpressionSubparser subparser : subparsers.getSubparsers()) {
+            if (subparser.getMinimumLength() != -1 && source.size() < subparser.getMinimumLength()) {
+                continue;
+            }
+
+            Tokens tokens = subparser.read(main, source);
 
             if (TokensUtils.isEmpty(tokens)) {
                 continue;
@@ -118,27 +130,8 @@ public class ExpressionParser {
         return previousResult;
     }
 
-    private void sortSubparsers() {
-        Collections.sort(subparsers);
-    }
-
-    public void addSubparser(ExpressionSubparser subparser) {
-        this.subparsers.add(subparser);
-        this.sortSubparsers();
-    }
-
-    public void removeSubparsers(Collection<String> names) {
-        for (String name : names) {
-            removeSubparser(name.trim());
-        }
-    }
-
-    public void removeSubparser(String name) {
-        subparsers.removeIf(expressionSubparser -> expressionSubparser.getName().equals(name));
-    }
-
-    public static ExpressionParser getInstance() {
-        return PARSER;
+    public ExpressionSubparsers getSubparsers() {
+        return subparsers;
     }
 
     private final class Result {

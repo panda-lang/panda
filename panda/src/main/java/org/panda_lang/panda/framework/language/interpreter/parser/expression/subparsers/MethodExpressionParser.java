@@ -33,23 +33,17 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 public class MethodExpressionParser implements ExpressionSubparser {
 
     private static final Token[] METHOD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
-    private final boolean voids;
-
-    public MethodExpressionParser(boolean voids) {
-        this.voids = voids;
-    }
-
-    public MethodExpressionParser() {
-        this(false);
-    }
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
         Tokens selected = SubparserUtils.readSeparated(main, source, METHOD_SEPARATORS, SubparserUtils.NAMES_FILTER, matchable -> {
             // at least 3 elements required: <method-name> ( )
-            if (matchable.getDistributor().size() - matchable.getIndex() < 3) {
+            if ((matchable.getDistributor().size() - matchable.getIndex()) < 3) {
                 return false;
             }
+
+            // read dot
+            matchable.nextVerified();
 
             // read method name
             matchable.nextVerified();
@@ -58,16 +52,18 @@ public class MethodExpressionParser implements ExpressionSubparser {
                 return false;
             }
 
+            matchable.verify();
+
+            if (matchable.isMatchable()) {
+                return matchable.nextVerified().contentEquals(Separators.PARENTHESIS_RIGHT);
+            }
+
             // parameters content
             while (matchable.hasNext() && !matchable.isMatchable()) {
                 matchable.nextVerified();
             }
 
-            if (!matchable.isMatchable()) {
-               return false;
-            }
-
-            return matchable.next().contentEquals(Separators.PARENTHESIS_RIGHT);
+            return matchable.isMatchable();
         });
 
         // at least 3 elements required: <method-name> ( )
@@ -100,6 +96,11 @@ public class MethodExpressionParser implements ExpressionSubparser {
         MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
 
         return new PandaExpression(callback.getReturnType(), callback);
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 3;
     }
 
     @Override

@@ -56,7 +56,7 @@ main {
 
     Test test = new Test('"Constructor"')
     test.echo("Method")
-    test.testField()
+    Console.print(test.getTestField().testField)
 
     mutable nullable Foo varFoo = null
     varFoo = new Foo()
@@ -101,19 +101,28 @@ main {
         break
     }
 
+    TestArray testArray = new TestArray(7);
+    testArray.modify(test)
+    Console.print(testArray.array.toString())
 }
 
 class TestArray {
 
-/*
-    hidden Object[] array
+    hidden String[] array
 
-    constructor(Object... elements) {
-        this.array = elements
-
-        this.array[0] = 2;
-        this.array.set(0, 2);
+    constructor(Int size) {
+        this.array = new String[size];
     }
-*/
+
+    local void modify(Test test) {
+        this.getArray()[test.i] = "Hello Array"
+        array[6] = String.valueOf(this)
+
+        Console.print("Value at array[test.i]", this.getArray()[test.i])
+    }
+
+    method String[] getArray() {
+        return array
+    }
 
 }

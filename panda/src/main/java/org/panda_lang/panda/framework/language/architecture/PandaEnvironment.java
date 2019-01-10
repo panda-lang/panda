@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
-import org.panda_lang.panda.framework.language.architecture.prototype.registry.ClassPrototypeModelLoader;
+import org.panda_lang.panda.framework.language.architecture.prototype.clazz.registry.ClassPrototypeModelLoader;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpreter;
 
 public class PandaEnvironment implements Environment {

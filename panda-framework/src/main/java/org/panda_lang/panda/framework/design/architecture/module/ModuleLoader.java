@@ -27,6 +27,8 @@ public interface ModuleLoader {
         return this.forClass(clazz.getSimpleName());
     }
 
-    @Nullable ClassPrototype forClass(String className);
+    @Nullable ClassPrototype forClass(String name);
+
+    Module get(String name);
 
 }

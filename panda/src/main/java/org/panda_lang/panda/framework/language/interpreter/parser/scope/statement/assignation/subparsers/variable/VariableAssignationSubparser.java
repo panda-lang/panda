@@ -75,12 +75,20 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
                 throw new PandaParserFailure("Field " + fieldName + " does not exist", data);
             }
 
+            if (!field.getType().isAssignableFrom(expression.getReturnType())) {
+                throw new PandaParserFailure("Cannot assign " + instanceExpression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data);
+            }
+
             return new FieldAccessor(instanceExpression, field, expression);
         }
 
         Variable variable = scope.getVariable(name.asString());
 
         if (variable != null) {
+            if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
+                throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable", data);
+            }
+
             return new VariableAccessor(variable, scope.indexOf(variable), expression);
         }
 
@@ -95,6 +103,10 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
 
         if (field == null) {
             throw new PandaParserFailure("Field " + name.asString() + " does not exist", data);
+        }
+
+        if (!field.getType().isAssignableFrom(expression.getReturnType())) {
+            throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data);
         }
 
         return new FieldAccessor(instanceExpression, field, expression);

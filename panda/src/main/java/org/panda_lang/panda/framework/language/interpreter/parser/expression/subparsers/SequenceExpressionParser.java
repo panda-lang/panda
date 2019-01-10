@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 
-class SequenceExpressionParser implements ExpressionSubparser {
+public class SequenceExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
