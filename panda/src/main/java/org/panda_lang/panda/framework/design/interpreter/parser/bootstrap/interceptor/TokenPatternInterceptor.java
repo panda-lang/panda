@@ -17,15 +17,15 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedBootstrapParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class TokenPatternInterceptor implements BootstrapInterceptor {
 

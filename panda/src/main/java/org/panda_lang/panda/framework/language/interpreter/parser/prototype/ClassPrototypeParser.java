@@ -81,6 +81,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         }
 
         ClassPrototype classPrototype = PandaClassPrototype.builder()
+                .module(module)
                 .associated(GENERATOR.generateType(className))
                 .name(className)
                 .build();

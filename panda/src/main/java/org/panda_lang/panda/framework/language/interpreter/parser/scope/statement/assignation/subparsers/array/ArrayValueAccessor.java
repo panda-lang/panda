@@ -22,9 +22,10 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
-public class ArrayValueAccessor implements Executable {
+public class ArrayValueAccessor extends AbstractStatement implements Executable {
 
     private final ArrayValueAccessorAction action;
     private final ArrayClassPrototype prototype;
@@ -37,7 +38,7 @@ public class ArrayValueAccessor implements Executable {
         this.type = type;
         this.instance = instance;
         this.index = index;
-        this.action = action;
+        this.action = action.initialize(this);
     }
 
     @Override
@@ -53,12 +54,20 @@ public class ArrayValueAccessor implements Executable {
 
     public interface ArrayValueAccessorAction {
 
+        default ArrayValueAccessorAction initialize(ArrayValueAccessor accessor) {
+            return this;
+        }
+
         @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, Number index);
+
+        default @Nullable ClassPrototype getType() {
+            return null;
+        }
 
     }
 
     public ClassPrototype getReturnType() {
-        return type;
+        return action.getType() == null ? type : action.getType();
     }
 
 }

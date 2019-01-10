@@ -48,7 +48,8 @@ public class FieldExpressionCallback implements ExpressionCallback {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        branch.instance(instance);
+        // consider launching as a standalone env
+        // branch.instance(instance);
 
         if (field.isNative()) {
             return field.getDefaultValue().getExpressionValue(branch);

@@ -43,14 +43,14 @@ public class ClassPrototypeGenerator {
             locked = true;
         }
 
+        Module module = modulePath.create(type);
+
         ClassPrototype prototype = PandaClassPrototype.builder()
+                .module(module)
                 .associated(type)
                 .build();
 
-        if (modulePath != null) {
-            Module module = modulePath.create(type);
-            module.add(prototype);
-        }
+        module.add(prototype);
 
         for (Field field : type.getFields()) {
             ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, modulePath, prototype, field);

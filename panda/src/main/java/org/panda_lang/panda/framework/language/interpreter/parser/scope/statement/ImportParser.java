@@ -32,6 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
@@ -44,7 +45,7 @@ public class ImportParser extends UnifiedParserBootstrap {
                 .pattern("import <import:condition token {type:unknown}, token {value:-}>[;]");
     }
 
-    @Autowired
+    @Autowired(type = PandaTypes.TYPES_LABEL)
     public void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Src("import") Tokens importSource) {
         StringBuilder moduleName = new StringBuilder();
 

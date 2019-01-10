@@ -17,15 +17,13 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
@@ -41,6 +39,7 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 public class ArrayValueExpressionParser implements ExpressionSubparser {
 
     private static final Token[] ARRAY_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
+    private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
@@ -108,15 +107,8 @@ public class ArrayValueExpressionParser implements ExpressionSubparser {
 
     @Override
     public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        ArrayValueAccessorParser parser = new ArrayValueAccessorParser();
-        ArrayValueAccessor accessor = parser.parse(data, source);
-
-        return new PandaExpression(accessor.getReturnType(), new ExpressionCallback() {
-            @Override
-            public Value call(Expression expression, ExecutableBranch branch) {
-                return accessor.perform(branch);
-            }
-        });
+        ArrayValueAccessor accessor = PARSER.parse(data, source, (branch, prototype, type, array, index) -> new PandaValue(type, array[index.intValue()]));
+        return new PandaExpression(accessor.getReturnType(), (expression, branch) -> accessor.perform(branch));
     }
 
     @Override

@@ -32,6 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
@@ -42,6 +43,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.clazz.meth
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.PandaMethodCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.ScopeParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.parameter.ParameterParser;
 
@@ -55,18 +57,18 @@ public class MethodParser extends UnifiedParserBootstrap {
         return defaultBuilder.pattern("(method|local|hidden) static:[static] <return:reader type> <name> `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
-    @Autowired
+    @Autowired(type = PandaTypes.TYPES_LABEL)
     @AutowiredParameters(skip = 3, value = {
             @Type(with = Src.class, value = "return"),
             @Type(with = Src.class, value = "name"),
             @Type(with = Src.class, value = "*parameters")
     })
-    boolean parse(ParserData data, LocalData local, ExtractorResult result, String type, String method, Tokens parametersSource) {
+    boolean parse(ParserData data, LocalData local, ExtractorResult result, Tokens type, String method, Tokens parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
         boolean isStatic = result.getIdentifiers().contains("static");
 
         ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        ClassPrototype returnType = registry.forClass(type);
+        ClassPrototype returnType = registry.forClass(type.asString());
 
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
@@ -93,7 +95,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         return true;
     }
 
-    @Autowired(order = 1)
+    @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
     void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("*body") Tokens body) throws Throwable {
         ScopeParser.createParser(methodScope, delegatedData)
                 .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)

@@ -36,10 +36,12 @@ public class PandaModuleLoader implements ModuleLoader {
         this.importedModules = new HashMap<>(2);
     }
 
+    @Override
     public void include(Module module) {
         this.importedModules.put(module.getName(), module);
     }
 
+    @Override
     public @Nullable ClassPrototype forClass(String name) {
         if (StringUtils.isEmpty(name)) {
             return null;
@@ -49,16 +51,16 @@ public class PandaModuleLoader implements ModuleLoader {
             throw new PandaRuntimeException("Not implemented");
         }
 
+        if (name.endsWith(PandaArray.IDENTIFIER)) {
+            return ArrayClassPrototypeUtils.obtain(this, name);
+        }
+
         for (Module module : importedModules.values()) {
             ClassPrototype prototype = module.get(name);
 
             if (prototype != null) {
                 return prototype;
             }
-        }
-
-        if (name.endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassPrototypeUtils.obtain(this, name);
         }
 
         return null;

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.subparsers.array;
 
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -23,7 +24,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class ArrayValueAccessorParser implements Parser {
 
-    public ArrayValueAccessor parse(ParserData data, Tokens source) {
+    public ArrayValueAccessor parse(ParserData data, Tokens source, ArrayValueAccessor.ArrayValueAccessorAction action) {
         Tokens reversed = source.reverse();
 
         MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(reversed));
@@ -66,13 +66,23 @@ public class ArrayValueAccessorParser implements Parser {
         Expression index = main.parse(data, indexSource);
 
         if (!(instance.getReturnType() instanceof ArrayClassPrototype)) {
-            throw new PandaParserFailure("Cannot use index with non-array types", data, source);
+            throw new PandaParserFailure("Cannot use index on non-array type", data, instanceSource);
         }
 
-        ArrayClassPrototype prototype = (ArrayClassPrototype) instance.getReturnType();
-        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(prototype.getType());
+        ArrayClassPrototype arrayPrototype = (ArrayClassPrototype) instance.getReturnType();
 
-        return new ArrayValueAccessor(prototype, type, instance, index, (branch, p, t, array, i) -> new PandaValue(type, array[i.intValue()]));
+        if (arrayPrototype == null) {
+            throw new PandaParserFailure("Cannot locate array class", data, instanceSource);
+        }
+
+        ModuleLoader loader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
+        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(arrayPrototype.getType());
+
+        if (type == null) {
+            throw new PandaParserFailure("Cannot locate type of the array", data, instanceSource);
+        }
+
+        return new ArrayValueAccessor(arrayPrototype, type, instance, index, action);
     }
 
 }

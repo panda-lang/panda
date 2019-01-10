@@ -25,13 +25,15 @@ public interface ModulePath {
 
     Module create(String groupName);
 
+    void addModule(Module module);
+
     default Module create(Class<?> clazz) {
         return this.create(PackageUtils.getPackageName(clazz));
     }
 
-    default boolean hasModule(String modueName) {
+    default boolean hasModule(String moduleName) {
         for (Module module : this.getModules()) {
-            if (modueName.equals(module.getName())) {
+            if (moduleName.equals(module.getName())) {
                 return true;
             }
         }
