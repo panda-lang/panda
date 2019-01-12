@@ -49,7 +49,7 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
     protected AnnotationsScannerProcess fetch() {
         long uptime = System.nanoTime();
 
-        for (AnnotationsScannerResource<?> resource : scanner.getConfiguration().getResources()) {
+        for (AnnotationsScannerResource<?> resource : scanner.getConfiguration().resources) {
             Set<ClassFile> classFiles = scanResource(resource);
             store.addClassFiles(classFiles);
         }
@@ -130,7 +130,7 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
     }
 
     public MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
-        return scanner.getConfiguration().getMetadataAdapter();
+        return scanner.getConfiguration().metadataAdapter;
     }
 
     protected AnnotationsScanner getScanner() {

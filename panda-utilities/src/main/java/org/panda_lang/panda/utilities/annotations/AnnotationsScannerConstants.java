@@ -25,7 +25,7 @@ class AnnotationsScannerConstants {
             "META-INF",
             "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // Java
             "org.apache", "com.google", "org.slf4j",                                            // Popular
-            "org.junit", "junit", "org.opentest4j",                                            // Tests
+            "org.junit", "junit", "org.opentest4j",                                             // Tests
             "org.jetbrains", "org.intellij", "com.intellij",                                    // IDE
             "javassist", "org.fusesource", "org.apiguardian"                                    // Internal
     };

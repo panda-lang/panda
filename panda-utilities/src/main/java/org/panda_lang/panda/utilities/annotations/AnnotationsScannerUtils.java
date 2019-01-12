@@ -32,7 +32,7 @@ public class AnnotationsScannerUtils {
     }
 
     public static Set<Method> forMethods(AnnotationsScannerProcess process, Collection<String> descriptors) {
-        return MethodDescriptorUtils.getMembersFromDescriptors(descriptors, process.getScanner().getConfiguration().getClassLoaders()).stream()
+        return MethodDescriptorUtils.getMembersFromDescriptors(descriptors, process.getScanner().getConfiguration().classLoaders).stream()
                 .filter(member -> member instanceof Method)
                 .map(member -> (Method) member)
                 .collect(Collectors.toSet());
@@ -50,7 +50,7 @@ public class AnnotationsScannerUtils {
                 continue;
             }
 
-            Class<?> clazz = forName(type, scanner.getConfiguration().getClassLoaders());
+            Class<?> clazz = forName(type, scanner.getConfiguration().classLoaders);
 
             if (clazz == null) {
                 continue;
