@@ -42,6 +42,9 @@ public class AnnotationsScanner {
         return new AnnotationsScannerProcessBuilder(this, new AnnotationScannerStore());
     }
 
+    /**
+     * @return the configuration of current scanner
+     */
     AnnotationsScannerConfiguration getConfiguration() {
         return configuration;
     }

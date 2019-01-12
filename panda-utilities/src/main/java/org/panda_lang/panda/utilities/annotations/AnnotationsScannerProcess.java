@@ -19,40 +19,32 @@ package org.panda_lang.panda.utilities.annotations;
 import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
-import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
-import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
-import java.net.URL;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class AnnotationsScannerProcess implements AnnotationsDisposable {
 
     private final AnnotationsScanner scanner;
     private final AnnotationScannerStore store;
-    private final List<AnnotationsFilter<URL>> urlFilters;
-    private final List<AnnotationsFilter<AnnotationsScannerFile>> fileFilters;
-    private final List<AnnotationsFilter<ClassFile>> classFileFilters;
+    private final AnnotationsScannerProcessBuilder builder;
 
     AnnotationsScannerProcess(AnnotationsScannerProcessBuilder builder) {
         this.scanner = builder.scanner;
         this.store = builder.store;
-        this.urlFilters = builder.urlFilters;
-        this.fileFilters = builder.fileFilters;
-        this.classFileFilters = builder.classFileFilters;
+        this.builder = builder;
     }
 
     protected AnnotationsScannerProcess fetch() {
+        return fetch(scanner.getConfiguration().resources);
+    }
+
+    protected AnnotationsScannerProcess fetch(Set<AnnotationsScannerResource<?>> resources) {
         long uptime = System.nanoTime();
 
-        for (AnnotationsScannerResource<?> resource : scanner.getConfiguration().resources) {
-            Set<ClassFile> classFiles = scanResource(resource);
-            store.addClassFiles(classFiles);
-        }
+        AnnotationsScannerProcessWorker worker = new AnnotationsScannerProcessWorker(this);
+        worker.fetch(scanner.getConfiguration().resources);
 
         scanner.getLogger().debug("Fetched class files: " + store.getAmountOfCachedClassFiles() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
         return this;
@@ -60,68 +52,6 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
 
     public AnnotationsScannerSelector createSelector() {
         return new AnnotationsScannerSelector(this, store);
-    }
-
-    private Set<ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
-        Set<ClassFile> classFiles = new HashSet<>();
-
-        for (AnnotationsFilter<URL> urlFilter : urlFilters) {
-            if (!urlFilter.check(getMetadataAdapter(), resource.getLocation())) {
-                return classFiles;
-            }
-        }
-
-        for (AnnotationsScannerFile annotationsScannerFile : resource) {
-            if (annotationsScannerFile == null || !annotationsScannerFile.getOriginalPath().endsWith(".class")) {
-                continue;
-            }
-
-            ClassFile classFile = scanFile(annotationsScannerFile);
-
-            if (classFile == null) {
-                continue;
-            }
-
-            classFiles.add(classFile);
-        }
-
-        return classFiles;
-    }
-
-    private @Nullable ClassFile scanFile(AnnotationsScannerFile file) {
-        MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter = getMetadataAdapter();
-
-        for (AnnotationsFilter<AnnotationsScannerFile> fileFilter : fileFilters) {
-            if (!fileFilter.check(metadataAdapter, file)) {
-                return null;
-            }
-        }
-
-        ClassFile pseudoClass;
-
-        try {
-            pseudoClass = metadataAdapter.getOfCreateClassObject(scanner, file);
-        } catch (Exception e) {
-            return null; // mute
-        }
-
-        if (!StringUtils.isEmpty(pseudoClass.getSuperclass())) {
-            store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());
-        }
-
-        if (pseudoClass.getInterfaces() != null) {
-            for (String anInterface : pseudoClass.getInterfaces()) {
-                store.addInheritors(anInterface, pseudoClass.getName());
-            }
-        }
-
-        for (AnnotationsFilter<ClassFile> pseudoClassFilter : classFileFilters) {
-            if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {
-                return null;
-            }
-        }
-
-        return pseudoClass;
     }
 
     @Override
@@ -133,8 +63,16 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
         return scanner.getConfiguration().metadataAdapter;
     }
 
-    protected AnnotationsScanner getScanner() {
+    public AnnotationScannerStore getStore() {
+        return store;
+    }
+
+    protected AnnotationsScanner getAnnotationsScanner() {
         return scanner;
+    }
+
+    public AnnotationsScannerProcessBuilder getProcessConfiguration() {
+        return builder;
     }
 
 }
