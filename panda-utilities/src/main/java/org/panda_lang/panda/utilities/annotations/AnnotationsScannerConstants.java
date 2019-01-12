@@ -23,6 +23,7 @@ class AnnotationsScannerConstants {
 
     static final String[] PANDA_PACKAGES = {
             "META-INF",
+            "org.panda_lang.panda.utilities",                                                   // Panda
             "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // Java
             "org.apache", "com.google", "org.slf4j",                                            // Popular
             "org.junit", "junit", "org.opentest4j",                                             // Tests

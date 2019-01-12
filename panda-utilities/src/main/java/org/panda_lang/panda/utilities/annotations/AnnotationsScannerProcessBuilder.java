@@ -21,7 +21,6 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
-import org.panda_lang.panda.utilities.annotations.monads.filters.PublicClassFileFilter;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.net.URL;
@@ -44,36 +43,70 @@ public class AnnotationsScannerProcessBuilder {
         this.classFileFilters = new ArrayList<>(1);
     }
 
-    public AnnotationsScannerProcess fetch() {
-        return new AnnotationsScannerProcess(this).fetch();
-    }
-
+    /**
+     * Add default filters:
+     *
+     * <ul>
+     *     <li>
+     *         URL filters:
+     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter}
+     *     </li>
+     *     <li>
+     *         File filters:
+     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFilter},
+     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter}
+     *     </li>
+     *     <li>
+     *         Class filters:
+     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.PublicClassFileFilter}
+     *     </li>
+     * </ul>
+     *
+     * @return the builder instance
+     */
     public AnnotationsScannerProcessBuilder addDefaultFilters() {
-        addURLFilter(new JavaFilter());
-        addFileFilters(new AnonymousFileFilter(), new PackageFileFilter(true, AnnotationsScannerConstants.PANDA_PACKAGES));
-        addClassFileFilters(new PublicClassFileFilter());
+        addURLFilters(new JavaFilter());
+        addFileFilters(new PackageFileFilter(true, AnnotationsScannerConstants.PANDA_PACKAGES), new AnonymousFileFilter());
         return this;
     }
 
+    /**
+     * Add default filters for project-only packages
+     *
+     * @param packageNames the main package of project
+     * @return the instance of builder
+     */
     public AnnotationsScannerProcessBuilder addDefaultProjectFilters(String... packageNames) {
         return this
-                .addURLFilter(new JavaFilter())
-                .addFileFilters(new PackageFileFilter(false, packageNames));
+                .addURLFilters(new JavaFilter())
+                .addFileFilters(new PackageFileFilter(false, packageNames), new AnonymousFileFilter());
     }
 
-    public AnnotationsScannerProcessBuilder addURLFilter(AnnotationsFilter<URL>... urlFilters) {
+    @SafeVarargs
+    public final AnnotationsScannerProcessBuilder addURLFilters(AnnotationsFilter<URL>... urlFilters) {
         this.urlFilters.addAll(Sets.newHashSet(urlFilters));
         return this;
     }
 
-    public AnnotationsScannerProcessBuilder addFileFilters(AnnotationsFilter<AnnotationsScannerFile>... fileFilters) {
+    @SafeVarargs
+    public final AnnotationsScannerProcessBuilder addFileFilters(AnnotationsFilter<AnnotationsScannerFile>... fileFilters) {
         this.fileFilters.addAll(Sets.newHashSet(fileFilters));
         return this;
     }
 
-    public AnnotationsScannerProcessBuilder addClassFileFilters(AnnotationsFilter<ClassFile>... classFileFilters) {
+    @SafeVarargs
+    public final AnnotationsScannerProcessBuilder addClassFileFilters(AnnotationsFilter<ClassFile>... classFileFilters) {
         this.classFileFilters.addAll(Sets.newHashSet(classFileFilters));
         return this;
+    }
+
+    /**
+     * Fetch offline classes using these filters
+     *
+     * @return the process with fetched classes
+     */
+    public AnnotationsScannerProcess fetch() {
+        return new AnnotationsScannerProcess(this).fetch();
     }
 
 }
