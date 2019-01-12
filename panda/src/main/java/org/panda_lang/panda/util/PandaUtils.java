@@ -19,15 +19,17 @@ package org.panda_lang.panda.util;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
 
 public class PandaUtils {
 
-    public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.createScanner()
-            .logger(null)
+    public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.configuration()
+            //.logger(null)
             .includeClassLoaders(false, Panda.class.getClassLoader())
             .build()
             .createProcess()
             .addDefaultProjectFilters("org.panda_lang")
+            .addFileFilters(new PackageFileFilter(true, "org.panda_lang.panda.utilities"))
             .fetch();
 
 }
