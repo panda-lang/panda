@@ -43,7 +43,7 @@ public class AnnotationsScannerSelector {
 
         try {
             Collection<T> selected = selector.select(process, store);
-            process.getScanner().getLogger().debug("Selected classes: " + selected.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
+            process.getAnnotationsScanner().getLogger().debug("Selected classes: " + selected.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
             return selected;
         } catch (Exception e) {
             throw new RuntimeException(e);

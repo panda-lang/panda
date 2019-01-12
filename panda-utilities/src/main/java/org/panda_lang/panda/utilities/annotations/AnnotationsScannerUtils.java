@@ -32,14 +32,14 @@ public class AnnotationsScannerUtils {
     }
 
     public static Set<Method> forMethods(AnnotationsScannerProcess process, Collection<String> descriptors) {
-        return MethodDescriptorUtils.getMembersFromDescriptors(descriptors, process.getScanner().getConfiguration().classLoaders).stream()
+        return MethodDescriptorUtils.getMembersFromDescriptors(descriptors, process.getAnnotationsScanner().getConfiguration().classLoaders).stream()
                 .filter(member -> member instanceof Method)
                 .map(member -> (Method) member)
                 .collect(Collectors.toSet());
     }
 
     public static Set<Class<?>> forNames(AnnotationsScannerProcess process, Collection<String> types) {
-        return forNames(process.getScanner(), types);
+        return forNames(process.getAnnotationsScanner(), types);
     }
 
     public static Set<Class<?>> forNames(AnnotationsScanner scanner, Collection<String> types) {
