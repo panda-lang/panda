@@ -30,75 +30,49 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 public class AnnotationsScannerConfiguration {
 
-    private final Set<ClassLoader> classLoaders;
-    private final Set<AnnotationsScannerResource<?>> resources;
-    private final AnnotationsScannerResourceFactory resourceFactory;
-    private MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter;
-    private AnnotationsScannerLogger logger;
+    protected final Set<ClassLoader> classLoaders;
+    protected final Set<AnnotationsScannerResource<?>> resources;
+    protected final AnnotationsScannerResourceFactory resourceFactory;
+
+    protected AnnotationsScannerLogger logger = new AnnotationsScannerLogger(LoggerFactory.getLogger(AnnotationsScanner.class));
+    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter = new JavassistAdapter();
 
     AnnotationsScannerConfiguration() {
         this.classLoaders = new HashSet<>(2);
         this.resources = new HashSet<>(2);
         this.resourceFactory = new AnnotationsScannerResourceFactory();
-        this.metadataAdapter = new JavassistAdapter();
-        this.logger = new AnnotationsScannerLogger(LoggerFactory.getLogger(AnnotationsScanner.class));
     }
 
-    public AnnotationsScanner build() {
-        if (classLoaders.isEmpty()) {
-            classLoaders.add(this.getClass().getClassLoader());
-        }
-
-        return new AnnotationsScanner(this);
-    }
-
-    public AnnotationsScannerConfiguration prepareDefaults() {
-        return includeDefaultClassLoaders();
-    }
-
+    /**
+     * Register logger used by AnnotationsScanner
+     *
+     * @param logger the logger to use, if null, scanner won't log anything
+     * @return the configuration instance
+     */
     public AnnotationsScannerConfiguration logger(@Nullable Logger logger) {
         this.logger = new AnnotationsScannerLogger(logger);
         return this;
     }
 
-    public AnnotationsScannerConfiguration metadataAdapter(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> adapter) {
-        this.metadataAdapter = adapter;
-        return this;
-    }
-
+    /**
+     * Include class loaders used by application by default
+     *
+     * @return the configuration instance
+     */
     public AnnotationsScannerConfiguration includeDefaultClassLoaders() {
         return includeClassLoaders(true, this.getClass().getClassLoader(), Thread.currentThread().getContextClassLoader());
     }
 
-    public AnnotationsScannerConfiguration includeClassLoaders(boolean includeParents, ClassLoader... classLoaders) {
-        for (ClassLoader classLoader : classLoaders) {
-            includeClassLoader(includeParents, classLoader);
-        }
-
-        return this;
-    }
-
-    private void includeClassLoader(boolean includeParents, @Nullable ClassLoader classLoader) {
-        if (classLoader == null) {
-            return;
-        }
-
-        for (ClassLoader currentClassLoader = classLoader; currentClassLoader != null; currentClassLoader = includeParents ? currentClassLoader.getParent() : null) {
-            if (!(currentClassLoader instanceof URLClassLoader)) {
-                continue;
-            }
-
-            URL[] urls = ((URLClassLoader) currentClassLoader).getURLs();
-            includeResources(urls);
-        }
-    }
-
+    /**
+     * Include Java Class Path
+     *
+     * @return the configuration instance
+     */
     public AnnotationsScannerConfiguration includeJavaClassPath() {
         String javaClassPath = System.getProperty("java.class.path");
 
@@ -113,25 +87,86 @@ public class AnnotationsScannerConfiguration {
         return this;
     }
 
-    public AnnotationsScannerConfiguration includeClass(Class<?> clazz) {
-        includeResources(clazz.getProtectionDomain().getCodeSource().getLocation());
-        return this;
-    }
-
-    public AnnotationsScannerConfiguration includePath(String path) {
-        try {
-            URL url = new File(path).toURI().toURL();
-            includeResources(url);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
+    /**
+     * Include classes
+     *
+     * @param classes classes to include
+     * @return the configuration instance
+     */
+    public AnnotationsScannerConfiguration includeClasses(Class<?>... classes) {
+        for (Class<?> clazz : classes) {
+            includeResources(clazz.getProtectionDomain().getCodeSource().getLocation());
         }
 
         return this;
     }
 
-    public void includeResources(@Nullable URL... urls) {
+    /**
+     * Include class loaders
+     *
+     * @param classLoaders class loaders to include
+     * @return the configuration instance
+     */
+    public AnnotationsScannerConfiguration includeClassLoaders(ClassLoader... classLoaders) {
+        return includeClassLoaders(false, classLoaders);
+    }
+
+    /**
+     * Include specified class loaders
+     *
+     * @param includeParents if true the configuration will include also parents of the specified class loaders
+     * @param classLoaders class loaders to include
+     * @return the configuration instance
+     *
+     * @see ClassLoader#getParent()
+     */
+    public AnnotationsScannerConfiguration includeClassLoaders(boolean includeParents, ClassLoader... classLoaders) {
+        for (ClassLoader classLoader : classLoaders) {
+            if (classLoader == null) {
+                continue;
+            }
+
+            for (ClassLoader currentClassLoader = classLoader; currentClassLoader != null; currentClassLoader = includeParents ? currentClassLoader.getParent() : null) {
+                if (!(currentClassLoader instanceof URLClassLoader)) {
+                    continue;
+                }
+
+                URL[] urls = ((URLClassLoader) currentClassLoader).getURLs();
+                includeResources(urls);
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Include paths
+     *
+     * @param paths paths to include
+     * @return the configuration instance
+     */
+    public AnnotationsScannerConfiguration includePath(String... paths) {
+        for (String path : paths) {
+            try {
+                URL url = new File(path).toURI().toURL();
+                includeResources(url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Include URLs
+     *
+     * @param urls urls to include
+     * @return the configuration instance
+     */
+    public AnnotationsScannerConfiguration includeResources(@Nullable URL... urls) {
         if (urls == null) {
-            return;
+            return this;
         }
 
         Set<AnnotationsScannerResource<?>> currentResources = new HashSet<>(urls.length);
@@ -148,27 +183,31 @@ public class AnnotationsScannerConfiguration {
         }
 
         resources.addAll(currentResources);
-    }
-
-    public AnnotationsScannerConfiguration addClassLoader(ClassLoader... classLoaders) {
-        this.classLoaders.addAll(Arrays.asList(classLoaders));
         return this;
     }
 
-    protected Set<ClassLoader> getClassLoaders() {
-        return classLoaders;
+    /**
+     * Register custom metadata adapter used to gain data from classes without loading them by class loader
+     *
+     * @param adapter the adapter to use by scanner
+     * @return the configuration instance
+     */
+    public AnnotationsScannerConfiguration metadataAdapter(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> adapter) {
+        this.metadataAdapter = adapter;
+        return this;
     }
 
-    protected MetadataAdapter<ClassFile, FieldInfo, MethodInfo> getMetadataAdapter() {
-        return metadataAdapter;
-    }
+    /**
+     * Build AnnotationScanner with current configuration
+     *
+     * @return created AnnotationScanner
+     */
+    public AnnotationsScanner build() {
+        if (classLoaders.isEmpty()) {
+            classLoaders.add(this.getClass().getClassLoader());
+        }
 
-    protected Set<AnnotationsScannerResource<?>> getResources() {
-        return resources;
-    }
-
-    protected AnnotationsScannerLogger getLogger() {
-        return logger;
+        return new AnnotationsScanner(this);
     }
 
 }

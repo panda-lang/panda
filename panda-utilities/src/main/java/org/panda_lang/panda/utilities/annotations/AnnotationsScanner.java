@@ -24,7 +24,7 @@ public class AnnotationsScanner {
         this.configuration = configuration;
     }
 
-    public AnnotationsScannerProcessBuilder createWorker() {
+    public AnnotationsScannerProcessBuilder createProcess() {
         return new AnnotationsScannerProcessBuilder(this, new AnnotationScannerStore());
     }
 
@@ -33,7 +33,7 @@ public class AnnotationsScanner {
     }
 
     public AnnotationsScannerLogger getLogger() {
-        return configuration.getLogger();
+        return configuration.logger;
     }
 
     public static AnnotationsScannerConfiguration createScanner() {

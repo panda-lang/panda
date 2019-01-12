@@ -27,10 +27,10 @@ class AnnotationsScannerTest implements WrappedTestType {
     @Test
     void testScanner() {
         AnnotationsScanner scanner = AnnotationsScanner.createScanner()
-                .includeClass(AnnotationsScannerTest.class)
+                .includeClasses(AnnotationsScannerTest.class)
                 .build();
 
-        AnnotationsScannerProcess process = scanner.createWorker()
+        AnnotationsScannerProcess process = scanner.createProcess()
                 .addDefaultProjectFilters("org.panda_lang")
                 .fetch();
 

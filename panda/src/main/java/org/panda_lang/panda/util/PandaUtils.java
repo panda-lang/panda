@@ -26,7 +26,7 @@ public class PandaUtils {
             .logger(null)
             .includeClassLoaders(false, Panda.class.getClassLoader())
             .build()
-            .createWorker()
+            .createProcess()
             .addDefaultProjectFilters("org.panda_lang")
             .fetch();
 
