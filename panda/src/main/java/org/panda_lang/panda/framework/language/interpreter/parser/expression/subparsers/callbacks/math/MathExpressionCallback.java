@@ -85,6 +85,7 @@ public class MathExpressionCallback implements ExpressionCallback {
         return values.pop();
     }
 
+    @Override
     public ClassPrototype getReturnType() {
         return PrimitivePrototypeLiquid.INT;
     }

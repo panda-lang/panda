@@ -37,6 +37,7 @@ public class MethodInvokerExpressionCallback implements ExpressionCallback {
         return branch.getReturnedValue();
     }
 
+    @Override
     public ClassPrototype getReturnType() {
         return invoker.getMethod().getReturnType();
     }

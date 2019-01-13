@@ -25,13 +25,24 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 public class ThisExpressionCallback implements ExpressionCallback {
 
+    private final ClassPrototype type;
+
+    public ThisExpressionCallback(ClassPrototype type) {
+        this.type = type;
+    }
+
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
         return branch.getInstance();
     }
 
+    @Override
+    public ClassPrototype getReturnType() {
+        return type;
+    }
+
     public static Expression asExpression(ClassPrototype type) {
-        return new PandaExpression(type, new ThisExpressionCallback());
+        return new PandaExpression(type, new ThisExpressionCallback(type));
     }
 
 }

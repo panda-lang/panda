@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.logic;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -42,6 +43,11 @@ public class NegateLogicalExpressionCallback implements ExpressionCallback {
         boolean val = value.getValue(); // TODO: Handle null?
 
         return new PandaValue(expression.getReturnType(), !val);
+    }
+
+    @Override
+    public ClassPrototype getReturnType() {
+        return logicalExpression.getReturnType();
     }
 
 }

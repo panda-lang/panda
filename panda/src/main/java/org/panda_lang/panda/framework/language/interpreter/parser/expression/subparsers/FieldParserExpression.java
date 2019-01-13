@@ -103,7 +103,7 @@ public class FieldParserExpression implements ExpressionSubparser, DottedFinishe
 
             if (variable != null) {
                 int memoryIndex = scope.indexOf(variable);
-                return new PandaExpression(variable.getType(), new VariableExpressionCallback(memoryIndex));
+                return new PandaExpression(variable.getType(), new VariableExpressionCallback(variable, memoryIndex));
             }
 
             ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);

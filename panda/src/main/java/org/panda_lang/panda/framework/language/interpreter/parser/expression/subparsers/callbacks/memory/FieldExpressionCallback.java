@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -67,6 +68,11 @@ public class FieldExpressionCallback implements ExpressionCallback {
         }
 
         return value;
+    }
+
+    @Override
+    public ClassPrototype getReturnType() {
+        return field.getType();
     }
 
 }

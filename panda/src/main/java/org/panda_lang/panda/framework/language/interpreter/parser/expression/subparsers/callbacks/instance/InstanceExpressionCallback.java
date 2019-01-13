@@ -45,6 +45,7 @@ public class InstanceExpressionCallback implements ExpressionCallback {
         return new PandaValue(returnType, instance);
     }
 
+    @Override
     public ClassPrototype getReturnType() {
         return returnType;
     }

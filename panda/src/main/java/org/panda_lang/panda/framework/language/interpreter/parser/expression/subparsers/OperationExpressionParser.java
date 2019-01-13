@@ -21,9 +21,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathUtils;
@@ -84,7 +84,7 @@ public class OperationExpressionParser implements ExpressionSubparser, DottedFin
             return null;
         }
 
-        MathExpressionCallback expression = MATH_PARSER.parse(source, data);
+        ExpressionCallback expression = MATH_PARSER.parse(source, data);
         return new PandaExpression(expression.getReturnType(), expression);
     }
 
