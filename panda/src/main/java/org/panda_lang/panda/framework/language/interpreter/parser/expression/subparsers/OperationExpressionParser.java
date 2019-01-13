@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.uti
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class MathExpressionParser implements ExpressionSubparser, DottedFinisher {
+public class OperationExpressionParser implements ExpressionSubparser, DottedFinisher {
 
     private static final MathParser MATH_PARSER = new MathParser();
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
