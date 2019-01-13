@@ -38,9 +38,13 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory.VariableExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.DottedFinisher;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.ExpressionSeparatorExtensions;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.ExpressionSeparatorReader;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
@@ -48,7 +52,7 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.List;
 
-public class FieldParserExpression implements ExpressionSubparser {
+public class FieldParserExpression implements ExpressionSubparser, DottedFinisher {
 
     private static final Token[] FIELD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
 
@@ -59,20 +63,25 @@ public class FieldParserExpression implements ExpressionSubparser {
             .lastIndexAlgorithm(true)
             .build();
 
+    private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this, SubparserUtils.NAMES_FILTER);
+
+    @Override
+    public boolean finish(ExpressionParser parser, MatchableDistributor matchable) {
+        if (matchable.getUnreadLength() < 2) {
+            return false;
+        }
+
+        // read dot
+        matchable.nextVerified();
+        // read field name
+        matchable.nextVerified();
+
+        return matchable.isMatchable();
+    }
+
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readSeparated(main, source, FIELD_SEPARATORS, SubparserUtils.NAMES_FILTER, matchable -> {
-            if (matchable.getUnreadLength() < 2) {
-                return false;
-            }
-
-            // read dot
-            matchable.nextVerified();
-            // read field name
-            matchable.nextVerified();
-
-            return matchable.isMatchable();
-        });
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, FIELD_SEPARATORS, extensions);
 
         if (selected == null && SubparserUtils.isAllowedName(source.getFirst().getToken())) {
             selected = new PandaTokens(source.getFirst());
