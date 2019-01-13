@@ -22,15 +22,15 @@ public class PandaToken extends EqualableToken {
 
     private final TokenType type;
     private final String name;
-    private final String token;
+    private final String value;
 
-    public PandaToken(TokenType type, String token) {
-        this(type, type.getTypeName(), token);
+    public PandaToken(TokenType type, String value) {
+        this(type, type.getTypeName(), value);
     }
 
-    public PandaToken(TokenType type, String name, String token) {
+    public PandaToken(TokenType type, String name, String value) {
         this.type = type;
-        this.token = token;
+        this.value = value;
         this.name = name;
     }
 
@@ -41,7 +41,7 @@ public class PandaToken extends EqualableToken {
 
     @Override
     public String getTokenValue() {
-        return token;
+        return value;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class PandaToken extends EqualableToken {
 
     @Override
     public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
+        return getTokenValue();
     }
 
 }

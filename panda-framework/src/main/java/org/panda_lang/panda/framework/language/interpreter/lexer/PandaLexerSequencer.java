@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence;
+import org.panda_lang.panda.framework.language.resource.syntax.sequence.SequenceToken;
 
 import java.util.Collection;
 import java.util.Stack;
@@ -48,7 +48,7 @@ public class PandaLexerSequencer {
             int endIndex = tokenPreview.length() - sequence.getSequenceEnd().length();
             String sequenceValue = tokenPreview.substring(startIndex, endIndex);
 
-            Token token = new PandaToken(sequence.getType(), sequence.getName(), sequenceValue);
+            Token token = new SequenceToken(sequence, sequenceValue);
             lexer.getTokenizedLine().add(token);
 
             tokenBuilder.setLength(0);

@@ -57,7 +57,7 @@ public class PandaTokens implements Tokens {
 
         for (TokenRepresentation representation : tokens) {
             Token token = representation.getToken();
-            builder.append(token.getTokenValue());
+            builder.append(token.toString());
             builder.append(" ");
         }
 
