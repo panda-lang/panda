@@ -35,7 +35,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.sub
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
@@ -86,7 +85,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         }
         else {
             prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-            instance = new PandaExpression(prototype, new ThisExpressionCallback());
+            instance = ThisExpressionCallback.asExpression(prototype);
         }
 
         ArgumentParser argumentParser = new ArgumentParser();

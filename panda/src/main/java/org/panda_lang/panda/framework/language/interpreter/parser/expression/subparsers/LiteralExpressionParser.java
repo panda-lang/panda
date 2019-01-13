@@ -52,7 +52,7 @@ public class LiteralExpressionParser implements ExpressionSubparser {
                 return toSimpleKnownExpression(PrimitivePrototypeLiquid.BOOLEAN, false);
             case "this":
                 ClassPrototype type = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-                return new PandaExpression(type, new ThisExpressionCallback());
+                return ThisExpressionCallback.asExpression(type);
             default:
                 throw new PandaParserException("Unknown literal: " + token);
         }

@@ -17,16 +17,20 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 
 public class VariableExpressionCallback implements ExpressionCallback {
 
+    private final Variable variable;
     private final int internalPointer;
 
-    public VariableExpressionCallback(int internalPointer) {
+    public VariableExpressionCallback(Variable variable, int internalPointer) {
+        this.variable = variable;
         this.internalPointer = internalPointer;
     }
 
@@ -34,6 +38,11 @@ public class VariableExpressionCallback implements ExpressionCallback {
     public Value call(Expression expression, ExecutableBranch branch) {
         ScopeInstance currentScope = branch.getCurrentScope();
         return currentScope.get(internalPointer);
+    }
+
+    @Override
+    public ClassPrototype getReturnType() {
+        return variable.getType();
     }
 
 }

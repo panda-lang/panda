@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -120,6 +121,11 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
         @Override
         public Value call(Expression expression, ExecutableBranch branch) {
             return new PandaValue(prototype, Array.newInstance(prototype.getType(), (Integer) capacity.getExpressionValue(branch).getObject()));
+        }
+
+        @Override
+        public ClassPrototype getReturnType() {
+            return prototype;
         }
 
     }

@@ -16,11 +16,14 @@
 
 package org.panda_lang.panda.framework.design.runtime.expression;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 public interface ExpressionCallback {
 
     Value call(Expression expression, ExecutableBranch branch);
+
+    ClassPrototype getReturnType();
 
 }

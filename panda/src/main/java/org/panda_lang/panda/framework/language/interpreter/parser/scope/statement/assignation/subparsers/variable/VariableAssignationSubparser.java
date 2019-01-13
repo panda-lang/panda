@@ -44,7 +44,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.prototype.Clas
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationSubparserBootstrap;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
@@ -98,7 +97,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
             throw new PandaParserFailure("Cannot get field from non-prototype scope", data);
         }
 
-        Expression instanceExpression = new PandaExpression(prototype, new ThisExpressionCallback());
+        Expression instanceExpression = ThisExpressionCallback.asExpression(prototype);
         PrototypeField field = prototype.getFields().getField(name.asString());
 
         if (field == null) {
