@@ -54,7 +54,7 @@ public abstract class EqualableToken implements Token {
 
     @Override
     public String toString() {
-        return getType().getTypeName().toLowerCase() + ": " + getTokenValue();
+        return getTokenValue();
     }
 
 }
