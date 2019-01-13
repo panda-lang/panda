@@ -21,9 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
@@ -75,57 +73,6 @@ class SubparserUtils {
         return source.subSource(0, matchable.getIndex());
     }
 
-    static @Nullable Tokens readSeparated(ExpressionParser main, Tokens source, Token[] separators, @Nullable Predicate<Token> filter, DottedFinisher finisher) {
-        TokenDistributor distributor = new TokenDistributor(source);
-        int lastIndexOfPeriod = -1;
-
-        MatchableDistributor matchable = new MatchableDistributor(distributor);
-        matchable.verify();
-
-        while (matchable.hasNext()) {
-            TokenRepresentation representation = matchable.next();
-            matchable.verify();
-
-            if (!matchable.isMatchable()) {
-                continue;
-            }
-
-            if (!TokenUtils.contains(separators, representation.getToken())) {
-                if (filter != null && filter.test(representation.getToken())) {
-                    break;
-                }
-
-                continue;
-            }
-
-            Tokens selected = source.subSource(0, matchable.getIndex() - 1);
-            Tokens matched = main.read(selected);
-
-            if (matched == null || matched.size() != selected.size()) {
-                break;
-            }
-
-            lastIndexOfPeriod = matchable.getIndex() - 1;
-        }
-
-        if (lastIndexOfPeriod == -1) {
-            return null;
-        }
-
-        distributor.setIndex(lastIndexOfPeriod);
-
-        if (!matchable.hasNext()) {
-           return null;
-        }
-
-        boolean result = finisher.finish(matchable);
-
-        if (!result) {
-            return null;
-        }
-
-        return source.subSource(0, matchable.getIndex());
-    }
 
     static boolean isAllowedName(Token token) {
         if (token.getType() != TokenType.UNKNOWN) {
@@ -149,10 +96,5 @@ class SubparserUtils {
         return true;
     }
 
-    interface DottedFinisher {
-
-        boolean finish(MatchableDistributor matchable);
-
-    }
 
 }

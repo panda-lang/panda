@@ -21,43 +21,26 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.DottedFinisher;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.ExpressionSeparatorExtensions;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.ExpressionSeparatorReader;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class MathExpressionParser implements ExpressionSubparser {
+public class MathExpressionParser implements ExpressionSubparser, DottedFinisher {
 
     private static final MathParser MATH_PARSER = new MathParser();
+    private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = SubparserUtils.readSeparated(main, source, MathUtils.MATH_OPERATORS, null, matchable -> {
-            // read operator
-            matchable.next();
-
-            if (!matchable.hasNext()) {
-                return false;
-            }
-
-            Tokens subSource = matchable.currentSubSource();
-
-            if (subSource.isEmpty()) {
-                return false;
-            }
-
-            Tokens lastExpression = main.read(subSource);
-
-            if (lastExpression == null) {
-                return false;
-            }
-
-            matchable.getDistributor().next(lastExpression.size());
-            return true;
-        });
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, MathUtils.MATH_OPERATORS, extensions);
 
         if (selected == null) {
             return null;
@@ -68,6 +51,31 @@ public class MathExpressionParser implements ExpressionSubparser {
         }
 
         return selected;
+    }
+
+    @Override
+    public boolean finish(ExpressionParser parser, MatchableDistributor matchable) {
+        // read operator
+        matchable.next();
+
+        if (!matchable.hasNext()) {
+            return false;
+        }
+
+        Tokens subSource = matchable.currentSubSource();
+
+        if (subSource.isEmpty()) {
+            return false;
+        }
+
+        Tokens lastExpression = parser.read(subSource);
+
+        if (lastExpression == null) {
+            return false;
+        }
+
+        matchable.getDistributor().next(lastExpression.size());
+        return true;
     }
 
     @Override
