@@ -22,9 +22,9 @@ import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.language.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components

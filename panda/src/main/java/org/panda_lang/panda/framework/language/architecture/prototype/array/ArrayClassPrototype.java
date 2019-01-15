@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.language.architecture.module.PrimitivePrototypeLiquid;
-import org.panda_lang.panda.framework.language.architecture.prototype.clazz.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
 
 import java.util.ArrayList;
 
@@ -30,7 +30,7 @@ public class ArrayClassPrototype extends PandaClassPrototype {
         super(module, associated.getSimpleName(), associated, new ArrayList<>());
 
         this.type = type;
-        super.extended.add(PrimitivePrototypeLiquid.ARRAY);
+        super.extended.add(PandaTypes.ARRAY);
     }
 
     public Class<?> getType() {

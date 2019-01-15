@@ -38,8 +38,8 @@ public class PandaExpression implements Expression {
         this(ExpressionType.KNOWN, value.getType(), null, value);
     }
 
-    public PandaExpression(ClassPrototype returnType, ExpressionCallback callback) {
-        this(ExpressionType.UNKNOWN, returnType, callback, null);
+    public PandaExpression(ExpressionCallback callback) {
+        this(ExpressionType.UNKNOWN, callback.getReturnType(), callback, null);
     }
 
     private PandaExpression(ExpressionType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
