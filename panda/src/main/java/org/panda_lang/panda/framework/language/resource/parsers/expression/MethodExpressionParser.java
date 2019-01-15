@@ -1,0 +1,124 @@
+/*
+ * Copyright (c) 2015-2019 Dzikoysk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.panda_lang.panda.framework.language.resource.parsers.expression;
+
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.invoker.MethodInvokerExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.invoker.MethodInvokerExpressionUtils;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.DottedFinisher;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
+
+public class MethodExpressionParser implements ExpressionSubparser, DottedFinisher {
+
+    private static final Token[] METHOD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
+    private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this, SubparserUtils.NAMES_FILTER);
+
+    @Override
+    public boolean finish(ExpressionParser parser, MatchableDistributor matchable) {
+        // at least 3 elements required: <method-name> ( )
+        if ((matchable.getDistributor().size() - matchable.getIndex()) < 3) {
+            return false;
+        }
+
+        // read dot
+        matchable.nextVerified();
+
+        // read method name
+        matchable.nextVerified();
+
+        if (!matchable.nextVerified().contentEquals(Separators.PARENTHESIS_LEFT)) {
+            return false;
+        }
+
+        matchable.verify();
+
+        if (matchable.isMatchable()) {
+            return matchable.nextVerified().contentEquals(Separators.PARENTHESIS_RIGHT);
+        }
+
+        // parameters content
+        while (matchable.hasNext() && !matchable.isMatchable()) {
+            matchable.nextVerified();
+        }
+
+        return matchable.isMatchable();
+    }
+
+    @Override
+    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, METHOD_SEPARATORS, extensions);
+
+        // at least 3 elements required: <method-name> ( )
+        if (selected == null || selected.size() < 3 ) {
+            return null;
+        }
+
+        // method source has to end with parenthesis
+        if (!selected.getLast().contentEquals(Separators.PARENTHESIS_RIGHT)) {
+            return null;
+        }
+
+        // verify period-less structure
+        if (!selected.contains(Separators.PERIOD) && !selected.get(1).contentEquals(Separators.PARENTHESIS_LEFT)) {
+            return null;
+        }
+
+        return selected;
+    }
+
+    @Override
+    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+        MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(source);
+
+        if (methodInvokerParser == null) {
+            return null;
+        }
+
+        methodInvokerParser.parse(source, data);
+        MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
+
+        return new PandaExpression(callback);
+    }
+
+    @Override
+    public int getMinimumLength() {
+        return 3;
+    }
+
+    @Override
+    public double getPriority() {
+        return DefaultSubparsers.Priorities.DYNAMIC;
+    }
+
+    @Override
+    public String getName() {
+        return DefaultSubparsers.Names.METHOD;
+    }
+
+}
