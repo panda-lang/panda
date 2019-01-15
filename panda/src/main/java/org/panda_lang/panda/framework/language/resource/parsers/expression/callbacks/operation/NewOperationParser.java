@@ -22,21 +22,29 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.ConcatenationOperatorParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.MathOperationParser;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
 public class NewOperationParser implements Parser {
 
     public ExpressionCallback parse(ParserData data, Tokens source) {
-        return parse(data, OperationExpressionUtils.OPERATION_EXTRACTOR.extract(source));
+        return parse(data, source, OperationExpressionUtils.OPERATION_EXTRACTOR.extract(source));
     }
 
-    public ExpressionCallback parse(ParserData data, VagueResult source) {
-        Operation operation = Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, source);
+    public ExpressionCallback parse(ParserData data, Tokens source, VagueResult result) {
+        Operation operation = Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result);
 
         if (OperationUtils.isNumeric(operation)) {
-            return null; // math parser
+            return new MathOperationParser().parse(data, operation);
         }
 
-        return null; // other like concatenation etc.
+        if (OperationUtils.verifyOperator(operation, Operators.ADDITION)) {
+            return new ConcatenationOperatorParser().parse(data, operation);
+        }
+
+        throw new PandaParserFailure("Unknown operation", data, source);
     }
 
 }

@@ -16,16 +16,83 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers;
 
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
+
+import java.util.Stack;
 
 public class MathOperationParser implements OperationParser {
 
     @Override
-    public ExpressionParser parse(ParserData data, Operation operation) {
-        return null;
+    public ExpressionCallback parse(ParserData data, Operation operation) {
+        Stack<Object> math = new Stack<>();
+        Stack<Token> operators = new Stack<>();
+
+        for (Operation.OperationElement element : operation.getElements()) {
+            if (element.isExpression()) {
+                math.push(element.getExpression());
+                continue;
+            }
+
+            Token operator = element.getOperator().getToken();
+
+            switch (operator.getTokenValue()) {
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                    if (operators.size() != 0) {
+                        if (compare(operators.peek(), operator)) {
+                            math.push(operators.pop());
+                        }
+                    }
+
+                    operators.push(operator);
+                    break;
+                case "(":
+                    operators.push(operator);
+                    break;
+                case ")":
+                    while (!operators.peek().getTokenValue().equals("(")) {
+                        math.push(operators.pop());
+                    }
+
+                    operators.pop();
+                    break;
+                default:
+                    throw new PandaParserException("Unexpected or unsupported operator " + operator);
+            }
+        }
+
+        while (operators.size() != 0) {
+            math.push(operators.pop());
+        }
+
+        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        return new MathExpressionCallback(registry, math);
+    }
+
+    public boolean compare(Token prev, Token current) {
+        return getOrder(prev.getTokenValue()) >= getOrder(current.getTokenValue());
+    }
+
+    public int getOrder(String tokenValue) {
+        switch (tokenValue) {
+            case "*":
+            case "/":
+                return 2;
+            case "+":
+            case "-":
+                return 1;
+            default:
+                return 0;
+        }
     }
 
 }

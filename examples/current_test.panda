@@ -105,7 +105,8 @@ main {
     testArray.modify(test)
     Console.print(testArray.array.toString())
 
-    // String concat = "Hello " + "Panda"
+    Object concat = "Hello " + "Panda"
+    Console.print(concat)
 }
 
 class TestArray {

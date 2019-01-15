@@ -60,7 +60,7 @@ public class Operation {
         return new Operation(elements);
     }
 
-    static class OperationElement {
+    public static class OperationElement {
 
         private final Expression expression;
         private final TokenRepresentation operator;
