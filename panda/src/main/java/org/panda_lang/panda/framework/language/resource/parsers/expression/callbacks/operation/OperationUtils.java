@@ -16,22 +16,44 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+
+import java.util.function.Predicate;
 
 public class OperationUtils {
 
+    public static boolean verifyOperator(Operation operation, Token token) {
+        return verify(operation, Type.OPERATOR, element -> element.getOperator().contentEquals(token));
+    }
+
     public static boolean isNumeric(Operation operation) {
+        return verify(operation, Type.EXPRESSION, element -> PandaTypes.NUMBER.isAssignableFrom(element.getExpression().getReturnType()));
+    }
+
+    private static boolean verify(Operation operation, Type type, Predicate<Operation.OperationElement> filter) {
         for (Operation.OperationElement element : operation.getElements()) {
-            if (element.isOperator()) {
+            if (type == Type.EXPRESSION && element.isOperator()) {
                 continue;
             }
 
-            if (!PandaTypes.NUMBER.isAssignableFrom(element.getExpression().getReturnType())) {
+            if (type == Type.OPERATOR && element.isExpression()) {
+                continue;
+            }
+
+            if (!filter.test(element)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    private enum Type {
+
+        EXPRESSION,
+        OPERATOR
+
     }
 
 }

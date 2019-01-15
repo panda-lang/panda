@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 
 public interface OperationParser {
 
-    ExpressionParser parse(ParserData data, Operation operation);
+    ExpressionCallback parse(ParserData data, Operation operation);
 
 }

@@ -17,24 +17,24 @@
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Collection;
 
 public class PandaClassPrototypeUtils {
 
-    public static boolean isAssignableFrom(Class<?> a, Class<?> b) {
-        return a != null && b != null && (a == b || a.isAssignableFrom(b));
+    public static boolean isAssignableFrom(Class<?> from, Class<?> to) {
+        return from != null && to != null && (from == to || ClassUtils.isAssignableFrom(from, to));
     }
 
     public static boolean hasCommonClasses(Collection<Class<?>> fromClasses, Collection<Class<?>> toClasses) {
-        for (Class<?> a : fromClasses) {
-            for (Class<?> b : toClasses) {
-                if (a == b) {
+        for (Class<?> from : fromClasses) {
+            for (Class<?> to : toClasses) {
+                if (from == to) {
                     return true;
                 }
 
-                if (isAssignableFrom(a, b)) {
+                if (isAssignableFrom(from, to)) {
                     return true;
                 }
             }
@@ -44,13 +44,13 @@ public class PandaClassPrototypeUtils {
     }
 
     public static boolean hasCommonPrototypes(Collection<ClassPrototype> fromPrototypes, Collection<ClassPrototype> toPrototypes) {
-        for (ClassPrototype a : fromPrototypes) {
-            for (ClassPrototype b : toPrototypes) {
-                if (a.equals(b)) {
+        for (ClassPrototype from : fromPrototypes) {
+            for (ClassPrototype to : toPrototypes) {
+                if (from.equals(to)) {
                     return true;
                 }
 
-                if (isAssignableFrom(a.getAssociated(), b.getAssociated())) {
+                if (isAssignableFrom(from.getAssociated(), to.getAssociated())) {
                     return true;
                 }
             }
