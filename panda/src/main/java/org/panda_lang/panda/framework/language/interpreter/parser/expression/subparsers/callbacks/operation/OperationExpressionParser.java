@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math;
+package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.operation;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueElement;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueExtractor;
 import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -29,21 +28,14 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Stack;
 
-public class MathParser implements Parser {
-
-    public static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
-            Separators.PARENTHESIS_LEFT,
-            Separators.PARENTHESIS_RIGHT
-    }, MathUtils.MATH_OPERATORS);
+public class OperationExpressionParser implements Parser {
 
     public MathExpressionCallback parse(Tokens source, ParserData data) {
         TokenReader reader = new PandaTokenReader(source);
-        VagueResult result = EXTRACTOR.extract(reader);
+        VagueResult result = OperationExpressionUtils.OPERATION_EXTRACTOR.extract(reader);
 
         Stack<Object> math = new Stack<>();
         Stack<Token> operators = new Stack<>();

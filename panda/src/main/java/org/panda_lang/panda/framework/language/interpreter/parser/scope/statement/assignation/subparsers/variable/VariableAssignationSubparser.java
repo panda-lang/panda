@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Fie
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.scope.statement.assignation.AssignationPriorities;

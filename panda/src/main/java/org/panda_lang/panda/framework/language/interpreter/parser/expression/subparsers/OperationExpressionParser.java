@@ -24,9 +24,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.math.MathUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.operation.OperationExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.DottedFinisher;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.utils.reader.ExpressionSeparatorReader;
@@ -35,18 +33,18 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 public class OperationExpressionParser implements ExpressionSubparser, DottedFinisher {
 
-    private static final MathParser MATH_PARSER = new MathParser();
+    private static final org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.operation.OperationExpressionParser OPERATION_PARSER = new org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.operation.OperationExpressionParser();
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, MathUtils.MATH_OPERATORS, extensions);
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, OperationExpressionUtils.MATH_OPERATORS, extensions);
 
         if (selected == null) {
             return null;
         }
 
-        if (!TokensUtils.contains(selected, MathUtils.MATH_OPERATORS)) {
+        if (!TokensUtils.contains(selected, OperationExpressionUtils.MATH_OPERATORS)) {
             return null;
         }
 
@@ -80,11 +78,11 @@ public class OperationExpressionParser implements ExpressionSubparser, DottedFin
 
     @Override
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        if (!MathExpressionUtils.isMathExpression(source)) {
+        if (!OperationExpressionUtils.isOperationExpression(source)) {
             return null;
         }
 
-        ExpressionCallback expression = MATH_PARSER.parse(source, data);
+        ExpressionCallback expression = OPERATION_PARSER.parse(source, data);
         return new PandaExpression(expression.getReturnType(), expression);
     }
 

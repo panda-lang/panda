@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks;
+package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 
-public interface ExpressionCallbackParser<T> {
+public interface ExpressionCallbackParser<T extends ExpressionCallback> {
 
     void parse(Tokens source, ParserData info);
 

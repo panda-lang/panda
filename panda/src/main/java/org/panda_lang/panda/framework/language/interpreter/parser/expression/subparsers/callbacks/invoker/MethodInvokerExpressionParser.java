@@ -31,8 +31,8 @@ import org.panda_lang.panda.framework.language.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.prototype.clazz.method.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.ExpressionCallbackParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.instance.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCallbackParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.prototype.ClassPrototypeComponents;
 

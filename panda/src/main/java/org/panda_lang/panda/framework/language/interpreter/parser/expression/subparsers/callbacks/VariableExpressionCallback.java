@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks.memory;
+package org.panda_lang.panda.framework.language.interpreter.parser.expression.subparsers.callbacks;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
