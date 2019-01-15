@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.language.architecture.prototype.clazz.registry.ClassPrototypeModel;
+import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.FileUtils;
 

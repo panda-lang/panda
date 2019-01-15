@@ -19,7 +19,7 @@ package org.panda_lang.panda.bootstrap;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaLoader;
-import org.panda_lang.panda.framework.language.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 
 public class PandaApplicationBootstrapBuilder {
 
