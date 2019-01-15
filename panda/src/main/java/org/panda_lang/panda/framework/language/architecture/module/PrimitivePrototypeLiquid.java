@@ -42,6 +42,7 @@ public class PrimitivePrototypeLiquid {
     public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, double.class, "Double");
 
     public static final ClassPrototype OBJECT = PandaClassPrototype.of(MODULE, Object.class);
+    public static final ClassPrototype NUMBER = PandaClassPrototype.of(MODULE, Number.class);
     public static final ClassPrototype ARRAY = PandaClassPrototype.of(MODULE, PandaArray.class, "Array");
 
     public void fill(ModulePath modulePath) {
