@@ -3,7 +3,7 @@ sudo: true
 
 jdk:
   - oraclejdk8
-  - oraclejdk11
+  - openjdk11
   
 notifications:
   email: false
