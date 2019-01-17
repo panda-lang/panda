@@ -159,7 +159,7 @@ public class ClassPrototypeModelLoader {
                 }
 
                 MethodCallback<?> methodCallback = (MethodCallback<?>) methodCallbackClass.newInstance();
-                ClassPrototype[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(modulePath, method.getParameterTypes());
+                ClassPrototype[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(module, method.getParameterTypes());
 
                 methodRegisters.add(() -> {
                     PandaMethod pandaMethod = PandaMethod.builder()

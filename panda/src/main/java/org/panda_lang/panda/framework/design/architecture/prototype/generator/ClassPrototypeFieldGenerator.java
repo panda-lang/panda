@@ -16,15 +16,13 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
@@ -37,19 +35,17 @@ import java.lang.reflect.Modifier;
 public class ClassPrototypeFieldGenerator {
 
     private final ClassPrototypeGenerator generator;
-    private final @Nullable ModulePath modulePath;
     private final ClassPrototype prototype;
     private final Field field;
 
-    public ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, @Nullable ModulePath modulePath, ClassPrototype prototype, Field field) {
+    public ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Field field) {
         this.generator = generator;
-        this.modulePath = modulePath;
         this.prototype = prototype;
         this.field = field;
     }
 
     public PrototypeField generate() {
-        ClassPrototype returnType = generator.computeIfAbsent(modulePath, field.getType());
+        ClassPrototype returnType = generator.computeIfAbsent(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .fieldIndex(prototype.getFields().getAmountOfFields())

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
@@ -35,15 +36,13 @@ public class ClassPrototypeGenerator {
     protected static long totalLoadTime;
     protected static boolean locked;
 
-    public ClassPrototype generate(@Nullable ModulePath modulePath, Class<?> type) {
+    public ClassPrototype generate(Module module, Class<?> type) {
         boolean bypass = !locked;
         long currentTime = System.nanoTime();
 
         if (bypass) {
             locked = true;
         }
-
-        Module module = modulePath.create(type);
 
         ClassPrototype prototype = PandaClassPrototype.builder()
                 .module(module)
@@ -53,19 +52,19 @@ public class ClassPrototypeGenerator {
         module.add(prototype);
 
         for (Field field : type.getFields()) {
-            ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, modulePath, prototype, field);
+            ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
             PrototypeField prototypeField = generator.generate();
             prototype.getFields().addField(prototypeField);
         }
 
         for (Constructor<?> constructor : type.getConstructors()) {
-            ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, modulePath, prototype, constructor);
+            ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
             PrototypeConstructor prototypeField = generator.generate();
             prototype.getConstructors().addConstructor(prototypeField);
         }
 
         for (Method method : type.getMethods()) {
-            ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, modulePath, prototype, method);
+            ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
             PrototypeMethod prototypeMethod = generator.generate();
             prototype.getMethods().registerMethod(prototypeMethod);
         }
@@ -78,18 +77,14 @@ public class ClassPrototypeGenerator {
         return prototype;
     }
 
-    public ClassPrototype computeIfAbsent(ModulePath modulePath, Class<?> type) {
-        Module module = modulePath.get(type);
-
+    public ClassPrototype computeIfAbsent(Module module, Class<?> type) {
         ClassPrototype prototype = (module == null || !module.hasClass(type))
-                ? generate(modulePath, type)
+                ? generate(module, type)
                 : module.get(type);
 
         if (prototype == null) {
             throw new PandaRuntimeException("Cannot prepare class: " + type);
         }
-
-        module = modulePath.get(type);
 
         if (module == null) {
             throw new PandaRuntimeException("Cannot find module of prototype: " + prototype);
