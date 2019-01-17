@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
@@ -32,10 +31,9 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPatt
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.subparsers.variable.VariableInitializer;
@@ -74,10 +72,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         Variable variable = initializer.createVariable(data, script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
         int variableId = scope.indexOf(variable);
 
-        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
-        ClassPrototype iterableType = new ClassPrototypeGenerator().computeIfAbsent(registry, Iterable.class);
-
-        if (!iterableType.isAssignableFrom(expression.getReturnType())) {
+        if (!PandaTypes.ITERABLE.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 

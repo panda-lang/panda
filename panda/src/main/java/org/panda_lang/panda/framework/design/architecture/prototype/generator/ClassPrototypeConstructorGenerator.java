@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
@@ -28,12 +27,12 @@ import java.lang.reflect.Constructor;
 public class ClassPrototypeConstructorGenerator {
 
     private final ClassPrototypeGenerator generator;
-    private final ModulePath modulePath;
+    private final ClassPrototype prototype;
     private final Constructor<?> constructor;
 
-    public ClassPrototypeConstructorGenerator(ClassPrototypeGenerator generator, ModulePath modulePath, ClassPrototype prototype, Constructor<?> constructor) {
+    public ClassPrototypeConstructorGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Constructor<?> constructor) {
         this.generator = generator;
-        this.modulePath = modulePath;
+        this.prototype = prototype;
         this.constructor = constructor;
     }
 
@@ -41,7 +40,7 @@ public class ClassPrototypeConstructorGenerator {
         ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = generator.computeIfAbsent(modulePath, constructor.getParameterTypes()[i]);
+            parameters[i] = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[i]);
         }
 
         // TODO: Generate bytecode

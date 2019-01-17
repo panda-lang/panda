@@ -43,16 +43,18 @@ public class PandaTypes {
     public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, double.class, "Double");
 
     public static final ClassPrototype OBJECT = PandaClassPrototype.of(MODULE, Object.class);
-    public static final ClassPrototype NUMBER = PandaClassPrototype.of(MODULE, Number.class);
     public static final ClassPrototype ARRAY = PandaClassPrototype.of(MODULE, PandaArray.class, "Array");
+
+    public static final ClassPrototype STRING = MAPPER.generate(MODULE, String.class);
+    public static final ClassPrototype NUMBER = MAPPER.generate(MODULE, Number.class);
+    public static final ClassPrototype ITERABLE = MAPPER.generate(MODULE, Iterable.class);
 
     public void fill(ModulePath modulePath) {
         modulePath.addModule(MODULE);
 
-        MODULE.add(MAPPER.generate(modulePath, String.class));
-        MODULE.add(MAPPER.generate(modulePath, List.class));
-        MODULE.add(MAPPER.generate(modulePath, ArrayList.class));
-        MODULE.add(MAPPER.generate(modulePath, StringBuilder.class));
+        MODULE.add(MAPPER.generate(MODULE, List.class));
+        MODULE.add(MAPPER.generate(MODULE, ArrayList.class));
+        MODULE.add(MAPPER.generate(MODULE, StringBuilder.class));
     }
 
 }
