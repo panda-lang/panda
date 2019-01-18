@@ -4,6 +4,12 @@ sudo: true
 jdk:
   - oraclejdk8
   - openjdk11
-  
+
+script:
+  - mvn install
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 notifications:
   email: false
