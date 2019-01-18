@@ -21,8 +21,6 @@ import org.junit.jupiter.api.Test;
 
 class TimeUtilsTest {
 
-    private final long uptime = System.currentTimeMillis();
-
     @Test
     public void testToMilliseconds() {
         Assertions.assertEquals("1.0ms", TimeUtils.toMilliseconds(1_000_000));
@@ -35,7 +33,7 @@ class TimeUtilsTest {
 
     @Test
     public void testUptime() {
-        Assertions.assertTrue(TimeUtils.getUptime(uptime) > 0);
+        Assertions.assertTrue(TimeUtils.getUptime(System.currentTimeMillis() - 1L) > 0);
     }
 
 }

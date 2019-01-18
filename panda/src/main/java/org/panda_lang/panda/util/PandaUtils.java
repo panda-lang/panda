@@ -24,10 +24,12 @@ import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilt
 public class PandaUtils {
 
     public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.configuration()
-            .logger(null)
+            //.logger(null)
             .includeClassLoaders(false, Panda.class.getClassLoader())
+            .includeJavaClassPath()
             .build()
             .createProcess()
+            .addDefaultFilters()
             .addDefaultProjectFilters("org.panda_lang")
             .addFileFilters(new PackageFileFilter(true, "org.panda_lang.panda.utilities"))
             .fetch();

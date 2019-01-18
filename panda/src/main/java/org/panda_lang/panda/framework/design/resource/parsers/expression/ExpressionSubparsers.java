@@ -30,6 +30,10 @@ public class ExpressionSubparsers {
         Collections.sort(this.subparsers);
     }
 
+    public ExpressionSubparsers() {
+        this(new ArrayList<>());
+    }
+
     public ExpressionSubparsers fork() {
         return new ExpressionSubparsers(subparsers);
     }

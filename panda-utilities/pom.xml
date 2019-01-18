@@ -70,15 +70,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifestEntries>
-                            <Specification-Title>Panda-Utilities</Specification-Title>
-                            <Implementation-Title>Panda-Utilities</Implementation-Title>
-                            <Implementation-Version>${panda.version}</Implementation-Version>
-                        </manifestEntries>
-                    </archive>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
