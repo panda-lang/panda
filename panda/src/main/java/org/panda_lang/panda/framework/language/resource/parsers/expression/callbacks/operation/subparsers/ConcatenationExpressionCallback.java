@@ -42,12 +42,12 @@ public class ConcatenationExpressionCallback implements ExpressionCallback {
             content.append(value.getExpressionValue(branch).getObject());
         }
 
-        return new PandaValue(PandaTypes.OBJECT, content);
+        return new PandaValue(PandaTypes.STRING, content);
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return PandaTypes.OBJECT;
+        return PandaTypes.STRING;
     }
 
 }
