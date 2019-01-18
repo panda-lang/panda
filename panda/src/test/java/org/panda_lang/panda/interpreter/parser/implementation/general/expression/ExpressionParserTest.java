@@ -18,22 +18,31 @@ package org.panda_lang.panda.interpreter.parser.implementation.general.expressio
 
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionTokens;
-
-import java.util.ArrayList;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 
 class ExpressionParserTest {
 
-    private static ExpressionParser PARSER;
+    private static final ExpressionParser PARSER = new ExpressionParser(null, new ExpressionSubparsers());
+
+    @BeforeAll
+    public static void prepareParser() throws Exception {
+        ParserData data = new PandaParserData();
+        data.setComponent(PandaComponents.EXPRESSION, PARSER);
+
+        ExpressionSubparsers loadedSubparsers = new ExpressionSubparsersLoader().load(data);
+        PARSER.getSubparsers().merge(loadedSubparsers);
+    }
 
     @Test
     public void testRead() {
@@ -73,21 +82,4 @@ class ExpressionParserTest {
         return TokensUtils.asString(tokens);
     }
 
-    static {
-        ParserData data = new PandaParserData();
-        ExpressionSubparsers subparsers = new ExpressionSubparsers(new ArrayList<>());
-        PARSER = new ExpressionParser(null, subparsers);
-
-        ExpressionSubparsersLoader loader = new ExpressionSubparsersLoader();
-        ExpressionSubparsers loadedSubparsers = null;
-
-        try {
-            loadedSubparsers = loader.load(data);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        subparsers.merge(loadedSubparsers);
-    }
-    
 }

@@ -100,6 +100,10 @@ public class LexicalPatternCompiler {
             compile(elements, unitBuilder);
         }
 
+        if (elements.size() == 0 && pattern.length() > 0 && pattern.trim().isEmpty()) {
+            elements.add(new LexicalPatternUnit(" "));
+        }
+
         if (elements.size() == 0) {
             throw new RuntimeException("Empty element");
         }

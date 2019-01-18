@@ -96,11 +96,11 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
         if (prototypeMethod == null) {
-            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, source);
+            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, methodNameSource);
         }
 
         if (!voids && prototypeMethod.isVoid()) {
-            throw new PandaParserFailure("Method " + prototypeMethod.getMethodName() + " returns nothing", data, source);
+            throw new PandaParserFailure("Method " + prototypeMethod.getMethodName() + " returns nothing", data, methodNameSource);
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);

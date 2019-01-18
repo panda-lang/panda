@@ -77,9 +77,7 @@ public class AnnotationsScannerProcessBuilder {
      * @return the instance of builder
      */
     public AnnotationsScannerProcessBuilder addDefaultProjectFilters(String... packageNames) {
-        return this
-                .addURLFilters(new JavaFilter())
-                .addFileFilters(new PackageFileFilter(false, packageNames), new AnonymousFileFilter());
+        return this.addFileFilters(new PackageFileFilter(false, packageNames));
     }
 
     @SafeVarargs
