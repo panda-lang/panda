@@ -5,11 +5,15 @@ jdk:
   - oraclejdk8
   - openjdk11
 
+install:
+  - mvn test-compile -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
 script:
-  - mvn install
+  - mvn test jacoco:report
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+  - mvn coveralls:report
 
 notifications:
   email: false
