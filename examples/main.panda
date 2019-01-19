@@ -13,7 +13,7 @@ main {
 
 class App {
 
-    static String version = "indev-18.12.29";
+    static String version = "indev-19.1.19";
 
     constructor () {
         Console.print(getVersion());
