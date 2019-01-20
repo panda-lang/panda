@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class FieldExpressionCallback implements ExpressionCallback {
@@ -56,11 +56,11 @@ public class FieldExpressionCallback implements ExpressionCallback {
             return field.getDefaultValue().getExpressionValue(branch);
         }
 
-        if (!(instance.getObject() instanceof ClassScopeInstance)) {
+        if (!(instance.getObject() instanceof ClassPrototypeScopeInstance)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance.getObject();
+        ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
         Value value = pandaInstance.get(internalPointer);
 
         if (value == null) {

@@ -46,9 +46,9 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeReferenceStatement;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeTypeGenerator;
@@ -93,10 +93,10 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
         data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
 
-        ClassScope classScope = new ClassScope(classPrototype);
+        ClassPrototypeScope classScope = new ClassPrototypeScope(classPrototype);
         data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);
 
-        ClassReference classReference = new ClassReference(classPrototype, classScope);
+        ClassPrototypeReferenceStatement classReference = new ClassPrototypeReferenceStatement(classPrototype, classScope);
         script.getStatements().add(classReference);
 
         ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
@@ -137,7 +137,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     @Autowired(order = 1, type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL)
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+        ClassPrototypeScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         if (prototype.getConstructors().getAmountOfConstructors() > 0) {
             return;
@@ -151,7 +151,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
         PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
             @Override
-            public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+            public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch, Value... values) {
                 return scope.createInstance(branch);
             }
 
