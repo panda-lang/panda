@@ -20,7 +20,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModelLoader;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModelLoader;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 
 public class PandaEnvironment implements Environment {
@@ -47,6 +47,7 @@ public class PandaEnvironment implements Environment {
                 .build();
     }
 
+    @Override
     public ModulePath getModulePath() {
         return modulePath;
     }

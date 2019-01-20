@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-
 public class PandaClass {
 
     private final ClassPrototype prototype;

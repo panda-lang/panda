@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.registry;
+package org.panda_lang.panda.framework.design.resource.prototypes;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -31,9 +31,9 @@ import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPr
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.ClassDeclaration;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.MethodDeclaration;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel.MethodDeclaration;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel.ModuleDeclaration;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;

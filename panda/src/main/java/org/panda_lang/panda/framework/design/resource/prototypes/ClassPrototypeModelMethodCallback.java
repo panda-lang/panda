@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.registry;
+package org.panda_lang.panda.framework.design.resource.prototypes;
 
-public interface ClassPrototypeModelMethodRegister {
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 
-    void register();
+public abstract class ClassPrototypeModelMethodCallback implements MethodCallback<Object> {
 
 }
