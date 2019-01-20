@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.design.architecture.prototype.structure;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
@@ -28,22 +30,22 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.List;
 
-public class ClassScope implements Scope {
+public class ClassPrototypeScope implements Scope {
 
     private final ClassPrototype prototype;
     protected StatementData statementData;
 
-    public ClassScope(ClassPrototype prototype) {
+    public ClassPrototypeScope(ClassPrototype prototype) {
         this.prototype = prototype;
     }
 
     @Override
-    public ClassScopeInstance createInstance(ExecutableBranch branch) {
+    public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch) {
         if (prototype instanceof PandaClassPrototype) {
             ((PandaClassPrototype) prototype).initialize();
         }
 
-        ClassScopeInstance instance = new ClassScopeInstance(this, prototype);
+        ClassPrototypeScopeInstance instance = new ClassPrototypeScopeInstance(this, prototype);
 
         for (PrototypeField field : prototype.getFields().getListOfFields()) {
             if (!field.hasDefaultValue() || field.isStatic()) {

@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
 
-public class PandaMethodCallback implements MethodCallback<ClassScopeInstance> {
+public class PandaMethodCallback implements MethodCallback<ClassPrototypeScopeInstance> {
 
     private final MethodScope scope;
 
@@ -30,7 +30,7 @@ public class PandaMethodCallback implements MethodCallback<ClassScopeInstance> {
     }
 
     @Override
-    public void invoke(ExecutableBranch branch, ClassScopeInstance instance, Value... parameters) {
+    public void invoke(ExecutableBranch branch, ClassPrototypeScopeInstance instance, Value... parameters) {
         branch.instance(instance != null ? instance.toValue() : null);
 
         MethodScopeInstance scopeInstance = scope.createInstance(branch);

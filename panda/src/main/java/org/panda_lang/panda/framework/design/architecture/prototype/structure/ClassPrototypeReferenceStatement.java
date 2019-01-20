@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.design.architecture.prototype.structure;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 
-public class ClassReference extends AbstractStatement {
+public class ClassPrototypeReferenceStatement extends AbstractStatement {
 
     private final ClassPrototype classPrototype;
-    private final ClassScope classScope;
+    private final ClassPrototypeScope classScope;
 
-    public ClassReference(ClassPrototype classPrototype, ClassScope classScope) {
+    public ClassPrototypeReferenceStatement(ClassPrototype classPrototype, ClassPrototypeScope classScope) {
         this.classPrototype = classPrototype;
         this.classScope = classScope;
     }
 
-    public ClassScope getClassScope() {
+    public ClassPrototypeScope getClassScope() {
         return classScope;
     }
 

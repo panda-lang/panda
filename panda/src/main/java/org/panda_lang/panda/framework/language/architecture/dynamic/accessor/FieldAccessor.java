@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
@@ -67,11 +67,11 @@ public class FieldAccessor extends ExecutableStatement {
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        if (!(instance.getObject() instanceof ClassScopeInstance)) {
+        if (!(instance.getObject() instanceof ClassPrototypeScopeInstance)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        ClassScopeInstance pandaInstance = (ClassScopeInstance) instance.getObject();
+        ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
         branch.instance(pandaInstance.toValue());
 
         Value value = valueExpression.getExpressionValue(branch);

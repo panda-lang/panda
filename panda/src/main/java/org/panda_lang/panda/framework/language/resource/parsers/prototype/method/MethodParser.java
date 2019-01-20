@@ -37,7 +37,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethodCallback;
@@ -79,7 +79,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         data.setComponent(PandaComponents.SCOPE, methodScope);
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+        ClassPrototypeScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype)
