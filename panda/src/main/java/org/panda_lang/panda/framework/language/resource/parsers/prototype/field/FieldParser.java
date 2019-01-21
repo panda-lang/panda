@@ -71,7 +71,7 @@ public class FieldParser extends UnifiedParserBootstrap {
         boolean nullable = result.hasIdentifier("nullable");
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        ClassPrototype returnType = script.getModuleLoader().forClass(type);
+        ClassPrototype returnType = script.getModuleLoader().forClass(type).get();
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getAmountOfFields();

@@ -16,8 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,38 +24,22 @@ import java.util.Collection;
 public class PandaModule implements Module {
 
     private final String name;
-    private final Collection<ClassPrototype> prototypes;
+    private final Collection<ClassPrototypeReference> references;
 
     public PandaModule(String name) {
         this.name = name;
-        this.prototypes = new ArrayList<>();
+        this.references = new ArrayList<>();
     }
 
     @Override
-    public ClassPrototype add(ClassPrototype prototype) {
-        this.prototypes.add(prototype);
-        return prototype;
+    public ClassPrototypeReference add(ClassPrototypeReference reference) {
+        this.references.add(reference);
+        return reference;
     }
 
     @Override
-    public @Nullable ClassPrototype get(String className) {
-        for (ClassPrototype prototype : prototypes) {
-            if (prototype.isClassOf(className)) {
-                return prototype;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public int getAmountOfPrototypes() {
-        return prototypes.size();
-    }
-
-    @Override
-    public Collection<ClassPrototype> getPrototypes() {
-        return prototypes;
+    public Collection<? extends ClassPrototypeReference> getReferences() {
+        return references;
     }
 
     @Override
@@ -66,7 +49,7 @@ public class PandaModule implements Module {
 
     @Override
     public String toString() {
-        return this.getName() + "[" + prototypes.size() + "]";
+        return this.getName() + "[" + references.size() + "]";
     }
 
 }

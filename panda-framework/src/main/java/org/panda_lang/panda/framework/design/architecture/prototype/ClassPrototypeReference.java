@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-public interface ClassPrototypeReference {
+public interface ClassPrototypeReference extends ClassPrototypeMetadata {
 
     ClassPrototype get();
 

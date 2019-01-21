@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.prototype;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -63,14 +64,14 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                ClassPrototype extendedPrototype = registry.forClass(classNameToken.getTokenValue());
+                ClassPrototypeReference extendedPrototype = registry.forClass(classNameToken.getTokenValue());
 
                 if (extendedPrototype == null) {
                     data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(classDeclaration));
                     throw new PandaParserFailure("Class " + classNameToken.getTokenValue() + " not found", data);
                 }
 
-                prototype.getExtended().add(extendedPrototype);
+                prototype.addExtended(extendedPrototype);
                 continue;
             }
 

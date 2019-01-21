@@ -58,7 +58,7 @@ public class ParameterParser implements Parser {
 
             PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
             ModuleLoader moduleLoader = script.getModuleLoader();
-            ClassPrototype type = moduleLoader.forClass(parameterType);
+            ClassPrototype type = moduleLoader.forClass(parameterType).get();
 
             if (type == null) {
                 throw new PandaParserException("Unknown type '" + parameterType + "'");

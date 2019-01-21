@@ -16,24 +16,43 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import java.util.function.Supplier;
+import org.jetbrains.annotations.Nullable;
 
-public class PandaClassPrototypeReference implements ClassPrototypeReference  {
+public class PandaClassPrototypeReference extends AbstractClassPrototypeMetadata implements ClassPrototypeReference  {
 
-    private final Supplier<ClassPrototype> supplier;
-    private ClassPrototype prototype;
+    private final ClassPrototype prototype;
+    private final Runnable initializer;
+    private boolean initialized;
 
-    public PandaClassPrototypeReference(Supplier<ClassPrototype> supplier) {
-        this.supplier = supplier;
+    public PandaClassPrototypeReference(ClassPrototype prototype, @Nullable Runnable initializer) {
+        super(prototype.getClassName(), prototype.getModule(), prototype.getAssociatedClass());
+
+        this.prototype = prototype;
+        this.initializer = initializer;
+    }
+
+    public PandaClassPrototypeReference(ClassPrototype prototype) {
+        this(prototype, null);
     }
 
     @Override
-    public ClassPrototype get() {
-        if (prototype == null) {
-            this.prototype = supplier.get();
+    public synchronized ClassPrototype get() {
+        if (!initialized && initializer != null) {
+            initialized = true;
+            initializer.run();
         }
 
         return prototype;
+    }
+
+    @Override
+    public Class<?> getAssociatedClass() {
+        return prototype.getAssociatedClass();
+    }
+
+    @Override
+    public String getClassName() {
+        return prototype.getClassName();
     }
 
 }

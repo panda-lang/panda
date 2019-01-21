@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
@@ -79,28 +80,28 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
             throw new PandaParserException("Class name cannot be null");
         }
 
-        ClassPrototype classPrototype = PandaClassPrototype.builder()
+        ClassPrototype prototype = PandaClassPrototype.builder()
                 .module(module)
                 .associated(GENERATOR.generateType(className))
                 .name(className)
                 .build();
 
-        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
-        module.add(classPrototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
+        module.add(new PandaClassPrototypeReference(prototype));
 
-        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
-        classPrototype.getExtended().add(PandaTypes.OBJECT);
+        ModulePath path = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        prototype.addExtended(new PandaClassPrototypeReference(PandaTypes.OBJECT));
 
-        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
 
-        ClassPrototypeScope classScope = new ClassPrototypeScope(classPrototype);
-        data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);
+        ClassPrototypeScope scope = new ClassPrototypeScope(prototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, scope);
 
-        ClassPrototypeReferenceStatement classReference = new ClassPrototypeReferenceStatement(classPrototype, classScope);
-        script.getStatements().add(classReference);
+        ClassPrototypeReferenceStatement referenceStatement = new ClassPrototypeReferenceStatement(prototype, scope);
+        script.getStatements().add(referenceStatement);
 
-        ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
-        data.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
+        ScopeLinker linker = new PandaScopeLinker(scope);
+        data.setComponent(PandaComponents.SCOPE_LINKER, linker);
     }
 
     @Autowired(type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)

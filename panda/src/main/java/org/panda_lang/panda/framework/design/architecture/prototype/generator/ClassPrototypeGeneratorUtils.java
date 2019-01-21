@@ -26,7 +26,7 @@ public class ClassPrototypeGeneratorUtils {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = generator.computeIfAbsent(module, types[i]);
+            prototypes[i] = generator.computeIfAbsent(module, types[i]).get();
         }
 
         return prototypes;

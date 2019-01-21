@@ -76,7 +76,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
 
         if (instanceSource != null) {
             String surmiseClassName = instanceSource.asString();
-            prototype = registry.forClass(surmiseClassName);
+            prototype = registry.forClass(surmiseClassName).get();
 
             if (prototype == null) {
                 instance = data.getComponent(PandaComponents.EXPRESSION).parse(data, instanceSource);

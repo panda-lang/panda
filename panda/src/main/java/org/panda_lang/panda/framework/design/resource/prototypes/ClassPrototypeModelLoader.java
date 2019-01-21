@@ -23,6 +23,7 @@ import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -93,7 +94,7 @@ public class ClassPrototypeModelLoader {
                 module = modulePath.create(moduleName);
             }
 
-            module.add(prototype);
+            module.add(new PandaClassPrototypeReference(prototype));
 
             for (Method method : modelClass.getMethods()) {
                 MethodDeclaration methodDeclaration = method.getAnnotation(MethodDeclaration.class);

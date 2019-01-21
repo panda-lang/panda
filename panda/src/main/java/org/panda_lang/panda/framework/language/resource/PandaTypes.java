@@ -32,22 +32,22 @@ public class PandaTypes {
     private static final Module MODULE = new PandaModule(null);
     private static final ClassPrototypeGeneratorManager MAPPER = new ClassPrototypeGeneratorManager();
 
-    public static final ClassPrototype VOID = PandaClassPrototype.of(MODULE, void.class, "void");
-    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(MODULE, boolean.class, "Boolean");
-    public static final ClassPrototype CHAR = PandaClassPrototype.of(MODULE, char.class, "Char");
-    public static final ClassPrototype BYTE = PandaClassPrototype.of(MODULE, byte.class, "Byte");
-    public static final ClassPrototype SHORT = PandaClassPrototype.of(MODULE, short.class, "Short");
-    public static final ClassPrototype INT = PandaClassPrototype.of(MODULE, int.class, "Int");
-    public static final ClassPrototype LONG = PandaClassPrototype.of(MODULE, int.class, "Long");
-    public static final ClassPrototype FLOAT = PandaClassPrototype.of(MODULE, float.class, "Float");
-    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, double.class, "Double");
+    public static final ClassPrototype VOID = PandaClassPrototype.of(MODULE, void.class, "void").get();
+    public static final ClassPrototype BOOLEAN = PandaClassPrototype.of(MODULE, boolean.class, "Boolean").get();
+    public static final ClassPrototype CHAR = PandaClassPrototype.of(MODULE, char.class, "Char").get();
+    public static final ClassPrototype BYTE = PandaClassPrototype.of(MODULE, byte.class, "Byte").get();
+    public static final ClassPrototype SHORT = PandaClassPrototype.of(MODULE, short.class, "Short").get();
+    public static final ClassPrototype INT = PandaClassPrototype.of(MODULE, int.class, "Int").get();
+    public static final ClassPrototype LONG = PandaClassPrototype.of(MODULE, int.class, "Long").get();
+    public static final ClassPrototype FLOAT = PandaClassPrototype.of(MODULE, float.class, "Float").get();
+    public static final ClassPrototype DOUBLE = PandaClassPrototype.of(MODULE, double.class, "Double").get();
 
-    public static final ClassPrototype OBJECT = PandaClassPrototype.of(MODULE, Object.class);
-    public static final ClassPrototype ARRAY = PandaClassPrototype.of(MODULE, PandaArray.class, "Array");
+    public static final ClassPrototype OBJECT = PandaClassPrototype.of(MODULE, Object.class, "Object").get();
+    public static final ClassPrototype ARRAY = PandaClassPrototype.of(MODULE, PandaArray.class, "Array").get();
 
-    public static final ClassPrototype STRING = MAPPER.generate(MODULE, String.class);
-    public static final ClassPrototype NUMBER = MAPPER.generate(MODULE, Number.class);
-    public static final ClassPrototype ITERABLE = MAPPER.generate(MODULE, Iterable.class);
+    public static final ClassPrototype STRING = MAPPER.generate(MODULE, String.class).get();
+    public static final ClassPrototype NUMBER = MAPPER.generate(MODULE, Number.class).get();
+    public static final ClassPrototype ITERABLE = MAPPER.generate(MODULE, Iterable.class).get();
 
     public void fill(ModulePath modulePath) {
         modulePath.addModule(MODULE);
