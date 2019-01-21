@@ -44,7 +44,7 @@ public class PandaMethodBuilder {
         ClassPrototype[] prototypes = new ClassPrototype[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
-            prototypes[i] = moduleLoader.forClass(parameterTypes[i]);
+            prototypes[i] = moduleLoader.forClass(parameterTypes[i]).get();
         }
 
         this.parameterTypes = prototypes;

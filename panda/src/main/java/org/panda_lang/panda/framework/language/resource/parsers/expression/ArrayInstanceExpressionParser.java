@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -77,9 +78,9 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
         }
 
         String type = result.getWildcard("type").asString();
-        ArrayClassPrototype prototype = ArrayClassPrototypeUtils.obtain(data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader(), type + "[]");
+        ClassPrototypeReference reference = ArrayClassPrototypeUtils.obtain(data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader(), type + "[]");
 
-        if (prototype == null) {
+        if (reference == null) {
             return null;
         }
 
@@ -90,7 +91,7 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        return new PandaExpression(new ArrayInstanceExpression(prototype, capacityExpression));
+        return new PandaExpression(new ArrayInstanceExpression((ArrayClassPrototype) reference.get(), capacityExpression));
     }
 
     @Override

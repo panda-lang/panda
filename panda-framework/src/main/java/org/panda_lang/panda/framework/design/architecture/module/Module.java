@@ -17,21 +17,21 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 import java.util.Collection;
 
 public interface Module {
 
-    ClassPrototype add(ClassPrototype prototype);
+    ClassPrototypeReference add(ClassPrototypeReference prototype);
 
     default boolean hasClass(Class<?> clazz) {
         return this.hasClass(clazz.getSimpleName());
     }
 
     default boolean hasClass(String className) {
-        for (ClassPrototype prototype : this.getPrototypes()) {
-            if (prototype.getClassName().equals(className)) {
+        for (ClassPrototypeReference reference : this.getReferences()) {
+            if (reference.getClassName().equals(className)) {
                 return true;
             }
         }
@@ -39,26 +39,32 @@ public interface Module {
         return false;
     }
 
-    default @Nullable ClassPrototype get(Class<?> clazz) {
-        return this.get(clazz.getSimpleName());
-    }
-
-    default @Nullable ClassPrototype get(String className) {
-        for (ClassPrototype prototype : this.getPrototypes()) {
-            if (prototype.isClassOf(className)) {
-                return prototype;
+    default @Nullable ClassPrototypeReference getAssociatedWith(Class<?> clazz) {
+        for (ClassPrototypeReference reference : getReferences()) {
+            if (reference.getAssociatedClass() == clazz) {
+                return reference;
             }
         }
 
         return null;
     }
 
-    Collection<? extends ClassPrototype> getPrototypes();
+    default @Nullable ClassPrototypeReference get(String className) {
+        for (ClassPrototypeReference reference : getReferences()) {
+            if (className.equals(reference.getClassName())) {
+                return reference;
+            }
+        }
 
-    String getName();
+        return null;
+    }
 
     default int getAmountOfPrototypes() {
-        return this.getPrototypes().size();
+        return this.getReferences().size();
     }
+
+    Collection<? extends ClassPrototypeReference> getReferences();
+
+    String getName();
 
 }

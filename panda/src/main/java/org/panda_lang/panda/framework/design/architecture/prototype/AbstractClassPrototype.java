@@ -29,67 +29,25 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public class AbstractClassPrototype implements ClassPrototype {
+public class AbstractClassPrototype extends AbstractClassPrototypeMetadata implements ClassPrototype {
 
-    protected final String name;
-    protected final Module module;
-    protected final Class<?> associated;
-    protected final Collection<String> aliases;
-    protected final Collection<ClassPrototype> extended = new ArrayList<>(1);
+    protected final Collection<ClassPrototypeReference> extended = new ArrayList<>(1);
     protected final PrototypeConstructors constructors = new PandaConstructors();
     protected final PrototypeFields fields = new PandaFields();
     protected final PrototypeMethods methods = new PandaMethods();
 
-    public AbstractClassPrototype(Module module, String name, Class<?> associated, Collection<String> aliases) {
-        this.name = name;
-        this.module = module;
-        this.associated = associated;
-        this.aliases = new ArrayList<>(aliases);
+    public AbstractClassPrototype(Module module, String name, Class<?> associated) {
+        super(name, module, associated);
     }
 
     @Override
-    public boolean isClassOf(String className) {
-        if (this.getClassName().equals(className)) {
-            return true;
-        }
-
-        if (this.associated != null && this.associated.getSimpleName().equals(className)) {
-            return true;
-        }
-
-        for (String alias : this.getAliases()) {
-            if (alias.equals(className)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    @Override
-    public boolean isAssignableFrom(ClassPrototype prototype) { // this (Panda Class | Java Class) isAssociatedWith
-        if (prototype == null) {
-            return true;
-        }
-
-        return prototype.equals(this)
-                || PandaClassPrototypeUtils.isAssignableFrom(associated, prototype.getAssociated())
-                || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended());
-    }
-
-    @Override
-    public Collection<ClassPrototype> getExtended() {
+    public Collection<ClassPrototypeReference> getExtended() {
         return extended;
     }
 
     @Override
-    public Class<?> getAssociated() {
+    public Class<?> getAssociatedClass() {
         return associated;
-    }
-
-    @Override
-    public Collection<String> getAliases() {
-        return aliases;
     }
 
     @Override

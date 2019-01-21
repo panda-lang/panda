@@ -17,20 +17,19 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
-
-import java.util.ArrayList;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 public class ArrayClassPrototype extends PandaClassPrototype {
 
     private final Class<?> type;
 
     public ArrayClassPrototype(Module module, Class<?> associated, Class<?> type) {
-        super(module, associated.getSimpleName(), associated, new ArrayList<>());
+        super(module, associated.getSimpleName(), associated);
 
         this.type = type;
-        super.extended.add(PandaTypes.ARRAY);
+        super.extended.add(new PandaClassPrototypeReference(PandaTypes.ARRAY));
     }
 
     public Class<?> getType() {

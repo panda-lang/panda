@@ -40,7 +40,7 @@ public class ClassPrototypeConstructorGenerator {
         ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[i]);
+            parameters[i] = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[i]).get();
         }
 
         // TODO: Generate bytecode

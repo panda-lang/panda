@@ -68,7 +68,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         boolean isStatic = result.getIdentifiers().contains("static");
 
         ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        ClassPrototype returnType = registry.forClass(type.asString());
+        ClassPrototype returnType = registry.forClass(type.asString()).get();
 
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);

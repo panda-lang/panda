@@ -18,20 +18,20 @@ package org.panda_lang.panda.framework.language.resource.parsers.scope.statement
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 
 import java.util.List;
 
 public class MethodInvokerUtils {
 
-    public static @Nullable ClassPrototype find(List<ImportStatement> importStatements, String className) {
+    public static @Nullable ClassPrototypeReference find(List<ImportStatement> importStatements, String className) {
         for (ImportStatement importStatement : importStatements) {
             Module module = importStatement.getImportedModule();
-            ClassPrototype prototype = module.get(className);
+            ClassPrototypeReference reference = module.get(className);
 
-            if (prototype != null) {
-                return prototype;
+            if (reference != null) {
+                return reference;
             }
         }
 

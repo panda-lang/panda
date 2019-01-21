@@ -30,7 +30,7 @@ public class VariableInitializer {
     public static final String DECLARATION_PARSER = "mutable:[mutable] nullable:[nullable] <type:reader type> <name:condition token {type:unknown}>";
 
     public Variable createVariable(ParserData data, ModuleLoader loader, Scope scope, boolean mutable, boolean nullable, String type, String name) {
-        ClassPrototype prototype = loader.forClass(type);
+        ClassPrototype prototype = loader.forClass(type).get();
 
         if (!StringUtils.isEmpty(type) && prototype == null) {
             throw new PandaParserFailure("Cannot recognize variable type: " + type, data);
