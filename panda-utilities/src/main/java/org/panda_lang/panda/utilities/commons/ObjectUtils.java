@@ -22,10 +22,22 @@ import java.util.Objects;
 
 public class ObjectUtils {
 
+    /**
+     * Check if object is not null
+     *
+     * @param object object to check
+     * @return true if object is not null
+     */
     public static boolean isNotNull(@Nullable Object object) {
         return object != null;
     }
 
+    /**
+     * Check if all values are null
+     *
+     * @param objects array to check
+     * @return true if all values are null
+     */
     public static boolean areNull(Object... objects) {
         for (Object object : objects) {
             if (object != null) {
@@ -33,9 +45,16 @@ public class ObjectUtils {
             }
         }
 
-        return true;
+        return objects.length > 0;
     }
 
+    /**
+     * Check if the value is one of the expected
+     *
+     * @param value value to check
+     * @param expected expected values
+     * @return true if expected values contains the specified value
+     */
     public static boolean equalsOneOf(Object value, Object... expected) {
         for (Object expectedValue : expected) {
             if (Objects.equals(value, expectedValue)) {
