@@ -24,7 +24,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.NewOperationParser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.DottedFinisher;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
@@ -34,7 +33,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 public class OperationExpressionParser implements ExpressionSubparser, DottedFinisher {
 
-    private static final NewOperationParser OPERATION_PARSER = new NewOperationParser();
+    private static final org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionParser OPERATION_PARSER = new org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionParser();
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override

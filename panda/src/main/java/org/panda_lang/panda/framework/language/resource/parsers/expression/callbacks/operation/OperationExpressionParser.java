@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.MathOperationParser;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
-public class NewOperationParser implements Parser {
+public class OperationExpressionParser implements Parser {
 
     public ExpressionCallback parse(ParserData data, Tokens source) {
         return parse(data, source, OperationExpressionUtils.OPERATION_EXTRACTOR.extract(source));
