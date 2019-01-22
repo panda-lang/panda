@@ -16,27 +16,30 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-public class BitwiseUtils {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-    /**
-     * Convert 2 ints to 1 long
-     */
-    public static long convert(int a, int b) {
-        return ((long) a << 32) | b & 0xFFFFFFFFL;
+class BitwiseUtilsTest {
+
+    private static final int LEFT = 111;
+    private static final int RIGHT = 222;
+
+    private static long VALUE;
+
+    @BeforeAll
+    public static void convert() {
+        VALUE = BitwiseUtils.convert(LEFT, RIGHT);
     }
 
-    /**
-     * Extract 1st int from long
-     */
-    public static int extractLeft(long l) {
-        return (int) (l >> 32);
+    @Test
+    public void extractLeft() {
+        Assertions.assertEquals(LEFT, BitwiseUtils.extractLeft(VALUE));
     }
 
-    /**
-     * Extract 2nd int from long
-     */
-    public static int extractRight(long l) {
-        return (int) l;
+    @Test
+    public void extractRight() {
+        Assertions.assertEquals(RIGHT, BitwiseUtils.extractRight(VALUE));
     }
 
 }
