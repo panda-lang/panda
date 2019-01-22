@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.vague;
+package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VagueResult {
+public class ProgressivePatternResult {
 
-    private final List<VagueElement> elements;
+    private final List<ProgressivePatternElement> elements;
     private boolean succeeded;
 
-    public VagueResult() {
+    public ProgressivePatternResult() {
         this.elements = new ArrayList<>(3);
     }
 
@@ -38,7 +38,7 @@ public class VagueResult {
         return elements.size();
     }
 
-    protected void addElement(VagueElement element) {
+    protected void addElement(ProgressivePatternElement element) {
         this.elements.add(element);
     }
 
@@ -54,7 +54,7 @@ public class VagueResult {
         return elements.get(index).toString();
     }
 
-    public List<VagueElement> getElements() {
+    public List<ProgressivePatternElement> getElements() {
         return elements;
     }
 

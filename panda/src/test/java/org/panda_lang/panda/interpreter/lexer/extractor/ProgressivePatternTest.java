@@ -23,19 +23,19 @@ import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-class VagueExtractorTest {
+class ProgressivePatternTest {
 
     private static final String SOURCE = "(new Integer(5).intValue() + 3)";
 
-    private static final VagueExtractor EXTRACTOR = new VagueExtractor(new Separator[]{
+    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(new Separator[]{
             Separators.PARENTHESIS_LEFT,
             Separators.PARENTHESIS_RIGHT
     }, new Token[]{
@@ -47,12 +47,12 @@ class VagueExtractorTest {
 
     @Test
     public void testVagueExtractor() {
-        Source source = new PandaSource(VagueExtractorTest.class, SOURCE);
+        Source source = new PandaSource(ProgressivePatternTest.class, SOURCE);
 
         Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), source).build();
         Tokens tokens = lexer.convert();
 
-        VagueResult result = EXTRACTOR.extract(tokens);
+        ProgressivePatternResult result = EXTRACTOR.extract(tokens);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isSucceeded());
         Assertions.assertEquals(5, result.size());

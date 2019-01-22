@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -33,7 +33,7 @@ public class OperationParser implements Parser {
         return parse(data, source, OperationExpressionUtils.OPERATION_EXTRACTOR.extract(source));
     }
 
-    public ExpressionCallback parse(ParserData data, Tokens source, VagueResult result) {
+    public ExpressionCallback parse(ParserData data, Tokens source, ProgressivePatternResult result) {
         Operation operation = Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result);
 
         if (OperationUtils.isNumeric(operation)) {
