@@ -40,6 +40,7 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClassPrototypeModelLoader {
@@ -78,21 +79,19 @@ public class ClassPrototypeModelLoader {
             ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
 
             String moduleName = moduleDeclaration.value();
-            Module module = modulePath.get(moduleName);
+            Optional<Module> optionalModule = modulePath.get(moduleName);
 
-            if (module != null && module.get(classDeclaration.value()) != null) {
+            if (optionalModule.isPresent() && optionalModule.get().get(classDeclaration.value()) != null) {
                 continue;
             }
+
+            Module module = optionalModule.orElseGet(() -> modulePath.create(moduleName));
 
             ClassPrototype prototype = PandaClassPrototype.builder()
                     .module(module)
                     .name(classDeclaration.value())
                     .associated(modelClass)
                     .build();
-
-            if (module == null) {
-                module = modulePath.create(moduleName);
-            }
 
             module.add(prototype.getReference());
 

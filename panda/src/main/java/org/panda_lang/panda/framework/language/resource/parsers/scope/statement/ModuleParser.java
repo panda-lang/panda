@@ -35,6 +35,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
+import java.util.Optional;
+
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
 public class ModuleParser extends UnifiedParserBootstrap {
 
@@ -47,28 +49,33 @@ public class ModuleParser extends UnifiedParserBootstrap {
 
     @Autowired(type = PandaTypes.TYPES_LABEL)
     private void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Src("module") Tokens moduleSource) {
-        StringBuilder moduleName = new StringBuilder();
+        StringBuilder nameBuilder = new StringBuilder();
 
         for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
-            moduleName.append(representation.getTokenValue());
+            nameBuilder.append(representation.getTokenValue());
         }
 
-        String groupName = moduleName.toString();
+        String moduleName = nameBuilder.toString();
 
-        if (!modulePath.hasModule(groupName)) {
-            modulePath.create(groupName);
+        if (!modulePath.hasModule(moduleName)) {
+            modulePath.create(moduleName);
         }
 
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        Module module = modulePath.get(groupName);
-        ModuleStatement moduleStatement = new ModuleStatement(module);
+        Optional<Module> module = modulePath.get(moduleName);
 
-        script.setModule(module);
-        script.getModuleLoader().include(module);
+        if (!module.isPresent()) {
+            throw new PandaParserException("Module '" + moduleName + "' does not exist");
+        }
+
+        ModuleStatement moduleStatement = new ModuleStatement(module.get());
         script.getStatements().add(moduleStatement);
+
+        script.getModuleLoader().include(moduleStatement.getModule());
+        script.setModule(moduleStatement.getModule());
     }
 
 }
