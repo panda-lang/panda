@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.constructor;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
@@ -29,7 +30,7 @@ public class PandaConstructor implements PrototypeConstructor {
     private final ClassPrototype classPrototype;
     private final ClassPrototypeScope classScope;
     private final ConstructorScope constructorScope;
-    private final ClassPrototype[] types;
+    private final ClassPrototypeReference[] types;
 
     public PandaConstructor(ClassPrototype classPrototype, ClassPrototypeScope classScope, ConstructorScope constructorScope) {
         this.classPrototype = classPrototype;
@@ -53,7 +54,7 @@ public class PandaConstructor implements PrototypeConstructor {
     }
 
     @Override
-    public ClassPrototype[] getParameterTypes() {
+    public ClassPrototypeReference[] getParameterTypes() {
         return types;
     }
 

@@ -31,6 +31,7 @@ import java.util.Objects;
 
 public class AbstractClassPrototype extends AbstractClassPrototypeMetadata implements ClassPrototype {
 
+    protected final ClassPrototypeReference reference = new PandaClassPrototypeReference(this);
     protected final Collection<ClassPrototypeReference> extended = new ArrayList<>(1);
     protected final PrototypeConstructors constructors = new PandaConstructors();
     protected final PrototypeFields fields = new PandaFields();
@@ -38,16 +39,6 @@ public class AbstractClassPrototype extends AbstractClassPrototypeMetadata imple
 
     public AbstractClassPrototype(Module module, String name, Class<?> associated) {
         super(name, module, associated);
-    }
-
-    @Override
-    public Collection<ClassPrototypeReference> getExtended() {
-        return extended;
-    }
-
-    @Override
-    public Class<?> getAssociatedClass() {
-        return associated;
     }
 
     @Override
@@ -66,13 +57,8 @@ public class AbstractClassPrototype extends AbstractClassPrototypeMetadata imple
     }
 
     @Override
-    public Module getModule() {
-        return module;
-    }
-
-    @Override
-    public String getClassName() {
-        return name;
+    public ClassPrototypeReference getReference() {
+        return reference;
     }
 
     @Override

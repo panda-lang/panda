@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
@@ -27,7 +27,7 @@ import java.util.List;
 public class ParameterUtils {
 
 
-    public static void addAll(List<Variable> variables, List<Parameter> parameters, int nestingLevel) {
+    public static void addAll(List<Variable> variables, List<? extends Parameter> parameters, int nestingLevel) {
         for (Parameter parameter : parameters) {
             Variable variable = parameter.toVariable(nestingLevel);
             variables.add(variable);
@@ -42,15 +42,15 @@ public class ParameterUtils {
         System.arraycopy(parameterValues, 0, AbstractScopeInstanceUtils.extractMemory(instance), 0, parameterValues.length);
     }
 
-    public static ClassPrototype[] toTypes(List<Parameter> parameters) {
-        ClassPrototype[] prototypes = new ClassPrototype[parameters.size()];
+    public static ClassPrototypeReference[] toTypes(List<? extends Parameter> parameters) {
+        ClassPrototypeReference[] references = new ClassPrototypeReference[parameters.size()];
 
-        for (int i = 0; i < prototypes.length; i++) {
+        for (int i = 0; i < references.length; i++) {
             Parameter parameter = parameters.get(i);
-            prototypes[i] = parameter.getParameterType();
+            references[i] = parameter.getParameterType();
         }
 
-        return prototypes;
+        return references;
     }
 
 }

@@ -18,6 +18,10 @@ package org.panda_lang.panda.framework.design.architecture.prototype;
 
 public interface ClassPrototypeReference extends ClassPrototypeMetadata {
 
+    ClassPrototypeReference addInitializer(Runnable runnable);
+
     ClassPrototype get();
+
+    boolean isInitialized();
 
 }

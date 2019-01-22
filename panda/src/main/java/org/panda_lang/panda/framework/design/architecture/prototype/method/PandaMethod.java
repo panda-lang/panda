@@ -16,30 +16,30 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 public class PandaMethod implements PrototypeMethod {
 
-    private final ClassPrototype prototype;
+    private final ClassPrototypeReference prototype;
     private final String methodName;
-    private final ClassPrototype[] parameterTypes;
-    private final ClassPrototype returnType;
+    private final ClassPrototypeReference[] parameterTypes;
+    private final ClassPrototypeReference returnType;
     private final MethodCallback methodBody;
     private MethodVisibility visibility;
     private final boolean isStatic;
     private final boolean catchAllParameters;
 
     protected PandaMethod(PandaMethodBuilder builder) {
-        this.prototype = builder.prototype;
+        this.prototype = builder.reference;
         this.methodName = builder.methodName;
         this.returnType = builder.returnType;
         this.methodBody = builder.methodBody;
         this.isStatic = builder.isStatic;
         this.visibility = builder.visibility;
         this.catchAllParameters = builder.catchAllParameters;
-        this.parameterTypes = builder.parameterTypes != null ? builder.parameterTypes : new ClassPrototype[0];
+        this.parameterTypes = builder.parameterTypes != null ? builder.parameterTypes : new ClassPrototypeReference[0];
     }
 
     @Override
@@ -64,12 +64,12 @@ public class PandaMethod implements PrototypeMethod {
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public ClassPrototypeReference getReturnType() {
         return returnType;
     }
 
     @Override
-    public ClassPrototype[] getParameterTypes() {
+    public ClassPrototypeReference[] getParameterTypes() {
         return parameterTypes;
     }
 
@@ -79,7 +79,7 @@ public class PandaMethod implements PrototypeMethod {
     }
 
     @Override
-    public ClassPrototype getClassPrototype() {
+    public ClassPrototypeReference getClassPrototype() {
         return prototype;
     }
 

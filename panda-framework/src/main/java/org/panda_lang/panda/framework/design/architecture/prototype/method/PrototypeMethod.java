@@ -16,26 +16,26 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public interface PrototypeMethod extends MethodCallback<Object> {
-
-    boolean isCatchingAllParameters();
 
     default boolean isVoid() {
         return getReturnType() == null || getReturnType().getClassName().equals("void");
     }
 
+    boolean isCatchingAllParameters();
+
     boolean isStatic();
 
     MethodVisibility getVisibility();
 
-    ClassPrototype getReturnType();
+    ClassPrototypeReference getReturnType();
 
-    ClassPrototype[] getParameterTypes();
+    ClassPrototypeReference[] getParameterTypes();
 
     String getMethodName();
 
-    ClassPrototype getClassPrototype();
+    ClassPrototypeReference getClassPrototype();
 
 }

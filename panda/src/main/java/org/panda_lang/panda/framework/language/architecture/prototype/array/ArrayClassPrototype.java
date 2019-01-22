@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 public class ArrayClassPrototype extends PandaClassPrototype {
@@ -29,7 +28,7 @@ public class ArrayClassPrototype extends PandaClassPrototype {
         super(module, associated.getSimpleName(), associated);
 
         this.type = type;
-        super.extended.add(new PandaClassPrototypeReference(PandaTypes.ARRAY));
+        super.extended.add(PandaTypes.ARRAY.getReference());
     }
 
     public Class<?> getType() {

@@ -16,27 +16,27 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 
 public class PandaParameter implements Parameter {
 
     private final String parameterName;
-    private final ClassPrototype parameterType;
+    private final ClassPrototypeReference parameterType;
 
-    public PandaParameter(ClassPrototype parameterType, String parameterName) {
+    public PandaParameter(ClassPrototypeReference parameterType, String parameterName) {
         this.parameterName = parameterName;
         this.parameterType = parameterType;
     }
 
     @Override
     public Variable toVariable(int nestingLevel) {
-        return new PandaVariable(parameterType, parameterName, nestingLevel, false, false);
+        return new PandaVariable(parameterType.get(), parameterName, nestingLevel, false, false);
     }
 
     @Override
-    public ClassPrototype getParameterType() {
+    public ClassPrototypeReference getParameterType() {
         return parameterType;
     }
 

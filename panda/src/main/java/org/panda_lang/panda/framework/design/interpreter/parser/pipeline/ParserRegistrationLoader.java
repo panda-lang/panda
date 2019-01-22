@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.PandaException;
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
@@ -39,6 +40,9 @@ public class ParserRegistrationLoader {
 
     @SuppressWarnings("unchecked")
     private void loadPipelines(PandaPipelineRegistry registry, AnnotationsScannerProcess scannerProcess) throws Exception {
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Loading pipelines ");
+
         Collection<Class<?>> annotated = scannerProcess.createSelector().selectTypesAnnotatedWith(ParserRegistration.class);
 
         for (Class<?> clazz : annotated) {

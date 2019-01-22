@@ -28,4 +28,6 @@ public interface ClassPrototype extends ClassPrototypeMetadata {
 
     PrototypeConstructors getConstructors();
 
+    ClassPrototypeReference getReference();
+
 }
