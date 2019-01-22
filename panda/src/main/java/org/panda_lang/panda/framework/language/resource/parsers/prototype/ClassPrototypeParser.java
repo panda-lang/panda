@@ -17,12 +17,19 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeTypeGenerator;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeReferenceStatement;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
@@ -45,18 +52,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeReferenceStatement;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
@@ -87,10 +87,10 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
                 .build();
 
         data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
-        module.add(new PandaClassPrototypeReference(prototype));
+        module.add(prototype.getReference());
 
         ModulePath path = data.getComponent(PandaComponents.MODULE_REGISTRY);
-        prototype.addExtended(new PandaClassPrototypeReference(PandaTypes.OBJECT));
+        prototype.addExtended(PandaTypes.OBJECT.getReference());
 
         data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
 
@@ -157,7 +157,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
             }
 
             @Override
-            public ClassPrototype[] getParameterTypes() {
+            public ClassPrototypeReference[] getParameterTypes() {
                 return ConstructorUtils.PARAMETERLESS;
             }
         };

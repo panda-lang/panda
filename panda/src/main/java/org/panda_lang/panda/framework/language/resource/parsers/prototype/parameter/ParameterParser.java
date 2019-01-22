@@ -17,9 +17,12 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PandaParameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -27,9 +30,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PandaParameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 import java.util.ArrayList;
@@ -58,7 +58,7 @@ public class ParameterParser implements Parser {
 
             PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
             ModuleLoader moduleLoader = script.getModuleLoader();
-            ClassPrototype type = moduleLoader.forClass(parameterType).get();
+            ClassPrototypeReference type = moduleLoader.forClass(parameterType);
 
             if (type == null) {
                 throw new PandaParserException("Unknown type '" + parameterType + "'");

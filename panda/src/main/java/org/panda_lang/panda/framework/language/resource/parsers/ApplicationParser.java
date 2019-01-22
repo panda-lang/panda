@@ -113,9 +113,16 @@ public class ApplicationParser implements Parser {
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
 
-            PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
-            PandaFramework.getLogger().debug("Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
-            PandaFramework.getLogger().debug("Loaded prototypes: " + modulePath.getAmountOfPrototypes());
+            PandaFramework.getLogger().debug("");
+            PandaFramework.getLogger().debug("--- Parse details ");
+
+            PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
+            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
+
+            PandaFramework.getLogger().debug("• Amount of references: " + modulePath.getAmountOfReferences());
+            PandaFramework.getLogger().debug("• Amount of used prototypes: " + modulePath.getAmountOfUsedPrototypes());
+
+            PandaFramework.getLogger().debug("");
         }
 
         return interpretation

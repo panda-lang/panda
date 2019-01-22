@@ -17,19 +17,19 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public class ClassPrototypeGeneratorUtils {
 
-    public static ClassPrototype[] toTypes(Module module, Class<?>... types) {
+    public static ClassPrototypeReference[] toTypes(Module module, Class<?>... types) {
         ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
-        ClassPrototype[] prototypes = new ClassPrototype[types.length];
+        ClassPrototypeReference[] references = new ClassPrototypeReference[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = generator.computeIfAbsent(module, types[i]).get();
+            references[i] = generator.computeIfAbsent(module, types[i]);
         }
 
-        return prototypes;
+        return references;
     }
 
 }

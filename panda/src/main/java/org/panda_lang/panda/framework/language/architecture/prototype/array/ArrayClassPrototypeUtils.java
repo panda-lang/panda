@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -40,33 +39,32 @@ public class ArrayClassPrototypeUtils {
             return cached;
         }
 
-        ClassPrototypeReference reference = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
+        ClassPrototypeReference baseReference = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
-        if (reference == null) {
+        if (baseReference == null) {
             return null;
         }
 
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
-        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(reference.getAssociatedClass(), dimensions);
+        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
         ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(loader.get(null), arrayClass, arrayType);
-        reference = new PandaClassPrototypeReference(arrayPrototype);
 
         arrayPrototype.getMethods().registerMethod(PandaMethod.builder()
                 .methodName("toString")
-                .returnType(PandaTypes.OBJECT)
+                .returnType(PandaTypes.STRING.getReference())
                 .methodBody((branch, instance, parameters) -> {
                     if (!instance.getClass().isArray()) {
                         throw new RuntimeException();
                     }
 
-                    branch.setReturnValue(new PandaValue(PandaTypes.OBJECT, Arrays.toString((Object[]) instance)));
+                    branch.setReturnValue(new PandaValue(PandaTypes.STRING, Arrays.toString((Object[]) instance)));
                 })
                 .build());
 
-        ARRAY_PROTOTYPES.put(type, reference);
-        return loader.get(null).add(reference);
+        ARRAY_PROTOTYPES.put(type, arrayPrototype.getReference());
+        return loader.get(null).add(arrayPrototype.getReference());
     }
 
 }

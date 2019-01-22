@@ -59,8 +59,14 @@ public interface Module {
         return null;
     }
 
-    default int getAmountOfPrototypes() {
-        return this.getReferences().size();
+    default int getAmountOfUsedPrototypes() {
+        return (int) this.getReferences().stream()
+                .filter(ClassPrototypeReference::isInitialized)
+                .count();
+    }
+
+    default int getAmountOfReferences() {
+        return getReferences().size();
     }
 
     Collection<? extends ClassPrototypeReference> getReferences();

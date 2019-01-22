@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
+package org.panda_lang.panda.utilities.commons;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import java.util.Collection;
+import java.util.function.ToIntFunction;
 
-public interface Parameter {
+public class StreamUtils {
 
-    Variable toVariable(int nestingLevel);
-
-    ClassPrototypeReference getParameterType();
-
-    String getParameterName();
+    public static <T> int sum(Collection<T> collection, ToIntFunction<? super T> function) {
+        return collection.stream().mapToInt(function).sum();
+    }
 
 }

@@ -17,15 +17,16 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 import java.util.Collection;
 
 public class MethodUtils {
 
-    public static @Nullable PrototypeMethod matchMethod(Collection<PrototypeMethod> methods, ClassPrototype... types) {
+    public static @Nullable PrototypeMethod matchMethod(Collection<PrototypeMethod> methods, ClassPrototypeMetadata... types) {
         for (PrototypeMethod method : methods) {
-            ClassPrototype[] methodTypes = method.getParameterTypes();
+            ClassPrototypeReference[] methodTypes = method.getParameterTypes();
 
             if (method.isCatchingAllParameters()) {
                 return method;
@@ -43,10 +44,10 @@ public class MethodUtils {
         return null;
     }
 
-    public static boolean matchParameters(PrototypeMethod method, ClassPrototype... parameterTypes) {
+    public static boolean matchParameters(PrototypeMethod method, ClassPrototypeMetadata... parameterTypes) {
         for (int i = 0; i < parameterTypes.length; i++) {
-            ClassPrototype methodParameterType = method.getParameterTypes()[i];
-            ClassPrototype parameterType = parameterTypes[i];
+            ClassPrototypeReference methodParameterType = method.getParameterTypes()[i];
+            ClassPrototypeMetadata parameterType = parameterTypes[i];
 
             if (!methodParameterType.isAssignableFrom(parameterType)) {
                 return false;

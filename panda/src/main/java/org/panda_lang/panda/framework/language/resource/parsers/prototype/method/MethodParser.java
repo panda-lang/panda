@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.prototype.metho
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
@@ -68,11 +69,11 @@ public class MethodParser extends UnifiedParserBootstrap {
         boolean isStatic = result.getIdentifiers().contains("static");
 
         ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        ClassPrototype returnType = registry.forClass(type.asString()).get();
+        ClassPrototypeReference returnType = registry.forClass(type.asString());
 
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
-        ClassPrototype[] parameterTypes = ParameterUtils.toTypes(parameters);
+        ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
 
         MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
@@ -82,7 +83,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         ClassPrototypeScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
-                .prototype(prototype)
+                .prototype(prototype.getReference())
                 .parameterTypes(parameterTypes)
                 .methodName(method)
                 .visibility(visibility)

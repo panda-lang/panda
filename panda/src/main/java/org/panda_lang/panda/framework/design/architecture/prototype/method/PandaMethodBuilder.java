@@ -17,21 +17,21 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public class PandaMethodBuilder {
 
-    protected ClassPrototype prototype;
     protected String methodName;
-    protected ClassPrototype[] parameterTypes;
+    protected ClassPrototypeReference reference;
+    protected ClassPrototypeReference[] parameterTypes;
+    protected ClassPrototypeReference returnType;
     protected MethodVisibility visibility;
-    protected ClassPrototype returnType;
     protected MethodCallback methodBody;
     protected boolean isStatic;
     protected boolean catchAllParameters;
 
-    public PandaMethodBuilder prototype(ClassPrototype prototype) {
-        this.prototype = prototype;
+    public PandaMethodBuilder prototype(ClassPrototypeReference reference) {
+        this.reference = reference;
         return this;
     }
 
@@ -41,22 +41,22 @@ public class PandaMethodBuilder {
     }
 
     public PandaMethodBuilder parameterTypes(ModuleLoader moduleLoader, String... parameterTypes) {
-        ClassPrototype[] prototypes = new ClassPrototype[parameterTypes.length];
+        ClassPrototypeReference[] prototypes = new ClassPrototypeReference[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
-            prototypes[i] = moduleLoader.forClass(parameterTypes[i]).get();
+            prototypes[i] = moduleLoader.forClass(parameterTypes[i]);
         }
 
         this.parameterTypes = prototypes;
         return this;
     }
 
-    public PandaMethodBuilder parameterTypes(ClassPrototype... parameterTypes) {
+    public PandaMethodBuilder parameterTypes(ClassPrototypeReference... parameterTypes) {
         this.parameterTypes = parameterTypes;
         return this;
     }
 
-    public PandaMethodBuilder returnType(ClassPrototype returnType) {
+    public PandaMethodBuilder returnType(ClassPrototypeReference returnType) {
         this.returnType = returnType;
         return this;
     }

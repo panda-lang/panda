@@ -16,33 +16,39 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PandaClassPrototypeReference extends AbstractClassPrototypeMetadata implements ClassPrototypeReference  {
 
     private final ClassPrototype prototype;
-    private final Runnable initializer;
+    private final List<Runnable> initializers = new ArrayList<>(0);
     private boolean initialized;
 
-    public PandaClassPrototypeReference(ClassPrototype prototype, @Nullable Runnable initializer) {
+    protected PandaClassPrototypeReference(ClassPrototype prototype) {
         super(prototype.getClassName(), prototype.getModule(), prototype.getAssociatedClass());
-
         this.prototype = prototype;
-        this.initializer = initializer;
     }
 
-    public PandaClassPrototypeReference(ClassPrototype prototype) {
-        this(prototype, null);
+    @Override
+    public ClassPrototypeReference addInitializer(Runnable runnable) {
+        initializers.add(runnable);
+        return this;
     }
 
     @Override
     public synchronized ClassPrototype get() {
-        if (!initialized && initializer != null) {
+        if (!initialized) {
             initialized = true;
-            initializer.run();
+            initializers.forEach(Runnable::run);
         }
 
         return prototype;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return initialized;
     }
 
     @Override

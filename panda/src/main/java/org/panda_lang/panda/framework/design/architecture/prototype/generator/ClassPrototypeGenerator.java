@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
@@ -48,7 +47,7 @@ public class ClassPrototypeGenerator {
                 .associated(type)
                 .build();
 
-        ClassPrototypeReference reference = new PandaClassPrototypeReference(prototype, () -> {
+        prototype.getReference().addInitializer(() -> {
             for (Field field : type.getFields()) {
                 ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
                 PrototypeField prototypeField = generator.generate();
@@ -73,7 +72,7 @@ public class ClassPrototypeGenerator {
             }
         });
 
-        return module.add(reference);
+        return module.add(prototype.getReference());
     }
 
     public ClassPrototypeReference computeIfAbsent(Module module, Class<?> type) {
