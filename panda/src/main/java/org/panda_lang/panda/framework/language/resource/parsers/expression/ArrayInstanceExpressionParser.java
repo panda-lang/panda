@@ -91,7 +91,7 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        return new PandaExpression(new ArrayInstanceExpression((ArrayClassPrototype) reference.get(), capacityExpression));
+        return new PandaExpression(new ArrayInstanceExpression((ArrayClassPrototype) reference.fetch(), capacityExpression));
     }
 
     @Override

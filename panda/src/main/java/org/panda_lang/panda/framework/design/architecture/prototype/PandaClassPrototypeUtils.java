@@ -63,7 +63,7 @@ public class PandaClassPrototypeUtils {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = loader.forClass(types[i]).get();
+            prototypes[i] = loader.forClass(types[i]).fetch();
         }
 
         return prototypes;

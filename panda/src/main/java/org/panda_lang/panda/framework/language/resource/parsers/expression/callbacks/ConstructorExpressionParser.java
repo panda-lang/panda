@@ -63,7 +63,7 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
 
         String className = gaps.get(0).asString();
         ModuleLoader moduleLoader = script.getModuleLoader();
-        this.returnType = moduleLoader.forClass(className).get();
+        this.returnType = moduleLoader.forClass(className).fetch();
 
         if (returnType == null) {
             throw PandaParserFailure.builder()

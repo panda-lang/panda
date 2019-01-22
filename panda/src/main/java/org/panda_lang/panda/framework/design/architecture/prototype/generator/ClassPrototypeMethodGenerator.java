@@ -107,7 +107,7 @@ public class ClassPrototypeMethodGenerator {
                     return;
                 }
 
-                Value value = new PandaValue(returnType.get(), returnValue);
+                Value value = new PandaValue(returnType.fetch(), returnValue);
                 branch.setReturnValue(value);
             } catch (Exception e) {
                 e.printStackTrace();

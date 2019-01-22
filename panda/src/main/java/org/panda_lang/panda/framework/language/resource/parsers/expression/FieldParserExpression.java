@@ -133,7 +133,7 @@ public class FieldParserExpression implements ExpressionSubparser, DottedFinishe
             if (instanceSource.size() == 1) {
                 ModuleLoader moduleLoader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
                 ClassPrototypeReference reference = moduleLoader.forClass(fieldMatches.get(0).asString());
-                instanceType = reference != null ? reference.get() : null;
+                instanceType = reference != null ? reference.fetch() : null;
             }
 
             if (instanceType == null) {
