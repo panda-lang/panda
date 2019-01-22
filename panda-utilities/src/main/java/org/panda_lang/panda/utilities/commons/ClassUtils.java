@@ -37,15 +37,16 @@ public class ClassUtils {
     }
 
     public static boolean isAssignableFrom(Class<?> to, Class<?> from) {
-        if (to.isAssignableFrom(from)) {
-            return true;
+        if (to.isPrimitive()) {
+            to = PRIMITIVE_EQUIVALENT.get(to);
         }
 
         if (from.isPrimitive()) {
-            return to.isAssignableFrom(PRIMITIVE_EQUIVALENT.get(from));
+            from = PRIMITIVE_EQUIVALENT.get(from);
         }
 
-        return false;
+        return to.isAssignableFrom(from);
+
     }
 
 }
