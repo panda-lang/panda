@@ -23,11 +23,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.Operation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 
 import java.util.Stack;
 
-public class MathOperationParser implements OperationParser {
+public class MathOperationSubparser implements OperationSubparser {
 
     @Override
     public ExpressionCallback parse(ParserData data, Operation operation) {

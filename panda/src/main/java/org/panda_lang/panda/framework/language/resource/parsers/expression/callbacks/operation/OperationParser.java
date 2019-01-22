@@ -16,11 +16,35 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.ConcatenationOperatorSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.MathOperationSubparser;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
-public interface OperationParser {
+public class OperationParser implements Parser {
 
-    ExpressionCallback parse(ParserData data, Operation operation);
+    public ExpressionCallback parse(ParserData data, Tokens source) {
+        return parse(data, source, OperationExpressionUtils.OPERATION_EXTRACTOR.extract(source));
+    }
+
+    public ExpressionCallback parse(ParserData data, Tokens source, VagueResult result) {
+        Operation operation = Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result);
+
+        if (OperationUtils.isNumeric(operation)) {
+            return new MathOperationSubparser().parse(data, operation);
+        }
+
+        if (OperationUtils.verifyOperator(operation, Operators.ADDITION)) {
+            return new ConcatenationOperatorSubparser().parse(data, operation);
+        }
+
+        throw new PandaParserFailure("Unknown operation", data, source);
+    }
 
 }

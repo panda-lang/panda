@@ -29,11 +29,12 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.r
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class OperationExpressionParser implements ExpressionSubparser, DottedFinisher {
 
-    private static final org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionParser OPERATION_PARSER = new org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionParser();
+    private static final OperationParser OPERATION_PARSER = new OperationParser();
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override
