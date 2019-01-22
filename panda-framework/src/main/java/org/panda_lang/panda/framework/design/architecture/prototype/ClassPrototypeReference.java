@@ -20,7 +20,7 @@ public interface ClassPrototypeReference extends ClassPrototypeMetadata {
 
     ClassPrototypeReference addInitializer(Runnable runnable);
 
-    ClassPrototype get();
+    ClassPrototype fetch();
 
     boolean isInitialized();
 

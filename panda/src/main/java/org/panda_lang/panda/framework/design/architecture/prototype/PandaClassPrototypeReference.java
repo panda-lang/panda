@@ -37,7 +37,7 @@ public class PandaClassPrototypeReference extends AbstractClassPrototypeMetadata
     }
 
     @Override
-    public synchronized ClassPrototype get() {
+    public synchronized ClassPrototype fetch() {
         if (!initialized) {
             initialized = true;
             initializers.forEach(Runnable::run);

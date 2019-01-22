@@ -45,7 +45,7 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     default Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
         ClassPrototypeReference type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
-        return toSimpleKnownExpression(type.get(), value);
+        return toSimpleKnownExpression(type.fetch(), value);
     }
 
     default Expression toSimpleKnownExpression(ClassPrototype type, Object value) {
