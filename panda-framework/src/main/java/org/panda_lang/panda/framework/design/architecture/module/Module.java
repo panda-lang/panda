@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface Module {
 
@@ -30,46 +31,26 @@ public interface Module {
     }
 
     default boolean hasClass(String className) {
-        for (ClassPrototypeReference reference : this.getReferences()) {
-            if (reference.getClassName().equals(className)) {
-                return true;
-            }
-        }
-
-        return false;
+        return get(className).isPresent();
     }
 
-    default @Nullable ClassPrototypeReference getAssociatedWith(Class<?> clazz) {
-        for (ClassPrototypeReference reference : getReferences()) {
-            if (reference.getAssociatedClass() == clazz) {
-                return reference;
-            }
-        }
-
-        return null;
+    default Optional<ClassPrototypeReference> getAssociatedWith(Class<?> clazz) {
+        return StreamUtils.findFirst(getReferences(), reference -> reference.getAssociatedClass() == clazz);
     }
 
-    default @Nullable ClassPrototypeReference get(String className) {
-        for (ClassPrototypeReference reference : getReferences()) {
-            if (className.equals(reference.getClassName())) {
-                return reference;
-            }
-        }
-
-        return null;
+    default Optional<ClassPrototypeReference> get(String className) {
+        return StreamUtils.findFirst(getReferences(), reference -> className.equals(reference.getClassName()));
     }
 
     default int getAmountOfUsedPrototypes() {
-        return (int) this.getReferences().stream()
-                .filter(ClassPrototypeReference::isInitialized)
-                .count();
+        return StreamUtils.count(getReferences(), ClassPrototypeReference::isInitialized);
     }
 
     default int getAmountOfReferences() {
         return getReferences().size();
     }
 
-    Collection<? extends ClassPrototypeReference> getReferences();
+    Collection<ClassPrototypeReference> getReferences();
 
     String getName();
 

@@ -17,12 +17,22 @@
 package org.panda_lang.panda.utilities.commons;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 
 public class StreamUtils {
 
     public static <T> int sum(Collection<T> collection, ToIntFunction<? super T> function) {
         return collection.stream().mapToInt(function).sum();
+    }
+
+    public static <T> int count(Collection<T> collection, Predicate<T> filter) {
+        return (int) collection.stream().filter(filter).count();
+    }
+
+    public static <T> Optional<T> findFirst(Collection<T> collection, Predicate<T> filter) {
+        return collection.stream().filter(filter).findFirst();
     }
 
 }

@@ -20,12 +20,25 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collection;
 
-public class StreamUtilsTest {
+class StreamUtilsTest {
+
+    private static final Collection<Integer> COLLECTION = Arrays.asList(5, 2, 5);
 
     @Test
     public void testSum() {
-        Assertions.assertEquals(12, StreamUtils.sum(Arrays.asList(5, 2, 5), Integer::intValue));
+        Assertions.assertEquals(12, StreamUtils.sum(COLLECTION, Integer::intValue));
+    }
+
+    @Test
+    public void testCount() {
+        Assertions.assertEquals(3, StreamUtils.count(COLLECTION, integer -> integer < 10));
+    }
+
+    @Test
+    public void testFindFirst() {
+        Assertions.assertEquals(2, StreamUtils.findFirst(COLLECTION, integer -> integer == 2).orElse(-1).intValue());
     }
 
 }
