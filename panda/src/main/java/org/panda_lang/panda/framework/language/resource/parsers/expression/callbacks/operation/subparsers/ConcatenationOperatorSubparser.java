@@ -20,12 +20,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.Operation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ConcatenationOperatorParser implements OperationParser {
+public class ConcatenationOperatorSubparser implements OperationSubparser {
 
     @Override
     public ExpressionCallback parse(ParserData data, Operation operation) {

@@ -23,13 +23,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class OperationExpressionUtils {
 
     public static final Separator[] SEPARATORS = new Separator[]{
-            Separators.PARENTHESIS_LEFT,
-            Separators.PARENTHESIS_RIGHT
+
     };
 
     public static final Token[] MATH_OPERATORS = new Token[]{
