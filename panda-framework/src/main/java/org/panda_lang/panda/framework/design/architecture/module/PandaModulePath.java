@@ -19,49 +19,48 @@ package org.panda_lang.panda.framework.design.architecture.module;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class PandaModulePath implements ModulePath {
 
-    private final Map<String, Module> groups;
+    public static final String DEFAULT_MODULE = null;
+
+    private final Map<String, Module> modules;
 
     public PandaModulePath() {
-        this.groups = new HashMap<>();
+        this.modules = new HashMap<>();
         this.initialize();
     }
 
     private void initialize() {
-        this.create((String) null);
+        this.create(null);
     }
 
     @Override
-    public Module create(String groupName) {
-        if (groups.containsKey(groupName)) {
-            return groups.get(groupName);
+    public Module create(String name) {
+        if (modules.containsKey(name)) {
+            return modules.get(name);
         }
 
-        Module module = new PandaModule(groupName);
-        groups.put(groupName, module);
+        Module module = new PandaModule(name);
+        modules.put(name, module);
         return module;
     }
 
     @Override
     public ModulePath addModule(Module module) {
-        groups.put(module.getName(), module);
+        modules.put(module.getName(), module);
         return this;
     }
 
     @Override
-    public Module get(String groupName) {
-        return this.getGroups().get(groupName);
+    public Optional<Module> get(String name) {
+        return Optional.ofNullable(modules.get(name));
     }
 
     @Override
     public Collection<? extends Module> getModules() {
-        return this.groups.values();
-    }
-
-    public Map<String, Module> getGroups() {
-        return groups;
+        return this.modules.values();
     }
 
 }
