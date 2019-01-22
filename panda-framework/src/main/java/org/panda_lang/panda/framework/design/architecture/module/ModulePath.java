@@ -16,46 +16,30 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.PackageUtils;
+import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public interface ModulePath {
 
-    Module create(String groupName);
+    Module create(String name);
 
-    void addModule(Module module);
+    ModulePath addModule(Module module);
 
-    default Module create(Class<?> clazz) {
-        return this.create(PackageUtils.getPackageName(clazz));
+    default boolean hasModule(String name) {
+        return getModules().stream().anyMatch(module -> name.equals(module.getName()));
     }
 
-    default boolean hasModule(String moduleName) {
-        for (Module module : this.getModules()) {
-            if (moduleName.equals(module.getName())) {
-                return true;
-            }
-        }
-
-        return false;
+    default int getAmountOfUsedPrototypes() {
+        return StreamUtils.sum(getModules(), Module::getAmountOfUsedPrototypes);
     }
 
-    @Nullable Module get(String groupName);
-
-    default @Nullable Module get(Class<?> clazz) {
-        return this.get(PackageUtils.getPackageName(clazz));
+    default int getAmountOfReferences() {
+        return StreamUtils.sum(getModules(), Module::getAmountOfReferences);
     }
 
-    default int getAmountOfPrototypes() {
-        int prototypes = 0;
-
-        for (Module module : this.getModules()) {
-            prototypes += module.getAmountOfPrototypes();
-        }
-
-        return prototypes;
-    }
+    Optional<Module> get(String name);
 
     Collection<? extends Module> getModules();
 

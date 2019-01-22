@@ -35,6 +35,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
+import java.util.Optional;
+
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
 public class ImportParser extends UnifiedParserBootstrap {
 
@@ -53,14 +55,14 @@ public class ImportParser extends UnifiedParserBootstrap {
             moduleName.append(representation.getTokenValue());
         }
 
-        Module module = modulePath.get(moduleName.toString());
-        ImportStatement importStatement = new ImportStatement(module);
+        Optional<Module> module = modulePath.get(moduleName.toString());
 
-        if (module == null) {
+        if (!module.isPresent()) {
             throw new PandaParserFailure("Unknown module " + moduleName, data);
         }
 
-        script.getModuleLoader().include(module);
+        ImportStatement importStatement = new ImportStatement(module.get());
+        script.getModuleLoader().include(importStatement.getImportedModule());
         script.getStatements().add(importStatement);
     }
 

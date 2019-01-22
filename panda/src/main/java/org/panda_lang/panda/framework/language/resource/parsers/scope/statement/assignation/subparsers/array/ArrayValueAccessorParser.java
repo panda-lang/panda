@@ -76,7 +76,7 @@ public class ArrayValueAccessorParser implements Parser {
         }
 
         ModuleLoader loader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(arrayPrototype.getType());
+        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(arrayPrototype.getType()).fetch();
 
         if (type == null) {
             throw new PandaParserFailure("Cannot locate type of the array", data, instanceSource);

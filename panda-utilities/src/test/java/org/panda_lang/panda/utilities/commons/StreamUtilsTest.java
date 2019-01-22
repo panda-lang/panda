@@ -16,27 +16,29 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-public class BitwiseUtils {
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-    /**
-     * Convert 2 ints to 1 long
-     */
-    public static long convert(int a, int b) {
-        return ((long) a << 32) | b & 0xFFFFFFFFL;
+import java.util.Arrays;
+import java.util.Collection;
+
+class StreamUtilsTest {
+
+    private static final Collection<Integer> COLLECTION = Arrays.asList(5, 2, 5);
+
+    @Test
+    public void testSum() {
+        Assertions.assertEquals(12, StreamUtils.sum(COLLECTION, Integer::intValue));
     }
 
-    /**
-     * Extract 1st int from long
-     */
-    public static int extractLeft(long l) {
-        return (int) (l >> 32);
+    @Test
+    public void testCount() {
+        Assertions.assertEquals(3, StreamUtils.count(COLLECTION, integer -> integer < 10));
     }
 
-    /**
-     * Extract 2nd int from long
-     */
-    public static int extractRight(long l) {
-        return (int) l;
+    @Test
+    public void testFindFirst() {
+        Assertions.assertEquals(2, StreamUtils.findFirst(COLLECTION, integer -> integer == 2).orElse(-1).intValue());
     }
 
 }

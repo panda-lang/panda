@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -37,7 +38,7 @@ public class ClassPrototypeConstructorGenerator {
     }
 
     public PrototypeConstructor generate() {
-        ClassPrototype[] parameters = new ClassPrototype[constructor.getParameterCount()];
+        ClassPrototypeReference[] parameters = new ClassPrototypeReference[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
             parameters[i] = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[i]);
@@ -69,7 +70,7 @@ public class ClassPrototypeConstructorGenerator {
             }
 
             @Override
-            public ClassPrototype[] getParameterTypes() {
+            public ClassPrototypeReference[] getParameterTypes() {
                 return parameters;
             }
         };

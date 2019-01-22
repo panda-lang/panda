@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 

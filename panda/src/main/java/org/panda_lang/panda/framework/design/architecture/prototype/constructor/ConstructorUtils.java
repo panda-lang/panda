@@ -18,11 +18,13 @@ package org.panda_lang.panda.framework.design.architecture.prototype.constructor
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class ConstructorUtils {
 
-    public static final ClassPrototype[] PARAMETERLESS = new ClassPrototype[0];
+    public static final ClassPrototypeReference[] PARAMETERLESS = new ClassPrototypeReference[0];
 
     public static PrototypeConstructor matchConstructor(ClassPrototype prototype, Expression... types) {
         ClassPrototype[] expressionTypes = new ClassPrototype[types.length];
@@ -34,20 +36,20 @@ public class ConstructorUtils {
         return matchConstructor(prototype, expressionTypes);
     }
 
-    public static @Nullable PrototypeConstructor matchConstructor(ClassPrototype prototype, ClassPrototype... types) {
+    public static @Nullable PrototypeConstructor matchConstructor(ClassPrototype prototype, ClassPrototypeMetadata... types) {
         MATCHER:
         for (PrototypeConstructor constructor : prototype.getConstructors().getCollectionOfConstructors()) {
-            ClassPrototype[] constructorTypes = constructor.getParameterTypes();
+            ClassPrototypeReference[] constructorTypes = constructor.getParameterTypes();
 
             if (constructorTypes.length != types.length) {
                 continue;
             }
 
             for (int i = 0; i < constructorTypes.length; i++) {
-                ClassPrototype constructorType = constructorTypes[i];
-                ClassPrototype type = types[i];
+                ClassPrototypeReference constructorType = constructorTypes[i];
+                ClassPrototypeMetadata type = types[i];
 
-                if (!constructorType.equals(type)) {
+                if (!constructorType.isAssignableFrom(type)) {
                     continue MATCHER;
                 }
             }

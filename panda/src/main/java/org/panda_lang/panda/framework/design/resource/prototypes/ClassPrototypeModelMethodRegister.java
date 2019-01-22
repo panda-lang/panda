@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.registry;
+package org.panda_lang.panda.framework.design.resource.prototypes;
 
 public interface ClassPrototypeModelMethodRegister {
 

@@ -16,24 +16,11 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
 
-import java.util.Collection;
-
-public interface ClassPrototype {
-
-    boolean isClassOf(String className);
-
-    boolean isAssignableFrom(ClassPrototype prototype);
-
-    Collection<ClassPrototype> getExtended();
-
-    Class<?> getAssociated();
-
-    Collection<String> getAliases();
+public interface ClassPrototype extends ClassPrototypeMetadata {
 
     PrototypeMethods getMethods();
 
@@ -41,8 +28,6 @@ public interface ClassPrototype {
 
     PrototypeConstructors getConstructors();
 
-    Module getModule();
-
-    String getClassName();
+    ClassPrototypeReference getReference();
 
 }

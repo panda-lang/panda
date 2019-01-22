@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
@@ -131,7 +132,8 @@ public class FieldParserExpression implements ExpressionSubparser, DottedFinishe
 
             if (instanceSource.size() == 1) {
                 ModuleLoader moduleLoader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-                instanceType = moduleLoader.forClass(fieldMatches.get(0).asString());
+                ClassPrototypeReference reference = moduleLoader.forClass(fieldMatches.get(0).asString());
+                instanceType = reference != null ? reference.fetch() : null;
             }
 
             if (instanceType == null) {

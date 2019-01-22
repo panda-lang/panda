@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.prototype.metho
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
@@ -37,7 +38,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethodCallback;
@@ -68,21 +69,21 @@ public class MethodParser extends UnifiedParserBootstrap {
         boolean isStatic = result.getIdentifiers().contains("static");
 
         ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        ClassPrototype returnType = registry.forClass(type.asString());
+        ClassPrototypeReference returnType = registry.forClass(type.asString());
 
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
-        ClassPrototype[] parameterTypes = ParameterUtils.toTypes(parameters);
+        ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
 
         MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
         data.setComponent(PandaComponents.SCOPE, methodScope);
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+        ClassPrototypeScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
-                .prototype(prototype)
+                .prototype(prototype.getReference())
                 .parameterTypes(parameterTypes)
                 .methodName(method)
                 .visibility(visibility)

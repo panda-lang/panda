@@ -43,14 +43,14 @@ public class PandaClassPrototypeUtils {
         return false;
     }
 
-    public static boolean hasCommonPrototypes(Collection<ClassPrototype> fromPrototypes, Collection<ClassPrototype> toPrototypes) {
-        for (ClassPrototype from : fromPrototypes) {
-            for (ClassPrototype to : toPrototypes) {
+    public static boolean hasCommonPrototypes(Collection<? extends ClassPrototypeReference> fromPrototypes, Collection<? extends ClassPrototypeReference> toPrototypes) {
+        for (ClassPrototypeReference from : fromPrototypes) {
+            for (ClassPrototypeReference to : toPrototypes) {
                 if (from.equals(to)) {
                     return true;
                 }
 
-                if (isAssignableFrom(from.getAssociated(), to.getAssociated())) {
+                if (isAssignableFrom(from.getAssociatedClass(), to.getAssociatedClass())) {
                     return true;
                 }
             }
@@ -63,7 +63,7 @@ public class PandaClassPrototypeUtils {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = loader.forClass(types[i]);
+            prototypes[i] = loader.forClass(types[i]).fetch();
         }
 
         return prototypes;

@@ -17,18 +17,18 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public interface ModuleLoader {
 
-    void include(Module module);
+    ModuleLoader include(Module module);
 
-    default @Nullable ClassPrototype forClass(Class<?> clazz) {
+    default @Nullable ClassPrototypeReference forClass(Class<?> clazz) {
         return this.forClass(clazz.getSimpleName());
     }
 
-    @Nullable ClassPrototype forClass(String name);
+    @Nullable ClassPrototypeReference forClass(String name);
 
-    Module get(String name);
+    @Nullable Module get(String name);
 
 }

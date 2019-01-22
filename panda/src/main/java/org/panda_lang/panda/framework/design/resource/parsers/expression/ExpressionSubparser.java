@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -43,8 +44,8 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
     }
 
     default Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
-        ClassPrototype type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
-        return toSimpleKnownExpression(type, value);
+        ClassPrototypeReference type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
+        return toSimpleKnownExpression(type.fetch(), value);
     }
 
     default Expression toSimpleKnownExpression(ClassPrototype type, Object value) {

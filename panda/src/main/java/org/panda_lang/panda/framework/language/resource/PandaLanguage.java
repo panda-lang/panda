@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.design.resource.Syntax;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
 import org.panda_lang.panda.util.PandaUtils;
 

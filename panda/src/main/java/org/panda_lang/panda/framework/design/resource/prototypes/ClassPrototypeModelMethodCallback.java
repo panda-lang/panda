@@ -14,17 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
+package org.panda_lang.panda.framework.design.resource.prototypes;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 
-public interface Parameter {
-
-    Variable toVariable(int nestingLevel);
-
-    ClassPrototypeReference getParameterType();
-
-    String getParameterName();
+public abstract class ClassPrototypeModelMethodCallback implements MethodCallback<Object> {
 
 }

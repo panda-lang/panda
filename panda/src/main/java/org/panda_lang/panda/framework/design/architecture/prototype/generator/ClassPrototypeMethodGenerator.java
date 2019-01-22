@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
@@ -47,8 +48,8 @@ public class ClassPrototypeMethodGenerator {
     }
 
     public PrototypeMethod generate() {
-        ClassPrototype returnType = generator.computeIfAbsent(prototype.getModule(), method.getReturnType());
-        ClassPrototype[] parametersTypes = ClassPrototypeGeneratorUtils.toTypes(prototype.getModule(), method.getParameterTypes());
+        ClassPrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), method.getReturnType());
+        ClassPrototypeReference[] parametersTypes = ClassPrototypeGeneratorUtils.toTypes(prototype.getModule(), method.getParameterTypes());
 
         if (returnType == null) {
             throw new PandaRuntimeException("Cannot generate method for 'null' return type");
@@ -106,7 +107,7 @@ public class ClassPrototypeMethodGenerator {
                     return;
                 }
 
-                Value value = new PandaValue(returnType, returnValue);
+                Value value = new PandaValue(returnType.fetch(), returnValue);
                 branch.setReturnValue(value);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -116,7 +117,7 @@ public class ClassPrototypeMethodGenerator {
         };
 
         return PandaMethod.builder()
-                .prototype(prototype)
+                .prototype(prototype.getReference())
                 .visibility(MethodVisibility.PUBLIC)
                 .isStatic(Modifier.isStatic(method.getModifiers()))
                 .returnType(returnType)

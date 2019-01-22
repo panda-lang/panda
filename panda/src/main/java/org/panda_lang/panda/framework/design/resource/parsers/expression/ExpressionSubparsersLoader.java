@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.util.PandaUtils;
 
@@ -26,6 +27,9 @@ import java.util.List;
 public class ExpressionSubparsersLoader {
 
     public ExpressionSubparsers load(ParserData data) throws Exception {
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Loading expressions");
+
         Collection<Class<? extends ExpressionSubparser>> subparserClasses = PandaUtils.DEFAULT_PANDA_SCANNER
                 .createSelector()
                 .selectSubtypesOf(ExpressionSubparser.class);

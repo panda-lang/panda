@@ -14,11 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.configuration;
+package org.panda_lang.panda.framework.design.architecture.prototype;
 
-public enum ConfigurationType {
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 
-    STRING,
-    LIST
+import java.util.Collection;
+
+public interface ClassPrototypeMetadata {
+
+    ClassPrototypeMetadata addExtended(ClassPrototypeReference reference);
+
+    boolean isClassOf(String className);
+
+    boolean isAssignableFrom(ClassPrototypeMetadata prototype);
+
+    Collection<? extends ClassPrototypeReference> getExtended();
+
+    Class<?> getAssociatedClass();
+
+    Module getModule();
+
+    String getClassName();
 
 }

@@ -17,11 +17,19 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeTypeGenerator;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeReferenceStatement;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
@@ -44,18 +52,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
@@ -79,28 +80,28 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
             throw new PandaParserException("Class name cannot be null");
         }
 
-        ClassPrototype classPrototype = PandaClassPrototype.builder()
+        ClassPrototype prototype = PandaClassPrototype.builder()
                 .module(module)
                 .associated(GENERATOR.generateType(className))
                 .name(className)
                 .build();
 
-        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
-        module.add(classPrototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
+        module.add(prototype.getReference());
 
-        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
-        classPrototype.getExtended().add(PandaTypes.OBJECT);
+        ModulePath path = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        prototype.addExtended(PandaTypes.OBJECT.getReference());
 
-        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, classPrototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
 
-        ClassScope classScope = new ClassScope(classPrototype);
-        data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, classScope);
+        ClassPrototypeScope scope = new ClassPrototypeScope(prototype);
+        data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, scope);
 
-        ClassReference classReference = new ClassReference(classPrototype, classScope);
-        script.getStatements().add(classReference);
+        ClassPrototypeReferenceStatement referenceStatement = new ClassPrototypeReferenceStatement(prototype, scope);
+        script.getStatements().add(referenceStatement);
 
-        ScopeLinker classScopeLinker = new PandaScopeLinker(classScope);
-        data.setComponent(PandaComponents.SCOPE_LINKER, classScopeLinker);
+        ScopeLinker linker = new PandaScopeLinker(scope);
+        data.setComponent(PandaComponents.SCOPE_LINKER, linker);
     }
 
     @Autowired(type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -137,7 +138,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     @Autowired(order = 1, type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL)
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+        ClassPrototypeScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         if (prototype.getConstructors().getAmountOfConstructors() > 0) {
             return;
@@ -151,12 +152,12 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
         PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
             @Override
-            public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+            public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch, Value... values) {
                 return scope.createInstance(branch);
             }
 
             @Override
-            public ClassPrototype[] getParameterTypes() {
+            public ClassPrototypeReference[] getParameterTypes() {
                 return ConstructorUtils.PARAMETERLESS;
             }
         };

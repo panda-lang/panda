@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -36,6 +37,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.generator.Cl
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
@@ -47,6 +49,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Collections;
+import java.util.Optional;
 
 public class ApplicationParser implements Parser {
 
@@ -61,7 +64,11 @@ public class ApplicationParser implements Parser {
 
         Environment environment = interpretation.getEnvironment();
         ModulePath modulePath = environment.getModulePath();
-        Module defaultModule = modulePath.get((String) null);
+        Optional<Module> defaultModule = modulePath.get(PandaModulePath.DEFAULT_MODULE);
+
+        if (!defaultModule.isPresent()) {
+            throw new PandaParserException("Default module is not implemented");
+        }
 
         Language elements = interpretation.getLanguage();
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
@@ -89,7 +96,7 @@ public class ApplicationParser implements Parser {
             exceptionTranslator.updateLocation(source.getTitle());
 
             interpretation.execute(() -> {
-                pandaScript.getModuleLoader().include(defaultModule);
+                pandaScript.getModuleLoader().include(defaultModule.get());
 
                 PandaLexer lexer = PandaLexer.of(elements.getSyntax(), source).build();
                 Tokens tokens = CommentParser.uncomment(lexer.convert());
@@ -113,9 +120,16 @@ public class ApplicationParser implements Parser {
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
 
-            PandaFramework.getLogger().debug("Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
-            PandaFramework.getLogger().debug("Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
-            PandaFramework.getLogger().debug("Loaded prototypes: " + modulePath.getAmountOfPrototypes());
+            PandaFramework.getLogger().debug("");
+            PandaFramework.getLogger().debug("--- Parse details ");
+
+            PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
+            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
+
+            PandaFramework.getLogger().debug("• Amount of references: " + modulePath.getAmountOfReferences());
+            PandaFramework.getLogger().debug("• Amount of used prototypes: " + modulePath.getAmountOfUsedPrototypes());
+
+            PandaFramework.getLogger().debug("");
         }
 
         return interpretation

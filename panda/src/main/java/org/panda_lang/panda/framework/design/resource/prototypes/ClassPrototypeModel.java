@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.registry;
+package org.panda_lang.panda.framework.design.resource.prototypes;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
@@ -29,8 +29,9 @@ import java.util.Collection;
 
 public interface ClassPrototypeModel {
 
-    @SuppressWarnings("unchecked")
     static Collection<Class<? extends ClassPrototypeModel>> of(String moduleName) {
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Loading models ");
         PandaFramework.getLogger().debug("Looking for subtypes of ClassPrototypeModel");
 
         Collection<Class<? extends ClassPrototypeModel>> classes = new ArrayList<>();
@@ -47,6 +48,7 @@ public interface ClassPrototypeModel {
         }
 
         PandaFramework.getLogger().debug("Subtypes: " + classes.size());
+
         return classes;
     }
 

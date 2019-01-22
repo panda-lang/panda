@@ -16,27 +16,23 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-public class BitwiseUtils {
+import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
+import java.util.function.ToIntFunction;
 
-    /**
-     * Convert 2 ints to 1 long
-     */
-    public static long convert(int a, int b) {
-        return ((long) a << 32) | b & 0xFFFFFFFFL;
+public class StreamUtils {
+
+    public static <T> int sum(Collection<T> collection, ToIntFunction<? super T> function) {
+        return collection.stream().mapToInt(function).sum();
     }
 
-    /**
-     * Extract 1st int from long
-     */
-    public static int extractLeft(long l) {
-        return (int) (l >> 32);
+    public static <T> int count(Collection<T> collection, Predicate<T> filter) {
+        return (int) collection.stream().filter(filter).count();
     }
 
-    /**
-     * Extract 2nd int from long
-     */
-    public static int extractRight(long l) {
-        return (int) l;
+    public static <T> Optional<T> findFirst(Collection<T> collection, Predicate<T> filter) {
+        return collection.stream().filter(filter).findFirst();
     }
 
 }

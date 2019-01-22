@@ -17,21 +17,22 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.constructor;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 public class PandaConstructor implements PrototypeConstructor {
 
     private final ClassPrototype classPrototype;
-    private final ClassScope classScope;
+    private final ClassPrototypeScope classScope;
     private final ConstructorScope constructorScope;
-    private final ClassPrototype[] types;
+    private final ClassPrototypeReference[] types;
 
-    public PandaConstructor(ClassPrototype classPrototype, ClassScope classScope, ConstructorScope constructorScope) {
+    public PandaConstructor(ClassPrototype classPrototype, ClassPrototypeScope classScope, ConstructorScope constructorScope) {
         this.classPrototype = classPrototype;
         this.classScope = classScope;
         this.constructorScope = constructorScope;
@@ -39,8 +40,8 @@ public class PandaConstructor implements PrototypeConstructor {
     }
 
     @Override
-    public ClassScopeInstance createInstance(ExecutableBranch branch, Value... values) {
-        ClassScopeInstance classInstance = classScope.createInstance(branch);
+    public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+        ClassPrototypeScopeInstance classInstance = classScope.createInstance(branch);
         Value instance = new PandaValue(classPrototype, classInstance);
 
         ConstructorScopeInstance constructorInstance = constructorScope.createInstance(branch);
@@ -53,7 +54,7 @@ public class PandaConstructor implements PrototypeConstructor {
     }
 
     @Override
-    public ClassPrototype[] getParameterTypes() {
+    public ClassPrototypeReference[] getParameterTypes() {
         return types;
     }
 

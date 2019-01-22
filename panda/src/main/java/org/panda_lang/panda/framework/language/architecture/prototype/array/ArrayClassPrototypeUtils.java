@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
@@ -30,42 +30,41 @@ import java.util.Map;
 
 public class ArrayClassPrototypeUtils {
 
-    private static final Map<String, ArrayClassPrototype> ARRAY_PROTOTYPES = new HashMap<>();
+    private static final Map<String, ClassPrototypeReference> ARRAY_PROTOTYPES = new HashMap<>();
 
-    public static ArrayClassPrototype obtain(ModuleLoader loader, String type) {
-        ArrayClassPrototype cached = ARRAY_PROTOTYPES.get(type);
+    public static ClassPrototypeReference obtain(ModuleLoader loader, String type) {
+        ClassPrototypeReference cached = ARRAY_PROTOTYPES.get(type);
 
         if (cached != null) {
             return cached;
         }
 
-        ClassPrototype prototype = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
+        ClassPrototypeReference baseReference = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
-        if (prototype == null) {
+        if (baseReference == null) {
             return null;
         }
 
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
-        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociated(), dimensions);
+        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
         ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(loader.get(null), arrayClass, arrayType);
-        loader.get(null).add(arrayPrototype);
 
         arrayPrototype.getMethods().registerMethod(PandaMethod.builder()
                 .methodName("toString")
-                .returnType(PandaTypes.OBJECT)
+                .returnType(PandaTypes.STRING.getReference())
                 .methodBody((branch, instance, parameters) -> {
                     if (!instance.getClass().isArray()) {
                         throw new RuntimeException();
                     }
 
-                    branch.setReturnValue(new PandaValue(PandaTypes.OBJECT, Arrays.toString((Object[]) instance)));
+                    branch.setReturnValue(new PandaValue(PandaTypes.STRING, Arrays.toString((Object[]) instance)));
                 })
                 .build());
 
-        ARRAY_PROTOTYPES.put(type, arrayPrototype);
-        return arrayPrototype;
+        ARRAY_PROTOTYPES.put(type, arrayPrototype.getReference());
+        return loader.get(null).add(arrayPrototype.getReference());
     }
 
 }

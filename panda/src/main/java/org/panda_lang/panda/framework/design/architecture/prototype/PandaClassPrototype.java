@@ -22,18 +22,16 @@ import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
-import java.util.Collection;
-
 public class PandaClassPrototype extends AbstractClassPrototype {
 
     private boolean initialized;
 
-    protected PandaClassPrototype(Module module, String className, Class<?> associated, Collection<String> aliases) {
-        super(module, className, associated, aliases);
+    protected PandaClassPrototype(Module module, String className, Class<?> associated) {
+        super(module, className, associated);
     }
 
     protected PandaClassPrototype(PandaClassPrototypeBuilder<?, ?> builder) {
-        this(builder.module, builder.name, builder.associated, builder.aliases);
+        this(builder.module, builder.name, builder.associated);
     }
 
     public synchronized void initialize() {
@@ -54,14 +52,14 @@ public class PandaClassPrototype extends AbstractClassPrototype {
         }
     }
 
-    public static ClassPrototype of(Module module, Class<?> type, String... aliases) {
+    public static ClassPrototypeReference of(Module module, Class<?> type, String name) {
         PandaClassPrototype prototype = builder()
                 .module(module)
+                .name(name)
                 .associated(type)
-                .aliases(aliases)
                 .build();
 
-        return module.add(prototype);
+        return module.add(new PandaClassPrototypeReference(prototype));
     }
 
     public static <T> PandaClassPrototypeBuilder<?, ?> builder() {

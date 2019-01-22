@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
@@ -33,7 +34,7 @@ public class ClassPrototypeGenerator {
     protected static long totalLoadTime;
     protected static boolean locked;
 
-    public ClassPrototype generate(Module module, Class<?> type) {
+    public ClassPrototypeReference generate(Module module, Class<?> type) {
         boolean bypass = !locked;
         long currentTime = System.nanoTime();
 
@@ -46,52 +47,52 @@ public class ClassPrototypeGenerator {
                 .associated(type)
                 .build();
 
-        module.add(prototype);
+        prototype.getReference().addInitializer(() -> {
+            for (Field field : type.getFields()) {
+                ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
+                PrototypeField prototypeField = generator.generate();
+                prototype.getFields().addField(prototypeField);
+            }
 
-        for (Field field : type.getFields()) {
-            ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
-            PrototypeField prototypeField = generator.generate();
-            prototype.getFields().addField(prototypeField);
-        }
+            for (Constructor<?> constructor : type.getConstructors()) {
+                ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
+                PrototypeConstructor prototypeField = generator.generate();
+                prototype.getConstructors().addConstructor(prototypeField);
+            }
 
-        for (Constructor<?> constructor : type.getConstructors()) {
-            ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
-            PrototypeConstructor prototypeField = generator.generate();
-            prototype.getConstructors().addConstructor(prototypeField);
-        }
+            for (Method method : type.getMethods()) {
+                ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
+                PrototypeMethod prototypeMethod = generator.generate();
+                prototype.getMethods().registerMethod(prototypeMethod);
+            }
 
-        for (Method method : type.getMethods()) {
-            ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
-            PrototypeMethod prototypeMethod = generator.generate();
-            prototype.getMethods().registerMethod(prototypeMethod);
-        }
+            if (bypass) {
+                totalLoadTime += System.nanoTime() - currentTime;
+                locked = false;
+            }
+        });
 
-        if (bypass) {
-            totalLoadTime += System.nanoTime() - currentTime;
-            locked = false;
-        }
-
-        return prototype;
+        return module.add(prototype.getReference());
     }
 
-    public ClassPrototype computeIfAbsent(Module module, Class<?> type) {
-        ClassPrototype prototype = (module == null || !module.hasClass(type))
+    public ClassPrototypeReference computeIfAbsent(Module module, Class<?> type) {
+        ClassPrototypeReference reference = (module == null || !module.hasClass(type))
                 ? generate(module, type)
-                : module.get(type);
+                : module.getAssociatedWith(type).get();
 
-        if (prototype == null) {
+        if (reference == null) {
             throw new PandaRuntimeException("Cannot prepare class: " + type);
         }
 
         if (module == null) {
-            throw new PandaRuntimeException("Cannot find module of prototype: " + prototype);
+            throw new PandaRuntimeException("Cannot find module of prototype: " + reference);
         }
 
         if (!module.hasClass(type)) {
-            module.add(prototype);
+            module.add(reference);
         }
 
-        return prototype;
+        return reference;
     }
 
     public static void resetLoadTime() {

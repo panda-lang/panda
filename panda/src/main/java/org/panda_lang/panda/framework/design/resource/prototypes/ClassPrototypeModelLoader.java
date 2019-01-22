@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.registry;
+package org.panda_lang.panda.framework.design.resource.prototypes;
 
 import javassist.ClassPool;
 import javassist.CtClass;
@@ -23,22 +23,24 @@ import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.ClassDeclaration;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.MethodDeclaration;
-import org.panda_lang.panda.framework.design.architecture.prototype.registry.ClassPrototypeModel.ModuleDeclaration;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel.ClassDeclaration;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel.MethodDeclaration;
+import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel.ModuleDeclaration;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ClassPrototypeModelLoader {
@@ -77,11 +79,13 @@ public class ClassPrototypeModelLoader {
             ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassDeclaration.class);
 
             String moduleName = moduleDeclaration.value();
-            Module module = modulePath.get(moduleName);
+            Optional<Module> optionalModule = modulePath.get(moduleName);
 
-            if (module != null && module.get(classDeclaration.value()) != null) {
+            if (optionalModule.isPresent() && optionalModule.get().get(classDeclaration.value()) != null) {
                 continue;
             }
+
+            Module module = optionalModule.orElseGet(() -> modulePath.create(moduleName));
 
             ClassPrototype prototype = PandaClassPrototype.builder()
                     .module(module)
@@ -89,11 +93,7 @@ public class ClassPrototypeModelLoader {
                     .associated(modelClass)
                     .build();
 
-            if (module == null) {
-                module = modulePath.create(moduleName);
-            }
-
-            module.add(prototype);
+            module.add(prototype.getReference());
 
             for (Method method : modelClass.getMethods()) {
                 MethodDeclaration methodDeclaration = method.getAnnotation(MethodDeclaration.class);
@@ -159,13 +159,13 @@ public class ClassPrototypeModelLoader {
                 }
 
                 MethodCallback<?> methodCallback = (MethodCallback<?>) methodCallbackClass.newInstance();
-                ClassPrototype[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(module, method.getParameterTypes());
+                ClassPrototypeReference[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(module, method.getParameterTypes());
 
                 methodRegisters.add(() -> {
                     PandaMethod pandaMethod = PandaMethod.builder()
                             .methodName(method.getName())
-                            .prototype(prototype)
-                            .returnType(PandaTypes.VOID) // TODO: Proxy or sth
+                            .prototype(prototype.getReference())
+                            .returnType(PandaTypes.VOID.getReference()) // TODO: Proxy or sth
                             .isStatic(methodDeclaration.isStatic())
                             .visibility(methodDeclaration.visibility())
                             .methodBody(methodCallback)
