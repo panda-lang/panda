@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.vague;
+package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -26,22 +26,22 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 import java.util.Stack;
 
-public class VagueWorker {
+public class ProgressivePatternWorker {
 
-    private final VagueExtractor extractor;
-    private final VagueResult result;
+    private final ProgressivePattern extractor;
+    private final ProgressivePatternResult result;
     private final TokenReader source;
 
     private Stack<Separator> separators = new Stack<>();
     private PandaTokens expression = new PandaTokens();
 
-    public VagueWorker(VagueExtractor extractor, VagueResult result, TokenReader source) {
+    public ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, TokenReader source) {
         this.extractor = extractor;
         this.result = result;
         this.source = source;
     }
 
-    public VagueResult extract() {
+    public ProgressivePatternResult extract() {
         for (TokenRepresentation representation : this.source) {
             if (this.isDivider(representation)) {
                 this.pullFragment(representation);
@@ -119,12 +119,12 @@ public class VagueWorker {
     }
 
     private void addExpression(Tokens expressionSource) {
-        VagueElement expressionElement = new VagueElement(expressionSource);
+        ProgressivePatternElement expressionElement = new ProgressivePatternElement(expressionSource);
         this.result.addElement(expressionElement);
     }
 
     private void addOperator(TokenRepresentation operatorRepresentation) {
-        VagueElement operatorElement = new VagueElement(operatorRepresentation);
+        ProgressivePatternElement operatorElement = new ProgressivePatternElement(operatorRepresentation);
         this.result.addElement(operatorElement);
     }
 

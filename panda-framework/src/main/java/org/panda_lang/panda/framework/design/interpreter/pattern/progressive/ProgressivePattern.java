@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.vague;
+package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
@@ -22,23 +22,23 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReade
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
-public class VagueExtractor {
+public class ProgressivePattern {
 
     private final Separator[] separators;
     private final Token[] dividers;
 
-    public VagueExtractor(Separator[] separators, Token[] dividers) {
+    public ProgressivePattern(Separator[] separators, Token[] dividers) {
         this.separators = separators;
         this.dividers = dividers;
     }
 
-    public VagueResult extract(Tokens source) {
-        VagueWorker worker = new VagueWorker(this, new VagueResult(), new PandaTokenReader(source));
+    public ProgressivePatternResult extract(Tokens source) {
+        ProgressivePatternWorker worker = new ProgressivePatternWorker(this, new ProgressivePatternResult(), new PandaTokenReader(source));
         return worker.extract();
     }
 
-    public VagueResult extract(TokenReader reader) {
-        VagueWorker worker = new VagueWorker(this, new VagueResult(), reader);
+    public ProgressivePatternResult extract(TokenReader reader) {
+        ProgressivePatternWorker worker = new ProgressivePatternWorker(this, new ProgressivePatternResult(), reader);
         return worker.extract();
     }
 

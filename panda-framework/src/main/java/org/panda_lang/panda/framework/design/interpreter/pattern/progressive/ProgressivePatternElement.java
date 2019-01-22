@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.vague;
+package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 
-public class VagueElement {
+public class ProgressivePatternElement {
 
     private TokenRepresentation operator;
     private Tokens expression;
 
-    public VagueElement(TokenRepresentation operator) {
+    public ProgressivePatternElement(TokenRepresentation operator) {
         this.operator = operator;
     }
 
-    public VagueElement(Tokens expression) {
+    public ProgressivePatternElement(Tokens expression) {
         this.expression = expression;
     }
 

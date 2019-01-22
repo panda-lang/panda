@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueElement;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
@@ -44,13 +44,13 @@ public class OperationExpressionUtils {
             Operators.BITWISE_RIGHT_SHIFT
     };
 
-    public static final VagueExtractor OPERATION_EXTRACTOR = new VagueExtractor(SEPARATORS, MATH_OPERATORS);
+    public static final ProgressivePattern OPERATION_EXTRACTOR = new ProgressivePattern(SEPARATORS, MATH_OPERATORS);
 
     public static boolean isOperationExpression(Tokens source) {
         return isOperationExpression(OPERATION_EXTRACTOR.extract(source));
     }
 
-    public static boolean isOperationExpression(VagueResult source) {
+    public static boolean isOperationExpression(ProgressivePatternResult source) {
         if (source.size() % 2 == 0) {
             return false;
         }
@@ -58,7 +58,7 @@ public class OperationExpressionUtils {
         int expression = 0;
         int operators = 0;
 
-        for (VagueElement element : source.getElements()) {
+        for (ProgressivePatternElement element : source.getElements()) {
             if (element.isExpression()) {
                 expression++;
             }

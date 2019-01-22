@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueElement;
-import org.panda_lang.panda.framework.design.interpreter.pattern.vague.VagueResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -39,7 +39,7 @@ public class Operation {
         return elements;
     }
 
-    private static OperationElement asOperatorElement(ExpressionParser parser, ParserData data, VagueElement element) {
+    private static OperationElement asOperatorElement(ExpressionParser parser, ParserData data, ProgressivePatternElement element) {
         if (element.isOperator()) {
             return new OperationElement(element.getOperator());
         }
@@ -50,10 +50,10 @@ public class Operation {
         return new OperationElement(expression);
     }
 
-    public static Operation of(ExpressionParser parser, ParserData data, VagueResult result) {
+    public static Operation of(ExpressionParser parser, ParserData data, ProgressivePatternResult result) {
         List<OperationElement> elements = new ArrayList<>(result.size());
 
-        for (VagueElement element : result.getElements()) {
+        for (ProgressivePatternElement element : result.getElements()) {
             elements.add(asOperatorElement(parser, data, element));
         }
 
