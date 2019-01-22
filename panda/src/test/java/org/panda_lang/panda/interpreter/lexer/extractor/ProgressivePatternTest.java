@@ -19,26 +19,22 @@ package org.panda_lang.panda.interpreter.lexer.extractor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 class ProgressivePatternTest {
 
-    private static final String SOURCE = "(new Integer(5).intValue() + 3)";
+    private static final String SOURCE = "(new Integer(5).intValue() + 3) + 2";
 
-    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(new Separator[]{
-            Separators.PARENTHESIS_LEFT,
-            Separators.PARENTHESIS_RIGHT
-    }, new Token[]{
+    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(Separators.getOpeningSeparators(), new Token[]{
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,
@@ -55,13 +51,12 @@ class ProgressivePatternTest {
         ProgressivePatternResult result = EXTRACTOR.extract(tokens);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isSucceeded());
-        Assertions.assertEquals(5, result.size());
+        Assertions.assertEquals(3, result.size());
 
         Assertions.assertAll(
-                () -> Assertions.assertEquals("(", result.get(0)),
-                () -> Assertions.assertEquals("+", result.get(2)),
-                () -> Assertions.assertEquals("3", result.get(3)),
-                () -> Assertions.assertEquals(")", result.get(4))
+                () -> Assertions.assertEquals("( new Integer ( 5 ) . intValue ( ) + 3 )", result.get(0)),
+                () -> Assertions.assertEquals("+", result.get(1)),
+                () -> Assertions.assertEquals("2", result.get(2))
         );
     }
 
