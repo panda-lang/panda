@@ -103,9 +103,8 @@ main {
 
     TestArray testArray = new TestArray(7);
     testArray.modify(test)
-    Console.print(testArray.array.toString())
 
-    String concat = "Hello " + "Panda"
+    String concat = "Hello " + "Array " + testArray.array.toString()
     Console.print(concat)
 }
 

@@ -22,15 +22,11 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.Pro
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class OperationExpressionUtils {
 
-    public static final Separator[] SEPARATORS = new Separator[]{
-
-    };
-
-    public static final Token[] MATH_OPERATORS = new Token[]{
+    public static final Token[] OPERATORS = new Token[]{
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,
@@ -44,10 +40,10 @@ public class OperationExpressionUtils {
             Operators.BITWISE_RIGHT_SHIFT
     };
 
-    public static final ProgressivePattern OPERATION_EXTRACTOR = new ProgressivePattern(SEPARATORS, MATH_OPERATORS);
+    public static final ProgressivePattern OPERATION_PATTERN = new ProgressivePattern(Separators.getOpeningSeparators(), OPERATORS);
 
     public static boolean isOperationExpression(Tokens source) {
-        return isOperationExpression(OPERATION_EXTRACTOR.extract(source));
+        return isOperationExpression(OPERATION_PATTERN.extract(source));
     }
 
     public static boolean isOperationExpression(ProgressivePatternResult source) {

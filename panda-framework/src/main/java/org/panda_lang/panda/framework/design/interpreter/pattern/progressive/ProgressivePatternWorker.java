@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
@@ -42,52 +41,57 @@ public class ProgressivePatternWorker {
     }
 
     public ProgressivePatternResult extract() {
-        for (TokenRepresentation representation : this.source) {
-            if (this.isDivider(representation)) {
-                this.pullFragment(representation);
-                continue;
-            }
-
-            if (this.isSeparator(representation)) {
-                Token token = representation.getToken();
-
-                if (!(token instanceof Separator)) {
-                    throw new PandaParserException("Token is not separator");
-                }
-
-                Separator separator = (Separator) token;
-
-                if (this.separators.size() > 0) {
-                    Separator previousSeparator = this.separators.peek();
-                    Separator opposite = previousSeparator.getOpposite();
-
-                    if (separator.equals(opposite)) {
-                        this.separators.pop();
-
-                        if (this.pullFragment(representation, 0)) {
-                            continue;
-                        }
-                    }
-                }
-
-                if (separator.hasOpposite()) {
-                    this.separators.push(separator);
-
-                    if (this.pullFragment(representation, 1)) {
-                        continue;
-                    }
-                }
-            }
-
-            this.expression.addToken(representation);
+        for (TokenRepresentation representation : source) {
+            verify(representation);
         }
 
-        if (this.expression.size() != 0) {
-            this.addExpression(this.expression);
+        if (expression.size() != 0) {
+            addExpression(expression);
         }
 
         result.succeed();
         return result;
+    }
+
+    private void verify(TokenRepresentation representation) {
+        Token token = representation.getToken();
+
+        if (!separators.isEmpty()) {
+            expression.addToken(representation);
+
+            if (!(token instanceof Separator)) {
+                return;
+            }
+
+            Separator separator = (Separator) token;
+            Separator openingSeparator = separators.peek();
+
+            if (openingSeparator.hasOpposite() && openingSeparator.getOpposite().equals(token)) {
+                separators.pop();
+            }
+            else if (separator.hasOpposite()){
+                separators.push(separator);
+            }
+
+            return;
+        }
+
+        if (isDivider(representation)) {
+            pullFragment(representation);
+            return;
+        }
+
+        if (!isSeparator(representation)) {
+            expression.addToken(representation);
+            return;
+        }
+
+        Separator separator = (Separator) token;
+        expression.addToken(representation);
+
+        if (separator.hasOpposite()) {
+            separators.push(separator);
+        }
     }
 
     private boolean pullFragment(TokenRepresentation operatorRepresentation, int requiredSeparators) {

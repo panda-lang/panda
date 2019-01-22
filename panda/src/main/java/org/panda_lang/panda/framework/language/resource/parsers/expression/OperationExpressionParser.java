@@ -39,13 +39,13 @@ public class OperationExpressionParser implements ExpressionSubparser, DottedFin
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, OperationExpressionUtils.MATH_OPERATORS, extensions);
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, OperationExpressionUtils.OPERATORS, extensions);
 
         if (selected == null) {
             return null;
         }
 
-        if (!TokensUtils.contains(selected, OperationExpressionUtils.MATH_OPERATORS)) {
+        if (!TokensUtils.contains(selected, OperationExpressionUtils.OPERATORS)) {
             return null;
         }
 

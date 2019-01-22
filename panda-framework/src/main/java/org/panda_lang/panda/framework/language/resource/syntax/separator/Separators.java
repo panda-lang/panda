@@ -74,8 +74,12 @@ public class Separators {
         return null;
     }
 
+    public static Separator[] getOpeningSeparators() {
+        return new Separator[] { BRACE_LEFT, SQUARE_BRACKET_LEFT, PARENTHESIS_LEFT, ANGLE_BRACKET_LEFT };
+    }
+
     public static Separator[] getClosingSeparators() {
-        return new Separator[] { BRACE_RIGHT, SQUARE_BRACKET_RIGHT, PARENTHESIS_RIGHT };
+        return new Separator[] { BRACE_RIGHT, SQUARE_BRACKET_RIGHT, PARENTHESIS_RIGHT, ANGLE_BRACKET_RIGHT };
     }
 
     public static Separator[] values() {

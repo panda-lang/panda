@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator
 public class OperationParser implements Parser {
 
     public ExpressionCallback parse(ParserData data, Tokens source) {
-        return parse(data, source, OperationExpressionUtils.OPERATION_EXTRACTOR.extract(source));
+        return parse(data, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));
     }
 
     public ExpressionCallback parse(ParserData data, Tokens source, ProgressivePatternResult result) {
