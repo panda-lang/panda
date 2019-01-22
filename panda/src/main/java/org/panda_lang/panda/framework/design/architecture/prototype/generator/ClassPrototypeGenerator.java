@@ -78,7 +78,7 @@ public class ClassPrototypeGenerator {
     public ClassPrototypeReference computeIfAbsent(Module module, Class<?> type) {
         ClassPrototypeReference reference = (module == null || !module.hasClass(type))
                 ? generate(module, type)
-                : module.getAssociatedWith(type);
+                : module.getAssociatedWith(type).get();
 
         if (reference == null) {
             throw new PandaRuntimeException("Cannot prepare class: " + type);

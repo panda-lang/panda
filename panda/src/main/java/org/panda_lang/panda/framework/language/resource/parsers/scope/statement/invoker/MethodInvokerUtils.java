@@ -22,16 +22,17 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MethodInvokerUtils {
 
     public static @Nullable ClassPrototypeReference find(List<ImportStatement> importStatements, String className) {
         for (ImportStatement importStatement : importStatements) {
             Module module = importStatement.getImportedModule();
-            ClassPrototypeReference reference = module.get(className);
+            Optional<ClassPrototypeReference> reference = module.get(className);
 
-            if (reference != null) {
-                return reference;
+            if (reference.isPresent()) {
+                return reference.get();
             }
         }
 

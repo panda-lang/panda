@@ -25,6 +25,7 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class PandaModuleLoader implements ModuleLoader {
 
@@ -55,10 +56,10 @@ public class PandaModuleLoader implements ModuleLoader {
         }
 
         for (Module module : importedModules.values()) {
-            ClassPrototypeReference reference = module.get(name);
+            Optional<ClassPrototypeReference> reference = module.get(name);
 
-            if (reference != null) {
-                return reference;
+            if (reference.isPresent()) {
+                return reference.get();
             }
         }
 

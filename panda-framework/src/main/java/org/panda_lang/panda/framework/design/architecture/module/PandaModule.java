@@ -38,7 +38,7 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public Collection<? extends ClassPrototypeReference> getReferences() {
+    public Collection<ClassPrototypeReference> getReferences() {
         return references;
     }
 
