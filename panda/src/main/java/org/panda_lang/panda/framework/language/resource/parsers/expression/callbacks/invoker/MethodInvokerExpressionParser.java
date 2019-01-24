@@ -70,14 +70,14 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
     @Override
     public void parse(@Nullable Tokens source, ParserData data) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        ModuleLoader registry = script.getModuleLoader();
+        ModuleLoader loader = script.getModuleLoader();
 
         Expression instance = null;
         ClassPrototype prototype;
 
         if (instanceSource != null) {
             String surmiseClassName = instanceSource.asString();
-            ClassPrototypeReference reference = registry.forClass(surmiseClassName);
+            ClassPrototypeReference reference = loader.forClass(surmiseClassName);
             prototype = reference != null ? reference.fetch() : null;
 
             if (prototype == null) {

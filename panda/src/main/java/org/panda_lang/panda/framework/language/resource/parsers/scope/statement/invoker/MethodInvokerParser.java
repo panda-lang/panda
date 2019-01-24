@@ -43,12 +43,12 @@ public class MethodInvokerParser extends UnifiedParserBootstrap {
         return defaultBuilder.pattern("[<instance:reader expression exclude method, field> .] <name> `( [<*args>] `) [;]");
     }
 
-    @Autowired
+    @Autowired(order = 1)
     public void parse(ParserData data, LocalData localData) {
         localData.allocateInstance(data.getComponent(PandaComponents.CONTAINER).reserveCell());
     }
 
-    @Autowired(order = 1, delegation = Delegation.NEXT_AFTER)
+    @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
     public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Tokens instance, @Src("name") Tokens name, @Nullable @Src("*args") Tokens arguments) {
         if (arguments == null) {
             arguments = new PandaTokens();

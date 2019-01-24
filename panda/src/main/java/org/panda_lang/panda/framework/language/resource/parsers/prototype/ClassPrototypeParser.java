@@ -54,6 +54,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -71,7 +72,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
                 .pattern("class <name> [extends <inherited>] `{ [<*body>] `}");
     }
 
-    @Autowired(type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL)
+    @Autowired(type = GenerationTypes.TYPES_LABEL)
     public void parse(ParserData data, Generation generation, @Src("name") String className) throws Exception {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
@@ -104,14 +105,14 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         data.setComponent(PandaComponents.SCOPE_LINKER, linker);
     }
 
-    @Autowired(type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void parseDeclaration(ParserData data, @Src("declaration") Tokens declaration) {
         if (declaration != null) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
-    @Autowired(type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
+    @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
     public void parseBody(ParserData data, Generation generation, @Nullable @Src("*body") Tokens body) throws Throwable {
         if (TokensUtils.isEmpty(body)) {
             return;
@@ -135,7 +136,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         }
     }
 
-    @Autowired(order = 1, type = org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes.TYPES_LABEL)
+    @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassPrototypeScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);

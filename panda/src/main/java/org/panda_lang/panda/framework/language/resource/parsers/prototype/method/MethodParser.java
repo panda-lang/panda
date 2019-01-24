@@ -19,9 +19,13 @@ package org.panda_lang.panda.framework.language.resource.parsers.prototype.metho
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
@@ -38,13 +42,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethodCallback;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter.ParameterParser;
 
@@ -58,7 +57,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         return defaultBuilder.pattern("(method|local|hidden) static:[static] <return:reader type> <name> `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
-    @Autowired(type = PandaTypes.TYPES_LABEL)
+    @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     @AutowiredParameters(skip = 3, value = {
             @Type(with = Src.class, value = "return"),
             @Type(with = Src.class, value = "name"),
@@ -80,7 +79,6 @@ public class MethodParser extends UnifiedParserBootstrap {
         data.setComponent(PandaComponents.SCOPE, methodScope);
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassPrototypeScope classScope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype.getReference())
@@ -96,7 +94,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         return true;
     }
 
-    @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
+    @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
     void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("*body") Tokens body) throws Throwable {
         ScopeParser.createParser(methodScope, delegatedData)
                 .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)

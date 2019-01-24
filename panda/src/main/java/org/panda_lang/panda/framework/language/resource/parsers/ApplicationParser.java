@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.Express
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.CommentParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
@@ -74,7 +74,7 @@ public class ApplicationParser implements Parser {
         PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
 
         PandaGeneration generation = new PandaGeneration();
-        generation.initialize(PandaTypes.getValues());
+        generation.initialize(GenerationTypes.getValues());
 
         ParserData baseData = new PandaParserData();
         baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);

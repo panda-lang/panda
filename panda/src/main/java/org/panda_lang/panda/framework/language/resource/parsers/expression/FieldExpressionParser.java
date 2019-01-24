@@ -53,7 +53,7 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.List;
 
-public class FieldParserExpression implements ExpressionSubparser, DottedFinisher {
+public class FieldExpressionParser implements ExpressionSubparser, DottedFinisher {
 
     private static final Token[] FIELD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
 
@@ -118,7 +118,7 @@ public class FieldParserExpression implements ExpressionSubparser, DottedFinishe
                 }
             }
 
-            throw new PandaParserFailure("Cannot find variable or field called " + source.asString(), data);
+            throw new PandaParserFailure("Cannot find variable or field called " + source.asString() + " /" + main.getSubparsers().getSubparsers().size() , data, source);
         }
 
         List<Tokens> fieldMatches = FIELD_PATTERN.match(new PandaTokenReader(source));

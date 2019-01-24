@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class PandaTypes {
+public class GenerationTypes {
 
     public static final String RAW_SYNTAX_LABEL = "RAW_SYNTAX";
     public static final PipelineType RAW_SYNTAX = new PipelineType(RAW_SYNTAX_LABEL, 1.0);
@@ -40,7 +40,7 @@ public class PandaTypes {
     private static final Collection<PipelineType> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getStaticFieldValues(PandaTypes.class, PipelineType.class);
+        VALUES = ReflectionUtils.getStaticFieldValues(GenerationTypes.class, PipelineType.class);
     }
 
     public static List<? extends PipelineType> getValues() {
