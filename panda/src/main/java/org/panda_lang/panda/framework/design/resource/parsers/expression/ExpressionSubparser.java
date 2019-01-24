@@ -58,7 +58,7 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
     }
 
     default int getMinimumLength() {
-        return -1;
+        return 1;
     }
 
     double getPriority();

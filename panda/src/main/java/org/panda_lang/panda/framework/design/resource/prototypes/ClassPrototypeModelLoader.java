@@ -20,12 +20,12 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.CtMethod;
 import org.panda_lang.panda.PandaException;
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class ClassPrototypeModelLoader {
 
@@ -60,13 +61,11 @@ public class ClassPrototypeModelLoader {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void loadModels(Collection<Class<? extends ClassPrototypeModel>> models) throws Exception {
         Collection<ClassPrototypeModelMethodRegister> methodRegisters = new ArrayList<>();
+        Collection<Class<?>> loaded = new ArrayList<>();
 
-        ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
         ClassPool pool = ClassPool.getDefault();
-
         CtClass objectCtClass = pool.getCtClass(Object.class.getName());
         CtClass methodCallbackCtClass = pool.get(ClassPrototypeModelMethodCallback.class.getName());
         CtClass executableBranchCtClass = pool.get(ExecutableBranch.class.getName());
@@ -81,10 +80,11 @@ public class ClassPrototypeModelLoader {
             String moduleName = moduleDeclaration.value();
             Optional<Module> optionalModule = modulePath.get(moduleName);
 
-            if (optionalModule.isPresent() && optionalModule.get().get(classDeclaration.value()) != null) {
+            if (optionalModule.isPresent() && optionalModule.get().get(classDeclaration.value()).isPresent()) {
                 continue;
             }
 
+            loaded.add(modelClass);
             Module module = optionalModule.orElseGet(() -> modulePath.create(moduleName));
 
             ClassPrototype prototype = PandaClassPrototype.builder()
@@ -94,6 +94,7 @@ public class ClassPrototypeModelLoader {
                     .build();
 
             module.add(prototype.getReference());
+            Class.forName(modelClass.getName());
 
             for (Method method : modelClass.getMethods()) {
                 MethodDeclaration methodDeclaration = method.getAnnotation(MethodDeclaration.class);
@@ -181,6 +182,8 @@ public class ClassPrototypeModelLoader {
         for (ClassPrototypeModelMethodRegister methodRegister : methodRegisters) {
             methodRegister.register();
         }
+
+        PandaFramework.getLogger().debug("Loaded models: " + loaded.stream().map(Class::getSimpleName).collect(Collectors.toList()).toString());
     }
 
 }

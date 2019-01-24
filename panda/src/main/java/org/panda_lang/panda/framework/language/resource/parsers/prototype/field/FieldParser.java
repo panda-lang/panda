@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
@@ -60,7 +60,7 @@ public class FieldParser extends UnifiedParserBootstrap {
                 );
     }
 
-    @Autowired(type = PandaTypes.TYPES_LABEL)
+    @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     public void parse(ParserData data, LocalData local, ExtractorResult result) {
         FieldVisibility visibility = FieldVisibility.valueOf(result.getWildcard("visibility").asString().toUpperCase());
         String type = result.getWildcard("type").asString();
@@ -90,7 +90,7 @@ public class FieldParser extends UnifiedParserBootstrap {
         local.allocateInstance(field);
     }
 
-    @Autowired(order = 1)
+    @Autowired(order = 2)
     public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Tokens assignation) {
         if (TokensUtils.isEmpty(assignation)) {
             return;

@@ -49,4 +49,13 @@ public class ClassUtils {
 
     }
 
+    public static boolean exists(String name) {
+        try {
+            Class.forName(name);
+            return true;
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+    }
+
 }

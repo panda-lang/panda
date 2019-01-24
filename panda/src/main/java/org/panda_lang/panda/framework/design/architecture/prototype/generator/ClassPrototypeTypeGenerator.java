@@ -18,12 +18,17 @@ package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import javassist.ClassPool;
 import javassist.CtClass;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 public class ClassPrototypeTypeGenerator {
 
     private static final ClassPool POOL = ClassPool.getDefault();
 
     public Class<?> generateType(String className) throws Exception {
+        if (ClassUtils.exists(className)) {
+            return Class.forName(className);
+        }
+
         CtClass generatedClass = POOL.makeClass(className);
         return generatedClass.toClass();
     }
