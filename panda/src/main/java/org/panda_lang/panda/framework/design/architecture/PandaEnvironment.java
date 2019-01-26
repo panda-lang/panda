@@ -19,14 +19,20 @@ package org.panda_lang.panda.framework.design.architecture;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.module.PandaModulePath;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModelLoader;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.resource.prototypes.model.loader.AnnotatedModelsLoader;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.loader.AutoloadLoader;
+import org.panda_lang.panda.util.PandaUtils;
 
 public class PandaEnvironment implements Environment {
 
     protected final Panda panda;
     protected final ModulePath modulePath;
+
+    protected PipelineRegistry pipelineRegistry;
     protected PandaInterpreter interpreter;
 
     public PandaEnvironment(Panda panda) {
@@ -35,16 +41,27 @@ public class PandaEnvironment implements Environment {
     }
 
     public void initialize() {
-        PandaTypes liquid = new PandaTypes();
-        liquid.fill(modulePath);
+        PandaTypes types = new PandaTypes();
+        types.fill(modulePath);
 
-        ClassPrototypeModelLoader modelLoader = new ClassPrototypeModelLoader(modulePath);
-        panda.getPandaLanguage().getMappings().forEach((modelLoader::load));
+        AutoloadLoader autoloadLoader = new AutoloadLoader();
+        autoloadLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
+
+        ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
+        this.pipelineRegistry = registrationLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
+
+        AnnotatedModelsLoader modelLoader = new AnnotatedModelsLoader();
+        modelLoader.load(modulePath, PandaUtils.DEFAULT_PANDA_SCANNER);
 
         this.interpreter = PandaInterpreter.builder()
                 .environment(this)
                 .elements(panda.getPandaLanguage())
                 .build();
+    }
+
+    @Override
+    public PipelineRegistry getPipelineRegistry() {
+        return pipelineRegistry;
     }
 
     @Override

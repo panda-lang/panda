@@ -16,15 +16,9 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.language.resource.loader.AutoloadLoader;
-import org.panda_lang.panda.util.PandaUtils;
-
 public class PandaFactory {
 
     public Panda createPanda() {
-        AutoloadLoader autoloadLoader = new AutoloadLoader();
-        autoloadLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
-
         return new Panda();
     }
 

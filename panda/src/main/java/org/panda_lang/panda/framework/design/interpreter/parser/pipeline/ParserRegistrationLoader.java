@@ -57,6 +57,8 @@ public class ParserRegistrationLoader {
                 registry.getOrCreate(component).registerParserRepresentation(representation);
             }
         }
+
+        PandaFramework.getLogger().debug("Pipelines: (" + registry.names().size() + ") " + registry.names());
     }
 
     private UnifiedParser createParserInstance(Class<?> currentClass, Class<? extends UnifiedParser> parserClass) throws Exception {

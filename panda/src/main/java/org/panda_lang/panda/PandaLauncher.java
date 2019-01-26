@@ -17,7 +17,6 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.FileUtils;
 
@@ -29,7 +28,6 @@ public final class PandaLauncher {
     public static void main(String[] args) {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
-        panda.getPandaLanguage().getMappings().add(ClassPrototypeModel.of("panda-lang")); // TODO: Loading
 
         if (!ArrayUtils.isEmpty(args)) {
             panda.getPandaCLI().run(args);

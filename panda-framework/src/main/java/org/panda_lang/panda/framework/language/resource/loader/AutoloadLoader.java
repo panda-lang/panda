@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.resource.loader;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.resource.Autoload;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.Collection;
 
@@ -33,13 +34,15 @@ public class AutoloadLoader {
         for (Class<?> clazz : classes) {
             load(clazz);
         }
+
+        PandaFramework.getLogger().debug("Autoloaded: (" + classes.size() + ") " + StreamUtils.map(classes, Class::getSimpleName));
     }
 
     private void load(Class<?> clazz) {
         try {
             Class.forName(clazz.getName());
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

@@ -16,11 +16,7 @@
 
 package org.panda_lang.panda.framework.design.resource;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
-
 public interface Language {
-
-    PipelineRegistry getParserPipelineRegistry();
 
     Syntax getSyntax();
 

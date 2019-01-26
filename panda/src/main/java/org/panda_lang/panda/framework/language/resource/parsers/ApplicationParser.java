@@ -18,34 +18,32 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.module.PandaModulePath;
+import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.Language;
-import org.panda_lang.panda.framework.design.architecture.PandaApplication;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.CommentParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.CommentParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Collections;
@@ -70,15 +68,12 @@ public class ApplicationParser implements Parser {
             throw new PandaParserException("Default module is not implemented");
         }
 
-        Language elements = interpretation.getLanguage();
-        PipelineRegistry pipelineRegistry = elements.getParserPipelineRegistry();
-
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationTypes.getValues());
 
         ParserData baseData = new PandaParserData();
         baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);
-        baseData.setComponent(UniversalComponents.PIPELINE, pipelineRegistry);
+        baseData.setComponent(UniversalComponents.PIPELINE, environment.getPipelineRegistry());
         baseData.setComponent(UniversalComponents.GENERATION, generation);
         baseData.setComponent(PandaComponents.MODULE_REGISTRY, modulePath);
 
@@ -98,7 +93,7 @@ public class ApplicationParser implements Parser {
             interpretation.execute(() -> {
                 pandaScript.getModuleLoader().include(defaultModule.get());
 
-                PandaLexer lexer = PandaLexer.of(elements.getSyntax(), source).build();
+                PandaLexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax(), source).build();
                 Tokens tokens = CommentParser.uncomment(lexer.convert());
 
                 PandaSourceStream sourceStream = new PandaSourceStream(tokens);
@@ -124,7 +119,7 @@ public class ApplicationParser implements Parser {
             PandaFramework.getLogger().debug("--- Parse details ");
 
             PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
-            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(pipelineRegistry.getTotalHandleTime()));
+            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelineRegistry().getTotalHandleTime()));
 
             PandaFramework.getLogger().debug("• Amount of references: " + modulePath.getAmountOfReferences());
             PandaFramework.getLogger().debug("• Amount of used prototypes: " + modulePath.getAmountOfUsedPrototypes());
