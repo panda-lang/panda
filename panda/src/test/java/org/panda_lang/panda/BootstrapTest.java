@@ -24,7 +24,6 @@ import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
-import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
@@ -42,7 +41,6 @@ class BootstrapTest {
     private void testBootstrap() {
         Panda panda = new PandaBootstrap()
                 .syntax(PandaSyntax.getInstance())
-                .mapModels(ClassPrototypeModel.of("panda-lang"))
                 .get();
 
         Application application = new PandaApplicationBootstrap(panda)

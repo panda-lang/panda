@@ -17,24 +17,26 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.AbstractComponent;
+import org.panda_lang.panda.utilities.commons.StreamUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class PandaPipelineRegistry implements PipelineRegistry {
 
     private final Map<PipelineComponent<?>, ParserPipeline<?>> pipelines = new HashMap<>(3);
-    private final PandaParserPipeline<Parser> all = new PandaParserPipeline<>();
 
     public PandaPipelineRegistry() {
-        pipelines.put(UniversalPipelines.ALL, all);
+        pipelines.put(UniversalPipelines.ALL, new PandaParserPipeline<>());
     }
 
     protected <P extends Parser> ParserPipeline<P> getOrCreate(PipelineComponent<P> component) {
         ParserPipeline<P> pipeline = getPipeline(component);
 
         if (pipeline == null) {
-            pipelines.put(component, new PandaParserPipeline<>(all));
+            pipelines.put(component, new PandaParserPipeline<>(pipelines.get(UniversalPipelines.ALL)));
             pipeline = getPipeline(component);
         }
 
@@ -49,13 +51,12 @@ public class PandaPipelineRegistry implements PipelineRegistry {
 
     @Override
     public long getTotalHandleTime() {
-        long totalHandleTime = 0;
+        return StreamUtils.sumLongs(pipelines.values(), ParserPipeline::getHandleTime);
+    }
 
-        for (ParserPipeline pipeline : pipelines.values()) {
-            totalHandleTime += pipeline.getHandleTime();
-        }
-
-        return totalHandleTime;
+    @Override
+    public Collection<String> names() {
+        return StreamUtils.map(pipelines.keySet(), AbstractComponent::getName);
     }
 
 }

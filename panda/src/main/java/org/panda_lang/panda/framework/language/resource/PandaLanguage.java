@@ -16,43 +16,19 @@
 
 package org.panda_lang.panda.framework.language.resource;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.design.resource.Syntax;
-import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
-import org.panda_lang.panda.util.PandaUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class PandaLanguage implements Language {
 
     private Syntax syntax;
-    private PipelineRegistry pipelineRegistry;
-    private Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings;
 
     public PandaLanguage() {
         this.syntax = PandaSyntax.getInstance();
-        this.pipelineRegistry = new ParserRegistrationLoader().load(PandaUtils.DEFAULT_PANDA_SCANNER);
-        this.mappings = new ArrayList<>(1);
-    }
-
-    public void setMappings(Collection<Collection<Class<? extends ClassPrototypeModel>>> mappings) {
-        this.mappings = mappings;
     }
 
     public void setSyntax(Syntax syntax) {
         this.syntax = syntax;
-    }
-
-    public Collection<Collection<Class<? extends ClassPrototypeModel>>> getMappings() {
-        return mappings;
-    }
-
-    @Override
-    public PipelineRegistry getParserPipelineRegistry() {
-        return pipelineRegistry;
     }
 
     @Override

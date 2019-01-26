@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.util.PandaUtils;
+import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,7 +35,10 @@ public class ExpressionSubparsersLoader {
                 .createSelector()
                 .selectSubtypesOf(ExpressionSubparser.class);
 
-        return new ExpressionSubparsers(load(subparserClasses, data));
+        List<ExpressionSubparser> subparsers = load(subparserClasses, data);
+        PandaFramework.getLogger().debug("Subparsers: (" + subparsers.size() + ") " + StreamUtils.map(subparsers, ExpressionSubparser::getName));
+
+        return new ExpressionSubparsers(subparsers);
     }
 
     private List<ExpressionSubparser> load(Collection<Class<? extends ExpressionSubparser>> subparserClasses, ParserData data) throws Exception {

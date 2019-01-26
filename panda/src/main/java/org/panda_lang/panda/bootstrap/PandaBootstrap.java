@@ -18,21 +18,13 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
 import org.panda_lang.panda.framework.design.resource.Syntax;
-import org.panda_lang.panda.framework.design.resource.prototypes.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.utilities.commons.LoggingUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 public class PandaBootstrap {
 
     protected Syntax syntax;
-    protected PipelineRegistry registry;
-    protected Collection<Collection<Class<? extends ClassPrototypeModel>>> modelsCollection = new ArrayList<>();
-    protected GenerationInitializer generationInitializer;
 
     public PandaBootstrap() {
         LoggingUtils.skipJansi();
@@ -43,23 +35,12 @@ public class PandaBootstrap {
         return this;
     }
 
-    public PandaBootstrap mapModels(Collection<Class<? extends ClassPrototypeModel>> models) {
-        this.modelsCollection.add(models);
-        return this;
-    }
-
-    public PandaBootstrap addGenerationHandler(GenerationInitializer initializer) {
-        this.generationInitializer = initializer;
-        return this;
-    }
-
     public Panda get() {
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda();
 
         PandaLanguage elements = panda.getPandaLanguage();
         elements.setSyntax(syntax);
-        elements.setMappings(modelsCollection);
 
         return panda;
     }
