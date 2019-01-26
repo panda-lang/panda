@@ -3,6 +3,6 @@ codecov:
     require_ci_to_pass: yes
     
 coverage:
-  range: 40..100
+  range: 20..100
   round: up
   precision: 2
