@@ -28,7 +28,7 @@ class Test {
         this.testField = this
         testField = this
         this.echo(String.valueOf(i))
-        //echo(this.i)
+        echo(this)
     }
 
     constructor() {
