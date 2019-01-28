@@ -49,7 +49,7 @@ public class FieldParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .pattern(PatternContentBuilder.create()
-                        .element("<visibility>")
+                        .element("(p:public|l:local|h:hidden)")
                         .optional("static", "static")
                         .optional("mutable", "mutable")
                         .optional("nullable", "nullable")
@@ -62,7 +62,10 @@ public class FieldParser extends UnifiedParserBootstrap {
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     public void parse(ParserData data, LocalData local, ExtractorResult result) {
-        FieldVisibility visibility = FieldVisibility.valueOf(result.getWildcard("visibility").asString().toUpperCase());
+        FieldVisibility visibility = FieldVisibility.LOCAL;
+        visibility = result.hasIdentifier("p") ? FieldVisibility.PUBLIC : visibility;
+        visibility = result.hasIdentifier("h") ? FieldVisibility.HIDDEN : visibility;
+
         String type = result.getWildcard("type").asString();
         String name = result.getWildcard("name").asString();
 

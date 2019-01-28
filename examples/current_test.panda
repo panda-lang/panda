@@ -4,7 +4,7 @@ import panda-lang
 
 class Foo extends Test {
 
-    method static void anotherEcho(String message1) {
+    static method anotherEcho(String message1) {
         Console.print(message1)
     }
 
@@ -35,11 +35,11 @@ class Test {
         // empty constructor
     }
 
-    method void echo(Object message3) {
+    method echo(Object message3) {
         Console.print(message3)
     }
 
-    method void testField() {
+    method testField() {
         this.echo(this.getTestField())
         return
     }
@@ -116,7 +116,7 @@ class TestArray {
         this.array = new String[size];
     }
 
-    local void modify(Test test) {
+    local method modify(Test test) {
         this.getArray()[test.i] = "Hello Array"
         array[6] = String.valueOf(this)
 

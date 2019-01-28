@@ -17,8 +17,6 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
@@ -45,13 +43,13 @@ public class PandaApplication implements Application {
             if (mains.size() == 1) {
                 MainScope main = mains.get(0);
                 ExecutableProcess process = new PandaExecutableProcess(this, main, this.arguments);
-                PandaFramework.getLogger().info("[PandaApp] Launching application...");
+                PandaFramework.getLogger().debug("[PandaApp] Launching application...");
 
                 long initTime = System.nanoTime();
                 process.execute();
                 long uptime = System.nanoTime() - initTime;
 
-                PandaFramework.getLogger().info("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
+                PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
                 return;
             }
             else if (mains.size() > 1) {

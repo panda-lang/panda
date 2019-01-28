@@ -3,6 +3,7 @@ package org.panda_lang.panda.framework.design.resource.prototypes.model.loader;
 import javassist.CtClass;
 import javassist.CtMethod;
 import org.panda_lang.panda.PandaException;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorUtils;
@@ -10,7 +11,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Metho
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
@@ -20,7 +20,7 @@ class ModelMethodGenerator {
 
     private static final AtomicInteger ID = new AtomicInteger();
 
-    public void generate(Class<? extends ClassPrototypeModel> model, ClassPrototype prototype, Method method) throws Exception {
+    public void generate(ModulePath path, Class<? extends ClassPrototypeModel> model, ClassPrototype prototype, Method method) throws Exception {
         ClassPrototypeModel.MethodDeclaration methodDeclaration = method.getAnnotation(ClassPrototypeModel.MethodDeclaration.class);
 
         if (methodDeclaration == null) {
@@ -84,12 +84,13 @@ class ModelMethodGenerator {
         }
 
         MethodCallback<?> methodCallback = (MethodCallback<?>) methodCallbackClass.newInstance();
+        ClassPrototypeReference returnType = prototype.getModule().getAssociatedWith(method.getReturnType()).orElse(null);
         ClassPrototypeReference[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(prototype.getModule(), method.getParameterTypes());
 
         PandaMethod pandaMethod = PandaMethod.builder()
                 .methodName(method.getName())
                 .prototype(prototype.getReference())
-                .returnType(PandaTypes.VOID.getReference()) // TODO: Proxy or sth
+                .returnType(returnType) // TODO: Proxy or sth
                 .isStatic(methodDeclaration.isStatic())
                 .visibility(methodDeclaration.visibility())
                 .methodBody(methodCallback)

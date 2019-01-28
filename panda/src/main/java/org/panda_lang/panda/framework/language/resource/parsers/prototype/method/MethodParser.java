@@ -43,6 +43,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter.ParameterParser;
@@ -54,30 +55,36 @@ public class MethodParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("(method|local|hidden) static:[static] <return:reader type> <name> `( [<*parameters>] `) `{ [<*body>] `}");
+        return defaultBuilder.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> `( [<*parameters>] `) `{ [<*body>] `}");
     }
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     @AutowiredParameters(skip = 3, value = {
-            @Type(with = Src.class, value = "return"),
-            @Type(with = Src.class, value = "name"),
+            @Type(with = Src.class, value = "*signature"),
             @Type(with = Src.class, value = "*parameters")
     })
-    boolean parse(ParserData data, LocalData local, ExtractorResult result, Tokens type, String method, Tokens parametersSource) {
+    boolean parse(ParserData data, LocalData local, ExtractorResult result, Tokens signature, Tokens parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
-        boolean isStatic = result.getIdentifiers().contains("static");
 
-        ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        ClassPrototypeReference returnType = registry.forClass(type.asString());
+        if (result.hasIdentifier("v")) {
+            visibility = result.hasIdentifier("l") ? MethodVisibility.LOCAL : MethodVisibility.HIDDEN;
+        }
 
-        ParameterParser parameterParser = new ParameterParser();
-        List<Parameter> parameters = parameterParser.parse(data, parametersSource);
+        ClassPrototypeReference returnType = PandaTypes.VOID.getReference();
+
+        if (signature.size() > 1) {
+            ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
+            returnType = registry.forClass(signature.subSource(0, signature.size() - 1).asString());
+        }
+
+        List<Parameter> parameters =  new ParameterParser().parse(data, parametersSource);
         ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
 
+        String method = signature.getLast().getTokenValue();
         MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
-        data.setComponent(PandaComponents.SCOPE, methodScope);
 
+        data.setComponent(PandaComponents.SCOPE, methodScope);
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
@@ -86,7 +93,7 @@ public class MethodParser extends UnifiedParserBootstrap {
                 .methodName(method)
                 .visibility(visibility)
                 .returnType(returnType)
-                .isStatic(isStatic)
+                .isStatic(result.getIdentifiers().contains("s"))
                 .methodBody(new PandaMethodCallback(methodScope))
                 .build();
 
