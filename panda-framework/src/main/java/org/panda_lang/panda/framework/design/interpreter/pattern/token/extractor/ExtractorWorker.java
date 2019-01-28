@@ -49,6 +49,10 @@ class ExtractorWorker {
     }
 
     protected ExtractorResult extract(TokenDistributor distributor, LexicalPatternElement element) {
+        return extractInternal(distributor, element).identified(element.getIdentifier());
+    }
+
+    private ExtractorResult extractInternal(TokenDistributor distributor, LexicalPatternElement element) {
         if (element.isUnit()) {
             return unitExtractor.extract(element.toUnit(), distributor);
         }

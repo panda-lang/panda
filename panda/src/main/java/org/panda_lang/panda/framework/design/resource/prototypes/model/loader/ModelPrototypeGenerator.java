@@ -37,7 +37,7 @@ class ModelPrototypeGenerator {
         Class.forName(modelClass.getName());
 
         for (Method method : modelClass.getMethods()) {
-            GENERATOR.generate(modelClass, prototype, method);
+            GENERATOR.generate(modulePath, modelClass, prototype, method);
         }
 
         return prototype;

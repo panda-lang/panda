@@ -17,8 +17,6 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
@@ -28,7 +26,6 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class PandaModuleLoader implements ModuleLoader {
 
@@ -66,6 +63,7 @@ public class PandaModuleLoader implements ModuleLoader {
             }
         }
 
+        /*
         StringBuilder content = new StringBuilder();
 
         for (Module value : importedModules.values()) {
@@ -73,6 +71,8 @@ public class PandaModuleLoader implements ModuleLoader {
         }
 
         PandaFramework.getLogger().debug(content.toString());
+        */
+
         return null;
     }
 

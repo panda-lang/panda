@@ -20,7 +20,6 @@ public enum FieldVisibility {
 
     PUBLIC,
     LOCAL,
-    HIDDEN,
-    PRIVATE
+    HIDDEN
 
 }
