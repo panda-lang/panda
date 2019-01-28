@@ -17,9 +17,11 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.field;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
@@ -37,11 +39,11 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
+
+import java.util.Optional;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
 public class FieldParser extends UnifiedParserBootstrap {
@@ -62,28 +64,29 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
-    public void parse(ParserData data, LocalData local, ExtractorResult result) {
+    public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Tokens type, @Src("name") Tokens name) {
         FieldVisibility visibility = FieldVisibility.LOCAL;
         visibility = result.hasIdentifier("p") ? FieldVisibility.PUBLIC : visibility;
         visibility = result.hasIdentifier("h") ? FieldVisibility.HIDDEN : visibility;
-
-        String type = result.getWildcard("type").asString();
-        String name = result.getWildcard("name").asString();
 
         boolean isStatic = result.hasIdentifier("static");
         boolean mutable = result.hasIdentifier("mutable");
         boolean nullable = result.hasIdentifier("nullable");
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        ClassPrototypeReference returnType = script.getModuleLoader().forClass(type);
+        Optional<ClassPrototypeReference> returnType = script.getModuleLoader().forClass(type.asString());
+
+        if (!returnType.isPresent()) {
+            throw new PandaParserFailure("Unknown type", data, type);
+        }
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getAmountOfFields();
 
         PrototypeField field = PandaPrototypeField.builder()
                 .fieldIndex(fieldIndex)
-                .type(returnType.fetch())
-                .name(name)
+                .type(returnType.get())
+                .name(name.asString())
                 .visibility(visibility)
                 .isStatic(isStatic)
                 .mutable(mutable)
@@ -103,7 +106,7 @@ public class FieldParser extends UnifiedParserBootstrap {
         Expression expressionValue = data.getComponent(PandaComponents.EXPRESSION).parse(data, assignation);
 
         if (expressionValue == null) {
-            throw new PandaParserException("Cannot parse expression '" + assignation + "'");
+            throw new PandaParserFailure("Cannot parse expression '" + assignation + "'", data, assignation);
         }
 
         field.setDefaultValue(expressionValue);

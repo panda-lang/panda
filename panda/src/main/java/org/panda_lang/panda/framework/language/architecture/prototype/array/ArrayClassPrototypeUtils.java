@@ -27,29 +27,31 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ArrayClassPrototypeUtils {
 
     private static final Map<String, ClassPrototypeReference> ARRAY_PROTOTYPES = new HashMap<>();
 
-    public static ClassPrototypeReference obtain(ModuleLoader loader, String type) {
+    public static Optional<ClassPrototypeReference> obtain(ModuleLoader loader, String type) {
         ClassPrototypeReference cached = ARRAY_PROTOTYPES.get(type);
 
         if (cached != null) {
-            return cached;
+            return Optional.of(cached);
         }
 
-        ClassPrototypeReference baseReference = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
+        Optional<ClassPrototypeReference> baseReference = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
-        if (baseReference == null) {
-            return null;
+        if (!baseReference.isPresent()) {
+            return Optional.empty();
         }
 
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
-        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(baseReference.getAssociatedClass(), dimensions);
+        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(baseReference.get().getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
-        ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(loader.get(null), arrayClass, arrayType);
+        ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(loader.getDefaultModule(), arrayClass, arrayType);
+        ARRAY_PROTOTYPES.put(type, arrayPrototype.getReference());
 
         arrayPrototype.getMethods().registerMethod(PandaMethod.builder()
                 .methodName("toString")
@@ -63,8 +65,7 @@ public class ArrayClassPrototypeUtils {
                 })
                 .build());
 
-        ARRAY_PROTOTYPES.put(type, arrayPrototype.getReference());
-        return loader.get(null).add(arrayPrototype.getReference());
+        return Optional.ofNullable(loader.getDefaultModule().add(arrayPrototype.getReference()));
     }
 
 }

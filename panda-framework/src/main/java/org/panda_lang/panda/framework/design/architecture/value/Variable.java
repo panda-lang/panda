@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.value;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public interface Variable {
 
@@ -26,7 +27,11 @@ public interface Variable {
 
     int getNestingLevel();
 
-    ClassPrototype getType();
+    default ClassPrototype getType() {
+        return getTypeReference().fetch();
+    }
+
+    ClassPrototypeReference getTypeReference();
 
     String getName();
 

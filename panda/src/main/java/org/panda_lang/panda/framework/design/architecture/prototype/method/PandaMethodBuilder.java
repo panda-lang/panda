@@ -18,6 +18,10 @@ package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+
+import java.util.Optional;
 
 public class PandaMethodBuilder {
 
@@ -40,11 +44,17 @@ public class PandaMethodBuilder {
         return this;
     }
 
-    public PandaMethodBuilder parameterTypes(ModuleLoader moduleLoader, String... parameterTypes) {
+    public PandaMethodBuilder parameterTypes(ParserData data, ModuleLoader moduleLoader, String... parameterTypes) {
         ClassPrototypeReference[] prototypes = new ClassPrototypeReference[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
-            prototypes[i] = moduleLoader.forClass(parameterTypes[i]);
+            Optional<ClassPrototypeReference> reference = moduleLoader.forClass(parameterTypes[i]);
+
+            if (!reference.isPresent()) {
+                throw new PandaParserFailure("Unknown type " + parameterTypes[i], data);
+            }
+
+            prototypes[i] = reference.get();
         }
 
         this.parameterTypes = prototypes;

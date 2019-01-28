@@ -30,6 +30,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
+import java.util.Optional;
+
 public class ClassPrototypeParserUtils {
 
     public static void readDeclaration(ParserData data, Tokens classDeclaration) {
@@ -64,14 +66,14 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                ClassPrototypeReference extendedPrototype = registry.forClass(classNameToken.getTokenValue());
+                Optional<ClassPrototypeReference> extendedPrototype = registry.forClass(classNameToken.getTokenValue());
 
-                if (extendedPrototype == null) {
+                if (!extendedPrototype.isPresent()) {
                     data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(classDeclaration));
                     throw new PandaParserFailure("Class " + classNameToken.getTokenValue() + " not found", data);
                 }
 
-                prototype.addExtended(extendedPrototype);
+                prototype.addExtended(extendedPrototype.get());
                 continue;
             }
 

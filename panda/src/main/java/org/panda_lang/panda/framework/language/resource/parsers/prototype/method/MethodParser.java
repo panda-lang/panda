@@ -42,6 +42,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
@@ -49,6 +50,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassP
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter.ParameterParser;
 
 import java.util.List;
+import java.util.Optional;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD_PARSER)
 public class MethodParser extends UnifiedParserBootstrap {
@@ -78,7 +80,13 @@ public class MethodParser extends UnifiedParserBootstrap {
 
         if (signature.size() > 1) {
             ModuleLoader registry = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-            returnType = registry.forClass(signature.subSource(0, signature.size() - 1).asString());
+            Optional<ClassPrototypeReference> reference = registry.forClass(signature.subSource(0, signature.size() - 1).asString());
+
+            if (!reference.isPresent()) {
+                throw new PandaParserFailure("Unknown type", data, signature);
+            }
+
+            returnType = reference.get();
         }
 
         List<Parameter> parameters =  new ParameterParser().parse(data, parametersSource);
