@@ -16,19 +16,27 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+
+import java.util.Optional;
 
 public interface ModuleLoader {
 
+    String DEFAULT_MODULE = null;
+
     ModuleLoader include(Module module);
 
-    default @Nullable ClassPrototypeReference forClass(Class<?> clazz) {
+    default Optional<ClassPrototypeReference> forClass(Class<?> clazz) {
         return this.forClass(clazz.getSimpleName());
     }
 
-    @Nullable ClassPrototypeReference forClass(String name);
+    Optional<ClassPrototypeReference> forClass(String name);
 
-    @Nullable Module get(String name);
+    Optional<Module> get(String name);
+
+    default Module getDefaultModule() {
+        return get(DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have default module"));
+    }
 
 }

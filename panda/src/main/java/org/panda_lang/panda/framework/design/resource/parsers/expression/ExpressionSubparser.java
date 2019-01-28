@@ -24,7 +24,10 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+
+import java.util.Optional;
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
@@ -44,8 +47,13 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
     }
 
     default Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
-        ClassPrototypeReference type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
-        return toSimpleKnownExpression(type.fetch(), value);
+        Optional<ClassPrototypeReference> type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
+
+        if (!type.isPresent()) {
+            throw new PandaParserFailure("Unknown type " + className, data);
+        }
+
+        return toSimpleKnownExpression(type.get().fetch(), value);
     }
 
     default Expression toSimpleKnownExpression(ClassPrototype type, Object value) {

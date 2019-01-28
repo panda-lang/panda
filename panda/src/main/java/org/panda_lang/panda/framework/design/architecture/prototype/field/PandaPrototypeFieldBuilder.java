@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.field;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public class PandaPrototypeFieldBuilder {
 
-    protected ClassPrototype type;
+    protected ClassPrototypeReference type;
     protected int fieldIndex;
     protected String name;
     protected FieldVisibility visibility;
@@ -29,7 +29,7 @@ public class PandaPrototypeFieldBuilder {
     protected boolean mutable;
     protected boolean nullable;
 
-    public PandaPrototypeFieldBuilder type(ClassPrototype type) {
+    public PandaPrototypeFieldBuilder type(ClassPrototypeReference type) {
         this.type = type;
         return this;
     }

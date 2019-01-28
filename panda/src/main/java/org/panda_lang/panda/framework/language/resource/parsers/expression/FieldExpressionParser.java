@@ -52,6 +52,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 public class FieldExpressionParser implements ExpressionSubparser, DottedFinisher {
 
@@ -132,8 +133,8 @@ public class FieldExpressionParser implements ExpressionSubparser, DottedFinishe
 
             if (instanceSource.size() == 1) {
                 ModuleLoader moduleLoader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-                ClassPrototypeReference reference = moduleLoader.forClass(fieldMatches.get(0).asString());
-                instanceType = reference != null ? reference.fetch() : null;
+                Optional<ClassPrototypeReference> reference = moduleLoader.forClass(fieldMatches.get(0).asString());
+                instanceType = reference.map(ClassPrototypeReference::fetch).orElse(null);
             }
 
             if (instanceType == null) {

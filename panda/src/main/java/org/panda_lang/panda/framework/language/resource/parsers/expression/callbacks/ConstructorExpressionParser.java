@@ -16,28 +16,29 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks;
 
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionCallbackParser;
-import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class ConstructorExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
 
@@ -45,7 +46,7 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
             .compile(PandaSyntax.getInstance(), "new +** ( +* )")
             .build();
 
-    private ClassPrototype returnType;
+    private ClassPrototypeReference returnType;
     private PrototypeConstructor constructor;
     private Expression[] arguments;
 
@@ -61,21 +62,18 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
             throw new PandaParserException("Cannot parse expression::instance");
         }
 
+
         String className = gaps.get(0).asString();
         ModuleLoader moduleLoader = script.getModuleLoader();
-        this.returnType = moduleLoader.forClass(className).fetch();
+        Optional<ClassPrototypeReference> reference = moduleLoader.forClass(className);
 
-        if (returnType == null) {
-            throw PandaParserFailure.builder()
-                    .message("Unknown return type '" + className + "'")
-                    .data(data)
-                    .source(source)
-                    .build();
+        if (!reference.isPresent()) {
+            throw new PandaParserFailure("Unknown return type", data, source);
         }
 
-        ArgumentParser argumentParser = new ArgumentParser();
-        this.arguments = argumentParser.parse(data, gaps.get(1));
-        this.constructor = ConstructorUtils.matchConstructor(returnType, arguments);
+        this.returnType = reference.get();
+        this.arguments = new ArgumentParser().parse(data, gaps.get(1));
+        this.constructor = ConstructorUtils.matchConstructor(returnType.fetch(), arguments);
 
         if (constructor == null) {
             throw new PandaParserFailure("Cannot find constructor of " + returnType.getClassName() + " for the specified arguments " + Arrays.toString(this.arguments), data);
@@ -84,7 +82,7 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
 
     @Override
     public InstanceExpressionCallback toCallback() {
-        return new InstanceExpressionCallback(returnType, constructor, arguments);
+        return new InstanceExpressionCallback(returnType.fetch(), constructor, arguments);
     }
 
     public Expression[] getArguments() {
@@ -95,7 +93,7 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
         return constructor;
     }
 
-    public ClassPrototype getReturnType() {
+    public ClassPrototypeReference getReturnType() {
         return returnType;
     }
 

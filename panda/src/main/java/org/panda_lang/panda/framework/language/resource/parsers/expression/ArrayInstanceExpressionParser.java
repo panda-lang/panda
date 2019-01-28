@@ -41,6 +41,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 import java.lang.reflect.Array;
+import java.util.Optional;
 
 public class ArrayInstanceExpressionParser implements ExpressionSubparser {
 
@@ -78,9 +79,9 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
         }
 
         String type = result.getWildcard("type").asString();
-        ClassPrototypeReference reference = ArrayClassPrototypeUtils.obtain(data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader(), type + "[]");
+        Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader(), type + "[]");
 
-        if (reference == null) {
+        if (!reference.isPresent()) {
             return null;
         }
 
@@ -91,7 +92,7 @@ public class ArrayInstanceExpressionParser implements ExpressionSubparser {
             return null;
         }
 
-        return new PandaExpression(new ArrayInstanceExpression((ArrayClassPrototype) reference.fetch(), capacityExpression));
+        return new PandaExpression(new ArrayInstanceExpression((ArrayClassPrototype) reference.get().fetch(), capacityExpression));
     }
 
     @Override

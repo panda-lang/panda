@@ -34,6 +34,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class ParameterParser implements Parser {
 
@@ -58,13 +59,13 @@ public class ParameterParser implements Parser {
 
             PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
             ModuleLoader moduleLoader = script.getModuleLoader();
-            ClassPrototypeReference type = moduleLoader.forClass(parameterType);
+            Optional<ClassPrototypeReference> type = moduleLoader.forClass(parameterType);
 
-            if (type == null) {
+            if (!type.isPresent()) {
                 throw new PandaParserException("Unknown type '" + parameterType + "'");
             }
 
-            Parameter parameter = new PandaParameter(type, parameterName);
+            Parameter parameter = new PandaParameter(type.get(), parameterName);
             parameters.add(parameter);
 
             if (i + 2 < tokenRepresentations.length) {

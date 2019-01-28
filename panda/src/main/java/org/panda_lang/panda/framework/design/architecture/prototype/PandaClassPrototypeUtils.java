@@ -17,9 +17,12 @@
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public class PandaClassPrototypeUtils {
 
@@ -59,11 +62,17 @@ public class PandaClassPrototypeUtils {
         return false;
     }
 
-    public static ClassPrototype[] toTypes(ModuleLoader loader, Class<?>... types) {
+    public static ClassPrototype[] toTypes(ParserData data, ModuleLoader loader, Class<?>... types) {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            prototypes[i] = loader.forClass(types[i]).fetch();
+            Optional<ClassPrototypeReference> reference = loader.forClass(types[i]);
+
+            if (!reference.isPresent()) {
+                throw new PandaParserFailure("Unknown type " + types[i], data);
+            }
+
+            prototypes[i] = reference.get().fetch();
         }
 
         return prototypes;

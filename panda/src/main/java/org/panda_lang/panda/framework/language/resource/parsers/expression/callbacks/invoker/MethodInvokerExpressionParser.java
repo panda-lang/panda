@@ -37,6 +37,8 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
+import java.util.Optional;
+
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
     protected static final GappedPattern PATTERN = new GappedPatternBuilder()
@@ -77,12 +79,14 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
 
         if (instanceSource != null) {
             String surmiseClassName = instanceSource.asString();
-            ClassPrototypeReference reference = loader.forClass(surmiseClassName);
-            prototype = reference != null ? reference.fetch() : null;
+            Optional<ClassPrototypeReference> reference = loader.forClass(surmiseClassName);
 
-            if (prototype == null) {
+            if (!reference.isPresent()) {
                 instance = data.getComponent(PandaComponents.EXPRESSION).parse(data, instanceSource);
                 prototype = instance.getReturnType();
+            }
+            else {
+                prototype = reference.get().fetch();
             }
         }
         else {

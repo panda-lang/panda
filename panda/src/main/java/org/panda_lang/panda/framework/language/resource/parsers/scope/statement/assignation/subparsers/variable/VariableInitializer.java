@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.subparsers.variable;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -25,18 +25,24 @@ import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
+import java.util.Optional;
+
 public class VariableInitializer {
 
     public static final String DECLARATION_PARSER = "mutable:[mutable] nullable:[nullable] <type:reader type> <name:condition token {type:unknown}>";
 
     public Variable createVariable(ParserData data, ModuleLoader loader, Scope scope, boolean mutable, boolean nullable, String type, String name) {
-        ClassPrototype prototype = loader.forClass(type).fetch();
+        if (StringUtils.isEmpty(type)) {
+            throw new PandaParserFailure("Type does not specified", data);
+        }
 
-        if (!StringUtils.isEmpty(type) && prototype == null) {
+        Optional<ClassPrototypeReference> prototype = loader.forClass(type);
+
+        if (!prototype.isPresent()) {
             throw new PandaParserFailure("Cannot recognize variable type: " + type, data);
         }
 
-        Variable variable = new PandaVariable(prototype, name, 0, mutable, nullable);
+        Variable variable = new PandaVariable(prototype.get(), name, 0, mutable, nullable);
         scope.addVariable(variable);
 
         return variable;

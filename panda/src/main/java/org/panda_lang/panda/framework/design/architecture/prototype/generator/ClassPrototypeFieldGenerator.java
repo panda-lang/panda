@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.generator;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
@@ -45,7 +46,7 @@ public class ClassPrototypeFieldGenerator {
     }
 
     public PrototypeField generate() {
-        ClassPrototype returnType = generator.computeIfAbsent(prototype.getModule(), field.getType()).fetch();
+        ClassPrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .fieldIndex(prototype.getFields().getAmountOfFields())
@@ -60,7 +61,7 @@ public class ClassPrototypeFieldGenerator {
         // TODO: Generate bytecode
         field.setAccessible(true);
 
-        Expression fieldExpression = new PandaExpression(new PandaExpressionCallback(returnType) {
+        Expression fieldExpression = new PandaExpression(new PandaExpressionCallback(returnType.fetch()) {
             @Override
             public Value call(Expression expression, ExecutableBranch branch) {
                 long start = System.nanoTime();
@@ -68,7 +69,7 @@ public class ClassPrototypeFieldGenerator {
 
                 try {
                     Object value = field.get(instance);
-                    return new PandaValue(returnType, value);
+                    return new PandaValue(returnType.fetch(), value);
                 } catch (IllegalAccessException e) {
                     throw new PandaRuntimeException(e);
                 } finally {

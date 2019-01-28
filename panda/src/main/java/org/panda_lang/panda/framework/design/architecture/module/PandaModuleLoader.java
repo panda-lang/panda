@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
@@ -42,9 +41,9 @@ public class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public @Nullable ClassPrototypeReference forClass(String name) {
+    public Optional<ClassPrototypeReference> forClass(String name) {
         if (StringUtils.isEmpty(name)) {
-            return null;
+            return Optional.empty();
         }
 
         if (name.contains(":")) {
@@ -59,26 +58,16 @@ public class PandaModuleLoader implements ModuleLoader {
             Optional<ClassPrototypeReference> reference = module.get(name);
 
             if (reference.isPresent()) {
-                return reference.get();
+                return reference;
             }
         }
 
-        /*
-        StringBuilder content = new StringBuilder();
-
-        for (Module value : importedModules.values()) {
-            content.append(value.getReferences().stream().map(ClassPrototypeMetadata::getClassName).collect(Collectors.toList()).toString());
-        }
-
-        PandaFramework.getLogger().debug(content.toString());
-        */
-
-        return null;
+        return Optional.empty();
     }
 
     @Override
-    public Module get(String name) {
-        return importedModules.get(name);
+    public Optional<Module> get(String name) {
+        return Optional.ofNullable(importedModules.get(name));
     }
 
 }
