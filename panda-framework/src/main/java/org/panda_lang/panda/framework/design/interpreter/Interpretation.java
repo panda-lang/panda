@@ -31,7 +31,7 @@ public interface Interpretation {
     <T> T execute(ThrowingSupplier<T> callback);
 
     default boolean isHealthy() {
-        return getFailures().size() == 0;
+        return getFailures().isEmpty();
     }
 
     Collection<InterpreterFailure> getFailures();

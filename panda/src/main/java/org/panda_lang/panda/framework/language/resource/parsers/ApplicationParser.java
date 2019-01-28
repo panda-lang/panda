@@ -40,8 +40,8 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.translators
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.PandaGeneration;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.CommentParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;

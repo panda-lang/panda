@@ -65,7 +65,6 @@ public class PandaExecutableBranch implements ExecutableBranch {
         }
     }
 
-
     @Override
     public ControlFlow callFlow(Collection<StatementCell> cells, ControlFlowCaller caller) {
         if (isInterrupted()) {

@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public class InstanceExpressionParser implements ExpressionSubparser {
 
-    private static final AbyssPattern INSTANCE_PATTERN = new AbyssPatternBuilder()
+    private static final GappedPattern INSTANCE_PATTERN = new GappedPatternBuilder()
             .unit(TokenType.KEYWORD, "new")
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")

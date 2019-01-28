@@ -25,8 +25,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 import org.panda_lang.panda.framework.design.architecture.prototype.method.invoker.MethodInvoker;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionCallbackParser;
@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassP
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
-    protected static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+    protected static final GappedPattern PATTERN = new GappedPatternBuilder()
             .simpleHollow()
             .unit(TokenType.SEPARATOR, "(")
             .hollow()
@@ -47,7 +47,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             .lastIndexAlgorithm(true)
             .build();
 
-    protected static final AbyssPattern CALL_PATTERN = new AbyssPatternBuilder()
+    protected static final GappedPattern CALL_PATTERN = new GappedPatternBuilder()
             .hollow()
             .unit(TokenType.SEPARATOR, ".")
             .simpleHollow()

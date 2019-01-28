@@ -47,34 +47,35 @@ public class PandaMemorySegment implements MemorySegment {
             instances.set(id, value);
             return id;
         }
-        else {
-            int id = instanceIDAssigner.getAndIncrement();
-            fillAndSet(id, value);
-            return id;
-        }
+
+        int id = instanceIDAssigner.getAndIncrement();
+        fillAndSet(id, value);
+        return id;
     }
 
     protected void fillAndSet(int index, Object value) {
-        if (index > (instances.size() - 1)) {
-            for (int i = instances.size(); i < index; i++) {
-                instances.add(null);
-            }
-            instances.add(value);
-        }
-        else {
+        if (index <= (instances.size() - 1)) {
             instances.set(index, value);
+            return;
         }
+
+        for (int i = instances.size(); i < index; i++) {
+            instances.add(null);
+        }
+
+        instances.add(value);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public @Nullable <T> T destroy(int pointer) {
-        if (instances.size() > pointer) {
-            Object element = instances.remove(pointer);
-            free.push(pointer);
-            return (T) element;
+        if (instances.size() <= pointer) {
+            return null;
         }
-        return null;
+
+        Object element = instances.remove(pointer);
+        free.push(pointer);
+        return (T) element;
     }
 
     @Override

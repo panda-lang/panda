@@ -30,9 +30,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionCallbackParser;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.extractor.AbyssExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
@@ -41,7 +41,7 @@ import java.util.List;
 
 public class ConstructorExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
 
-    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+    private static final GappedPattern PATTERN = new GappedPatternBuilder()
             .compile(PandaSyntax.getInstance(), "new +** ( +* )")
             .build();
 
@@ -54,7 +54,7 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 
-        AbyssExtractor extractor = PATTERN.extractor();
+        GappedPatternExtractor extractor = PATTERN.extractor();
         List<Tokens> gaps = extractor.extract(reader);
 
         if (gaps == null) {

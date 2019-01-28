@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
@@ -52,6 +52,10 @@ import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD_PARSER)
 public class MethodParser extends UnifiedParserBootstrap {
+
+    private static final String VISIBILITY = "v";
+    private static final String LOCAL = "l";
+    private static final String STATIC = "s";
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -66,8 +70,8 @@ public class MethodParser extends UnifiedParserBootstrap {
     boolean parse(ParserData data, LocalData local, ExtractorResult result, Tokens signature, Tokens parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
 
-        if (result.hasIdentifier("v")) {
-            visibility = result.hasIdentifier("l") ? MethodVisibility.LOCAL : MethodVisibility.HIDDEN;
+        if (result.hasIdentifier(VISIBILITY)) {
+            visibility = result.hasIdentifier(LOCAL) ? MethodVisibility.LOCAL : MethodVisibility.HIDDEN;
         }
 
         ClassPrototypeReference returnType = PandaTypes.VOID.getReference();
@@ -93,7 +97,7 @@ public class MethodParser extends UnifiedParserBootstrap {
                 .methodName(method)
                 .visibility(visibility)
                 .returnType(returnType)
-                .isStatic(result.getIdentifiers().contains("s"))
+                .isStatic(result.hasIdentifier(STATIC))
                 .methodBody(new PandaMethodCallback(methodScope))
                 .build();
 

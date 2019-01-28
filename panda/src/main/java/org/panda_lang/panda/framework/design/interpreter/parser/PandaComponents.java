@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMapping;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 
 /**
@@ -39,7 +39,7 @@ public class PandaComponents {
 
     public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
 
-    public static final Component<AbyssPatternMapping> REDACTOR = Component.of("panda-redactor", AbyssPatternMapping.class);
+    public static final Component<GappedPatternMapping> REDACTOR = Component.of("panda-redactor", GappedPatternMapping.class);
 
     public static final Component<Container> CONTAINER = Component.of("panda-container", Container.class);
 
