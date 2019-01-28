@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.prototype.field
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
@@ -39,7 +40,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.pipeline.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
@@ -74,14 +75,14 @@ public class FieldParser extends UnifiedParserBootstrap {
         boolean nullable = result.hasIdentifier("nullable");
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        ClassPrototype returnType = script.getModuleLoader().forClass(type).fetch();
+        ClassPrototypeReference returnType = script.getModuleLoader().forClass(type);
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getAmountOfFields();
 
         PrototypeField field = PandaPrototypeField.builder()
                 .fieldIndex(fieldIndex)
-                .type(returnType)
+                .type(returnType.fetch())
                 .name(name)
                 .visibility(visibility)
                 .isStatic(isStatic)

@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.AbyssPatternMappingHollows;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMapping;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMappingContent;
 
 import java.util.List;
 
@@ -32,8 +32,8 @@ public class MethodInvokerExpressionUtils {
             return null;
         }
 
-        AbyssPatternMappingHollows hollows = new AbyssPatternMappingHollows(methodMatches);
-        AbyssPatternMapping redactor = new AbyssPatternMapping(hollows);
+        GappedPatternMappingContent hollows = new GappedPatternMappingContent(methodMatches);
+        GappedPatternMapping redactor = new GappedPatternMapping(hollows);
         redactor.map("method-call", "arguments");
 
         Tokens methodCallSource = redactor.get("method-call");
@@ -44,8 +44,8 @@ public class MethodInvokerExpressionUtils {
         Tokens instanceSource = null;
 
         if (methodCallMatches != null && methodCallMatches.size() > 0) {
-            AbyssPatternMappingHollows methodCallHollows = new AbyssPatternMappingHollows(methodCallMatches);
-            AbyssPatternMapping methodCallRedactor = new AbyssPatternMapping(methodCallHollows);
+            GappedPatternMappingContent methodCallHollows = new GappedPatternMappingContent(methodCallMatches);
+            GappedPatternMapping methodCallRedactor = new GappedPatternMapping(methodCallHollows);
 
             methodCallRedactor.map("instance", "method-name");
             instanceSource = methodCallRedactor.get("instance");

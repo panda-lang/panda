@@ -21,10 +21,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaP
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedBootstrapParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.mapping.PatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternAssistant;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternAssistant;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.StringUtils;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 public class AbyssPatternInterceptor implements BootstrapInterceptor {
 
     private AbyssPatternData patternData;
-    private AbyssPattern pattern;
+    private GappedPattern pattern;
 
     @Override
     public void initialize(PandaParserBootstrap generator, ParserData data) {
@@ -42,7 +42,7 @@ public class AbyssPatternInterceptor implements BootstrapInterceptor {
             return;
         }
 
-        this.pattern = new AbyssPatternBuilder()
+        this.pattern = new GappedPatternBuilder()
                 .compile(PandaSyntax.getInstance(), patternData.getPattern())
                 .lastIndexAlgorithm(patternData.getLastIndexAlgorithm())
                 .maxNestingLevel(patternData.getMaxNestingLevel())
@@ -54,7 +54,7 @@ public class AbyssPatternInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
-            PatternMapping patternMapping = AbyssPatternAssistant.traditionalMapping(pattern, data, patternData.getWildcards());
+            PatternMapping patternMapping = GappedPatternAssistant.traditionalMapping(pattern, data, patternData.getWildcards());
 
             if (patternMapping == null) {
                 throw new PandaParserFailure("Handler error", data);

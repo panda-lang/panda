@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
@@ -33,7 +32,7 @@ public class PandaSourceSet implements SourceSet {
     }
 
     @Override
-    public @NotNull Iterator<Source> iterator() {
+    public Iterator<Source> iterator() {
         return sources.iterator();
     }
 

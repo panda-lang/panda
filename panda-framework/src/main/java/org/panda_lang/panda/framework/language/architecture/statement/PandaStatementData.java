@@ -33,8 +33,7 @@ public class PandaStatementData implements StatementData {
     }
 
     public static PandaStatementData of(SourceStream source) {
-        source.read();
-        return new PandaStatementData(source.read().getLine());
+        return new PandaStatementData(source.read(2).getLast().getLine());
     }
 
 }

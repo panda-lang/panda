@@ -14,24 +14,38 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.token;
+package org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 
-public class TokenPatternMapping implements PatternMapping {
+import java.util.List;
 
-    private final ExtractorResult result;
+public class GappedPatternMappingContent {
 
-    public TokenPatternMapping(ExtractorResult result) {
-        this.result = result;
+    private final List<Tokens> gaps;
+
+    public GappedPatternMappingContent(List<Tokens> gaps) {
+        this.gaps = gaps;
     }
 
-    @Override
-    public @Nullable Tokens get(String name) {
-        return result.getWildcards() != null ? result.getWildcards().get(name) : null;
+    public @Nullable Token getToken(int gapIndex, int tokenIndex) {
+        Tokens gap = getGap(gapIndex);
+
+        if (gap == null) {
+            return null;
+        }
+
+        return gap.getToken(tokenIndex);
+    }
+
+    public Tokens getGap(int index) {
+        return index < gaps.size() ? gaps.get(index) : null;
+    }
+
+    public List<Tokens> getGaps() {
+        return gaps;
     }
 
 }

@@ -36,27 +36,27 @@ public class PandaLexerSequencer {
     }
 
     public boolean checkBefore(StringBuilder tokenBuilder, char c) {
-        if (sequenceStack.size() > 0) {
-            String tokenPreview = lexer.getTokenBuilder().append(c).toString();
-            Sequence sequence = sequenceStack.peek();
+        if (sequenceStack.size() < 1) {
+            return false;
+        }
 
-            if (!tokenPreview.endsWith(sequence.getSequenceEnd())) {
-                return true;
-            }
+        String tokenPreview = lexer.getTokenBuilder().append(c).toString();
+        Sequence sequence = sequenceStack.peek();
 
-            int startIndex = sequence.getSequenceStart().length();
-            int endIndex = tokenPreview.length() - sequence.getSequenceEnd().length();
-            String sequenceValue = tokenPreview.substring(startIndex, endIndex);
-
-            Token token = new SequenceToken(sequence, sequenceValue);
-            lexer.getTokenizedLine().add(token);
-
-            tokenBuilder.setLength(0);
-            sequenceStack.pop();
+        if (!tokenPreview.endsWith(sequence.getSequenceEnd())) {
             return true;
         }
 
-        return false;
+        int startIndex = sequence.getSequenceStart().length();
+        int endIndex = tokenPreview.length() - sequence.getSequenceEnd().length();
+        String sequenceValue = tokenPreview.substring(startIndex, endIndex);
+
+        Token token = new SequenceToken(sequence, sequenceValue);
+        lexer.getTokenizedLine().add(token);
+
+        tokenBuilder.setLength(0);
+        sequenceStack.pop();
+        return true;
     }
 
     public boolean checkAfter(StringBuilder tokenBuilder) {

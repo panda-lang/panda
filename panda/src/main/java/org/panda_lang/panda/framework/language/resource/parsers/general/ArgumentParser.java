@@ -19,9 +19,9 @@ package org.panda_lang.panda.framework.language.resource.parsers.general;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.extractor.AbyssExtractor;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
@@ -36,7 +36,7 @@ import java.util.List;
 
 public class ArgumentParser implements Parser {
 
-    private static final AbyssPattern PATTERN = new AbyssPatternBuilder()
+    private static final GappedPattern PATTERN = new GappedPatternBuilder()
             .compile(PandaSyntax.getInstance(), "+* , +*")
             .build();
 
@@ -45,7 +45,7 @@ public class ArgumentParser implements Parser {
 
         List<Expression> expressions = new ArrayList<>();
         ExpressionParser expressionParser = data.getComponent(PandaComponents.EXPRESSION);
-        AbyssExtractor extractor = PATTERN.extractor();
+        GappedPatternExtractor extractor = PATTERN.extractor();
 
         while (sourceStream.hasUnreadSource()) {
             TokenReader reader = sourceStream.toTokenReader();

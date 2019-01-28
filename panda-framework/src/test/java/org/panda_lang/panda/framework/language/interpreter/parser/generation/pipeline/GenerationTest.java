@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 
 import java.util.Arrays;
 

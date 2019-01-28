@@ -106,15 +106,15 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
      * @return subresult or null if distributor does not contains source
      */
     private @Nullable ExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
-        if (!distributor.hasNext()) {
-            if (element.isOptional()) {
-                return null;
-            }
-
-            return new ExtractorResult("Out of source");
+        if (distributor.hasNext()) {
+            return super.getWorker().extract(distributor, element);
         }
 
-        return super.getWorker().extract(distributor, element);
+        if (element.isOptional()) {
+            return null;
+        }
+
+        return new ExtractorResult("Out of source");
     }
 
 }

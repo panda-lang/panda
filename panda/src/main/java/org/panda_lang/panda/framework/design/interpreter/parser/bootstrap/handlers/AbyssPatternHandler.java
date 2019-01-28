@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handl
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.AbyssPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.abyss.utils.AbyssPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -29,13 +29,13 @@ import java.util.List;
 
 public class AbyssPatternHandler implements BootstrapHandler {
 
-    private AbyssPattern pattern;
+    private GappedPattern pattern;
 
     @Override
     public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
         AbyssPatternData patternData = (AbyssPatternData) bootstrap.getPattern();
 
-        this.pattern = new AbyssPatternBuilder()
+        this.pattern = new GappedPatternBuilder()
                 .compile(PandaSyntax.getInstance(), patternData.getPattern())
                 .build();
     }

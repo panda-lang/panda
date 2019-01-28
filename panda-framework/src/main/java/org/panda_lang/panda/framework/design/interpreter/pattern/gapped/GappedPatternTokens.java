@@ -14,23 +14,25 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.framework.design.interpreter.pattern.gapped;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 
-import java.lang.management.ManagementFactory;
+public class GappedPatternTokens {
 
-public class PandaFrameworkLogger {
+    /**
+     * Hollow type
+     */
+    public static final TokenType ABYSS_TYPE = new TokenType("ABYSS");
 
-    protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
+    /**
+     * Multiline abyss
+     */
+    public static final GappedPatternUnit ABYSS = new GappedPatternUnit(ABYSS_TYPE, "*");
 
-    public static void setLogger(Logger logger) {
-        PANDA_FRAMEWORK_LOGGER = logger;
-    }
-
-    public static void printJVMUptime() {
-        PANDA_FRAMEWORK_LOGGER.debug("JVM launch time: " + (System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime()) + "ms");
-    }
+    /**
+     * Inline abyss
+     */
+    public static final GappedPatternUnit SIMPLE_ABYSS = new GappedPatternUnit(ABYSS_TYPE, "**");
 
 }

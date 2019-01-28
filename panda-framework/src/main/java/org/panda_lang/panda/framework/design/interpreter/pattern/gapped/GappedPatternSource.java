@@ -14,23 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework;
+package org.panda_lang.panda.framework.design.interpreter.pattern.gapped;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+public class GappedPatternSource {
 
-import java.lang.management.ManagementFactory;
+    private final String source;
 
-public class PandaFrameworkLogger {
-
-    protected static Logger PANDA_FRAMEWORK_LOGGER = LoggerFactory.getLogger("Panda Framework");
-
-    public static void setLogger(Logger logger) {
-        PANDA_FRAMEWORK_LOGGER = logger;
+    private GappedPatternSource(String source) {
+        this.source = source;
     }
 
-    public static void printJVMUptime() {
-        PANDA_FRAMEWORK_LOGGER.debug("JVM launch time: " + (System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime()) + "ms");
+    public String getSource() {
+        return source;
+    }
+
+    public static GappedPatternSource of(String pattern) {
+        return new GappedPatternSource(pattern);
     }
 
 }

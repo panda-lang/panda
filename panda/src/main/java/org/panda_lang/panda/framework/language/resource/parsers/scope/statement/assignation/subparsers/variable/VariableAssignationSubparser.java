@@ -37,7 +37,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.FieldAccessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
@@ -64,18 +63,18 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
             Expression instanceExpression = data.getComponent(PandaComponents.EXPRESSION).parse(data, name.subSource(0, name.size() - 2));
 
             if (instanceExpression == null) {
-                throw new PandaParserException("Cannot parse variable reference: " + name);
+                throw new PandaParserFailure("Cannot parse variable reference: " + name, data, name);
             }
 
             String fieldName = name.getLast().getTokenValue();
             PrototypeField field = instanceExpression.getReturnType().getFields().getField(fieldName);
 
             if (field == null) {
-                throw new PandaParserFailure("Field " + fieldName + " does not exist", data);
+                throw new PandaParserFailure("Field " + fieldName + " does not exist", data, name);
             }
 
             if (!field.getType().isAssignableFrom(expression.getReturnType())) {
-                throw new PandaParserFailure("Cannot assign " + instanceExpression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data);
+                throw new PandaParserFailure("Cannot assign " + instanceExpression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data, name);
             }
 
             return new FieldAccessor(instanceExpression, field, expression);
