@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-19.1.19</version>
+        <version>indev-19.1.30</version>
     </parent>
 
     <artifactId>panda</artifactId>
@@ -71,24 +71,33 @@
 
     <build>
         <defaultGoal>clean install</defaultGoal>
+
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Main-Class>org.panda_lang.panda.Panda</Main-Class>
+                            <Main-Class>org.panda_lang.panda.PandaLauncher</Main-Class>
                             <Specification-Title>Panda</Specification-Title>
                             <Implementation-Title>Panda</Implementation-Title>
                             <Implementation-Version>${panda.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
