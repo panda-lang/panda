@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -44,8 +44,8 @@ public class ContainerParser implements Parser {
         ParserData delegatedData = data.fork();
 
         Generation generation = delegatedData.getComponent(UniversalComponents.GENERATION);
-        PipelineRegistry pipelineRegistry = delegatedData.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline<UnifiedParser> pipeline = pipelineRegistry.getPipeline(PandaPipelines.SCOPE);
+        PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
+        ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.SCOPE);
 
         SourceStream stream = new PandaSourceStream(body);
         delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, stream);

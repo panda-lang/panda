@@ -17,7 +17,7 @@
 package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.collection.tree.TreeNode;
+import org.panda_lang.panda.utilities.commons.collection.map.TreeNode;
 
 import java.io.File;
 import java.io.IOException;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.collection.tree;
+package org.panda_lang.panda.utilities.commons.collection.map;
 
 import java.util.Collection;
 import java.util.HashSet;

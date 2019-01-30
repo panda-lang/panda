@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 
 public interface Environment {
 
-    PipelineRegistry getPipelineRegistry();
+    PipelinePath getPipelinePath();
 
     ModulePath getModulePath();
 

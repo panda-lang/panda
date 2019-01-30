@@ -16,12 +16,15 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.Collection;
 import java.util.Optional;
 
 public interface ModulePath {
+
+    String DEFAULT_MODULE = null;
 
     Module create(String name);
 
@@ -39,8 +42,12 @@ public interface ModulePath {
         return StreamUtils.sum(getModules(), Module::getAmountOfReferences);
     }
 
-    Optional<Module> get(String name);
+    default Module getDefaultModule() {
+        return get(DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have default module"));
+    }
 
     Collection<? extends Module> getModules();
+
+    Optional<Module> get(String name);
 
 }

@@ -24,40 +24,40 @@ import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PandaApplication implements Application {
 
     protected final List<Script> scripts;
     protected String workingDirectory;
-    protected String[] arguments;
 
     public PandaApplication() {
         this.scripts = new ArrayList<>();
     }
 
     @Override
-    public void launch() {
-        for (Script script : scripts) {
-            List<MainScope> mains = script.select(MainScope.class);
+    public void launch(String... args) {
+        List<MainScope> mains = scripts.stream()
+                .map(script -> script.select(MainScope.class))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
 
-            if (mains.size() == 1) {
-                MainScope main = mains.get(0);
-                ExecutableProcess process = new PandaExecutableProcess(this, main, this.arguments);
-                PandaFramework.getLogger().debug("[PandaApp] Launching application...");
-
-                long initTime = System.nanoTime();
-                process.execute();
-                long uptime = System.nanoTime() - initTime;
-
-                PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
-                return;
-            }
-            else if (mains.size() > 1) {
-                throw new RuntimeException("Duplicated main statement");
-            }
+        if (mains.isEmpty()) {
+            throw new RuntimeException("Main statement not found");
         }
 
-        throw new RuntimeException("Main statement not found");
+        if (mains.size() > 1) {
+            throw new RuntimeException("Duplicated main statement");
+        }
+
+        PandaFramework.getLogger().debug("[PandaApp] Launching application...");
+        ExecutableProcess process = new PandaExecutableProcess(this, mains.get(0), args);
+
+        long initTime = System.nanoTime();
+        process.execute();
+
+        long uptime = System.nanoTime() - initTime;
+        PandaFramework.getLogger().debug("[PandaApp] Done (" + TimeUtils.toMilliseconds(uptime) + ")");
     }
 
     public void addScript(Script script) {
@@ -69,12 +69,7 @@ public class PandaApplication implements Application {
     }
 
     @Override
-    public void setApplicationArguments(String... arguments) {
-        this.arguments = arguments;
-    }
-
-    @Override
-    public List<Script> getScripts() {
+    public List<? extends Script> getScripts() {
         return scripts;
     }
 
@@ -82,5 +77,6 @@ public class PandaApplication implements Application {
     public String getWorkingDirectory() {
         return workingDirectory;
     }
+
 
 }

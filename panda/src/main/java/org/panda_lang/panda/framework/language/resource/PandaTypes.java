@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModule;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModule;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;

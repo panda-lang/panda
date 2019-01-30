@@ -16,9 +16,8 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -74,8 +73,7 @@ public class MathOperationSubparser implements OperationSubparser {
             math.push(operators.pop());
         }
 
-        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
-        return new MathExpressionCallback(registry, math);
+        return new MathExpressionCallback(data.getComponent(UniversalComponents.MODULE_LOADER), math);
     }
 
     public boolean compare(Token prev, Token current) {

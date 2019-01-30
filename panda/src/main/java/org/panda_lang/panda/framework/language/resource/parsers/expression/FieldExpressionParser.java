@@ -17,36 +17,35 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.FieldExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.VariableExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.DottedFinisher;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
-import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
-import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.FieldExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.VariableExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
+import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
@@ -99,7 +98,7 @@ public class FieldExpressionParser implements ExpressionSubparser, DottedFinishe
     @Override
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         if (source.size() == 1) {
-            ScopeLinker scopeLinker = data.getComponent(PandaComponents.SCOPE_LINKER);
+            ScopeLinker scopeLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
             Variable variable = scope.getVariable(source.asString());
 
@@ -125,20 +124,17 @@ public class FieldExpressionParser implements ExpressionSubparser, DottedFinishe
         List<Tokens> fieldMatches = FIELD_PATTERN.match(new PandaTokenReader(source));
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
-            PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-
             Tokens instanceSource = fieldMatches.get(0);
             ClassPrototype instanceType = null;
             Expression fieldLocationExpression = null;
 
             if (instanceSource.size() == 1) {
-                ModuleLoader moduleLoader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-                Optional<ClassPrototypeReference> reference = moduleLoader.forClass(fieldMatches.get(0).asString());
+                Optional<ClassPrototypeReference> reference = ModuleLoaderUtils.getReferenceOrOptional(data, instanceSource.asString());
                 instanceType = reference.map(ClassPrototypeReference::fetch).orElse(null);
             }
 
             if (instanceType == null) {
-                fieldLocationExpression = main.parse(data, fieldMatches.get(0));
+                fieldLocationExpression = main.parse(data, instanceSource);
                 instanceType = fieldLocationExpression.getReturnType();
             }
 
@@ -159,12 +155,6 @@ public class FieldExpressionParser implements ExpressionSubparser, DottedFinishe
 
         return null;
     }
-
-    /*
-    public Variable parseVariable(ParserData data, Tokens source) {
-        return null;
-    }
-    */
 
     @Override
     public double getPriority() {

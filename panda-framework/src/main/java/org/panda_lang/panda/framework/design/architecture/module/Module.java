@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.design.architecture.module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
 
-import java.util.Collection;
 import java.util.Optional;
 
 public interface Module {
@@ -46,11 +45,9 @@ public interface Module {
         return StreamUtils.count(getReferences(), ClassPrototypeReference::isInitialized);
     }
 
-    default int getAmountOfReferences() {
-        return getReferences().size();
-    }
+    int getAmountOfReferences();
 
-    Collection<ClassPrototypeReference> getReferences();
+    Iterable<ClassPrototypeReference> getReferences();
 
     String getName();
 

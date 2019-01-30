@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.statement;
 
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -29,7 +31,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.statement.ModuleStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
@@ -48,7 +49,7 @@ public class ModuleParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL)
-    private void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Src("module") Tokens moduleSource) {
+    private void parse(ParserData data, @Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Tokens moduleSource) {
         StringBuilder nameBuilder = new StringBuilder();
 
         for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
@@ -57,15 +58,15 @@ public class ModuleParser extends UnifiedParserBootstrap {
 
         String moduleName = nameBuilder.toString();
 
-        if (!modulePath.hasModule(moduleName)) {
-            modulePath.create(moduleName);
+        if (!environment.getModulePath().hasModule(moduleName)) {
+            environment.getModulePath().create(moduleName);
         }
 
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        Optional<Module> module = modulePath.get(moduleName);
+        Optional<Module> module = environment.getModulePath().get(moduleName);
 
         if (!module.isPresent()) {
             throw new PandaParserException("Module '" + moduleName + "' does not exist");
@@ -74,7 +75,7 @@ public class ModuleParser extends UnifiedParserBootstrap {
         ModuleStatement moduleStatement = new ModuleStatement(module.get());
         script.getStatements().add(moduleStatement);
 
-        script.getModuleLoader().include(moduleStatement.getModule());
+        loader.include(moduleStatement.getModule());
         script.setModule(moduleStatement.getModule());
     }
 

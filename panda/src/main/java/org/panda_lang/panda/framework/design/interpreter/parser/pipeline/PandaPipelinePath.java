@@ -24,11 +24,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaPipelineRegistry implements PipelineRegistry {
+public class PandaPipelinePath implements PipelinePath {
 
     private final Map<PipelineComponent<?>, ParserPipeline<?>> pipelines = new HashMap<>(3);
 
-    public PandaPipelineRegistry() {
+    public PandaPipelinePath() {
         pipelines.put(UniversalPipelines.ALL, new PandaParserPipeline<>());
     }
 

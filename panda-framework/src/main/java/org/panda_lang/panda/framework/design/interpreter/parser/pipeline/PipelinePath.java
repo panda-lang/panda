@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 
 import java.util.Collection;
 
-public interface PipelineRegistry {
+public interface PipelinePath {
 
     <P extends Parser> ParserPipeline<P> getPipeline(PipelineComponent<P> component);
 

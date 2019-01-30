@@ -17,15 +17,15 @@
 package org.panda_lang.panda.framework.language.resource.parsers.general.number;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 public class NumberParser implements ParticularParser<Value> {
 
@@ -65,7 +65,7 @@ public class NumberParser implements ParticularParser<Value> {
             numberType = numberTypeDefinition;
         }
 
-        ModulePath registry = data.getComponent(PandaComponents.MODULE_REGISTRY);
+        ModuleLoader registry = data.getComponent(UniversalComponents.MODULE_LOADER);
         Value value;
 
         switch (numberType) {

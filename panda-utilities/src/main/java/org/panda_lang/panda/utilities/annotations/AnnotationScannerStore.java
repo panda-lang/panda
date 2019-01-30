@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.annotations;
 
 import javassist.bytecode.ClassFile;
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.collection.Multimap;
+import org.panda_lang.panda.utilities.commons.collection.map.Multimap;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -26,8 +26,8 @@ import java.util.Collection;
 
 public class ParserRegistrationLoader {
 
-    public PipelineRegistry load(AnnotationsScannerProcess scannerProcess) {
-        PandaPipelineRegistry registry = new PandaPipelineRegistry();
+    public PipelinePath load(AnnotationsScannerProcess scannerProcess) {
+        PandaPipelinePath registry = new PandaPipelinePath();
 
         try {
             loadPipelines(registry, scannerProcess);
@@ -39,7 +39,7 @@ public class ParserRegistrationLoader {
     }
 
     @SuppressWarnings("unchecked")
-    private void loadPipelines(PandaPipelineRegistry registry, AnnotationsScannerProcess scannerProcess) throws Exception {
+    private void loadPipelines(PandaPipelinePath registry, AnnotationsScannerProcess scannerProcess) throws Exception {
         PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("--- Loading pipelines ");
 
@@ -68,9 +68,8 @@ public class ParserRegistrationLoader {
         else if (UnifiedParser.class.isAssignableFrom(currentClass)) {
             return (UnifiedParser) currentClass.newInstance();
         }
-        else {
-            throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
-        }
+
+        throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
     }
 
     private ParserHandler createHandlerInstance(Parser currentParser, Class<? extends ParserHandler> handlerClass) throws Exception {
@@ -80,9 +79,8 @@ public class ParserRegistrationLoader {
         else if (ParserHandler.class.isAssignableFrom(currentParser.getClass())) {
             return (ParserHandler) currentParser;
         }
-        else {
-            throw new PandaException("Cannot create parser handler instance (source: " + currentParser.getClass() + ")");
-        }
+
+        throw new PandaException("Cannot create parser handler instance (source: " + currentParser.getClass() + ")");
     }
 
 }

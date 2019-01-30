@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModulePath;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.loader.AnnotatedModelsLoader;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.loader.AutoloadLoader;
@@ -32,7 +32,7 @@ public class PandaEnvironment implements Environment {
     protected final Panda panda;
     protected final ModulePath modulePath;
 
-    protected PipelineRegistry pipelineRegistry;
+    protected PipelinePath pipelinePath;
     protected PandaInterpreter interpreter;
 
     public PandaEnvironment(Panda panda) {
@@ -48,7 +48,7 @@ public class PandaEnvironment implements Environment {
         autoloadLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
 
         ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
-        this.pipelineRegistry = registrationLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
+        this.pipelinePath = registrationLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
 
         AnnotatedModelsLoader modelLoader = new AnnotatedModelsLoader();
         modelLoader.load(modulePath, PandaUtils.DEFAULT_PANDA_SCANNER);
@@ -60,8 +60,8 @@ public class PandaEnvironment implements Environment {
     }
 
     @Override
-    public PipelineRegistry getPipelineRegistry() {
-        return pipelineRegistry;
+    public PipelinePath getPipelinePath() {
+        return pipelinePath;
     }
 
     @Override

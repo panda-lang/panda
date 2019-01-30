@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.framework.language.architecture.module;
+
+import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -23,9 +26,7 @@ import java.util.Optional;
 
 public class PandaModulePath implements ModulePath {
 
-    public static final String DEFAULT_MODULE = null;
-
-    private final Map<String, Module> modules;
+    protected final Map<String, Module> modules;
 
     public PandaModulePath() {
         this.modules = new HashMap<>();
@@ -33,18 +34,12 @@ public class PandaModulePath implements ModulePath {
     }
 
     private void initialize() {
-        this.create(null);
+        this.create(ModulePath.DEFAULT_MODULE);
     }
 
     @Override
     public Module create(String name) {
-        if (modules.containsKey(name)) {
-            return modules.get(name);
-        }
-
-        Module module = new PandaModule(name);
-        modules.put(name, module);
-        return module;
+        return modules.computeIfAbsent(name, (key) -> new PandaModule(name));
     }
 
     @Override

@@ -20,9 +20,8 @@ import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
@@ -38,7 +37,6 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.Express
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
@@ -47,7 +45,6 @@ import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Collections;
-import java.util.Optional;
 
 public class ApplicationParser implements Parser {
 
@@ -59,23 +56,21 @@ public class ApplicationParser implements Parser {
 
     public PandaApplication parse(SourceSet sourceSet) {
         PandaApplication application = new PandaApplication();
-
         Environment environment = interpretation.getEnvironment();
-        ModulePath modulePath = environment.getModulePath();
-        Optional<Module> defaultModule = modulePath.get(PandaModulePath.DEFAULT_MODULE);
 
-        if (!defaultModule.isPresent()) {
-            throw new PandaParserException("Default module is not implemented");
-        }
+        ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());
+        loader.include(environment.getModulePath().getDefaultModule());
 
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationTypes.getValues());
 
         ParserData baseData = new PandaParserData();
+        baseData.setComponent(UniversalComponents.APPLICATION, application);
+        baseData.setComponent(UniversalComponents.ENVIRONMENT, environment);
         baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);
-        baseData.setComponent(UniversalComponents.PIPELINE, environment.getPipelineRegistry());
+        baseData.setComponent(UniversalComponents.PIPELINE, environment.getPipelinePath());
         baseData.setComponent(UniversalComponents.GENERATION, generation);
-        baseData.setComponent(PandaComponents.MODULE_REGISTRY, modulePath);
+        baseData.setComponent(UniversalComponents.MODULE_LOADER, loader);
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
@@ -91,8 +86,6 @@ public class ApplicationParser implements Parser {
             exceptionTranslator.updateLocation(source.getTitle());
 
             interpretation.execute(() -> {
-                pandaScript.getModuleLoader().include(defaultModule.get());
-
                 PandaLexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax(), source).build();
                 Tokens tokens = CommentParser.uncomment(lexer.convert());
 
@@ -119,10 +112,10 @@ public class ApplicationParser implements Parser {
             PandaFramework.getLogger().debug("--- Parse details ");
 
             PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
-            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelineRegistry().getTotalHandleTime()));
+            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelinePath().getTotalHandleTime()));
 
-            PandaFramework.getLogger().debug("• Amount of references: " + modulePath.getAmountOfReferences());
-            PandaFramework.getLogger().debug("• Amount of used prototypes: " + modulePath.getAmountOfUsedPrototypes());
+            PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().getAmountOfReferences());
+            PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());
 
             PandaFramework.getLogger().debug("");
         }

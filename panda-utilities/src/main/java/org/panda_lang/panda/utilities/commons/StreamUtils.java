@@ -23,27 +23,33 @@ import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
 import java.util.function.ToLongFunction;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 public class StreamUtils {
 
-    public static <T> int sum(Collection<T> collection, ToIntFunction<? super T> function) {
-        return collection.stream().mapToInt(function).sum();
+    public static <T> int sum(Iterable<T> iterable, ToIntFunction<? super T> function) {
+        return stream(iterable).mapToInt(function).sum();
     }
 
-    public static <T> long sumLongs(Collection<T> collection, ToLongFunction<? super T> function) {
-        return collection.stream().mapToLong(function).sum();
+    public static <T> long sumLongs(Iterable<T> iterable, ToLongFunction<? super T> function) {
+        return stream(iterable).mapToLong(function).sum();
     }
 
-    public static <T> int count(Collection<T> collection, Predicate<T> filter) {
-        return (int) collection.stream().filter(filter).count();
+    public static <T> int count(Iterable<T> iterable, Predicate<T> filter) {
+        return (int) stream(iterable).filter(filter).count();
     }
 
-    public static <T> Optional<T> findFirst(Collection<T> collection, Predicate<T> filter) {
-        return collection.stream().filter(filter).findFirst();
+    public static <T> Optional<T> findFirst(Iterable<T> iterable, Predicate<T> filter) {
+        return stream(iterable).filter(filter).findFirst();
     }
 
-    public static <R, T> Collection<R> map(Collection<T> collection, Function<T, R> mapper) {
-        return collection.stream().map(mapper).collect(Collectors.toList());
+    public static <R, T> Collection<R> map(Iterable<T> iterable, Function<T, R> mapper) {
+        return stream(iterable).map(mapper).collect(Collectors.toList());
+    }
+
+    private static <T> Stream<T> stream(Iterable<T> iterable) {
+        return StreamSupport.stream(iterable.spliterator(), false);
     }
 
 }

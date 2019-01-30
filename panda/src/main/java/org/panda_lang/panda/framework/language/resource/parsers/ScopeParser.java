@@ -20,10 +20,10 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 
 public class ScopeParser implements Parser {
@@ -42,14 +42,14 @@ public class ScopeParser implements Parser {
     }
 
     public ScopeParser initializeLinker() {
-        data.setComponent(PandaComponents.SCOPE_LINKER, new PandaScopeLinker(scope));
+        data.setComponent(UniversalComponents.SCOPE_LINKER, new PandaScopeLinker(scope));
         return this;
     }
 
     public ScopeParser initializeLinker(Scope parentScope, Scope currentScope) {
         ScopeLinker linker = new PandaScopeLinker(parentScope);
         linker.pushScope(currentScope);
-        data.setComponent(PandaComponents.SCOPE_LINKER, linker);
+        data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
         return this;
     }
 

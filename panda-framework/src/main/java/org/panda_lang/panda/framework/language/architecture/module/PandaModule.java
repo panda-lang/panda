@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.framework.language.architecture.module;
 
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 import java.util.ArrayList;
@@ -23,8 +24,8 @@ import java.util.Collection;
 
 public class PandaModule implements Module {
 
-    private final String name;
-    private final Collection<ClassPrototypeReference> references;
+    protected final String name;
+    protected final Collection<ClassPrototypeReference> references;
 
     public PandaModule(String name) {
         this.name = name;
@@ -38,7 +39,12 @@ public class PandaModule implements Module {
     }
 
     @Override
-    public Collection<ClassPrototypeReference> getReferences() {
+    public int getAmountOfReferences() {
+        return references.size();
+    }
+
+    @Override
+    public Iterable<ClassPrototypeReference> getReferences() {
         return references;
     }
 

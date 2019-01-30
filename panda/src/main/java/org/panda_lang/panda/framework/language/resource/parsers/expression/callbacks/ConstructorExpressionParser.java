@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
@@ -38,7 +38,6 @@ import org.panda_lang.panda.framework.language.resource.parsers.general.Argument
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 public class ConstructorExpressionParser implements ExpressionCallbackParser<InstanceExpressionCallback> {
 
@@ -62,16 +61,7 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
             throw new PandaParserException("Cannot parse expression::instance");
         }
 
-
-        String className = gaps.get(0).asString();
-        ModuleLoader moduleLoader = script.getModuleLoader();
-        Optional<ClassPrototypeReference> reference = moduleLoader.forClass(className);
-
-        if (!reference.isPresent()) {
-            throw new PandaParserFailure("Unknown return type", data, source);
-        }
-
-        this.returnType = reference.get();
+        this.returnType = ModuleLoaderUtils.getReferenceOrThrow(data, gaps.get(0).asString(), source);
         this.arguments = new ArgumentParser().parse(data, gaps.get(1));
         this.constructor = ConstructorUtils.matchConstructor(returnType.fetch(), arguments);
 

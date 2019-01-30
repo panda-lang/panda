@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block.looping;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
@@ -24,8 +25,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
@@ -54,14 +57,14 @@ public class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    public BlockData parseBlock(ParserData data, @Src("*content") Tokens content) {
+    public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("*content") Tokens content) {
         ExtractorResult result = CONTENT_PATTERN.extract(content);
         Tokens name = result.getWildcard("name");
         Tokens type = result.getWildcard("type");
         Tokens iterable = result.getWildcard("*iterable");
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        Scope scope = data.getComponent(PandaComponents.SCOPE_LINKER).getCurrentScope();
+        Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
         Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, iterable);
 
         if (expression == null) {
@@ -69,7 +72,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         }
 
         VariableInitializer initializer = new VariableInitializer();
-        Variable variable = initializer.createVariable(data, script.getModuleLoader(), scope, true, true, type.asString(), name.asString());
+        Variable variable = initializer.createVariable(data, moduleLoader, scope, true, true, type.asString(), name.asString());
         int variableId = scope.indexOf(variable);
 
         if (!PandaTypes.ITERABLE.isAssignableFrom(expression.getReturnType())) {

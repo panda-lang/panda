@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.prototype;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PandaClassPrototype;
@@ -46,7 +45,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
@@ -90,9 +89,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
         module.add(prototype.getReference());
 
-        ModulePath path = data.getComponent(PandaComponents.MODULE_REGISTRY);
         prototype.addExtended(PandaTypes.OBJECT.getReference());
-
         data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
 
         ClassPrototypeScope scope = new ClassPrototypeScope(prototype);
@@ -102,7 +99,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         script.getStatements().add(referenceStatement);
 
         ScopeLinker linker = new PandaScopeLinker(scope);
-        data.setComponent(PandaComponents.SCOPE_LINKER, linker);
+        data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -118,8 +115,8 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
             return;
         }
 
-        PipelineRegistry pipelineRegistry = data.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline<UnifiedParser> pipeline = pipelineRegistry.getPipeline(PandaPipelines.PROTOTYPE);
+        PipelinePath pipelinePath = data.getComponent(UniversalComponents.PIPELINE);
+        ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.PROTOTYPE);
 
         ParserData bodyInfo = data.fork();
         SourceStream stream = new PandaSourceStream(body);
