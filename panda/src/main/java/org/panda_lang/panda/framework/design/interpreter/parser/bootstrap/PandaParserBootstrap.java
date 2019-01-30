@@ -36,7 +36,7 @@ public class PandaParserBootstrap<T> {
     }
 
     protected ParserRepresentation<UnifiedParser<T>> generate(ParserData data) {
-        UnifiedBootstrapParser<T> bootstrapParser = new UnifiedBootstrapParser<>(this);
+        BootstrapCoreParser<T> bootstrapParser = new BootstrapCoreParser<>(this);
 
         if (hasInterceptor()) {
             getInterceptor().initialize(this, data);

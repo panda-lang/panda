@@ -38,9 +38,9 @@ import java.lang.reflect.Method;
 
 class ParserLayerGenerator<T> {
 
-    private final UnifiedBootstrapParser<T> bootstrapParser;
+    private final BootstrapCoreParser<T> bootstrapParser;
 
-    ParserLayerGenerator(UnifiedBootstrapParser<T> bootstrapParser) {
+    ParserLayerGenerator(BootstrapCoreParser<T> bootstrapParser) {
         this.bootstrapParser = bootstrapParser;
     }
 
