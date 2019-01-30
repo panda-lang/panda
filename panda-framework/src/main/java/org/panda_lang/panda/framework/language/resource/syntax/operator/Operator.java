@@ -16,15 +16,27 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class Operator extends EqualableToken {
 
+    private final String family;
     private final String operator;
 
-    public Operator(String operator) {
+    public Operator(@Nullable String family, String operator) {
+        this.family = family;
         this.operator = operator;
+    }
+
+    public boolean hasFamily() {
+        return !StringUtils.isEmpty(family);
+    }
+
+    public String getFamily() {
+        return family;
     }
 
     @Override

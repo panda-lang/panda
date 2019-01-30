@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.DottedFinisher;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -53,7 +53,7 @@ import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import java.util.List;
 import java.util.Optional;
 
-public class FieldExpressionParser implements ExpressionSubparser, DottedFinisher {
+public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFinisher {
 
     private static final Token[] FIELD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
 

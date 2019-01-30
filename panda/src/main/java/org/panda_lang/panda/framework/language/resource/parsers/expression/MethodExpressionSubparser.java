@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.invoker.MethodInvokerExpressionUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.DottedFinisher;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
-public class MethodExpressionParser implements ExpressionSubparser, DottedFinisher {
+public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFinisher {
 
     private static final Token[] METHOD_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this, SubparserUtils.NAMES_FILTER);

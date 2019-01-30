@@ -23,6 +23,22 @@ import java.util.Objects;
 public class ObjectUtils {
 
     /**
+     * Try to cast or get null
+     *
+     * @param object the object to cast
+     * @param clazz the type to cast
+     * @param <T> the result type
+     * @return casted object or null if object is not a clazz type
+     */
+    public static @Nullable <T> T cast(Class<T> clazz, @Nullable Object object) {
+        if (object == null || !clazz.isAssignableFrom(object.getClass())) {
+            return null;
+        }
+
+        return clazz.cast(object);
+    }
+
+    /**
      * Check if object is not null
      *
      * @param object object to check

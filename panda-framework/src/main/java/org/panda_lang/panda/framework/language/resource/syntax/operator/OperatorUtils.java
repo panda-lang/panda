@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
-public interface LivingModule extends Module {
+import org.jetbrains.annotations.Nullable;
 
-    ModuleLoader getModuleLoader();
+import java.util.Objects;
 
-    Module getModule();
+public class OperatorUtils {
+
+    public static boolean isMemberOf(@Nullable Operator operator, @Nullable String family) {
+        if (operator == null) {
+            return false;
+        }
+
+        return Objects.equals(operator.getFamily(), family);
+    }
 
 }

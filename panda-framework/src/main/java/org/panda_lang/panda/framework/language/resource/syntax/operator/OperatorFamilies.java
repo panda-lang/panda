@@ -14,12 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
-public interface LivingModule extends Module {
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
-    ModuleLoader getModuleLoader();
+public class OperatorFamilies {
 
-    Module getModule();
+    public static final String MATH = "math";
+
+    public static final String LOGICAL = "logical";
+
+    public static final String UNDEFINED = StringUtils.EMPTY;
 
 }

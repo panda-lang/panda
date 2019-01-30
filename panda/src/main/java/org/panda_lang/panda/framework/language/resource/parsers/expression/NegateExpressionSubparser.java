@@ -17,36 +17,35 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.NegateLogicalExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class SingleExpressionParser implements ExpressionSubparser {
+public class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        return SubparserUtils.readFirstOfType(source, TokenType.UNKNOWN);
+        if (!source.getFirst().contentEquals(Operators.NOT)) {
+            return null;
+        }
+
+        return source;
     }
 
     @Override
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        TokenRepresentation token = source.get(0);
+        Expression expression = main.parse(data, source.subSource(1, source.size()));
+        return new PandaExpression(new NegateLogicalExpressionCallback(expression));
+    }
 
-        NumberParser numberParser = new NumberParser();
-        Value numericValue = numberParser.parse(data, source);
-
-        if (numericValue != null) {
-            return new PandaExpression(numericValue);
-        }
-
-        return null;
+    @Override
+    public int getMinimumLength() {
+        return 2;
     }
 
     @Override
@@ -56,7 +55,7 @@ public class SingleExpressionParser implements ExpressionSubparser {
 
     @Override
     public String getName() {
-        return DefaultSubparsers.Names.SINGLE;
+        return DefaultSubparsers.Names.NEGATE;
     }
 
 }

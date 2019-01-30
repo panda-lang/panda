@@ -24,21 +24,21 @@ import java.util.function.Predicate;
 
 public class ExpressionSeparatorExtensions {
 
-    protected final DottedFinisher finisher;
+    protected final ReaderFinisher finisher;
     protected final @Nullable Predicate<Token> tokenFilter;
     protected final @Nullable Predicate<Tokens> sectionFilter;
 
-    public ExpressionSeparatorExtensions(DottedFinisher finisher, @Nullable Predicate<Token> tokenFilter, @Nullable Predicate<Tokens> sectionFilter) {
+    public ExpressionSeparatorExtensions(ReaderFinisher finisher, @Nullable Predicate<Token> tokenFilter, @Nullable Predicate<Tokens> sectionFilter) {
         this.finisher = finisher;
         this.tokenFilter = tokenFilter;
         this.sectionFilter = sectionFilter;
     }
 
-    public ExpressionSeparatorExtensions(DottedFinisher finisher, @Nullable Predicate<Token> tokenFilter) {
+    public ExpressionSeparatorExtensions(ReaderFinisher finisher, @Nullable Predicate<Token> tokenFilter) {
         this(finisher, tokenFilter, null);
     }
 
-    public ExpressionSeparatorExtensions(DottedFinisher finisher) {
+    public ExpressionSeparatorExtensions(ReaderFinisher finisher) {
         this(finisher, null, null);
     }
 
