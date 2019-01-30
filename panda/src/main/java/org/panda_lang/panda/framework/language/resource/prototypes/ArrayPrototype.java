@@ -18,12 +18,10 @@ package org.panda_lang.panda.framework.language.resource.prototypes;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel.ModuleDeclaration;
-
-import java.security.InvalidParameterException;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 @ClassDeclaration("Arrays")
 @ModuleDeclaration("panda-lang")
@@ -31,19 +29,7 @@ public class ArrayPrototype implements ClassPrototypeModel {
 
     @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = true, catchAllParameters = true)
     public static void print(ExecutableBranch branch, System instance, @TypeDeclaration("panda-lang:Array<Object>") Value[] parameters) {
-        StringBuilder node = new StringBuilder();
-
-        if (parameters.length == 0) {
-            throw new InvalidParameterException("Values are not specified");
-        }
-
-        for (Value value : parameters) {
-            node.append(value == null ? "null" : value.getObject());
-            node.append(", ");
-        }
-
-        String message = node.substring(0, node.length() - 2);
-        System.out.println(message);
+        System.out.println("xxx");
     }
 
 }
