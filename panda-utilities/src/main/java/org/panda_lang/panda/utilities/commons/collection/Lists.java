@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons;
+package org.panda_lang.panda.utilities.commons.collection;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -23,7 +23,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-public class ListUtils {
+public class Lists {
 
     /**
      * Reverse the provided list and return its

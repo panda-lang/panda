@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.subparsers.array;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -30,8 +30,6 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.Di
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
-
-import java.util.Optional;
 
 public class ArrayValueAccessorParser implements Parser {
 
@@ -77,14 +75,8 @@ public class ArrayValueAccessorParser implements Parser {
             throw new PandaParserFailure("Cannot locate array class", data, instanceSource);
         }
 
-        ModuleLoader loader = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader();
-        Optional<ClassPrototypeReference> type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(arrayPrototype.getType());
-
-        if (!type.isPresent()) {
-            throw new PandaParserFailure("Cannot locate type of the array", data, instanceSource);
-        }
-
-        return new ArrayValueAccessor(arrayPrototype, type.get().fetch(), instance, index, action);
+        ClassPrototypeReference type = ModuleLoaderUtils.getReferenceOrThrow(data, arrayPrototype.getType(), "Cannot locate type of the array", source);
+        return new ArrayValueAccessor(arrayPrototype, type.fetch(), instance, index, action);
     }
 
 }

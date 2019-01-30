@@ -19,13 +19,13 @@ class ModelPrototypeGenerator {
         ClassPrototypeModel.ClassDeclaration classDeclaration = modelClass.getAnnotation(ClassPrototypeModel.ClassDeclaration.class);
 
         String moduleName = moduleDeclaration.value();
-        Optional<Module> optionalModule = modulePath.get(moduleName);
+        Optional<Module> moduleReference = modulePath.get(moduleName);
 
-        if (optionalModule.isPresent() && optionalModule.get().get(classDeclaration.value()).isPresent()) {
+        if (moduleReference.isPresent() && moduleReference.get().get(classDeclaration.value()).isPresent()) {
             return null;
         }
 
-        Module module = optionalModule.orElseGet(() -> modulePath.create(moduleName));
+        Module module = moduleReference.orElseGet(() -> modulePath.create(moduleName));
 
         ClassPrototype prototype = PandaClassPrototype.builder()
                 .module(module)

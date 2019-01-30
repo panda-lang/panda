@@ -19,24 +19,27 @@ package org.panda_lang.panda.framework.design.architecture.module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
+import java.util.Collection;
 import java.util.Optional;
 
 public interface ModuleLoader {
 
-    String DEFAULT_MODULE = null;
-
     ModuleLoader include(Module module);
+
+    Optional<ClassPrototypeReference> forClass(String name);
 
     default Optional<ClassPrototypeReference> forClass(Class<?> clazz) {
         return this.forClass(clazz.getSimpleName());
     }
 
-    Optional<ClassPrototypeReference> forClass(String name);
-
-    Optional<Module> get(String name);
-
-    default Module getDefaultModule() {
-        return get(DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have default module"));
+    default LivingModule getDefaultModule() {
+        return get(ModulePath.DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have default module"));
     }
+
+    Optional<LivingModule> get(String name);
+
+    Collection<String> names();
+
+    ModulePath getPath();
 
 }

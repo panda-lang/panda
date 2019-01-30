@@ -16,27 +16,27 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.util.Stack;
 
 public class MathExpressionCallback implements ExpressionCallback {
 
-    private final ModulePath modulePath;
+    private final ModuleLoader moduleLoader;
     private final Stack<Object> mathStack;
 
-    public MathExpressionCallback(ModulePath modulePath, Stack<Object> mathStack) {
+    public MathExpressionCallback(ModuleLoader moduleLoader, Stack<Object> mathStack) {
         this.mathStack = mathStack;
-        this.modulePath = modulePath;
+        this.moduleLoader = moduleLoader;
     }
 
     @Override

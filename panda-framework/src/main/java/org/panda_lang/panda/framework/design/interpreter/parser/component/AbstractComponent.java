@@ -39,6 +39,11 @@ public abstract class AbstractComponent<R> {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return name + "::" + type.getSimpleName();
+    }
+
     protected static <TYPE extends AbstractComponent, RETURN> TYPE ofComponents(Map<String, AbstractComponent> components, String name, Supplier<TYPE> supplier) {
         AbstractComponent existingComponent = components.get(name);
 

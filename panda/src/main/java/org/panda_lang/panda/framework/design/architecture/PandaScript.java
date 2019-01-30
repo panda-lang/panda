@@ -17,18 +17,14 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.AbstractScript;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModuleLoader;
 
 public class PandaScript extends AbstractScript {
 
-    protected final ModuleLoader moduleLoader;
     protected Module currentModule;
 
     public PandaScript(String scriptName) {
         super(scriptName);
-        this.moduleLoader = new PandaModuleLoader();
     }
 
     public void setModule(Module currentModule) {
@@ -37,10 +33,6 @@ public class PandaScript extends AbstractScript {
 
     public Module getModule() {
         return currentModule;
-    }
-
-    public ModuleLoader getModuleLoader() {
-        return moduleLoader;
     }
 
 }

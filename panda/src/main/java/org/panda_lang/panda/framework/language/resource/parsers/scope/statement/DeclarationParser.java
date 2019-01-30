@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.statement;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -31,11 +31,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.subparsers.variable.VariableInitializer;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_DECLARATION_PARSER)
 public class DeclarationParser extends UnifiedParserBootstrap {
+
+    private static final VariableInitializer INITIALIZER = new VariableInitializer();
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -45,16 +46,12 @@ public class DeclarationParser extends UnifiedParserBootstrap {
     @Autowired
     @AutowiredParameters(skip = 2, value = {
             @Type(with = Component.class),
+            @Type(with = Component.class),
             @Type(with = Src.class, value = "type"),
             @Type(with = Src.class, value = "name")
     })
-    public void parse(ParserData data, ExtractorResult result, ScopeLinker linker, Tokens type, Tokens name) {
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        boolean mutable = result.hasIdentifier("mutable");
-        boolean nullable = result.hasIdentifier("nullable");
-
-        VariableInitializer initializer = new VariableInitializer();
-        initializer.createVariable(data, script.getModuleLoader(), linker.getCurrentScope(), mutable, nullable, type.asString(), name.asString());
+    public void parse(ParserData data, ExtractorResult result, ModuleLoader loader, ScopeLinker linker, Tokens type, Tokens name) {
+        INITIALIZER.createVariable(data, loader, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type.asString(), name.asString());
     }
 
 }

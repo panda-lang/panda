@@ -17,12 +17,9 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PandaParameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
@@ -34,11 +31,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserData info, @Nullable Tokens tokens) {
+    public List<Parameter> parse(ParserData data, @Nullable Tokens tokens) {
         if (TokensUtils.isEmpty(tokens)) {
             return new ArrayList<>(0);
         }
@@ -57,15 +53,7 @@ public class ParameterParser implements Parser {
             String parameterType = parameterTypeRepresentation.getToken().getTokenValue();
             String parameterName = parameterNameRepresentation.getToken().getTokenValue();
 
-            PandaScript script = info.getComponent(PandaComponents.PANDA_SCRIPT);
-            ModuleLoader moduleLoader = script.getModuleLoader();
-            Optional<ClassPrototypeReference> type = moduleLoader.forClass(parameterType);
-
-            if (!type.isPresent()) {
-                throw new PandaParserException("Unknown type '" + parameterType + "'");
-            }
-
-            Parameter parameter = new PandaParameter(type.get(), parameterName);
+            Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(data, parameterType, tokens), parameterName);
             parameters.add(parameter);
 
             if (i + 2 < tokenRepresentations.length) {

@@ -24,8 +24,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -53,8 +51,7 @@ public class ClassPrototypeParserUtils {
     }
 
     private static void readExtends(ParserData data, Tokens classDeclaration, ClassPrototype prototype) {
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        ModuleLoader registry = script.getModuleLoader();
+        ModuleLoader loader = data.getComponent(UniversalComponents.MODULE_LOADER);
 
         for (int i = 2; i < classDeclaration.size(); i++) {
             Token classNameToken = classDeclaration.getToken(i);
@@ -66,7 +63,7 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                Optional<ClassPrototypeReference> extendedPrototype = registry.forClass(classNameToken.getTokenValue());
+                Optional<ClassPrototypeReference> extendedPrototype = loader.forClass(classNameToken.getTokenValue());
 
                 if (!extendedPrototype.isPresent()) {
                     data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(classDeclaration));

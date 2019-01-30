@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.field;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
@@ -43,8 +43,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
-import java.util.Optional;
-
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD_PARSER)
 public class FieldParser extends UnifiedParserBootstrap {
 
@@ -65,6 +63,8 @@ public class FieldParser extends UnifiedParserBootstrap {
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Tokens type, @Src("name") Tokens name) {
+        ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
+
         FieldVisibility visibility = FieldVisibility.LOCAL;
         visibility = result.hasIdentifier("p") ? FieldVisibility.PUBLIC : visibility;
         visibility = result.hasIdentifier("h") ? FieldVisibility.HIDDEN : visibility;
@@ -73,19 +73,12 @@ public class FieldParser extends UnifiedParserBootstrap {
         boolean mutable = result.hasIdentifier("mutable");
         boolean nullable = result.hasIdentifier("nullable");
 
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        Optional<ClassPrototypeReference> returnType = script.getModuleLoader().forClass(type.asString());
-
-        if (!returnType.isPresent()) {
-            throw new PandaParserFailure("Unknown type", data, type);
-        }
-
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getAmountOfFields();
 
         PrototypeField field = PandaPrototypeField.builder()
                 .fieldIndex(fieldIndex)
-                .type(returnType.get())
+                .type(returnType)
                 .name(name.asString())
                 .visibility(visibility)
                 .isStatic(isStatic)

@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.statement;
 
+import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -29,7 +31,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
@@ -48,21 +49,22 @@ public class ImportParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL)
-    public void parse(ParserData data, @Component ModulePath modulePath, @Component PandaScript script, @Src("import") Tokens importSource) {
+    public void parse(ParserData data, @Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("import") Tokens source) {
         StringBuilder moduleName = new StringBuilder();
 
-        for (TokenRepresentation representation : importSource.getTokensRepresentations()) {
+        for (TokenRepresentation representation : source.getTokensRepresentations()) {
             moduleName.append(representation.getTokenValue());
         }
 
-        Optional<Module> module = modulePath.get(moduleName.toString());
+        Optional<Module> module = environment.getModulePath().get(moduleName.toString());
 
         if (!module.isPresent()) {
             throw new PandaParserFailure("Unknown module " + moduleName, data);
         }
 
         ImportStatement importStatement = new ImportStatement(module.get());
-        script.getModuleLoader().include(importStatement.getImportedModule());
+        loader.include(importStatement.getImportedModule());
+
         script.getStatements().add(importStatement);
     }
 

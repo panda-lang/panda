@@ -17,26 +17,31 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.language.architecture.module.PandaLivingModule;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.utilities.commons.StreamUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class PandaModuleLoader implements ModuleLoader {
 
-    private final Map<String, Module> importedModules;
+    private final ModulePath path;
+    private final Map<String, LivingModule> loadedModules;
 
-    public PandaModuleLoader() {
-        this.importedModules = new HashMap<>(2);
+    public PandaModuleLoader(ModulePath path) {
+        this.path = path;
+        this.loadedModules = new HashMap<>(2);
     }
 
     @Override
     public PandaModuleLoader include(Module module) {
-        this.importedModules.put(module.getName(), module);
+        this.loadedModules.put(module.getName(), new PandaLivingModule(this, module));
         return this;
     }
 
@@ -54,7 +59,7 @@ public class PandaModuleLoader implements ModuleLoader {
             return ArrayClassPrototypeUtils.obtain(this, name);
         }
 
-        for (Module module : importedModules.values()) {
+        for (Module module : loadedModules.values()) {
             Optional<ClassPrototypeReference> reference = module.get(name);
 
             if (reference.isPresent()) {
@@ -66,8 +71,18 @@ public class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public Optional<Module> get(String name) {
-        return Optional.ofNullable(importedModules.get(name));
+    public Optional<LivingModule> get(String name) {
+        return Optional.ofNullable(loadedModules.get(name));
+    }
+
+    @Override
+    public Collection<String> names() {
+        return StreamUtils.map(loadedModules.values(), Module::getName);
+    }
+
+    @Override
+    public ModulePath getPath() {
+        return path;
     }
 
 }

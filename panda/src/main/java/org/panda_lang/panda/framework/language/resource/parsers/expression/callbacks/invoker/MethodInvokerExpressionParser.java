@@ -17,8 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
@@ -36,8 +35,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
-
-import java.util.Optional;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
@@ -71,22 +68,18 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
 
     @Override
     public void parse(@Nullable Tokens source, ParserData data) {
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
-        ModuleLoader loader = script.getModuleLoader();
-
         Expression instance = null;
         ClassPrototype prototype;
 
         if (instanceSource != null) {
-            String surmiseClassName = instanceSource.asString();
-            Optional<ClassPrototypeReference> reference = loader.forClass(surmiseClassName);
+            ClassPrototypeReference reference = ModuleLoaderUtils.getReferenceOrNull(data, instanceSource.asString());
 
-            if (!reference.isPresent()) {
+            if (reference == null) {
                 instance = data.getComponent(PandaComponents.EXPRESSION).parse(data, instanceSource);
                 prototype = instance.getReturnType();
             }
             else {
-                prototype = reference.get().fetch();
+                prototype = reference.fetch();
             }
         }
         else {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.collection;
+package org.panda_lang.panda.utilities.commons.collection.map;
 
 import org.jetbrains.annotations.Nullable;
 

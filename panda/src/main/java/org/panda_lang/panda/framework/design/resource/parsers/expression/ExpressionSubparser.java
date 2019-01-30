@@ -20,10 +20,10 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
@@ -47,7 +47,7 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
     }
 
     default Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
-        Optional<ClassPrototypeReference> type = data.getComponent(PandaComponents.PANDA_SCRIPT).getModuleLoader().forClass(className);
+        Optional<ClassPrototypeReference> type = data.getComponent(UniversalComponents.MODULE_LOADER).forClass(className);
 
         if (!type.isPresent()) {
             throw new PandaParserFailure("Unknown type " + className, data);

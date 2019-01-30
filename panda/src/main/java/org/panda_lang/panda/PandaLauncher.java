@@ -43,8 +43,7 @@ public final class PandaLauncher {
 
         for (File file : files) {
             Application application = pandaLoader.loadFiles(file);
-            application.setApplicationArguments(args);
-            application.launch();
+            application.launch(args);
         }
     }
 

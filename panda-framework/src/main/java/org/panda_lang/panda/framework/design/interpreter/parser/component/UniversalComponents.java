@@ -17,11 +17,14 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.component;
 
 import org.panda_lang.panda.framework.design.architecture.Application;
+import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineRegistry;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
@@ -29,17 +32,25 @@ public final class UniversalComponents {
 
     public static final Component<Interpretation> INTERPRETATION = Component.of("interpretation", Interpretation.class);
 
+    public static final Component<Environment> ENVIRONMENT = Component.of("environment", Environment.class);
+
     public static final Component<Application> APPLICATION = Component.of("application", Application.class);
 
-    public static final Component<Script> SCRIPT = Component.of("script", Script.class);
+    public static final Component<Generation> GENERATION = Component.of("generation", Generation.class);
 
-    public static final Component<PipelineRegistry> PIPELINE = Component.of("pipeline-registry", PipelineRegistry.class);
+    public static final Component<PipelinePath> PIPELINE = Component.of("pipeline-path", PipelinePath.class);
+
+    public static final Component<ModuleLoader> MODULE_LOADER = Component.of("module-loader", ModuleLoader.class);
+
+
+
+    public static final Component<Script> SCRIPT = Component.of("script", Script.class);
 
     public static final Component<Tokens> SOURCE = Component.of("source", Tokens.class);
 
     public static final Component<SourceStream> SOURCE_STREAM = Component.of("source-stream", SourceStream.class);
 
-    public static final Component<Generation> GENERATION = Component.of("generation", Generation.class);
+    public static final Component<ScopeLinker> SCOPE_LINKER = Component.of("panda-scope-linker", ScopeLinker.class);
 
     public static final Component<ParserData> PARENT_DATA = Component.of("parent-data", ParserData.class);
 
