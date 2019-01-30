@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.inter
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedBootstrapParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
@@ -50,7 +50,7 @@ public class AbyssPatternInterceptor implements BootstrapInterceptor {
     }
 
     @Override
-    public InterceptorData handle(UnifiedBootstrapParser parser, ParserData data) {
+    public InterceptorData handle(BootstrapCoreParser parser, ParserData data) {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {

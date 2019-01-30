@@ -33,14 +33,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UnifiedBootstrapParser<T> implements UnifiedParser<T> {
+public class BootstrapCoreParser<T> implements UnifiedParser<T> {
 
     private final PandaParserBootstrap bootstrap;
     private final List<? extends LayerMethod> layers;
     private final ParserLayerGenerator<T> generator;
     private final int index;
 
-    public UnifiedBootstrapParser(PandaParserBootstrap<T> bootstrap) {
+    public BootstrapCoreParser(PandaParserBootstrap<T> bootstrap) {
         this.bootstrap = bootstrap;
         this.layers = bootstrap.getLayers();
         this.generator = new ParserLayerGenerator<>(this);
