@@ -17,8 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -30,15 +28,15 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.Express
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.logical.EqualsComparator;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.logical.LogicalExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.logical.NotEqualsComparator;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorUtils;
@@ -47,7 +45,6 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.Arrays;
-import java.util.Objects;
 
 public class LogicalExpressionSubparser implements ExpressionSubparser, ReaderFinisher {
 
@@ -113,20 +110,10 @@ public class LogicalExpressionSubparser implements ExpressionSubparser, ReaderFi
 
         switch (operator.getTokenValue()) {
             case "==":
-                callback = new ExpressionCallback() {
-                    @Override
-                    public Value call(Expression expression, ExecutableBranch branch) {
-                        Object leftValue = leftExpression.getExpressionValue(branch).getObject();
-                        Object rightValue = rightExpression.getExpressionValue(branch).getObject();
-
-                        return new PandaValue(PandaTypes.BOOLEAN, Objects.equals(leftValue, rightValue));
-                    }
-
-                    @Override
-                    public ClassPrototype getReturnType() {
-                        return PandaTypes.BOOLEAN;
-                    }
-                };
+                callback = new LogicalExpressionCallback(new EqualsComparator(), leftExpression, rightExpression);
+                break;
+            case "!=":
+                callback = new LogicalExpressionCallback(new NotEqualsComparator(), leftExpression, rightExpression);
                 break;
             default:
                 throw new PandaParserFailure("Operator not implemented", data, new PandaTokens(operatorRepresentation));
