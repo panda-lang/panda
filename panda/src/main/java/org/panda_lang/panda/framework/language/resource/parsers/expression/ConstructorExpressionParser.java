@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks;
+package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
@@ -34,6 +34,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 
 import java.util.Arrays;

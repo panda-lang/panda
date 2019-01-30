@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import java.lang.reflect.Array;
 import java.util.Optional;
 
-public class ArrayInstanceExpressionParser implements ExpressionSubparser {
+public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
 
     private TokenPattern pattern;
 

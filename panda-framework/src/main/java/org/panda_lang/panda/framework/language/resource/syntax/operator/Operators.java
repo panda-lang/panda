@@ -25,53 +25,61 @@ import java.util.Collection;
  */
 public class Operators {
 
-    public static final Operator ASSIGNMENT = new Operator("=");
+    public static final Operator ADDITION = new Operator(OperatorFamilies.MATH, "+");
 
-    public static final Operator ADDITION = new Operator("+");
+    public static final Operator SUBTRACTION = new Operator(OperatorFamilies.MATH, "-");
 
-    public static final Operator SUBTRACTION = new Operator("-");
+    public static final Operator MULTIPLICATION = new Operator(OperatorFamilies.MATH, "*");
 
-    public static final Operator MULTIPLICATION = new Operator("*");
+    public static final Operator DIVISION = new Operator(OperatorFamilies.MATH, "/");
 
-    public static final Operator DIVISION = new Operator("/");
+    public static final Operator MODULE = new Operator(OperatorFamilies.MATH, "%");
 
-    public static final Operator MODULE = new Operator("%");
+    public static final Operator BITWISE_NOT = new Operator(OperatorFamilies.MATH, "~");
 
-    public static final Operator INCREMENT = new Operator("++");
+    public static final Operator BITWISE_AND = new Operator(OperatorFamilies.MATH, "&");
 
-    public static final Operator DECREMENT = new Operator("--");
+    public static final Operator BITWISE_OR = new Operator(OperatorFamilies.MATH, "|");
 
-    public static final Operator EQUAL_TO = new Operator("==");
+    public static final Operator BITWISE_XOR = new Operator(OperatorFamilies.MATH, "^");
 
-    public static final Operator NOT_EQUAL_TO = new Operator("!=");
+    public static final Operator BITWISE_LEFT_SHIFT = new Operator(OperatorFamilies.MATH, "<<");
 
-    public static final Operator GREATER_THAN = new Operator(">");
+    public static final Operator BITWISE_RIGHT_SHIFT = new Operator(OperatorFamilies.MATH, ">>");
 
-    public static final Operator LESS_THAN = new Operator("<");
 
-    public static final Operator GREATER_THAN_OR_EQUAL_TO = new Operator(">=");
 
-    public static final Operator LESS_THAN_OR_EQUAL_TO = new Operator("<=");
+    public static final Operator EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "==");
 
-    public static final Operator NOT = new Operator("!");
+    public static final Operator NOT_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "!=");
 
-    public static final Operator AND = new Operator("&&");
+    public static final Operator GREATER_THAN = new Operator(OperatorFamilies.LOGICAL, ">");
 
-    public static final Operator OR = new Operator("||");
+    public static final Operator LESS_THAN = new Operator(OperatorFamilies.LOGICAL, "<");
 
-    public static final Operator BITWISE_NOT = new Operator("~");
+    public static final Operator GREATER_THAN_OR_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, ">=");
 
-    public static final Operator BITWISE_AND = new Operator("&");
+    public static final Operator LESS_THAN_OR_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "<=");
 
-    public static final Operator BITWISE_OR = new Operator("|");
+    public static final Operator AND = new Operator(OperatorFamilies.LOGICAL, "&&");
 
-    public static final Operator BITWISE_XOR = new Operator("^");
+    public static final Operator OR = new Operator(OperatorFamilies.LOGICAL, "||");
 
-    public static final Operator BITWISE_LEFT_SHIFT = new Operator("<<");
+    public static final Operator NOT = new Operator(OperatorFamilies.LOGICAL, "!");
 
-    public static final Operator BITWISE_RIGHT_SHIFT = new Operator(">>");
 
-    public static final Operator COLON = new Operator(":");
+
+    public static final Operator EROTEME = new Operator(OperatorFamilies.UNDEFINED, "?");
+
+    public static final Operator COLON = new Operator(OperatorFamilies.UNDEFINED, ":");
+
+    public static final Operator ASSIGNMENT = new Operator(OperatorFamilies.UNDEFINED, "=");
+
+    public static final Operator INCREMENT = new Operator(OperatorFamilies.UNDEFINED, "++");
+
+    public static final Operator DECREMENT = new Operator(OperatorFamilies.UNDEFINED, "--");
+
+
 
     private static final Collection<Operator> VALUES;
 

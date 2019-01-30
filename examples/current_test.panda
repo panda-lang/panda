@@ -96,7 +96,7 @@ main {
         builder.append(" Loop x3 ")
     }
 
-    while (flag) {
+    while (flag == true) {
         Console.print(builder.toString())
         break
     }

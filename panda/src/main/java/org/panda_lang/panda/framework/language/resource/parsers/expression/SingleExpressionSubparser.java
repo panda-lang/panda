@@ -17,31 +17,36 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class SequenceExpressionParser implements ExpressionSubparser {
+public class SingleExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        return SubparserUtils.readFirstOfType(source, TokenType.SEQUENCE);
+        return SubparserUtils.readFirstOfType(source, TokenType.UNKNOWN);
     }
 
     @Override
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
         TokenRepresentation token = source.get(0);
 
-        if (token.getTokenName().equals("String")) {
-            return toSimpleKnownExpression(data, "String", token.getTokenValue());
+        NumberParser numberParser = new NumberParser();
+        Value numericValue = numberParser.parse(data, source);
+
+        if (numericValue != null) {
+            return new PandaExpression(numericValue);
         }
 
-        throw new PandaParserFailure("Unknown sequence: " + token, data);
+        return null;
     }
 
     @Override
@@ -51,7 +56,7 @@ public class SequenceExpressionParser implements ExpressionSubparser {
 
     @Override
     public String getName() {
-        return DefaultSubparsers.Names.SEQUENCE;
+        return DefaultSubparsers.Names.SINGLE;
     }
 
 }

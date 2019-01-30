@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.utils.
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 
-public interface DottedFinisher {
+public interface ReaderFinisher {
 
     boolean finish(ExpressionParser parser, MatchableDistributor matchable);
 

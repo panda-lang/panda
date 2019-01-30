@@ -17,35 +17,45 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.NegateLogicalExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class NegateExpressionParser implements ExpressionSubparser {
+public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        if (!source.getFirst().contentEquals(Operators.NOT)) {
-            return null;
-        }
-
-        return source;
+        return SubparserUtils.readFirstOfType(source, TokenType.LITERAL);
     }
 
     @Override
     public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        Expression expression = main.parse(data, source.subSource(1, source.size()));
-        return new PandaExpression(new NegateLogicalExpressionCallback(expression));
-    }
+        TokenRepresentation token = source.get(0);
 
-    @Override
-    public int getMinimumLength() {
-        return 2;
+        switch (token.getTokenValue()) {
+            case "null":
+                return new PandaExpression(new PandaValue(null, null));
+            case "true":
+                return toSimpleKnownExpression(PandaTypes.BOOLEAN, true);
+            case "false":
+                return toSimpleKnownExpression(PandaTypes.BOOLEAN, false);
+            case "this":
+                ClassPrototype type = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+                return ThisExpressionCallback.asExpression(type);
+            default:
+                throw new PandaParserException("Unknown literal: " + token);
+        }
     }
 
     @Override
@@ -55,7 +65,7 @@ public class NegateExpressionParser implements ExpressionSubparser {
 
     @Override
     public String getName() {
-        return DefaultSubparsers.Names.NEGATE;
+        return DefaultSubparsers.Names.LITERAL;
     }
 
 }

@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressionCallback;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
-public class ArrayValueExpressionParser implements ExpressionSubparser {
+public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
     private static final Token[] ARRAY_SEPARATORS = ArrayUtils.of(Separators.PERIOD);
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();

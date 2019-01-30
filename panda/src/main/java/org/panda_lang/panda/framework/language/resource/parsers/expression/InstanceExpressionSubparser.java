@@ -25,7 +25,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ConstructorExpressionParser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -34,7 +33,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 
 import java.util.List;
 
-public class InstanceExpressionParser implements ExpressionSubparser {
+public class InstanceExpressionSubparser implements ExpressionSubparser {
 
     private static final GappedPattern INSTANCE_PATTERN = new GappedPatternBuilder()
             .unit(TokenType.KEYWORD, "new")
