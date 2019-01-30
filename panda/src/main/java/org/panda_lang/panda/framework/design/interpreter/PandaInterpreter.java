@@ -16,13 +16,15 @@
 
 package org.panda_lang.panda.framework.design.interpreter;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Environment;
+import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
-import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
+import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 public class PandaInterpreter implements Interpreter {
 
@@ -37,6 +39,7 @@ public class PandaInterpreter implements Interpreter {
     @Override
     public PandaApplication interpret(SourceSet sources) {
         Interpretation interpretation = new PandaInterpretation(environment, this, language);
+        long uptime = System.nanoTime();
 
         ApplicationParser parser = new ApplicationParser(interpretation);
         PandaApplication application = parser.parse(sources);
@@ -45,6 +48,11 @@ public class PandaInterpreter implements Interpreter {
             interpretation.getMessenger().sendMessage(MessengerLevel.FAILURE, "Interpretation failed, cannot parse specified sources");
             return null;
         }
+
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Interpretation details ");
+        PandaFramework.getLogger().debug("• Parse time: " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
+        PandaFramework.getLogger().debug("");
 
         return application;
     }
