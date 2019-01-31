@@ -66,7 +66,7 @@ main {
 
     Int i = 0x000001
     Number math = 10 + (3 + 4 + i) * 2 /*+ "test" */
-    Boolean flag = i == 1
+    Boolean flag = i == i
 
     Console.print("Hello Panda", flag, varFoo, s, test, i)
     Console.print(math)
@@ -106,6 +106,14 @@ main {
 
     String concat = "Hello " + "Array " + testArray.array.toString()
     Console.print(concat)
+
+    Boolean or1 = true || false
+    Boolean or2 = false || false
+
+    Boolean and1 = true && false
+    Boolean and2 = true && true
+
+    Console.print(or1, or2, and1, and2)
 }
 
 class TestArray {

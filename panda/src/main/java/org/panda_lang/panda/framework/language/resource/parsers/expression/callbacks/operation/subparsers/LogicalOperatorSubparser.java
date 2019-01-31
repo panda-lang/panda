@@ -22,8 +22,10 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.AndOperator;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.EqualsOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.NotEqualsOperation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.OrOperation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
@@ -33,16 +35,19 @@ import java.util.Map;
 public class LogicalOperatorSubparser implements OperationSubparser {
 
     private static final Map<Operator, Integer> PRIORITIES = Maps.of(
-            Operators.EQUAL_TO, 2,
-            Operators.NOT_EQUAL_TO, 2,
-
             Operators.AND, 1,
-            Operators.OR, 1
+            Operators.OR, 1,
+
+            Operators.EQUAL_TO, 2,
+            Operators.NOT_EQUAL_TO, 2
     );
 
     private static final Map<Operator, RPNOperationSupplier> ACTIONS = Maps.of(
             Operators.EQUAL_TO, new EqualsOperation(),
-            Operators.NOT_EQUAL_TO, new NotEqualsOperation()
+            Operators.NOT_EQUAL_TO, new NotEqualsOperation(),
+
+            Operators.OR, new OrOperation(),
+            Operators.AND, new AndOperator()
     );
 
     @Override
