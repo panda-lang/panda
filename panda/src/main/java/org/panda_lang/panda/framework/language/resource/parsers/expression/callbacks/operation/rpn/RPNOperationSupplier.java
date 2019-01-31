@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.logical;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn;
 
-import java.util.Comparator;
-import java.util.Objects;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class EqualsComparator implements Comparator<Object> {
+public interface RPNOperationSupplier {
 
-    @Override
-    public int compare(Object a, Object b) {
-        return Objects.equals(a, b) ? 0 : 1;
-    }
+    RPNOperationAction of(Expression a, Expression b);
+
+    ClassPrototype returnType(ClassPrototype a, ClassPrototype b);
+
+    ClassPrototype requiredType();
 
 }

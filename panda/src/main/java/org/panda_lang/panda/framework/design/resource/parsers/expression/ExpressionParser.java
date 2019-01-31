@@ -54,6 +54,10 @@ public class ExpressionParser {
     }
 
     public Expression parse(ParserData data, SourceStream source) {
+        return parseProgressively(data, source, false);
+    }
+
+    public Expression parseProgressively(ParserData data, SourceStream source, boolean progressively) {
         Result result = readResult(source.toTokenizedSource());
 
         if (result == null) {
@@ -67,10 +71,13 @@ public class ExpressionParser {
             throw new PandaExpressionFailure("Cannot parse expression using " + result.subparser.getName() + " subparser", errorData);
         }
 
-        if (source.getUnreadLength() != result.source.size()) {
+        if (!progressively && source.getUnreadLength() != result.source.size()) {
             throw new PandaParserFailure("Unrecognized syntax", data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source.toTokenizedSource())));
         }
 
+        // 5 < 4 && 2 > 5
+
+        source.read(result.source.size());
         return expression;
     }
 

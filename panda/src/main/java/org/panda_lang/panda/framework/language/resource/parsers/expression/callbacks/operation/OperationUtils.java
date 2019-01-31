@@ -17,18 +17,44 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorUtils;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class OperationUtils {
 
     public static boolean verifyOperator(Operation operation, Token token) {
-        return verify(operation, Type.OPERATOR, element -> element.getOperator().contentEquals(token));
+        return verify(operation, Type.OPERATOR, element -> element.getOperatorRepresentation().contentEquals(token));
     }
 
     public static boolean isNumeric(Operation operation) {
-        return verify(operation, Type.EXPRESSION, element -> PandaTypes.NUMBER.isAssignableFrom(element.getExpression().getReturnType()));
+        return verify(operation, null, element -> {
+            if (element.isExpression()) {
+                return PandaTypes.NUMBER.isAssignableFrom(element.getExpression().getReturnType());
+            }
+
+            Operator operator = ObjectUtils.cast(Operator.class, element.getOperatorRepresentation().getToken());
+
+            if (operator == null) {
+                throw new PandaParserException("Token is not an operator");
+            }
+
+            return OperatorUtils.isMemberOf(operator, OperatorFamilies.MATH);
+        });
+    }
+
+    public static boolean isLogical(Operation operation) {
+        Optional<Operation.OperationElement> operationElement = operation.getElements().stream()
+                .filter(element -> element.isOperator() && OperatorUtils.isMemberOf(element.getOperator(), OperatorFamilies.LOGICAL))
+                .findFirst();
+
+        return operationElement.isPresent();
     }
 
     private static boolean verify(Operation operation, Type type, Predicate<Operation.OperationElement> filter) {

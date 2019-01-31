@@ -21,19 +21,20 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.ConcatenationOperatorSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.MathOperationSubparser;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
 public class OperationParser implements Parser {
 
-    public ExpressionCallback parse(ParserData data, Tokens source) {
+    public Expression parse(ParserData data, Tokens source) {
         return parse(data, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));
     }
 
-    public ExpressionCallback parse(ParserData data, Tokens source, ProgressivePatternResult result) {
+    public Expression parse(ParserData data, Tokens source, ProgressivePatternResult result) {
         Operation operation = Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result);
 
         if (OperationUtils.isNumeric(operation)) {
@@ -42,6 +43,10 @@ public class OperationParser implements Parser {
 
         if (OperationUtils.verifyOperator(operation, Operators.ADDITION)) {
             return new ConcatenationOperatorSubparser().parse(data, operation);
+        }
+
+        if (OperationUtils.isLogical(operation)) {
+            return new LogicalOperatorSubparser().parse(data, operation);
         }
 
         throw new PandaParserFailure("Unknown operation", data, source);

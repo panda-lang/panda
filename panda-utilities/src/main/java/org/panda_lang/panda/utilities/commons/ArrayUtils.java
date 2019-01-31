@@ -21,22 +21,37 @@ import org.jetbrains.annotations.Nullable;
 import java.lang.reflect.Array;
 import java.util.Objects;
 
-public class ArrayUtils {
+public final class ArrayUtils {
 
-    public static Class<?> getArrayClass(Class<?> clazz) {
-        return Array.newInstance(clazz, 0).getClass();
-    }
+    private ArrayUtils() { }
 
-    public static Class<?> getDimensionalArrayType(Class<?> type, int dimensions) {
-        if (dimensions == 0) {
-            throw new IllegalArgumentException("Cannot get dimensional array for 0 dimensions");
+    /**
+     * Merge several arrays
+     *
+     * @param arrays arrays to merge
+     * @return array of merged arrays
+     */
+    @SafeVarargs
+    @SuppressWarnings("unchecked")
+    public static <T> T[] mergeArrays(T[]... arrays) {
+        int size = 0;
+        Class<?> type = null;
+
+        for (T[] array : arrays) {
+            size += array.length;
+            type = array.getClass().getComponentType();
         }
 
-        if (dimensions == 1) {
-            return type;
+        T[] mergedArray = (T[]) Array.newInstance(type, size);
+        int index = 0;
+
+        for (T[] array : arrays) {
+            for (T element : array) {
+                mergedArray[index++] = element;
+            }
         }
 
-        return Array.newInstance(type, new int[dimensions - 1]).getClass();
+        return mergedArray;
     }
 
     /**
@@ -85,6 +100,35 @@ public class ArrayUtils {
      */
     public static <T> @Nullable T get(T[] array, int index) {
         return index > -1 && index < array.length ? array[index] : null;
+    }
+
+    /**
+     * Get array class for the specified type
+     *
+     * @param clazz type of array
+     * @return array of type
+     */
+    public static Class<?> getArrayClass(Class<?> clazz) {
+        return Array.newInstance(clazz, 0).getClass();
+    }
+
+    /**
+     * Get dimensional array for the specified type
+     *
+     * @param type the type of the array
+     * @param dimensions the amount of dimensions
+     * @return the class of the dimensional array
+     */
+    public static Class<?> getDimensionalArrayType(Class<?> type, int dimensions) {
+        if (dimensions == 0) {
+            throw new IllegalArgumentException("Cannot get dimensional array for 0 dimensions");
+        }
+
+        if (dimensions == 1) {
+            return type;
+        }
+
+        return Array.newInstance(type, new int[dimensions - 1]).getClass();
     }
 
     /**

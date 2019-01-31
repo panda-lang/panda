@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 
@@ -28,13 +27,13 @@ import java.util.stream.Collectors;
 public class ConcatenationOperatorSubparser implements OperationSubparser {
 
     @Override
-    public ExpressionCallback parse(ParserData data, Operation operation) {
+    public Expression parse(ParserData data, Operation operation) {
         List<Expression> values = operation.getElements().stream()
                 .filter(Operation.OperationElement::isExpression)
                 .map(Operation.OperationElement::getExpression)
                 .collect(Collectors.toList());
 
-        return new ConcatenationExpressionCallback(values);
+        return new ConcatenationExpressionCallback(values).toExpression();
     }
 
 }

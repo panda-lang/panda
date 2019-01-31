@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime.expression;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public interface ExpressionCallback {
+public class NotEqualsOperation extends EqualsOperation {
 
-    Value call(Expression expression, ExecutableBranch branch);
-
-    ClassPrototype getReturnType();
-
-    default Expression toExpression() {
-        return new PandaExpression(this);
+    @Override
+    public Boolean get(ExecutableBranch branch, Value a, Value b) {
+        return !super.get(branch, a, b);
     }
 
 }

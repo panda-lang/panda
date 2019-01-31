@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 /**
@@ -89,6 +91,12 @@ public class Operators {
 
     public static Operator[] values() {
         return VALUES.toArray(new Operator[0]);
+    }
+
+    public static Operator[] getFamily(@Nullable String family) {
+        return Arrays.stream(Operators.values())
+                .filter(operator -> OperatorUtils.isMemberOf(operator, family))
+                .toArray(Operator[]::new);
     }
 
 }

@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime.expression;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationAction;
 
-public interface ExpressionCallback {
+public abstract class MathOperationAction implements RPNOperationAction {
 
-    Value call(Expression expression, ExecutableBranch branch);
+    private final ClassPrototype prototype;
 
-    ClassPrototype getReturnType();
+    protected MathOperationAction(ClassPrototype prototype) {
+        this.prototype = prototype;
+    }
 
-    default Expression toExpression() {
-        return new PandaExpression(this);
+    @Override
+    public ClassPrototype returnType() {
+        return prototype;
     }
 
 }
