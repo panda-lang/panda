@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public interface RPNOperationAction {
+public class AndOperator extends OrOperation {
 
-    Object get(ExecutableBranch branch, Value aValue, Value bValue);
-
-    ClassPrototype returnType();
+    @Override
+    public Object get(ExecutableBranch branch, Value aValue, Value bValue) {
+        return (boolean) aValue.getValue() && (boolean) bValue.getValue();
+    }
 
 }
