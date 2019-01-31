@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +84,12 @@ public class Operation {
             return operator != null;
         }
 
-        public TokenRepresentation getOperator() {
+        public TokenRepresentation getOperatorRepresentation() {
             return operator;
+        }
+
+        public Operator getOperator() {
+            return (Operator) getOperatorRepresentation().getToken();
         }
 
         public Expression getExpression() {

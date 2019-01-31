@@ -16,29 +16,22 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 public class OperationExpressionUtils {
 
-    public static final Token[] OPERATORS = new Token[]{
-            Operators.ADDITION,
-            Operators.SUBTRACTION,
-            Operators.DIVISION,
-            Operators.MULTIPLICATION,
-
-            Operators.BITWISE_AND,
-            Operators.BITWISE_NOT,
-            Operators.BITWISE_OR,
-            Operators.BITWISE_XOR,
-            Operators.BITWISE_LEFT_SHIFT,
-            Operators.BITWISE_RIGHT_SHIFT
-    };
+    public static final Token[] OPERATORS = ArrayUtils.mergeArrays(
+            Operators.getFamily(OperatorFamilies.MATH),
+            Operators.getFamily(OperatorFamilies.LOGICAL)
+    );
 
     public static final ProgressivePattern OPERATION_PATTERN = new ProgressivePattern(Separators.getOpeningSeparators(), OPERATORS);
 

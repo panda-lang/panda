@@ -14,38 +14,43 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.logical;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationAction;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
 
-import java.util.Comparator;
+import java.util.Objects;
 
-public class LogicalExpressionCallback implements ExpressionCallback {
+public class EqualsOperation implements RPNOperationSupplier, RPNOperationAction {
 
-    private final Comparator<Object> comparator;
-    private final Expression a;
-    private final Expression b;
-
-    public LogicalExpressionCallback(Comparator<Object> comparator, Expression a, Expression b) {
-        this.comparator = comparator;
-        this.a = a;
-        this.b = b;
+    @Override
+    public Boolean get(ExecutableBranch branch, Value a, Value b) {
+        return Objects.equals(a.getObject(), b.getObject());
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
-        return new PandaValue(PandaTypes.BOOLEAN, comparator.compare(a.getExpressionValue(branch).getObject(), b.getExpressionValue(branch).getObject()) == 0);
+    public RPNOperationAction of(Expression a, Expression b) {
+        return this;
     }
 
     @Override
-    public ClassPrototype getReturnType() {
+    public ClassPrototype returnType(ClassPrototype a, ClassPrototype b) {
+        return returnType();
+    }
+
+    @Override
+    public ClassPrototype returnType() {
         return PandaTypes.BOOLEAN;
+    }
+
+    @Override
+    public ClassPrototype requiredType() {
+        return PandaTypes.OBJECT;
     }
 
 }

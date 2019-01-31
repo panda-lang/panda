@@ -20,17 +20,15 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionUtils;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationExpressionUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class OperationExpressionSubparser implements ExpressionSubparser, ReaderFinisher {
 
@@ -83,8 +81,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
             return null;
         }
 
-        ExpressionCallback callback = OPERATION_PARSER.parse(data, source);
-        return new PandaExpression(callback);
+        return OPERATION_PARSER.parse(data, source);
     }
 
     @Override

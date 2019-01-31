@@ -22,32 +22,27 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math.AdditionOperation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math.DivisionOperation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math.MultiplicationOperation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math.SubtractionOperation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.EqualsOperation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.NotEqualsOperation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.util.Map;
 
-public class MathOperationSubparser implements OperationSubparser {
+public class LogicalOperatorSubparser implements OperationSubparser {
 
     private static final Map<Operator, Integer> PRIORITIES = Maps.of(
-            Operators.ADDITION, 1,
-            Operators.SUBTRACTION, 1,
+            Operators.EQUAL_TO, 2,
+            Operators.NOT_EQUAL_TO, 2,
 
-            Operators.MULTIPLICATION, 2,
-            Operators.DIVISION, 2
+            Operators.AND, 1,
+            Operators.OR, 1
     );
 
     private static final Map<Operator, RPNOperationSupplier> ACTIONS = Maps.of(
-            Operators.ADDITION, new AdditionOperation(),
-            Operators.SUBTRACTION, new SubtractionOperation(),
-
-            Operators.MULTIPLICATION, new MultiplicationOperation(),
-            Operators.DIVISION, new DivisionOperation()
+            Operators.EQUAL_TO, new EqualsOperation(),
+            Operators.NOT_EQUAL_TO, new NotEqualsOperation()
     );
 
     @Override
