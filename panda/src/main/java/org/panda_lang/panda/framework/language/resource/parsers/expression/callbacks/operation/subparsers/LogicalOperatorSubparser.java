@@ -19,13 +19,16 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.Operation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.AndOperator;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.EqualsToOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.GreaterThanOperator;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.GreaterThanOrEqualsOperator;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.LessThanOperator;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.LessThanOrEqualsOperator;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.NotEqualsToOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.OrOperation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
@@ -47,7 +50,10 @@ public class LogicalOperatorSubparser implements OperationSubparser {
             Operators.NOT_EQUAL_TO, COMPARE,
 
             Operators.GREATER_THAN, COMPARE,
-            Operators.LESS_THAN, COMPARE
+            Operators.LESS_THAN, COMPARE,
+
+            Operators.GREATER_THAN_OR_EQUAL_TO, COMPARE,
+            Operators.LESS_THAN_OR_EQUAL_TO, COMPARE
     );
 
     private static final Map<Operator, RPNOperationSupplier> ACTIONS = Maps.of(
@@ -58,11 +64,14 @@ public class LogicalOperatorSubparser implements OperationSubparser {
             Operators.AND, new AndOperator(),
 
             Operators.GREATER_THAN, new GreaterThanOperator(),
-            Operators.LESS_THAN, new LessThanOperator()
+            Operators.LESS_THAN, new LessThanOperator(),
+
+            Operators.GREATER_THAN_OR_EQUAL_TO, new GreaterThanOrEqualsOperator(),
+            Operators.LESS_THAN_OR_EQUAL_TO, new LessThanOrEqualsOperator()
     );
 
     @Override
-    public Expression parse(ParserData data, Operation operation) {
+    public Expression parse(OperationParser parser, ParserData data, Operation operation) {
         RPNOperation rpn = RPNOperation.builder()
                 .withData(data)
                 .withOperation(operation)

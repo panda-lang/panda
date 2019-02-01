@@ -21,6 +21,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface OperationSubparser {
 
-    Expression parse(ParserData data, Operation operation);
+    Expression parse(OperationParser parser, ParserData data, Operation operation);
 
 }
