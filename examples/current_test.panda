@@ -107,19 +107,8 @@ main {
     String concat = "Hello " + "Array " + testArray.array.toString()
     Console.print(concat)
 
-    Boolean or1 = true || false
-    Boolean or2 = false || false
-
-    Boolean and1 = true && false
-    Boolean and2 = true && true
-
-    Boolean greater1 = 1 > 2
-    Boolean greater2 = 2 > 1
-
-    Boolean less1 = 1 < 2
-    Boolean less2 = 2 < 1
-
-    Console.print("OR v AND: " + or1, or2, and1, and2, greater1, greater2, less1, less2)
+    Console.print("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
+    Console.print("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
 }
 
 class TestArray {
