@@ -33,6 +33,10 @@ public class Operation {
     private final List<OperationElement> elements;
 
     public Operation(List<OperationElement> elements) {
+        if (elements.size() < 3 || (elements.size() % 2) == 0) {
+            throw new IllegalArgumentException("Invalid number of elements: " + elements.size());
+        }
+
         this.elements = elements;
     }
 

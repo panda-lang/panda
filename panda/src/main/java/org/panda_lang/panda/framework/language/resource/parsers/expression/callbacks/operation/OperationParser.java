@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.MathOperationSubparser;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
 public class OperationParser implements Parser {
 
@@ -35,21 +34,29 @@ public class OperationParser implements Parser {
     }
 
     public Expression parse(ParserData data, Tokens source, ProgressivePatternResult result) {
-        Operation operation = Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result);
+        Expression expression = parse(data, Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result));
 
-        if (OperationUtils.isNumeric(operation)) {
-            return new MathOperationSubparser().parse(data, operation);
+        if (expression == null) {
+            throw new PandaParserFailure("Unknown operation", data, source);
         }
 
-        if (OperationUtils.verifyOperator(operation, Operators.ADDITION)) {
-            return new ConcatenationOperatorSubparser().parse(data, operation);
+        return expression;
+    }
+
+    public Expression parse(ParserData data, Operation operation) {
+        if (OperationUtils.isNumeric(operation)) {
+            return new MathOperationSubparser().parse(this, data, operation);
         }
 
         if (OperationUtils.isLogical(operation)) {
-            return new LogicalOperatorSubparser().parse(data, operation);
+            return new LogicalOperatorSubparser().parse(this, data, operation);
         }
 
-        throw new PandaParserFailure("Unknown operation", data, source);
+        if (OperationUtils.isConcatenation(operation)) {
+            return new ConcatenationOperatorSubparser().parse(this, data, operation);
+        }
+
+        return null;
     }
 
 }

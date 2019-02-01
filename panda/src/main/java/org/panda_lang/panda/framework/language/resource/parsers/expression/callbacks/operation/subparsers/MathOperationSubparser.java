@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.Operation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationParser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.OperationSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
@@ -51,7 +52,7 @@ public class MathOperationSubparser implements OperationSubparser {
     );
 
     @Override
-    public Expression parse(ParserData data, Operation operation) {
+    public Expression parse(OperationParser parser, ParserData data, Operation operation) {
         RPNOperation rpn = RPNOperation.builder()
                 .withData(data)
                 .withOperation(operation)
