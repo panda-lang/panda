@@ -104,9 +104,7 @@ main {
     TestArray testArray = new TestArray(7);
     testArray.modify(test)
 
-    String concat = "Hello " + "Array " + testArray.array.toString()
-    Console.print(concat)
-
+    Console.print("Hello " + "Array " + testArray.array.toString())
     Console.print("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
 }
