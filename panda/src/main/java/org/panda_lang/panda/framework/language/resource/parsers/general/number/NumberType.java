@@ -20,21 +20,27 @@ import org.jetbrains.annotations.Nullable;
 
 public enum NumberType {
 
-    BYTE('B'),
-    SHORT('S'),
-    INT('I'),
-    LONG('L'),
-    FLOAT('F'),
-    DOUBLE('D');
+    BYTE('B', NumberPriorities.BYTE),
+    SHORT('S', NumberPriorities.SHORT),
+    INT('I', NumberPriorities.INT),
+    LONG('L', NumberPriorities.LONG),
+    FLOAT('F', NumberPriorities.FLOAT),
+    DOUBLE('D', NumberPriorities.DOUBLE);
 
     private final char letter;
+    private final double priority;
 
-    NumberType(char c) {
+    NumberType(char c, double priority) {
         this.letter = c;
+        this.priority = priority;
     }
 
     public char getLetter() {
         return letter;
+    }
+
+    public double getPriority() {
+        return priority;
     }
 
     public static @Nullable NumberType of(char c) {

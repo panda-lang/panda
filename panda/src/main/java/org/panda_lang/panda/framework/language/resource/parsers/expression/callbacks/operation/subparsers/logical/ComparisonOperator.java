@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -22,19 +22,19 @@ import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.number.NumberOperation;
 
-public abstract class MathOperation extends NumberOperation {
+public abstract class ComparisonOperator extends NumberOperation {
 
-    public abstract RPNOperationAction of(ClassPrototype returnType, int priority);
+    public abstract RPNOperationAction of(int compared);
 
     @Override
     public RPNOperationAction of(Expression a, Expression b) {
-        ClassPrototype returnType = returnType(a.getReturnType(), b.getReturnType());
-        return of(returnType, super.getPriority(returnType));
+        ClassPrototype comparedType = estimateType(a.getReturnType(), b.getReturnType());
+        return of(super.getPriority(comparedType));
     }
 
     @Override
     public ClassPrototype returnType(ClassPrototype a, ClassPrototype b) {
-        return estimateType(a, b);
+        return PandaTypes.BOOLEAN;
     }
 
     @Override

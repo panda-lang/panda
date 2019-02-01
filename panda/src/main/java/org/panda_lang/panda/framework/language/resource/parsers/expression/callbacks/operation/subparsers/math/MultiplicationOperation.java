@@ -19,24 +19,16 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationAction;
 
 public class MultiplicationOperation extends MathOperation {
 
-
     @Override
-    public RPNOperationAction of(Expression a, Expression b) {
-        ClassPrototype returnType = super.returnType(a.getReturnType(), b.getReturnType());
-        int priority = super.getPriority(returnType);
-
-        return new MathOperationAction(returnType(a.getReturnType(), b.getReturnType())) {
+    public RPNOperationAction of(ClassPrototype returnType, int priority) {
+        return new MathOperationAction(returnType) {
             @Override
-            public Object get(ExecutableBranch branch, Value aValue, Value bValue) {
-                Number a = aValue.getValue();
-                Number b = bValue.getValue();
-
+            protected Object get(Number a, Number b) {
                 switch (priority) {
                     case BYTE:
                         return a.byteValue() * b.byteValue();

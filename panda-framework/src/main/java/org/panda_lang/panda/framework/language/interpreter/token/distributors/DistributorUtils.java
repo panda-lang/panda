@@ -28,12 +28,12 @@ public class DistributorUtils {
         put(Separators.BRACE_LEFT, Separators.BRACE_RIGHT);
         put(Separators.PARENTHESIS_LEFT, Separators.PARENTHESIS_RIGHT);
         put(Separators.SQUARE_BRACKET_LEFT, Separators.SQUARE_BRACKET_RIGHT);
-        put(Separators.ANGLE_BRACKET_LEFT, Separators.SQUARE_BRACKET_RIGHT);
+        //put(Separators.ANGLE_BRACKET_LEFT, Separators.SQUARE_BRACKET_RIGHT);
 
         put(Separators.BRACE_RIGHT, Separators.BRACE_LEFT);
         put(Separators.PARENTHESIS_RIGHT, Separators.PARENTHESIS_LEFT);
         put(Separators.SQUARE_BRACKET_RIGHT, Separators.SQUARE_BRACKET_LEFT);
-        put(Separators.ANGLE_BRACKET_RIGHT, Separators.SQUARE_BRACKET_LEFT);
+        //put(Separators.ANGLE_BRACKET_RIGHT, Separators.SQUARE_BRACKET_LEFT);
     }};
 
 }

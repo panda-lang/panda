@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.call
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public class NotEqualsOperation extends EqualsOperation {
+public class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
     public Boolean get(ExecutableBranch branch, Value a, Value b) {
