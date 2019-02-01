@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.number;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.number.NumberOperationAction;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
+import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberPriorities;
 
-public abstract class MathOperationAction extends NumberOperationAction {
+public abstract class NumberOperation extends NumberPriorities implements RPNOperationSupplier {
 
-    private final ClassPrototype prototype;
+    protected ClassPrototype estimateType(ClassPrototype a, ClassPrototype b) {
+        if (a == b) {
+            return a;
+        }
 
-    protected MathOperationAction(ClassPrototype prototype) {
-        this.prototype = prototype;
-    }
-
-    @Override
-    public ClassPrototype returnType() {
-        return prototype;
+        return getPriority(a) < getPriority(b) ? b : a;
     }
 
 }

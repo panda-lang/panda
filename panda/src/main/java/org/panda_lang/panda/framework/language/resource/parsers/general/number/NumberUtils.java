@@ -20,11 +20,17 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
-public class NumberUtils {
+public final class NumberUtils {
 
     public static final char[] ALLOWED_CHARACTERS = new char[] { '.', '_', 'x' };
 
     public static final char[] NUMBER_EXTENSIONS = new char[]{ 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
+
+    private NumberUtils() { }
+
+    public static boolean startsWithNumber(Tokens source) {
+        return isNumeric(source.asString().substring(0, 1));
+    }
 
     public static boolean isNumeric(Tokens source) {
         return isNumeric(source.asString());
@@ -51,10 +57,6 @@ public class NumberUtils {
         }
 
         return digit;
-    }
-
-    public static boolean startsWithNumber(Tokens source) {
-        return isNumeric(source.asString().substring(0, 1));
     }
 
 }

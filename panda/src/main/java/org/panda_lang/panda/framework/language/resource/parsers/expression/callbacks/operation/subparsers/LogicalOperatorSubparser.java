@@ -23,8 +23,10 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.rpn.RPNOperationSupplier;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.AndOperator;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.EqualsOperation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.NotEqualsOperation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.EqualsToOperation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.GreaterThanOperator;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.LessThanOperator;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.NotEqualsToOperation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical.OrOperation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
@@ -34,20 +36,29 @@ import java.util.Map;
 
 public class LogicalOperatorSubparser implements OperationSubparser {
 
-    private static final Map<Operator, Integer> PRIORITIES = Maps.of(
-            Operators.AND, 1,
-            Operators.OR, 1,
+    private static final int LOGICAL = 1;
+    private static final int COMPARE = 2;
 
-            Operators.EQUAL_TO, 2,
-            Operators.NOT_EQUAL_TO, 2
+    private static final Map<Operator, Integer> PRIORITIES = Maps.of(
+            Operators.AND, LOGICAL,
+            Operators.OR, LOGICAL,
+
+            Operators.EQUAL_TO, COMPARE,
+            Operators.NOT_EQUAL_TO, COMPARE,
+
+            Operators.GREATER_THAN, COMPARE,
+            Operators.LESS_THAN, COMPARE
     );
 
     private static final Map<Operator, RPNOperationSupplier> ACTIONS = Maps.of(
-            Operators.EQUAL_TO, new EqualsOperation(),
-            Operators.NOT_EQUAL_TO, new NotEqualsOperation(),
+            Operators.EQUAL_TO, new EqualsToOperation(),
+            Operators.NOT_EQUAL_TO, new NotEqualsToOperation(),
 
             Operators.OR, new OrOperation(),
-            Operators.AND, new AndOperator()
+            Operators.AND, new AndOperator(),
+
+            Operators.GREATER_THAN, new GreaterThanOperator(),
+            Operators.LESS_THAN, new LessThanOperator()
     );
 
     @Override

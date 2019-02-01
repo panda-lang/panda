@@ -14,22 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.math;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.logical;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.operation.subparsers.number.NumberOperationAction;
 
-public abstract class MathOperationAction extends NumberOperationAction {
-
-    private final ClassPrototype prototype;
-
-    protected MathOperationAction(ClassPrototype prototype) {
-        this.prototype = prototype;
-    }
+public abstract class ComparisonOperatorAction extends NumberOperationAction {
 
     @Override
     public ClassPrototype returnType() {
-        return prototype;
+        return PandaTypes.BOOLEAN;
     }
 
 }

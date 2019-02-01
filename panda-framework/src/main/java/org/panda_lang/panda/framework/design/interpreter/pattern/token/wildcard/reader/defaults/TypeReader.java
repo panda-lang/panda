@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 class TypeReader implements WildcardReader {
@@ -71,7 +72,7 @@ class TypeReader implements WildcardReader {
             return true;
         }
 
-        return next.contentEquals(Separators.ANGLE_BRACKET_LEFT);
+        return next.contentEquals(Operators.LESS_THAN);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -82,7 +83,7 @@ class TypeReader implements WildcardReader {
             return distributor.getNext().contentEquals(Separators.SQUARE_BRACKET_RIGHT) ? new PandaTokens(next, distributor.next()) : null;
         }
 
-        if (next.contentEquals(Separators.ANGLE_BRACKET_LEFT)) {
+        if (next.contentEquals(Operators.GREATER_THAN)) {
             throw new PandaFrameworkException("Angle brackets not implemented yet");
         }
 

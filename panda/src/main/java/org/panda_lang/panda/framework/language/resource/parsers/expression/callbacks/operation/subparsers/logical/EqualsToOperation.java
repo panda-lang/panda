@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.callb
 
 import java.util.Objects;
 
-public class EqualsOperation implements RPNOperationSupplier, RPNOperationAction {
+public class EqualsToOperation implements RPNOperationSupplier, RPNOperationAction {
 
     @Override
     public Boolean get(ExecutableBranch branch, Value a, Value b) {
