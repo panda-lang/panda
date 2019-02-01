@@ -54,23 +54,27 @@ public class ExpressionSubparsers {
         return new ExpressionSubparsers(selected);
     }
 
-    private void sortSubparsers() {
+    private ExpressionSubparsers sortSubparsers() {
         Collections.sort(subparsers);
+        return this;
     }
 
-    public void addSubparser(ExpressionSubparser subparser) {
+    public ExpressionSubparsers addSubparser(ExpressionSubparser subparser) {
         this.subparsers.add(subparser);
-        this.sortSubparsers();
+        return this.sortSubparsers();
     }
 
-    public void removeSubparsers(Collection<String> names) {
+    public ExpressionSubparsers removeSubparsers(Collection<String> names) {
         for (String name : names) {
             removeSubparser(name.trim());
         }
+
+        return this;
     }
 
-    public void removeSubparser(String name) {
+    public ExpressionSubparsers removeSubparser(String name) {
         subparsers.removeIf(expressionSubparser -> expressionSubparser.getName().equals(name));
+        return this;
     }
 
     public boolean isEmpty() {
@@ -79,6 +83,10 @@ public class ExpressionSubparsers {
 
     public List<? extends ExpressionSubparser> getSubparsers() {
         return subparsers;
+    }
+
+    public ExpressionParser toExpressionParser(ExpressionParser parent) {
+        return new ExpressionParser(parent, this);
     }
 
 }
