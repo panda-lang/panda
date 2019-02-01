@@ -24,6 +24,8 @@ public class OperatorFamilies {
 
     public static final String LOGICAL = "logical";
 
+    public static final String INCREMENT_AND_DECREMENT = "increment & decrement";
+
     public static final String UNDEFINED = StringUtils.EMPTY;
 
 }

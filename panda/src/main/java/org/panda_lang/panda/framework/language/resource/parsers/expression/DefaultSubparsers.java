@@ -28,6 +28,8 @@ public class DefaultSubparsers {
 
         public static final String FIELD = "field";
 
+        public static final String INCREMENT_DECREMENT = "increment-decrement";
+
         public static final String INSTANCE = "instance";
 
         public static final String LITERAL = "literal";

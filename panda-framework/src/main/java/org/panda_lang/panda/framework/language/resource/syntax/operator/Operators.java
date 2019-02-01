@@ -71,15 +71,17 @@ public class Operators {
 
 
 
+    public static final Operator INCREMENT = new Operator(OperatorFamilies.INCREMENT_AND_DECREMENT, "++");
+
+    public static final Operator DECREMENT = new Operator(OperatorFamilies.INCREMENT_AND_DECREMENT, "--");
+
+
+
     public static final Operator EROTEME = new Operator(OperatorFamilies.UNDEFINED, "?");
 
     public static final Operator COLON = new Operator(OperatorFamilies.UNDEFINED, ":");
 
     public static final Operator ASSIGNMENT = new Operator(OperatorFamilies.UNDEFINED, "=");
-
-    public static final Operator INCREMENT = new Operator(OperatorFamilies.UNDEFINED, "++");
-
-    public static final Operator DECREMENT = new Operator(OperatorFamilies.UNDEFINED, "--");
 
 
 
