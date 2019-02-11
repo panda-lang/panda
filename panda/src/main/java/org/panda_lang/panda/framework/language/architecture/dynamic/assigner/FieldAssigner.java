@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
+package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
@@ -26,13 +26,13 @@ import org.panda_lang.panda.framework.design.architecture.prototype.structure.Cl
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public class FieldAccessor extends ExecutableStatement {
+public class FieldAssigner extends ExecutableStatement {
 
     private final PrototypeField field;
     private final Expression instanceExpression;
     private final Expression valueExpression;
 
-    public FieldAccessor(Expression instanceExpression, PrototypeField field, Expression valueExpression) {
+    public FieldAssigner(Expression instanceExpression, PrototypeField field, Expression valueExpression) {
         this.instanceExpression = instanceExpression;
         this.field = field;
         this.valueExpression = valueExpression;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
+package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
@@ -24,13 +24,13 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public class VariableAccessor extends ExecutableStatement {
+public class VariableAssigner extends ExecutableStatement {
 
     private final Variable variable;
     private final int internalPointer;
     private final Expression expression;
 
-    public VariableAccessor(Variable variable, int internalPointer, Expression expression) {
+    public VariableAssigner(Variable variable, int internalPointer, Expression expression) {
         this.variable = variable;
         this.internalPointer = internalPointer;
         this.expression = expression;

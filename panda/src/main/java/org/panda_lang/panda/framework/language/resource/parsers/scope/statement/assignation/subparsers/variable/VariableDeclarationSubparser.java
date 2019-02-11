@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessorUtils;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.AssignationSubparserBootstrap;
@@ -65,7 +65,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
         boolean nullable = result.hasIdentifier("nullable");
         Variable variable = INITIALIZER.createVariable(data, loader, scope, mutable, nullable, type.asString(), name.asString());
 
-        return VariableAccessorUtils.of(data, scope, variable, expression);
+        return VariableAssignerUtils.of(data, scope, variable, expression);
     }
 
 }

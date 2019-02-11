@@ -23,8 +23,14 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
+import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 public class IncrementDecrementExpressionSubparser implements ExpressionSubparser {
 
@@ -65,7 +71,36 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
 
     @Override
     public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        System.out.println("poggers");
+        Operator operator = ObjectUtils.cast(Operator.class, source.getFirst().getToken());
+        Expression expression = null;
+        boolean increment;
+        boolean pre;
+
+        if (OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT)) {
+            expression = main.parse(data, source.subSource(1, source.size()));
+            increment = Operators.INCREMENT.equals(operator);
+            pre = true;
+            operator = null;
+        }
+
+        if (operator != null) {
+            operator = ObjectUtils.cast(Operator.class, source.getLast().getToken());
+        }
+
+        if (OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT)) {
+            expression = main.parse(data, source.subSource(0, source.size() - 1));
+            increment = Operators.INCREMENT.equals(operator);
+            pre = false;
+        }
+
+        if (expression == null) {
+            throw new PandaParserFailure("Unknown source", data, source);
+        }
+
+        if (!PandaTypes.NUMBER.isAssignableFrom(expression.getReturnType())) {
+            throw new PandaParserFailure("Incrementation/decrementation operation requires number type", data, source);
+        }
+
         return null;
     }
 

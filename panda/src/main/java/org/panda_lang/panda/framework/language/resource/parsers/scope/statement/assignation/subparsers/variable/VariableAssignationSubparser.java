@@ -35,8 +35,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.FieldAccessor;
-import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.FieldAssigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssigner;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
@@ -77,7 +77,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
                 throw new PandaParserFailure("Cannot assign " + instanceExpression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data, name);
             }
 
-            return new FieldAccessor(instanceExpression, field, expression);
+            return new FieldAssigner(instanceExpression, field, expression);
         }
 
         Variable variable = scope.getVariable(name.asString());
@@ -87,7 +87,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
                 throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable", data);
             }
 
-            return new VariableAccessor(variable, scope.indexOf(variable), expression);
+            return new VariableAssigner(variable, scope.indexOf(variable), expression);
         }
 
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
@@ -107,7 +107,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
             throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data);
         }
 
-        return new FieldAccessor(instanceExpression, field, expression);
+        return new FieldAssigner(instanceExpression, field, expression);
     }
 
 }
