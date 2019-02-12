@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPa
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
@@ -78,6 +79,11 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
     @Override
     public int getMinimumLength() {
         return 4;
+    }
+
+    @Override
+    public ExpressionType getType() {
+        return ExpressionType.STANDALONE;
     }
 
     @Override
