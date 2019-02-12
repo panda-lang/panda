@@ -32,11 +32,11 @@ public class PandaPriorities {
      */
     public static final int SCOPE_BLOCK_PARSER = 1;
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.statement.invoker.MethodInvokerParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerParser}
      */
     public static final int SCOPE_METHOD_INVOKER_PARSER = 2;
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.statement.assignation.AssignationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationParser}
      */
     public static final int SCOPE_ASSIGNATION_PARSER = 3;
     /**
