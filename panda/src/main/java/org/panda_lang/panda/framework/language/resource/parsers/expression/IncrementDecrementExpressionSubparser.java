@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
@@ -102,6 +103,11 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
         }
 
         return null;
+    }
+
+    @Override
+    public ExpressionType getType() {
+        return ExpressionType.STANDALONE;
     }
 
     @Override
