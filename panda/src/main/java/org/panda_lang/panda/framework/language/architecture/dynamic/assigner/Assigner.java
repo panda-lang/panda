@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
+package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 
-public class Continue extends AbstractExecutableStatement {
+public interface Assigner extends Executable {
 
-    @Override
-    public void execute(ExecutableBranch branch) {
-        branch.getCurrentControlFlow().skip();
-    }
+    Accessor getAccessor();
 
 }

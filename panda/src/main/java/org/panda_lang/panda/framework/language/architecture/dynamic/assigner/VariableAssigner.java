@@ -16,34 +16,27 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public class VariableAssigner extends ExecutableStatement {
+public class VariableAssigner extends AbstractAssigner<Variable> {
 
-    private final Variable variable;
-    private final int internalPointer;
     private final Expression expression;
 
-    public VariableAssigner(Variable variable, int internalPointer, Expression expression) {
-        this.variable = variable;
-        this.internalPointer = internalPointer;
+    public VariableAssigner(Accessor<Variable> accessor, Expression expression) {
+        super(accessor);
         this.expression = expression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        if (internalPointer == -1) {
-            throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
-        }
-
+        Variable variable = accessor.getVariable();
         Value value = expression.getExpressionValue(branch);
-        ScopeInstance currentScope = branch.getCurrentScope();
 
         if (value == null) {
             throw new PandaRuntimeException("Cannot assign not existing value to variable '" + variable.getName() + "'");
@@ -53,16 +46,18 @@ public class VariableAssigner extends ExecutableStatement {
             throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nullable modifier");
         }
 
-        if (!variable.isMutable() && currentScope.get(internalPointer) != null) {
+        MemoryContainer memory = accessor.fetchMemoryContainer(branch);
+
+        if (!variable.isMutable() && memory.get(accessor.getMemoryPointer()) != null) {
             throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");
         }
 
-        currentScope.set(internalPointer, value);
+        memory.set(accessor.getMemoryPointer(), value);
     }
 
     @Override
     public String toString() {
-        return "'v_memory'[" + internalPointer + "] << " + expression;
+        return "'v_memory'[" + accessor.getMemoryPointer() + "] << " + expression;
     }
 
 }

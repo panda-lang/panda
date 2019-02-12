@@ -77,6 +77,7 @@ public class FieldParser extends UnifiedParserBootstrap {
         int fieldIndex = prototype.getFields().getAmountOfFields();
 
         PrototypeField field = PandaPrototypeField.builder()
+                .prototype(prototype.getReference())
                 .fieldIndex(fieldIndex)
                 .type(returnType)
                 .name(name.asString())

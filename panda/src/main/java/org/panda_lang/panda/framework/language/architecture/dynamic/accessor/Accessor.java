@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
+package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 
-public class Continue extends AbstractExecutableStatement {
+public interface Accessor<T extends Variable> {
 
-    @Override
-    public void execute(ExecutableBranch branch) {
-        branch.getCurrentControlFlow().skip();
-    }
+    MemoryContainer fetchMemoryContainer(ExecutableBranch branch);
+
+    T getVariable();
+
+    int getMemoryPointer();
 
 }

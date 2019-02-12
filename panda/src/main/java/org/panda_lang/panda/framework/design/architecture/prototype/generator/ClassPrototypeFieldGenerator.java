@@ -49,6 +49,7 @@ public class ClassPrototypeFieldGenerator {
         ClassPrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
+                .prototype(prototype.getReference())
                 .fieldIndex(prototype.getFields().getAmountOfFields())
                 .type(returnType)
                 .name(field.getName())

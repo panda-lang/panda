@@ -14,29 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
+package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 
-public class Return extends AbstractExecutableStatement {
+abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableStatement implements Assigner {
 
-    private final Expression value;
+    protected final Accessor<T> accessor;
 
-    public Return(Expression value) {
-        this.value = value;
+    protected AbstractAssigner(Accessor<T> accessor) {
+        this.accessor = accessor;
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        if (value != null) {
-            Value returnValue = value.getExpressionValue(branch);
-            branch.returnValue(returnValue);
-        }
-
-        branch.interrupt();
+    public Accessor<T> getAccessor() {
+        return accessor;
     }
 
 }

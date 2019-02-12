@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 
 public class PandaPrototypeFieldBuilder {
 
+    protected ClassPrototypeReference prototype;
     protected ClassPrototypeReference type;
     protected int fieldIndex;
     protected String name;
@@ -28,6 +29,15 @@ public class PandaPrototypeFieldBuilder {
     protected boolean isNative;
     protected boolean mutable;
     protected boolean nullable;
+
+    public PandaPrototypeField build() {
+        return new PandaPrototypeField(this);
+    }
+
+    public PandaPrototypeFieldBuilder prototype(ClassPrototypeReference prototype) {
+        this.prototype = prototype;
+        return this;
+    }
 
     public PandaPrototypeFieldBuilder type(ClassPrototypeReference type) {
         this.type = type;
@@ -57,10 +67,6 @@ public class PandaPrototypeFieldBuilder {
     public PandaPrototypeFieldBuilder nullable(boolean nullable) {
         this.nullable = nullable;
         return this;
-    }
-
-    public PandaPrototypeField build() {
-        return new PandaPrototypeField(this);
     }
 
     public PandaPrototypeFieldBuilder isStatic(boolean isStatic) {

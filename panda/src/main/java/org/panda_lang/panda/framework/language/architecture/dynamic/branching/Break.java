@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public class Break extends ExecutableStatement {
+public class Break extends AbstractExecutableStatement {
 
     @Override
     public void execute(ExecutableBranch branch) {

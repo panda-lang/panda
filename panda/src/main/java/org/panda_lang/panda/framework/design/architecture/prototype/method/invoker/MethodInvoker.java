@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.method.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionUtils;
 
-public class MethodInvoker extends ExecutableStatement implements StandaloneExecutable {
+public class MethodInvoker extends AbstractExecutableStatement implements StandaloneExecutable {
 
     private final PrototypeMethod method;
     private final Expression instanceExpression;
