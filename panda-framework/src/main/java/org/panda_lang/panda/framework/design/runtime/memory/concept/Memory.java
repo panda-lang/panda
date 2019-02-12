@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime.memory;
+package org.panda_lang.panda.framework.design.runtime.memory.concept;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.BitwiseUtils;

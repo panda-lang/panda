@@ -16,40 +16,33 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public class FieldAssigner extends ExecutableStatement {
+public class FieldAssigner extends AbstractAssigner<PrototypeField> {
 
-    private final PrototypeField field;
-    private final Expression instanceExpression;
     private final Expression valueExpression;
 
-    public FieldAssigner(Expression instanceExpression, PrototypeField field, Expression valueExpression) {
-        this.instanceExpression = instanceExpression;
-        this.field = field;
+    public FieldAssigner(Accessor<PrototypeField> accessor, Expression valueExpression) {
+        super(accessor);
         this.valueExpression = valueExpression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        int internalPointer = field.getFieldIndex();
-
-        if (internalPointer == -1) {
-            throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
-        }
+        PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
             StaticValue staticValue = PandaStaticValue.of(valueExpression.getExpressionValue(branch));
 
-            if ((staticValue.getValue() == null || staticValue.getValue().isNull()) && !field.isNullable()) {
+            if (!field.isNullable() && (staticValue.getValue() == null || staticValue.getValue().isNull())) {
                 throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nullable modifier");
             }
 
@@ -61,35 +54,23 @@ public class FieldAssigner extends ExecutableStatement {
             return;
         }
 
-        Value instance = instanceExpression.getExpressionValue(branch);
-
-        if (instance == null) {
-            throw new PandaRuntimeException("Instance is not defined");
-        }
-
-        if (!(instance.getObject() instanceof ClassPrototypeScopeInstance)) {
-            throw new PandaRuntimeException("Cannot get field value of external object");
-        }
-
-        ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
-        branch.instance(pandaInstance.toValue());
-
+        MemoryContainer memory = accessor.fetchMemoryContainer(branch);
         Value value = valueExpression.getExpressionValue(branch);
 
         if (value.isNull() && !field.isNullable()) {
             throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nullable modifier");
         }
 
-        if (!field.isMutable() && pandaInstance.get(internalPointer) != null) {
+        if (!field.isMutable() && memory.get(accessor.getMemoryPointer()) != null) {
             throw new PandaRuntimeException("Cannot change value of immutable field '" + field.getName() + "'");
         }
 
-        pandaInstance.set(internalPointer, value);
+        memory.set(accessor.getMemoryPointer(), value);
     }
 
     @Override
     public String toString() {
-        return instanceExpression.getReturnType().getClassName() + "@f_memory[" + field.getFieldIndex() + "] << " + valueExpression;
+        return accessor.getVariable().getPrototype().getClassName() + "@f_memory[" + accessor.getMemoryPointer() + "] << " + valueExpression;
     }
 
 }

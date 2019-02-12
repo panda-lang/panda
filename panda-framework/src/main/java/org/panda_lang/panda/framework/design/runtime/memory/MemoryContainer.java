@@ -14,16 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.dynamic;
+package org.panda_lang.panda.framework.design.runtime.memory;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 
-public interface ScopeInstance extends StandaloneExecutable, MemoryContainer {
+public interface MemoryContainer {
 
     /**
-     * @return the proper scope
+     * Put value in scope memory
+     *
+     * @param pointer index of the variable in current scope
+     * @param value   new value
      */
-    Scope getScope();
+    void set(int pointer, @Nullable Value value);
+
+    /**
+     * @param pointer index of variable in current scope
+     * @return value
+     */
+    @Nullable Value get(int pointer);
+
+    /**
+     * @return array length
+     */
+    int getAmountOfVariables();
 
 }

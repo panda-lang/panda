@@ -14,16 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
+package org.panda_lang.panda.framework.language.architecture.dynamic;
 
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 
-public class Continue extends AbstractExecutableStatement {
+public abstract class AbstractExecutableStatement implements ExecutableStatement {
+
+    protected StatementData statementData;
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        branch.getCurrentControlFlow().skip();
+    public void setStatementData(StatementData statementData) {
+        this.statementData = statementData;
+    }
+
+    @Override
+    public StatementData getStatementData() {
+        return statementData;
     }
 
 }

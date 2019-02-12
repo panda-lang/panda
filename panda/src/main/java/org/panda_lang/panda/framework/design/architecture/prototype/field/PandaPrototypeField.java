@@ -16,22 +16,26 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.field;
 
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 
 public class PandaPrototypeField extends PandaVariable implements PrototypeField {
 
+    private final ClassPrototypeReference prototype;
     private final int fieldIndex;
-    private FieldVisibility visibility;
-    private boolean isStatic;
-    private boolean isNative;
+    private final FieldVisibility visibility;
+    private final boolean isStatic;
+    private final boolean isNative;
+
     private Expression defaultValue;
     private StaticValue staticValue;
 
     protected PandaPrototypeField(PandaPrototypeFieldBuilder builder) {
         super(builder.type, builder.name, 0, builder.mutable, builder.nullable);
 
+        this.prototype = builder.prototype;
         this.fieldIndex = builder.fieldIndex;
         this.visibility = builder.visibility;
         this.isStatic = builder.isStatic;
@@ -81,6 +85,11 @@ public class PandaPrototypeField extends PandaVariable implements PrototypeField
     @Override
     public int getFieldIndex() {
         return fieldIndex;
+    }
+
+    @Override
+    public ClassPrototypeReference getPrototype() {
+        return prototype;
     }
 
     public static PandaPrototypeFieldBuilder builder() {

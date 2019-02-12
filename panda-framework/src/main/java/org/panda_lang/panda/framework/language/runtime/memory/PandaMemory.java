@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.runtime.memory;
 
-import org.panda_lang.panda.framework.design.runtime.memory.Memory;
-import org.panda_lang.panda.framework.design.runtime.memory.MemorySegment;
+import org.panda_lang.panda.framework.design.runtime.memory.concept.Memory;
+import org.panda_lang.panda.framework.design.runtime.memory.concept.MemorySegment;
 
 import java.util.ArrayList;
 import java.util.List;
