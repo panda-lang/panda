@@ -17,16 +17,25 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 
+import java.util.Optional;
 import java.util.function.Predicate;
 
 class SubparserUtils {
@@ -42,6 +51,8 @@ class SubparserUtils {
             ALLOWED_START,
             CharacterUtils.DIGITS
     );
+
+    private SubparserUtils() { }
 
     static @Nullable Tokens readFirstOfType(Tokens source, TokenType type) {
         TokenRepresentation token = source.get(0);
@@ -96,5 +107,18 @@ class SubparserUtils {
         return true;
     }
 
+    static Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
+        Optional<ClassPrototypeReference> type = data.getComponent(UniversalComponents.MODULE_LOADER).forClass(className);
+
+        if (!type.isPresent()) {
+            throw new PandaParserFailure("Unknown type " + className, data);
+        }
+
+        return toSimpleKnownExpression(type.get().fetch(), value);
+    }
+
+    static Expression toSimpleKnownExpression(ClassPrototype type, Object value) {
+        return new PandaExpression(new PandaValue(type, value));
+    }
 
 }

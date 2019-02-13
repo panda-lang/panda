@@ -18,41 +18,56 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class SequenceExpressionSubparser implements ExpressionSubparser {
+public class AssignationExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
-        return SubparserUtils.readFirstOfType(source, TokenType.SEQUENCE);
+        // read var/field/array/etc. from subparsers
+        // =
+        // expression
+
+        /*
+        ExtractorResult result = pattern.extract(source);
+
+        if (!result.isMatched()) {
+            return null;
+        }
+
+        Tokens declaration = result.getWildcard("*declaration");
+        SourceStream stream = new PandaSourceStream(declaration);
+
+        AssignationSubparser subparser = data
+                .getComponent(UniversalComponents.PIPELINE)
+                .getPipeline(PandaPipelines.ASSIGNER)
+                .handleWithUpdatedSource(data, stream);
+
+        if (subparser == null) {
+            return null;
+        }
+        */
+
+        return null;
+        //return !stream.hasUnreadSource();
     }
 
     @Override
-    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
-        TokenRepresentation token = source.get(0);
-
-        if (token.getTokenName().equals("String")) {
-            return SubparserUtils.toSimpleKnownExpression(PandaTypes.STRING, token.getTokenValue());
-        }
-
-        throw new PandaParserFailure("Unknown sequence: " + token, data);
+    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+        return null;
     }
 
     @Override
     public double getPriority() {
-        return DefaultSubparsers.Priorities.SINGLE;
+        return DefaultSubparsers.Priorities.DYNAMIC;
     }
 
     @Override
     public String getName() {
-        return DefaultSubparsers.Names.SEQUENCE;
+        return DefaultSubparsers.Names.ASSIGNATION;
     }
 
 }

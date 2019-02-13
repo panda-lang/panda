@@ -17,14 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
@@ -36,109 +30,35 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
-import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
-import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.FieldAssigner;
-import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparserBootstrap;
-import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
-
-import java.util.function.Function;
+import org.panda_lang.panda.framework.language.resource.parsers.general.accessor.AccessorParser;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
+    private static final AccessorParser ACCESSOR_PARSER = new AccessorParser();
+
     @Override
     protected BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
-        return defaultBuilder.pattern("<name:reader expression include field>");
+        return defaultBuilder.pattern("<source:reader expression include field>");
     }
 
     @Autowired
     @AutowiredParameters(skip = 2, value = {
             @Type(with = Component.class, value = AssignationComponents.SCOPE_LABEL),
-            @Type(with = Src.class, value = "name"),
+            @Type(with = Src.class, value = "source"),
             @Type(with = Component.class, value = AssignationComponents.EXPRESSION_LABEL)
     })
-    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Tokens name, Expression expression) {
-        if (name.size() > 1) {
-            Expression instanceExpression = data.getComponent(PandaComponents.EXPRESSION).parse(data, name.subSource(0, name.size() - 2));
+    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Tokens source, Expression expression) {
+        Accessor<?> accessor = ACCESSOR_PARSER.parse(data, source);
+        Assigner<?> assigner = accessor.toAssigner(expression);
 
-            if (instanceExpression == null) {
-                throw new PandaParserFailure("Cannot parse variable reference: " + name, data, name);
-            }
-
-            String fieldName = name.getLast().getTokenValue();
-            PrototypeField field = instanceExpression.getReturnType().getFields().getField(fieldName);
-
-            if (field == null) {
-                throw new PandaParserFailure("Field " + fieldName + " does not exist", data, name);
-            }
-
-            if (!field.getType().isAssignableFrom(expression.getReturnType())) {
-                throw new PandaParserFailure("Cannot assign " + instanceExpression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data, name);
-            }
-
-            return new FieldAssigner(new VariableAccessor<>(new FieldFunction(instanceExpression), field, field.getFieldIndex()), expression);
-        }
-
-        Variable variable = scope.getVariable(name.asString());
-
-        if (variable != null) {
-            return VariableAssignerUtils.of(data, scope, variable, expression);
-        }
-
-        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-
-        if (prototype == null) {
-            throw new PandaParserFailure("Cannot get field from non-prototype scope", data);
-        }
-
-        Expression instanceExpression = ThisExpressionCallback.asExpression(prototype);
-        PrototypeField field = prototype.getFields().getField(name.asString());
-
-        if (field == null) {
-            throw new PandaParserFailure("Field " + name.asString() + " does not exist", data);
-        }
-
-        if (!field.getType().isAssignableFrom(expression.getReturnType())) {
-            throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + field.getType().getClassName() + " variable", data);
-        }
-
-        return new FieldAssigner(new VariableAccessor<>(new FieldFunction(instanceExpression), field, field.getFieldIndex()), expression);
-    }
-
-    private class FieldFunction implements Function<ExecutableBranch, MemoryContainer> {
-
-        private final Expression instanceExpression;
-
-        private FieldFunction(Expression instanceExpression) {
-            this.instanceExpression = instanceExpression;
-        }
-
-        @Override
-        public MemoryContainer apply(ExecutableBranch branch) {
-            Value instance = instanceExpression.getExpressionValue(branch);
-
-            if (instance == null) {
-                throw new PandaRuntimeException("Instance is not defined");
-            }
-
-            if (!(instance.getObject() instanceof ClassPrototypeScopeInstance)) {
-                throw new PandaRuntimeException("Cannot get field value of external object");
-            }
-
-            ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
-            branch.instance(pandaInstance.toValue());
-
-            return pandaInstance;
-        }
+        return assigner.toExecutableStatement();
     }
 
 }

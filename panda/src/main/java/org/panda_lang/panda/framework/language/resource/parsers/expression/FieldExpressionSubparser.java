@@ -81,8 +81,8 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, FIELD_SEPARATORS, extensions);
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, FIELD_SEPARATORS, extensions);
 
         if (selected == null && SubparserUtils.isAllowedName(source.getFirst().getToken())) {
             selected = new PandaTokens(source.getFirst());
@@ -96,7 +96,7 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     }
 
     @Override
-    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         if (source.size() == 1) {
             ScopeLinker scopeLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
@@ -118,7 +118,7 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
                 }
             }
 
-            throw new PandaParserFailure("Cannot find variable or field called " + source.asString() + " /" + main.getSubparsers().getSubparsers().size() , data, source);
+            throw new PandaParserFailure("Cannot find variable or field called " + source.asString() + " /" + parent.getSubparsers().getSubparsers().size() , data, source);
         }
 
         List<Tokens> fieldMatches = FIELD_PATTERN.match(new PandaTokenReader(source));
@@ -134,7 +134,7 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
             }
 
             if (instanceType == null) {
-                fieldLocationExpression = main.parse(data, instanceSource);
+                fieldLocationExpression = parent.parse(data, instanceSource);
                 instanceType = fieldLocationExpression.getReturnType();
             }
 

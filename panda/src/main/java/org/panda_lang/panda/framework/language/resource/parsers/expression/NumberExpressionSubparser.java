@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public class NumberExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         Tokens tokens = new PandaTokens();
         TokenRepresentation period = null;
 
@@ -64,7 +64,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         NumberParser numberParser = new NumberParser();
         Value numericValue = numberParser.parse(data, source);
 

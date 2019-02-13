@@ -16,11 +16,12 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
+import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 
-abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableStatement implements Assigner {
+abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableStatement implements Assigner<T> {
 
     protected final Accessor<T> accessor;
 
@@ -31,6 +32,11 @@ abstract class AbstractAssigner<T extends Variable> extends AbstractExecutableSt
     @Override
     public Accessor<T> getAccessor() {
         return accessor;
+    }
+
+    @Override
+    public ExecutableStatement toExecutableStatement() {
+        return this;
     }
 
 }

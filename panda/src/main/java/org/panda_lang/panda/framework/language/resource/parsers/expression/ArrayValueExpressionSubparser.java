@@ -45,13 +45,13 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         SourceStream stream = new PandaSourceStream(source);
 
-        ExpressionSubparsers subparsers = main.getSubparsers().fork();
+        ExpressionSubparsers subparsers = parent.getSubparsers().fork();
         subparsers.removeSubparser(getName());
 
-        ExpressionParser parser = new ExpressionParser(main, subparsers);
+        ExpressionParser parser = new ExpressionParser(parent, subparsers);
         Tokens value = parser.read(stream);
 
         if (TokensUtils.isEmpty(value)) {
@@ -109,7 +109,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         ArrayValueAccessor accessor = PARSER.parse(data, source, (branch, prototype, type, array, index) -> new PandaValue(type, array[index.intValue()]));
 
         return new PandaExpression(new PandaExpressionCallback(accessor.getReturnType()) {

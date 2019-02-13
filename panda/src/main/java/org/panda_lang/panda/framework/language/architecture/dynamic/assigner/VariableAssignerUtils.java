@@ -19,19 +19,18 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class VariableAssignerUtils {
 
-    public static VariableAssigner of(ParserData data, Scope scope, Variable variable, Expression expression) {
+    public static Assigner<Variable> of(ParserData data, Scope scope, Variable variable, Expression expression) {
         if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable", data);
         }
 
-        return new VariableAssigner(new VariableAccessor<>(ExecutableBranch::getCurrentScope, variable, scope.indexOf(variable)), expression);
+        return new VariableAccessor(variable, scope.indexOf(variable)).toAssigner(expression);
     }
 
 }

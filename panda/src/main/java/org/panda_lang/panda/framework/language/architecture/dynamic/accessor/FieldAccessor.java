@@ -16,28 +16,28 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssigner;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.FieldAssigner;
 
 import java.util.function.Function;
 
-public class VariableAccessor extends DefaultAccessor<Variable> {
+public class FieldAccessor extends DefaultAccessor<PrototypeField> {
 
-    public VariableAccessor(Function<ExecutableBranch, MemoryContainer> memory, Variable variable, int internalPointer) {
-        super(memory, variable, internalPointer);
+    public FieldAccessor(Function<ExecutableBranch, MemoryContainer> memory, PrototypeField field, int internalPointer) {
+        super(memory, field, internalPointer);
     }
 
-    public VariableAccessor(Variable variable, int internalPointer) {
-        this(ExecutableBranch::getCurrentScope, variable, internalPointer);
+    public FieldAccessor(Expression instance, PrototypeField field) {
+        this(new FieldAccessorFunction(instance), field, field.getFieldIndex());
     }
 
     @Override
-    public Assigner<Variable> toAssigner(Expression expression) {
-        return new VariableAssigner(this, expression);
+    public Assigner<PrototypeField> toAssigner(Expression expression) {
+        return new FieldAssigner(this, expression);
     }
 
 }

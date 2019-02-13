@@ -17,47 +17,27 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-
-import java.util.Optional;
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     default void initialize(ParserData data) { }
 
-    @Nullable Tokens read(ExpressionParser main, Tokens source);
+    default void afterInitialization(ExpressionParser parent) { }
 
-    @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source);
+    @Nullable Tokens read(ExpressionParser parent, Tokens source);
 
-    default @Nullable Expression parseSilently(ExpressionParser main, ParserData data, Tokens source) {
+    @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source);
+
+    default @Nullable Expression parseSilently(ExpressionParser parent, ParserData data, Tokens source) {
         try {
-            return parse(main, data, source);
+            return parse(parent, data, source);
         } catch (Throwable throwable) {
             // mute, we don't want to catch any error that comes from ExpressionParser#parse method
             return null;
         }
-    }
-
-    default Expression toSimpleKnownExpression(ParserData data, String className, Object value) {
-        Optional<ClassPrototypeReference> type = data.getComponent(UniversalComponents.MODULE_LOADER).forClass(className);
-
-        if (!type.isPresent()) {
-            throw new PandaParserFailure("Unknown type " + className, data);
-        }
-
-        return toSimpleKnownExpression(type.get().fetch(), value);
-    }
-
-    default Expression toSimpleKnownExpression(ClassPrototype type, Object value) {
-        return new PandaExpression(new PandaValue(type, value));
     }
 
     @Override
