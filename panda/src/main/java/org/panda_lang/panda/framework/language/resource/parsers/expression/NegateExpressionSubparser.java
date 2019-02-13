@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public class NegateExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         if (!source.getFirst().contentEquals(Operators.NOT)) {
             return null;
         }
@@ -38,8 +38,8 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        Expression expression = main.parse(data, source.subSource(1, source.size()));
+    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+        Expression expression = parent.parse(data, source.subSource(1, source.size()));
         return new PandaExpression(new NegateLogicalExpressionCallback(expression));
     }
 

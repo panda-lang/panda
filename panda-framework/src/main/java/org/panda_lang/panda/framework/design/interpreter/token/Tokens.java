@@ -69,6 +69,18 @@ public interface Tokens {
         return new PandaTokens(selected);
     }
 
+    default int indexOf(Token token) {
+        List<TokenRepresentation> tokens = getTokensRepresentations();
+
+        for (int i = 0; i < getTokensRepresentations().size(); i++) {
+            if (tokens.get(i).contentEquals(token)) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
     default Tokens addToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().add(tokenRepresentation);
         return this;

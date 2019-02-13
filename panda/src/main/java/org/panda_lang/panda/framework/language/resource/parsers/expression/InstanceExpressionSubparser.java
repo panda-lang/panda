@@ -46,7 +46,7 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
             .build();
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         if (!source.getFirst().contentEquals(Keywords.NEW)) {
            return null;
         }
@@ -61,7 +61,7 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         List<Tokens> constructorMatches = INSTANCE_PATTERN.match(new PandaTokenReader(source));
 
         if (constructorMatches != null && constructorMatches.size() == 3 && constructorMatches.get(2).size() == 0) {

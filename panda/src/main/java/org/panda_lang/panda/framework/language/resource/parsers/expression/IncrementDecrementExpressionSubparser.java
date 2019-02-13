@@ -36,9 +36,9 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 public class IncrementDecrementExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         if (source.startsWith(Operators.INCREMENT) || source.startsWith(Operators.DECREMENT)) {
-            Tokens pre = main.read(source.subSource(1, source.size()));
+            Tokens pre = parent.read(source.subSource(1, source.size()));
 
             if (pre == null) {
                 return null;
@@ -47,7 +47,7 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
             return new PandaTokens(source.getFirst()).addTokens(pre);
         }
 
-        ExpressionParser postExpression = main.getSubparsers().fork()
+        ExpressionParser postExpression = parent.getSubparsers().fork()
                 .removeSubparser(getName())
                 .toExpressionParser(null);
 
@@ -71,14 +71,14 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         Operator operator = ObjectUtils.cast(Operator.class, source.getFirst().getToken());
         Expression expression = null;
         boolean increment;
         boolean pre;
 
         if (OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT)) {
-            expression = main.parse(data, source.subSource(1, source.size()));
+            expression = parent.parse(data, source.subSource(1, source.size()));
             increment = Operators.INCREMENT.equals(operator);
             pre = true;
             operator = null;
@@ -89,7 +89,7 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
         }
 
         if (OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT)) {
-            expression = main.parse(data, source.subSource(0, source.size() - 1));
+            expression = parent.parse(data, source.subSource(0, source.size() - 1));
             increment = Operators.INCREMENT.equals(operator);
             pre = false;
         }

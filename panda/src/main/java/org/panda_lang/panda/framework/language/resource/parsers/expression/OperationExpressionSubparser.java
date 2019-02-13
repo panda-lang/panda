@@ -36,8 +36,8 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(main, source, OperationExpressionUtils.OPERATORS, extensions);
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, OperationExpressionUtils.OPERATORS, extensions);
 
         if (selected == null) {
             return null;
@@ -76,7 +76,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     }
 
     @Override
-    public Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         if (!OperationExpressionUtils.isOperationExpression(source)) {
             return null;
         }

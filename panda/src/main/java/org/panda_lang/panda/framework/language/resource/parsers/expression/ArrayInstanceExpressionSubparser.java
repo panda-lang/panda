@@ -55,7 +55,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         if (!source.getFirst().contentEquals(Keywords.NEW)) {
             return null;
         }
@@ -71,7 +71,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         ExtractorResult result = pattern.extract(source);
 
         if (!result.isMatched()) {
@@ -86,7 +86,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
         }
 
         Tokens capacity = result.getWildcard("*capacity");
-        Expression capacityExpression = main.parse(data, capacity);
+        Expression capacityExpression = parent.parse(data, capacity);
 
         if (!PandaTypes.INT.isAssignableFrom(capacityExpression.getReturnType())) {
             return null;

@@ -76,10 +76,12 @@ public class ApplicationParser implements Parser {
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
         ExpressionSubparsers subparsers = new ExpressionSubparsers(Collections.emptyList());
-        baseData.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(null, subparsers));
+        ExpressionParser expressionParser = new ExpressionParser(null, subparsers);
+        baseData.setComponent(PandaComponents.EXPRESSION, expressionParser);
 
         ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
         subparsers.merge(interpretation.execute(() -> subparsersLoader.load(baseData)));
+        subparsers.getSubparsers().forEach(element -> element.afterInitialization(expressionParser));
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());

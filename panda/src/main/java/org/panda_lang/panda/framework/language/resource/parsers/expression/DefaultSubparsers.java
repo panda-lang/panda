@@ -24,6 +24,8 @@ public class DefaultSubparsers {
 
         public static final String ARRAY_VALUE = "array-value";
 
+        public static final String ASSIGNATION = "assignation";
+
         public static final String LOGICAL = "logical";
 
         public static final String FIELD = "field";

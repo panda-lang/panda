@@ -27,13 +27,13 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 public class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(ExpressionParser main, Tokens source) {
+    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         return SubparserUtils.readBetweenSeparators(source, Separators.PARENTHESIS_LEFT);
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser main, ParserData data, Tokens source) {
-        return main.parse(data, source.subSource(1, source.size() - 1));
+    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+        return parent.parse(data, source.subSource(1, source.size() - 1));
     }
 
     @Override
