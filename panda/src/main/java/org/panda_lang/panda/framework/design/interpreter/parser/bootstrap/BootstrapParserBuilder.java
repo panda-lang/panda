@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
-import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -119,11 +118,7 @@ public class BootstrapParserBuilder<T> {
             interceptor(new TokenPatternInterceptor());
         }
 
-        if (pattern == null) {
-            pattern = StringUtils.EMPTY;
-        }
-
-        if (handler == null) {
+        if (handler == null && pattern != null) {
             handler = new TokenPatternHandler();
         }
 

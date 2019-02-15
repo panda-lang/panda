@@ -47,30 +47,30 @@ public class ContainerParser implements Parser {
         PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.SCOPE);
 
-        SourceStream stream = new PandaSourceStream(body);
-        delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, stream);
+        SourceStream source = new PandaSourceStream(body);
+        delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, source);
 
         Container previousContainer = delegatedData.getComponent(PandaComponents.CONTAINER);
         delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
-        while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(delegatedData, stream.toTokenizedSource());
-            int sourceLength = stream.getUnreadLength();
+        while (source.hasUnreadSource()) {
+            UnifiedParser parser = pipeline.handle(delegatedData, source.toTokenizedSource());
+            int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
-                throw PandaParserFailure.builder().message("Unrecognized syntax").data(data).source(stream.updateCachedSource()).build();
+                throw PandaParserFailure.builder().message("Unrecognized syntax").data(data).source(source.updateCachedSource()).build();
             }
 
             try {
                 parser.parse(delegatedData);
             }
             catch (ParserFailure failure) {
-                failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, stream);
+                failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, source);
                 throw failure;
             }
 
-            if (sourceLength == stream.getUnreadLength()) {
-                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData);
+            if (sourceLength == source.getUnreadLength()) {
+                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData, source.toTokenizedSource());
             }
 
             delegatedData.setComponent(PandaComponents.CONTAINER, container);

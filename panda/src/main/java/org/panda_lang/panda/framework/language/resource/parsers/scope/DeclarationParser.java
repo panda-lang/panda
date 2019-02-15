@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
 
-@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_DECLARATION_PARSER)
+@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_DECLARATION)
 public class DeclarationParser extends UnifiedParserBootstrap {
 
     private static final VariableInitializer INITIALIZER = new VariableInitializer();

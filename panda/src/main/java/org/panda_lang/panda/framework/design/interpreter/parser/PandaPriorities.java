@@ -21,27 +21,38 @@ public class PandaPriorities {
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.prototype.method.MethodParser}
      */
-    public static final int PROTOTYPE_METHOD_PARSER = 1;
+    public static final int PROTOTYPE_METHOD = 1;
+
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.prototype.field.FieldParser}
      */
-    public static final int PROTOTYPE_FIELD_PARSER = 2;
+    public static final int PROTOTYPE_FIELD = 2;
+
+
 
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockParser}
      */
-    public static final int SCOPE_BLOCK_PARSER = 1;
+    public static final int SCOPE_BLOCK = 1;
+
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerParser}
      */
-    public static final int SCOPE_METHOD_INVOKER_PARSER = 2;
+    public static final int SCOPE_METHOD_INVOKER = 2;
+
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationParser}
      */
-    public static final int SCOPE_ASSIGNATION_PARSER = 3;
+    public static final int SCOPE_ASSIGNATION = 3;
+
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.DeclarationParser}
      */
-    public static final int SCOPE_DECLARATION_PARSER = 4;
+    public static final int SCOPE_DECLARATION = 4;
+
+    /**
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.StandaloneExpressionParser}
+     */
+    public static final int SCOPE_EXPRESSION = 5;
 
 }

@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
@@ -33,6 +33,10 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
 
     @Override
     public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
+        if (bootstrap.getPattern() == null) {
+            return;
+        }
+
         this.pattern = PandaTokenPattern.builder()
                 .compile(bootstrap.getPattern().toString())
                 .build(data);

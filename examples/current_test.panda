@@ -108,9 +108,11 @@ main {
     Console.print("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
 
-    Int creaseValue = 10
+    Int creaseValue = 10 // :lenny:
     Console.print("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
     Console.print("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
+
+    creaseValue++
 }
 
 class TestArray {
