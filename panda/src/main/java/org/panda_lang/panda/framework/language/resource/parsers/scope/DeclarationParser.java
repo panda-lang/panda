@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.scope.statement;
+package org.panda_lang.panda.framework.language.resource.parsers.scope;
 
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;

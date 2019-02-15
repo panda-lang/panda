@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.scope.main;
+package org.panda_lang.panda.framework.language.resource.parsers.overall;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Script;
