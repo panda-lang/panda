@@ -20,9 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 
 public interface PrototypeMethod extends MethodCallback<Object> {
 
-    default boolean isVoid() {
-        return getReturnType() == null || getReturnType().getClassName().equals("void");
-    }
+    boolean isVoid();
 
     boolean isCatchingAllParameters();
 

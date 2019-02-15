@@ -19,8 +19,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.invo
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -29,12 +27,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.invoker.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
-@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER)
+//@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER)
 public class MethodInvokerParser extends UnifiedParserBootstrap {
 
     @Override
@@ -54,11 +50,7 @@ public class MethodInvokerParser extends UnifiedParserBootstrap {
         }
 
         MethodInvokerExpressionParser methodInvokerParser = new MethodInvokerExpressionParser(instance, name, arguments);
-        methodInvokerParser.setVoids(true);
-
         methodInvokerParser.parse(null, data);
-        MethodInvoker invoker = methodInvokerParser.getInvoker();
-
         cell.setStatement(methodInvokerParser.getInvoker());
     }
 

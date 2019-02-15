@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.method;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 public class PandaMethod implements PrototypeMethod {
 
@@ -51,6 +52,11 @@ public class PandaMethod implements PrototypeMethod {
     @Override
     public boolean isCatchingAllParameters() {
         return catchAllParameters;
+    }
+
+    @Override
+    public boolean isVoid() {
+        return PandaTypes.VOID.isAssignableFrom(returnType);
     }
 
     @Override

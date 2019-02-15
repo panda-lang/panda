@@ -20,16 +20,17 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerExpressionParser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerExpressionUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ExpressionSeparatorReader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.utils.reader.ReaderFinisher;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerExpressionUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
@@ -49,6 +50,10 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
         // read dot
         matchable.nextVerified();
 
+        return finish(matchable);
+    }
+
+    private boolean finish(MatchableDistributor matchable) {
         // read method name
         matchable.nextVerified();
 
@@ -73,6 +78,17 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
     @Override
     public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
         Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, METHOD_SEPARATORS, extensions);
+
+        // local method, at least 3 elements and contains opening parenthesis
+        if (selected == null && source.size() > 3 && source.getToken(1).equals(Separators.PARENTHESIS_LEFT)) {
+            MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
+
+            if (!finish(matchable)) {
+                return null;
+            }
+
+            selected = source.subSource(0, matchable.getIndex());
+        }
 
         // at least 3 elements required: <method-name> ( )
         if (selected == null || selected.size() < 3 ) {
@@ -101,9 +117,12 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
         }
 
         methodInvokerParser.parse(source, data);
-        MethodInvokerExpressionCallback callback = methodInvokerParser.toCallback();
+        return new PandaExpression(methodInvokerParser.toCallback());
+    }
 
-        return new PandaExpression(callback);
+    @Override
+    public ExpressionType getType() {
+        return ExpressionType.STANDALONE;
     }
 
     @Override

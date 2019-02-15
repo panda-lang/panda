@@ -27,6 +27,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Metho
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
@@ -100,7 +101,7 @@ class ModelMethodGenerator {
         }
 
         MethodCallback<?> methodCallback = (MethodCallback<?>) methodCallbackClass.newInstance();
-        ClassPrototypeReference returnType = prototype.getModule().getAssociatedWith(method.getReturnType()).orElse(null);
+        ClassPrototypeReference returnType = prototype.getModule().getAssociatedWith(method.getReturnType()).orElse(PandaTypes.VOID.getReference());
         ClassPrototypeReference[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(prototype.getModule(), method.getParameterTypes());
 
         PandaMethod pandaMethod = PandaMethod.builder()
