@@ -91,13 +91,11 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
 
     @Override
     public List<FieldInfo> getFields(ClassFile cls) {
-        //noinspection unchecked
         return cls.getFields();
     }
 
     @Override
     public List<MethodInfo> getMethods(ClassFile cls) {
-        //noinspection unchecked
         return cls.getMethods();
     }
 

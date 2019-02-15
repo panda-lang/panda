@@ -113,6 +113,7 @@ main {
     Console.print("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
 
     creaseValue++
+    Console.print(creaseValue)
 }
 
 class TestArray {
