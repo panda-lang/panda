@@ -33,8 +33,7 @@ public class PandaTokenPattern {
     }
 
     public TokenPattern build(ParserData data) {
-        return builder
-                .build()
+        return builder.build()
                 .addWildcardReader(new ExpressionWildcardReader(data.getComponent(PandaComponents.EXPRESSION)));
     }
 

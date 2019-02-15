@@ -32,10 +32,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.invoker.MethodInvoker;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 
-@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER_PARSER)
+@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER)
 public class MethodInvokerParser extends UnifiedParserBootstrap {
 
     @Override
