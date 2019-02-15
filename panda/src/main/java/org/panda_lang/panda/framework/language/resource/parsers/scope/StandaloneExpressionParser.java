@@ -16,6 +16,9 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope;
 
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
+import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
@@ -23,12 +26,17 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
+import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public class StandaloneExpressionParser extends UnifiedParserBootstrap {
@@ -40,7 +48,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
         ExpressionParser parent = data.getComponent(PandaComponents.EXPRESSION);
 
         ExpressionSubparsers subparsers = parent.getSubparsers().fork();
-        subparsers.getSubparsers().removeIf(expressionParser -> expressionParser.getType() == ExpressionType.STANDALONE);
+        subparsers.getSubparsers().removeIf(expressionParser -> expressionParser.getType() != ExpressionType.STANDALONE);
         this.expressionParser = new ExpressionParser(parent, subparsers);
 
         return defaultBuilder;
@@ -52,8 +60,15 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    public void parseExpression(ParserData data) {
-        System.out.println(":O");
+    public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
+        StatementData statementData = new PandaStatementData(source.getCurrentLine());
+        Expression expression = expressionParser.parseProgressively(data, source, true);
+
+        Statement statement = new ExpressionStatement(expression);
+        statement.setStatementData(statementData);
+
+        StatementCell cell = linker.getCurrentScope().reserveCell();
+        cell.setStatement(statement);
     }
 
 }
