@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
@@ -39,13 +40,19 @@ abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
         this.pointer = internalPointer;
     }
 
-    protected Function<ExecutableBranch, MemoryContainer> getMemoryFunction() {
-        return memory;
+    @Override
+    public Value perform(ExecutableBranch branch, AccessorCallback callback) {
+        MemoryContainer memory = fetchMemoryContainer(branch);
+        return memory.set(pointer, callback.visit(this, branch, memory.get(pointer)));
     }
 
     @Override
     public MemoryContainer fetchMemoryContainer(ExecutableBranch branch) {
         return memory.apply(branch);
+    }
+
+    protected Function<ExecutableBranch, MemoryContainer> getMemoryFunction() {
+        return memory;
     }
 
     @Override

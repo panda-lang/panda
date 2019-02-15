@@ -27,7 +27,7 @@ public interface MemoryContainer {
      * @param pointer index of the variable in current scope
      * @param value   new value
      */
-    void set(int pointer, @Nullable Value value);
+    @Nullable Value set(int pointer, @Nullable Value value);
 
     /**
      * @param pointer index of variable in current scope
