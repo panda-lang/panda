@@ -41,7 +41,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.defaults.Overa
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.statement.CommentParser;
+import org.panda_lang.panda.framework.language.resource.parsers.overall.CommentParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Collections;

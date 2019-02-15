@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.scope.statement.branching;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.branching;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;

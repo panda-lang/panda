@@ -40,7 +40,7 @@ public class PandaPriorities {
      */
     public static final int SCOPE_ASSIGNATION_PARSER = 3;
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.statement.DeclarationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.DeclarationParser}
      */
     public static final int SCOPE_DECLARATION_PARSER = 4;
 
