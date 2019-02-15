@@ -56,9 +56,7 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
     private final Tokens instanceSource;
     private final Tokens methodNameSource;
     private final Tokens argumentsSource;
-
     private MethodInvoker invoker;
-    private boolean voids;
 
     public MethodInvokerExpressionParser(Tokens instanceSource, Tokens methodNameSource, Tokens argumentsSource) {
         this.instanceSource = instanceSource;
@@ -95,18 +93,10 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
         if (prototypeMethod == null) {
-            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, methodNameSource);
-        }
-
-        if (!voids && prototypeMethod.isVoid()) {
-            throw new PandaParserFailure("Method " + prototypeMethod.getMethodName() + " returns nothing", data, methodNameSource);
+            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, source);
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);
-    }
-
-    public void setVoids(boolean voids) {
-        this.voids = voids;
     }
 
     public MethodInvoker getInvoker() {

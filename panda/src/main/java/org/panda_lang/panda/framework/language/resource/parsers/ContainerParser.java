@@ -58,7 +58,7 @@ public class ContainerParser implements Parser {
             int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
-                throw PandaParserFailure.builder().message("Unrecognized syntax").data(data).source(source.updateCachedSource()).build();
+                throw new PandaParserFailure("Unrecognized syntax", data, source.toTokenizedSource());
             }
 
             try {

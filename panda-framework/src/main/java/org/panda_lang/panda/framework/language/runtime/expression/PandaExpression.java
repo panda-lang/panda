@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
-import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.security.InvalidParameterException;
 
@@ -64,13 +63,7 @@ public class PandaExpression implements Expression {
     @Override
     public Value getExpressionValue(ExecutableBranch branch) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            Value value = callback.call(this, branch);
-
-            if (!returnType.isAssignableFrom(value.getType())) {
-                throw new PandaRuntimeException("Incompatible expression types " + returnType + " != " + value.getType());
-            }
-
-            return value;
+            return callback.call(this, branch);
         }
 
         return value;
