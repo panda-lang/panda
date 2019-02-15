@@ -26,11 +26,11 @@ public class DefaultSubparsers {
 
         public static final String ASSIGNATION = "assignation";
 
+        public static final String CREASE = "crease";
+
         public static final String LOGICAL = "logical";
 
         public static final String FIELD = "field";
-
-        public static final String INCREMENT_DECREMENT = "increment-decrement";
 
         public static final String INSTANCE = "instance";
 

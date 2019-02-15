@@ -43,9 +43,10 @@ public abstract class AbstractScopeInstance<T extends Scope> implements ScopeIns
     }
 
     @Override
-    public synchronized void set(int pointer, @Nullable Value value) {
+    public synchronized Value set(int pointer, @Nullable Value value) {
         checkIndex(pointer);
         localMemory[pointer] = value;
+        return value;
     }
 
     @Override

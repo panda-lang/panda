@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -23,6 +24,8 @@ import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 
 public interface Accessor<T extends Variable> {
+
+    Value perform(ExecutableBranch branch, AccessorCallback callback);
 
     MemoryContainer fetchMemoryContainer(ExecutableBranch branch);
 

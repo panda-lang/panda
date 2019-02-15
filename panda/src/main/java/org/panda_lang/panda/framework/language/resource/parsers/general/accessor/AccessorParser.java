@@ -91,14 +91,14 @@ public class AccessorParser implements Parser {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
         if (prototype == null) {
-            throw new PandaParserFailure("Cannot get field from non-prototype scope", data);
+            throw new PandaParserFailure("Cannot get field from non-prototype scope", data, source);
         }
 
         Expression instanceExpression = ThisExpressionCallback.asExpression(prototype);
         PrototypeField field = prototype.getFields().getField(source.asString());
 
         if (field == null) {
-            throw new PandaParserFailure("Field " + source.asString() + " does not exist", data);
+            throw new PandaParserFailure("Field " + source.asString() + " does not exist", data, source);
         }
 
         return new FieldAccessor(instanceExpression, field);

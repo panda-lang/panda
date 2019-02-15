@@ -14,8 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks;
+package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-public class IncrementationExpressionCallback {
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+
+public interface AccessorCallback {
+
+    Value visit(Accessor<?> accessor, ExecutableBranch branch, Value currentValue);
 
 }

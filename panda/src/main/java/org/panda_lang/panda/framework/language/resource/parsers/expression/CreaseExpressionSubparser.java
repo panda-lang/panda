@@ -24,16 +24,22 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.Express
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.CreaseExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.general.accessor.AccessorParser;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
-public class IncrementDecrementExpressionSubparser implements ExpressionSubparser {
+public class CreaseExpressionSubparser implements ExpressionSubparser {
+
+    private static final AccessorParser ACCESSOR_PARSER = new AccessorParser();
 
     @Override
     public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
@@ -73,36 +79,26 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
     @Override
     public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
         Operator operator = ObjectUtils.cast(Operator.class, source.getFirst().getToken());
-        Expression expression = null;
-        boolean increment;
-        boolean pre;
+        boolean post = OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT);
 
-        if (OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT)) {
-            expression = parent.parse(data, source.subSource(1, source.size()));
-            increment = Operators.INCREMENT.equals(operator);
-            pre = true;
-            operator = null;
-        }
-
-        if (operator != null) {
+        if (operator == null) {
             operator = ObjectUtils.cast(Operator.class, source.getLast().getToken());
         }
 
-        if (OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT)) {
-            expression = parent.parse(data, source.subSource(0, source.size() - 1));
-            increment = Operators.INCREMENT.equals(operator);
-            pre = false;
+        boolean grow = Operators.INCREMENT.equals(operator);
+        Tokens expressionSource = post ? source.subSource(1, source.size()) : source.subSource(0, source.size() - 1);
+
+        if (expressionSource.isEmpty()) {
+            throw new PandaParserFailure("Variable expected", data, source);
         }
 
-        if (expression == null) {
-            throw new PandaParserFailure("Unknown source", data, source);
-        }
+        Accessor<?> accessor = ACCESSOR_PARSER.parse(data, expressionSource);
 
-        if (!PandaTypes.NUMBER.isAssignableFrom(expression.getReturnType())) {
+        if (!PandaTypes.NUMBER.isAssignableFrom(accessor.getVariable().getType())) {
             throw new PandaParserFailure("Incrementation/decrementation operation requires number type", data, source);
         }
 
-        return null;
+        return new PandaExpression(new CreaseExpressionCallback(accessor, grow, post));
     }
 
     @Override
@@ -117,7 +113,7 @@ public class IncrementDecrementExpressionSubparser implements ExpressionSubparse
 
     @Override
     public String getName() {
-        return DefaultSubparsers.Names.INCREMENT_DECREMENT;
+        return DefaultSubparsers.Names.CREASE;
     }
 
 }
