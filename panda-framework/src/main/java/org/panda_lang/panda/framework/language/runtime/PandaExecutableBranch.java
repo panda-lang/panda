@@ -30,6 +30,8 @@ import java.util.Collection;
 
 public class PandaExecutableBranch implements ExecutableBranch {
 
+    private static long fullUptime;
+
     private final PandaExecutableProcess process;
     private final ScopeInstance currentScope;
     private PandaControlFlow currentFlow;
