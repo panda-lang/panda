@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -67,15 +66,12 @@ public class ExpressionParser {
         Expression expression = result.subparser.parse(main, data, result.source);
 
         if (expression == null) {
-            ParserData errorData = data.fork().setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(result.source));
-            throw new PandaExpressionFailure("Cannot parse expression using " + result.subparser.getName() + " subparser", errorData);
+            throw new PandaExpressionFailure("Cannot parse expression using " + result.subparser.getName() + " subparser", data, result.source);
         }
 
         if (!progressively && source.getUnreadLength() != result.source.size()) {
-            throw new PandaParserFailure("Unrecognized syntax", data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source.toTokenizedSource())));
+            throw new PandaParserFailure("Unrecognized syntax", data, source.toTokenizedSource());
         }
-
-        // 5 < 4 && 2 > 5
 
         source.read(result.source.size());
         return expression;

@@ -51,7 +51,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
 
     @Override
     public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-         this.pattern = PandaTokenPattern.builder()
+        this.pattern = PandaTokenPattern.builder()
                 .compile(PATTERN)
                 .build(data);
 

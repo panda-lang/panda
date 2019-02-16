@@ -17,12 +17,17 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class PandaExpressionFailure extends PandaParserFailure {
 
     public PandaExpressionFailure(String message, ParserData data) {
         super(message, data);
+    }
+
+    public PandaExpressionFailure(String message, ParserData data, Tokens source) {
+        super(message, data, source);
     }
 
 }
