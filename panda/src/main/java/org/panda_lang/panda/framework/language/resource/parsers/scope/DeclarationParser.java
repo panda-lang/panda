@@ -30,7 +30,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_DECLARATION)
@@ -50,8 +49,8 @@ public class DeclarationParser extends UnifiedParserBootstrap {
             @Type(with = Src.class, value = "type"),
             @Type(with = Src.class, value = "name")
     })
-    public void parse(ParserData data, ExtractorResult result, ModuleLoader loader, ScopeLinker linker, Tokens type, Tokens name) {
-        INITIALIZER.createVariable(data, loader, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type.asString(), name.asString());
+    public void parse(ParserData data, ExtractorResult result, ModuleLoader loader, ScopeLinker linker, String type, String name) {
+        INITIALIZER.createVariable(data, loader, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
     }
 
 }

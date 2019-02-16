@@ -17,46 +17,74 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationComponents;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparser;
 
 public class AssignationExpressionSubparser implements ExpressionSubparser {
 
+    private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]";
+
+    private TokenPattern pattern;
+    private ParserPipeline<AssignationSubparser> pipelinePath;
+
+    @Override
+    public void initialize(ParserData data) {
+        this.pattern = PandaTokenPattern.builder()
+                .compile(PATTERN)
+                .build(data);
+    }
+
     @Override
     public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
-        // read var/field/array/etc. from subparsers
-        // =
-        // expression
+        return null;
 
         /*
-        ExtractorResult result = pattern.extract(source);
+        SourceStream sourceStream = new PandaSourceStream(source);
+        ExtractorResult result = pattern.extract(sourceStream);
 
         if (!result.isMatched()) {
             return null;
         }
 
-        Tokens declaration = result.getWildcard("*declaration");
-        SourceStream stream = new PandaSourceStream(declaration);
-
-        AssignationSubparser subparser = data
-                .getComponent(UniversalComponents.PIPELINE)
-                .getPipeline(PandaPipelines.ASSIGNER)
-                .handleWithUpdatedSource(data, stream);
-
-        if (subparser == null) {
-            return null;
-        }
+        return source.subSource(0, source.size() - sourceStream.getUnreadLength());
         */
-
-        return null;
-        //return !stream.hasUnreadSource();
     }
 
     @Override
     public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+        System.out.println(":O -> " + source);
+        ExtractorResult result = pattern.extract(source);
+
+        ParserData delegatedData = data.fork();
+        delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
+
+        Tokens assignation = result.getWildcard("assignation");
+        Expression assignationExpression = delegatedData.getComponent(PandaComponents.EXPRESSION).parse(delegatedData, assignation);
+
+        PipelinePath path = data.getComponent(UniversalComponents.PIPELINE);
+        Tokens declaration = result.getWildcard("*declaration");
+        AssignationSubparser subparser = path.getPipeline(PandaPipelines.ASSIGNER).handle(data, declaration);
+
+        try {
+            Statement statement = subparser.parseAssignment(delegatedData, declaration, assignationExpression); // TODO
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+
         return null;
     }
 
