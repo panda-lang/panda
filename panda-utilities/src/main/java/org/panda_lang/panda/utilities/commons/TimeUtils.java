@@ -23,7 +23,7 @@ public class TimeUtils {
     }
 
     public static String toMilliseconds(long nano) {
-        return (nano / 1000000.0) + "ms";
+        return (nano / 1_000_000.0) + "ms";
     }
 
     public static float getUptime(long uptime) {
