@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparserBootstrap;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.subparsers.variable.VariableInitializer;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)

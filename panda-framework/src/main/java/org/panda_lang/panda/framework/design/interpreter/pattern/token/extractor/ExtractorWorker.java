@@ -21,7 +21,9 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
-class ExtractorWorker {
+public class ExtractorWorker {
+
+    public static long fullTime;
 
     protected final TokenPattern pattern;
     protected final UnitExtractor unitExtractor;
@@ -38,6 +40,8 @@ class ExtractorWorker {
     }
 
     protected ExtractorResult extract(SourceStream source) {
+        long time = System.nanoTime();
+
         TokenDistributor distributor = new TokenDistributor(source.toTokenizedSource());
         ExtractorResult result = extract(distributor, pattern.getPatternContent());
 
@@ -45,6 +49,7 @@ class ExtractorWorker {
             source.read(distributor.getIndex());
         }
 
+        fullTime += System.nanoTime() - time;
         return result;
     }
 

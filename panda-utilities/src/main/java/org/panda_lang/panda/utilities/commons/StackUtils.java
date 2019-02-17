@@ -23,6 +23,20 @@ import java.util.Stack;
 
 public class StackUtils {
 
+    public static String getCallerClass(StackTraceElement[] stackTraceElements, Class<?> currentClass) {
+        for (int i = 1; i < stackTraceElements.length; i++) {
+            StackTraceElement element = stackTraceElements[i];
+
+            if (element.getClassName().equals(currentClass.getName())) {
+                continue;
+            }
+
+            return element.getClassName();
+        }
+
+        return null;
+    }
+
     public static <T> Stack<T> popSilently(Stack<T> stack, int amount) {
         for (int i = 0; i < amount; i++) {
             if (!stack.isEmpty()) {

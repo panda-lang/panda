@@ -31,9 +31,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;

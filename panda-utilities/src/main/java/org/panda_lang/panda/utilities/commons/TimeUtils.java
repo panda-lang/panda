@@ -18,17 +18,20 @@ package org.panda_lang.panda.utilities.commons;
 
 public class TimeUtils {
 
+    public static final double MILLISECOND = 1_000;
+    public static final double NANOSECOND = 1_000_000;
+
     public static String toSeconds(long ms) {
-        return (ms / 1000.0) + "s";
+        return (ms / MILLISECOND) + "s";
     }
 
     public static String toMilliseconds(long nano) {
-        return (nano / 1_000_000.0) + "ms";
+        return (nano / NANOSECOND) + "ms";
     }
 
-    public static float getUptime(long uptime) {
+    public static double getUptime(long uptime) {
         long current = System.currentTimeMillis() - uptime;
-        return current / 1000.0F;
+        return current / MILLISECOND;
     }
 
 }

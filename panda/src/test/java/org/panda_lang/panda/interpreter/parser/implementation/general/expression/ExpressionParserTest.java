@@ -24,10 +24,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionTokens;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionTokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 

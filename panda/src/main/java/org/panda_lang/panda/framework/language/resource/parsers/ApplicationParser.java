@@ -28,15 +28,17 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
@@ -64,6 +66,9 @@ public class ApplicationParser implements Parser {
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationTypes.getValues());
 
+        PandaParserDebug debug = new PandaParserDebug(true);
+        debug.enableTailing(true);
+
         ParserData baseData = new PandaParserData();
         baseData.setComponent(UniversalComponents.APPLICATION, application);
         baseData.setComponent(UniversalComponents.ENVIRONMENT, environment);
@@ -71,6 +76,7 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.PIPELINE, environment.getPipelinePath());
         baseData.setComponent(UniversalComponents.GENERATION, generation);
         baseData.setComponent(UniversalComponents.MODULE_LOADER, loader);
+        baseData.setComponent(UniversalComponents.PARSER_DEBUG, debug);
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
@@ -109,20 +115,25 @@ public class ApplicationParser implements Parser {
 
                 // throw new RuntimeException("ฅ^•ﻌ•^ฅ");
             });
-
-            PandaFramework.getLogger().debug("");
-            PandaFramework.getLogger().debug("--- Parse details ");
-
-            PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
-            PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelinePath().getTotalHandleTime()));
-
-            PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().getAmountOfReferences());
-            PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());
         }
 
-        return interpretation
+        interpretation
                 .execute(() -> generation.execute(baseData))
                 .execute(() -> application);
+
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Parse details ");
+
+        PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParser.fullTime));
+        PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
+
+        PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
+        PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelinePath().getTotalHandleTime()));
+
+        PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().getAmountOfReferences());
+        PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());
+
+        return application;
     }
 
 }

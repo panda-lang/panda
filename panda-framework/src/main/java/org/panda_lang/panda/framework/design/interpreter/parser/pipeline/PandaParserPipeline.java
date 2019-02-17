@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,9 +82,14 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
                 representation.increaseUsages();
                 source.updateCachedSource();
 
-                handleTime += (System.nanoTime() - currentTime);
-                count++;
+                long time = System.nanoTime() - currentTime;
+                handleTime += time;
 
+                if (TimeUtils.NANOSECOND * 10 < time) {
+                    // System.out.println(TimeUtils.toMilliseconds(time) + "/" + TimeUtils.toMilliseconds(handleTime) + " by " + representation.getParser().getClass().getSimpleName());
+                }
+
+                count++;
                 return representation.getParser();
             }
         }

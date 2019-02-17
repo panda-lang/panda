@@ -23,6 +23,7 @@ import org.panda_lang.panda.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PandaTokens implements Tokens {
 
@@ -49,6 +50,25 @@ public class PandaTokens implements Tokens {
     @Override
     public List<TokenRepresentation> getTokensRepresentations() {
         return tokens;
+    }
+
+    @Override
+    public boolean equals(Object to) {
+        if (this == to) {
+            return true;
+        }
+
+        if (to == null || getClass() != to.getClass()) {
+            return false;
+        }
+
+        PandaTokens another = (PandaTokens) to;
+        return tokens.equals(another.tokens);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tokens);
     }
 
     @Override

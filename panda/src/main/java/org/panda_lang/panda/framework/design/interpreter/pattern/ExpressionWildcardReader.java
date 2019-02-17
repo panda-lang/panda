@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.design.interpreter.pattern;
 
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;

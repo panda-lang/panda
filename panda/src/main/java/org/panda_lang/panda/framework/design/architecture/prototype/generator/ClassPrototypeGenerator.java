@@ -36,7 +36,6 @@ public class ClassPrototypeGenerator {
 
     public ClassPrototypeReference generate(Module module, Class<?> type) {
         boolean bypass = !locked;
-        long currentTime = System.nanoTime();
 
         if (bypass) {
             locked = true;
@@ -48,6 +47,8 @@ public class ClassPrototypeGenerator {
                 .build();
 
         prototype.getReference().addInitializer(() -> {
+            long currentTime = System.nanoTime();
+
             for (Field field : type.getFields()) {
                 ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
                 PrototypeField prototypeField = generator.generate();
