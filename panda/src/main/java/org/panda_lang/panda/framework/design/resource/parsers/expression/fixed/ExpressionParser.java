@@ -47,6 +47,7 @@ public class ExpressionParser implements Parser {
 
     public Expression parse(ParserData data, SourceStream source) {
         Stack<Object> parsed = new Stack<>();
+        int read = 0;
 
         Collection<ExpressionSubparserWorker> subparsers = representations.stream()
                 .map(ExpressionSubparser::createSubparser)
@@ -68,12 +69,14 @@ public class ExpressionParser implements Parser {
             }
 
             subparsers.removeAll(excluded);
+            read++;
         }
 
         if (subparsers.isEmpty() || subparsers.size() > 1) {
             return null;
         }
 
+        source.read(read);
         return subparsers.iterator().next().parse(data);
     }
 

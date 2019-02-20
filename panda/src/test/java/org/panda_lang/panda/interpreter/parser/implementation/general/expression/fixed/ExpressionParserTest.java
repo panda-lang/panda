@@ -17,6 +17,7 @@
 package org.panda_lang.panda.interpreter.parser.implementation.general.expression.fixed;
 
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
@@ -30,12 +31,23 @@ public class ExpressionParserTest {
     @BeforeAll
     public static void load() throws Exception {
         expressionParser = new ExpressionParser(new ExpressionSubparsersLoader().load());
+    }
+
+    @BeforeEach
+    public void emptyLine() {
         System.out.println(StringUtils.EMPTY);
     }
 
     @Test
-    public void parse() {
+    public void parseSequences() {
         parse("'hello panda'");
+        parse("'hello panda' 'hello panda'");
+    }
+
+    @Test
+    public void parseLiterals() {
+        parse("null");
+        parse("true false");
     }
 
     private static void parse(String source) {
