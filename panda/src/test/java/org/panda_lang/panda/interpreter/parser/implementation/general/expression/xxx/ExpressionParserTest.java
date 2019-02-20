@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.interpreter.parser.implementation.general.expression;
+package org.panda_lang.panda.interpreter.parser.implementation.general.expression.xxx;
 
 import org.jetbrains.annotations.Nullable;
 import org.junit.jupiter.api.Assertions;

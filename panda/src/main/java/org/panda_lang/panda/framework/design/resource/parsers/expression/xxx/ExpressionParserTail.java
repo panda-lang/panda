@@ -16,9 +16,6 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx;
 
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.iterable.ReverseIterator;
-
 import java.util.Stack;
 
 public class ExpressionParserTail {
@@ -27,19 +24,21 @@ public class ExpressionParserTail {
     private static final Stack<String> CURRENT = new Stack<>();
 
     public static void openTier(String clazz) {
-        STACK.push(StringUtils.buildSpace(STACK.size() * 4) + clazz);
+        //STACK.push(StringUtils.buildSpace(STACK.size() * 4) + clazz);
     }
 
     public static void closeTier(String message) {
+        /*
         CURRENT.push(STACK.pop() + message);
 
         if (STACK.isEmpty()) {
             for (String cachedMessage : new ReverseIterator<>(CURRENT)) {
-                System.out.println(cachedMessage);
+                //System.out.println(cachedMessage);
             }
 
             CURRENT.clear();
         }
+        */
     }
 
 }

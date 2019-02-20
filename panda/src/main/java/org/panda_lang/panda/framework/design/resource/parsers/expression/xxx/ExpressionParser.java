@@ -24,15 +24,9 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.utilities.commons.StackUtils;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ExpressionParser {
 
-    private static final Map<Tokens, ExpressionTokens> CACHE = new HashMap<>();
     public static long fullTime;
 
     private final ExpressionParser main;
@@ -128,24 +122,6 @@ public class ExpressionParser {
             return null;
         }
 
-        String[] elements = StackUtils.getCallerClass(Thread.currentThread().getStackTrace(), getClass()).split("\\.");
-        String className = elements[elements.length - 1].replace("ExpressionSubparser", "");
-        long time = System.nanoTime();
-
-        ExpressionParserTail.openTier(className);
-
-        /*
-        if (CACHE.containsKey(source)) {
-            ExpressionTokens cachedSource = CACHE.get(source);
-
-            if (cachedSource == null) {
-                return null;
-            }
-
-            return new Result(cachedSource.getSubparser(), cachedSource);
-        }
-        */
-
         // create special group of subparsers to compare
         Result previousResult = null;
 
@@ -164,16 +140,6 @@ public class ExpressionParser {
                 previousResult = new Result(subparser, new ExpressionTokens(tokens, subparser));
             }
         }
-
-        /*
-        ExpressionTokens tokens = previousResult != null ? previousResult.source : null;
-        CACHE.put(tokens, tokens);
-        */
-
-        long currentTime = System.nanoTime() - time;
-        String subparser = previousResult == null ? "<not found>" : previousResult.subparser.getName();
-
-        ExpressionParserTail.closeTier(" -> " + subparser + "                                  // " + TimeUtils.toMilliseconds(currentTime) + ": "  + source.asString());
 
         return previousResult;
     }

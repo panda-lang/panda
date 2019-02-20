@@ -14,28 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token;
+package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
-import java.util.Objects;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public interface Token {
+public class ExpressionUtils {
 
-    String getTokenValue();
-
-    String getName();
-
-    TokenType getType();
-
-    default boolean equals(TokenType tokenType, String tokenValue) {
-        return getType() == tokenType && getTokenValue().equals(tokenValue);
-    }
-
-    default boolean equals(Token token) {
-        if (token == null) {
-            return false;
-        }
-
-        return getType() == token.getType() && getTokenValue().equals(token.getTokenValue()) && Objects.equals(getName(), token.getName());
+    public static Expression toExpression(ClassPrototype type, Object value) {
+        return new PandaExpression(new PandaValue(type, value));
     }
 
 }

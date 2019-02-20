@@ -76,7 +76,7 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     public static TokenRepresentation of(Token token) {
-        return new PandaTokenRepresentation(token, -1);
+        return new PandaTokenRepresentation(token, -2);
     }
 
 }

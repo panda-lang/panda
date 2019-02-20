@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token;
+package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
-import java.util.Objects;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public interface Token {
+public interface ExpressionSubparserWorker {
 
-    String getTokenValue();
+    boolean next(ParserData data, TokenRepresentation representation);
 
-    String getName();
-
-    TokenType getType();
-
-    default boolean equals(TokenType tokenType, String tokenValue) {
-        return getType() == tokenType && getTokenValue().equals(tokenValue);
-    }
-
-    default boolean equals(Token token) {
-        if (token == null) {
-            return false;
-        }
-
-        return getType() == token.getType() && getTokenValue().equals(token.getTokenValue()) && Objects.equals(getName(), token.getName());
-    }
+    Expression parse(ParserData data);
 
 }

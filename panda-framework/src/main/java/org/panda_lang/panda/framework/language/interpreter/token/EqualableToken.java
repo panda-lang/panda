@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.token;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 
+import java.util.Objects;
+
 public abstract class EqualableToken implements Token {
 
     @Override
@@ -34,8 +36,9 @@ public abstract class EqualableToken implements Token {
 
     @Override
     public int hashCode() {
-        int result = getTokenValue().hashCode();
-        result = 31 * result + getType().hashCode();
+        int result = getType().hashCode();
+        result = 31 * result + getTokenValue().hashCode();
+        result = 31 * result + Objects.hashCode(getName());
         return result;
     }
 
@@ -49,7 +52,7 @@ public abstract class EqualableToken implements Token {
             return false;
         }
 
-        return equals(o);
+        return equals((Token) o);
     }
 
     @Override

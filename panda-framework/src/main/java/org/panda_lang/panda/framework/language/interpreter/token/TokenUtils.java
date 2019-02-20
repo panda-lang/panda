@@ -36,4 +36,14 @@ public class TokenUtils {
         return type.equals(representation.getToken().getType());
     }
 
+    public static TokenRepresentation[] toPseudoRepresentations(Token... tokens) {
+        TokenRepresentation[] representations = new TokenRepresentation[tokens.length];
+
+        for (int i = 0; i < tokens.length; i++) {
+            representations[i] = PandaTokenRepresentation.of(tokens[i]);
+        }
+
+        return representations;
+    }
+
 }
