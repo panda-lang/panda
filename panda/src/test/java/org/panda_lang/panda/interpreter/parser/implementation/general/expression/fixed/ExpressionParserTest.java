@@ -50,6 +50,12 @@ public class ExpressionParserTest {
         parse("true false");
     }
 
+    @Test
+    public void parseSection() {
+        parse("()");
+        parse("('chance')");
+    }
+
     private static void parse(String source) {
         System.out.println(source + ": " + expressionParser.parse(null, PandaLexerUtils.convert(source)));
     }
