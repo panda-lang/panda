@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
@@ -44,7 +44,7 @@ public class ArgumentParser implements Parser {
         SourceStream sourceStream = new PandaSourceStream(tokens);
 
         List<Expression> expressions = new ArrayList<>();
-        ExpressionParser expressionParser = data.getComponent(PandaComponents.EXPRESSION);
+        ExpressionParserOld expressionParser = data.getComponent(PandaComponents.EXPRESSION);
         GappedPatternExtractor extractor = PATTERN.extractor();
 
         while (sourceStream.hasUnreadSource()) {
@@ -70,7 +70,7 @@ public class ArgumentParser implements Parser {
         return expressionsArray;
     }
 
-    private Expression readArgument(ParserData data, ExpressionParser expressionParser, Tokens argument) {
+    private Expression readArgument(ParserData data, ExpressionParserOld expressionParser, Tokens argument) {
         Expression expression = expressionParser.parse(data, argument);
 
         if (expression == null) {

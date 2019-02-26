@@ -16,9 +16,12 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionUtils;
@@ -27,6 +30,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
+
+import java.util.Stack;
 
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
@@ -37,35 +42,31 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     static class SequenceWorker implements ExpressionSubparserWorker {
 
-        private TokenRepresentation token;
+        private boolean parsed;
 
         @Override
-        public boolean next(ParserData data, TokenRepresentation representation) {
-            if (token != null) {
-                return false;
+        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
+            if (token.getType() != TokenType.LITERAL) {
+                return null;
             }
 
-            if (representation.getType() == TokenType.LITERAL) {
-                token = representation;
-            }
-
-            return token != null;
-        }
-
-        @Override
-        public Expression parse(ParserData data) {
             switch (token.getTokenValue()) {
                 case "null":
-                    return ExpressionUtils.toExpression(null, null);
+                    return ExpressionUtils.toExpressionResult(null, null);
                 case "true":
-                    return ExpressionUtils.toExpression(PandaTypes.BOOLEAN, true);
+                    return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, true);
                 case "false":
-                    return ExpressionUtils.toExpression(PandaTypes.BOOLEAN, false);
+                    return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
                 case "this":
-                    return ThisExpressionCallback.asExpression(data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE));
+                    return ExpressionResult.of(ThisExpressionCallback.asExpression(data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE)));
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }
+        }
+
+        @Override
+        public boolean isDone() {
+            return parsed;
         }
 
     }

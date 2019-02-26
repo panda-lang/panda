@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ExpressionSeparatorExtensions;
@@ -41,7 +41,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this, SubparserUtils.NAMES_FILTER);
 
     @Override
-    public boolean finish(ExpressionParser parser, MatchableDistributor matchable) {
+    public boolean finish(ExpressionParserOld parser, MatchableDistributor matchable) {
         // at least 3 elements required: <method-name> ( )
         if ((matchable.getDistributor().size() - matchable.getIndex()) < 3) {
             return false;
@@ -76,7 +76,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, METHOD_SEPARATORS, extensions);
 
         // local method, at least 3 elements and contains opening parenthesis
@@ -109,7 +109,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
     }
 
     @Override
-    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(source);
 
         if (methodInvokerParser == null) {

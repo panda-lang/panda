@@ -16,14 +16,17 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
+import java.util.Stack;
+
 public interface ExpressionSubparserWorker {
 
-    boolean next(ParserData data, TokenRepresentation representation);
+    @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results);
 
-    Expression parse(ParserData data);
+    boolean isDone();
 
 }

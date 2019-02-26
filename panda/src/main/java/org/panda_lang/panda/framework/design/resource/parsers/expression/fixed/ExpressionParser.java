@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
@@ -46,7 +47,7 @@ public class ExpressionParser implements Parser {
     }
 
     public Expression parse(ParserData data, SourceStream source) {
-        Stack<Object> parsed = new Stack<>();
+        Stack<Expression> results = new Stack<>();
         int read = 0;
 
         Collection<ExpressionSubparserWorker> subparsers = representations.stream()
@@ -54,30 +55,41 @@ public class ExpressionParser implements Parser {
                 .collect(Collectors.toList());
 
         for (TokenRepresentation representation : source.toTokenReader()) {
+            if (subparsers.isEmpty()) {
+                break;
+            }
+
             Collection<ExpressionSubparserWorker> excluded = new ArrayList<>(subparsers.size() / 2);
 
             for (ExpressionSubparserWorker subparser : subparsers) {
-                boolean result = subparser.next(data, representation);
+                ExpressionResult<Expression> result = subparser.next(this, data, representation, results);
 
-                if (!result) {
+                if (result == null) {
                     excluded.add(subparser);
+                    continue;
                 }
-            }
 
-            if (subparsers.size() == 1 && excluded.size() == 1) {
-                break;
+                if (!result.isPresent()) {
+                    continue;
+                }
+
+                results.push(result.get());
             }
 
             subparsers.removeAll(excluded);
             read++;
         }
 
-        if (subparsers.isEmpty() || subparsers.size() > 1) {
-            return null;
+        if (results.isEmpty()) {
+            throw new ExpressionParserException("Cannot read the expression");
+        }
+
+        if (results.size() > 1) {
+            throw new ExpressionParserException("Source contains " + results.size() + " expressions");
         }
 
         source.read(read);
-        return subparsers.iterator().next().parse(data);
+        return results.pop();
     }
 
 }

@@ -32,9 +32,9 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
@@ -82,10 +82,10 @@ public class ApplicationParser implements Parser {
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
         ExpressionSubparsers subparsers = new ExpressionSubparsers(Collections.emptyList());
-        ExpressionParser expressionParser = new ExpressionParser(null, subparsers);
+        ExpressionParserOld expressionParser = new ExpressionParserOld(null, subparsers);
         baseData.setComponent(PandaComponents.EXPRESSION, expressionParser);
 
-        ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
+        ExpressionSubparsersLoaderOld subparsersLoader = new ExpressionSubparsersLoaderOld();
         subparsers.merge(interpretation.execute(() -> subparsersLoader.load(baseData)));
         subparsers.getSubparsers().forEach(element -> element.afterInitialization(expressionParser));
 
@@ -124,7 +124,7 @@ public class ApplicationParser implements Parser {
         PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("--- Parse details ");
 
-        PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParser.fullTime));
+        PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParserOld.fullTime));
         PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
 
         PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));

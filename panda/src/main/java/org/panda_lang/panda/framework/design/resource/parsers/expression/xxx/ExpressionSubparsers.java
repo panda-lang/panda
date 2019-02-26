@@ -85,8 +85,8 @@ public class ExpressionSubparsers {
         return subparsers;
     }
 
-    public ExpressionParser toExpressionParser(ExpressionParser parent) {
-        return new ExpressionParser(parent, this);
+    public ExpressionParserOld toExpressionParser(ExpressionParserOld parent) {
+        return new ExpressionParserOld(parent, this);
     }
 
 }

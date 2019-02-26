@@ -20,19 +20,19 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         return SubparserUtils.readBetweenSeparators(source, Separators.PARENTHESIS_LEFT);
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         return parent.parse(data, source.subSource(1, source.size() - 1));
     }
 

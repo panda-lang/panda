@@ -27,9 +27,9 @@ import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -58,9 +58,9 @@ class PandaPatternTester {
 
         ParserData data = new PandaParserData();
         ExpressionSubparsers subparsers = new ExpressionSubparsers(new ArrayList<>());
-        data.setComponent(PandaComponents.EXPRESSION, new ExpressionParser(null, subparsers));
+        data.setComponent(PandaComponents.EXPRESSION, new ExpressionParserOld(null, subparsers));
 
-        ExpressionSubparsersLoader loader = new ExpressionSubparsersLoader();
+        ExpressionSubparsersLoaderOld loader = new ExpressionSubparsersLoaderOld();
         ExpressionSubparsers loadedSubparsers = Assertions.assertDoesNotThrow(() -> loader.load(data));
         subparsers.merge(loadedSubparsers);
 

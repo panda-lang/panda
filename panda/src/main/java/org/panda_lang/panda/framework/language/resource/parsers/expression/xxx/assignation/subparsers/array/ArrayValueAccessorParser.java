@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -61,7 +61,7 @@ public class ArrayValueAccessorParser implements Parser {
         Tokens instanceSource = reversed.subSource(matchable.getIndex(), reversed.size()).reverse();
         Tokens indexSource = reversed.subSource(1, matchable.getIndex() - 1).reverse();
 
-        ExpressionParser main = data.getComponent(PandaComponents.EXPRESSION);
+        ExpressionParserOld main = data.getComponent(PandaComponents.EXPRESSION);
         Expression instance = main.parse(data, instanceSource);
         Expression index = main.parse(data, indexSource);
 

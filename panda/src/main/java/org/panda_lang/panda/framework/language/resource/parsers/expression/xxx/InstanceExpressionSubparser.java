@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
@@ -46,7 +46,7 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
             .build();
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         if (!source.getFirst().contentEquals(Keywords.NEW)) {
            return null;
         }
@@ -61,7 +61,7 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         List<Tokens> constructorMatches = INSTANCE_PATTERN.match(new PandaTokenReader(source));
 
         if (constructorMatches != null && constructorMatches.size() == 3 && constructorMatches.get(2).size() == 0) {

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class ExpressionSubparsersLoader {
+public class ExpressionSubparsersLoaderOld {
 
     public ExpressionSubparsers load(ParserData data) throws Exception {
         PandaFramework.getLogger().debug("");

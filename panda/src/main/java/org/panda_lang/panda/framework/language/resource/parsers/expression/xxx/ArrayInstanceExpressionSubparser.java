@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPatt
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -55,7 +55,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         if (!source.getFirst().contentEquals(Keywords.NEW)) {
             return null;
         }
@@ -71,7 +71,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         ExtractorResult result = pattern.extract(source);
 
         if (!result.isMatched()) {

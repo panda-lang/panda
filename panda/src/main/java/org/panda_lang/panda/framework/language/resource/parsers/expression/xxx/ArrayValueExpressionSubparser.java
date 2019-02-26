@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.subparsers.array.ArrayValueAccessor;
@@ -45,13 +45,13 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         SourceStream stream = new PandaSourceStream(source);
 
         ExpressionSubparsers subparsers = parent.getSubparsers().fork();
         subparsers.removeSubparser(getName());
 
-        ExpressionParser parser = new ExpressionParser(parent, subparsers);
+        ExpressionParserOld parser = new ExpressionParserOld(parent, subparsers);
         Tokens value = parser.read(stream);
 
         if (TokensUtils.isEmpty(value)) {
@@ -109,7 +109,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         ArrayValueAccessor accessor = PARSER.parse(data, source, (branch, prototype, type, array, index) -> new PandaValue(type, array[index.intValue()]));
 
         return new PandaExpression(new PandaExpressionCallback(accessor.getReturnType()) {

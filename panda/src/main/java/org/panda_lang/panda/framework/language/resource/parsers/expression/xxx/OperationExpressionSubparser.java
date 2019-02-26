@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ExpressionSeparatorReader;
@@ -36,7 +36,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, OperationExpressionUtils.OPERATORS, extensions);
 
         if (selected == null) {
@@ -51,7 +51,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     }
 
     @Override
-    public boolean finish(ExpressionParser parser, MatchableDistributor matchable) {
+    public boolean finish(ExpressionParserOld parser, MatchableDistributor matchable) {
         // read operator
         matchable.next();
 
@@ -76,7 +76,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     }
 
     @Override
-    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         if (!OperationExpressionUtils.isOperationExpression(source)) {
             return null;
         }

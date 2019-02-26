@@ -16,11 +16,21 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.SeparatorStack;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+
+import java.util.Stack;
 
 public class SectionExpressionSubparser implements ExpressionSubparser {
 
@@ -31,14 +41,51 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
 
     static class SentenceWorker implements ExpressionSubparserWorker {
 
+        private Tokens content;
+        private SeparatorStack separators;
+
         @Override
-        public boolean next(ParserData data, TokenRepresentation representation) {
-            return false;
+        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
+            if (isDone()) {
+                return null;
+            }
+
+            // initialize
+            if (content == null && separators == null) {
+                if (!token.contentEquals(Separators.PARENTHESIS_LEFT)) {
+                    return null;
+                }
+
+                this.separators = new SeparatorStack();
+                this.content = new PandaTokens();
+                return ExpressionResult.empty();
+            }
+
+            // not initialized
+            if (content == null) {
+                return null;
+            }
+
+            // exclude separators not related to the section
+            boolean result = separators.check(token.getToken());
+
+            if (!result && !separators.isLocked() && token.contentEquals(Separators.PARENTHESIS_RIGHT)) {
+                separators = null;
+
+                if (content.isEmpty()) {
+                    throw new ExpressionParserException("Expression expected");
+                }
+
+                return ExpressionResult.of(parser.parse(data, content));
+            }
+
+            content.addToken(token);
+            return ExpressionResult.empty();
         }
 
         @Override
-        public Expression parse(ParserData data) {
-            return null;
+        public boolean isDone() {
+            return content != null && separators == null;
         }
 
     }

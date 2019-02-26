@@ -31,12 +31,13 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPa
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ReaderFinisher;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ExpressionSeparatorExtensions;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ExpressionSeparatorReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.VariableUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
@@ -67,7 +68,7 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this, SubparserUtils.NAMES_FILTER);
 
     @Override
-    public boolean finish(ExpressionParser parser, MatchableDistributor matchable) {
+    public boolean finish(ExpressionParserOld parser, MatchableDistributor matchable) {
         if (matchable.getUnreadLength() < 2) {
             return false;
         }
@@ -81,10 +82,10 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, FIELD_SEPARATORS, extensions);
 
-        if (selected == null && SubparserUtils.isAllowedName(source.getFirst().getToken())) {
+        if (selected == null && VariableUtils.isAllowedName(source.getFirst().getToken())) {
             selected = new PandaTokens(source.getFirst());
         }
 
@@ -96,7 +97,7 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     }
 
     @Override
-    public Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         if (source.size() == 1) {
             ScopeLinker scopeLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();

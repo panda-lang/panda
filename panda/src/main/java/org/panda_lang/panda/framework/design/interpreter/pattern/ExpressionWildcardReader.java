@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern;
 
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
@@ -29,9 +29,9 @@ import java.util.Collection;
 
 class ExpressionWildcardReader implements WildcardReader {
 
-    private final ExpressionParser expressionParser;
+    private final ExpressionParserOld expressionParser;
 
-    public ExpressionWildcardReader(ExpressionParser expressionParser) {
+    public ExpressionWildcardReader(ExpressionParserOld expressionParser) {
         if (expressionParser == null) {
             throw new IllegalArgumentException("ExpressionParser cannot be null");
         }
@@ -73,7 +73,7 @@ class ExpressionWildcardReader implements WildcardReader {
             subparsers = expressionParser.getSubparsers().select(names);
         }
 
-        ExpressionParser parser = new ExpressionParser(expressionParser, subparsers);
+        ExpressionParserOld parser = new ExpressionParserOld(expressionParser, subparsers);
         Tokens source = parser.read(distributor.currentSubSource());
 
         if (source == null) {

@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader;
 
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 
 public interface ReaderFinisher {
 
-    boolean finish(ExpressionParser parser, MatchableDistributor matchable);
+    boolean finish(ExpressionParserOld parser, MatchableDistributor matchable);
 
 }

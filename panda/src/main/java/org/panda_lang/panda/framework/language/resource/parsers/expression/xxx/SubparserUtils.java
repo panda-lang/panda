@@ -27,30 +27,20 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.VariableUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-import org.panda_lang.panda.utilities.commons.CharacterUtils;
 
 import java.util.Optional;
 import java.util.function.Predicate;
 
 class SubparserUtils {
 
-    public static Predicate<Token> NAMES_FILTER = token -> token.getType() == TokenType.UNKNOWN && !isAllowedName(token);
-
-    private static final char[] ALLOWED_START = CharacterUtils.mergeArrays(
-            CharacterUtils.LETTERS,
-            CharacterUtils.arrayOf('$', '_')
-    );
-
-    private static final char[] ALLOWED = CharacterUtils.mergeArrays(
-            ALLOWED_START,
-            CharacterUtils.DIGITS
-    );
+    public static Predicate<Token> NAMES_FILTER = token -> token.getType() == TokenType.UNKNOWN && !VariableUtils.isAllowedName(token);
 
     private SubparserUtils() { }
 
@@ -82,29 +72,6 @@ class SubparserUtils {
         }
 
         return source.subSource(0, matchable.getIndex());
-    }
-
-
-    static boolean isAllowedName(Token token) {
-        if (token.getType() != TokenType.UNKNOWN) {
-            return false;
-        }
-
-        if (!CharacterUtils.belongsTo(token.getTokenValue().charAt(0), ALLOWED_START)) {
-            return false;
-        }
-
-        char[] chars = token.getTokenValue().toCharArray();
-
-        for (int i = 1; i < token.getTokenValue().toCharArray().length; i++) {
-            char c = chars[i];
-
-            if (!CharacterUtils.belongsTo(c, ALLOWED)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
     static Expression toSimpleKnownExpression(ParserData data, String className, Object value) {

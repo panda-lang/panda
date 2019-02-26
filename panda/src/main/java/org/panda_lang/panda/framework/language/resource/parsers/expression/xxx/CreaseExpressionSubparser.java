@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -42,7 +42,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     private static final AccessorParser ACCESSOR_PARSER = new AccessorParser();
 
     @Override
-    public @Nullable Tokens read(ExpressionParser parent, Tokens source) {
+    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
         if (source.startsWith(Operators.INCREMENT) || source.startsWith(Operators.DECREMENT)) {
             Tokens pre = parent.read(source.subSource(1, source.size()));
 
@@ -53,7 +53,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
             return new PandaTokens(source.getFirst()).addTokens(pre);
         }
 
-        ExpressionParser postExpression = parent.getSubparsers().fork()
+        ExpressionParserOld postExpression = parent.getSubparsers().fork()
                 .removeSubparser(getName())
                 .toExpressionParser(null);
 
@@ -77,7 +77,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
         Operator operator = ObjectUtils.cast(Operator.class, source.getFirst().getToken());
         boolean post = OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT);
 

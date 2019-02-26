@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
@@ -29,7 +29,7 @@ public class ExpressionSeparatorReader {
 
     private static final ExpressionSeparatorReader INSTANCE = new ExpressionSeparatorReader();
 
-    public @Nullable Tokens readSeparated(ExpressionParser main, Tokens source, Token[] separators, ExpressionSeparatorExtensions extensions) {
+    public @Nullable Tokens readSeparated(ExpressionParserOld main, Tokens source, Token[] separators, ExpressionSeparatorExtensions extensions) {
         TokenDistributor distributor = new TokenDistributor(source);
         int lastIndexOfPeriod = -1;
 

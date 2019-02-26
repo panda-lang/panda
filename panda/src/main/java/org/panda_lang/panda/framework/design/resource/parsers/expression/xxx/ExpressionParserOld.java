@@ -25,14 +25,14 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
-public class ExpressionParser {
+public class ExpressionParserOld {
 
     public static long fullTime;
 
-    private final ExpressionParser main;
+    private final ExpressionParserOld main;
     private final ExpressionSubparsers subparsers;
 
-    public ExpressionParser(@Nullable ExpressionParser main, ExpressionSubparsers subparsers) {
+    public ExpressionParserOld(@Nullable ExpressionParserOld main, ExpressionSubparsers subparsers) {
         this.main = main == null ? this : main;
         this.subparsers = subparsers;
     }

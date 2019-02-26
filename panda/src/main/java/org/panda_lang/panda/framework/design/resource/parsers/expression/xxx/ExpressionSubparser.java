@@ -25,13 +25,13 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     default void initialize(ParserData data) { }
 
-    default void afterInitialization(ExpressionParser parent) { }
+    default void afterInitialization(ExpressionParserOld parent) { }
 
-    @Nullable Tokens read(ExpressionParser parent, Tokens source);
+    @Nullable Tokens read(ExpressionParserOld parent, Tokens source);
 
-    @Nullable Expression parse(ExpressionParser parent, ParserData data, Tokens source);
+    @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source);
 
-    default @Nullable Expression parseSilently(ExpressionParser parent, ParserData data, Tokens source) {
+    default @Nullable Expression parseSilently(ExpressionParserOld parent, ParserData data, Tokens source) {
         try {
             return parse(parent, data, source);
         } catch (Throwable throwable) {

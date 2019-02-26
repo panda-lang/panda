@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -41,15 +41,15 @@ import org.panda_lang.panda.framework.language.architecture.statement.PandaState
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
-    private ExpressionParser expressionParser;
+    private ExpressionParserOld expressionParser;
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        ExpressionParser parent = data.getComponent(PandaComponents.EXPRESSION);
+        ExpressionParserOld parent = data.getComponent(PandaComponents.EXPRESSION);
 
         ExpressionSubparsers subparsers = parent.getSubparsers().fork();
         subparsers.getSubparsers().removeIf(expressionParser -> expressionParser.getType() != ExpressionType.STANDALONE);
-        this.expressionParser = new ExpressionParser(parent, subparsers);
+        this.expressionParser = new ExpressionParserOld(parent, subparsers);
 
         return defaultBuilder;
     }

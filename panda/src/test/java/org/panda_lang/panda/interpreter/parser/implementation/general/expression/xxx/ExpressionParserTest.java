@@ -24,23 +24,23 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionTokens;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 
 class ExpressionParserTest {
 
-    private static final ExpressionParser PARSER = new ExpressionParser(null, new ExpressionSubparsers());
+    private static final ExpressionParserOld PARSER = new ExpressionParserOld(null, new ExpressionSubparsers());
 
     @BeforeAll
     public static void prepareParser() throws Exception {
         ParserData data = new PandaParserData();
         data.setComponent(PandaComponents.EXPRESSION, PARSER);
 
-        ExpressionSubparsers loadedSubparsers = new ExpressionSubparsersLoader().load(data);
+        ExpressionSubparsers loadedSubparsers = new ExpressionSubparsersLoaderOld().load(data);
         PARSER.getSubparsers().merge(loadedSubparsers);
     }
 
