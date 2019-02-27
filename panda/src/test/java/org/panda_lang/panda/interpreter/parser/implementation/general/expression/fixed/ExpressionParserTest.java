@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserException;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
@@ -55,7 +55,7 @@ public class ExpressionParserTest {
 
     @Test
     public void parseUnknown() {
-        parse("u n k n o w n", "Cannot read the expression");
+        parse("u n k n o w n", "Cannot parse the expression: Cannot find variable or field called 'u'");
     }
 
     @Test
@@ -74,13 +74,13 @@ public class ExpressionParserTest {
     public void parseSection() {
         parse("('chance')");
         parse("('random') true");
-        parse("()", "Expression expected");
+        parse("()", "Cannot parse the expression: Expression expected");
     }
 
     @Test
     public void parseVariable() {
-        parse("variable");
-        parse("variable.field");
+        parse("variable", "Cannot parse the expression: Cannot find variable or field called 'variable'");
+        parse("variable.field", "Cannot parse the expression: Cannot find variable or field called 'variable'");
     }
 
     private void prepareScope() {
@@ -98,6 +98,7 @@ public class ExpressionParserTest {
     private void parse(String source, String message) {
         Throwable throwable = Assertions.assertThrows(ExpressionParserException.class, () -> parse(source));
         Assertions.assertEquals(message, throwable.getMessage());
+        System.out.println(source + ": " + message);
     }
 
     private void parse(String source) {

@@ -31,8 +31,6 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.VariableExpressionCallback;
@@ -81,7 +79,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 }
             }
 
-            throw new PandaParserFailure("Cannot find variable or field called " + name, data, new PandaTokens(token));
+            return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);
         }
 
         @Override

@@ -21,7 +21,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
@@ -48,6 +47,7 @@ public class ExpressionParser implements Parser {
 
     public Expression parse(ParserData data, SourceStream source) {
         Stack<Expression> results = new Stack<>();
+        ExpressionResult<Expression> error = null;
         int read = 0;
 
         Collection<ExpressionSubparserWorker> subparsers = representations.stream()
@@ -69,6 +69,12 @@ public class ExpressionParser implements Parser {
                     continue;
                 }
 
+                if (result.containsError()) {
+                    excluded.add(subparser);
+                    error = result;
+                    continue;
+                }
+
                 if (!result.isPresent()) {
                     continue;
                 }
@@ -81,11 +87,15 @@ public class ExpressionParser implements Parser {
         }
 
         if (results.isEmpty()) {
-            throw new ExpressionParserException("Cannot read the expression");
+            if (error != null) {
+                throw new ExpressionParserException("Cannot parse the expression: " + error.getErrorMessage(), error.getSource());
+            }
+
+            throw new ExpressionParserException("Cannot parse the expression", source.toTokenizedSource());
         }
 
         if (results.size() > 1) {
-            throw new ExpressionParserException("Source contains " + results.size() + " expressions");
+            throw new ExpressionParserException("Source contains " + results.size() + " expressions", source.toTokenizedSource());
         }
 
         source.read(read);

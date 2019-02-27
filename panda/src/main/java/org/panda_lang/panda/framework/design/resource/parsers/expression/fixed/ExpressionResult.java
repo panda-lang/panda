@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 
 import java.util.function.Supplier;
 
@@ -26,12 +27,29 @@ public class ExpressionResult<T> {
 
     private final @Nullable T value;
 
-    ExpressionResult(@Nullable T value) {
+    private final @Nullable String errorMessage;
+    private final @Nullable TokenRepresentation source;
+
+    ExpressionResult(@Nullable T value, TokenRepresentation source, String errorMessage) {
         this.value = value;
+        this.source = source;
+        this.errorMessage = errorMessage;
+    }
+
+    ExpressionResult(@Nullable T value) {
+        this(value, null, null);
+    }
+
+    ExpressionResult(String errorMessage, TokenRepresentation source) {
+        this(null, source, errorMessage);
     }
 
     public boolean isPresent() {
         return value != null;
+    }
+
+    public boolean containsError() {
+        return source != null && errorMessage != null;
     }
 
     public T orElse(T elseValue) {
@@ -44,6 +62,18 @@ public class ExpressionResult<T> {
 
     public T get() {
         return value;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public TokenRepresentation getSource() {
+        return source;
+    }
+
+    public static <T> ExpressionResult<T> error(String message, TokenRepresentation source) {
+        return new ExpressionResult<>(message, source);
     }
 
     public static <T> ExpressionResult<T> of(T value) {

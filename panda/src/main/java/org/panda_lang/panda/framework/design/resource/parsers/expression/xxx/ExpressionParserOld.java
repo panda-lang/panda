@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -115,7 +116,7 @@ public class ExpressionParserOld {
 
     private @Nullable Result readResult(Tokens source) {
         if (subparsers.isEmpty()) {
-            throw new ExpressionParserException("ExpressionParser does not contain any subparsers");
+            throw new ExpressionParserException("ExpressionParser does not contain any subparsers", source);
         }
 
         if (source.isEmpty()) {
