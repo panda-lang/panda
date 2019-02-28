@@ -37,6 +37,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.c
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
+import java.util.Optional;
 import java.util.Stack;
 
 public class VariableExpressionSubparser implements ExpressionSubparser {
@@ -51,7 +52,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
             if (Separators.PERIOD.equals(token.getToken())) {
-                return results.isEmpty() ? null : ExpressionResult.empty();
+                return results.isEmpty() ? ExpressionResult.error("xxx", token) : ExpressionResult.empty();
             }
 
             if (token.getType() != TokenType.UNKNOWN) {
@@ -68,18 +69,29 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.of(new VariableExpressionCallback(variable, scope.indexOf(variable)).toExpression());
             }
 
+            if (!results.isEmpty()) {
+                return fromInstance(results.peek(), name).orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
+            }
+
             ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
-                PrototypeField field = prototype.getFields().getField(token.getTokenValue());
-
-                if (field != null) {
-                    int memoryIndex = prototype.getFields().getIndexOfField(field);
-                    return ExpressionResult.of(new FieldExpressionCallback(ThisExpressionCallback.asExpression(prototype), field, memoryIndex).toExpression());
-                }
+                return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find field '" + name + "'", token));
             }
 
             return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);
+        }
+
+        private Optional<ExpressionResult<Expression>> fromInstance(Expression instance, String name) {
+            ClassPrototype prototype = instance.getReturnType();
+            PrototypeField field = prototype.getFields().getField(name);
+
+            if (field != null) {
+                int memoryIndex = prototype.getFields().getIndexOfField(field);
+                return Optional.of(ExpressionResult.of(new FieldExpressionCallback(instance, field, memoryIndex).toExpression()));
+            }
+
+            return Optional.empty();
         }
 
         @Override

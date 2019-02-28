@@ -27,7 +27,6 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 public class ExpressionParser implements Parser {
 
@@ -48,29 +47,32 @@ public class ExpressionParser implements Parser {
     public Expression parse(ParserData data, SourceStream source) {
         Stack<Expression> results = new Stack<>();
         ExpressionResult<Expression> error = null;
+        int excluded = 0;
         int read = 0;
 
-        Collection<ExpressionSubparserWorker> subparsers = representations.stream()
+        ExpressionSubparserWorker[] subparsers = representations.stream()
                 .map(ExpressionSubparser::createSubparser)
-                .collect(Collectors.toList());
+                .toArray(ExpressionSubparserWorker[]::new);
 
         for (TokenRepresentation representation : source.toTokenReader()) {
-            if (subparsers.isEmpty()) {
-                break;
-            }
+            for (int i = 0; i < subparsers.length; i++) {
+                ExpressionSubparserWorker worker = subparsers[i];
 
-            Collection<ExpressionSubparserWorker> excluded = new ArrayList<>(subparsers.size() / 2);
+                if (worker == null) {
+                    continue;
+                }
 
-            for (ExpressionSubparserWorker subparser : subparsers) {
-                ExpressionResult<Expression> result = subparser.next(this, data, representation, results);
+                ExpressionResult<Expression> result = worker.next(this, data, representation, results);
 
                 if (result == null) {
-                    excluded.add(subparser);
+                    subparsers[i] = null;
+                    excluded++;
                     continue;
                 }
 
                 if (result.containsError()) {
-                    excluded.add(subparser);
+                    subparsers[i] = null;
+                    excluded++;
                     error = result;
                     continue;
                 }
@@ -82,7 +84,10 @@ public class ExpressionParser implements Parser {
                 results.push(result.get());
             }
 
-            subparsers.removeAll(excluded);
+            if (excluded == subparsers.length) {
+                break;
+            }
+
             read++;
         }
 
@@ -99,6 +104,11 @@ public class ExpressionParser implements Parser {
         }
 
         source.read(read);
+
+        if (source.hasUnreadSource() && error != null) {
+            throw new ExpressionParserException("Cannot parse the expression, the latest error: " + error.getErrorMessage(), error.getSource());
+        }
+
         return results.pop();
     }
 

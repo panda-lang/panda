@@ -26,13 +26,15 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
+import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class ExpressionParserTest {
@@ -79,8 +81,8 @@ public class ExpressionParserTest {
 
     @Test
     public void parseVariable() {
-        parse("variable", "Cannot parse the expression: Cannot find variable or field called 'variable'");
-        parse("variable.field", "Cannot parse the expression: Cannot find variable or field called 'variable'");
+        parse("variable");
+        parse("variable.field", "Cannot parse the expression, the latest error: Cannot find field called 'field'");
     }
 
     private void prepareScope() {
@@ -93,6 +95,8 @@ public class ExpressionParserTest {
 
         ScopeLinker linker = new PandaScopeLinker(scope);
         data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
+
+        scope.addVariable(new PandaVariable(PandaTypes.STRING.getReference(), "variable"));
     }
 
     private void parse(String source, String message) {
