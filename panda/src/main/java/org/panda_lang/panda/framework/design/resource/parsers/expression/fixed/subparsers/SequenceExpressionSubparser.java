@@ -47,11 +47,6 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
             return ExpressionUtils.toExpressionResult(PandaTypes.STRING, token.getTokenValue());
         }
 
-        @Override
-        public boolean isDone() {
-            return true;
-        }
-
     }
 
 }

@@ -17,8 +17,10 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
@@ -26,64 +28,71 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.SeparatorStack;
+import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
+import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 import java.util.Stack;
 
-public class SectionExpressionSubparser implements ExpressionSubparser {
+public class NumberExpressionSubparser implements ExpressionSubparser {
+
+    private static final NumberParser PARSER = new NumberParser();
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
-        return new SentenceWorker();
+        return new NumberWorker();
     }
 
-    static class SentenceWorker implements ExpressionSubparserWorker {
+    static class NumberWorker implements ExpressionSubparserWorker {
 
-        private Tokens content;
-        private SeparatorStack separators;
+        private final Tokens content = new PandaTokens();
+        private TokenRepresentation period = null;
+        private Expression previous;
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
-            if (isDone()) {
-                return null;
-            }
-
-            // initialize
-            if (content == null && separators == null) {
-                if (!token.contentEquals(Separators.PARENTHESIS_LEFT)) {
+            if (token.getType() == TokenType.SEPARATOR) {
+                if (!token.contentEquals(Separators.PERIOD)) {
                     return null;
                 }
 
-                this.separators = new SeparatorStack();
-                this.content = new PandaTokens();
+                period = token;
                 return ExpressionResult.empty();
             }
 
-            // not initialized
-            if (content == null) {
+            if (token.getType() != TokenType.UNKNOWN) {
                 return null;
             }
 
-            // exclude separators not related to the section
-            boolean result = separators.check(token.getToken());
-
-            if (!result && !separators.isLocked() && token.contentEquals(Separators.PARENTHESIS_RIGHT)) {
-                separators = null;
-
-                if (content.isEmpty()) {
-                    return ExpressionResult.error("Expression expected", token);
+            // check saved with new token
+            if (NumberUtils.isNumeric(content.asString() + (period != null ? "." : "") + token.getTokenValue())) {
+                if (period != null) {
+                    content.addToken(period);
+                    period = null;
                 }
 
-                return ExpressionResult.of(parser.parse(data, content));
+                content.addToken(token);
+            }
+            else {
+                return null;
             }
 
-            content.addToken(token);
-            return ExpressionResult.empty();
-        }
+            Value numericValue = PARSER.parse(data, content);
 
-        public boolean isDone() {
-            return content != null && separators == null;
+            if (numericValue == null) {
+                return null;
+            }
+
+            Expression expression = new PandaExpression(numericValue);
+
+            // remove previous result from stack
+            if (!results.isEmpty() && results.peek() == previous) {
+                results.pop();
+            }
+
+            previous = expression;
+            return ExpressionResult.of(expression);
         }
 
     }

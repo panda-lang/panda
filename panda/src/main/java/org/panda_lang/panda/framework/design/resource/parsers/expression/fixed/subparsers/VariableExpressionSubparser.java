@@ -94,11 +94,6 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             return Optional.empty();
         }
 
-        @Override
-        public boolean isDone() {
-            return false;
-        }
-
     }
 
 }

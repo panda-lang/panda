@@ -42,8 +42,6 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     static class SequenceWorker implements ExpressionSubparserWorker {
 
-        private boolean parsed;
-
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
             if (token.getType() != TokenType.LITERAL) {
@@ -62,11 +60,6 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }
-        }
-
-        @Override
-        public boolean isDone() {
-            return parsed;
         }
 
     }

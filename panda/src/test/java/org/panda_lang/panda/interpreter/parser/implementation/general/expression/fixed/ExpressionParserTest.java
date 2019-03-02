@@ -80,6 +80,14 @@ public class ExpressionParserTest {
     }
 
     @Test
+    public void parseNumber() {
+        parse("10");
+        parse("10.0");
+        parse("10.0F");
+        parse("10_000");
+    }
+
+    @Test
     public void parseVariable() {
         parse("variable");
         parse("variable.field", "Cannot parse the expression, the latest error: Cannot find field called 'field'");

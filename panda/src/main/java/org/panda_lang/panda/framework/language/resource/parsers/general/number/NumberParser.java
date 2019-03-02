@@ -35,7 +35,7 @@ public class NumberParser implements ParticularParser<Value> {
             return null;
         }
 
-        String unknownNumber = source.asString();
+        String unknownNumber = source.asString().replace("_", "");
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
 
         NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
