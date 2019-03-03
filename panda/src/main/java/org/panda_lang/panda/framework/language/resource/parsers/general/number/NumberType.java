@@ -28,11 +28,13 @@ public enum NumberType {
     DOUBLE('D', NumberPriorities.DOUBLE);
 
     private final char letter;
+    private final char lowerLetter;
     private final double priority;
 
     NumberType(char c, double priority) {
         this.letter = c;
         this.priority = priority;
+        this.lowerLetter = Character.toLowerCase(letter);
     }
 
     public char getLetter() {
@@ -44,8 +46,12 @@ public enum NumberType {
     }
 
     public static @Nullable NumberType of(char c) {
+        if (c == 0) {
+            return null;
+        }
+
         for (NumberType type : values()) {
-            if (type.getLetter() == c || type.getLetter() == Character.toUpperCase(c)) {
+            if (type.letter == c || type.lowerLetter == c) {
                 return type;
             }
         }

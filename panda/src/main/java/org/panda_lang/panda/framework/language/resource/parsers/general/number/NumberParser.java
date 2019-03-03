@@ -16,82 +16,60 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.general.number;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class NumberParser implements ParticularParser<Value> {
 
     @Override
-    public @Nullable Value parse(ParserData data, Tokens source) {
-        if (!NumberUtils.isNumeric(source)) {
-            return null;
-        }
-
-        String unknownNumber = source.asString().replace("_", "");
+    public Value parse(ParserData data, Tokens source) {
+        String unknownNumber = StringUtils.replace(source.asString(), "_", "");
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
 
         NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
         String number = numberTypeDefinition == null ? unknownNumber : unknownNumber.substring(0, unknownNumber.length() - 1);
 
-        if (!Character.isDigit(numberTypeDefinitionCharacter) && numberTypeDefinition == null) {
+        if (numberTypeDefinition == null && !Character.isDigit(numberTypeDefinitionCharacter)) {
             throw new PandaParserException("Unknown number type " + numberTypeDefinitionCharacter);
         }
 
-        Number parsedNumber;
-        NumberType numberType;
+        NumberType numberType = NumberType.INT;
+        int radix = 10;
 
         if (number.contains(".")) {
             numberType = NumberType.DOUBLE;
-            parsedNumber = Double.parseDouble(number);
         }
         else if (number.contains("x")) {
-            numberType = NumberType.INT;
-            parsedNumber = Long.parseLong(number.substring(2), 16);
-        }
-        else {
-            numberType = NumberType.INT;
-            parsedNumber = Long.parseLong(number);
+            number = number.substring(2);
+            radix = 16;
         }
 
         if (numberTypeDefinition != null) {
             numberType = numberTypeDefinition;
         }
 
-        ModuleLoader registry = data.getComponent(UniversalComponents.MODULE_LOADER);
-        Value value;
-
         switch (numberType) {
             case BYTE:
-                value = new PandaValue(PandaTypes.BYTE, parsedNumber.byteValue());
-                break;
+                return new PandaValue(PandaTypes.BYTE, Byte.parseByte(number, radix));
             case SHORT:
-                value = new PandaValue(PandaTypes.SHORT, parsedNumber.shortValue());
-                break;
+                return new PandaValue(PandaTypes.SHORT, Short.parseShort(number, radix));
             case INT:
-                value = new PandaValue(PandaTypes.INT, parsedNumber.intValue());
-                break;
+                return new PandaValue(PandaTypes.INT, Integer.parseInt(number, radix));
             case LONG:
-                value = new PandaValue(PandaTypes.LONG, parsedNumber.longValue());
-                break;
+                return new PandaValue(PandaTypes.LONG, Long.parseLong(number, radix));
             case FLOAT:
-                value = new PandaValue(PandaTypes.FLOAT, parsedNumber.floatValue());
-                break;
+                return new PandaValue(PandaTypes.FLOAT, Float.parseFloat(number));
             case DOUBLE:
-                value = new PandaValue(PandaTypes.DOUBLE, parsedNumber.doubleValue());
-                break;
+                return new PandaValue(PandaTypes.DOUBLE, Double.parseDouble(number));
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);
         }
-
-        return value;
     }
 
 }

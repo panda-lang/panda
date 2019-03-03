@@ -27,4 +27,6 @@ public interface ExpressionSubparserWorker {
 
     @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results);
 
+    //Expression parse(ExpressionParser parser, ParserData data, Stack<Expression> results);
+
 }

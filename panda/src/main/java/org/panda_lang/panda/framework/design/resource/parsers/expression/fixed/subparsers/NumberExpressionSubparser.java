@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -46,8 +45,8 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
     static class NumberWorker implements ExpressionSubparserWorker {
 
-        private final Tokens content = new PandaTokens();
-        private TokenRepresentation period = null;
+        private Tokens content;
+        private TokenRepresentation period;
         private Expression previous;
 
         @Override
@@ -65,8 +64,12 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            if (content == null) {
+                this.content = new PandaTokens();
+            }
+
             // check saved with new token
-            if (NumberUtils.isNumeric(content.asString() + (period != null ? "." : "") + token.getTokenValue())) {
+            if (NumberUtils.isNumeric(token.getTokenValue())) {
                 if (period != null) {
                     content.addToken(period);
                     period = null;
@@ -78,6 +81,10 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            results.clear();
+            return ExpressionResult.of(new PandaExpression(PARSER.parse(data, content)));
+
+            /*
             Value numericValue = PARSER.parse(data, content);
 
             if (numericValue == null) {
@@ -93,6 +100,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
             previous = expression;
             return ExpressionResult.of(expression);
+            */
         }
 
     }

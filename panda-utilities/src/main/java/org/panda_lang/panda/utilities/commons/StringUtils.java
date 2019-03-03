@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.commons;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class StringUtils {
 
@@ -31,6 +32,21 @@ public class StringUtils {
      * Instance of the empty array of string
      */
     public static final String[] EMPTY_ARRAY = new String[0];
+
+    /**
+     * Check how the specified text starts
+     *
+     * @param text the text to check
+     * @param filter condition
+     * @return result of the condition
+     */
+    public static boolean startsWith(String text, Predicate<char[]> filter) {
+        if (text.length() == 0) {
+            return false;
+        }
+
+        return filter.test(text.toCharArray());
+    }
 
     /**
      * Split text by the specified delimiter, but only once (to the first occurrence of the specified delimiter)

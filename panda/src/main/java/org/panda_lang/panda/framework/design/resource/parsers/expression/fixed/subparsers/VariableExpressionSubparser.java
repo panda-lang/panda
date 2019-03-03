@@ -34,6 +34,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.VariableExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -56,6 +57,10 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             }
 
             if (token.getType() != TokenType.UNKNOWN) {
+                return null;
+            }
+
+            if (NumberUtils.startsWithNumber(token.getToken())) {
                 return null;
             }
 
