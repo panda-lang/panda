@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -81,10 +82,6 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            results.clear();
-            return ExpressionResult.of(new PandaExpression(PARSER.parse(data, content)));
-
-            /*
             Value numericValue = PARSER.parse(data, content);
 
             if (numericValue == null) {
@@ -100,7 +97,6 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
             previous = expression;
             return ExpressionResult.of(expression);
-            */
         }
 
     }
