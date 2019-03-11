@@ -22,6 +22,8 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 
 public interface ClassPrototype extends ClassPrototypeMetadata {
 
+    ClassPrototypeReference toArray();
+
     PrototypeMethods getMethods();
 
     PrototypeFields getFields();

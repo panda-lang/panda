@@ -47,11 +47,17 @@ public class ArrayClassPrototypeUtils {
         }
 
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
-        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(baseReference.get().getAssociatedClass(), dimensions);
+        ClassPrototypeReference array = getArrayOf(baseReference.get(), dimensions);
+
+        return Optional.ofNullable(loader.getDefaultModule().add(array));
+    }
+
+    public static ClassPrototypeReference getArrayOf(ClassPrototypeReference prototype, int dimensions) {
+        Class<?> arrayType = ArrayUtils.getDimensionalArrayType(prototype.getAssociatedClass(), dimensions);
         Class<?> arrayClass = ArrayUtils.getArrayClass(arrayType);
 
-        ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(loader.getDefaultModule(), arrayClass, arrayType);
-        ARRAY_PROTOTYPES.put(type, arrayPrototype.getReference());
+        ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(prototype.getModule(), arrayClass, arrayType);
+        ARRAY_PROTOTYPES.put(prototype.getClassName() + dimensions, arrayPrototype.getReference());
 
         arrayPrototype.getMethods().registerMethod(PandaMethod.builder()
                 .methodName("toString")
@@ -65,7 +71,7 @@ public class ArrayClassPrototypeUtils {
                 })
                 .build());
 
-        return Optional.ofNullable(loader.getDefaultModule().add(arrayPrototype.getReference()));
+        return arrayPrototype.getReference();
     }
 
 }

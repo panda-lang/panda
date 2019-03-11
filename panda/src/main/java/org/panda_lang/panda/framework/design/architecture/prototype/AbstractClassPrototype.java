@@ -24,12 +24,13 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PandaConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethods;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Objects;
 
-public class AbstractClassPrototype extends AbstractClassPrototypeMetadata implements ClassPrototype {
+public abstract class AbstractClassPrototype extends AbstractClassPrototypeMetadata implements ClassPrototype {
 
     protected final ClassPrototypeReference reference = new PandaClassPrototypeReference(this);
     protected final Collection<ClassPrototypeReference> extended = new ArrayList<>(1);
@@ -39,6 +40,11 @@ public class AbstractClassPrototype extends AbstractClassPrototypeMetadata imple
 
     public AbstractClassPrototype(Module module, String name, Class<?> associated) {
         super(name, module, associated);
+    }
+
+    @Override
+    public ClassPrototypeReference toArray() {
+        return ArrayClassPrototypeUtils.getArrayOf(getReference(), 1);
     }
 
     @Override

@@ -93,6 +93,11 @@ public class ExpressionParserTest {
         parse("variable.field", "Cannot parse the expression, the latest error: Cannot find field called 'field'");
     }
 
+    @Test
+    public void parseArrayAssignation() {
+        parse("array[0]");
+    }
+
     private void prepareScope() {
         Scope scope = new AbstractScope() {
             @Override
@@ -105,6 +110,7 @@ public class ExpressionParserTest {
         data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
 
         scope.addVariable(new PandaVariable(PandaTypes.STRING.getReference(), "variable"));
+        scope.addVariable(new PandaVariable(PandaTypes.STRING.toArray(), "array"));
     }
 
     private void parse(String source, String message) {
