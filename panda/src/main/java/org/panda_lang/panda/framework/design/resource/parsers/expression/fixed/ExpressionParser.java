@@ -47,7 +47,9 @@ public class ExpressionParser implements Parser {
     public Expression parse(ParserData data, SourceStream source) {
         Stack<Expression> results = new Stack<>();
         ExpressionResult<Expression> error = null;
+
         int excluded = 0;
+        int cachedRead = 0;
         int read = 0;
 
         ExpressionSubparserWorker[] subparsers = representations.stream()
@@ -82,6 +84,8 @@ public class ExpressionParser implements Parser {
                 }
 
                 results.push(result.get());
+                cachedRead = read + 1;
+                break;
             }
 
             if (excluded == subparsers.length) {
@@ -103,7 +107,7 @@ public class ExpressionParser implements Parser {
             throw new ExpressionParserException("Source contains " + results.size() + " expressions", source.toTokenizedSource());
         }
 
-        source.read(read);
+        source.read(cachedRead);
 
         if (source.hasUnreadSource() && error != null) {
             throw new ExpressionParserException("Cannot parse the expression, the latest error: " + error.getErrorMessage(), error.getSource());

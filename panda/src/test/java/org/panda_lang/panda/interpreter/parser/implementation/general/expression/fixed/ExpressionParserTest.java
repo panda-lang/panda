@@ -21,19 +21,25 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
+import org.panda_lang.panda.framework.design.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
@@ -75,7 +81,7 @@ public class ExpressionParserTest {
     @Test
     public void parseSection() {
         parse("('chance')");
-        parse("('random') true");
+        parse("('random') true", RuntimeException.class, "Unread source: true");
         parse("()", "Cannot parse the expression: Expression expected");
     }
 
@@ -96,6 +102,7 @@ public class ExpressionParserTest {
     @Test
     public void parseArrayAssignation() {
         parse("array[0]");
+
     }
 
     private void prepareScope() {
@@ -109,18 +116,33 @@ public class ExpressionParserTest {
         ScopeLinker linker = new PandaScopeLinker(scope);
         data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
 
+        ModulePath path = new PandaModulePath();
+        ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
+        loader.include(path.getDefaultModule());
+
+        data.setComponent(UniversalComponents.MODULE_LOADER, loader);
+
         scope.addVariable(new PandaVariable(PandaTypes.STRING.getReference(), "variable"));
         scope.addVariable(new PandaVariable(PandaTypes.STRING.toArray(), "array"));
     }
 
     private void parse(String source, String message) {
-        Throwable throwable = Assertions.assertThrows(ExpressionParserException.class, () -> parse(source));
+        parse(source, ExpressionParserException.class, message);
+    }
+
+    private void parse(String source, Class<? extends Throwable> clazz, String message) {
+        Throwable throwable = Assertions.assertThrows(clazz, () -> parse(source));
         Assertions.assertEquals(message, throwable.getMessage());
         System.out.println(source + ": " + message);
     }
 
     private void parse(String source) {
-        System.out.println(source + ": " + expressionParser.parse(data, PandaLexerUtils.convert(source)));
+        SourceStream stream = new PandaSourceStream(PandaLexerUtils.convert(source));
+        System.out.println(source + ": " + expressionParser.parse(data, stream));
+
+        if (stream.hasUnreadSource()) {
+            throw new RuntimeException("Unread source: " + stream.toTokenizedSource());
+        }
     }
 
 }

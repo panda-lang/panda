@@ -49,12 +49,14 @@ public class PandaTypes {
     public static final ClassPrototype NUMBER = MAPPER.generate(MODULE, Number.class).fetch();
     public static final ClassPrototype ITERABLE = MAPPER.generate(MODULE, Iterable.class).fetch();
 
-    public void fill(ModulePath modulePath) {
+    public ModulePath fill(ModulePath modulePath) {
         modulePath.addModule(MODULE);
 
         MODULE.add(MAPPER.generate(MODULE, List.class));
         MODULE.add(MAPPER.generate(MODULE, ArrayList.class));
         MODULE.add(MAPPER.generate(MODULE, StringBuilder.class));
+
+        return modulePath;
     }
 
 }

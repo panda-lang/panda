@@ -16,16 +16,12 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.subparsers.array;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
@@ -65,18 +61,7 @@ public class ArrayValueAccessorParser implements Parser {
         Expression instance = main.parse(data, instanceSource);
         Expression index = main.parse(data, indexSource);
 
-        if (!(instance.getReturnType() instanceof ArrayClassPrototype)) {
-            throw new PandaParserFailure("Cannot use index on non-array type", data, instanceSource);
-        }
-
-        ArrayClassPrototype arrayPrototype = (ArrayClassPrototype) instance.getReturnType();
-
-        if (arrayPrototype == null) {
-            throw new PandaParserFailure("Cannot locate array class", data, instanceSource);
-        }
-
-        ClassPrototypeReference type = ModuleLoaderUtils.getReferenceOrThrow(data, arrayPrototype.getType(), "Cannot locate type of the array", source);
-        return new ArrayValueAccessor(arrayPrototype, type.fetch(), instance, index, action);
+        return ArrayValueAccessorUtils.of(data, source, instance, index, action);
     }
 
 }

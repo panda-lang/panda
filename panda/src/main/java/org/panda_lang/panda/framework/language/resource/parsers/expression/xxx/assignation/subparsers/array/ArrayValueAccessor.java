@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.expression.FunctionalExpressionCallback;
 
 public class ArrayValueAccessor extends AbstractStatement implements Executable {
 
@@ -50,6 +51,10 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
         Object[] array = instance.getExpressionValue(branch).getValue();
         Number i = index.getExpressionValue(branch).getValue();
         return action.perform(branch, prototype, type, array, i);
+    }
+
+    public FunctionalExpressionCallback toCallback() {
+        return new FunctionalExpressionCallback(getReturnType(), this::perform);
     }
 
     public interface ArrayValueAccessorAction {

@@ -43,6 +43,11 @@ public abstract class AbstractClassPrototype extends AbstractClassPrototypeMetad
     }
 
     @Override
+    public boolean isArray() {
+        return false;
+    }
+
+    @Override
     public ClassPrototypeReference toArray() {
         return ArrayClassPrototypeUtils.getArrayOf(getReference(), 1);
     }

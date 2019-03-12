@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 
 public interface ClassPrototype extends ClassPrototypeMetadata {
 
-    ClassPrototypeReference toArray();
+    boolean isArray();
 
     PrototypeMethods getMethods();
 
@@ -31,5 +31,7 @@ public interface ClassPrototype extends ClassPrototypeMetadata {
     PrototypeConstructors getConstructors();
 
     ClassPrototypeReference getReference();
+
+    ClassPrototypeReference toArray();
 
 }
