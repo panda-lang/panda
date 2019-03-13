@@ -29,4 +29,8 @@ public interface ExpressionSubparserWorker {
 
     //Expression parse(ExpressionParser parser, ParserData data, Stack<Expression> results);
 
+    default boolean isReusable() {
+        return false;
+    }
+
 }

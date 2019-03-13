@@ -30,6 +30,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ReusableExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
@@ -48,7 +49,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
         return new VariableWorker();
     }
 
-    static class VariableWorker implements ExpressionSubparserWorker {
+    static class VariableWorker implements ReusableExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {

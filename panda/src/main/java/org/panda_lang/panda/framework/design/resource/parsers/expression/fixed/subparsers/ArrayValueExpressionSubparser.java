@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ReusableExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
@@ -39,7 +40,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
         return new ArrayValueWorker();
     }
 
-    static class ArrayValueWorker implements ExpressionSubparserWorker {
+    static class ArrayValueWorker implements ReusableExpressionSubparserWorker {
 
         private SeparatedContentReader contentReader;
 
@@ -74,6 +75,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
             ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaValue(type, array[index.intValue()]);
             ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(data, contentReader.getContent(), instanceExpression, indexExpression, action);
+            contentReader = null;
 
             return ExpressionResult.of(accessor.toCallback().toExpression());
         }

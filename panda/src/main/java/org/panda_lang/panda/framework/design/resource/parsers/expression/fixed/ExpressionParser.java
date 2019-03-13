@@ -66,16 +66,17 @@ public class ExpressionParser implements Parser {
 
                 ExpressionResult<Expression> result = worker.next(this, data, representation, results);
 
-                if (result == null) {
-                    subparsers[i] = null;
-                    excluded++;
-                    continue;
-                }
+                if (result == null || result.containsError()) {
+                    if (result != null && error == null) {
+                        error = result;
+                    }
 
-                if (result.containsError()) {
+                    if (worker.isReusable()) {
+                        continue;
+                    }
+
                     subparsers[i] = null;
                     excluded++;
-                    error = result;
                     continue;
                 }
 
@@ -85,6 +86,7 @@ public class ExpressionParser implements Parser {
 
                 results.push(result.get());
                 cachedRead = read + 1;
+                error = null;
                 break;
             }
 
