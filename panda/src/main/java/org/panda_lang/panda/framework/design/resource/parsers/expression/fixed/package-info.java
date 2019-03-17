@@ -14,31 +14,7 @@
  * limitations under the License.
  */
 
+@NotNullByDefault
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
-import org.jetbrains.annotations.NotNull;
-
-public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
-
-    ExpressionSubparserWorker createSubparser();
-
-    @Override
-    default int compareTo(@NotNull ExpressionSubparser to) {
-        int result = Integer.compare(getType().getPriority(), to.getType().getPriority());
-
-        if (result != 0) {
-            return result;
-        }
-
-        return Double.compare(getPriority(), to.getPriority());
-    }
-
-    default ExpressionSubparserType getType() {
-        return ExpressionSubparserType.MODERATE;
-    }
-
-    default double getPriority() {
-        return 1.0;
-    }
-
-}
+import org.panda_lang.panda.utilities.commons.annotation.NotNullByDefault;

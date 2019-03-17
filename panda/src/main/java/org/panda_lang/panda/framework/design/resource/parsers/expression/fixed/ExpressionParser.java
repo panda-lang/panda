@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -26,18 +25,20 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Stack;
+import java.util.Collections;
+import java.util.List;
 
 public class ExpressionParser implements Parser {
 
-    private final Collection<ExpressionSubparser> representations = new ArrayList<>();
+    private final List<ExpressionSubparser> subparsers = new ArrayList<>();
 
-    public ExpressionParser(Collection<ExpressionSubparser> representations) {
-        if (representations.size() < 2) {
+    public ExpressionParser(Collection<ExpressionSubparser> subparsers) {
+        if (subparsers.size() < 2) {
             throw new IllegalArgumentException("Expression parser does not support less than 2 subparsers");
         }
 
-        this.representations.addAll(representations);
+        this.subparsers.addAll(subparsers);
+        Collections.sort(this.subparsers);
     }
 
     public Expression parse(ParserData data, Tokens source) {
@@ -45,77 +46,8 @@ public class ExpressionParser implements Parser {
     }
 
     public Expression parse(ParserData data, SourceStream source) {
-        Stack<Expression> results = new Stack<>();
-        ExpressionResult<Expression> error = null;
-
-        int excluded = 0;
-        int cachedRead = 0;
-        int read = 0;
-
-        ExpressionSubparserWorker[] subparsers = representations.stream()
-                .map(ExpressionSubparser::createSubparser)
-                .toArray(ExpressionSubparserWorker[]::new);
-
-        for (TokenRepresentation representation : source.toTokenReader()) {
-            for (int i = 0; i < subparsers.length; i++) {
-                ExpressionSubparserWorker worker = subparsers[i];
-
-                if (worker == null) {
-                    continue;
-                }
-
-                ExpressionResult<Expression> result = worker.next(this, data, representation, results);
-
-                if (result == null || result.containsError()) {
-                    if (result != null && error == null) {
-                        error = result;
-                    }
-
-                    if (worker.isReusable()) {
-                        continue;
-                    }
-
-                    subparsers[i] = null;
-                    excluded++;
-                    continue;
-                }
-
-                if (!result.isPresent()) {
-                    continue;
-                }
-
-                results.push(result.get());
-                cachedRead = read + 1;
-                error = null;
-                break;
-            }
-
-            if (excluded == subparsers.length) {
-                break;
-            }
-
-            read++;
-        }
-
-        if (results.isEmpty()) {
-            if (error != null) {
-                throw new ExpressionParserException("Cannot parse the expression: " + error.getErrorMessage(), error.getSource());
-            }
-
-            throw new ExpressionParserException("Cannot parse the expression", source.toTokenizedSource());
-        }
-
-        if (results.size() > 1) {
-            throw new ExpressionParserException("Source contains " + results.size() + " expressions", source.toTokenizedSource());
-        }
-
-        source.read(cachedRead);
-
-        if (source.hasUnreadSource() && error != null) {
-            throw new ExpressionParserException("Cannot parse the expression, the latest error: " + error.getErrorMessage(), error.getSource());
-        }
-
-        return results.pop();
+        ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers);
+        return worker.parse(data);
     }
 
 }

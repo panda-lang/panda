@@ -34,14 +34,14 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseLiterals() {
         parse("null");
-        parse("true false", "Source contains 2 expressions");
+        parse("true false",  RuntimeException.class, "Unread source: false");
     }
 
     @Test
     public void parseSection() {
         parse("('chance')");
-        parse("('random') true", RuntimeException.class, "Unread source: true");
         parse("()", "Cannot parse the expression: Expression expected");
+        parse("('random') true", RuntimeException.class, "Unread source: true");
     }
 
     @Test
@@ -56,8 +56,8 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseVariable() {
         parse("variable");
-        parse("variable.field", "Cannot parse the expression, the latest error: Cannot find field called 'field'");
         parse("variable true", RuntimeException.class, "Unread source: true");
+        parse("variable.field", "Cannot parse the expression, the latest error: Cannot find field called 'field'");
     }
 
     @Test
@@ -65,6 +65,11 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("array[0]");
         parse("array[]", "Cannot parse the expression, the latest error: Expression expected");
         parse("array[0] true", RuntimeException.class, "Unread source: true");
+    }
+
+    @Test
+    public void parseOperation() {
+        parse("1 + 1");
     }
 
 }

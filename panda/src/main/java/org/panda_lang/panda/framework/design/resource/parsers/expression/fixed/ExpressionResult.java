@@ -44,6 +44,10 @@ public class ExpressionResult<T> {
         this(null, source, errorMessage);
     }
 
+    public boolean isEmpty() {
+        return !isPresent();
+    }
+
     public boolean isPresent() {
         return value != null;
     }

@@ -53,7 +53,7 @@ import java.util.ArrayList;
 @Measurement(iterations = 2)
 public class ExpressionBenchmark {
 
-    private static final Tokens SOURCE = PandaLexerUtils.convert("10.0F");
+    private static final Tokens SOURCE = PandaLexerUtils.convert("true");
 
     @Benchmark
     public void testLiteral(Configuration configuration, Blackhole blackhole) {

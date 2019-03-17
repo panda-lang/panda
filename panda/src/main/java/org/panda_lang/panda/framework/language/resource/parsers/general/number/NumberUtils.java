@@ -37,7 +37,7 @@ public final class NumberUtils {
     }
 
     public static boolean startsWithNumber(Token token) {
-        return Character.isDigit(token.getTokenValue().charAt(0));
+        return token.getTokenValue().length() != 0 && Character.isDigit(token.getTokenValue().charAt(0));
     }
 
     public static boolean isNumeric(Tokens source) {

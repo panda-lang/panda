@@ -25,50 +25,72 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.Operation;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.OperationParser;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
-public class LiteralExpressionSubparser implements ExpressionSubparser {
+public class OperationExpressionSubparser implements ExpressionSubparser {
+
+    private static final OperationParser OPERATION_PARSER = new OperationParser();
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
-        return new SequenceWorker().withSubparser(this);
+        return new OperationWorker().withSubparser(this);
     }
 
     @Override
     public ExpressionSubparserType getType() {
-        return ExpressionSubparserType.INDIVIDUAL;
+        return ExpressionSubparserType.MUTUAL;
     }
 
-    static class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    static class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-        private boolean parsed;
+        private List<Operation.OperationElement> elements;
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
-            if (token.getType() != TokenType.LITERAL) {
+            if (results.isEmpty()) {
+                return ExpressionResult.empty();
+            }
+
+            if (token.getType() != TokenType.OPERATOR) {
+                if (elements != null) {
+                    elements.add(new Operation.OperationElement(results.pop()));
+                    return finish(parser, data, results);
+                }
+
                 return null;
             }
 
-            switch (token.getTokenValue()) {
-                case "null":
-                    return ExpressionUtils.toExpressionResult(null, null);
-                case "true":
-                    return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, true);
-                case "false":
-                    return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
-                case "this":
-                    return ExpressionResult.of(ThisExpressionCallback.asExpression(data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE)));
-                default:
-                    throw new PandaParserException("Unknown literal: " + token);
+            if (elements == null) {
+                this.elements = new ArrayList<>(3);
             }
+
+            elements.add(new Operation.OperationElement(results.pop()));
+            elements.add(new Operation.OperationElement(token));
+
+            return ExpressionResult.empty();
+        }
+
+        @Override
+        public @Nullable ExpressionResult<Expression> finish(ExpressionParser parser, ParserData data, Stack<Expression> results) {
+            if (elements == null) {
+                return null;
+            }
+
+            if (!results.isEmpty()) {
+                elements.add(new Operation.OperationElement(results.pop()));
+            }
+
+            Operation operation = new Operation(elements);
+            this.elements = null;
+
+            return ExpressionResult.of(OPERATION_PARSER.parse(data, operation));
         }
 
     }

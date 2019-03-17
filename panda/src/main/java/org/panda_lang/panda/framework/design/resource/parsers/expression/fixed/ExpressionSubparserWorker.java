@@ -27,10 +27,14 @@ public interface ExpressionSubparserWorker {
 
     @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results);
 
-    //Expression parse(ExpressionParser parser, ParserData data, Stack<Expression> results);
+    default @Nullable ExpressionResult<Expression> finish(ExpressionParser parser, ParserData data, Stack<Expression> results) {
+        throw new RuntimeException("Not implemented");
+    }
 
     default boolean isReusable() {
         return false;
     }
+
+    ExpressionSubparser getSubparser();
 
 }

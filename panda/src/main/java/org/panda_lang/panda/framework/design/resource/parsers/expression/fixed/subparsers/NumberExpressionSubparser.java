@@ -26,6 +26,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
@@ -41,10 +42,10 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
-        return new NumberWorker();
+        return new NumberWorker().withSubparser(this);
     }
 
-    static class NumberWorker implements ExpressionSubparserWorker {
+    static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private Tokens content;
         private TokenRepresentation period;

@@ -16,29 +16,20 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
-import org.jetbrains.annotations.NotNull;
+public enum ExpressionSubparserType {
 
-public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
+    INDIVIDUAL(0),
+    MODERATE(1),
+    MUTUAL(2);
 
-    ExpressionSubparserWorker createSubparser();
+    private final int priority;
 
-    @Override
-    default int compareTo(@NotNull ExpressionSubparser to) {
-        int result = Integer.compare(getType().getPriority(), to.getType().getPriority());
-
-        if (result != 0) {
-            return result;
-        }
-
-        return Double.compare(getPriority(), to.getPriority());
+    ExpressionSubparserType(int priority) {
+        this.priority = priority;
     }
 
-    default ExpressionSubparserType getType() {
-        return ExpressionSubparserType.MODERATE;
-    }
-
-    default double getPriority() {
-        return 1.0;
+    public int getPriority() {
+        return priority;
     }
 
 }

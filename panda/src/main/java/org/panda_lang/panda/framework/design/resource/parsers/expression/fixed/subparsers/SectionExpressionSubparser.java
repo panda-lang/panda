@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
@@ -33,10 +34,10 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
-        return new SentenceWorker();
+        return new SentenceWorker().withSubparser(this);
     }
 
-    static class SentenceWorker implements ExpressionSubparserWorker {
+    static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, SeparatedContentReader.ContentProcessor.DEFAULT);
 

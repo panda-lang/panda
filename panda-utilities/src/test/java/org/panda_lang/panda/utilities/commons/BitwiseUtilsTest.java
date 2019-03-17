@@ -17,7 +17,6 @@
 package org.panda_lang.panda.utilities.commons;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 class BitwiseUtilsTest {
@@ -25,11 +24,12 @@ class BitwiseUtilsTest {
     private static final int LEFT = 111;
     private static final int RIGHT = 222;
 
-    private static long VALUE;
+    private static final long EXPECTED_VALUE = 476_741_370_078L;
+    private static final long VALUE = BitwiseUtils.convert(LEFT, RIGHT);
 
-    @BeforeAll
-    public static void convert() {
-        VALUE = BitwiseUtils.convert(LEFT, RIGHT);
+    @Test
+    public void testValue() {
+        Assertions.assertEquals(EXPECTED_VALUE, VALUE);
     }
 
     @Test

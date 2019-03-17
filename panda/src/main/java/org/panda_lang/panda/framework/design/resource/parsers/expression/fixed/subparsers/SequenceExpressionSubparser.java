@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionUtils;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
@@ -33,10 +34,10 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
-        return new LiteralWorker();
+        return new LiteralWorker().withSubparser(this);
     }
 
-    static class LiteralWorker implements ExpressionSubparserWorker {
+    static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
