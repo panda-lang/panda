@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class PandaExpressionFailure extends PandaParserFailure {
@@ -26,7 +26,7 @@ public class PandaExpressionFailure extends PandaParserFailure {
         super(message, data);
     }
 
-    public PandaExpressionFailure(String message, ParserData data, Tokens source) {
+    public PandaExpressionFailure(String message, ParserData data, Snippet source) {
         super(message, data, source);
     }
 

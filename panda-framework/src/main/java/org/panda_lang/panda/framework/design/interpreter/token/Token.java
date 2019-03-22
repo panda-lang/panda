@@ -26,16 +26,12 @@ public interface Token {
 
     TokenType getType();
 
-    default boolean equals(TokenType tokenType, String tokenValue) {
-        return getType() == tokenType && getTokenValue().equals(tokenValue);
+    default boolean equals(Token token) {
+        return token != null && equals(token.getType(), token.getName(), token.getTokenValue());
     }
 
-    default boolean equals(Token token) {
-        if (token == null) {
-            return false;
-        }
-
-        return getType() == token.getType() && getTokenValue().equals(token.getTokenValue()) && Objects.equals(getName(), token.getName());
+    default boolean equals(TokenType type, String name, String value) {
+        return getType() == type && Objects.equals(getName(), name) && Objects.equals(getTokenValue(), value);
     }
 
 }

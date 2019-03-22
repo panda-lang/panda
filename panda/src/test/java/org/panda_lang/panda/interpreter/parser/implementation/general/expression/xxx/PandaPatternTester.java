@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPatte
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
@@ -71,7 +71,7 @@ class PandaPatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Tokens tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("PandaPatternTester", source)).build().convert();
+        Snippet tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("PandaPatternTester", source)).build().convert();
         SourceStream stream = new PandaSourceStream(tokenizedSource);
         ExtractorResult result = pattern.extract(stream);
 

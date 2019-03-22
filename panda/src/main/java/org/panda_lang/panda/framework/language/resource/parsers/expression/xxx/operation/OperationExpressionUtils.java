@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.Pro
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.OperatorFamilies;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
@@ -35,7 +35,7 @@ public class OperationExpressionUtils {
 
     public static final ProgressivePattern OPERATION_PATTERN = new ProgressivePattern(Separators.getOpeningSeparators(), OPERATORS);
 
-    public static boolean isOperationExpression(Tokens source) {
+    public static boolean isOperationExpression(Snippet source) {
         return isOperationExpression(OPERATION_PATTERN.extract(source));
     }
 

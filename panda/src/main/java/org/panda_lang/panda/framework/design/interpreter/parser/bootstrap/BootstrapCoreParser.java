@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationLayer;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
@@ -54,7 +54,7 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
     @Override
     public final T parse(ParserData data) throws Throwable {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
-        Tokens source = stream.toTokenizedSource();
+        Snippet source = stream.toTokenizedSource();
         int length = stream.getUnreadLength();
 
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();

@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -57,11 +57,11 @@ public class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("*content") Tokens content) {
+    public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("*content") Snippet content) {
         ExtractorResult result = CONTENT_PATTERN.extract(content);
-        Tokens name = result.getWildcard("name");
-        Tokens type = result.getWildcard("type");
-        Tokens iterable = result.getWildcard("*iterable");
+        Snippet name = result.getWildcard("name");
+        Snippet type = result.getWildcard("type");
+        Snippet iterable = result.getWildcard("*iterable");
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();

@@ -16,105 +16,74 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.Collection;
-import java.util.Stack;
 
 class ExpressionParserWorker {
 
-    private final ExpressionParser parser;
-    private final SourceStream source;
-    private final ExpressionSubparserWorker[] subparsers;
-    private final Stack<Expression> results = new Stack<>();
+    private static final int NONE = -1;
 
+    private enum Status {
+
+        PROCESSING,
+        DONE,
+        ERROR
+
+    }
+
+    private final ExpressionSubparserWorker[] subparsers;
     private ExpressionResult<Expression> error = null;
     private int previousSubparser = -1;
-    private int cachedRead = 0;
+    private int lastSucceededRead = 0;
     private int read = 0;
 
     protected ExpressionParserWorker(ExpressionParser parser, SourceStream source, Collection<ExpressionSubparser> subparsers) {
-        this.parser = parser;
-        this.source = source;
-
         this.subparsers = subparsers.stream()
                 .map(ExpressionSubparser::createSubparser)
                 .toArray(ExpressionSubparserWorker[]::new);
     }
 
-    protected Expression parse(ParserData data) {
-        for (TokenRepresentation representation : source.toTokenReader()) {
-            if (!this.next(data, representation)) {
-                break;
-            }
-        }
-
-        // if some subparsers have survived
-        this.finish(data);
-
-        if (results.isEmpty()) {
-            if (error != null) {
-                throw new ExpressionParserException("Cannot parse the expression: " + error.getErrorMessage(), error.getSource());
-            }
-
-            throw new ExpressionParserException("Cannot parse the expression", source.toTokenizedSource());
-        }
-
-        if (results.size() > 1) {
-            throw new ExpressionParserException("Source contains " + results.size() + " expressions", source.toTokenizedSource());
-        }
-
-        source.read(cachedRead);
-
-        if (source.hasUnreadSource() && error != null) {
-            throw new ExpressionParserException("Cannot parse the expression, the latest error: " + error.getErrorMessage(), error.getSource());
-        }
-
-        return results.pop();
-    }
-
-    private void finish(ParserData data) {
+    protected void finish(ExpressionContext context) {
         for (ExpressionSubparserWorker worker : subparsers) {
             // skip removed subparsers
             if (worker == null || worker.getSubparser().getType() != ExpressionSubparserType.MUTUAL) {
                 continue;
             }
 
-            ExpressionResult<Expression> result = worker.finish(parser, data, results);
+            ExpressionResult<Expression> result = worker.finish(context);
 
             if (result != null && result.isPresent()) {
-                results.push(result.get());
+                context.getResults().push(result.get());
                 break;
             }
         }
     }
 
-    private boolean next(ParserData data, TokenRepresentation next) {
+    protected boolean next(ExpressionContext context) {
         int cachedSubparser = previousSubparser;
 
         // try to use cached subparser
-        if (previousSubparser != -1) {
+        if (previousSubparser != NONE) {
             // cache and reset values
-            previousSubparser = -1;
+            previousSubparser = NONE;
 
             // return result from cached subparser
-            if (!this.next(data, next, cachedSubparser) && previousSubparser != -1) {
+            if (!this.next(context, cachedSubparser) && previousSubparser != NONE) {
                 read++;
                 return true;
             }
         }
 
-        for (int i = 0; i < subparsers.length; i++) {
+        for (int index = 0; index < subparsers.length; index++) {
             // skip cached subparser
-            if (previousSubparser == i) {
+            if (previousSubparser == index) {
                 continue;
             }
 
             // return result from subparser
-            if (!this.next(data, next, i)) {
+            if (!this.next(context, index)) {
                 break;
             }
         }
@@ -123,15 +92,15 @@ class ExpressionParserWorker {
         return true;
     }
 
-    private boolean next(ParserData data, TokenRepresentation next, int index) {
+    private boolean next(ExpressionContext context, int index) {
         ExpressionSubparserWorker worker = subparsers[index];
 
         // skip individual subparser if there's some content
-        if (worker.getSubparser().getType() == ExpressionSubparserType.INDIVIDUAL && results.size() > 0) {
+        if (worker.getSubparser().getType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
             return true;
         }
 
-        ExpressionResult<Expression> result = worker.next(parser, data, next, results);
+        ExpressionResult<Expression> result = worker.next(context);
 
         // if something went wrong
         if (result == null || result.containsError()) {
@@ -151,18 +120,22 @@ class ExpressionParserWorker {
         }
 
         // save the result, cleanup cache, move the index
-        results.push(result.get());
-        cachedRead = read + 1;
+        context.getResults().push(result.get());
+        lastSucceededRead = read + 1;
         error = null;
         return false;
     }
 
-    private enum Status {
+    protected boolean hasError() {
+        return getError() != null;
+    }
 
-        PROCESSING,
-        DONE,
-        ERROR
+    protected int getLastSucceededRead() {
+        return lastSucceededRead;
+    }
 
+    protected ExpressionResult<Expression> getError() {
+        return error;
     }
 
 }

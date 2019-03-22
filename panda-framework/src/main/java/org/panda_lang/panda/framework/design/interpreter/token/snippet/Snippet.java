@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token;
+package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
-public interface Tokens {
+public interface Snippet extends Iterable<TokenRepresentation> {
 
-    default Tokens reverse() {
-        Tokens tokens = new PandaTokens(getTokensRepresentations());
-        Collections.reverse(tokens.getTokensRepresentations());
-        return tokens;
+    @Override
+    default Iterator<TokenRepresentation> iterator() {
+        return new SnippetIterator(this);
     }
 
-    default Tokens[] split(Token token) {
-        List<Tokens> tokens = new ArrayList<>();
+    default Snippet reverse() {
+        Snippet snippet = new PandaSnippet(getTokensRepresentations());
+        Collections.reverse(snippet.getTokensRepresentations());
+        return snippet;
+    }
+
+    default Snippet[] split(Token token) {
+        List<Snippet> tokens = new ArrayList<>();
         int previousIndex = 0;
 
         for (int i = 0; i < size(); i++) {
@@ -44,14 +52,14 @@ public interface Tokens {
             }
         }
 
-        return tokens.toArray(new Tokens[0]);
+        return tokens.toArray(new Snippet[0]);
     }
 
-    default Tokens subSource(int fromIndex, int toIndex) {
-        return new PandaTokens(getTokensRepresentations().subList(fromIndex, toIndex));
+    default Snippet subSource(int fromIndex, int toIndex) {
+        return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex));
     }
 
-    default Tokens selectLine(int line) {
+    default Snippet selectLine(int line) {
         List<TokenRepresentation> selected = new ArrayList<>();
 
         for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
@@ -66,7 +74,7 @@ public interface Tokens {
             selected.add(tokenRepresentation);
         }
 
-        return new PandaTokens(selected);
+        return new PandaSnippet(selected);
     }
 
     default int indexOf(Token token) {
@@ -81,13 +89,13 @@ public interface Tokens {
         return -1;
     }
 
-    default Tokens addToken(TokenRepresentation tokenRepresentation) {
+    default Snippet addToken(TokenRepresentation tokenRepresentation) {
         getTokensRepresentations().add(tokenRepresentation);
         return this;
     }
 
-    default Tokens addTokens(Tokens tokens) {
-        getTokensRepresentations().addAll(tokens.getTokensRepresentations());
+    default Snippet addTokens(Snippet snippet) {
+        getTokensRepresentations().addAll(snippet.getTokensRepresentations());
         return this;
     }
 
@@ -120,7 +128,7 @@ public interface Tokens {
     }
 
     default boolean isEmpty() {
-        return size() == 0;
+        return getTokensRepresentations().isEmpty();
     }
 
     default boolean hasElement(int index) {
@@ -129,7 +137,7 @@ public interface Tokens {
 
     default TokenRepresentation get(int index) {
         if (!hasElement(index)) {
-            throw new TokensIndexOutOfBoundsException(index);
+            throw new SnippetIndexOutOfBoundsException(index);
         }
 
         return getTokensRepresentations().get(index);

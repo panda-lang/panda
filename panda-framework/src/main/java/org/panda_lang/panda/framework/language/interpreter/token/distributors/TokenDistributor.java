@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -27,10 +27,10 @@ import java.util.NoSuchElementException;
 
 public class TokenDistributor implements Iterable<TokenRepresentation> {
 
-    private final Tokens source;
+    private final Snippet source;
     private int index;
 
-    public TokenDistributor(Tokens source) {
+    public TokenDistributor(Snippet source) {
         this.source = source;
     }
 
@@ -69,11 +69,11 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return representations;
     }
 
-    public Tokens currentSubSource() {
+    public Snippet currentSubSource() {
         return subSource(getIndex(), size());
     }
 
-    public Tokens subSource(int startIndex, int endIndex) {
+    public Snippet subSource(int startIndex, int endIndex) {
         return source.subSource(startIndex, endIndex);
     }
 
@@ -105,7 +105,7 @@ public class TokenDistributor implements Iterable<TokenRepresentation> {
         return index;
     }
 
-    public Tokens getSource() {
+    public Snippet getSource() {
         return source;
     }
 

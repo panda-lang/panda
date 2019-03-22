@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -38,9 +38,9 @@ public class ExpressionParserOld {
         this.subparsers = subparsers;
     }
 
-    public @Nullable Expression parseSilently(ParserData data, Tokens tokens) {
+    public @Nullable Expression parseSilently(ParserData data, Snippet snippet) {
         try {
-            return parse(data, tokens);
+            return parse(data, snippet);
         }
         catch (ExpressionParserException exception) {
             throw exception;
@@ -51,8 +51,8 @@ public class ExpressionParserOld {
         }
     }
 
-    public Expression parse(ParserData data, Tokens tokens) {
-        return parse(data, new PandaSourceStream(tokens));
+    public Expression parse(ParserData data, Snippet snippet) {
+        return parse(data, new PandaSourceStream(snippet));
     }
 
     public Expression parse(ParserData data, SourceStream source) {
@@ -89,8 +89,8 @@ public class ExpressionParserOld {
         return expression;
     }
 
-    public @Nullable Tokens read(SourceStream source) {
-        Tokens result = read(source.toTokenizedSource());
+    public @Nullable Snippet read(SourceStream source) {
+        Snippet result = read(source.toTokenizedSource());
 
         if (result == null) {
             return null;
@@ -100,21 +100,21 @@ public class ExpressionParserOld {
         return result;
     }
 
-    public @Nullable Tokens read(Tokens source) {
+    public @Nullable Snippet read(Snippet source) {
         Result result = readResult(source);
 
         if (result == null) {
             return null;
         }
 
-        if (TokensUtils.isEmpty(result.source)) {
+        if (SnippetUtils.isEmpty(result.source)) {
             return null;
         }
 
         return result.source;
     }
 
-    private @Nullable Result readResult(Tokens source) {
+    private @Nullable Result readResult(Snippet source) {
         if (subparsers.isEmpty()) {
             throw new ExpressionParserException("ExpressionParser does not contain any subparsers", source);
         }
@@ -131,14 +131,14 @@ public class ExpressionParserOld {
                 continue;
             }
 
-            Tokens tokens = subparser.read(main, source);
+            Snippet snippet = subparser.read(main, source);
 
-            if (TokensUtils.isEmpty(tokens)) {
+            if (SnippetUtils.isEmpty(snippet)) {
                 continue;
             }
 
-            if (previousResult == null || previousResult.source.size() < tokens.size()) {
-                previousResult = new Result(subparser, new ExpressionTokens(tokens, subparser));
+            if (previousResult == null || previousResult.source.size() < snippet.size()) {
+                previousResult = new Result(subparser, new ExpressionSnippet(snippet, subparser));
             }
         }
 
@@ -152,9 +152,9 @@ public class ExpressionParserOld {
     private final class Result {
 
         private final ExpressionSubparser subparser;
-        private final ExpressionTokens source;
+        private final ExpressionSnippet source;
 
-        public Result(ExpressionSubparser subparser, ExpressionTokens source) {
+        public Result(ExpressionSubparser subparser, ExpressionSnippet source) {
             this.subparser = subparser;
             this.source = source;
         }

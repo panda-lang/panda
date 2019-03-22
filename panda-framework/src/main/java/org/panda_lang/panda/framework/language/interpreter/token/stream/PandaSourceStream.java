@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.interpreter.token.stream;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +28,10 @@ import java.util.NoSuchElementException;
 
 public class PandaSourceStream implements SourceStream {
 
-    private Tokens source;
-    private Tokens cachedSource;
+    private Snippet source;
+    private Snippet cachedSource;
 
-    public PandaSourceStream(Tokens source) {
+    public PandaSourceStream(Snippet source) {
         if (source == null) {
             throw new IllegalArgumentException("Source cannot be null");
         }
@@ -50,13 +50,13 @@ public class PandaSourceStream implements SourceStream {
         List<TokenRepresentation> tokens = source.getTokensRepresentations().subList(1, source.size());
 
         this.cachedSource = this.source;
-        this.source = new PandaTokens(tokens);
+        this.source = new PandaSnippet(tokens);
 
         return representation;
     }
 
     @Override
-    public Tokens read(int length) {
+    public Snippet read(int length) {
         TokenRepresentation[] array = new TokenRepresentation[length];
 
         for (int i = 0; i < length; i++) {
@@ -64,13 +64,13 @@ public class PandaSourceStream implements SourceStream {
         }
 
         this.cachedSource = this.source;
-        this.source = new PandaTokens(source.getTokensRepresentations().subList(length, source.size()));
+        this.source = new PandaSnippet(source.getTokensRepresentations().subList(length, source.size()));
 
-        return new PandaTokens(array);
+        return new PandaSnippet(array);
     }
 
     @Override
-    public Tokens readLineResidue() {
+    public Snippet readLineResidue() {
         List<TokenRepresentation> residue = new ArrayList<>();
         int currentLine = this.getCurrentLine();
 
@@ -85,7 +85,7 @@ public class PandaSourceStream implements SourceStream {
             residue.add(representation);
         }
 
-        return new PandaTokens(residue);
+        return new PandaSnippet(residue);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public SourceStream update(Tokens source) {
+    public SourceStream update(Snippet source) {
         this.source = source;
         return this;
     }
@@ -112,8 +112,8 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
-    public Tokens toTokenizedSource() {
-        return new PandaTokens(new ArrayList<>(this.source.getTokensRepresentations()));
+    public Snippet toTokenizedSource() {
+        return new PandaSnippet(new ArrayList<>(this.source.getTokensRepresentations()));
     }
 
     @Override

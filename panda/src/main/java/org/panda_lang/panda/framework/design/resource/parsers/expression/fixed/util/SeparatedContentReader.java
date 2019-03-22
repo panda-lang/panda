@@ -17,13 +17,12 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.SeparatorStack;
 
@@ -31,9 +30,7 @@ public class SeparatedContentReader {
 
     private final Separator type;
     private final ContentProcessor contentProcessor;
-
-    private SeparatorStack separators;
-    private Tokens content;
+    private Snippet content;
 
     public SeparatedContentReader(Separator type, ContentProcessor contentProcessor) {
         if (!type.hasOpposite()) {
@@ -44,59 +41,32 @@ public class SeparatedContentReader {
         this.contentProcessor = contentProcessor;
     }
 
-    public @Nullable ExpressionResult<Expression> read(ExpressionParser parser, ParserData data, TokenRepresentation token) {
-        if (isDone()) {
+    public @Nullable ExpressionResult<Expression> read(ExpressionContext context) {
+        if (!type.equals(context.getNext().getToken())) {
             return null;
         }
 
-        // initialize
-        if (content == null && separators == null) {
-            if (!token.contentEquals(type)) {
-                return null;
+        SeparatorStack separators = new SeparatorStack();
+        separators.check(context.getNext().getToken());
+
+        this.content = new PandaSnippet();
+        int cachedIndex = context.getReader().getIndex();
+
+        for (TokenRepresentation next : context.getReader()) {
+            boolean result = separators.check(next.getToken());
+
+            if (!result && !separators.isLocked() && next.contentEquals(type.getOpposite())) {
+                return contentProcessor.process(this, context, content, next);
             }
 
-            this.separators = new SeparatorStack();
-            this.content = new PandaTokens();
-            return ExpressionResult.empty();
+            content.addToken(next);
         }
 
-        // not initialized
-        if (content == null) {
-            return null;
-        }
-
-        // exclude separators not related to the section
-        boolean result = separators.check(token.getToken());
-
-        if (!result && !separators.isLocked() && token.contentEquals(type.getOpposite())) {
-            separators = null;
-            return contentProcessor.process(this, parser, data, content, token);
-        }
-
-        content.addToken(token);
-        return ExpressionResult.empty();
+        return null;
     }
 
-    public Tokens getContent() {
+    public Snippet getContent() {
         return content;
-    }
-
-    public boolean isDone() {
-        return content != null && separators == null;
-    }
-
-    public interface ContentProcessor {
-
-        ContentProcessor DEFAULT = (reader, parser, data, content, lastToken) -> {
-            if (content.isEmpty()) {
-                return ExpressionResult.error("Expression expected", lastToken);
-            }
-
-            return ExpressionResult.of(parser.parse(data, content));
-        };
-
-        @Nullable ExpressionResult<Expression> process(SeparatedContentReader reader, ExpressionParser parser, ParserData data, Tokens content, TokenRepresentation last);
-
     }
 
 }

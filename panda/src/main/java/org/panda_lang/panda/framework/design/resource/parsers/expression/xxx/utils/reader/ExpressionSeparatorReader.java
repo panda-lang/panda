@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ut
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
@@ -29,7 +29,7 @@ public class ExpressionSeparatorReader {
 
     private static final ExpressionSeparatorReader INSTANCE = new ExpressionSeparatorReader();
 
-    public @Nullable Tokens readSeparated(ExpressionParserOld main, Tokens source, Token[] separators, ExpressionSeparatorExtensions extensions) {
+    public @Nullable Snippet readSeparated(ExpressionParserOld main, Snippet source, Token[] separators, ExpressionSeparatorExtensions extensions) {
         TokenDistributor distributor = new TokenDistributor(source);
         int lastIndexOfPeriod = -1;
 
@@ -52,8 +52,8 @@ public class ExpressionSeparatorReader {
                 continue;
             }
 
-            Tokens selected = source.subSource(0, matchable.getIndex() - 1);
-            Tokens matched = main.read(selected);
+            Snippet selected = source.subSource(0, matchable.getIndex() - 1);
+            Snippet matched = main.read(selected);
 
             if (matched == null || matched.size() != selected.size()) {
                 break;

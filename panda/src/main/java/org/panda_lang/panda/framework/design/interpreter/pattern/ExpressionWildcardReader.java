@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern;
 
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
@@ -45,18 +45,18 @@ class ExpressionWildcardReader implements WildcardReader {
     }
 
     @Override
-    public Tokens read(String data, TokenDistributor distributor) {
+    public Snippet read(String data, TokenDistributor distributor) {
         String[] datum = StringUtils.splitFirst(data, " ");
 
         if (ArrayUtils.isEmpty(datum)) {
-            Tokens tokens = expressionParser.read(distributor.currentSubSource());
+            Snippet snippet = expressionParser.read(distributor.currentSubSource());
 
-            if (tokens == null) {
+            if (snippet == null) {
                 return null;
             }
 
-            distributor.next(tokens.size());
-            return tokens;
+            distributor.next(snippet.size());
+            return snippet;
         }
 
         String condition = datum[1];
@@ -74,7 +74,7 @@ class ExpressionWildcardReader implements WildcardReader {
         }
 
         ExpressionParserOld parser = new ExpressionParserOld(expressionParser, subparsers);
-        Tokens source = parser.read(distributor.currentSubSource());
+        Snippet source = parser.read(distributor.currentSubSource());
 
         if (source == null) {
             return null;

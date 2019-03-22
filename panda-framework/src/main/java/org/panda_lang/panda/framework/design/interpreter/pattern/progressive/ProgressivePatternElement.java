@@ -17,18 +17,18 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public class ProgressivePatternElement {
 
     private TokenRepresentation operator;
-    private Tokens expression;
+    private Snippet expression;
 
     public ProgressivePatternElement(TokenRepresentation operator) {
         this.operator = operator;
     }
 
-    public ProgressivePatternElement(Tokens expression) {
+    public ProgressivePatternElement(Snippet expression) {
         this.expression = expression;
     }
 
@@ -40,7 +40,7 @@ public class ProgressivePatternElement {
         return operator != null;
     }
 
-    public Tokens getExpression() {
+    public Snippet getExpression() {
         return expression;
     }
 

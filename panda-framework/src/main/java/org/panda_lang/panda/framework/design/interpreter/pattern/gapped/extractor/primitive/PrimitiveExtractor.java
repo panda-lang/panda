@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extract
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternUnit;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 import java.util.ArrayList;
@@ -32,20 +32,20 @@ import java.util.List;
 public class PrimitiveExtractor {
 
     private final GappedPattern pattern;
-    private final List<Tokens> gaps;
+    private final List<Snippet> gaps;
 
     public PrimitiveExtractor(GappedPattern pattern) {
         this.pattern = pattern;
         this.gaps = new ArrayList<>();
     }
 
-    public List<Tokens> extract(TokenReader tokenReader) {
+    public List<Snippet> extract(TokenReader tokenReader) {
         tokenReader.synchronize();
 
         GappedPatternUnit[] units = pattern.getUnits();
         ArrayDistributor<GappedPatternUnit> unitsDistributor = new ArrayDistributor<>(units);
         PrimitiveOppositesKeeper extractorOpposites = new PrimitiveOppositesKeeper(this);
-        Tokens gap = new PandaTokens();
+        Snippet gap = new PandaSnippet();
 
         for (int unitIndex = 0; unitIndex < units.length; unitIndex++) {
             GappedPatternUnit unit = unitsDistributor.get(unitIndex);
@@ -91,7 +91,7 @@ public class PrimitiveExtractor {
                 }
 
                 gaps.add(gap);
-                gap = new PandaTokens();
+                gap = new PandaSnippet();
                 break;
             }
         }

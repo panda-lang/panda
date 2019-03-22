@@ -17,10 +17,9 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserType;
@@ -32,8 +31,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
-
-import java.util.Stack;
 
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
@@ -52,7 +49,9 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
         private boolean parsed;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
+        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+            TokenRepresentation token = context.getNext();
+
             if (token.getType() != TokenType.LITERAL) {
                 return null;
             }
@@ -65,7 +64,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
                 case "false":
                     return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
                 case "this":
-                    return ExpressionResult.of(ThisExpressionCallback.asExpression(data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE)));
+                    return ExpressionResult.of(ThisExpressionCallback.asExpression(context.getData().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE)));
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

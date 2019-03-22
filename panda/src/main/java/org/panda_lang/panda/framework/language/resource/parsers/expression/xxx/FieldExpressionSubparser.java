@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPa
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ReaderFinisher;
@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.uti
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.VariableUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.FieldExpressionCallback;
@@ -82,11 +82,11 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, FIELD_SEPARATORS, extensions);
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
+        Snippet selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, FIELD_SEPARATORS, extensions);
 
         if (selected == null && VariableUtils.isAllowedName(source.getFirst().getToken())) {
-            selected = new PandaTokens(source.getFirst());
+            selected = new PandaSnippet(source.getFirst());
         }
 
         if (selected != null && selected.getLast().getToken().getType() != TokenType.UNKNOWN) {
@@ -97,7 +97,7 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
     }
 
     @Override
-    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         if (source.size() == 1) {
             ScopeLinker scopeLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
@@ -122,10 +122,10 @@ public class FieldExpressionSubparser implements ExpressionSubparser, ReaderFini
             throw new PandaParserFailure("Cannot find variable or field called " + source.asString() + " /" + parent.getSubparsers().getSubparsers().size() , data, source);
         }
 
-        List<Tokens> fieldMatches = FIELD_PATTERN.match(new PandaTokenReader(source));
+        List<Snippet> fieldMatches = FIELD_PATTERN.match(new PandaTokenReader(source));
 
         if (fieldMatches != null && fieldMatches.size() == 2 && !NumberUtils.startsWithNumber(fieldMatches.get(1))) {
-            Tokens instanceSource = fieldMatches.get(0);
+            Snippet instanceSource = fieldMatches.get(0);
             ClassPrototype instanceType = null;
             Expression fieldLocationExpression = null;
 

@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
@@ -54,7 +54,7 @@ public class AccessorParser implements Parser {
             throw new PandaParserFailure("Source does not contain assignment", data, source.toTokenizedSource());
         }
 
-        Tokens accessorSource = source.toTokenizedSource().subSource(0, index);
+        Snippet accessorSource = source.toTokenizedSource().subSource(0, index);
 
         if (accessorSource.isEmpty()) {
             throw new PandaParserFailure("Source cannot be empty", data, source.toTokenizedSource());
@@ -63,7 +63,7 @@ public class AccessorParser implements Parser {
         return parse(data, accessorSource);
     }
 
-    public Accessor<? extends Variable> parse(ParserData data, Tokens source) {
+    public Accessor<? extends Variable> parse(ParserData data, Snippet source) {
         if (source.size() > 1) {
             Expression instanceExpression = data.getComponent(PandaComponents.EXPRESSION).parse(data, source.subSource(0, source.size() - 2));
 

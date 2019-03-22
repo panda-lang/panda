@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
@@ -55,7 +55,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
         if (!source.getFirst().contentEquals(Keywords.NEW)) {
             return null;
         }
@@ -71,7 +71,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         ExtractorResult result = pattern.extract(source);
 
         if (!result.isMatched()) {
@@ -85,7 +85,7 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
             return null;
         }
 
-        Tokens capacity = result.getWildcard("*capacity");
+        Snippet capacity = result.getWildcard("*capacity");
         Expression capacityExpression = parent.parse(data, capacity);
 
         if (!PandaTypes.INT.isAssignableFrom(capacityExpression.getReturnType())) {

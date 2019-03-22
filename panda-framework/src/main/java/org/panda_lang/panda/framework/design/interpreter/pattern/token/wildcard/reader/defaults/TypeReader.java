@@ -21,8 +21,8 @@ import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
@@ -35,17 +35,17 @@ class TypeReader implements WildcardReader {
     }
 
     @Override
-    public @Nullable Tokens read(String data, TokenDistributor distributor) {
+    public @Nullable Snippet read(String data, TokenDistributor distributor) {
         TokenRepresentation type = distributor.next();
 
         if (type.getToken().getType() != TokenType.UNKNOWN) {
             return null;
         }
 
-        PandaTokens tokens = new PandaTokens(type);
+        PandaSnippet tokens = new PandaSnippet(type);
 
         while (mayNext(distributor)) {
-            Tokens next = read(distributor);
+            Snippet next = read(distributor);
 
             if (next == null) {
                 break;
@@ -76,11 +76,11 @@ class TypeReader implements WildcardReader {
     }
 
     @SuppressWarnings("ConstantConditions")
-    private @Nullable Tokens read(TokenDistributor distributor) {
+    private @Nullable Snippet read(TokenDistributor distributor) {
         TokenRepresentation next = distributor.next();
 
         if (next.contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
-            return distributor.getNext().contentEquals(Separators.SQUARE_BRACKET_RIGHT) ? new PandaTokens(next, distributor.next()) : null;
+            return distributor.getNext().contentEquals(Separators.SQUARE_BRACKET_RIGHT) ? new PandaSnippet(next, distributor.next()) : null;
         }
 
         if (next.contentEquals(Operators.GREATER_THAN)) {

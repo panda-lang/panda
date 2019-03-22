@@ -18,25 +18,25 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extract
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 class GappedPatternExtractorSource {
 
-    private final Tokens tokens;
+    private final Snippet snippet;
     private final GappedTokenRepresentation[] abyssRepresentations;
 
-    protected GappedPatternExtractorSource(Tokens tokens) {
-        this.tokens = tokens;
-        this.abyssRepresentations = new GappedTokenRepresentation[tokens.size()];
+    protected GappedPatternExtractorSource(Snippet snippet) {
+        this.snippet = snippet;
+        this.abyssRepresentations = new GappedTokenRepresentation[snippet.size()];
         this.prepare();
     }
 
     private void prepare() {
         GappedPatternExtractorOpposites opposites = new GappedPatternExtractorOpposites();
 
-        for (int i = 0; i < tokens.size(); i++) {
-            TokenRepresentation representation = tokens.get(i);
+        for (int i = 0; i < snippet.size(); i++) {
+            TokenRepresentation representation = snippet.get(i);
 
             if (representation == null) {
                 throw new PandaRuntimeException("Representation is null");

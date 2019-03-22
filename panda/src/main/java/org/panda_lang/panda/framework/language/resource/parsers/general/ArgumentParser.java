@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -40,8 +40,8 @@ public class ArgumentParser implements Parser {
             .compile(PandaSyntax.getInstance(), "+* , +*")
             .build();
 
-    public Expression[] parse(ParserData data, Tokens tokens) {
-        SourceStream sourceStream = new PandaSourceStream(tokens);
+    public Expression[] parse(ParserData data, Snippet snippet) {
+        SourceStream sourceStream = new PandaSourceStream(snippet);
 
         List<Expression> expressions = new ArrayList<>();
         ExpressionParserOld expressionParser = data.getComponent(PandaComponents.EXPRESSION);
@@ -49,7 +49,7 @@ public class ArgumentParser implements Parser {
 
         while (sourceStream.hasUnreadSource()) {
             TokenReader reader = sourceStream.toTokenReader();
-            List<Tokens> gaps = extractor.extract(reader);
+            List<Snippet> gaps = extractor.extract(reader);
 
             if (gaps == null) {
                 Expression expression = readArgument(data, expressionParser, sourceStream.toTokenizedSource());
@@ -57,7 +57,7 @@ public class ArgumentParser implements Parser {
                 break;
             }
 
-            Tokens argument = gaps.get(0);
+            Snippet argument = gaps.get(0);
             Expression expression = readArgument(data, expressionParser, argument);
 
             expressions.add(expression);
@@ -70,7 +70,7 @@ public class ArgumentParser implements Parser {
         return expressionsArray;
     }
 
-    private Expression readArgument(ParserData data, ExpressionParserOld expressionParser, Tokens argument) {
+    private Expression readArgument(ParserData data, ExpressionParserOld expressionParser, Snippet argument) {
         Expression expression = expressionParser.parse(data, argument);
 
         if (expression == null) {

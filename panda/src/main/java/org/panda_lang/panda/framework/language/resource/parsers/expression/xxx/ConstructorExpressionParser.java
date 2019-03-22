@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -51,12 +51,12 @@ public class ConstructorExpressionParser implements ExpressionCallbackParser<Ins
     private Expression[] arguments;
 
     @Override
-    public void parse(Tokens source, ParserData data) {
+    public void parse(Snippet source, ParserData data) {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         TokenReader reader = new PandaTokenReader(source);
 
         GappedPatternExtractor extractor = PATTERN.extractor();
-        List<Tokens> gaps = extractor.extract(reader);
+        List<Snippet> gaps = extractor.extract(reader);
 
         if (gaps == null) {
             throw new PandaParserException("Cannot parse expression::instance");

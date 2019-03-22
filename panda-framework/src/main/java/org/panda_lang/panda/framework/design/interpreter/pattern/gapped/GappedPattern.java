@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.gapped;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
@@ -42,15 +42,15 @@ public class GappedPattern {
         this.amountOfHollows = GappedPatternUtils.countGaps(units);
     }
 
-    public List<Tokens> match(Tokens source) {
+    public List<Snippet> match(Snippet source) {
         return match(new PandaTokenReader(source));
     }
 
-    public List<Tokens> match(TokenReader tokenReader) {
+    public List<Snippet> match(TokenReader tokenReader) {
         int index = tokenReader.getIndex();
 
         GappedPatternExtractor extractor = extractor();
-        List<Tokens> result = extractor.extract(tokenReader);
+        List<Snippet> result = extractor.extract(tokenReader);
 
         tokenReader.setIndex(index);
         return result;

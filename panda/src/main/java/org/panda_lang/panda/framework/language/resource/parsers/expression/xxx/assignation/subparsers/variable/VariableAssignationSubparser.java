@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
@@ -54,7 +54,7 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
             @Type(with = Src.class, value = "source"),
             @Type(with = Component.class, value = AssignationComponents.EXPRESSION_LABEL)
     })
-    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Tokens source, Expression expression) {
+    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Snippet source, Expression expression) {
         Accessor<?> accessor = ACCESSOR_PARSER.parse(data, source);
         Assigner<?> assigner = accessor.toAssigner(expression);
 

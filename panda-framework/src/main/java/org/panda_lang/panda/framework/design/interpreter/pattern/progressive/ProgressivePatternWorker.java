@@ -18,9 +18,9 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
 import java.util.Stack;
@@ -32,7 +32,7 @@ public class ProgressivePatternWorker {
     private final TokenReader source;
 
     private Stack<Separator> separators = new Stack<>();
-    private PandaTokens expression = new PandaTokens();
+    private PandaSnippet expression = new PandaSnippet();
 
     public ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, TokenReader source) {
         this.extractor = extractor;
@@ -106,7 +106,7 @@ public class ProgressivePatternWorker {
     private void pullFragment(TokenRepresentation operatorRepresentation) {
         if (this.expression.size() != 0) {
             this.addExpression(this.expression);
-            this.expression = new PandaTokens();
+            this.expression = new PandaSnippet();
         }
 
         this.addOperator(operatorRepresentation);
@@ -122,7 +122,7 @@ public class ProgressivePatternWorker {
         return false;
     }
 
-    private void addExpression(Tokens expressionSource) {
+    private void addExpression(Snippet expressionSource) {
         ProgressivePatternElement expressionElement = new ProgressivePatternElement(expressionSource);
         this.result.addElement(expressionElement);
     }

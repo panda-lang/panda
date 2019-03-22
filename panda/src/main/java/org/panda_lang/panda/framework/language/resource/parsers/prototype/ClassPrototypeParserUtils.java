@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -32,7 +32,7 @@ import java.util.Optional;
 
 public class ClassPrototypeParserUtils {
 
-    public static void readDeclaration(ParserData data, Tokens classDeclaration) {
+    public static void readDeclaration(ParserData data, Snippet classDeclaration) {
         ClassPrototype classPrototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         Token next = classDeclaration.getToken(1);
 
@@ -50,7 +50,7 @@ public class ClassPrototypeParserUtils {
         }
     }
 
-    private static void readExtends(ParserData data, Tokens classDeclaration, ClassPrototype prototype) {
+    private static void readExtends(ParserData data, Snippet classDeclaration, ClassPrototype prototype) {
         ModuleLoader loader = data.getComponent(UniversalComponents.MODULE_LOADER);
 
         for (int i = 2; i < classDeclaration.size(); i++) {

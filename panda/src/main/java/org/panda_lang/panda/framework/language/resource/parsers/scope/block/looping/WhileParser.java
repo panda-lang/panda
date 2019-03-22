@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.AbyssPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -46,7 +46,7 @@ public class WhileParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    private BlockData parseWhile(ParserData data, @Src("while-expression") Tokens expressionSource) {
+    private BlockData parseWhile(ParserData data, @Src("while-expression") Snippet expressionSource) {
         Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {

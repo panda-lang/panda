@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
@@ -27,11 +27,11 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     default void afterInitialization(ExpressionParserOld parent) { }
 
-    @Nullable Tokens read(ExpressionParserOld parent, Tokens source);
+    @Nullable Snippet read(ExpressionParserOld parent, Snippet source);
 
-    @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source);
+    @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Snippet source);
 
-    default @Nullable Expression parseSilently(ExpressionParserOld parent, ParserData data, Tokens source) {
+    default @Nullable Expression parseSilently(ExpressionParserOld parent, ParserData data, Snippet source) {
         try {
             return parse(parent, data, source);
         } catch (Throwable throwable) {

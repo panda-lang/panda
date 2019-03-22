@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaP
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
@@ -42,7 +42,7 @@ public class AbyssPatternHandler implements BootstrapHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
-        List<Tokens> result = pattern.extractor().extract(source.toTokenReader());
+        List<Snippet> result = pattern.extractor().extract(source.toTokenReader());
         return result != null && result.size() == pattern.getAmountOfHollows();
     }
 

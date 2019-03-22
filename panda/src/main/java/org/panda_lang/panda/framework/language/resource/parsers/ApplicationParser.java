@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
@@ -95,13 +95,13 @@ public class ApplicationParser implements Parser {
 
             interpretation.execute(() -> {
                 PandaLexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax(), source).build();
-                Tokens tokens = CommentParser.uncomment(lexer.convert());
+                Snippet snippet = CommentParser.uncomment(lexer.convert());
 
-                PandaSourceStream sourceStream = new PandaSourceStream(tokens);
+                PandaSourceStream sourceStream = new PandaSourceStream(snippet);
                 exceptionTranslator.updateSource(sourceStream);
 
                 ParserData delegatedData = baseData.fork();
-                delegatedData.setComponent(UniversalComponents.SOURCE, tokens);
+                delegatedData.setComponent(UniversalComponents.SOURCE, snippet);
                 delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, sourceStream);
                 delegatedData.setComponent(UniversalComponents.SCRIPT, pandaScript);
                 delegatedData.setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);

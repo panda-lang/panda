@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
@@ -76,8 +76,8 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
     }
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, METHOD_SEPARATORS, extensions);
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
+        Snippet selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, METHOD_SEPARATORS, extensions);
 
         // local method, at least 3 elements and contains opening parenthesis
         if (selected == null && source.size() > 3 && source.getToken(1).equals(Separators.PARENTHESIS_LEFT)) {
@@ -109,7 +109,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser, ReaderFin
     }
 
     @Override
-    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         MethodInvokerExpressionParser methodInvokerParser = MethodInvokerExpressionUtils.match(source);
 
         if (methodInvokerParser == null) {

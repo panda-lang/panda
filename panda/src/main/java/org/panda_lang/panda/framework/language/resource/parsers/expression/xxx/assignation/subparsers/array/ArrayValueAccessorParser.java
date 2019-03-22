@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
@@ -29,8 +29,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class ArrayValueAccessorParser implements Parser {
 
-    public ArrayValueAccessor parse(ParserData data, Tokens source, ArrayValueAccessor.ArrayValueAccessorAction action) {
-        Tokens reversed = source.reverse();
+    public ArrayValueAccessor parse(ParserData data, Snippet source, ArrayValueAccessor.ArrayValueAccessorAction action) {
+        Snippet reversed = source.reverse();
 
         MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(reversed));
         matchable.withReplaced(DistributorUtils.REVERSED_OPERATORS);
@@ -54,8 +54,8 @@ public class ArrayValueAccessorParser implements Parser {
             return null;
         }
 
-        Tokens instanceSource = reversed.subSource(matchable.getIndex(), reversed.size()).reverse();
-        Tokens indexSource = reversed.subSource(1, matchable.getIndex() - 1).reverse();
+        Snippet instanceSource = reversed.subSource(matchable.getIndex(), reversed.size()).reverse();
+        Snippet indexSource = reversed.subSource(1, matchable.getIndex() - 1).reverse();
 
         ExpressionParserOld main = data.getComponent(PandaComponents.EXPRESSION);
         Expression instance = main.parse(data, instanceSource);

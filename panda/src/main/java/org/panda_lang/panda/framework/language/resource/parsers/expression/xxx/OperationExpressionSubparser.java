@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ExpressionSeparatorExtensions;
@@ -36,14 +36,14 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     private final ExpressionSeparatorExtensions extensions = new ExpressionSeparatorExtensions(this);
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
-        Tokens selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, OperationExpressionUtils.OPERATORS, extensions);
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
+        Snippet selected = ExpressionSeparatorReader.getInstance().readSeparated(parent, source, OperationExpressionUtils.OPERATORS, extensions);
 
         if (selected == null) {
             return null;
         }
 
-        if (!TokensUtils.contains(selected, OperationExpressionUtils.OPERATORS)) {
+        if (!SnippetUtils.contains(selected, OperationExpressionUtils.OPERATORS)) {
             return null;
         }
 
@@ -59,13 +59,13 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
             return false;
         }
 
-        Tokens subSource = matchable.currentSubSource();
+        Snippet subSource = matchable.currentSubSource();
 
         if (subSource.isEmpty()) {
             return false;
         }
 
-        Tokens lastExpression = parser.read(subSource);
+        Snippet lastExpression = parser.read(subSource);
 
         if (lastExpression == null) {
             return false;
@@ -76,7 +76,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser, Reader
     }
 
     @Override
-    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         if (!OperationExpressionUtils.isOperationExpression(source)) {
             return null;
         }

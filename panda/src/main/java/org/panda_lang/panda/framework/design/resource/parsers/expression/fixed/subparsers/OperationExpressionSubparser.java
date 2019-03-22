@@ -17,10 +17,8 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserType;
@@ -32,7 +30,6 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.o
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class OperationExpressionSubparser implements ExpressionSubparser {
 
@@ -53,15 +50,15 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         private List<Operation.OperationElement> elements;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
-            if (results.isEmpty()) {
+        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+            if (!context.hasResults()) {
                 return ExpressionResult.empty();
             }
 
-            if (token.getType() != TokenType.OPERATOR) {
+            if (context.getNext().getType() != TokenType.OPERATOR) {
                 if (elements != null) {
-                    elements.add(new Operation.OperationElement(results.pop()));
-                    return finish(parser, data, results);
+                    elements.add(new Operation.OperationElement(context.popExpression()));
+                    return finish(context);
                 }
 
                 return null;
@@ -71,26 +68,26 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
                 this.elements = new ArrayList<>(3);
             }
 
-            elements.add(new Operation.OperationElement(results.pop()));
-            elements.add(new Operation.OperationElement(token));
+            elements.add(new Operation.OperationElement(context.popExpression()));
+            elements.add(new Operation.OperationElement(context.getNext()));
 
             return ExpressionResult.empty();
         }
 
         @Override
-        public @Nullable ExpressionResult<Expression> finish(ExpressionParser parser, ParserData data, Stack<Expression> results) {
+        public @Nullable ExpressionResult<Expression> finish(ExpressionContext context) {
             if (elements == null) {
                 return null;
             }
 
-            if (!results.isEmpty()) {
-                elements.add(new Operation.OperationElement(results.pop()));
+            if (context.hasResults()) {
+                elements.add(new Operation.OperationElement(context.popExpression()));
             }
 
             Operation operation = new Operation(elements);
             this.elements = null;
 
-            return ExpressionResult.of(OPERATION_PARSER.parse(data, operation));
+            return ExpressionResult.of(OPERATION_PARSER.parse(context.getData(), operation));
         }
 
     }

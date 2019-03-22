@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Interceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -114,7 +114,7 @@ class ParserLayerGeneratorUtils {
             return new ParserBootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
-        Tokens value = redactor.get(srcQualifier.getDefaultValue());
+        Snippet value = redactor.get(srcQualifier.getDefaultValue());
 
         if (value != null && requiredType == String.class) {
             return value.asString();

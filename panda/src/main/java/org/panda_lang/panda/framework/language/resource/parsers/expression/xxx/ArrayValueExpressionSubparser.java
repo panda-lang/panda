@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -45,16 +45,16 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
 
         ExpressionSubparsers subparsers = parent.getSubparsers().fork();
         subparsers.removeSubparser(getName());
 
         ExpressionParserOld parser = new ExpressionParserOld(parent, subparsers);
-        Tokens value = parser.read(stream);
+        Snippet value = parser.read(stream);
 
-        if (TokensUtils.isEmpty(value)) {
+        if (SnippetUtils.isEmpty(value)) {
             return null;
         }
 
@@ -93,7 +93,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
             return null;
         }
 
-        Tokens selected = source.subSource(0, matchable.getIndex());
+        Snippet selected = source.subSource(0, matchable.getIndex());
 
         // at least 4 elements required: <field-name> [ <index> ]
         if (selected == null || selected.size() < 4 ) {
@@ -109,7 +109,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         ArrayValueAccessor accessor = PARSER.parse(data, source, (branch, prototype, type, array, index) -> new PandaValue(type, array[index.intValue()]));
 
         return new PandaExpression(new PandaExpressionCallback(accessor.getReturnType()) {

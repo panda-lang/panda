@@ -42,8 +42,4 @@ public interface TokenRepresentation {
         return getToken().equals(token);
     }
 
-    default boolean contentEquals(TokenType tokenType, String tokenValue) {
-        return getToken().equals(tokenType, tokenValue);
-    }
-
 }

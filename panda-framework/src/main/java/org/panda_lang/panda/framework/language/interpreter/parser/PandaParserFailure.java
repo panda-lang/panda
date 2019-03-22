@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
@@ -55,7 +55,7 @@ public class PandaParserFailure extends ParserFailure {
         this(message, null, data);
     }
 
-    public PandaParserFailure(String message, ParserData data, Tokens source) {
+    public PandaParserFailure(String message, ParserData data, Snippet source) {
         this(message, null, data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source)));
     }
 
@@ -129,7 +129,7 @@ public class PandaParserFailure extends ParserFailure {
             return this;
         }
 
-        public PandaParserFailureBuilder source(Tokens source) {
+        public PandaParserFailureBuilder source(Snippet source) {
             this.source = new PandaSourceStream(source);
             return this;
         }

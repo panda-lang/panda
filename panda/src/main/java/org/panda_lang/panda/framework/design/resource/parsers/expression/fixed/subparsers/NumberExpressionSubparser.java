@@ -18,23 +18,20 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-
-import java.util.Stack;
 
 public class NumberExpressionSubparser implements ExpressionSubparser {
 
@@ -47,12 +44,14 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
     static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-        private Tokens content;
+        private Snippet content;
         private TokenRepresentation period;
         private Expression previous;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
+        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+            TokenRepresentation token = context.getNext();
+
             if (token.getType() == TokenType.SEPARATOR) {
                 if (!token.contentEquals(Separators.PERIOD)) {
                     return null;
@@ -67,7 +66,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             }
 
             if (content == null) {
-                this.content = new PandaTokens();
+                this.content = new PandaSnippet();
             }
 
             // check saved with new token
@@ -83,7 +82,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Value numericValue = PARSER.parse(data, content);
+            Value numericValue = PARSER.parse(context.getData(), content);
 
             if (numericValue == null) {
                 return null;
@@ -92,8 +91,8 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             Expression expression = new PandaExpression(numericValue);
 
             // remove previous result from stack
-            if (!results.isEmpty() && results.peek() == previous) {
-                results.pop();
+            if (context.hasResults() && context.peekExpression() == previous) {
+                context.popExpression();
             }
 
             previous = expression;

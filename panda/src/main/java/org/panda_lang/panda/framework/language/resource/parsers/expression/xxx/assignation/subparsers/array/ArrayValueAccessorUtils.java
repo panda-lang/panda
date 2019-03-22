@@ -19,14 +19,14 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class ArrayValueAccessorUtils {
 
-    public static ArrayValueAccessor of(ParserData data, Tokens source, Expression instance, Expression index, ArrayValueAccessor.ArrayValueAccessorAction action) {
+    public static ArrayValueAccessor of(ParserData data, Snippet source, Expression instance, Expression index, ArrayValueAccessor.ArrayValueAccessorAction action) {
         if (!instance.getReturnType().isArray()) {
             throw new PandaParserFailure("Cannot use index on non-array type (" + instance.getReturnType() + ")", data, source);
         }

@@ -27,8 +27,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 //@ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_METHOD_INVOKER)
 public class MethodInvokerParser extends UnifiedParserBootstrap {
@@ -44,9 +44,9 @@ public class MethodInvokerParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Tokens instance, @Src("name") Tokens name, @Nullable @Src("*args") Tokens arguments) {
+    public void parse(ParserData data, @Local StatementCell cell, @Src("instance") Snippet instance, @Src("name") Snippet name, @Nullable @Src("*args") Snippet arguments) {
         if (arguments == null) {
-            arguments = new PandaTokens();
+            arguments = new PandaSnippet();
         }
 
         MethodInvokerExpressionParser methodInvokerParser = new MethodInvokerExpressionParser(instance, name, arguments);

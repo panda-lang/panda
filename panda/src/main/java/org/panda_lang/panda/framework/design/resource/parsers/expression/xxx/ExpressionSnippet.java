@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
-public class ExpressionTokens extends PandaTokens {
+public class ExpressionSnippet extends PandaSnippet {
 
     private final ExpressionSubparser subparser;
 
-    public ExpressionTokens(Tokens tokens, ExpressionSubparser subparser) {
-        super(tokens.getTokensRepresentations());
+    public ExpressionSnippet(Snippet snippet, ExpressionSubparser subparser) {
+        super(snippet.getTokensRepresentations());
         this.subparser = subparser;
     }
 

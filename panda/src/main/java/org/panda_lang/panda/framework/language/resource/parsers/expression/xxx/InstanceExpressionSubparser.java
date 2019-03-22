@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
@@ -46,12 +46,12 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
             .build();
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
         if (!source.getFirst().contentEquals(Keywords.NEW)) {
            return null;
         }
 
-        Tokens args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.PARENTHESIS_LEFT);
+        Snippet args = SubparserUtils.readBetweenSeparators(source.subSource(2, source.size()), Separators.PARENTHESIS_LEFT);
 
         if (args == null) {
             return null;
@@ -61,8 +61,8 @@ public class InstanceExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
-        List<Tokens> constructorMatches = INSTANCE_PATTERN.match(new PandaTokenReader(source));
+    public Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
+        List<Snippet> constructorMatches = INSTANCE_PATTERN.match(new PandaTokenReader(source));
 
         if (constructorMatches != null && constructorMatches.size() == 3 && constructorMatches.get(2).size() == 0) {
             ConstructorExpressionParser callbackParser = new ConstructorExpressionParser();

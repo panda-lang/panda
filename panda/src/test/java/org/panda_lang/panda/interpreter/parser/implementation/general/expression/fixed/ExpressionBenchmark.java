@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
@@ -53,7 +53,7 @@ import java.util.ArrayList;
 @Measurement(iterations = 2)
 public class ExpressionBenchmark {
 
-    private static final Tokens SOURCE = PandaLexerUtils.convert("true");
+    private static final Snippet SOURCE = PandaLexerUtils.convert("true");
 
     @Benchmark
     public void testLiteral(Configuration configuration, Blackhole blackhole) {

@@ -83,7 +83,7 @@ public class BracketContentReader {
 
     protected static void verifySequences(Stack<Character> sequences, char[] openingSequence, char[] closingSequence, char current) {
         if (sequences.size() > 0 && CharacterUtils.belongsTo(current, closingSequence)) {
-            Character leftCurrent = openingSequence[CharacterUtils.getIndex(closingSequence, current)];
+            char leftCurrent = openingSequence[CharacterUtils.getIndex(closingSequence, current)];
 
             if (sequences.peek() != leftCurrent) {
                 return;

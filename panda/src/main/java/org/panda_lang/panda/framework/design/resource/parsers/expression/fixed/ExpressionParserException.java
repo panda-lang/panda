@@ -17,24 +17,24 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 public class ExpressionParserException extends PandaParserException {
 
-    private final Tokens source;
+    private final Snippet source;
 
-    public ExpressionParserException(String message, Tokens source) {
+    public ExpressionParserException(String message, Snippet source) {
         super(message);
         this.source = source;
     }
 
     public ExpressionParserException(String message, TokenRepresentation source) {
-        this(message, new PandaTokens(source));
+        this(message, new PandaSnippet(source));
     }
 
-    public Tokens getSource() {
+    public Snippet getSource() {
         return source;
     }
 

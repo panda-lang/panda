@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -60,7 +60,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, Generation generation, @Src("block-declaration") Tokens declaration) throws Throwable {
+    private void parse(ParserData data, LocalData local, Generation generation, @Src("block-declaration") Snippet declaration) throws Throwable {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
@@ -88,7 +88,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Src("block-body") Tokens body) throws Throwable {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Src("block-body") Snippet body) throws Throwable {
         ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(blockData, body);
     }

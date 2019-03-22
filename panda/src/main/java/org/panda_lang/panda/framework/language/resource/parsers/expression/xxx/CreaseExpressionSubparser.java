@@ -19,14 +19,14 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.CreaseExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.accessor.AccessorParser;
@@ -42,22 +42,22 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     private static final AccessorParser ACCESSOR_PARSER = new AccessorParser();
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
         if (source.startsWith(Operators.INCREMENT) || source.startsWith(Operators.DECREMENT)) {
-            Tokens pre = parent.read(source.subSource(1, source.size()));
+            Snippet pre = parent.read(source.subSource(1, source.size()));
 
             if (pre == null) {
                 return null;
             }
 
-            return new PandaTokens(source.getFirst()).addTokens(pre);
+            return new PandaSnippet(source.getFirst()).addTokens(pre);
         }
 
         ExpressionParserOld postExpression = parent.getSubparsers().fork()
                 .removeSubparser(getName())
                 .toExpressionParser(null);
 
-        Tokens post = postExpression.read(source);
+        Snippet post = postExpression.read(source);
 
         if (post == null) {
             return null;
@@ -77,7 +77,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         Operator operator = ObjectUtils.cast(Operator.class, source.getFirst().getToken());
         boolean post = OperatorUtils.isMemberOf(operator, OperatorFamilies.INCREMENT_AND_DECREMENT);
 
@@ -86,7 +86,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
         }
 
         boolean grow = Operators.INCREMENT.equals(operator);
-        Tokens expressionSource = post ? source.subSource(1, source.size()) : source.subSource(0, source.size() - 1);
+        Snippet expressionSource = post ? source.subSource(1, source.size()) : source.subSource(0, source.size() - 1);
 
         if (expressionSource.isEmpty()) {
             throw new PandaParserFailure("Variable expected", data, source);

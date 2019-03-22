@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.AssignationComponents;
@@ -56,7 +56,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
             @Type(with = Src.class, value = "name"),
             @Type(with = Component.class, value = AssignationComponents.EXPRESSION_LABEL)
     })
-    public @Nullable Statement parse(ParserData data, ExtractorResult result, ModuleLoader loader, Scope scope, Tokens type, Tokens name, Expression expression) {
+    public @Nullable Statement parse(ParserData data, ExtractorResult result, ModuleLoader loader, Scope scope, Snippet type, Snippet name, Expression expression) {
         if (!result.isMatched()) {
             return null;
         }

@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ut
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.function.Predicate;
 
@@ -26,9 +26,9 @@ public class ExpressionSeparatorExtensions {
 
     protected final ReaderFinisher finisher;
     protected final @Nullable Predicate<Token> tokenFilter;
-    protected final @Nullable Predicate<Tokens> sectionFilter;
+    protected final @Nullable Predicate<Snippet> sectionFilter;
 
-    public ExpressionSeparatorExtensions(ReaderFinisher finisher, @Nullable Predicate<Token> tokenFilter, @Nullable Predicate<Tokens> sectionFilter) {
+    public ExpressionSeparatorExtensions(ReaderFinisher finisher, @Nullable Predicate<Token> tokenFilter, @Nullable Predicate<Snippet> sectionFilter) {
         this.finisher = finisher;
         this.tokenFilter = tokenFilter;
         this.sectionFilter = sectionFilter;
@@ -46,8 +46,8 @@ public class ExpressionSeparatorExtensions {
         return tokenFilter != null && tokenFilter.test(token);
     }
 
-    protected boolean testSection(Tokens tokens) {
-        return sectionFilter != null && sectionFilter.test(tokens);
+    protected boolean testSection(Snippet snippet) {
+        return sectionFilter != null && sectionFilter.test(snippet);
     }
 
 }

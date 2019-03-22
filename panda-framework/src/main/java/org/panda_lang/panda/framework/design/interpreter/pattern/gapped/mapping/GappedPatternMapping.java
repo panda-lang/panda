@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping;
 
 import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
@@ -47,7 +47,7 @@ public class GappedPatternMapping implements PatternMapping {
     }
 
     @Override
-    public Tokens get(String name) {
+    public Snippet get(String name) {
         Integer index = this.map.get(name);
 
         if (index == null) {

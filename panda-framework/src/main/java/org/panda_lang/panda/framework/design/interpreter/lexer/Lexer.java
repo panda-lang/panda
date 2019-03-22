@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.framework.design.interpreter.lexer;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public interface Lexer {
 
-    Tokens convert();
+    Snippet convert();
 
 }

@@ -17,9 +17,8 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
@@ -27,8 +26,6 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-
-import java.util.Stack;
 
 public class SequenceExpressionSubparser implements ExpressionSubparser {
 
@@ -40,7 +37,9 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
     static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
+        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+            TokenRepresentation token = context.getNext();
+
             if (!token.getTokenName().equals("String")) {
                 return null;
             }

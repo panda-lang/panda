@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMappingContent;
 
@@ -25,8 +25,8 @@ import java.util.List;
 
 public class MethodInvokerExpressionUtils {
 
-    public static @Nullable MethodInvokerExpressionParser match(Tokens source) {
-        List<Tokens> methodMatches = MethodInvokerExpressionParser.PATTERN.match(source);
+    public static @Nullable MethodInvokerExpressionParser match(Snippet source) {
+        List<Snippet> methodMatches = MethodInvokerExpressionParser.PATTERN.match(source);
 
         if (methodMatches == null || methodMatches.size() == 0) {
             return null;
@@ -36,12 +36,12 @@ public class MethodInvokerExpressionUtils {
         GappedPatternMapping redactor = new GappedPatternMapping(hollows);
         redactor.map("method-call", "arguments");
 
-        Tokens methodCallSource = redactor.get("method-call");
-        List<Tokens> methodCallMatches = MethodInvokerExpressionParser.CALL_PATTERN.match(methodCallSource);
+        Snippet methodCallSource = redactor.get("method-call");
+        List<Snippet> methodCallMatches = MethodInvokerExpressionParser.CALL_PATTERN.match(methodCallSource);
 
-        Tokens argumentsSource = redactor.get("arguments");
-        Tokens methodNameSource = methodCallSource;
-        Tokens instanceSource = null;
+        Snippet argumentsSource = redactor.get("arguments");
+        Snippet methodNameSource = methodCallSource;
+        Snippet instanceSource = null;
 
         if (methodCallMatches != null && methodCallMatches.size() > 0) {
             GappedPatternMappingContent methodCallHollows = new GappedPatternMappingContent(methodCallMatches);

@@ -18,7 +18,8 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 public class ExpressionParser implements Parser {
 
@@ -41,13 +43,54 @@ public class ExpressionParser implements Parser {
         Collections.sort(this.subparsers);
     }
 
-    public Expression parse(ParserData data, Tokens source) {
+    public Expression parse(ParserData data, Snippet source) {
         return parse(data, new PandaSourceStream(source));
     }
 
     public Expression parse(ParserData data, SourceStream source) {
+        ExpressionContext context = new ExpressionContext(this, data, source, new Stack<>(), source.toTokenReader());
         ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers);
-        return worker.parse(data);
+
+        for (TokenRepresentation representation : context.getReader()) {
+            if (!worker.next(context.withUpdatedToken(representation))) {
+                break;
+            }
+        }
+
+        /*
+        while (source.hasUnreadSource()) {
+            TokenRepresentation next = source.read();
+
+            if (!worker.next(context.withUpdatedToken(next))) {
+                break;
+            }
+        }
+         */
+
+        // if some subparsers have survived
+        worker.finish(context);
+
+        if (context.getResults().isEmpty()) {
+            if (worker.hasError()) {
+                throw new ExpressionParserException("Cannot parse the expression: " + worker.getError().getErrorMessage(), worker.getError().getSource());
+            }
+
+            throw new ExpressionParserException("Cannot parse the expression", source.toTokenizedSource());
+        }
+
+        // if worker couldn't prepare the final result
+        if (context.getResults().size() > 1) {
+            throw new ExpressionParserException("Source contains " + context.getResults().size() + " expressions", source.toTokenizedSource());
+        }
+
+        source.read(worker.getLastSucceededRead());
+
+        // if something went wrong
+        if (source.hasUnreadSource() && worker.hasError()) {
+            throw new ExpressionParserException("Cannot parse the expression, the latest error: " + worker.getError().getErrorMessage(), worker.getError().getSource());
+        }
+
+        return context.getResults().pop();
     }
 
 }

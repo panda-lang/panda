@@ -17,12 +17,12 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.xxx;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 
 public interface ExpressionCallbackParser<T extends ExpressionCallback> {
 
-    void parse(Tokens source, ParserData info);
+    void parse(Snippet source, ParserData info);
 
     T toCallback();
 

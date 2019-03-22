@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -34,12 +34,12 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public @Nullable Tokens read(ExpressionParserOld parent, Tokens source) {
+    public @Nullable Snippet read(ExpressionParserOld parent, Snippet source) {
         return SubparserUtils.readFirstOfType(source, TokenType.LITERAL);
     }
 
     @Override
-    public Expression parse(ExpressionParserOld parent, ParserData data, Tokens source) {
+    public Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
         TokenRepresentation token = source.get(0);
 
         switch (token.getTokenValue()) {

@@ -18,26 +18,26 @@ package org.panda_lang.panda.framework.language.interpreter.token;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.utilities.commons.collection.Lists;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class PandaTokens implements Tokens {
+public class PandaSnippet implements Snippet {
 
     private final List<TokenRepresentation> tokens;
 
-    public PandaTokens() {
+    public PandaSnippet() {
         this.tokens = new ArrayList<>();
     }
 
-    public PandaTokens(TokenRepresentation... tokenRepresentations) {
+    public PandaSnippet(TokenRepresentation... tokenRepresentations) {
         this(Lists.mutableOf(tokenRepresentations));
     }
 
-    public PandaTokens(List<TokenRepresentation> tokenRepresentations) {
+    public PandaSnippet(List<TokenRepresentation> tokenRepresentations) {
         this.tokens = new ArrayList<>(tokenRepresentations);
     }
 
@@ -62,7 +62,7 @@ public class PandaTokens implements Tokens {
             return false;
         }
 
-        PandaTokens another = (PandaTokens) to;
+        PandaSnippet another = (PandaSnippet) to;
         return tokens.equals(another.tokens);
     }
 

@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extract
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternUnit;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 
 import java.util.ArrayList;
@@ -31,23 +31,23 @@ import java.util.List;
 public class GappedPatternExtractor {
 
     private final GappedPattern pattern;
-    private final List<Tokens> gaps;
+    private final List<Snippet> gaps;
 
     public GappedPatternExtractor(GappedPattern pattern) {
         this.pattern = pattern;
         this.gaps = new ArrayList<>();
     }
 
-    public @Nullable List<Tokens> extract(Tokens source) {
+    public @Nullable List<Snippet> extract(Snippet source) {
         return extract(new PandaTokenReader(source));
     }
 
-    public @Nullable List<Tokens> extract(TokenReader reader) {
+    public @Nullable List<Snippet> extract(TokenReader reader) {
         gaps.clear();
 
         GappedPatternUnit[] units = pattern.getUnits();
-        Tokens tokens = reader.getTokenizedSource();
-        GappedPatternExtractorSource source = new GappedPatternExtractorSource(tokens);
+        Snippet snippet = reader.getTokenizedSource();
+        GappedPatternExtractorSource source = new GappedPatternExtractorSource(snippet);
 
         int hardTypedUnits = GappedPatternExtractorSourceUtils.countHardTypedUnits(units);
         int[] positions = new int[hardTypedUnits];
@@ -121,7 +121,7 @@ public class GappedPatternExtractor {
                 }
             }
 
-            Tokens gap = new PandaTokens();
+            Snippet gap = new PandaSnippet();
 
             for (TokenRepresentation representation : reader) {
                 int index = reader.getIndex();
@@ -157,13 +157,13 @@ public class GappedPatternExtractor {
         }
         else*/
         if (pattern.endsWithGap()) {
-            Tokens lastGap;
+            Snippet lastGap;
 
             if (indexes.length > 0) {
-                lastGap = tokens.subSource(positions[positions.length - 1] + 1, tokens.size());
+                lastGap = snippet.subSource(positions[positions.length - 1] + 1, snippet.size());
             }
             else {
-                lastGap = tokens.subSource(0, tokens.size());
+                lastGap = snippet.subSource(0, snippet.size());
             }
 
             gaps.add(lastGap);

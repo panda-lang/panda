@@ -16,39 +16,36 @@
 
 package org.panda_lang.panda.utilities.commons.iterable;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.Iterator;
 import java.util.List;
 
-public class ReverseIterator<T> implements Iterator<T>, Iterable<T> {
+public class ReversedIterable<T> implements Iterable<T> {
 
     private final List<T> list;
-    private int index;
 
-    public ReverseIterator(List<T> list) {
+    public ReversedIterable(List<T> list) {
         this.list = list;
-        this.index = list.size() - 1;
     }
 
     @Override
     public Iterator<T> iterator() {
-        return this;
+        return new ReversedIterator();
     }
 
-    @Override
-    public @Nullable T next() {
-        return index - 1 > -1 ? list.get(index--) : null;
-    }
+    class ReversedIterator implements Iterator<T> {
 
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
+        private int index = list.size() - 1;
 
-    @Override
-    public boolean hasNext() {
-        return index > 0;
+        @Override
+        public boolean hasNext() {
+            return index > 0;
+        }
+
+        @Override
+        public T next() {
+            return index - 1 > -1 ? list.get(index--) : null;
+        }
+
     }
 
 }

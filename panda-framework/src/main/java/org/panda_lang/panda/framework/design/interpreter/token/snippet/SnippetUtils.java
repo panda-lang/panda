@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token;
+package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 
-public class TokensUtils {
+public class SnippetUtils {
 
-    public static boolean contains(Tokens source, Token... tokens) {
+    public static boolean contains(Snippet source, Token... tokens) {
         for (Token token : tokens) {
             if (source.contains(token)) {
                 return true;
@@ -30,16 +31,16 @@ public class TokensUtils {
         return false;
     }
 
-    public static boolean isEmpty(@Nullable Tokens tokens) {
-        return tokens == null || tokens.isEmpty();
+    public static boolean isEmpty(@Nullable Snippet snippet) {
+        return snippet == null || snippet.isEmpty();
     }
 
-    public static String asString(@Nullable Tokens tokens) {
-        return tokens != null ? tokens.asString() : null;
+    public static String asString(@Nullable Snippet snippet) {
+        return snippet != null ? snippet.asString() : null;
     }
 
-    public static int getLine(@Nullable Tokens tokens) {
-        return tokens != null ? tokens.getCurrentLine() : -2;
+    public static int getLine(@Nullable Snippet snippet) {
+        return snippet != null ? snippet.getCurrentLine() : -2;
     }
 
 }

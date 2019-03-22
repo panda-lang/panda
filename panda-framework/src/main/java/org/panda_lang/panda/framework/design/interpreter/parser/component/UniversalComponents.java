@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserDebug;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
 public final class UniversalComponents {
@@ -47,7 +47,7 @@ public final class UniversalComponents {
 
     public static final Component<Script> SCRIPT = Component.of("script", Script.class);
 
-    public static final Component<Tokens> SOURCE = Component.of("source", Tokens.class);
+    public static final Component<Snippet> SOURCE = Component.of("source", Snippet.class);
 
     public static final Component<SourceStream> SOURCE_STREAM = Component.of("source-stream", SourceStream.class);
 

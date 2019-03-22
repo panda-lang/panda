@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -53,19 +53,19 @@ public class MethodInvokerExpressionParser implements ExpressionCallbackParser<M
             .lastIndexAlgorithm(true)
             .build();
 
-    private final Tokens instanceSource;
-    private final Tokens methodNameSource;
-    private final Tokens argumentsSource;
+    private final Snippet instanceSource;
+    private final Snippet methodNameSource;
+    private final Snippet argumentsSource;
     private MethodInvoker invoker;
 
-    public MethodInvokerExpressionParser(Tokens instanceSource, Tokens methodNameSource, Tokens argumentsSource) {
+    public MethodInvokerExpressionParser(Snippet instanceSource, Snippet methodNameSource, Snippet argumentsSource) {
         this.instanceSource = instanceSource;
         this.methodNameSource = methodNameSource;
         this.argumentsSource = argumentsSource;
     }
 
     @Override
-    public void parse(@Nullable Tokens source, ParserData data) {
+    public void parse(@Nullable Snippet source, ParserData data) {
         Expression instance = null;
         ClassPrototype prototype;
 

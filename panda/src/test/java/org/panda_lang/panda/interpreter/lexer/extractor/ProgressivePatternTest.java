@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.Pro
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -46,9 +46,9 @@ class ProgressivePatternTest {
         Source source = new PandaSource(ProgressivePatternTest.class, SOURCE);
 
         Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), source).build();
-        Tokens tokens = lexer.convert();
+        Snippet snippet = lexer.convert();
 
-        ProgressivePatternResult result = EXTRACTOR.extract(tokens);
+        ProgressivePatternResult result = EXTRACTOR.extract(snippet);
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isSucceeded());
         Assertions.assertEquals(3, result.size());

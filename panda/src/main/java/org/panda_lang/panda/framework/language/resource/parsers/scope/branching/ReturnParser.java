@@ -32,8 +32,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
@@ -54,10 +54,10 @@ public class ReturnParser extends UnifiedParserBootstrap {
             @Type(with = Component.class, value = BootstrapComponents.CURRENT_SOURCE_LABEL),
             @Type(with = Src.class, value = "value")
     })
-    public void parse(ParserData data, @Component Container container, Tokens source, @Nullable Tokens value) {
+    public void parse(ParserData data, @Component Container container, Snippet source, @Nullable Snippet value) {
         Return returnStatement;
 
-        if (TokensUtils.isEmpty(value)) {
+        if (SnippetUtils.isEmpty(value)) {
             returnStatement = new Return(null);
         }
         else {

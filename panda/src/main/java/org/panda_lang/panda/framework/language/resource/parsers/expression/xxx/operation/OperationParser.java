@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.subparsers.ConcatenationOperatorSubparser;
@@ -29,11 +29,11 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.o
 
 public class OperationParser implements Parser {
 
-    public Expression parse(ParserData data, Tokens source) {
+    public Expression parse(ParserData data, Snippet source) {
         return parse(data, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));
     }
 
-    public Expression parse(ParserData data, Tokens source, ProgressivePatternResult result) {
+    public Expression parse(ParserData data, Snippet source, ProgressivePatternResult result) {
         Expression expression = parse(data, Operation.of(data.getComponent(PandaComponents.EXPRESSION), data, result));
 
         if (expression == null) {

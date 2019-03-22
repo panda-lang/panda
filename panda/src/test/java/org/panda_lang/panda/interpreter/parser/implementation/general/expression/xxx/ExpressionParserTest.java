@@ -22,12 +22,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionTokens;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSnippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 
@@ -73,13 +73,13 @@ class ExpressionParserTest {
     }
 
     private @Nullable String read(String source) {
-        Tokens tokens = PARSER.read(PandaLexerUtils.convert(source));
+        Snippet snippet = PARSER.read(PandaLexerUtils.convert(source));
 
-        if (!TokensUtils.isEmpty(tokens)) {
-            System.out.println(source + " : " + ((ExpressionTokens) tokens).getSubparser().getName());
+        if (!SnippetUtils.isEmpty(snippet)) {
+            System.out.println(source + " : " + ((ExpressionSnippet) snippet).getSubparser().getName());
         }
 
-        return TokensUtils.asString(tokens);
+        return SnippetUtils.asString(snippet);
     }
 
 }

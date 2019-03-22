@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.token;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
@@ -39,7 +39,7 @@ public class TokenPattern {
         this.patternContent = builder.patternContent;
     }
 
-    public ExtractorResult extract(Tokens source) {
+    public ExtractorResult extract(Snippet source) {
         return extractor().extract(new PandaSourceStream(source));
     }
 

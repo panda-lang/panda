@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.general.number;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 
 public final class NumberUtils {
@@ -28,7 +28,7 @@ public final class NumberUtils {
 
     private NumberUtils() { }
 
-    public static boolean startsWithNumber(Tokens source) {
+    public static boolean startsWithNumber(Snippet source) {
         if (source.isEmpty()) {
             return false;
         }
@@ -40,7 +40,7 @@ public final class NumberUtils {
         return token.getTokenValue().length() != 0 && Character.isDigit(token.getTokenValue().charAt(0));
     }
 
-    public static boolean isNumeric(Tokens source) {
+    public static boolean isNumeric(Snippet source) {
         return isNumeric(source.asString());
     }
 

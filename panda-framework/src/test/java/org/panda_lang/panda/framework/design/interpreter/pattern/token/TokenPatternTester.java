@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token;
 
 import org.junit.jupiter.api.Assertions;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
@@ -34,7 +34,7 @@ class TokenPatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Tokens tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
+        Snippet tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
         ExtractorResult result = pattern.extract(tokenizedSource);
         Assertions.assertNotNull(result);
 

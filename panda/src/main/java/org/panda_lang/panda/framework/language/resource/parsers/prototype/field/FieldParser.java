@@ -36,8 +36,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.PatternContentBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
@@ -62,7 +62,7 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
-    public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Tokens type, @Src("name") Tokens name) {
+    public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Snippet type, @Src("name") Snippet name) {
         ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
 
         FieldVisibility visibility = FieldVisibility.LOCAL;
@@ -92,8 +92,8 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Tokens assignation) {
-        if (TokensUtils.isEmpty(assignation)) {
+    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Snippet assignation) {
+        if (SnippetUtils.isEmpty(assignation)) {
             return;
         }
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.condition.WildcardConditionCompiler;
@@ -36,7 +36,7 @@ public class WildcardCompiler {
         this.readerCompiler = new WildcardReaderCompiler(pattern);
     }
 
-    public @Nullable Tokens compile(String data, TokenDistributor distributor) {
+    public @Nullable Snippet compile(String data, TokenDistributor distributor) {
         String[] entry = StringUtils.splitFirst(data, " ");
         String type = entry[0];
         String value = entry[1];

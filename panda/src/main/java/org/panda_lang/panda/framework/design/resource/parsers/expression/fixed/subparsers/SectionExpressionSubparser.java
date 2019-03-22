@@ -17,18 +17,15 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
-
-import java.util.Stack;
 
 public class SectionExpressionSubparser implements ExpressionSubparser {
 
@@ -39,11 +36,11 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
 
     static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-        private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, SeparatedContentReader.ContentProcessor.DEFAULT);
+        private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.DEFAULT);
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
-            return contentReader.read(parser, data, token);
+        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+            return contentReader.read(context);
         }
 
     }

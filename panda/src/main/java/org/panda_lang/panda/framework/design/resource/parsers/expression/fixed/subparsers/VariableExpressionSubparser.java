@@ -21,12 +21,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
@@ -41,7 +40,6 @@ import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassP
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Optional;
-import java.util.Stack;
 
 public class VariableExpressionSubparser implements ExpressionSubparser {
 
@@ -53,9 +51,11 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
     static class VariableWorker extends AbstractExpressionSubparserWorker implements ReusableExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionParser parser, ParserData data, TokenRepresentation token, Stack<Expression> results) {
+        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+            TokenRepresentation token = context.getNext();
+
             if (Separators.PERIOD.equals(token.getToken())) {
-                return results.isEmpty() ? ExpressionResult.error("xxx", token) : ExpressionResult.empty();
+                return context.hasResults() ? ExpressionResult.empty() : ExpressionResult.error("xxx", token);
             }
 
             if (token.getType() != TokenType.UNKNOWN) {
@@ -66,7 +66,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ScopeLinker scopeLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
+            ScopeLinker scopeLinker = context.getData().getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
 
             String name = token.getTokenValue();
@@ -76,11 +76,11 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.of(new VariableExpressionCallback(variable, scope.indexOf(variable)).toExpression());
             }
 
-            if (!results.isEmpty()) {
-                return fromInstance(results.peek(), name).orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
+            if (context.hasResults()) {
+                return fromInstance(context.peekExpression(), name).orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
             }
 
-            ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+            ClassPrototype prototype = context.getData().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
                 return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find field '" + name + "'", token));

@@ -24,12 +24,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.architecture.value.VariableUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
@@ -44,17 +44,17 @@ class SubparserUtils {
 
     private SubparserUtils() { }
 
-    static @Nullable Tokens readFirstOfType(Tokens source, TokenType type) {
+    static @Nullable Snippet readFirstOfType(Snippet source, TokenType type) {
         TokenRepresentation token = source.get(0);
 
         if (token.getToken().getType() != type) {
             return null;
         }
 
-        return new PandaTokens(token);
+        return new PandaSnippet(token);
     }
 
-    static @Nullable Tokens readBetweenSeparators(Tokens source, Separator first) {
+    static @Nullable Snippet readBetweenSeparators(Snippet source, Separator first) {
         MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(source));
 
         if (!matchable.nextVerified().contentEquals(first)) {

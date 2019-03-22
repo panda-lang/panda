@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
 import java.util.HashMap;
@@ -90,11 +90,11 @@ public class MatchableDistributor {
         return distributor.next();
     }
 
-    public Tokens subSource(int startIndex, int endIndex) {
+    public Snippet subSource(int startIndex, int endIndex) {
         return distributor.subSource(startIndex, endIndex);
     }
 
-    public Tokens currentSubSource() {
+    public Snippet currentSubSource() {
         return distributor.currentSubSource();
     }
 

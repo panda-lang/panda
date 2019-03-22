@@ -22,8 +22,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 
 public class ScopeParser implements Parser {
@@ -53,8 +53,8 @@ public class ScopeParser implements Parser {
         return this;
     }
 
-    public void parse(@Nullable Tokens body) throws Throwable {
-        if (TokensUtils.isEmpty(body)) {
+    public void parse(@Nullable Snippet body) throws Throwable {
+        if (SnippetUtils.isEmpty(body)) {
             return;
         }
 

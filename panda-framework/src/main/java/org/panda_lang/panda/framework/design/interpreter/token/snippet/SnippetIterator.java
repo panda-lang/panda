@@ -14,12 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.token;
+package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
-public class TokensIndexOutOfBoundsException extends ArrayIndexOutOfBoundsException {
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 
-    public TokensIndexOutOfBoundsException(int index) {
-        super(index);
+import java.util.Iterator;
+
+public class SnippetIterator implements Iterator<TokenRepresentation> {
+
+    private final Snippet snippet;
+    private int index;
+
+    public SnippetIterator(Snippet snippet) {
+        this.snippet = snippet;
+    }
+
+    @Override
+    public TokenRepresentation next() {
+        return snippet.get(index++);
+    }
+
+    @Override
+    public boolean hasNext() {
+        return snippet.hasElement(index);
     }
 
 }

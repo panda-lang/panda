@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelin
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -66,7 +66,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
             return false;
         }
 
-        Tokens declaration = result.getWildcard("*declaration");
+        Snippet declaration = result.getWildcard("*declaration");
         SourceStream stream = new PandaSourceStream(declaration);
 
         AssignationSubparser subparser = data
@@ -82,7 +82,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    public void parse(ParserData data, LocalData local, @Component PipelinePath registry, @Src("*declaration") Tokens declaration, @Src("assignation") Tokens assignation) throws Throwable {
+    public void parse(ParserData data, LocalData local, @Component PipelinePath registry, @Src("*declaration") Snippet declaration, @Src("assignation") Snippet assignation) throws Throwable {
         ParserData delegatedData = data.fork();
         delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
 

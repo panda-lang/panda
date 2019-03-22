@@ -20,10 +20,10 @@ import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Indentation;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
@@ -78,7 +78,7 @@ public class PandaLexer implements Lexer {
     }
 
     @Override
-    public Tokens convert() {
+    public Snippet convert() {
         char[] sourceCharArray = source.toCharArray();
 
         for (char c : sourceCharArray) {
@@ -89,7 +89,7 @@ public class PandaLexer implements Lexer {
         TokenRepresentation[] representations = new TokenRepresentation[tokenRepresentations.size()];
         representations = tokenRepresentations.toArray(representations);
 
-        return new PandaTokens(representations);
+        return new PandaSnippet(representations);
     }
 
     private void next(char c) {

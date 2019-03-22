@@ -14,5 +14,12 @@
  * limitations under the License.
  */
 
-@Deprecated
-package org.panda_lang.panda.utilities.commons.text.divider;
+package org.panda_lang.panda.framework.design.interpreter.token.snippet;
+
+public class SnippetIndexOutOfBoundsException extends ArrayIndexOutOfBoundsException {
+
+    public SnippetIndexOutOfBoundsException(int index) {
+        super(index);
+    }
+
+}

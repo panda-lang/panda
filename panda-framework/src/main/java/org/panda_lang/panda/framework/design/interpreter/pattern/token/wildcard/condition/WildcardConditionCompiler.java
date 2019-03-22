@@ -19,10 +19,10 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class WildcardConditionCompiler {
         this.pattern = pattern;
     }
 
-    public @Nullable Tokens extract(String data, TokenDistributor distributor) {
+    public @Nullable Snippet extract(String data, TokenDistributor distributor) {
         String[] conditions = data.split(",");
         List<WildcardCondition> wildcardConditions = new ArrayList<>(conditions.length);
 
@@ -61,7 +61,7 @@ public class WildcardConditionCompiler {
             tokens.add(distributor.next());
         }
 
-        return new PandaTokens(tokens);
+        return new PandaSnippet(tokens);
     }
 
     private @Nullable WildcardCondition createWildcardCondition(String condition) {
