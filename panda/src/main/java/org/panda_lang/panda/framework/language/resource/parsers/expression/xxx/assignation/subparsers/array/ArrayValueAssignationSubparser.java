@@ -53,7 +53,7 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
 
     @Override
     public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        if (!source.toTokenizedSource().getLast().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
+        if (!source.toSnippet().getLast().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
             return false;
         }
 
@@ -63,7 +63,7 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
 
     @Autowired
     public Statement parse(ParserData data, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression expression) {
-        return PARSER.parse(data, source.toTokenizedSource(), new ArrayValueAccessor.ArrayValueAccessorAction() {
+        return PARSER.parse(data, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
             @Override
             public @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, Number index) {
                 array[index.intValue()] = expression.getExpressionValue(branch).getObject();

@@ -54,7 +54,7 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
     @Override
     public final T parse(ParserData data) throws Throwable {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
-        Snippet source = stream.toTokenizedSource();
+        Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();
 
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();

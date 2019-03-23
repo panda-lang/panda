@@ -42,7 +42,7 @@ public class ExtractorWorker {
     protected ExtractorResult extract(SourceStream source) {
         long time = System.nanoTime();
 
-        TokenDistributor distributor = new TokenDistributor(source.toTokenizedSource());
+        TokenDistributor distributor = new TokenDistributor(source.toSnippet());
         ExtractorResult result = extract(distributor, pattern.getPatternContent());
 
         if (result.isMatched()) {

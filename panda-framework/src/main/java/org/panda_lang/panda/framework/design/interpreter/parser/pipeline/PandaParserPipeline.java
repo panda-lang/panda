@@ -72,7 +72,7 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
 
     private @Nullable P handle(ParserData data, SourceStream source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
-        Snippet cached = source.toTokenizedSource();
+        Snippet cached = source.toSnippet();
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.DiffusedSource;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.Stack;
@@ -31,15 +31,15 @@ public class ExpressionContext {
     private final SourceStream source;
 
     private final Stack<Expression> results;
-    private final TokenReader reader;
+    private final DiffusedSource diffusedSource;
     private TokenRepresentation next;
 
-    public ExpressionContext(ExpressionParser parser, ParserData data, SourceStream source, Stack<Expression> results, TokenReader reader) {
+    public ExpressionContext(ExpressionParser parser, ParserData data, SourceStream source, Stack<Expression> results, DiffusedSource diffusedSource) {
         this.parser = parser;
         this.data = data;
         this.source = source;
         this.results = results;
-        this.reader = reader;
+        this.diffusedSource = diffusedSource;
     }
 
     protected ExpressionContext withUpdatedToken(TokenRepresentation next) {
@@ -63,8 +63,8 @@ public class ExpressionContext {
         return next;
     }
 
-    public TokenReader getReader() {
-        return reader;
+    public DiffusedSource getDiffusedSource() {
+        return diffusedSource;
     }
 
     public SourceStream getSource() {

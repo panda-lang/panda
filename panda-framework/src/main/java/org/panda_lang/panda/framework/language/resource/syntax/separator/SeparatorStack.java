@@ -25,6 +25,12 @@ public class SeparatorStack {
 
     private final Stack<Separator> separators = new Stack<>();
 
+    /**
+     * Check a next token
+     *
+     * @param token the token to check
+     * @return true if token affected the stack, otherwise false
+     */
     public boolean check(Token token) {
         Separator separator = ObjectUtils.cast(Separator.class, token);
 
@@ -49,6 +55,11 @@ public class SeparatorStack {
         return true;
     }
 
+    /**
+     * Check if the stack contains some separators
+     *
+     * @return true if some stack contains some separators
+     */
     public boolean isLocked() {
         return !separators.isEmpty();
     }

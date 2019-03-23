@@ -83,7 +83,7 @@ class PandaPatternTester {
             System.out.println(result.getWildcards());
 
             if (stream.hasUnreadSource()) {
-                System.out.println("Unread source: " + stream.toTokenizedSource().asString());
+                System.out.println("Unread source: " + stream.toSnippet().asString());
             }
         }
 

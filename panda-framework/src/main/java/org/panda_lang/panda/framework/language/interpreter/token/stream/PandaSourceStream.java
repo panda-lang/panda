@@ -108,11 +108,11 @@ public class PandaSourceStream implements SourceStream {
 
     @Override
     public TokenReader toTokenReader() {
-        return new PandaTokenReader(this.toTokenizedSource());
+        return new PandaTokenReader(this.toSnippet());
     }
 
     @Override
-    public Snippet toTokenizedSource() {
+    public Snippet toSnippet() {
         return new PandaSnippet(new ArrayList<>(this.source.getTokensRepresentations()));
     }
 

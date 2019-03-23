@@ -32,7 +32,7 @@ public class CommentParser implements ParserHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
-        Token token = source.toTokenizedSource().getFirst().getToken();
+        Token token = source.toSnippet().getFirst().getToken();
         return token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment");
     }
 

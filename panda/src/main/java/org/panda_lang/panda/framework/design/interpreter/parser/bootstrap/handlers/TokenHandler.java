@@ -31,7 +31,7 @@ public class TokenHandler implements ParserHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
-        Token currentToken = source.toTokenizedSource().getFirst().getToken();
+        Token currentToken = source.toSnippet().getFirst().getToken();
 
         for (Token token : tokens) {
             if (currentToken.equals(token)) {

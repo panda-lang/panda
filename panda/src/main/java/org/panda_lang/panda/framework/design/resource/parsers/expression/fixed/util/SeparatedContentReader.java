@@ -50,18 +50,19 @@ public class SeparatedContentReader {
         separators.check(context.getNext().getToken());
 
         this.content = new PandaSnippet();
-        int cachedIndex = context.getReader().getIndex();
+        context.getDiffusedSource().backup();
 
-        for (TokenRepresentation next : context.getReader()) {
-            boolean result = separators.check(next.getToken());
+        for (TokenRepresentation next : context.getDiffusedSource()) {
+            boolean separator = separators.check(next.getToken());
 
-            if (!result && !separators.isLocked() && next.contentEquals(type.getOpposite())) {
+            if (separator && !separators.isLocked() && next.contentEquals(type.getOpposite())) {
                 return contentProcessor.process(this, context, content, next);
             }
 
             content.addToken(next);
         }
 
+        context.getDiffusedSource().restore();
         return null;
     }
 

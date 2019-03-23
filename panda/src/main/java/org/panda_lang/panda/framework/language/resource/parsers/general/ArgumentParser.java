@@ -52,7 +52,7 @@ public class ArgumentParser implements Parser {
             List<Snippet> gaps = extractor.extract(reader);
 
             if (gaps == null) {
-                Expression expression = readArgument(data, expressionParser, sourceStream.toTokenizedSource());
+                Expression expression = readArgument(data, expressionParser, sourceStream.toSnippet());
                 expressions.add(expression);
                 break;
             }

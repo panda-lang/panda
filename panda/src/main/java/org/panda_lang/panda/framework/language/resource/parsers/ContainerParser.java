@@ -54,11 +54,11 @@ public class ContainerParser implements Parser {
         delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
         while (source.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(delegatedData, source.toTokenizedSource());
+            UnifiedParser parser = pipeline.handle(delegatedData, source.toSnippet());
             int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
-                throw new PandaParserFailure("Unrecognized syntax", data, source.toTokenizedSource());
+                throw new PandaParserFailure("Unrecognized syntax", data, source.toSnippet());
             }
 
             try {
@@ -70,7 +70,7 @@ public class ContainerParser implements Parser {
             }
 
             if (sourceLength == source.getUnreadLength()) {
-                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData, source.toTokenizedSource());
+                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData, source.toSnippet());
             }
 
             delegatedData.setComponent(PandaComponents.CONTAINER, container);

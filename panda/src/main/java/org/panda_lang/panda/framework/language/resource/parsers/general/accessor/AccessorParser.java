@@ -48,16 +48,16 @@ public class AccessorParser implements Parser {
     }
 
     public Accessor<? extends Variable> parse(ParserData data, SourceStream source) {
-        int index = source.toTokenizedSource().indexOf(Operators.ASSIGNMENT);
+        int index = source.toSnippet().indexOf(Operators.ASSIGNMENT);
 
         if (index == -1) {
-            throw new PandaParserFailure("Source does not contain assignment", data, source.toTokenizedSource());
+            throw new PandaParserFailure("Source does not contain assignment", data, source.toSnippet());
         }
 
-        Snippet accessorSource = source.toTokenizedSource().subSource(0, index);
+        Snippet accessorSource = source.toSnippet().subSource(0, index);
 
         if (accessorSource.isEmpty()) {
-            throw new PandaParserFailure("Source cannot be empty", data, source.toTokenizedSource());
+            throw new PandaParserFailure("Source cannot be empty", data, source.toSnippet());
         }
 
         return parse(data, accessorSource);

@@ -121,7 +121,7 @@ class ExpressionParserWorker {
 
         // save the result, cleanup cache, move the index
         context.getResults().push(result.get());
-        lastSucceededRead = read + 1;
+        lastSucceededRead = context.getDiffusedSource().getIndex();
         error = null;
         return false;
     }

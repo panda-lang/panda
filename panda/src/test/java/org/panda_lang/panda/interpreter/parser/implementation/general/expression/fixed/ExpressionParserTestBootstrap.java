@@ -32,6 +32,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
@@ -95,11 +96,13 @@ class ExpressionParserTestBootstrap {
 
     protected static void parse(String source) {
         SourceStream stream = new PandaSourceStream(PandaLexerUtils.convert(source));
-        System.out.println(source + ": " + PARSER.parse(DATA, stream));
+        Expression expression = PARSER.parse(DATA, stream);
 
         if (stream.hasUnreadSource()) {
-            throw new RuntimeException("Unread source: " + stream.toTokenizedSource());
+            throw new RuntimeException("Unread source: " + stream.toSnippet());
         }
+
+        System.out.println(source + ": " + expression);
     }
 
 }

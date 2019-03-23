@@ -60,7 +60,7 @@ public class ExpressionParserOld {
     }
 
     public Expression parseProgressively(ParserData data, SourceStream source, boolean progressively) {
-        Result result = readResult(source.toTokenizedSource());
+        Result result = readResult(source.toSnippet());
         long time = System.nanoTime();
 
         if (result == null) {
@@ -74,7 +74,7 @@ public class ExpressionParserOld {
         }
 
         if (!progressively && source.getUnreadLength() != result.source.size()) {
-            throw new PandaParserFailure("Unrecognized syntax", data, source.toTokenizedSource());
+            throw new PandaParserFailure("Unrecognized syntax", data, source.toSnippet());
         }
 
         source.read(result.source.size());
@@ -90,7 +90,7 @@ public class ExpressionParserOld {
     }
 
     public @Nullable Snippet read(SourceStream source) {
-        Snippet result = read(source.toTokenizedSource());
+        Snippet result = read(source.toSnippet());
 
         if (result == null) {
             return null;

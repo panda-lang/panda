@@ -77,7 +77,7 @@ public interface SourceStream {
      *
      * @return the current content wrapped in Tokens
      */
-    Snippet toTokenizedSource();
+    Snippet toSnippet();
 
     default Snippet readDifference(Snippet source) {
         return read(source.size());
@@ -93,7 +93,7 @@ public interface SourceStream {
      * @return true if source contains available for read content
      */
     default boolean hasUnreadSource() {
-        return !toTokenizedSource().isEmpty();
+        return !toSnippet().isEmpty();
     }
 
     /**
@@ -102,7 +102,7 @@ public interface SourceStream {
      * @return the amount of unread tokens
      */
     default int getUnreadLength() {
-        return toTokenizedSource().size();
+        return toSnippet().size();
     }
 
     /**
@@ -111,7 +111,7 @@ public interface SourceStream {
      * @return if there is no available source, the method returns -2, otherwise returns the number of current line
      */
     default int getCurrentLine() {
-        return hasUnreadSource() ? toTokenizedSource().getFirst().getLine() : -2;
+        return hasUnreadSource() ? toSnippet().getFirst().getLine() : -2;
     }
 
 }
