@@ -2,7 +2,7 @@
 
 <p align="center">
    <a href="https://travis-ci.org/Panda-Programming-Language/Panda"><img src="https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master" alt="Build Status"></a>
-   <a href="https://ci.appveyor.com/project/Panda-Programming-Language/panda"><img src="https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl?svg=true"></a>
+   <a href="https://ci.appveyor.com/project/Panda-Programming-Language/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl/branch/master?svg=true"></a>
    <a href="https://www.codefactor.io/repository/github/panda-programming-language/panda"><img src="https://www.codefactor.io/repository/github/panda-programming-language/panda/badge" alt="CodeFactor"></a>
     
   <hr>
