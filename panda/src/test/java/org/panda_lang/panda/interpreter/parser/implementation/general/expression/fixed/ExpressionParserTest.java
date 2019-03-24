@@ -57,19 +57,24 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     public void parseVariable() {
         parse("variable");
         parse("variable true", RuntimeException.class, "Unread source: true");
-        parse("variable.field", "Cannot parse the expression, the latest error: Cannot find field called 'field'");
+        parse("variable.field", "Cannot parse the expression: Cannot find field called 'field'");
     }
 
     @Test
     public void parseArrayAssignation() {
         parse("array[0]");
-        parse("array[]", "Cannot parse the expression, the latest error: Expression expected");
+        parse("array[]", "Cannot parse the expression: Expression expected");
+        parse("array['text']", "Cannot parse the expression: Index of array has to be Integer");
         parse("array[0] true", RuntimeException.class, "Unread source: true");
     }
 
     @Test
     public void parseOperation() {
         parse("1 + 1");
+        parse("(5 + 2) * 4");
+        parse("'a' + 'b'");
+        parse("'a' == 'b'");
+        parse("1 < 2");
     }
 
 }

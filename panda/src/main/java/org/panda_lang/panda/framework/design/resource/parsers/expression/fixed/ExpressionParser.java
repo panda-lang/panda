@@ -57,15 +57,16 @@ public class ExpressionParser implements Parser {
                 break;
             }
         }
-
         worker.finish(context);
 
-        if (context.getResults().isEmpty()) {
-            if (worker.hasError()) {
-                throw new ExpressionParserException("Cannot parse the expression: " + worker.getError().getErrorMessage(), worker.getError().getSource());
-            }
+        // if something went wrong
+        if (worker.hasError()) {
+            throw new ExpressionParserException("Cannot parse the expression: " + worker.getError().getErrorMessage(), worker.getError().getSource());
+        }
 
-            throw new ExpressionParserException("Cannot parse the expression", source.toSnippet());
+        // if context does not contain any results
+        if (!context.hasResults()) {
+            throw new ExpressionParserException("Unknown expression", source.toSnippet());
         }
 
         // if worker couldn't prepare the final result
@@ -74,12 +75,6 @@ public class ExpressionParser implements Parser {
         }
 
         source.read(worker.getLastSucceededRead());
-
-        // if something went wrong
-        if (source.hasUnreadSource() && worker.hasError()) {
-            throw new ExpressionParserException("Cannot parse the expression, the latest error: " + worker.getError().getErrorMessage(), worker.getError().getSource());
-        }
-
         return context.getResults().pop();
     }
 

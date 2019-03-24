@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.runtime.expression.FunctionalExpressionCallback;
 
 public class ArrayValueAccessor extends AbstractStatement implements Executable {
@@ -35,6 +36,14 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
     private final Expression index;
 
     public ArrayValueAccessor(ArrayClassPrototype prototype, ClassPrototype type, Expression instance, Expression index, ArrayValueAccessorAction action) {
+        if (!instance.getReturnType().isArray()) {
+            throw new IllegalArgumentException("The specified instance is not an array");
+        }
+
+        if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {
+            throw new IllegalArgumentException("The specified index is not an integer");
+        }
+
         this.prototype = prototype;
         this.type = type;
         this.instance = instance;

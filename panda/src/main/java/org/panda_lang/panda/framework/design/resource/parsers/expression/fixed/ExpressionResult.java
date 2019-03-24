@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.function.Supplier;
 
@@ -74,6 +75,14 @@ public class ExpressionResult<T> {
 
     public TokenRepresentation getSource() {
         return source;
+    }
+
+    public static <T> ExpressionResult<T> error(String message, Snippet source) {
+        if (source.isEmpty()) {
+            throw new IllegalArgumentException("Source cannot be empty");
+        }
+
+        return new ExpressionResult<>(message, source.getFirst());
     }
 
     public static <T> ExpressionResult<T> error(String message, TokenRepresentation source) {
