@@ -41,8 +41,11 @@ public class ArgumentParser implements Parser {
             .build();
 
     public Expression[] parse(ParserData data, Snippet snippet) {
-        SourceStream sourceStream = new PandaSourceStream(snippet);
+        if (snippet.isEmpty()) {
+            return new Expression[0];
+        }
 
+        SourceStream sourceStream = new PandaSourceStream(snippet);
         List<Expression> expressions = new ArrayList<>();
         ExpressionParserOld expressionParser = data.getComponent(PandaComponents.EXPRESSION);
         GappedPatternExtractor extractor = PATTERN.extractor();

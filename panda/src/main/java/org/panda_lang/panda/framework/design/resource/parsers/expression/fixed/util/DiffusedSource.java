@@ -58,6 +58,14 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
         this.index = index;
     }
 
+    public TokenRepresentation getCurrent() {
+        return source.get(index - 1);
+    }
+
+    public TokenRepresentation getNext() {
+        return source.get(index);
+    }
+
     public int getIndex() {
         return index;
     }

@@ -22,6 +22,10 @@ public interface PrototypeMethods {
 
     void registerMethod(PrototypeMethod method);
 
+    boolean hasMethodLike(String name);
+
+    boolean hasMethod(String name, ClassPrototype... parameterTypes);
+
     PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes);
 
 }

@@ -42,17 +42,21 @@ public class SeparatedContentReader {
     }
 
     public @Nullable ExpressionResult<Expression> read(ExpressionContext context) {
-        if (!type.equals(context.getNext().getToken())) {
+        return read(context, context.getDiffusedSource());
+    }
+
+    public @Nullable ExpressionResult<Expression> read(ExpressionContext context, DiffusedSource source) {
+        if (!type.equals(source.getCurrent().getToken())) {
             return null;
         }
 
         SeparatorStack separators = new SeparatorStack();
-        separators.check(context.getNext().getToken());
+        separators.check(source.getCurrent().getToken());
 
         this.content = new PandaSnippet();
-        context.getDiffusedSource().backup();
+        source.backup();
 
-        for (TokenRepresentation next : context.getDiffusedSource()) {
+        for (TokenRepresentation next : source) {
             boolean separator = separators.check(next.getToken());
 
             if (separator && !separators.isLocked() && next.contentEquals(type.getOpposite())) {
@@ -62,8 +66,13 @@ public class SeparatedContentReader {
             content.addToken(next);
         }
 
-        context.getDiffusedSource().restore();
+        source.restore();
+        this.content = null;
         return null;
+    }
+
+    public boolean hasContent() {
+        return getContent() != null;
     }
 
     public Snippet getContent() {

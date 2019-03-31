@@ -24,9 +24,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Proto
 import org.panda_lang.panda.framework.design.architecture.prototype.method.invoker.MethodInvoker;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionCallbackParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionUtils;
@@ -34,66 +31,54 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
-import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
 public class MethodInvokerExpressionParser implements ExpressionCallbackParser<MethodInvokerExpressionCallback> {
 
-    protected static final GappedPattern PATTERN = new GappedPatternBuilder()
-            .simpleHollow()
-            .unit(TokenType.SEPARATOR, "(")
-            .hollow()
-            .unit(TokenType.SEPARATOR, ")")
-            .lastIndexAlgorithm(true)
-            .build();
-
-    protected static final GappedPattern CALL_PATTERN = new GappedPatternBuilder()
-            .hollow()
-            .unit(TokenType.SEPARATOR, ".")
-            .simpleHollow()
-            .lastIndexAlgorithm(true)
-            .build();
+    private static final ArgumentParser ARGUMENT_PARSER = new ArgumentParser();
 
     private final Snippet instanceSource;
-    private final Snippet methodNameSource;
+    private final String methodName;
     private final Snippet argumentsSource;
     private MethodInvoker invoker;
 
-    public MethodInvokerExpressionParser(Snippet instanceSource, Snippet methodNameSource, Snippet argumentsSource) {
+    public MethodInvokerExpressionParser(Snippet instanceSource, String methodName, Snippet argumentsSource) {
         this.instanceSource = instanceSource;
-        this.methodNameSource = methodNameSource;
+        this.methodName = methodName;
         this.argumentsSource = argumentsSource;
+    }
+
+    public MethodInvokerExpressionParser(Snippet instanceSource, Snippet methodNameSource, Snippet argumentsSource) {
+        this(instanceSource, methodNameSource.asString(), argumentsSource);
+    }
+
+    public MethodInvokerExpressionParser() {
+        this(null, (String) null, null);
     }
 
     @Override
     public void parse(@Nullable Snippet source, ParserData data) {
-        Expression instance = null;
-        ClassPrototype prototype;
+        Expression instance;
 
         if (instanceSource != null) {
             ClassPrototypeReference reference = ModuleLoaderUtils.getReferenceOrNull(data, instanceSource.asString());
-
-            if (reference == null) {
-                instance = data.getComponent(PandaComponents.EXPRESSION).parse(data, instanceSource);
-                prototype = instance.getReturnType();
-            }
-            else {
-                prototype = reference.fetch();
-            }
+             instance = data.getComponent(PandaComponents.EXPRESSION).parse(data, instanceSource);
         }
         else {
-            prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-            instance = ThisExpressionCallback.asExpression(prototype);
+            instance = ThisExpressionCallback.of(data);
         }
 
-        ArgumentParser argumentParser = new ArgumentParser();
-        Expression[] arguments = argumentParser.parse(data, argumentsSource);
-        ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
+        parse(data, instance, methodName, argumentsSource);
+    }
 
-        String methodName = methodNameSource.asString();
+    public void parse(ParserData data, Expression instance, String methodName, Snippet argumentsSource) {
+        ClassPrototype prototype = instance.getReturnType();
+
+        Expression[] arguments = ARGUMENT_PARSER.parse(data, argumentsSource);
+        ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
         if (prototypeMethod == null) {
-            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, source);
+            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, argumentsSource);
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);

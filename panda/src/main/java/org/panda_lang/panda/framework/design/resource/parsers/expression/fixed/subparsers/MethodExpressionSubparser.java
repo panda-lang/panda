@@ -17,14 +17,24 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class MethodExpressionSubparser implements ExpressionSubparser {
+
+    private static final ContentProcessor CONTENT_PROCESSOR = (reader, context, content, last) -> null;
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
@@ -35,7 +45,47 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            return null; // dzieki GOTO :0
+            Token token = context.getNext().getToken();
+
+            if (token.getType() != TokenType.UNKNOWN) {
+                return null;
+            }
+
+            String methodName = token.getTokenValue();
+
+            if (!context.getDiffusedSource().hasNext() || !context.getDiffusedSource().getNext().contentEquals(Separators.PARENTHESIS_LEFT)) {
+                return null;
+            }
+
+            Expression instance;
+
+            if (context.hasResults()) {
+                instance = context.peekExpression();
+            }
+            else {
+                instance = ThisExpressionCallback.of(context.getData());
+            }
+
+            if (!instance.getReturnType().getMethods().hasMethodLike(methodName)) {
+                return null;
+            }
+
+            SeparatedContentReader parametersReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, CONTENT_PROCESSOR);
+            TokenRepresentation separator = context.getDiffusedSource().next();
+            ExpressionResult<Expression> result = parametersReader.read(context);
+
+            if (!parametersReader.hasContent()) {
+                return ExpressionResult.error("Cannot read parameters", separator);
+            }
+
+            MethodInvokerExpressionParser methodParser = new MethodInvokerExpressionParser();
+            methodParser.parse(context.getData(), instance, methodName, parametersReader.getContent());
+
+            if (context.hasResults()) {
+                context.popExpression();
+            }
+
+            return ExpressionResult.of(methodParser.toCallback().toExpression());
         }
 
     }

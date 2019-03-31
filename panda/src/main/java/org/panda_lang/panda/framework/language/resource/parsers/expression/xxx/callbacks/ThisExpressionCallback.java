@@ -18,9 +18,11 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class ThisExpressionCallback implements ExpressionCallback {
@@ -43,6 +45,10 @@ public class ThisExpressionCallback implements ExpressionCallback {
 
     public static Expression asExpression(ClassPrototype type) {
         return new PandaExpression(new ThisExpressionCallback(type));
+    }
+
+    public static Expression of(ParserData data) {
+        return asExpression(data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE));
     }
 
 }

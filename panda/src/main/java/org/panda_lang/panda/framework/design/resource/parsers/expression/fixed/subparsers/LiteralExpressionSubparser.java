@@ -30,7 +30,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
@@ -64,7 +63,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
                 case "false":
                     return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
                 case "this":
-                    return ExpressionResult.of(ThisExpressionCallback.asExpression(context.getData().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE)));
+                    return ExpressionResult.of(ThisExpressionCallback.of(context.getData()));
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

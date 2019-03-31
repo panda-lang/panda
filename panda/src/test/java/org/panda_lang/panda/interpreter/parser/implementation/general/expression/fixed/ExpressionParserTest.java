@@ -77,11 +77,12 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("1 < 2");
     }
 
-    //@Test
+    @Test
     public void parseMethod() {
-        parse("call()");
-        parse("call(1 + 2)");
-        parse("call() true");
+        parse("variable.toString()");
+        parse("variable.toString().toString()");
+        // parse("variable.toString(1 + 2)"); # requires old expression parser for arguments
+        parse("variable.toString() true", RuntimeException.class, "Unread source: true");
     }
 
 }

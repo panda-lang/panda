@@ -28,22 +28,15 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
-import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
 
 import java.util.ArrayList;
@@ -51,9 +44,9 @@ import java.util.ArrayList;
 @Fork(value = 1)
 @Warmup(iterations = 1)
 @Measurement(iterations = 2)
-public class ExpressionBenchmark {
+public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
-    private static final Snippet SOURCE = PandaLexerUtils.convert("1 + 1 + 1 + 1 + 1 + 'a' + 1");
+    private static final Snippet SOURCE = PandaLexerUtils.convert("variable.toString().toString().toString().toString()");
 
     @Benchmark
     public void testParser(Configuration configuration, Blackhole blackhole) {
@@ -76,20 +69,10 @@ public class ExpressionBenchmark {
         @Setup(Level.Trial)
         public void setup() throws Exception {
             this.expressionParser = new ExpressionParser(new ExpressionSubparsersLoader().load());
-
-            this.data = new PandaParserData();
             ExpressionSubparsers subparsers = new ExpressionSubparsers(new ArrayList<>());
+
+            this.data = prepareData();
             data.setComponent(PandaComponents.EXPRESSION, new ExpressionParserOld(null, subparsers));
-
-            AbstractScope scope = new AbstractScope() {
-                @Override
-                public ScopeInstance createInstance(ExecutableBranch branch) {
-                    return null;
-                }
-            };
-
-            ScopeLinker linker = new PandaScopeLinker(scope);
-            data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
 
             ExpressionSubparsersLoaderOld loader = new ExpressionSubparsersLoaderOld();
             ExpressionSubparsers loadedSubparsers = Assertions.assertDoesNotThrow(() -> loader.load(data));

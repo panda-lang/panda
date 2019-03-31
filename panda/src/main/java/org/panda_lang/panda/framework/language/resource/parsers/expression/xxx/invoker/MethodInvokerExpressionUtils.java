@@ -17,16 +17,34 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.invoker;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMappingContent;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.List;
 
 public class MethodInvokerExpressionUtils {
 
+    protected static final GappedPattern PATTERN = new GappedPatternBuilder()
+            .simpleHollow()
+            .unit(TokenType.SEPARATOR, "(")
+            .hollow()
+            .unit(TokenType.SEPARATOR, ")")
+            .lastIndexAlgorithm(true)
+            .build();
+
+    protected static final GappedPattern CALL_PATTERN = new GappedPatternBuilder()
+            .hollow()
+            .unit(TokenType.SEPARATOR, ".")
+            .simpleHollow()
+            .lastIndexAlgorithm(true)
+            .build();
+
     public static @Nullable MethodInvokerExpressionParser match(Snippet source) {
-        List<Snippet> methodMatches = MethodInvokerExpressionParser.PATTERN.match(source);
+        List<Snippet> methodMatches = PATTERN.match(source);
 
         if (methodMatches == null || methodMatches.size() == 0) {
             return null;
@@ -37,7 +55,7 @@ public class MethodInvokerExpressionUtils {
         redactor.map("method-call", "arguments");
 
         Snippet methodCallSource = redactor.get("method-call");
-        List<Snippet> methodCallMatches = MethodInvokerExpressionParser.CALL_PATTERN.match(methodCallSource);
+        List<Snippet> methodCallMatches = CALL_PATTERN.match(methodCallSource);
 
         Snippet argumentsSource = redactor.get("arguments");
         Snippet methodNameSource = methodCallSource;
