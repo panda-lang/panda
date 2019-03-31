@@ -53,15 +53,15 @@ import java.util.ArrayList;
 @Measurement(iterations = 2)
 public class ExpressionBenchmark {
 
-    private static final Snippet SOURCE = PandaLexerUtils.convert("true");
+    private static final Snippet SOURCE = PandaLexerUtils.convert("1 + 1 + 1 + 1 + 1 + 'a' + 1");
 
     @Benchmark
-    public void testLiteral(Configuration configuration, Blackhole blackhole) {
+    public void testParser(Configuration configuration, Blackhole blackhole) {
         blackhole.consume(configuration.expressionParser.parse(configuration.data, SOURCE));
     }
 
     @Benchmark
-    public void testOldLiteral(Configuration configuration, Blackhole blackhole) {
+    public void testOldParser(Configuration configuration, Blackhole blackhole) {
         blackhole.consume(configuration.oldExpressionParser.parse(configuration.data, SOURCE));
     }
 

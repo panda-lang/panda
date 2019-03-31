@@ -34,7 +34,7 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
         return new LiteralWorker().withSubparser(this);
     }
 
-    static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {

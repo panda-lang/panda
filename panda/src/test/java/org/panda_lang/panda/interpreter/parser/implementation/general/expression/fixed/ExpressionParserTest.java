@@ -22,7 +22,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
 
     @Test
     public void parseUnknown() {
-        parse("u n k n o w n", "Cannot parse the expression: Cannot find variable or field called 'u'");
+        parse("u n k n o w n", "Unknown expression");
     }
 
     @Test
@@ -75,6 +75,13 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("'a' + 'b'");
         parse("'a' == 'b'");
         parse("1 < 2");
+    }
+
+    //@Test
+    public void parseMethod() {
+        parse("call()");
+        parse("call(1 + 2)");
+        parse("call() true");
     }
 
 }

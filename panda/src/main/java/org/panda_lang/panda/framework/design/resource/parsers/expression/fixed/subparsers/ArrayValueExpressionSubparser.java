@@ -39,7 +39,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
         return new ArrayValueWorker().withSubparser(this);
     }
 
-    static class ArrayValueWorker extends AbstractExpressionSubparserWorker implements ReusableExpressionSubparserWorker {
+    private static class ArrayValueWorker extends AbstractExpressionSubparserWorker implements ReusableExpressionSubparserWorker {
 
         private SeparatedContentReader contentReader;
 
@@ -47,17 +47,17 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
             if (contentReader == null) {
                 if (!context.hasResults()) {
-                    return ExpressionResult.empty();
+                    return null;
                 }
 
                 Expression instance = context.getResults().peek();
 
                 if (instance.getReturnType() == null || !instance.getReturnType().isArray()) {
-                    return ExpressionResult.empty();
+                    return null;
                 }
 
                 if (!Separators.SQUARE_BRACKET_LEFT.equals(context.getNext().getToken())) {
-                    return ExpressionResult.empty();
+                    return null;
                 }
 
                 this.contentReader = new SeparatedContentReader(Separators.SQUARE_BRACKET_LEFT, ContentProcessor.DEFAULT);

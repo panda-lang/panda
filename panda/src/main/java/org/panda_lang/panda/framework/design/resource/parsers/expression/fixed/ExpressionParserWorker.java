@@ -26,18 +26,15 @@ class ExpressionParserWorker {
     private static final int NONE = -1;
 
     private enum Status {
-
         PROCESSING,
         DONE,
         ERROR
-
     }
 
     private final ExpressionSubparserWorker[] subparsers;
     private ExpressionResult<Expression> error = null;
-    private int previousSubparser = -1;
+    private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
-    private int read = 0;
 
     protected ExpressionParserWorker(ExpressionParser parser, SourceStream source, Collection<ExpressionSubparser> subparsers) {
         this.subparsers = subparsers.stream()
@@ -70,8 +67,7 @@ class ExpressionParserWorker {
             previousSubparser = NONE;
 
             // return result from cached subparser
-            if (!this.next(context, cachedSubparser) && previousSubparser != NONE) {
-                read++;
+            if (this.next(context, cachedSubparser) && previousSubparser != NONE) {
                 return true;
             }
         }
@@ -83,21 +79,27 @@ class ExpressionParserWorker {
             }
 
             // return result from subparser
-            if (!this.next(context, index)) {
-                break;
+            if (this.next(context, index)) {
+                return true;
             }
         }
 
-        read++;
-        return true;
+        return false;
     }
 
+    /**
+     * Parse the next element from context using the subparser at the specified index
+     *
+     * @param context the context with data
+     * @param index the index of subparser in the array
+     * @return true if the result was found using the specified subparser, otherwise false
+     */
     private boolean next(ExpressionContext context, int index) {
         ExpressionSubparserWorker worker = subparsers[index];
 
         // skip individual subparser if there's some content
         if (worker.getSubparser().getType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
-            return true;
+            return false;
         }
 
         ExpressionResult<Expression> result = worker.next(context);
@@ -110,11 +112,12 @@ class ExpressionParserWorker {
                 error = result;
             }
 
-            return true;
+            return false;
         }
 
         previousSubparser = index;
 
+        // not yet
         if (result.isEmpty()) {
             return true;
         }
@@ -123,7 +126,7 @@ class ExpressionParserWorker {
         context.getResults().push(result.get());
         lastSucceededRead = context.getDiffusedSource().getIndex();
         error = null;
-        return false;
+        return true;
     }
 
     protected boolean hasError() {

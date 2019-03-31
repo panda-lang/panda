@@ -44,7 +44,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
         return ExpressionSubparserType.INDIVIDUAL;
     }
 
-    static class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private boolean parsed;
 

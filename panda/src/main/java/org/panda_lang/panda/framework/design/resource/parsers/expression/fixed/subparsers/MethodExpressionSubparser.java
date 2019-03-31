@@ -22,25 +22,20 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-public class SectionExpressionSubparser implements ExpressionSubparser {
+public class MethodExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createSubparser() {
-        return new SentenceWorker().withSubparser(this);
+        return new MethodWorker().withSubparser(this);
     }
 
-    private static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
-
-        private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.DEFAULT);
+    private static class MethodWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            return contentReader.read(context);
+            return null; // dzieki GOTO :0
         }
 
     }

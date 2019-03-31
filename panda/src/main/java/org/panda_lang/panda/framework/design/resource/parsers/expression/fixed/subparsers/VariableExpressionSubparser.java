@@ -48,7 +48,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
         return new VariableWorker().withSubparser(this);
     }
 
-    static class VariableWorker extends AbstractExpressionSubparserWorker implements ReusableExpressionSubparserWorker {
+    private static class VariableWorker extends AbstractExpressionSubparserWorker implements ReusableExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
@@ -86,7 +86,8 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find field '" + name + "'", token));
             }
 
-            return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);
+            // return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);
+            return null;
         }
 
         private Optional<ExpressionResult<Expression>> fromInstance(Expression instance, String name) {

@@ -45,14 +45,14 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         return ExpressionSubparserType.MUTUAL;
     }
 
-    static class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private List<Operation.OperationElement> elements;
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
             if (!context.hasResults()) {
-                return ExpressionResult.empty();
+                return null;
             }
 
             if (context.getNext().getType() != TokenType.OPERATOR) {

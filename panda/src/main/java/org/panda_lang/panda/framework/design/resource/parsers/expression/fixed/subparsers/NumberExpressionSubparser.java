@@ -42,7 +42,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
         return new NumberWorker().withSubparser(this);
     }
 
-    static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+    private static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private Snippet content;
         private TokenRepresentation period;
