@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.Operation;
@@ -41,8 +42,13 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public ExpressionSubparserType getType() {
+    public ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.MUTUAL;
+    }
+
+    @Override
+    public ExpressionType getType() {
+        return ExpressionType.COMBINED;
     }
 
     private static class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
@@ -55,7 +61,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            if (context.getNext().getType() != TokenType.OPERATOR) {
+            if (context.getCurrent().getType() != TokenType.OPERATOR) {
                 if (elements != null) {
                     elements.add(new Operation.OperationElement(context.popExpression()));
                     return finish(context);
@@ -69,7 +75,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
             }
 
             elements.add(new Operation.OperationElement(context.popExpression()));
-            elements.add(new Operation.OperationElement(context.getNext()));
+            elements.add(new Operation.OperationElement(context.getCurrent()));
 
             return ExpressionResult.empty();
         }

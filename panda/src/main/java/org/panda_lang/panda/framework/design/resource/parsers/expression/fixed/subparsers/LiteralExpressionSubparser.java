@@ -39,7 +39,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public ExpressionSubparserType getType() {
+    public ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.INDIVIDUAL;
     }
 
@@ -49,7 +49,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getNext();
+            TokenRepresentation token = context.getCurrent();
 
             if (token.getType() != TokenType.LITERAL) {
                 return null;

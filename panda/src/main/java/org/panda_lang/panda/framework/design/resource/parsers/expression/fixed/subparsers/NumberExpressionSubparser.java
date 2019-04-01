@@ -50,7 +50,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getNext();
+            TokenRepresentation token = context.getCurrent();
 
             if (token.getType() == TokenType.SEPARATOR) {
                 if (!token.contentEquals(Separators.PERIOD)) {

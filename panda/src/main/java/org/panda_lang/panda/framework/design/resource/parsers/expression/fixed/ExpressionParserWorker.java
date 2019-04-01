@@ -45,7 +45,7 @@ class ExpressionParserWorker {
     protected void finish(ExpressionContext context) {
         for (ExpressionSubparserWorker worker : subparsers) {
             // skip removed subparsers
-            if (worker == null || worker.getSubparser().getType() != ExpressionSubparserType.MUTUAL) {
+            if (worker == null || worker.getSubparser().getSubparserType() != ExpressionSubparserType.MUTUAL) {
                 continue;
             }
 
@@ -98,7 +98,7 @@ class ExpressionParserWorker {
         ExpressionSubparserWorker worker = subparsers[index];
 
         // skip individual subparser if there's some content
-        if (worker.getSubparser().getType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
+        if (worker.getSubparser().getSubparserType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
             return false;
         }
 

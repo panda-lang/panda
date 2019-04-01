@@ -45,7 +45,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            Token token = context.getNext().getToken();
+            Token token = context.getCurrent().getToken();
 
             if (token.getType() != TokenType.UNKNOWN) {
                 return null;
