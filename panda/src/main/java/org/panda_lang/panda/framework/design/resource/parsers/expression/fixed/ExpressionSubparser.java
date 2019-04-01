@@ -24,7 +24,7 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     @Override
     default int compareTo(@NotNull ExpressionSubparser to) {
-        int result = Integer.compare(getType().getPriority(), to.getType().getPriority());
+        int result = Integer.compare(getSubparserType().getPriority(), to.getSubparserType().getPriority());
 
         if (result != 0) {
             return result;
@@ -33,8 +33,12 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
         return Double.compare(getPriority(), to.getPriority());
     }
 
-    default ExpressionSubparserType getType() {
+    default ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.MODERATE;
+    }
+
+    default ExpressionType getType() {
+        return ExpressionType.SINGULAR;
     }
 
     default double getPriority() {
