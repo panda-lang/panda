@@ -85,4 +85,10 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("variable.toString() true", RuntimeException.class, "Unread source: true");
     }
 
+    @Test
+    public void parseNegate() {
+        parse("!true");
+        parse("!false && !false");
+    }
+
 }
