@@ -21,15 +21,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.DiffusedSource;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.utilities.commons.iterable.ReversedIterable;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import java.util.Stack;
 
 public class ExpressionParser implements Parser {
 
@@ -49,7 +48,7 @@ public class ExpressionParser implements Parser {
     }
 
     public Expression parse(ParserData data, SourceStream source) {
-        ExpressionContext context = new ExpressionContext(this, data, source, new Stack<>(), new DiffusedSource(source.toSnippet()));
+        ExpressionContext context = new ExpressionContext(this, data, source);
         ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers);
 
         for (TokenRepresentation representation : context.getDiffusedSource()) {
@@ -67,6 +66,16 @@ public class ExpressionParser implements Parser {
         // if context does not contain any results
         if (!context.hasResults()) {
             throw new ExpressionParserException("Unknown expression", source.toSnippet());
+        }
+
+        for (ExpressionResultProcessor processor : new ReversedIterable<>(context.getProcessors())) {
+            ExpressionResult<Expression> result = processor.process(context, context.getResults());
+
+            if (result.containsError()) {
+                throw new ExpressionParserException("Error occurred while processing the result: " + result.getErrorMessage(), context.getSource().toSnippet());
+            }
+
+            context.getResults().push(result.get());
         }
 
         // if worker couldn't prepare the final result

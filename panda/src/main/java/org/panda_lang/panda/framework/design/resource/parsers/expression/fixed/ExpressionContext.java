@@ -22,6 +22,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.DiffusedSource;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 
 public class ExpressionContext {
@@ -30,20 +32,25 @@ public class ExpressionContext {
     private final ParserData data;
     private final SourceStream source;
 
-    private final Stack<Expression> results;
     private final DiffusedSource diffusedSource;
-    private TokenRepresentation next;
+    private final List<ExpressionResultProcessor> processors = new ArrayList<>(0);
+    private final Stack<Expression> results = new Stack<>();
+    private TokenRepresentation current;
 
-    public ExpressionContext(ExpressionParser parser, ParserData data, SourceStream source, Stack<Expression> results, DiffusedSource diffusedSource) {
+    public ExpressionContext(ExpressionParser parser, ParserData data, SourceStream source) {
         this.parser = parser;
         this.data = data;
         this.source = source;
-        this.results = results;
-        this.diffusedSource = diffusedSource;
+        this.diffusedSource = new DiffusedSource(source.toSnippet());
     }
 
-    protected ExpressionContext withUpdatedToken(TokenRepresentation next) {
-        this.next = next;
+    protected ExpressionContext withUpdatedToken(TokenRepresentation current) {
+        this.current = current;
+        return this;
+    }
+
+    public ExpressionContext addProcessor(ExpressionResultProcessor processor) {
+        this.processors.add(processor);
         return this;
     }
 
@@ -59,8 +66,12 @@ public class ExpressionContext {
         return !this.getResults().isEmpty();
     }
 
-    public TokenRepresentation getNext() {
-        return next;
+    public TokenRepresentation getCurrent() {
+        return current;
+    }
+
+    public List<? extends ExpressionResultProcessor> getProcessors() {
+        return processors;
     }
 
     public DiffusedSource getDiffusedSource() {
