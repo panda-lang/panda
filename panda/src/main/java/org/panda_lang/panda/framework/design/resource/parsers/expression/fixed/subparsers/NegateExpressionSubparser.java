@@ -43,7 +43,7 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
             }
 
             SourceStream source = new PandaSourceStream(context.getDiffusedSource().getAvailableSource());
-            Expression expression = context.getParser().parse(context.getData(), source);
+            Expression expression = context.getParser().parse(context.getData(), source, false);
 
             return ExpressionResult.empty();
         }

@@ -25,19 +25,14 @@ class ExpressionParserWorker {
 
     private static final int NONE = -1;
 
-    private enum Status {
-        PROCESSING,
-        DONE,
-        ERROR
-    }
-
     private final ExpressionSubparserWorker[] subparsers;
     private ExpressionResult<Expression> error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected ExpressionParserWorker(ExpressionParser parser, SourceStream source, Collection<ExpressionSubparser> subparsers) {
+    protected ExpressionParserWorker(ExpressionParser parser, SourceStream source, Collection<ExpressionSubparser> subparsers, boolean combined) {
         this.subparsers = subparsers.stream()
+                .filter(subparser -> combined || subparser.getType() != ExpressionType.COMBINED)
                 .map(ExpressionSubparser::createSubparser)
                 .toArray(ExpressionSubparserWorker[]::new);
     }

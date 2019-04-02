@@ -48,8 +48,12 @@ public class ExpressionParser implements Parser {
     }
 
     public Expression parse(ParserData data, SourceStream source) {
+        return parse(data, source, true);
+    }
+
+    public Expression parse(ParserData data, SourceStream source, boolean combined) {
         ExpressionContext context = new ExpressionContext(this, data, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers);
+        ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers, combined);
 
         for (TokenRepresentation representation : context.getDiffusedSource()) {
             if (!worker.next(context.withUpdatedToken(representation))) {
