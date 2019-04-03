@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
@@ -31,14 +32,21 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.u
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ArrayInstanceExpression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.utilities.commons.iterable.Loop;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
@@ -62,7 +70,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             source.backup();
 
             Loop.LoopResult result = Loop.of(source)
-                    .loop((loop, representation) -> loop.breakLoop(representation.contentEquals(Separators.PARENTHESIS_LEFT)))
+                    .loop((loop, representation) -> loop.breakLoop(TokenUtils.contentEquals(representation, Separators.PARENTHESIS_LEFT, Separators.SQUARE_BRACKET_LEFT)))
                     .run();
 
             if (!result.isBroke()) {
@@ -71,24 +79,48 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             }
 
             Snippet typeSource = source.getLastReadSource();
-            TokenRepresentation separator = source.getCurrent();
+            ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getData(), typeSource.asString(), typeSource).fetch();
 
-            SeparatedContentReader argumentsReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.NON_PROCESSING);
+            TokenRepresentation separator = source.getCurrent();
+            SeparatedContentReader argumentsReader = new SeparatedContentReader((Separator) separator.getToken(), ContentProcessor.NON_PROCESSING);
             argumentsReader.read(context, source);
 
-            if (!argumentsReader.hasContent()) {
+            if (argumentsReader.getContent() == null) {
                 return ExpressionResult.error("Broken arguments", separator);
             }
 
-            ClassPrototypeReference type = ModuleLoaderUtils.getReferenceOrThrow(context.getData(), typeSource.asString(), typeSource);
-            Expression[] arguments = ARGUMENT_PARSER.parse(context.getData(), argumentsReader.getContent());
-            PrototypeConstructor constructor = ConstructorUtils.matchConstructor(type.fetch(), arguments);
-
-            if (constructor == null) {
-                return ExpressionResult.error(type.getClassName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), typeSource);
+            if (separator.contentEquals(Separators.PARENTHESIS_LEFT)) {
+                return parseDefault(context, source, type, argumentsReader.getContent());
             }
 
-            return ExpressionResult.of(new InstanceExpressionCallback(type.fetch(), constructor, arguments).toExpression());
+            return parseArray(context, source, type, argumentsReader.getContent());
+        }
+
+        private ExpressionResult<Expression> parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {
+            Expression[] arguments = ARGUMENT_PARSER.parse(context.getData(), argumentsSource);
+            PrototypeConstructor constructor = ConstructorUtils.matchConstructor(type, arguments);
+
+            if (constructor == null) {
+                return ExpressionResult.error(type.getClassName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), argumentsSource);
+            }
+
+            return ExpressionResult.of(new InstanceExpressionCallback(type, constructor, arguments).toExpression());
+        }
+
+        private ExpressionResult<Expression> parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet capacitySource) {
+            Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getData(), type.getClassName() + "[]");
+
+            if (!reference.isPresent()) {
+                return ExpressionResult.error("Cannot fetch type: " + type.getClassName() + "[]", capacitySource);
+            }
+
+            Expression capacity = context.getParser().parse(context.getData(), capacitySource);
+
+            if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
+                return ExpressionResult.error("Capacity must to be Int", capacitySource);
+            }
+
+            return ExpressionResult.of(new ArrayInstanceExpression((ArrayClassPrototype) reference.get().fetch(), capacity).toExpression());
         }
 
     }

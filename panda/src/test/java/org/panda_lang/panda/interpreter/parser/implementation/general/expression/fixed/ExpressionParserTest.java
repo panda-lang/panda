@@ -99,4 +99,9 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("new StringBuilder() true", RuntimeException.class, "Unread source: true");
     }
 
+    @Test
+    public void parseArrayConstructor() {
+        parse("new String[0]");
+    }
+
 }

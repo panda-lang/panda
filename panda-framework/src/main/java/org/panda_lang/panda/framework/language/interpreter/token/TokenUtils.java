@@ -46,4 +46,14 @@ public class TokenUtils {
         return representations;
     }
 
+    public static boolean contentEquals(TokenRepresentation representation, Token... tokens) {
+        for (Token token : tokens) {
+            if (representation.contentEquals(token)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 }

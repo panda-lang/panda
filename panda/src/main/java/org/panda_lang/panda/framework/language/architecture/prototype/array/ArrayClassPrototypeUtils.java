@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.architecture.prototype.array;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PandaMethod;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
@@ -32,6 +34,10 @@ import java.util.Optional;
 public class ArrayClassPrototypeUtils {
 
     private static final Map<String, ClassPrototypeReference> ARRAY_PROTOTYPES = new HashMap<>();
+
+    public static Optional<ClassPrototypeReference> obtain(ParserData data, String type) {
+        return obtain(data.getComponent(UniversalComponents.MODULE_LOADER), type);
+    }
 
     public static Optional<ClassPrototypeReference> obtain(ModuleLoader loader, String type) {
         ClassPrototypeReference cached = ARRAY_PROTOTYPES.get(type);

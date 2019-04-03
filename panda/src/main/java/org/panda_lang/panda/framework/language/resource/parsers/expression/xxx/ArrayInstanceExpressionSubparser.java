@@ -17,9 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
@@ -29,18 +27,15 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparser;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ArrayInstanceExpression;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-import java.lang.reflect.Array;
 import java.util.Optional;
 
 public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
@@ -110,26 +105,6 @@ public class ArrayInstanceExpressionSubparser implements ExpressionSubparser {
         return DefaultSubparsers.Names.ARRAY_INSTANCE;
     }
 
-    private static class ArrayInstanceExpression implements ExpressionCallback {
 
-        private final ArrayClassPrototype prototype;
-        private final Expression capacity;
-
-        private ArrayInstanceExpression(ArrayClassPrototype prototype, Expression capacity) {
-            this.prototype = prototype;
-            this.capacity = capacity;
-        }
-
-        @Override
-        public Value call(Expression expression, ExecutableBranch branch) {
-            return new PandaValue(prototype, Array.newInstance(prototype.getType(), (Integer) capacity.getExpressionValue(branch).getObject()));
-        }
-
-        @Override
-        public ClassPrototype getReturnType() {
-            return prototype;
-        }
-
-    }
 
 }
