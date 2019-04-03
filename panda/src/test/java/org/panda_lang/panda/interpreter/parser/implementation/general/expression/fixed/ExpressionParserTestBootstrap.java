@@ -90,7 +90,7 @@ class ExpressionParserTestBootstrap {
 
     protected static void parse(String source, Class<? extends Throwable> clazz, String message) {
         Throwable throwable = Assertions.assertThrows(clazz, () -> parse(source));
-        Assertions.assertEquals(message, throwable.getMessage());
+        Assertions.assertEquals(message, throwable.getLocalizedMessage());
         System.out.println(source + ": " + message);
     }
 

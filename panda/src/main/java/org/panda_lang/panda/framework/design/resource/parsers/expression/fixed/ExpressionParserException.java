@@ -24,11 +24,17 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 public class ExpressionParserException extends PandaParserException {
 
+    private final String expressionMessage;
     private final Snippet source;
 
-    public ExpressionParserException(String message, Snippet source) {
-        super(message);
+    public ExpressionParserException(String prefix, String message, Snippet source) {
+        super(prefix + message);
+        this.expressionMessage = message;
         this.source = source;
+    }
+
+    public ExpressionParserException(String message, Snippet source) {
+        this("Cannot parse the expression: ", message, source);
     }
 
     public ExpressionParserException(String message, TokenRepresentation source) {
@@ -39,8 +45,17 @@ public class ExpressionParserException extends PandaParserException {
         this(message, source.toSnippet());
     }
 
+    @Override
+    public String getLocalizedMessage() {
+        return expressionMessage;
+    }
+
     public Snippet getSource() {
         return source;
+    }
+
+    public String getExpressionMessage() {
+        return expressionMessage;
     }
 
 }

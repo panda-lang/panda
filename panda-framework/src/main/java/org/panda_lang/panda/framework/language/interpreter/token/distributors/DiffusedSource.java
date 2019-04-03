@@ -59,7 +59,7 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
     }
 
     public Snippet getLastReadSource() {
-        return source.subSource(backup, index - 1);
+        return source.subSource(backup, index);
     }
 
     public Snippet getAvailableSource() {

@@ -40,7 +40,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseSection() {
         parse("('chance')");
-        parse("()", "Cannot parse the expression: Expression expected");
+        parse("()", "Expression expected");
         parse("('random') true", RuntimeException.class, "Unread source: true");
     }
 
@@ -57,14 +57,14 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     public void parseVariable() {
         parse("variable");
         parse("variable true", RuntimeException.class, "Unread source: true");
-        parse("variable.field", "Cannot parse the expression: Cannot find field called 'field'");
+        parse("variable.field", "Cannot find field called 'field'");
     }
 
     @Test
     public void parseArrayAssignation() {
         parse("array[0]");
-        parse("array[]", "Cannot parse the expression: Expression expected");
-        parse("array['text']", "Cannot parse the expression: Index of array has to be Integer");
+        parse("array[]", "Expression expected");
+        parse("array['text']", "Index of array has to be Integer");
         parse("array[0] true", RuntimeException.class, "Unread source: true");
     }
 
@@ -102,6 +102,9 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseArrayConstructor() {
         parse("new String[0]");
+        parse("new String[]", "Array requires specified capacity");
+        parse("new String['a']", "Capacity has to be Int");
+        parse("new String[0] true", RuntimeException.class, "Unread source: true");
     }
 
 }

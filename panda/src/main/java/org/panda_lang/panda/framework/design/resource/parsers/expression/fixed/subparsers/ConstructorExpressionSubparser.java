@@ -78,7 +78,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Missing type", current);
             }
 
-            Snippet typeSource = source.getLastReadSource();
+            Snippet typeSource = source.getLastReadSource().subSource(0, -1);
             ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getData(), typeSource.asString(), typeSource).fetch();
 
             TokenRepresentation separator = source.getCurrent();
@@ -111,13 +111,17 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getData(), type.getClassName() + "[]");
 
             if (!reference.isPresent()) {
-                return ExpressionResult.error("Cannot fetch type: " + type.getClassName() + "[]", capacitySource);
+                return ExpressionResult.error("Cannot fetch type: " + type.getClassName() + "[]", source.getLastReadSource());
+            }
+
+            if (capacitySource.isEmpty()) {
+                return ExpressionResult.error("Array requires specified capacity", source.getLastReadSource());
             }
 
             Expression capacity = context.getParser().parse(context.getData(), capacitySource);
 
             if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
-                return ExpressionResult.error("Capacity must to be Int", capacitySource);
+                return ExpressionResult.error("Capacity has to be Int", capacitySource);
             }
 
             return ExpressionResult.of(new ArrayInstanceExpression((ArrayClassPrototype) reference.get().fetch(), capacity).toExpression());

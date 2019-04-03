@@ -64,7 +64,7 @@ public class ExpressionParser implements Parser {
 
         // if something went wrong
         if (worker.hasError()) {
-            throw new ExpressionParserException("Cannot parse the expression: " + worker.getError().getErrorMessage(), worker.getError().getSource());
+            throw new ExpressionParserException(worker.getError().getErrorMessage(), worker.getError().getSource());
         }
 
         // if context does not contain any results
@@ -76,7 +76,7 @@ public class ExpressionParser implements Parser {
             ExpressionResult<Expression> result = processor.process(context, context.getResults());
 
             if (result.containsError()) {
-                throw new ExpressionParserException("Error occurred while processing the result: " + result.getErrorMessage(), context.getSource().toSnippet());
+                throw new ExpressionParserException("Error occurred while processing the result: ", result.getErrorMessage(), context.getSource().toSnippet());
             }
 
             context.getResults().push(result.get());

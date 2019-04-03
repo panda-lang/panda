@@ -56,6 +56,10 @@ public interface Snippet extends Iterable<TokenRepresentation> {
     }
 
     default Snippet subSource(int fromIndex, int toIndex) {
+        if (toIndex < 0) {
+            return new PandaSnippet(getTokensRepresentations().subList(fromIndex, size() + toIndex));
+        }
+
         return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex));
     }
 
