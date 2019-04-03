@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -25,11 +27,17 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Ass
 
 public interface Accessor<T extends Variable> {
 
-    Value perform(ExecutableBranch branch, AccessorCallback callback);
+    @Nullable Value perform(ExecutableBranch branch, AccessorCallback callback);
 
     MemoryContainer fetchMemoryContainer(ExecutableBranch branch);
 
     Assigner<T> toAssigner(Expression expression);
+
+    default ClassPrototypeReference getTypeReference() {
+        return getVariable().getTypeReference();
+    }
+
+    @Nullable Value getValue(ExecutableBranch branch);
 
     int getMemoryPointer();
 

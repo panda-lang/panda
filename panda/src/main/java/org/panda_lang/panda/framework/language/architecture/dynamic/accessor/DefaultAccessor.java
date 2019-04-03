@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -53,6 +54,11 @@ abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
 
     protected Function<ExecutableBranch, MemoryContainer> getMemoryFunction() {
         return memory;
+    }
+
+    @Override
+    public @Nullable Value getValue(ExecutableBranch branch) {
+        return fetchMemoryContainer(branch).get(pointer);
     }
 
     @Override

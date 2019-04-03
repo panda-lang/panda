@@ -80,6 +80,7 @@ class ExpressionParserTestBootstrap {
 
         scope.addVariable(new PandaVariable(PandaTypes.STRING.getReference(), "variable"));
         scope.addVariable(new PandaVariable(PandaTypes.STRING.toArray(), "array"));
+        scope.addVariable(new PandaVariable(PandaTypes.INT.getReference(), "i"));
 
         return data;
     }

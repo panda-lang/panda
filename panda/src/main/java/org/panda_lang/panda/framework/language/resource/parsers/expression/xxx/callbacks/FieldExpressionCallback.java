@@ -22,46 +22,36 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.FieldAccessor;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class FieldExpressionCallback implements ExpressionCallback {
 
-    private final Expression instanceExpression;
-    private final PrototypeField field;
-    private final int internalPointer;
+    private final Accessor<? extends PrototypeField> accessor;
+
+    public FieldExpressionCallback(Accessor<? extends PrototypeField> accessor) {
+        this.accessor = accessor;
+    }
 
     public FieldExpressionCallback(Expression instanceExpression, PrototypeField field, int internalPointer) {
-        this.instanceExpression = instanceExpression;
-        this.field = field;
-        this.internalPointer = internalPointer;
+        this(new FieldAccessor(instanceExpression, field));
     }
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
+        PrototypeField field = accessor.getVariable();
+
         if (field.isStatic()) {
             return field.getStaticValue().getValue();
         }
-
-        Value instance = instanceExpression.getExpressionValue(branch);
-
-        if (instance == null) {
-            throw new PandaRuntimeException("Instance is not defined");
-        }
-
-        // consider launching as a standalone env
-        // branch.instance(instance);
 
         if (field.isNative()) {
             return field.getDefaultValue().getExpressionValue(branch);
         }
 
-        if (!(instance.getObject() instanceof ClassPrototypeScopeInstance)) {
-            throw new PandaRuntimeException("Cannot get field value of external object");
-        }
-
-        ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
-        Value value = pandaInstance.get(internalPointer);
+        Value value = accessor.getValue(branch);
 
         if (value == null) {
             throw new PandaRuntimeException("Field '" + field.getName() + "' have not been initialized");
@@ -72,7 +62,12 @@ public class FieldExpressionCallback implements ExpressionCallback {
 
     @Override
     public ClassPrototype getReturnType() {
-        return field.getType();
+        return accessor.getTypeReference().fetch();
+    }
+
+    @Override
+    public Expression toExpression() {
+        return new AccessorExpression(accessor, this);
     }
 
 }

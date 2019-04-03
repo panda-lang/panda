@@ -16,33 +16,41 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 
 public class VariableExpressionCallback implements ExpressionCallback {
 
-    private final Variable variable;
-    private final int internalPointer;
+    private final Accessor<?> accessor;
 
     public VariableExpressionCallback(Variable variable, int internalPointer) {
-        this.variable = variable;
-        this.internalPointer = internalPointer;
+        this(new VariableAccessor(variable, internalPointer));
+    }
+
+    public VariableExpressionCallback(Accessor<?> accessor) {
+        this.accessor = accessor;
     }
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        ScopeInstance currentScope = branch.getCurrentScope();
-        return currentScope.get(internalPointer);
+        return accessor.getValue(branch);
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return variable.getType();
+        return accessor.getTypeReference().fetch();
+    }
+
+    @Override
+    public Expression toExpression() {
+        return new AccessorExpression(accessor, this);
     }
 
 }

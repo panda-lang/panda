@@ -107,4 +107,12 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("new String[0] true", RuntimeException.class, "Unread source: true");
     }
 
+    @Test
+    public void parseCrease() {
+        parse("i++");
+        parse("++i");
+        parse("i--");
+        parse("--i");
+    }
+
 }

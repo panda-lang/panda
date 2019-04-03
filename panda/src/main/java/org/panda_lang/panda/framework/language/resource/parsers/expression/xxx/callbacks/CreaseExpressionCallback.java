@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberPriorities;
@@ -73,6 +74,11 @@ public class CreaseExpressionCallback extends NumberPriorities implements Expres
     @Override
     public ClassPrototype getReturnType() {
         return accessor.getVariable().getType();
+    }
+
+    @Override
+    public Expression toExpression() {
+        return new AccessorExpression(accessor, this);
     }
 
 }
