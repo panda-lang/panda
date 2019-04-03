@@ -37,6 +37,12 @@ public interface ContentProcessor {
     };
 
     /**
+     * The stub implementation of processor which always returns null as a result
+     */
+    ContentProcessor NON_PROCESSING = (reader, context, content, last) -> null;
+
+
+    /**
      *
      * Process the read content and prepare the result
      *

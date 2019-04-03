@@ -89,6 +89,14 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     public void parseNegate() {
         parse("!true");
         parse("!false && !false");
+        parse("!true false", RuntimeException.class, "Unread source: false");
+    }
+
+    @Test
+    public void parseConstructor() {
+        parse("new StringBuilder()");
+        // parse("new StringBuilder('a')"); # requires old expression parser for arguments
+        parse("new StringBuilder() true", RuntimeException.class, "Unread source: true");
     }
 
 }

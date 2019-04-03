@@ -34,7 +34,6 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class MethodExpressionSubparser implements ExpressionSubparser {
 
-    private static final ContentProcessor CONTENT_PROCESSOR = (reader, context, content, last) -> null;
 
     @Override
     public ExpressionSubparserWorker createWorker() {
@@ -70,7 +69,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            SeparatedContentReader parametersReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, CONTENT_PROCESSOR);
+            SeparatedContentReader parametersReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.NON_PROCESSING);
             TokenRepresentation separator = context.getDiffusedSource().next();
             ExpressionResult<Expression> result = parametersReader.read(context);
 

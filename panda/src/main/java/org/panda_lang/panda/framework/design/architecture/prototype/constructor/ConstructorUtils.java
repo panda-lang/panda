@@ -26,7 +26,7 @@ public class ConstructorUtils {
 
     public static final ClassPrototypeReference[] PARAMETERLESS = new ClassPrototypeReference[0];
 
-    public static PrototypeConstructor matchConstructor(ClassPrototype prototype, Expression... types) {
+    public static @Nullable PrototypeConstructor matchConstructor(ClassPrototype prototype, Expression... types) {
         ClassPrototype[] expressionTypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < expressionTypes.length; i++) {

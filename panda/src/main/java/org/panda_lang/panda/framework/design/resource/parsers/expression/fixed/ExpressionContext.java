@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.DiffusedSource;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.ArrayList;

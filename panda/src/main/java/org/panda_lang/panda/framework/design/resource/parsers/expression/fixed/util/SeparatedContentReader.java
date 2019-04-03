@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.SeparatorStack;
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util;
+package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -56,6 +56,10 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public Snippet getLastReadSource() {
+        return source.subSource(backup, index - 1);
     }
 
     public Snippet getAvailableSource() {
