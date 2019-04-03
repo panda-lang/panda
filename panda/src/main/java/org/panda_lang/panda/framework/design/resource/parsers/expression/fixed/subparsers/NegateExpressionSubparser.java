@@ -17,14 +17,13 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.NegateLogicalExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
 public class NegateExpressionSubparser implements ExpressionSubparser {
@@ -42,10 +41,8 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            SourceStream source = new PandaSourceStream(context.getDiffusedSource().getAvailableSource());
-            Expression expression = context.getParser().parse(context.getData(), source, false);
-
-            return ExpressionResult.empty();
+            Expression expression = context.getParser().parse(context.getData(), context.getDiffusedSource());
+            return ExpressionResult.of(new NegateLogicalExpressionCallback(expression).toExpression());
         }
 
     }
