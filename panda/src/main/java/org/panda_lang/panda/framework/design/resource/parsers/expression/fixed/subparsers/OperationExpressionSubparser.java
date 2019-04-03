@@ -26,8 +26,8 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.Operation;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.OperationParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.operation.Operation;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.operation.OperationParser;
 
 import java.util.ArrayList;
 import java.util.List;

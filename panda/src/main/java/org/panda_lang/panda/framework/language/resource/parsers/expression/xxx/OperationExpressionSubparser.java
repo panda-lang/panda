@@ -27,8 +27,8 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.uti
 import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.utils.reader.ReaderFinisher;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.OperationExpressionUtils;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.operation.OperationParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.operation.OperationExpressionUtils;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.operation.OperationParser;
 
 public class OperationExpressionSubparser implements ExpressionSubparser, ReaderFinisher {
 
