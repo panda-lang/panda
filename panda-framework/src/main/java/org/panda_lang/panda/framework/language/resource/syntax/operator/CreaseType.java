@@ -14,7 +14,11 @@
  * limitations under the License.
  */
 
-@NotNullByDefault
-package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
+package org.panda_lang.panda.framework.language.resource.syntax.operator;
 
-import org.panda_lang.panda.utilities.commons.annotation.NotNullByDefault;
+public enum CreaseType {
+
+    INCREASE,
+    DECREASE
+
+}
