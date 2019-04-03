@@ -37,8 +37,8 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
     private static final OperationParser OPERATION_PARSER = new OperationParser();
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new OperationWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new OperationWorker();
     }
 
     @Override

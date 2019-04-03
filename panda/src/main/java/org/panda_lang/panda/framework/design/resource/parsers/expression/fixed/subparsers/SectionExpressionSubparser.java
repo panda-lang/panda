@@ -30,8 +30,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 public class SectionExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new SentenceWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new SentenceWorker();
     }
 
     private static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {

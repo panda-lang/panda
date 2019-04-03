@@ -30,8 +30,8 @@ import org.panda_lang.panda.framework.language.resource.PandaTypes;
 public class SequenceExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new LiteralWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new LiteralWorker();
     }
 
     private static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {

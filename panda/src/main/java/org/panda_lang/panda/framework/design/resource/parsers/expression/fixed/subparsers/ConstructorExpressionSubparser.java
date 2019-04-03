@@ -17,35 +17,25 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
-public class NegateExpressionSubparser implements ExpressionSubparser {
+public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new NegateWorker();
+        return new ConstructorWorker();
     }
 
-    private static class NegateWorker extends AbstractExpressionSubparserWorker {
+    private static class ConstructorWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            if (!context.getCurrent().contentEquals(Operators.NOT)) {
-                return null;
-            }
-
-            SourceStream source = new PandaSourceStream(context.getDiffusedSource().getAvailableSource());
-            Expression expression = context.getParser().parse(context.getData(), source, false);
-
-            return ExpressionResult.empty();
+            return null;
         }
 
     }

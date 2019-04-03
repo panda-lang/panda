@@ -38,8 +38,8 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
     private static final NumberParser PARSER = new NumberParser();
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new NumberWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new NumberWorker();
     }
 
     private static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {

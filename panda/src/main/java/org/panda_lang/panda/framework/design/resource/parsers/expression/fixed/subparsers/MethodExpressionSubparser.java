@@ -37,8 +37,8 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
     private static final ContentProcessor CONTENT_PROCESSOR = (reader, context, content, last) -> null;
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new MethodWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new MethodWorker();
     }
 
     private static class MethodWorker extends AbstractExpressionSubparserWorker {

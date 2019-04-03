@@ -33,7 +33,15 @@ class ExpressionParserWorker {
     protected ExpressionParserWorker(ExpressionParser parser, SourceStream source, Collection<ExpressionSubparser> subparsers, boolean combined) {
         this.subparsers = subparsers.stream()
                 .filter(subparser -> combined || subparser.getType() != ExpressionType.COMBINED)
-                .map(ExpressionSubparser::createSubparser)
+                .map(subparser -> {
+                    ExpressionSubparserWorker worker = subparser.createWorker();
+
+                    if (worker == null) {
+                        throw new ExpressionParserException(subparser.getClass() + ": null worker", source);
+                    }
+
+                    return worker.withSubparser(subparser);
+                })
                 .toArray(ExpressionSubparserWorker[]::new);
     }
 

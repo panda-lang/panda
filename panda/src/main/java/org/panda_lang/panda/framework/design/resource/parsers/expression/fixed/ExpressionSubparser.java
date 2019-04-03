@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
-    ExpressionSubparserWorker createSubparser();
+    ExpressionSubparserWorker createWorker();
 
     @Override
     default int compareTo(@NotNull ExpressionSubparser to) {

@@ -34,8 +34,8 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.c
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new SequenceWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new SequenceWorker();
     }
 
     @Override

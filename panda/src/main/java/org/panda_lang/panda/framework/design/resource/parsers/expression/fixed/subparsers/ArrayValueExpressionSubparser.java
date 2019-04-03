@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ReusableExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
@@ -35,11 +34,11 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
     @Override
-    public ExpressionSubparserWorker createSubparser() {
-        return new ArrayValueWorker().withSubparser(this);
+    public ExpressionSubparserWorker createWorker() {
+        return new ArrayValueWorker();
     }
 
-    private static class ArrayValueWorker extends AbstractExpressionSubparserWorker implements ReusableExpressionSubparserWorker {
+    private static class ArrayValueWorker extends AbstractExpressionSubparserWorker {
 
         private SeparatedContentReader contentReader;
 
