@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 public class ExpressionParser implements Parser {
 
@@ -44,27 +45,46 @@ public class ExpressionParser implements Parser {
         Collections.sort(this.subparsers);
     }
 
+    public Optional<Expression> parseSilently(ParserData data, Snippet source) {
+        return parseSilently(data, new PandaSourceStream(source));
+    }
+
+    public Optional<Expression> parseSilently(ParserData data, SourceStream source) {
+        return parseSilently(data, source, ExpressionParserSettings.COMBINED);
+    }
+
+    public Optional<Expression> parseSilently(ParserData data, SourceStream source, ExpressionParserSettings settings) {
+        try {
+            return Optional.of(parse(data, source, settings));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     public Expression parse(ParserData data, Snippet source) {
         return parse(data, new PandaSourceStream(source));
     }
 
-    public Expression parse(ParserData data, SourceStream source) {
-        return parse(data, source, true);
+    public Expression parse(ParserData data, DiffusedSource source) {
+        return parse(data, source, ExpressionParserSettings.DEFAULT);
     }
 
-    public Expression parse(ParserData data, DiffusedSource source) {
-        Snippet availableSource = source.getAvailableSource();
-        SourceStream stream = new PandaSourceStream(availableSource);
+    public Expression parse(ParserData data, DiffusedSource source, ExpressionParserSettings settings) {
+        SourceStream stream = new PandaSourceStream(source.getAvailableSource());
 
-        Expression expression = parse(data, stream, false);
-        source.setIndex(source.getIndex() + (availableSource.size() - stream.getUnreadLength()));
+        Expression expression = parse(data, stream, settings);
+        source.setIndex(source.getIndex() + stream.getReadLength());
 
         return expression;
     }
 
-    public Expression parse(ParserData data, SourceStream source, boolean combined) {
+    public Expression parse(ParserData data, SourceStream source) {
+        return parse(data, source, ExpressionParserSettings.COMBINED);
+    }
+
+    public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings) {
         ExpressionContext context = new ExpressionContext(this, data, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers, combined);
+        ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers, settings.isCombined());
 
         for (TokenRepresentation representation : context.getDiffusedSource()) {
             if (!worker.next(context.withUpdatedToken(representation))) {

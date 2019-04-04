@@ -32,9 +32,8 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
@@ -45,8 +44,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.Pan
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.CommentParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
-
-import java.util.Collections;
 
 public class ApplicationParser implements Parser {
 
@@ -81,13 +78,9 @@ public class ApplicationParser implements Parser {
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
-        ExpressionSubparsers subparsers = new ExpressionSubparsers(Collections.emptyList());
-        ExpressionParserOld expressionParser = new ExpressionParserOld(null, subparsers);
+        ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
+        ExpressionParser expressionParser = new ExpressionParser(interpretation.execute(subparsersLoader::load));
         baseData.setComponent(PandaComponents.EXPRESSION, expressionParser);
-
-        ExpressionSubparsersLoaderOld subparsersLoader = new ExpressionSubparsersLoaderOld();
-        subparsers.merge(interpretation.execute(() -> subparsersLoader.load(baseData)));
-        subparsers.getSubparsers().forEach(element -> element.afterInitialization(expressionParser));
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
@@ -124,7 +117,7 @@ public class ApplicationParser implements Parser {
         PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("--- Parse details ");
 
-        PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParserOld.fullTime));
+        // PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParser.fullTime));
         PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
 
         PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));

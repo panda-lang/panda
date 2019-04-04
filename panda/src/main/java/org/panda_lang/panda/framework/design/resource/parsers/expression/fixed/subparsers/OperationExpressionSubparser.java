@@ -51,6 +51,11 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         return ExpressionType.COMBINED;
     }
 
+    @Override
+    public String getSubparserName() {
+        return "operation";
+    }
+
     private static class OperationWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private List<Operation.OperationElement> elements;

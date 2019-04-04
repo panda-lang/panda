@@ -42,6 +42,11 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
         return new NumberWorker();
     }
 
+    @Override
+    public String getSubparserName() {
+        return "number";
+    }
+
     private static class NumberWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private Snippet content;

@@ -17,11 +17,35 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class ExpressionUtils {
+
+    public static Value[] getValues(ExecutableBranch branch, Expression... expressions) {
+        Value[] values = new Value[expressions.length];
+
+        for (int i = 0; i < values.length; i++) {
+            Expression expression = expressions[i];
+            values[i] = expression.getExpressionValue(branch);
+        }
+
+        return values;
+    }
+
+    public static ClassPrototype[] toTypes(Expression... expressions) {
+        ClassPrototype[] prototypes = new ClassPrototype[expressions.length];
+
+        for (int i = 0; i < prototypes.length; i++) {
+            Expression expression = expressions[i];
+            prototypes[i] = expression.getReturnType();
+        }
+
+        return prototypes;
+    }
 
     public static Expression toExpression(ClassPrototype type, Object value) {
         return new PandaExpression(new PandaValue(type, value));

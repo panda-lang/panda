@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -27,7 +28,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.To
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-class TypeReader implements WildcardReader {
+class TypeReader implements WildcardReader<Snippet> {
 
     @Override
     public boolean match(String data) {
@@ -35,7 +36,7 @@ class TypeReader implements WildcardReader {
     }
 
     @Override
-    public @Nullable Snippet read(String data, TokenDistributor distributor) {
+    public @Nullable Snippet read(ParserData data, String content, TokenDistributor distributor) {
         TokenRepresentation type = distributor.next();
 
         if (type.getToken().getType() != TokenType.UNKNOWN) {

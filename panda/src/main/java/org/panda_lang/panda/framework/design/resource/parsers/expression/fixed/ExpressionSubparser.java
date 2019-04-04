@@ -22,6 +22,8 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
     ExpressionSubparserWorker createWorker();
 
+    String getSubparserName();
+
     @Override
     default int compareTo(@NotNull ExpressionSubparser to) {
         int result = Integer.compare(getSubparserType().getPriority(), to.getSubparserType().getPriority());

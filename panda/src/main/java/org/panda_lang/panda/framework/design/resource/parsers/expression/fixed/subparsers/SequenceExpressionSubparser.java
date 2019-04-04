@@ -34,6 +34,11 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
         return new LiteralWorker();
     }
 
+    @Override
+    public String getSubparserName() {
+        return "sequence";
+    }
+
     private static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override

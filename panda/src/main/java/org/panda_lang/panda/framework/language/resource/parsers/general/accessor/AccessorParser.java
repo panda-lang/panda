@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Acc
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.FieldAccessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 

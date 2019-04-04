@@ -29,7 +29,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.u
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ThisExpressionCallback;
 
 public class LiteralExpressionSubparser implements ExpressionSubparser {
 
@@ -41,6 +41,11 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.INDIVIDUAL;
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "literal";
     }
 
     private static class SequenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {

@@ -21,8 +21,8 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.Pro
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 
 import java.util.ArrayList;
@@ -44,7 +44,7 @@ public class Operation {
         return elements;
     }
 
-    private static OperationElement asOperatorElement(ExpressionParserOld parser, ParserData data, ProgressivePatternElement element) {
+    private static OperationElement asOperatorElement(ExpressionParser parser, ParserData data, ProgressivePatternElement element) {
         if (element.isOperator()) {
             return new OperationElement(element.getOperator());
         }
@@ -55,7 +55,7 @@ public class Operation {
         return new OperationElement(expression);
     }
 
-    public static Operation of(ExpressionParserOld parser, ParserData data, ProgressivePatternResult result) {
+    public static Operation of(ExpressionParser parser, ParserData data, ProgressivePatternResult result) {
         List<OperationElement> elements = new ArrayList<>(result.size());
 
         for (ProgressivePatternElement element : result.getElements()) {

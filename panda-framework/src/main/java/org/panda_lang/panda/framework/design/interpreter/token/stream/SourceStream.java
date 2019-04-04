@@ -66,6 +66,13 @@ public interface SourceStream {
     SourceStream update(Snippet source);
 
     /**
+     * Get original source used to create the stream
+     *
+     * @return the original source
+     */
+    Snippet getOriginalSource();
+
+    /**
      * Get current source as TokenReader
      *
      * @return the current content wrapped in TokenReader
@@ -97,6 +104,24 @@ public interface SourceStream {
     }
 
     /**
+     * Get current line
+     *
+     * @return if there is no available source, the method returns -2, otherwise returns the number of current line
+     */
+    default int getCurrentLine() {
+        return hasUnreadSource() ? toSnippet().getFirst().getLine() : -2;
+    }
+
+    /**
+     * Get the amount of read tokens
+     *
+     * @return the amount of read tokens
+     */
+    default int getReadLength() {
+        return getOriginalLength() - getUnreadLength();
+    }
+
+    /**
      * Get the amount of unread tokens
      *
      * @return the amount of unread tokens
@@ -106,12 +131,12 @@ public interface SourceStream {
     }
 
     /**
-     * Get current line
+     * Get the original length of source
      *
-     * @return if there is no available source, the method returns -2, otherwise returns the number of current line
+     * @return the original length of source
      */
-    default int getCurrentLine() {
-        return hasUnreadSource() ? toSnippet().getFirst().getLine() : -2;
+    default int getOriginalLength() {
+        return getOriginalSource().size();
     }
 
 }

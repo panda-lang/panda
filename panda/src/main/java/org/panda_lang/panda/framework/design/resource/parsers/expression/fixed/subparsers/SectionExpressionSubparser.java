@@ -34,6 +34,11 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
         return new SentenceWorker();
     }
 
+    @Override
+    public String getSubparserName() {
+        return "section";
+    }
+
     private static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.DEFAULT);

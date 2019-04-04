@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.CreaseExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.CreaseExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.CreaseType;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
@@ -33,6 +33,11 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserWorker createWorker() {
         return new CreaseWorker();
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "crease";
     }
 
     private static class CreaseWorker extends AbstractExpressionSubparserWorker {

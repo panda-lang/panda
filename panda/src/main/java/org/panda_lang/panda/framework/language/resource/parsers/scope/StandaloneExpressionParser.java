@@ -31,9 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionType;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
@@ -41,31 +39,27 @@ import org.panda_lang.panda.framework.language.architecture.statement.PandaState
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
-    private ExpressionParserOld expressionParser;
+    private ExpressionParser expressionParser;
+    private Expression expression;
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        ExpressionParserOld parent = data.getComponent(PandaComponents.EXPRESSION);
-
-        ExpressionSubparsers subparsers = parent.getSubparsers().fork();
-        subparsers.getSubparsers().removeIf(expressionParser -> expressionParser.getType() != ExpressionType.STANDALONE);
-        this.expressionParser = new ExpressionParserOld(parent, subparsers);
-
+        this.expressionParser = data.getComponent(PandaComponents.EXPRESSION);
         return defaultBuilder;
     }
 
     @Override
     public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        return expressionParser.read(source) != null;
+        return (expression = expressionParser.parse(data, source)) != null;
     }
 
     @Autowired
     public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
         StatementData statementData = new PandaStatementData(source.getCurrentLine());
-        Expression expression = expressionParser.parseProgressively(data, source, true);
 
         Statement statement = new ExpressionStatement(expression);
         statement.setStatementData(statementData);
+        expression = null;
 
         StatementCell cell = linker.getCurrentScope().reserveCell();
         cell.setStatement(statement);

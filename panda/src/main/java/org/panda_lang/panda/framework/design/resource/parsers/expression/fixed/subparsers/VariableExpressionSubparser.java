@@ -31,9 +31,9 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.FieldExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.VariableExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.FieldExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.VariableExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
@@ -45,6 +45,11 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserWorker createWorker() {
         return new VariableWorker();
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "variable";
     }
 
     private static class VariableWorker extends AbstractExpressionSubparserWorker {

@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.NegateLogicalExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.NegateLogicalExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
 public class NegateExpressionSubparser implements ExpressionSubparser {
@@ -31,6 +31,11 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserWorker createWorker() {
         return new NegateWorker();
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "negate";
     }
 
     private static class NegateWorker extends AbstractExpressionSubparserWorker {

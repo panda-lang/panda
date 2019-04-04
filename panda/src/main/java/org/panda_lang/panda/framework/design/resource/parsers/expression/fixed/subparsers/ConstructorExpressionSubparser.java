@@ -37,8 +37,8 @@ import org.panda_lang.panda.framework.language.architecture.prototype.array.Arra
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ArrayInstanceExpression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.InstanceExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ArrayInstanceExpression;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.InstanceExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
@@ -53,6 +53,11 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserWorker createWorker() {
         return new ConstructorWorker();
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "constructor";
     }
 
     private static class ConstructorWorker extends AbstractExpressionSubparserWorker {

@@ -24,20 +24,24 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.invoker.MethodInvokerExpressionParser;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class MethodExpressionSubparser implements ExpressionSubparser {
 
-
     @Override
     public ExpressionSubparserWorker createWorker() {
         return new MethodWorker();
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "method";
     }
 
     private static class MethodWorker extends AbstractExpressionSubparserWorker {

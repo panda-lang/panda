@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.resource.Autoload;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.AssignationSubparser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.AssignationSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration}
@@ -59,7 +59,7 @@ public class PandaPipelines {
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
-     * Assigner parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.AssignationParser}
+     * Assigner parsers, used by {@link org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.AssignationParser}
      */
     public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(ASSIGNER_LABEL, AssignationSubparser.class);
 

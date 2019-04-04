@@ -27,8 +27,8 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.u
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.subparsers.array.ArrayValueAccessor;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.xxx.assignation.subparsers.array.ArrayValueAccessorUtils;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.subparsers.array.ArrayValueAccessor;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.subparsers.array.ArrayValueAccessorUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class ArrayValueExpressionSubparser implements ExpressionSubparser {
@@ -36,6 +36,11 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
     @Override
     public ExpressionSubparserWorker createWorker() {
         return new ArrayValueWorker();
+    }
+
+    @Override
+    public String getSubparserName() {
+        return "array-value";
     }
 
     private static class ArrayValueWorker extends AbstractExpressionSubparserWorker {

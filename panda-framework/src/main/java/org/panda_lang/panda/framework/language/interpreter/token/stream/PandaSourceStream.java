@@ -28,6 +28,7 @@ import java.util.NoSuchElementException;
 
 public class PandaSourceStream implements SourceStream {
 
+    private final Snippet original;
     private Snippet source;
     private Snippet cachedSource;
 
@@ -36,6 +37,7 @@ public class PandaSourceStream implements SourceStream {
             throw new IllegalArgumentException("Source cannot be null");
         }
 
+        this.original = source;
         this.source = source;
         this.cachedSource = source;
     }
@@ -104,6 +106,11 @@ public class PandaSourceStream implements SourceStream {
     public SourceStream update(Snippet source) {
         this.source = source;
         return this;
+    }
+
+    @Override
+    public Snippet getOriginalSource() {
+        return original;
     }
 
     @Override

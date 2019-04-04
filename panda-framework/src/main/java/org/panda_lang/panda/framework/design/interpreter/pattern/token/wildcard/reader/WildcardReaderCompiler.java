@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
@@ -29,13 +29,13 @@ public class WildcardReaderCompiler {
         this.pattern = pattern;
     }
 
-    public @Nullable Snippet extract(String data, TokenDistributor distributor) {
+    public @Nullable Object extract(ParserData data, String content, TokenDistributor distributor) {
         for (WildcardReader wildcardReader : pattern.getWildcardReaders()) {
-            if (!wildcardReader.match(data)) {
+            if (!wildcardReader.match(content)) {
                 continue;
             }
 
-            return wildcardReader.read(data, distributor);
+            return wildcardReader.read(data, content, distributor);
         }
 
         return null;
