@@ -23,20 +23,31 @@ import java.util.Stack;
 
 public class StackUtils {
 
-    public static String getCallerClass(StackTraceElement[] stackTraceElements, Class<?> currentClass) {
-        for (int i = 1; i < stackTraceElements.length; i++) {
-            StackTraceElement element = stackTraceElements[i];
-
-            if (element.getClassName().equals(currentClass.getName())) {
-                continue;
-            }
-
-            return element.getClassName();
+    /**
+     * Push multiple values at once
+     *
+     * @param stack the stack to fill
+     * @param values the values to push
+     * @param <T> the type of the stack content
+     * @return the stack
+     */
+    @SafeVarargs
+    public static <T> Stack<T> push(Stack<T> stack, T... values) {
+        for (T value : values) {
+            stack.push(value);
         }
 
-        return null;
+        return stack;
     }
 
+    /**
+     * Pop multiple values at once without worries that the stack is empty
+     *
+     * @param stack the stack to drain
+     * @param amount amount of values to pop
+     * @param <T> the type of the values
+     * @return the stack
+     */
     public static <T> Stack<T> popSilently(Stack<T> stack, int amount) {
         for (int i = 0; i < amount; i++) {
             if (!stack.isEmpty()) {
@@ -47,6 +58,15 @@ public class StackUtils {
         return stack;
     }
 
+    /**
+     * Fill the stack with the specified object
+     *
+     * @param stack the stack to fill
+     * @param object the object to push
+     * @param amount amount of pushes
+     * @param <T> the type of the values
+     * @return the stack
+     */
     public static <T> Stack<T> fill(Stack<T> stack, T object, int amount) {
         for (int i = 0; i < amount; i++) {
             stack.push(object);
@@ -55,6 +75,13 @@ public class StackUtils {
         return stack;
     }
 
+    /**
+     * Reverse the stack
+     *
+     * @param stack the stack to reverse
+     * @param <T> the type of the values
+     * @return the stack with reversed values
+     */
     public static <T> Stack<T> reverse(Stack<T> stack) {
         List<T> reversed = new ArrayList<>(stack);
 
