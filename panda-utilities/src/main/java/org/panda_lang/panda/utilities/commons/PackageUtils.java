@@ -24,6 +24,7 @@ public class PackageUtils {
         return getShortenPackage(clazz.getName());
     }
 
+
     public static String getShortenPackage(String pack) {
         int separator = StringUtils.lastIndexOfBefore(pack, ".", 1);
 
@@ -40,16 +41,35 @@ public class PackageUtils {
         return builder.append(className).toString();
     }
 
+    /**
+     * Get package name (supports primitives)
+     *
+     * @param clazz the class to get the package
+     * @return the package name or null if class does not have package
+     */
     public static @Nullable String getPackageName(Class<?> clazz) {
         return clazz.getPackage() == null ? null : clazz.getPackage().getName();
     }
 
-    public static String toString(Package pack, String defaultValue) {
+    /**
+     * Package to string
+     *
+     * @param pack the package to stringify
+     * @param defaultValue the value returned when the package is null
+     * @return the package name or the default value if package is null
+     */
+    public static String toString(@Nullable Package pack, @Nullable String defaultValue) {
         return pack != null ? pack.getName() : defaultValue;
     }
 
-    public static @Nullable String toString(Package pack) {
-        return pack != null ? pack.getName() : null;
+    /**
+     * Package to string
+     *
+     * @param pack the package to stringify
+     * @return the package name or null if the package is null
+     */
+    public static @Nullable String toString(@Nullable Package pack) {
+        return toString(pack, null);
     }
 
 }
