@@ -59,9 +59,9 @@ public class ForEachParser extends BlockSubparserBootstrap {
     @Autowired
     public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("*content") Snippet content) {
         ExtractorResult result = CONTENT_PATTERN.extract(content);
-        Snippet name = result.getWildcard("name");
-        Snippet type = result.getWildcard("type");
-        Snippet iterable = result.getWildcard("*iterable");
+        Snippet name = result.getWildcard("name").getElement();
+        Snippet type = result.getWildcard("type").getElement();
+        Snippet iterable = result.getWildcard("*iterable").getElement();
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();

@@ -66,7 +66,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
             return false;
         }
 
-        Snippet declaration = result.getWildcard("*declaration");
+        Snippet declaration = result.getWildcard("*declaration").getElement();
         SourceStream stream = new PandaSourceStream(declaration);
 
         AssignationSubparser subparser = data

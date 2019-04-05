@@ -16,8 +16,6 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +26,7 @@ public class ExtractorResult {
     private final boolean matched;
     private final String errorMessage;
     private final List<String> identifiers = new ArrayList<>();
-    private final Map<String, Snippet> wildcards = new LinkedHashMap<>();
+    private final Map<String, ExtractorResultElement> wildcards = new LinkedHashMap<>();
 
     public ExtractorResult() {
         this.matched = true;
@@ -65,19 +63,9 @@ public class ExtractorResult {
         return this;
     }
 
-    public ExtractorResult addWildcard(String name, Snippet wildcardContent) {
-        wildcards.put(name, wildcardContent);
+    public ExtractorResult addWildcard(String name, Object wildcardContent) {
+        wildcards.put(name, new ExtractorResultElement(wildcardContent));
         return this;
-    }
-
-    protected int contentLength() {
-        int count = 0;
-
-        for (Snippet value : wildcards.values()) {
-            count += value.size();
-        }
-
-        return count;
     }
 
     public boolean hasIdentifier(String identifier) {
@@ -92,7 +80,7 @@ public class ExtractorResult {
         return matched;
     }
 
-    public Snippet getWildcard(String name) {
+    public ExtractorResultElement getWildcard(String name) {
         return wildcards.get(name);
     }
 
@@ -100,7 +88,7 @@ public class ExtractorResult {
         return errorMessage;
     }
 
-    public Map<String, Snippet> getWildcards() {
+    public Map<String, ExtractorResultElement> getWildcards() {
         return wildcards;
     }
 

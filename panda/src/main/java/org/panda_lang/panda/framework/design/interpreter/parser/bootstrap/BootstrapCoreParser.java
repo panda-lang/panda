@@ -16,8 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
@@ -25,9 +29,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipel
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 
 import java.util.Comparator;
 import java.util.List;
@@ -77,7 +78,14 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
 
         for (int i = 0; i < methods.size(); i++) {
             GenerationCallback<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
-            T currentResult = delegate(generation, data, callback, methods.get(i));
+            T currentResult;
+
+            try {
+                currentResult = delegate(generation, data, callback, methods.get(i));
+            } catch (Throwable throwable) {
+                PandaFramework.getLogger().error(bootstrap.getInstance().getClass() + ":");
+                throw throwable;
+            }
 
             if (result == null) {
                 result = currentResult;

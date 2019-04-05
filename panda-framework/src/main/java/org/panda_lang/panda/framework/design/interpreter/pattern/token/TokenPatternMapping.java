@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResultElement;
 
 public class TokenPatternMapping implements PatternMapping {
 
@@ -30,8 +30,13 @@ public class TokenPatternMapping implements PatternMapping {
     }
 
     @Override
-    public @Nullable Snippet get(String name) {
-        return result.getWildcards() != null ? result.getWildcards().get(name) : null;
+    public @Nullable Object get(String name) {
+        if (result.getWildcards() == null) {
+            return null;
+        }
+
+        ExtractorResultElement element = result.getWildcards().get(name);
+        return element != null ? element.getElement() : null;
     }
 
 }

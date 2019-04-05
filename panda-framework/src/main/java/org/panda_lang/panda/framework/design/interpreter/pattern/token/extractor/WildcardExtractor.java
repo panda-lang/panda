@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.WildcardCompiler;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
@@ -36,7 +35,7 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
     @Override
     public ExtractorResult extract(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
         int index = distributor.getIndex();
-        Snippet wildcardContent = null;
+        Object wildcardContent = null;
 
         if (!distributor.hasNext()) {
             wildcardContent = new PandaSnippet();
@@ -47,18 +46,18 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
         else if (wildcard.getData() != null) {
             wildcardContent = matchWildcardWithCondition(wildcard, distributor);
 
-            if (SnippetUtils.isEmpty(wildcardContent)) {
+            if (wildcardContent == null /*SnippetUtils.isEmpty(wildcardContent)*/) {
                 return new ExtractorResult("Empty wildcard with condition: " + wildcard.getData());
             }
         }
 
-        int wildcardSize = wildcardContent != null ? wildcardContent.size() : 0;
-        distributor.setIndex(index + wildcardSize);
+        //int wildcardSize = wildcardContent != null ? wildcardContent.size() : 0;
+        //distributor.setIndex(index + wildcardSize);
 
         return new ExtractorResult().addWildcard(wildcard.getName(), wildcardContent);
     }
 
-    private @Nullable Snippet matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
+    private @Nullable Object matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
         Snippet source = null;
         boolean full = false;
 
@@ -75,9 +74,9 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
             distributor = new TokenDistributor(source);
         }
 
-        Snippet matched = (Snippet) wildcardCompiler.compile(null, wildcard.getCondition(), distributor);
+        Object matched = wildcardCompiler.compile(null, wildcard.getCondition(), distributor);
 
-        if (full && matched != null && matched.size() != source.size()) {
+        if (full && matched != null /*&& matched.size() != source.size()*/) {
             return null;
         }
 

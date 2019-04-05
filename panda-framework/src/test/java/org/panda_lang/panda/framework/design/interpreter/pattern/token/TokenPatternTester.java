@@ -49,7 +49,7 @@ class TokenPatternTester {
         Assertions.assertEquals(expected.length, result.getWildcards().size());
 
         for (Wildcard wildcard : expected) {
-            Assertions.assertEquals(wildcard.expected, result.getWildcards().get(wildcard.name).asString());
+            Assertions.assertEquals(wildcard.expected, result.getWildcards().get(wildcard.name).toString());
         }
     }
 

@@ -83,7 +83,7 @@ class ParserLayerGenerator<T> {
             return autowiredMethod.invoke(bootstrapParser.getBootstrap().getInstance(), parameters);
         }
         catch (IllegalArgumentException e) {
-            PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations");
+            PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations (" + autowiredMethod.getDeclaringClass() + ":" + autowiredMethod.getName() + ")");
             throw e;
         }
         catch (InvocationTargetException e) {

@@ -18,8 +18,6 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Interceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -27,6 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.utilities.commons.StringUtils;
@@ -114,10 +113,14 @@ class ParserLayerGeneratorUtils {
             return new ParserBootstrapException("Pattern mappings are not defined for @Redactor");
         }
 
-        Snippet value = redactor.get(srcQualifier.getDefaultValue());
+        Object value = redactor.get(srcQualifier.getDefaultValue());
 
         if (value != null && requiredType == String.class) {
-            return value.asString();
+            return value.toString();
+        }
+
+        if (value != null && !requiredType.isAssignableFrom(value.getClass())) {
+            throw new ParserBootstrapException("Cannot match types: " + requiredType + " != " + value.getClass());
         }
 
         return value;

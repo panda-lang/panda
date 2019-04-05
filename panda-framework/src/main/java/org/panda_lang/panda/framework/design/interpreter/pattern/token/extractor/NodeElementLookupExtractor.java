@@ -74,12 +74,14 @@ class NodeElementLookupExtractor {
             precedingResult = extractWildcards(elementsBefore, new TokenDistributor(before));
 
             // Compare content instead of length?
+            /*
             if (precedingResult.isMatched() && before.size() != precedingResult.contentLength()) {
                 precedingResult = new ExtractorResult("The content is still unused");
             }
+            */
 
             // Check if source before can be empty (elements before has to be optional)
-            else if (precedingResult.isMatched() && before.isEmpty()) {
+            if (precedingResult.isMatched() && before.isEmpty()) {
                 for (LexicalPatternElement elementBefore : elementsBefore) {
                     if (elementBefore.isOptional()) {
                         continue;
