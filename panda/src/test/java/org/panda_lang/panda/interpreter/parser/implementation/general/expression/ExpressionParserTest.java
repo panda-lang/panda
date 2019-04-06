@@ -81,8 +81,9 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     public void parseMethod() {
         parse("variable.toString()");
         parse("variable.toString().toString()");
-        // parse("variable.toString(1 + 2)"); # requires old expression parser for arguments
+        parse("variable.equals(1 + 2)");
         parse("variable.toString() true", RuntimeException.class, "Unread source: true");
+        // parse("Console.print()");
     }
 
     @Test
@@ -95,7 +96,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseConstructor() {
         parse("new StringBuilder()");
-        // parse("new StringBuilder('a')"); # requires old expression parser for arguments
+        parse("new StringBuilder('a')");
         parse("new StringBuilder() true", RuntimeException.class, "Unread source: true");
     }
 

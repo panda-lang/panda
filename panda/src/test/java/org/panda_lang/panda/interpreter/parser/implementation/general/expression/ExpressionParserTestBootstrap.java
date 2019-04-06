@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
@@ -61,6 +62,7 @@ class ExpressionParserTestBootstrap {
 
     protected static ParserData prepareData() {
         ParserData data = new PandaParserData();
+        data.setComponent(PandaComponents.EXPRESSION, PARSER);
 
         Scope scope = new AbstractScope() {
             @Override

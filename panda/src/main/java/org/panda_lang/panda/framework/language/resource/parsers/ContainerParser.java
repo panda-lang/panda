@@ -32,6 +32,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
+import java.util.Stack;
+
 public class ContainerParser implements Parser {
 
     private final Container container;
@@ -42,6 +44,7 @@ public class ContainerParser implements Parser {
 
     public void parse(ParserData data, Snippet body) throws Throwable {
         ParserData delegatedData = data.fork();
+        Stack<UnifiedParser<?>> parsers = new Stack<>();
 
         Generation generation = delegatedData.getComponent(UniversalComponents.GENERATION);
         PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
@@ -61,6 +64,8 @@ public class ContainerParser implements Parser {
                 throw new PandaParserFailure("Unrecognized syntax", data, source.toSnippet());
             }
 
+            source.updateCachedSource();
+
             try {
                 parser.parse(delegatedData);
             }
@@ -70,13 +75,15 @@ public class ContainerParser implements Parser {
             }
 
             if (sourceLength == source.getUnreadLength()) {
-                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData, source.toSnippet());
+                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData, source.restoreCachedSource().toSnippet());
             }
 
+            parsers.push(parser);
             delegatedData.setComponent(PandaComponents.CONTAINER, container);
         }
 
         delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);
+        parsers.clear();
     }
 
 }

@@ -33,13 +33,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.subparsers.variable.VariableInitializer;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparserBootstrap;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.subparsers.variable.VariableInitializer;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
@@ -57,11 +57,12 @@ public class ForEachParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("*content") Snippet content) {
         ExtractorResult result = CONTENT_PATTERN.extract(content);
-        Snippet name = result.getWildcard("name").getElement();
-        Snippet type = result.getWildcard("type").getElement();
-        Snippet iterable = result.getWildcard("*iterable").getElement();
+        Snippet name = result.getWildcard("name").get().getValue();
+        Snippet type = result.getWildcard("type").get().getValue();
+        Snippet iterable = result.getWildcard("*iterable").get().getValue();
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();

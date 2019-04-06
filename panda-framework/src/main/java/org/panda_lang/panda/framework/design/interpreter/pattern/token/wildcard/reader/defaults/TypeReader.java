@@ -76,7 +76,6 @@ class TypeReader implements WildcardReader<Snippet> {
         return next.contentEquals(Operators.LESS_THAN);
     }
 
-    @SuppressWarnings("ConstantConditions")
     private @Nullable Snippet read(TokenDistributor distributor) {
         TokenRepresentation next = distributor.next();
 

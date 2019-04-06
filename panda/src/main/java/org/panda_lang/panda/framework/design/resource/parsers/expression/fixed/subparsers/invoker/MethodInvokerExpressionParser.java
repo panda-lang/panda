@@ -65,7 +65,7 @@ public class MethodInvokerExpressionParser {
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
 
         if (prototypeMethod == null) {
-            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method " + methodName, data, argumentsSource);
+            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method with these parameters" + methodName, data, argumentsSource);
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);

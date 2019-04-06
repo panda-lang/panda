@@ -19,25 +19,53 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.token.extracto
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
+import java.util.Objects;
+
 public class ExtractorResultElement {
 
-    private final Object element;
+    private final String name;
+    private final Object value;
 
-    public ExtractorResultElement(Object element) {
-        this.element = element;
+    public ExtractorResultElement(String name, Object value) {
+        this.name = name;
+        this.value = value;
     }
 
     public boolean isExpression() {
-        return element instanceof Expression;
+        return value instanceof Expression;
     }
 
     public boolean isSnippet() {
-        return element instanceof Snippet;
+        return value instanceof Snippet;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ExtractorResultElement that = (ExtractorResultElement) o;
+
+        return getName().equals(that.getName()) && getValue().equals(that.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getName(), getValue());
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T getElement() {
-        return (T) element;
+    public <T> T getValue() {
+        return (T) value;
+    }
+
+    public String getName() {
+        return name;
     }
 
 }

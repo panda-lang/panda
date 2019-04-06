@@ -26,12 +26,10 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class WildcardCompiler {
 
-    private final TokenPattern pattern;
     private final WildcardConditionCompiler conditionCompiler;
     private final WildcardReaderCompiler readerCompiler;
 
     public WildcardCompiler(TokenPattern pattern) {
-        this.pattern = pattern;
         this.conditionCompiler = new WildcardConditionCompiler(pattern);
         this.readerCompiler = new WildcardReaderCompiler(pattern);
     }

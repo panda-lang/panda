@@ -35,8 +35,9 @@ public class TokenPatternMapping implements PatternMapping {
             return null;
         }
 
-        ExtractorResultElement element = result.getWildcards().get(name);
-        return element != null ? element.getElement() : null;
+        return result.getWildcard(name)
+                .map(ExtractorResultElement::getValue)
+                .orElse(null);
     }
 
 }

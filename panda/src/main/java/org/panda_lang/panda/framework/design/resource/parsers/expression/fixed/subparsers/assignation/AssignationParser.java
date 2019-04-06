@@ -36,11 +36,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelin
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResultElement;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+
+import java.util.Optional;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_ASSIGNATION)
 public class AssignationParser extends UnifiedParserBootstrap {
@@ -66,8 +69,13 @@ public class AssignationParser extends UnifiedParserBootstrap {
             return false;
         }
 
-        Snippet declaration = result.getWildcard("*declaration").getElement();
-        SourceStream stream = new PandaSourceStream(declaration);
+        Optional<ExtractorResultElement> declaration = result.getWildcard("*declaration");
+
+        if (!declaration.isPresent()) {
+            return false;
+        }
+
+        SourceStream stream = new PandaSourceStream(declaration.get().getValue());
 
         AssignationSubparser subparser = data
                 .getComponent(UniversalComponents.PIPELINE)

@@ -36,6 +36,8 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 
+import java.util.Optional;
+
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
@@ -50,7 +52,14 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
     @Override
     public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        return (expression = expressionParser.parse(data, source)) != null;
+        Optional<Expression> expression = expressionParser.parseSilently(data, source);
+
+        if (!expression.isPresent()) {
+            return false;
+        }
+
+        this.expression = expression.get();
+        return true;
     }
 
     @Autowired

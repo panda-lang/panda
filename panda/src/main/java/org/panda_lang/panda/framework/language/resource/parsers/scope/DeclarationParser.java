@@ -39,7 +39,7 @@ public class DeclarationParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern(VariableInitializer.DECLARATION_PARSER);
+        return defaultBuilder.pattern("lazy " + VariableInitializer.DECLARATION_PARSER);
     }
 
     @Autowired

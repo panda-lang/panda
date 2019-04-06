@@ -77,6 +77,8 @@ public class Keywords {
 
     public static final Keyword INTERFACE = new Keyword("interface");
 
+    public static final Keyword LAZY = new Keyword("lazy");
+
     public static final Keyword LOCAL = new Keyword("local");
 
     public static final Keyword LONG = new Keyword("long");

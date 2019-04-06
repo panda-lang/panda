@@ -37,7 +37,6 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.token.PatternCo
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
@@ -90,9 +89,10 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
+    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("name") Snippet name, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
-            throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", data, null);
+            //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", data, name);
+            return;
         }
 
         field.setDefaultValue(assignationValue);
