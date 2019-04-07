@@ -58,7 +58,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("variable");
         parse("variable true", RuntimeException.class, "Unread source: true");
         parse("variable.field", "Cannot find field called 'field'");
-        // parse("String.CASE_INSENSITIVE_ORDER");
+        parse("String.CASE_INSENSITIVE_ORDER");
     }
 
     @Test
