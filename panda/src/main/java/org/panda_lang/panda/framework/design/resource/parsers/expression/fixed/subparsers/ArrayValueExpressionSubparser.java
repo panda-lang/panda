@@ -60,7 +60,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
                     return null;
                 }
 
-                if (!Separators.SQUARE_BRACKET_LEFT.equals(context.getCurrent().getToken())) {
+                if (!Separators.SQUARE_BRACKET_LEFT.equals(context.getCurrentRepresentation().getToken())) {
                     return null;
                 }
 

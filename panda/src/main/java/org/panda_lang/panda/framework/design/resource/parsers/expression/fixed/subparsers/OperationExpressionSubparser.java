@@ -66,7 +66,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            if (context.getCurrent().getType() != TokenType.OPERATOR) {
+            if (context.getCurrentRepresentation().getType() != TokenType.OPERATOR) {
                 if (elements != null) {
                     elements.add(new Operation.OperationElement(context.popExpression()));
                     return finish(context);
@@ -80,7 +80,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
             }
 
             elements.add(new Operation.OperationElement(context.popExpression()));
-            elements.add(new Operation.OperationElement(context.getCurrent()));
+            elements.add(new Operation.OperationElement(context.getCurrentRepresentation()));
 
             return ExpressionResult.empty();
         }

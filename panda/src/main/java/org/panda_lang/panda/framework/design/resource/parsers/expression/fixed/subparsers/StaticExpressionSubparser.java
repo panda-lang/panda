@@ -17,61 +17,52 @@
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionContext;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.CreaseExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.CreaseType;
-import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-public class CreaseExpressionSubparser implements ExpressionSubparser {
+import java.util.Optional;
+
+public class StaticExpressionSubparser implements ExpressionSubparser {
 
     @Override
     public ExpressionSubparserWorker createWorker() {
-        return new CreaseWorker();
+        return new StaticWorker();
     }
 
     @Override
     public String getSubparserName() {
-        return "crease";
+        return "static";
     }
 
-    private static class CreaseWorker extends AbstractExpressionSubparserWorker {
+    private static class StaticWorker extends AbstractExpressionSubparserWorker {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            CreaseType type = null;
+            Token token = context.getCurrentRepresentation().getToken();
 
-            if (context.getCurrentRepresentation().contentEquals(Operators.INCREMENT)) {
-                type = CreaseType.INCREASE;
-            }
-            else if (context.getCurrentRepresentation().contentEquals(Operators.DECREMENT)) {
-                type = CreaseType.DECREASE;
-            }
-
-            if (type == null) {
+            if (token.getType() != TokenType.UNKNOWN) {
                 return null;
             }
 
-            boolean post = context.hasResults();
-            Expression expression;
+            ModuleLoader loader = context.getData().getComponent(UniversalComponents.MODULE_LOADER);
+            Optional<ClassPrototypeReference> reference = loader.forClass(token.getTokenValue());
 
-            if (post) {
-                expression = context.popExpression();
-            }
-            else {
-                expression = context.getParser().parse(context.getData(), context.getDiffusedSource());
+            if (!reference.isPresent()) {
+                return null;
             }
 
-            if (!(expression instanceof AccessorExpression)) {
-                return ExpressionResult.error("Expression is not associated with any variable", context.getCurrentRepresentation());
-            }
-
-            return ExpressionResult.of(new CreaseExpressionCallback(((AccessorExpression) expression).getAccessor(), type == CreaseType.INCREASE, post).toExpression());
+            return ExpressionResult.of(new PandaExpression(new PandaValue(reference.get().fetch(), null)));
         }
 
     }

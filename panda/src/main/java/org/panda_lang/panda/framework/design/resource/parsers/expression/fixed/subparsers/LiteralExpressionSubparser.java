@@ -54,7 +54,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrent();
+            TokenRepresentation token = context.getCurrentRepresentation();
 
             if (token.getType() != TokenType.LITERAL) {
                 return null;

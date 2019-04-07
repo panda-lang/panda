@@ -66,7 +66,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            if (!context.getCurrent().contentEquals(Keywords.NEW)) {
+            if (!context.getCurrentRepresentation().contentEquals(Keywords.NEW)) {
                 return null;
             }
 

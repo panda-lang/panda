@@ -43,7 +43,7 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrent();
+            TokenRepresentation token = context.getCurrentRepresentation();
 
             if (!token.getTokenName().equals("String")) {
                 return null;

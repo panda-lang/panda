@@ -42,7 +42,7 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            if (!context.getCurrent().contentEquals(Operators.NOT)) {
+            if (!context.getCurrentRepresentation().contentEquals(Operators.NOT)) {
                 return null;
             }
 

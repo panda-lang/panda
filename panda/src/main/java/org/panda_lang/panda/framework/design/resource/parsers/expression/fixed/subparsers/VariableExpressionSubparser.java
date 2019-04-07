@@ -56,7 +56,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrent();
+            TokenRepresentation token = context.getCurrentRepresentation();
 
             if (Separators.PERIOD.equals(token.getToken())) {
                 return context.hasResults() ? ExpressionResult.empty() : ExpressionResult.error("xxx", token);

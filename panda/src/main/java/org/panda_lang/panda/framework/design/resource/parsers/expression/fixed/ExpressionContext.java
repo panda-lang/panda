@@ -66,7 +66,7 @@ public class ExpressionContext {
         return !this.getResults().isEmpty();
     }
 
-    public TokenRepresentation getCurrent() {
+    public TokenRepresentation getCurrentRepresentation() {
         return current;
     }
 

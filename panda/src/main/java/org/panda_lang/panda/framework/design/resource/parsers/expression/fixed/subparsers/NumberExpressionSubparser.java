@@ -55,7 +55,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrent();
+            TokenRepresentation token = context.getCurrentRepresentation();
 
             if (token.getType() == TokenType.SEPARATOR) {
                 if (!token.contentEquals(Separators.PERIOD)) {
