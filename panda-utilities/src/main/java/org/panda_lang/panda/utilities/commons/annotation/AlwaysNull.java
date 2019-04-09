@@ -16,19 +16,18 @@
 
 package org.panda_lang.panda.utilities.commons.annotation;
 
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.meta.TypeQualifierDefault;
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@NotNull
+@Nullable
 @Documented
-@Target({ElementType.PACKAGE, ElementType.TYPE })
-@Retention(RetentionPolicy.RUNTIME)
-@TypeQualifierDefault({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD })
-public @interface NotNullByDefault {
+@Target({ ElementType.METHOD, ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME )
+public @interface AlwaysNull {
+
 }

@@ -30,6 +30,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.u
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.ContentProcessor;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class MethodExpressionSubparser implements ExpressionSubparser {
@@ -62,11 +63,14 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
             Expression instance;
 
-            if (context.hasResults()) {
+            if (context.hasResults() && TokenUtils.contentEquals(context.getDiffusedSource().getPrevious(), Separators.PERIOD)) {
                 instance = context.peekExpression();
             }
-            else {
+            else if (context.getDiffusedSource().getIndex() == 1) {
                 instance = ThisExpressionCallback.of(context.getData());
+            }
+            else {
+                return null;
             }
 
             if (!instance.getReturnType().getMethods().hasMethodLike(methodName)) {
@@ -88,8 +92,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
                 context.popExpression();
             }
 
-            return ExpressionResult
-                    .of(methodParser.toCallback().toExpression());
+            return ExpressionResult.of(methodParser.toCallback().toExpression());
         }
 
     }

@@ -51,7 +51,7 @@ public class StaticExpressionSubparser implements ExpressionSubparser {
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
             Token token = context.getCurrentRepresentation().getToken();
 
-            if (token.getType() != TokenType.UNKNOWN) {
+            if (token.getType() != TokenType.UNKNOWN || context.hasResults()) {
                 return null;
             }
 
@@ -62,7 +62,8 @@ public class StaticExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            return ExpressionResult.of(new PandaExpression(new PandaValue(reference.get().fetch(), null)));
+            PandaValue value = new PandaValue(reference.get().fetch(), null);
+            return ExpressionResult.of(new PandaExpression(value));
         }
 
     }

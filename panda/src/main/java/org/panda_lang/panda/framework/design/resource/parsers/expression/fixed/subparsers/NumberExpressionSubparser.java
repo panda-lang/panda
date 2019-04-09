@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -32,6 +33,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.general.number.N
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
+import org.panda_lang.panda.utilities.commons.annotation.AlwaysNull;
 
 public class NumberExpressionSubparser implements ExpressionSubparser {
 
@@ -51,23 +53,18 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
 
         private Snippet content;
         private TokenRepresentation period;
-        private Expression previous;
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
-            TokenRepresentation token = context.getCurrentRepresentation();
+            Token token = context.getCurrentRepresentation().getToken();
 
-            if (token.getType() == TokenType.SEPARATOR) {
-                if (!token.contentEquals(Separators.PERIOD)) {
-                    return null;
-                }
-
-                period = token;
+            if (Separators.PERIOD.equals(token)) {
+                this.period = context.getCurrentRepresentation();
                 return ExpressionResult.empty();
             }
 
             if (token.getType() != TokenType.UNKNOWN) {
-                return null;
+                return dispose();
             }
 
             if (content == null) {
@@ -75,33 +72,36 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             }
 
             // check saved with new token
-            if (NumberUtils.isNumeric(token.getTokenValue())) {
-                if (period != null) {
-                    content.addToken(period);
-                    period = null;
-                }
-
-                content.addToken(token);
-            }
-            else {
-                return null;
+            if (!NumberUtils.isNumeric(token.getTokenValue())) {
+                return dispose();
             }
 
+            if (this.period != null) {
+                content.addToken(period);
+            }
+
+            content.addToken(context.getCurrentRepresentation());
             Value numericValue = PARSER.parse(context.getData(), content);
 
             if (numericValue == null) {
-                return null;
+                return dispose();
             }
 
             Expression expression = new PandaExpression(numericValue);
 
             // remove previous result from stack
-            if (context.hasResults() && context.peekExpression() == previous) {
+            if (period != null) {
                 context.popExpression();
             }
 
-            previous = expression;
+            dispose();
             return ExpressionResult.of(expression);
+        }
+
+        private @AlwaysNull ExpressionResult<Expression> dispose() {
+            this.content = null;
+            this.period = null;
+            return null;
         }
 
     }

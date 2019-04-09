@@ -21,13 +21,14 @@ call()
 class Test {
 
     hidden mutable Test testField
-    hidden Double i = 1.5D
+    hidden Double double = 1.5D
+    hidden Int index = 1
 
     constructor(String message2) {
         Console.print(message2)
         this.testField = this
         testField = this
-        this.echo(String.valueOf(i))
+        this.echo(String.valueOf(double))
         echo(this)
     }
 
@@ -51,7 +52,7 @@ class Test {
  }
 
 main {
-    lazy String init
+    late String init
     nullable Object req = null
 
     Test test = new Test('"Constructor"')
@@ -125,10 +126,10 @@ class TestArray {
     }
 
     local method modify(Test test) {
-        this.getArray()[test.i] = "Hello Array"
+        this.getArray()[test.index] = "Hello Array"
         array[6] = String.valueOf(this)
 
-        Console.print("Value at array[test.i]", this.getArray()[test.i])
+        Console.print("Value at array[test.index]", this.getArray()[test.index])
     }
 
     method String[] getArray() {

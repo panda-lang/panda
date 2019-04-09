@@ -22,9 +22,11 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class ArrayValueAccessorParser implements Parser {
@@ -60,6 +62,10 @@ public class ArrayValueAccessorParser implements Parser {
         ExpressionParser parser = data.getComponent(PandaComponents.EXPRESSION);
         Expression instance = parser.parse(data, instanceSource);
         Expression index = parser.parse(data, indexSource);
+
+        if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {
+            throw new PandaParserFailure("The specified index is not an integer", data);
+        }
 
         return ArrayValueAccessorUtils.of(data, source, instance, index, action);
     }
