@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
@@ -35,7 +36,7 @@ class TokenPatternTester {
         Assertions.assertNotNull(content);
 
         Snippet tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
-        ExtractorResult result = pattern.extract(tokenizedSource);
+        ExtractorResult result = pattern.extract(new PandaParserData(), tokenizedSource);
         Assertions.assertNotNull(result);
 
         if (result.hasErrorMessage()) {
@@ -49,6 +50,7 @@ class TokenPatternTester {
         Assertions.assertEquals(expected.length, result.getWildcards().size());
 
         for (Wildcard wildcard : expected) {
+            //noinspection OptionalGetWithoutIsPresent
             Assertions.assertEquals(wildcard.expected, ((Snippet) result.getWildcard(wildcard.name).get().getValue()).asString());
         }
     }

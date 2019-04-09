@@ -78,7 +78,7 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
             distributor = new TokenDistributor(source);
         }
 
-        Object matched = wildcardCompiler.compile(null, wildcard.getCondition(), distributor);
+        Object matched = wildcardCompiler.compile(getWorker().data, wildcard.getCondition(), distributor);
 
         if (full && matched != null /*&& matched.size() != source.size()*/) {
             return null;

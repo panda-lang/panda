@@ -31,7 +31,6 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Optional;
 
 class ExpressionWildcardReader implements WildcardReader<Expression> {
 
@@ -69,14 +68,10 @@ class ExpressionWildcardReader implements WildcardReader<Expression> {
 
     private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, ParserData data, TokenDistributor distributor, Snippet content) {
         SourceStream source = new PandaSourceStream(content);
-        Optional<Expression> expression = settings == null ? expressionParser.parseSilently(data, source) : expressionParser.parseSilently(data, source, settings);
-
-        if (!expression.isPresent()) {
-            return null;
-        }
+        Expression expression = settings == null ? expressionParser.parse(data, source) : expressionParser.parse(data, source, settings);
 
         distributor.next(source.getReadLength());
-        return expression.get();
+        return expression;
     }
 
     private Collection<String> convert(String elements) {

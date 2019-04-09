@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
@@ -64,6 +65,10 @@ public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<T
 
     public Snippet getAvailableSource() {
         return source.subSource(index, source.size());
+    }
+
+    public @Nullable TokenRepresentation getPrevious() {
+        return index < 2 ? null : source.get(index - 2);
     }
 
     public TokenRepresentation getCurrent() {

@@ -47,7 +47,7 @@ public class TokenPatternInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
-            ExtractorResult result = pattern.extract(data.getComponent(UniversalComponents.SOURCE_STREAM));
+            ExtractorResult result = pattern.extract(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
 
             if (!result.isMatched()) {
                 data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();

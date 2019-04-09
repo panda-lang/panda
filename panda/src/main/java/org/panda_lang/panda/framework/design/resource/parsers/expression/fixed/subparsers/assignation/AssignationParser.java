@@ -63,7 +63,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
 
     @Override
     public boolean customHandle(@Nullable ParserHandler handler, ParserData data, SourceStream source) {
-        ExtractorResult result = pattern.extract(source);
+        ExtractorResult result = pattern.extract(data, source);
 
         if (!result.isMatched()) {
             return false;
@@ -90,15 +90,13 @@ public class AssignationParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    public void parse(ParserData data, LocalData local, @Component PipelinePath registry, @Src("*declaration") Snippet declaration, @Src("assignation") Snippet assignation) throws Throwable {
+    public void parse(ParserData data, LocalData local, @Component PipelinePath registry, @Src("*declaration") Snippet declaration, @Src("assignation") Expression assignation) throws Throwable {
         ParserData delegatedData = data.fork();
         delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
 
-        Expression assignationExpression = delegatedData.getComponent(PandaComponents.EXPRESSION).parse(delegatedData, assignation);
         AssignationSubparser subparser = registry.getPipeline(PandaPipelines.ASSIGNER).handle(data, declaration);
-
         StatementCell cell = delegatedData.getComponent(PandaComponents.CONTAINER).reserveCell();
-        Statement statement = subparser.parseAssignment(delegatedData, declaration, assignationExpression);
+        Statement statement = subparser.parseAssignment(delegatedData, declaration, assignation);
 
         if (statement == null) {
             throw new PandaParserFailure("Cannot parse assignment", delegatedData);

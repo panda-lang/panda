@@ -20,6 +20,8 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
+    int DEFAULT_PRIORITY = 1;
+
     ExpressionSubparserWorker createWorker();
 
     String getSubparserName();
@@ -44,7 +46,7 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
     }
 
     default double getPriority() {
-        return 1.0;
+        return DEFAULT_PRIORITY;
     }
 
 }

@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 public class TokenUtils {
 
@@ -46,7 +48,11 @@ public class TokenUtils {
         return representations;
     }
 
-    public static boolean contentEquals(TokenRepresentation representation, Token... tokens) {
+    public static boolean contentEquals(@Nullable TokenRepresentation representation, Token... tokens) {
+        if (representation == null) {
+            return ArrayUtils.contains(tokens, null);
+        }
+
         for (Token token : tokens) {
             if (representation.contentEquals(token)) {
                 return true;

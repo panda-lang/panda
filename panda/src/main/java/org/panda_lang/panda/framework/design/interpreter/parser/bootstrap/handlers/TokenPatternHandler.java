@@ -36,7 +36,7 @@ public class TokenPatternHandler implements BootstrapHandler, ParserHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
-        return pattern.extract(source).isMatched();
+        return pattern.extract(data, source).isMatched();
     }
 
 }

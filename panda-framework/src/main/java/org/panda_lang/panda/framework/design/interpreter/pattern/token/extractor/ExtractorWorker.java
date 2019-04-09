@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
@@ -26,20 +27,24 @@ public class ExtractorWorker {
     public static long fullTime;
 
     protected final TokenPattern pattern;
+    protected final ParserData data;
+    protected final SourceStream source;
     protected final UnitExtractor unitExtractor;
     protected final WildcardExtractor wildcardExtractor;
     protected final VariantExtractor variantExtractor;
     protected final NodeExtractor nodeExtractor;
 
-    ExtractorWorker(TokenPattern pattern) {
+    ExtractorWorker(TokenPattern pattern, ParserData data, SourceStream source) {
         this.pattern = pattern;
+        this.data = data;
+        this.source = source;
         this.unitExtractor = new UnitExtractor(this);
         this.wildcardExtractor = new WildcardExtractor(this);
         this.variantExtractor = new VariantExtractor(this);
         this.nodeExtractor = new NodeExtractor(this);
     }
 
-    protected ExtractorResult extract(SourceStream source) {
+    protected ExtractorResult extract() {
         long time = System.nanoTime();
 
         TokenDistributor distributor = new TokenDistributor(source.toSnippet());

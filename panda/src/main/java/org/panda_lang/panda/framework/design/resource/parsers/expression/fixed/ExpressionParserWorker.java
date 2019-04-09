@@ -20,12 +20,14 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.Collection;
+import java.util.Stack;
 
 class ExpressionParserWorker {
 
     private static final int NONE = -1;
 
     private final ExpressionSubparserWorker[] subparsers;
+    private Stack<ExpressionSubparserWorker> workers = new Stack<>();
     private ExpressionResult<Expression> error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
@@ -119,6 +121,7 @@ class ExpressionParserWorker {
         }
 
         previousSubparser = index;
+        workers.push(worker);
 
         // not yet
         if (result.isEmpty()) {

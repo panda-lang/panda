@@ -29,13 +29,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
+import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
+import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 import org.panda_lang.panda.framework.language.resource.parsers.general.accessor.AccessorParser;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
@@ -54,8 +54,8 @@ public class VariableAssignationSubparser extends AssignationSubparserBootstrap 
             @Type(with = Src.class, value = "source"),
             @Type(with = Component.class, value = AssignationComponents.EXPRESSION_LABEL)
     })
-    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Snippet source, Expression expression) {
-        Accessor<?> accessor = ACCESSOR_PARSER.parse(data, source);
+    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, AccessorExpression source, Expression expression) {
+        Accessor<?> accessor = source.getAccessor();
         Assigner<?> assigner = accessor.toAssigner(expression);
 
         return assigner.toExecutableStatement();

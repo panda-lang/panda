@@ -66,6 +66,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
     public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
         StatementData statementData = new PandaStatementData(source.getCurrentLine());
 
+        expression = expressionParser.parse(data, source);
         Statement statement = new ExpressionStatement(expression);
         statement.setStatementData(statementData);
         expression = null;

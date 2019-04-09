@@ -70,7 +70,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             if (!instance.getReturnType().getMethods().hasMethodLike(methodName)) {
-                return null;
+                return ExpressionResult.error("Cannot find method called '" + methodName + "'", context.getCurrentRepresentation());
             }
 
             SeparatedContentReader parametersReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.NON_PROCESSING);
@@ -88,7 +88,8 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
                 context.popExpression();
             }
 
-            return ExpressionResult.of(methodParser.toCallback().toExpression());
+            return ExpressionResult
+                    .of(methodParser.toCallback().toExpression());
         }
 
     }

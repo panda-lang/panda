@@ -29,11 +29,12 @@ import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.E
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionResult;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.FieldExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.VariableExpressionCallback;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util.AbstractExpressionSubparserWorker;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
@@ -57,12 +58,13 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
             TokenRepresentation token = context.getCurrentRepresentation();
-
-            if (Separators.PERIOD.equals(token.getToken())) {
-                return context.hasResults() ? ExpressionResult.empty() : ExpressionResult.error("xxx", token);
-            }
+            boolean period = TokenUtils.contentEquals(context.getDiffusedSource().getPrevious(), Separators.PERIOD);
 
             if (token.getType() != TokenType.UNKNOWN) {
+                return null;
+            }
+
+            if ((!period && context.hasResults()) || (period && !context.hasResults())) {
                 return null;
             }
 
