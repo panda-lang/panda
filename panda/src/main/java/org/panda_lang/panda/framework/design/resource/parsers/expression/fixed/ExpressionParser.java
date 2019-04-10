@@ -27,24 +27,30 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.Di
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.iterable.ReversedIterable;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
 
 public class ExpressionParser implements Parser {
 
-    private final List<ExpressionSubparser> subparsers = new ArrayList<>();
+    public static long time;
+    public static int amount;
+
+    private final List<ExpressionSubparserRepresentation> subparsers;
+    private int call;
 
     public ExpressionParser(Collection<ExpressionSubparser> subparsers) {
         if (subparsers.size() < 2) {
             throw new IllegalArgumentException("Expression parser does not support less than 2 subparsers");
         }
 
-        this.subparsers.addAll(subparsers);
-        Collections.sort(this.subparsers);
+        this.subparsers = subparsers.stream()
+                .map(ExpressionSubparserRepresentation::new)
+                .sorted()
+                .collect(Collectors.toList());
     }
 
     public Optional<Expression> parseSilently(ParserData data, Snippet source) {
@@ -89,8 +95,10 @@ public class ExpressionParser implements Parser {
     }
 
     public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, ExpressionParserWorker> visitor) {
+        long uptime = System.nanoTime();
+
         ExpressionContext context = new ExpressionContext(this, data, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(this, context, source, subparsers, settings.isCombined());
+        ExpressionParserWorker worker = new ExpressionParserWorker(this, context, source, subparsers, settings);
 
         for (TokenRepresentation representation : context.getDiffusedSource()) {
             if (!worker.next(context.withUpdatedToken(representation))) {
@@ -128,6 +136,16 @@ public class ExpressionParser implements Parser {
 
         if (visitor != null) {
             visitor.accept(context, worker);
+        }
+
+        uptime = System.nanoTime() - uptime;
+        time += uptime;
+        amount++;
+        call++;
+
+        if (call > 100) {
+            Collections.sort(subparsers);
+            call = 0;
         }
 
         return context.getResults().pop();

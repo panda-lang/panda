@@ -37,6 +37,14 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
         return Double.compare(getPriority(), to.getPriority());
     }
 
+    default int getMinimalRequiredLengthOfSource() {
+        return 1;
+    }
+
+    default boolean hasStandaloneSupport() {
+        return false;
+    }
+
     default ExpressionSubparserType getSubparserType() {
         return ExpressionSubparserType.MODERATE;
     }

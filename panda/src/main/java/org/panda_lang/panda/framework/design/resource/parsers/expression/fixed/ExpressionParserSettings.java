@@ -25,9 +25,10 @@ public class ExpressionParserSettings {
     public static final ExpressionParserSettings DEFAULT = ExpressionParserSettings.create();
     public static final ExpressionParserSettings COMBINED = ExpressionParserSettings.create().withCombinedExpressions();
 
-    private Collection<String> selectedSubparsers;
-    private Boolean selectedMode;
-    private boolean combined;
+    protected Collection<String> selectedSubparsers;
+    protected Boolean selectedMode;
+    protected boolean standaloneOnly;
+    protected boolean combined;
 
     private ExpressionParserSettings() { }
 
@@ -43,6 +44,11 @@ public class ExpressionParserSettings {
 
     public ExpressionParserSettings withCombinedExpressions() {
         this.combined = true;
+        return this;
+    }
+
+    public ExpressionParserSettings onlyStandalone() {
+        this.standaloneOnly = true;
         return this;
     }
 
@@ -64,22 +70,6 @@ public class ExpressionParserSettings {
         }
 
         return this;
-    }
-
-    public boolean hasSelected() {
-        return selectedSubparsers != null;
-    }
-
-    public boolean isCombined() {
-        return combined;
-    }
-
-    public Boolean getSelectedMode() {
-        return selectedMode;
-    }
-
-    public Collection<? extends String> getSelectedSubparsers() {
-        return selectedSubparsers;
     }
 
     public static ExpressionParserSettings create() {

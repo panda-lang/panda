@@ -32,11 +32,12 @@ public class ExpressionParserWorker {
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected ExpressionParserWorker(ExpressionParser parser, ExpressionContext context, SourceStream source, Collection<ExpressionSubparser> subparsers, boolean combined) {
+    protected ExpressionParserWorker(ExpressionParser parser, ExpressionContext context, SourceStream source, Collection<ExpressionSubparserRepresentation> subparsers, ExpressionParserSettings settings) {
         this.subparsers = subparsers.stream()
-                .filter(subparser -> combined || subparser.getType() != ExpressionType.COMBINED)
+                .filter(subparser -> settings.combined || subparser.getSubparser().getType() != ExpressionType.COMBINED)
+                .filter(subparser -> !settings.standaloneOnly || subparser.getSubparser().hasStandaloneSupport())
                 .map(subparser -> {
-                    ExpressionSubparserWorker worker = subparser.createWorker();
+                    ExpressionSubparserWorker worker = subparser.getSubparser().createWorker();
 
                     if (worker == null) {
                         throw new ExpressionParserException(subparser.getClass() + ": null worker", context, source);
@@ -52,7 +53,7 @@ public class ExpressionParserWorker {
     protected void finish(ExpressionContext context) {
         for (ExpressionSubparserWorker worker : subparsers) {
             // skip removed subparsers
-            if (worker == null || worker.getSubparser().getSubparserType() != ExpressionSubparserType.MUTUAL) {
+            if (worker == null || worker.getSubparserRepresentation().getSubparser().getSubparserType() != ExpressionSubparserType.MUTUAL) {
                 continue;
             }
 
@@ -105,7 +106,7 @@ public class ExpressionParserWorker {
         ExpressionSubparserWorker worker = subparsers[index];
 
         // skip individual subparser if there's some content
-        if (worker.getSubparser().getSubparserType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
+        if (worker.getSubparserRepresentation().getSubparser().getSubparserType() == ExpressionSubparserType.INDIVIDUAL && !context.getResults().isEmpty()) {
             return false;
         }
 

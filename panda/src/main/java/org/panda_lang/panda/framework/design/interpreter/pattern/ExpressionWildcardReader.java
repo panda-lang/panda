@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -32,8 +33,9 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 import java.util.Arrays;
 import java.util.Collection;
 
-class ExpressionWildcardReader implements WildcardReader<Expression> {
+public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
+    public static long time;
     private final ExpressionParser expressionParser;
 
     public ExpressionWildcardReader(ExpressionParser expressionParser) {
@@ -59,11 +61,17 @@ class ExpressionWildcardReader implements WildcardReader<Expression> {
 
         String condition = datum[1];
         Collection<String> names = convert(StringUtils.splitFirst(condition, " ")[1]);
+        long uptime = System.nanoTime();
 
         ExpressionParserSettings settings = ExpressionParserSettings.create()
                 .withSelectedSubparsers(names);
+        Expression expression = parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), data, distributor, distributor.currentSubSource());
 
-        return parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), data, distributor, distributor.currentSubSource());
+        uptime = System.nanoTime() - uptime;
+        ExtractorWorker.fullTime -= uptime;
+        time += uptime;
+
+        return expression;
     }
 
     private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, ParserData data, TokenDistributor distributor, Snippet content) {

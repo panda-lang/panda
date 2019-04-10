@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface ExpressionSubparserWorker {
 
-    ExpressionSubparserWorker withSubparser(ExpressionSubparser subparser);
+    ExpressionSubparserWorker withSubparser(ExpressionSubparserRepresentation subparser);
 
     @Nullable ExpressionResult<Expression> next(ExpressionContext context);
 
@@ -29,6 +29,6 @@ public interface ExpressionSubparserWorker {
         throw new RuntimeException("Not implemented");
     }
 
-    ExpressionSubparser getSubparser();
+    ExpressionSubparserRepresentation getSubparserRepresentation();
 
 }

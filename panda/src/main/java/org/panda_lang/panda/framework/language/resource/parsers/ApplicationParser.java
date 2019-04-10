@@ -28,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.pattern.ExpressionWildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
@@ -119,6 +120,9 @@ public class ApplicationParser implements Parser {
 
         // PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParser.fullTime));
         PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
+        PandaFramework.getLogger().debug("• Token Expr Reader Time: " + TimeUtils.toMilliseconds(ExpressionWildcardReader.time));
+        PandaFramework.getLogger().debug("• Token Expr Time: " + TimeUtils.toMilliseconds(ExpressionParser.time));
+        PandaFramework.getLogger().debug("• Token Expr Amount: " + ExpressionParser.amount);
 
         PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
         PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelinePath().getTotalHandleTime()));

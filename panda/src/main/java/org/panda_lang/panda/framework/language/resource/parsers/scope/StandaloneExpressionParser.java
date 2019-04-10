@@ -43,6 +43,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
     private ExpressionParser expressionParser;
     private Expression expression;
+    private int read;
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -59,17 +60,19 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
         }
 
         this.expression = expression.get();
+        this.read = source.getReadLength();
         return true;
     }
 
     @Autowired
     public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
         StatementData statementData = new PandaStatementData(source.getCurrentLine());
+        source.read(read);
 
-        expression = expressionParser.parse(data, source);
         Statement statement = new ExpressionStatement(expression);
         statement.setStatementData(statementData);
         expression = null;
+        read = 0;
 
         StatementCell cell = linker.getCurrentScope().reserveCell();
         cell.setStatement(statement);

@@ -16,20 +16,20 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.util;
 
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparserWorker;
 
 public abstract class AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
-    private ExpressionSubparser subparser;
+    private ExpressionSubparserRepresentation subparser;
 
-    public ExpressionSubparserWorker withSubparser(ExpressionSubparser subparser) {
+    public ExpressionSubparserWorker withSubparser(ExpressionSubparserRepresentation subparser) {
         this.subparser = subparser;
         return this;
     }
 
     @Override
-    public ExpressionSubparser getSubparser() {
+    public ExpressionSubparserRepresentation getSubparserRepresentation() {
         return subparser;
     }
 
