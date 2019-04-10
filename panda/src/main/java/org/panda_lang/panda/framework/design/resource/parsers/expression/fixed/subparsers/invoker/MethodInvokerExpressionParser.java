@@ -61,8 +61,8 @@ public class MethodInvokerExpressionParser {
         ClassPrototype prototype = instance.getReturnType();
 
         Expression[] arguments = ARGUMENT_PARSER.parse(data, argumentsSource);
-        ClassPrototype[] parameterTypes = ExpressionUtils.toTypes(arguments);
-        PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, parameterTypes);
+        ClassPrototype[] argumentTypes = ExpressionUtils.toTypes(arguments);
+        PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, argumentTypes);
 
         if (prototypeMethod == null) {
             throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method with these parameters" + methodName, data, argumentsSource);

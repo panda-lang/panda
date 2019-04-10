@@ -84,7 +84,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
         parse("variable.toString().toString()");
         parse("variable.equals(1 + 2)");
         parse("variable.toString() true", RuntimeException.class, "Unread source: true");
-        parse("String.valueOf(10)");
+        parse("String.valueOf(variable)");
     }
 
     @Test

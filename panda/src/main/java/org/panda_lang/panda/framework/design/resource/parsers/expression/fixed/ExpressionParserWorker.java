@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import java.util.Collection;
 import java.util.Stack;
 
-class ExpressionParserWorker {
+public class ExpressionParserWorker {
 
     private static final int NONE = -1;
 
@@ -45,6 +45,8 @@ class ExpressionParserWorker {
                     return worker.withSubparser(subparser);
                 })
                 .toArray(ExpressionSubparserWorker[]::new);
+
+        // System.out.println(Arrays.toString(Arrays.stream(this.subparsers).map(subparser -> subparser.getSubparser().getSubparserName()).toArray()));
     }
 
     protected void finish(ExpressionContext context) {
@@ -135,16 +137,28 @@ class ExpressionParserWorker {
         return true;
     }
 
-    protected boolean hasError() {
+    public int getPreviousSubparser() {
+        return previousSubparser;
+    }
+
+    public Stack<ExpressionSubparserWorker> getWorkers() {
+        return workers;
+    }
+
+    public boolean hasError() {
         return getError() != null;
     }
 
-    protected int getLastSucceededRead() {
+    public int getLastSucceededRead() {
         return lastSucceededRead;
     }
 
-    protected ExpressionResult<Expression> getError() {
+    public ExpressionResult<Expression> getError() {
         return error;
+    }
+
+    public ExpressionSubparserWorker[] getSubparsers() {
+        return subparsers;
     }
 
 }

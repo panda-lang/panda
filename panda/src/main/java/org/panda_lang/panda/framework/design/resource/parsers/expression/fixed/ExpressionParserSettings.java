@@ -22,8 +22,8 @@ import java.util.Collections;
 
 public class ExpressionParserSettings {
 
-    protected static final ExpressionParserSettings DEFAULT = ExpressionParserSettings.create();
-    protected static final ExpressionParserSettings COMBINED = ExpressionParserSettings.create().withCombinedExpressions();
+    public static final ExpressionParserSettings DEFAULT = ExpressionParserSettings.create();
+    public static final ExpressionParserSettings COMBINED = ExpressionParserSettings.create().withCombinedExpressions();
 
     private Collection<String> selectedSubparsers;
     private Boolean selectedMode;

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -31,6 +32,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 
 public class ExpressionParser implements Parser {
 
@@ -83,6 +85,10 @@ public class ExpressionParser implements Parser {
     }
 
     public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings) {
+        return parse(data, source, settings, null);
+    }
+
+    public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, ExpressionParserWorker> visitor) {
         ExpressionContext context = new ExpressionContext(this, data, source);
         ExpressionParserWorker worker = new ExpressionParserWorker(this, context, source, subparsers, settings.isCombined());
 
@@ -119,6 +125,11 @@ public class ExpressionParser implements Parser {
         }
 
         source.read(worker.getLastSucceededRead());
+
+        if (visitor != null) {
+            visitor.accept(context, worker);
+        }
+
         return context.getResults().pop();
     }
 
