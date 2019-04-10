@@ -91,9 +91,9 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             // remove previous result from stack
             if (period != null) {
                 context.popExpression();
+                dispose();
             }
 
-            dispose();
             return ExpressionResult.of(expression);
         }
 
