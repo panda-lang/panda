@@ -67,13 +67,12 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
                 return dispose();
             }
 
-            if (content == null) {
-                this.content = new PandaSnippet();
-            }
-
-            // check saved with new token
             if (!NumberUtils.isNumeric(token.getTokenValue())) {
                 return dispose();
+            }
+
+            if (content == null) {
+                this.content = new PandaSnippet();
             }
 
             if (this.period != null) {

@@ -32,14 +32,14 @@ class ExpressionParserWorker {
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
-    protected ExpressionParserWorker(ExpressionParser parser, SourceStream source, Collection<ExpressionSubparser> subparsers, boolean combined) {
+    protected ExpressionParserWorker(ExpressionParser parser, ExpressionContext context, SourceStream source, Collection<ExpressionSubparser> subparsers, boolean combined) {
         this.subparsers = subparsers.stream()
                 .filter(subparser -> combined || subparser.getType() != ExpressionType.COMBINED)
                 .map(subparser -> {
                     ExpressionSubparserWorker worker = subparser.createWorker();
 
                     if (worker == null) {
-                        throw new ExpressionParserException(subparser.getClass() + ": null worker", source);
+                        throw new ExpressionParserException(subparser.getClass() + ": null worker", context, source);
                     }
 
                     return worker.withSubparser(subparser);

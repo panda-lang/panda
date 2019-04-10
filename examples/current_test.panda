@@ -10,14 +10,6 @@ class Foo extends Test {
 
 }
 
-/*
-[mutable] [nullable] <type:reader type> <name> [= <expression:reader expression]
-String s
-
-<expression>(<parameters>)
-call()
-*/
-
 class Test {
 
     hidden mutable Test testField
@@ -109,7 +101,7 @@ main {
     Console.print("OR v AND: " + (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Compare: " + 1 > 2, 1 > 2, 1 < 2, 2 < 1)
 
-    Int creaseValue = 10 // :lenny:
+    Int creaseValue = 10
     Console.print("Increase: " + creaseValue++, creaseValue++, ++creaseValue, ++creaseValue)
     Console.print("Decrease: " + creaseValue--, creaseValue--, --creaseValue, --creaseValue)
 

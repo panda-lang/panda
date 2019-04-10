@@ -84,7 +84,7 @@ public class ExpressionParser implements Parser {
 
     public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings) {
         ExpressionContext context = new ExpressionContext(this, data, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(this, source, subparsers, settings.isCombined());
+        ExpressionParserWorker worker = new ExpressionParserWorker(this, context, source, subparsers, settings.isCombined());
 
         for (TokenRepresentation representation : context.getDiffusedSource()) {
             if (!worker.next(context.withUpdatedToken(representation))) {
@@ -95,19 +95,19 @@ public class ExpressionParser implements Parser {
 
         // if something went wrong
         if (worker.hasError()) {
-            throw new ExpressionParserException(worker.getError().getErrorMessage(), worker.getError().getSource());
+            throw new ExpressionParserException(worker.getError().getErrorMessage(), context, worker.getError().getSource());
         }
 
         // if context does not contain any results
         if (!context.hasResults()) {
-            throw new ExpressionParserException("Unknown expression", source.toSnippet());
+            throw new ExpressionParserException("Unknown expression", context, source.toSnippet());
         }
 
         for (ExpressionResultProcessor processor : new ReversedIterable<>(context.getProcessors())) {
             ExpressionResult<Expression> result = processor.process(context, context.getResults());
 
             if (result.containsError()) {
-                throw new ExpressionParserException("Error occurred while processing the result: ", result.getErrorMessage(), context.getSource().toSnippet());
+                throw new ExpressionParserException("Error occurred while processing the result: ", result.getErrorMessage(), context, context.getSource().toSnippet());
             }
 
             context.getResults().push(result.get());
@@ -115,7 +115,7 @@ public class ExpressionParser implements Parser {
 
         // if worker couldn't prepare the final result
         if (context.getResults().size() > 1) {
-            throw new ExpressionParserException("Source contains " + context.getResults().size() + " expressions", source.toSnippet());
+            throw new ExpressionParserException("Source contains " + context.getResults().size() + " expressions", context, source.toSnippet());
         }
 
         source.read(worker.getLastSucceededRead());

@@ -19,39 +19,33 @@ package org.panda_lang.panda.framework.design.resource.parsers.expression.fixed;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
-public class ExpressionParserException extends PandaParserException {
+public class ExpressionParserException extends PandaParserFailure {
 
     private final String expressionMessage;
-    private final Snippet source;
 
-    public ExpressionParserException(String prefix, String message, Snippet source) {
-        super(prefix + message);
+    public ExpressionParserException(String prefix, String message, ExpressionContext context, Snippet source) {
+        super(prefix + message, context.getData(), source);
         this.expressionMessage = message;
-        this.source = source;
     }
 
-    public ExpressionParserException(String message, Snippet source) {
-        this("Cannot parse the expression: ", message, source);
+    public ExpressionParserException(String message, ExpressionContext context, Snippet source) {
+        this("Cannot parse the expression: ", message, context, source);
     }
 
-    public ExpressionParserException(String message, TokenRepresentation source) {
-        this(message, new PandaSnippet(source));
+    public ExpressionParserException(String message, ExpressionContext context, TokenRepresentation source) {
+        this(message, context, new PandaSnippet(source));
     }
 
-    public ExpressionParserException(String message, SourceStream source) {
-        this(message, source.toSnippet());
+    public ExpressionParserException(String message, ExpressionContext context, SourceStream source) {
+        this(message, context, source.toSnippet());
     }
 
     @Override
     public String getLocalizedMessage() {
         return expressionMessage;
-    }
-
-    public Snippet getSource() {
-        return source;
     }
 
     public String getExpressionMessage() {

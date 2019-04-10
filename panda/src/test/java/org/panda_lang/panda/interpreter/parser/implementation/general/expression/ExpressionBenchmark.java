@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.interpreter.parser.implementation.general.expression;
 
-import org.junit.jupiter.api.Assertions;
 import org.openjdk.jmh.annotations.Benchmark;
 import org.openjdk.jmh.annotations.Fork;
 import org.openjdk.jmh.annotations.Level;
@@ -32,13 +31,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionParserOld;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.xxx.ExpressionSubparsersLoaderOld;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
-
-import java.util.ArrayList;
 
 @Fork(value = 1)
 @Warmup(iterations = 1)
@@ -52,33 +46,17 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
         blackhole.consume(configuration.expressionParser.parse(configuration.data, SOURCE));
     }
 
-    @Benchmark
-    public void testOldParser(Configuration configuration, Blackhole blackhole) {
-        blackhole.consume(configuration.oldExpressionParser.parse(configuration.data, SOURCE));
-    }
-
     @State(Scope.Thread)
     public static class Configuration {
 
         protected ParserData data;
         protected ExpressionParser expressionParser;
-        protected ExpressionParserOld oldExpressionParser;
         protected NumberParser numberParser = new NumberParser();
 
         @Setup(Level.Trial)
         public void setup() throws Exception {
             this.expressionParser = new ExpressionParser(new ExpressionSubparsersLoader().load());
-            ExpressionSubparsers subparsers = new ExpressionSubparsers(new ArrayList<>());
-
             this.data = prepareData();
-            //data.setComponent(PandaComponents.EXPRESSION, new ExpressionParserOld(null, subparsers));
-
-            ExpressionSubparsersLoaderOld loader = new ExpressionSubparsersLoaderOld();
-            ExpressionSubparsers loadedSubparsers = Assertions.assertDoesNotThrow(() -> loader.load(data));
-            subparsers.merge(loadedSubparsers);
-
-            this.oldExpressionParser = new ExpressionParserOld(null, subparsers);
-            //this.oldExpressionParser = data.getComponent(PandaComponents.EXPRESSION);
         }
 
         public static void main(String[] args) throws Exception {
