@@ -22,7 +22,7 @@ import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
@@ -45,8 +45,8 @@ class FileBasedLexerTest {
         Syntax syntaxComposition = pandaLanguage.getSyntax();
 
         Lexer lexer = PandaLexer.of(syntaxComposition, new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');")).build();
-        Tokens tokens = lexer.convert();
-        TokenReader tokenReader = new PandaTokenReader(tokens);
+        Snippet snippet = lexer.convert();
+        TokenReader tokenReader = new PandaTokenReader(snippet);
 
         for (TokenRepresentation tokenRepresentation : tokenReader) {
             Token token = tokenRepresentation.getToken();

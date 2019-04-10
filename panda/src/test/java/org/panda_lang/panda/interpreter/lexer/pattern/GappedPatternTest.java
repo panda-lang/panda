@@ -19,11 +19,11 @@ package org.panda_lang.panda.interpreter.lexer.pattern;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -33,13 +33,13 @@ class GappedPatternTest {
             .compile(PandaSyntax.getInstance(), "test [;] source")
             .build();
 
-    private static final Tokens FULL_SOURCE = new PandaTokens(
+    private static final Snippet FULL_SOURCE = new PandaSnippet(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
             PandaTokenRepresentation.of(Separators.SEMICOLON),
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );
 
-    private static final Tokens OPTIONAL_SOURCE = new PandaTokens(
+    private static final Snippet OPTIONAL_SOURCE = new PandaSnippet(
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "test"),
             PandaTokenRepresentation.of(TokenType.UNKNOWN, "source")
     );

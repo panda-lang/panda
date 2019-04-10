@@ -16,9 +16,12 @@
 
 package org.panda_lang.panda.utilities.commons;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class StringUtils {
 
@@ -31,6 +34,21 @@ public class StringUtils {
      * Instance of the empty array of string
      */
     public static final String[] EMPTY_ARRAY = new String[0];
+
+    /**
+     * Check how the specified text starts
+     *
+     * @param text the text to check
+     * @param filter condition
+     * @return result of the condition
+     */
+    public static boolean startsWith(String text, Predicate<char[]> filter) {
+        if (text.length() == 0) {
+            return false;
+        }
+
+        return filter.test(text.toCharArray());
+    }
 
     /**
      * Split text by the specified delimiter, but only once (to the first occurrence of the specified delimiter)
@@ -119,7 +137,7 @@ public class StringUtils {
      * @return the index of the last occurrence of the specified substring, or -1 if there is no such occurrence or toIndex is smaller than 1
      */
     public static int lastIndexOf(String text, String element, int toIndex) {
-        if (toIndex < 1) {
+        if (toIndex < 1 || toIndex > text.length()) {
             return -1;
         }
 
@@ -151,13 +169,9 @@ public class StringUtils {
      * @param max amount of occurrences to replace
      * @return the resulting string
      */
-    private static String replace(String text, String pattern, String replacement, int fromIndex, int max) {
+    private static String replace(@Nullable String text, @Nullable String pattern, String replacement, int fromIndex, int max) {
         if (isEmpty(text) || isEmpty(pattern)) {
             return text;
-        }
-
-        if (replacement == null) {
-            replacement = EMPTY;
         }
 
         int start = 0;

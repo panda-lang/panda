@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternUnit;
 
 /**
- * Utils for {@link org.panda_lang.panda.framework.design.interpreter.token.Tokens} based on {@link GappedPatternExtractorSource}
+ * Utils for {@link org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet} based on {@link GappedPatternExtractorSource}
  */
 public class GappedPatternExtractorSourceUtils {
 

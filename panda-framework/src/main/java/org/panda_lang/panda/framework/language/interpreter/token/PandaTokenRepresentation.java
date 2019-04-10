@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 
 import java.security.InvalidParameterException;
+import java.util.Objects;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 
@@ -47,6 +48,25 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     @Override
+    public boolean equals(Object to) {
+        if (this == to) {
+            return true;
+        }
+
+        if (to == null || getClass() != to.getClass()) {
+            return false;
+        }
+
+        PandaTokenRepresentation that = (PandaTokenRepresentation) to;
+        return getToken().equals(that.getToken());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getToken());
+    }
+
+    @Override
     public String toString() {
         return token.getTokenValue();
     }
@@ -56,7 +76,7 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     public static TokenRepresentation of(Token token) {
-        return new PandaTokenRepresentation(token, -1);
+        return new PandaTokenRepresentation(token, -2);
     }
 
 }

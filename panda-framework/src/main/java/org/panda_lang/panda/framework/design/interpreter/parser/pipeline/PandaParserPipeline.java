@@ -19,9 +19,10 @@ package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -47,7 +48,7 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     }
 
     @Override
-    public P handle(ParserData data, Tokens source) {
+    public P handle(ParserData data, Snippet source) {
         return handleWithUpdatedSource(data, new PandaSourceStream(source));
     }
 
@@ -71,7 +72,7 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
 
     private @Nullable P handle(ParserData data, SourceStream source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
-        Tokens cached = source.toTokenizedSource();
+        Snippet cached = source.toSnippet();
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
@@ -81,9 +82,14 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
                 representation.increaseUsages();
                 source.updateCachedSource();
 
-                handleTime += (System.nanoTime() - currentTime);
-                count++;
+                long time = System.nanoTime() - currentTime;
+                handleTime += time;
 
+                if (TimeUtils.NANOSECOND * 10 < time) {
+                    // System.out.println(TimeUtils.toMilliseconds(time) + "/" + TimeUtils.toMilliseconds(handleTime) + " by " + representation.getParser().getClass().getSimpleName());
+                }
+
+                count++;
                 return representation.getParser();
             }
         }

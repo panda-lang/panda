@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLeve
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
-import org.panda_lang.panda.utilities.commons.iterable.ReverseIterator;
+import org.panda_lang.panda.utilities.commons.iterable.ReversedIterable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class PandaMessenger implements Messenger {
     public void send(Object message) {
         MessengerMessageTranslator translator = null;
 
-        for (MessengerMessageTranslator messageTranslator : new ReverseIterator<>(translators)) {
+        for (MessengerMessageTranslator messageTranslator : new ReversedIterable<>(translators)) {
             if (messageTranslator.getType().isAssignableFrom(message.getClass())) {
                 if (translator != null && messageTranslator.getType().isAssignableFrom(translator.getType())) {
                     continue;

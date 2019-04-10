@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
+import java.util.Objects;
+
 public interface Token {
 
     String getTokenValue();
@@ -24,16 +26,12 @@ public interface Token {
 
     TokenType getType();
 
-    default boolean equals(TokenType tokenType, String tokenValue) {
-        return getType() == tokenType && getTokenValue().equals(tokenValue);
+    default boolean equals(Token token) {
+        return token != null && equals(token.getType(), token.getName(), token.getTokenValue());
     }
 
-    default boolean equals(Token token) {
-        if (token == null) {
-            return false;
-        }
-
-        return getType().equals(token.getType()) && getTokenValue().equals(token.getTokenValue());
+    default boolean equals(TokenType type, String name, String value) {
+        return getType() == type && Objects.equals(getName(), name) && Objects.equals(getTokenValue(), value);
     }
 
 }

@@ -16,72 +16,64 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 public class ExtractorResult {
 
-    private final boolean matched;
     private final String errorMessage;
-    private final List<String> identifiers = new ArrayList<>();
-    private final Map<String, Tokens> wildcards = new LinkedHashMap<>();
+    private final List<String> identifiers;
+    private final List<ExtractorResultElement> wildcards;
 
     public ExtractorResult() {
-        this.matched = true;
         this.errorMessage = null;
+        this.identifiers = new ArrayList<>();
+        this.wildcards = new ArrayList<>();
     }
 
     public ExtractorResult(String errorMessage) {
-        this.matched = false;
         this.errorMessage = errorMessage;
+        this.identifiers = null;
+        this.wildcards = null;
     }
 
     public ExtractorResult merge(ExtractorResult otherResult) {
-        if (!otherResult.isMatched()) {
+        if (!otherResult.isMatched() || !isMatched()) {
             throw new RuntimeException("Cannot merge unmatched result");
         }
 
-        identifiers.addAll(otherResult.identifiers);
-        wildcards.putAll(otherResult.wildcards);
+        getIdentifiers().addAll(otherResult.getIdentifiers());
+        getWildcards().addAll(otherResult.getWildcards());
         return this;
     }
 
     public ExtractorResult exclude(ExtractorResult otherResult) {
-        if (!otherResult.isMatched()) {
+        if (!isMatched() || !otherResult.isMatched()) {
             throw new RuntimeException("Cannot merge unmatched result");
         }
 
-        identifiers.removeAll(otherResult.identifiers);
-        wildcards.keySet().removeAll(otherResult.wildcards.keySet());
+        getIdentifiers().removeAll(otherResult.getIdentifiers());
+        getWildcards().removeAll(otherResult.getWildcards());
         return this;
     }
 
     public ExtractorResult identified(String identifier) {
-        identifiers.add(identifier);
-        return this;
-    }
-
-    public ExtractorResult addWildcard(String name, Tokens wildcardContent) {
-        wildcards.put(name, wildcardContent);
-        return this;
-    }
-
-    protected int contentLength() {
-        int count = 0;
-
-        for (Tokens value : wildcards.values()) {
-            count += value.size();
+        if (!isMatched() || identifier == null) {
+            return this;
         }
 
-        return count;
+        getIdentifiers().add(identifier);
+        return this;
+    }
+
+    public ExtractorResult addWildcard(String name, Object wildcardContent) {
+        getWildcards().add(new ExtractorResultElement(name, wildcardContent));
+        return this;
     }
 
     public boolean hasIdentifier(String identifier) {
-        return identifiers.contains(identifier);
+        return getIdentifiers().contains(identifier);
     }
 
     public boolean hasErrorMessage() {
@@ -89,18 +81,20 @@ public class ExtractorResult {
     }
 
     public boolean isMatched() {
-        return matched;
+        return errorMessage == null;
     }
 
-    public Tokens getWildcard(String name) {
-        return wildcards.get(name);
+    public Optional<ExtractorResultElement> getWildcard(String name) {
+        return getWildcards().stream()
+                .filter(element -> element.getName().equals(name))
+                .findFirst();
     }
 
     public String getErrorMessage() {
         return errorMessage;
     }
 
-    public Map<String, Tokens> getWildcards() {
+    public List<ExtractorResultElement> getWildcards() {
         return wildcards;
     }
 

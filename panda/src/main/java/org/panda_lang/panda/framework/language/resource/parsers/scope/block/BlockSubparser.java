@@ -19,10 +19,10 @@ package org.panda_lang.panda.framework.language.resource.parsers.scope.block;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public interface BlockSubparser extends Parser, ParserHandler {
 
-    BlockData parse(ParserData data, Tokens declaration) throws Throwable;
+    BlockData parse(ParserData data, Snippet declaration) throws Throwable;
 
 }

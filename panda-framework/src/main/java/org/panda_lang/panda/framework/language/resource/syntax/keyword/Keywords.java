@@ -35,11 +35,7 @@ public class Keywords {
 
     public static final Keyword BREAK = new Keyword("break");
 
-    public static final Keyword BYTE = new Keyword("byte");
-
     public static final Keyword CASE = new Keyword("catch");
-
-    public static final Keyword CHAR = new Keyword("char");
 
     public static final Keyword CLASS = new Keyword("class");
 
@@ -47,15 +43,11 @@ public class Keywords {
 
     public static final Keyword CONTINUE = new Keyword("continue");
 
-    public static final Keyword DOUBLE = new Keyword("double");
-
     public static final Keyword ELSE = new Keyword("else");
 
     public static final Keyword EXTENDS = new Keyword("extends");
 
     public static final Keyword FINAL = new Keyword("final");
-
-    public static final Keyword FLOAT = new Keyword("float");
 
     public static final Keyword FOREACH = new Keyword("foreach");
 
@@ -76,6 +68,10 @@ public class Keywords {
     public static final Keyword INT = new Keyword("int");
 
     public static final Keyword INTERFACE = new Keyword("interface");
+
+    public static final Keyword LATE = new Keyword("late");
+
+    public static final Keyword LAZY = new Keyword("lazy");
 
     public static final Keyword LOCAL = new Keyword("local");
 
@@ -104,8 +100,6 @@ public class Keywords {
     public static final Keyword RETURN = new Keyword("return");
 
     public static final Keyword REQUIRE = new Keyword("require");
-
-    public static final Keyword SHORT = new Keyword("short");
 
     public static final Keyword STATIC = new Keyword("static");
 

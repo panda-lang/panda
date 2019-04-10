@@ -31,6 +31,11 @@ public class ArrayClassPrototype extends PandaClassPrototype {
         super.extended.add(PandaTypes.ARRAY.getReference());
     }
 
+    @Override
+    public boolean isArray() {
+        return true;
+    }
+
     public Class<?> getType() {
         return type;
     }

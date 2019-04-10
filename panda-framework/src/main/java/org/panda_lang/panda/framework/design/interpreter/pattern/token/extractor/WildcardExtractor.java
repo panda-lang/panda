@@ -19,9 +19,8 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.token.extracto
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.WildcardCompiler;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
@@ -35,35 +34,39 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
 
     @Override
     public ExtractorResult extract(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
-        int index = distributor.getIndex();
-        Tokens wildcardContent = null;
-
         if (!distributor.hasNext()) {
-            wildcardContent = new PandaTokens();
+            return new ExtractorResult() /*.addWildcard(wildcard.getName(), new PandaSnippet(Collections.emptyList()))*/;
         }
+
+        int index = distributor.getIndex();
+        Object wildcardContent;
+
         if (!wildcard.hasCondition() && !wildcard.getName().startsWith("*")) {
-            wildcardContent = new PandaTokens(distributor.next());
+            wildcardContent = new PandaSnippet(distributor.next());
         }
         else if (wildcard.getData() != null) {
             wildcardContent = matchWildcardWithCondition(wildcard, distributor);
 
-            if (TokensUtils.isEmpty(wildcardContent)) {
+            if (wildcardContent == null || (wildcardContent instanceof Snippet && ((Snippet) wildcardContent).isEmpty()) /*SnippetUtils.isEmpty(wildcardContent)*/) {
                 return new ExtractorResult("Empty wildcard with condition: " + wildcard.getData());
             }
         }
+        else {
+            return new ExtractorResult("Cannot match wildcard");
+        }
 
-        int wildcardSize = wildcardContent != null ? wildcardContent.size() : 0;
-        distributor.setIndex(index + wildcardSize);
+        //int wildcardSize = wildcardContent != null ? wildcardContent.size() : 0;
+        //distributor.setIndex(index + wildcardSize);
 
         return new ExtractorResult().addWildcard(wildcard.getName(), wildcardContent);
     }
 
-    private @Nullable Tokens matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
-        Tokens source = null;
+    private @Nullable Object matchWildcardWithCondition(LexicalPatternWildcard wildcard, TokenDistributor distributor) {
+        Snippet source = null;
         boolean full = false;
 
         if (wildcard.getName().startsWith("*")) {
-            source = new PandaTokens(distributor.next(distributor.size() - distributor.getIndex()));
+            source = new PandaSnippet(distributor.next(distributor.size() - distributor.getIndex()));
             full = true;
         }
 
@@ -75,9 +78,9 @@ class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard>
             distributor = new TokenDistributor(source);
         }
 
-        Tokens matched = wildcardCompiler.compile(wildcard.getCondition(), distributor);
+        Object matched = wildcardCompiler.compile(getWorker().data, wildcard.getCondition(), distributor);
 
-        if (full && matched != null && matched.size() != source.size()) {
+        if (full && matched != null /*&& matched.size() != source.size()*/) {
             return null;
         }
 

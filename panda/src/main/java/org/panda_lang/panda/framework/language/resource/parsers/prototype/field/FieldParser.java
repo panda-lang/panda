@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -36,10 +35,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.PatternContentBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
@@ -62,7 +59,7 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
-    public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Tokens type, @Src("name") Tokens name) {
+    public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Snippet type, @Src("name") Snippet name) {
         ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
 
         FieldVisibility visibility = FieldVisibility.LOCAL;
@@ -92,18 +89,13 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Tokens assignation) {
-        if (TokensUtils.isEmpty(assignation)) {
+    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("name") Snippet name, @Src("assignation") @Nullable Expression assignationValue) {
+        if (assignationValue == null) {
+            //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", data, name);
             return;
         }
 
-        Expression expressionValue = data.getComponent(PandaComponents.EXPRESSION).parse(data, assignation);
-
-        if (expressionValue == null) {
-            throw new PandaParserFailure("Cannot parse expression '" + assignation + "'", data, assignation);
-        }
-
-        field.setDefaultValue(expressionValue);
+        field.setDefaultValue(assignationValue);
     }
 
 }

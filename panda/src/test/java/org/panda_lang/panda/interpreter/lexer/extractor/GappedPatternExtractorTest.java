@@ -20,7 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
@@ -53,18 +53,18 @@ class GappedPatternExtractorTest {
     @Test
     public void testExtractor() {
         Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource(GappedPatternExtractorTest.class, SOURCE)).build();
-        Tokens tokens = lexer.convert();
-        TokenReader tokenReader = new PandaTokenReader(tokens);
+        Snippet snippet = lexer.convert();
+        TokenReader tokenReader = new PandaTokenReader(snippet);
 
         GappedPatternExtractor extractor = new GappedPatternExtractor(PATTERN);
-        List<Tokens> gaps = extractor.extract(tokenReader);
+        List<Snippet> gaps = extractor.extract(tokenReader);
 
         if (gaps == null) {
             System.out.println("Cannot extract gaps for PATTERN '" + PATTERN + "' and source '" + SOURCE + "'");
             return;
         }
 
-        for (Tokens gap : gaps) {
+        for (Snippet gap : gaps) {
             System.out.println("--- Gap:");
 
             for (TokenRepresentation tokenRepresentation : gap.getTokensRepresentations()) {

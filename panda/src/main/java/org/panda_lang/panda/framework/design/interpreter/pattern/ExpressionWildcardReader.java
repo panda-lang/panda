@@ -16,19 +16,26 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern;
 
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.wildcard.reader.WildcardReader;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserSettings;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-class ExpressionWildcardReader implements WildcardReader {
+public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
+    public static long time;
     private final ExpressionParser expressionParser;
 
     public ExpressionWildcardReader(ExpressionParser expressionParser) {
@@ -45,43 +52,34 @@ class ExpressionWildcardReader implements WildcardReader {
     }
 
     @Override
-    public Tokens read(String data, TokenDistributor distributor) {
-        String[] datum = StringUtils.splitFirst(data, " ");
+    public @Nullable Expression read(ParserData data, String content, TokenDistributor distributor) {
+        String[] datum = StringUtils.splitFirst(content, " ");
 
         if (ArrayUtils.isEmpty(datum)) {
-            Tokens tokens = expressionParser.read(distributor.currentSubSource());
-
-            if (tokens == null) {
-                return null;
-            }
-
-            distributor.next(tokens.size());
-            return tokens;
+            return parse(expressionParser, null, data, distributor, distributor.currentSubSource());
         }
 
         String condition = datum[1];
         Collection<String> names = convert(StringUtils.splitFirst(condition, " ")[1]);
+        long uptime = System.nanoTime();
 
-        boolean exclude = condition.startsWith("exclude");
-        ExpressionSubparsers subparsers;
+        ExpressionParserSettings settings = ExpressionParserSettings.create()
+                .withSelectedSubparsers(names);
+        Expression expression = parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), data, distributor, distributor.currentSubSource());
 
-        if (exclude) {
-            subparsers = expressionParser.getSubparsers().fork();
-            subparsers.removeSubparsers(names);
-        }
-        else {
-            subparsers = expressionParser.getSubparsers().select(names);
-        }
+        uptime = System.nanoTime() - uptime;
+        ExtractorWorker.fullTime -= uptime;
+        time += uptime;
 
-        ExpressionParser parser = new ExpressionParser(expressionParser, subparsers);
-        Tokens source = parser.read(distributor.currentSubSource());
+        return expression;
+    }
 
-        if (source == null) {
-            return null;
-        }
+    private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, ParserData data, TokenDistributor distributor, Snippet content) {
+        SourceStream source = new PandaSourceStream(content);
+        Expression expression = settings == null ? expressionParser.parse(data, source) : expressionParser.parse(data, source, settings);
 
-        distributor.next(source.size());
-        return source;
+        distributor.next(source.getReadLength());
+        return expression;
     }
 
     private Collection<String> convert(String elements) {

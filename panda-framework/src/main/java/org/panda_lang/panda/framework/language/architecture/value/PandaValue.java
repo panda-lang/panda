@@ -47,4 +47,9 @@ public class PandaValue implements Value {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return "PandaValue[" + type.getClassName() + ":" + value + "]";
+    }
+
 }

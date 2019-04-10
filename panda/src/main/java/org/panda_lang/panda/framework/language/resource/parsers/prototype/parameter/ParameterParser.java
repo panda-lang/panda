@@ -25,35 +25,36 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserData data, @Nullable Tokens tokens) {
-        if (TokensUtils.isEmpty(tokens)) {
-            return new ArrayList<>(0);
+    public List<Parameter> parse(ParserData data, @Nullable Snippet snippet) {
+        if (SnippetUtils.isEmpty(snippet)) {
+            return Collections.emptyList();
         }
 
-        TokenRepresentation[] tokenRepresentations = tokens.toArray();
+        TokenRepresentation[] tokenRepresentations = snippet.toArray();
         List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
 
-        if (tokens.size() == 0) {
+        if (snippet.size() == 0) {
             return parameters;
         }
 
-        for (int i = 0; i < tokenRepresentations.length; i += 3) {
+        for (int i = 0; i + 1 < tokenRepresentations.length; i += 3) {
             TokenRepresentation parameterTypeRepresentation = tokenRepresentations[i];
             TokenRepresentation parameterNameRepresentation = tokenRepresentations[i + 1];
 
             String parameterType = parameterTypeRepresentation.getToken().getTokenValue();
             String parameterName = parameterNameRepresentation.getToken().getTokenValue();
 
-            Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(data, parameterType, tokens), parameterName);
+            Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(data, parameterType, snippet), parameterName);
             parameters.add(parameter);
 
             if (i + 2 < tokenRepresentations.length) {

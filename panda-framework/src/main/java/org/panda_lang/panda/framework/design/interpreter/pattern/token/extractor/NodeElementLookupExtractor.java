@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
@@ -70,16 +70,18 @@ class NodeElementLookupExtractor {
 
         // Match content before matched element
         if (currentResult != null && currentResult.isMatched()) {
-            Tokens before = distributor.getSource().subSource(startIndex, index);
+            Snippet before = distributor.getSource().subSource(startIndex, index);
             precedingResult = extractWildcards(elementsBefore, new TokenDistributor(before));
 
             // Compare content instead of length?
+            /*
             if (precedingResult.isMatched() && before.size() != precedingResult.contentLength()) {
                 precedingResult = new ExtractorResult("The content is still unused");
             }
+            */
 
             // Check if source before can be empty (elements before has to be optional)
-            else if (precedingResult.isMatched() && before.isEmpty()) {
+            if (precedingResult.isMatched() && before.isEmpty()) {
                 for (LexicalPatternElement elementBefore : elementsBefore) {
                     if (elementBefore.isOptional()) {
                         continue;

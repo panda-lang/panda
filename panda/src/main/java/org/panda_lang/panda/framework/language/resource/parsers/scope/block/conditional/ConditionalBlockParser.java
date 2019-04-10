@@ -28,8 +28,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ElseBlock;
@@ -50,7 +50,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    public BlockData parse(ParserData data, ExtractorResult pattern, @Component ParserData parentData, @Src("*condition") @Nullable Tokens condition) {
+    public BlockData parse(ParserData data, ExtractorResult pattern, @Component ParserData parentData, @Src("*condition") @Nullable Snippet condition) {
         if (pattern.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock();
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
@@ -65,7 +65,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
             return new BlockData(elseBlock, true);
         }
 
-        if (TokensUtils.isEmpty(condition)) {
+        if (SnippetUtils.isEmpty(condition)) {
             throw new PandaParserFailure("Empty condition", data);
         }
 

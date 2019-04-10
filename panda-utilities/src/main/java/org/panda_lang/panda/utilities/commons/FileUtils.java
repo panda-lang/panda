@@ -103,6 +103,8 @@ public class FileUtils {
     }
 
     /**
+     * Get file name without extension
+     *
      * @return file name without extension
      */
     public static String getFileName(File file) {

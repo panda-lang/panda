@@ -21,9 +21,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaTokens;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +32,11 @@ public class CommentParser implements ParserHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
-        Token token = source.toTokenizedSource().getFirst().getToken();
+        Token token = source.toSnippet().getFirst().getToken();
         return token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment");
     }
 
-    public static Tokens uncomment(Tokens source) {
+    public static Snippet uncomment(Snippet source) {
         List<TokenRepresentation> uncommentedSource = new ArrayList<>(source.size());
 
         for (TokenRepresentation tokenRepresentation : source.getTokensRepresentations()) {
@@ -49,7 +49,7 @@ public class CommentParser implements ParserHandler {
             uncommentedSource.add(tokenRepresentation);
         }
 
-        return new PandaTokens(uncommentedSource);
+        return new PandaSnippet(uncommentedSource);
     }
 
 }

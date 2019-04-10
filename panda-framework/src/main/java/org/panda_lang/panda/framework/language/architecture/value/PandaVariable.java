@@ -21,26 +21,30 @@ import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
 public class PandaVariable implements Variable {
 
-    protected final ClassPrototypeReference variableType;
-    protected final String variableName;
-    protected final int nestingLevel;
+    protected final ClassPrototypeReference type;
+    protected final String name;
+    protected final int level;
     protected final boolean mutable;
     protected final boolean nullable;
 
-    public PandaVariable(ClassPrototypeReference variableType, String variableName, int nestingLevel, boolean mutable, boolean nullable) {
-        if (variableType == null) {
+    public PandaVariable(ClassPrototypeReference type, String name, int level, boolean mutable, boolean nullable) {
+        if (type == null) {
             throw new IllegalArgumentException("Variable type cannot be null");
         }
 
-        if (variableName == null) {
+        if (name == null) {
             throw new IllegalArgumentException("Variable name cannot be null");
         }
 
-        this.variableType = variableType;
-        this.variableName = variableName;
-        this.nestingLevel = nestingLevel;
+        this.type = type;
+        this.name = name;
+        this.level = level;
         this.mutable = mutable;
         this.nullable = nullable;
+    }
+
+    public PandaVariable(ClassPrototypeReference type, String name) {
+        this(type, name, 0, false, false);
     }
 
     @Override
@@ -54,18 +58,18 @@ public class PandaVariable implements Variable {
     }
 
     @Override
-    public int getNestingLevel() {
-        return nestingLevel;
+    public int getLevel() {
+        return level;
     }
 
     @Override
     public ClassPrototypeReference getTypeReference() {
-        return variableType;
+        return type;
     }
 
     @Override
     public String getName() {
-        return variableName;
+        return name;
     }
 
     @Override

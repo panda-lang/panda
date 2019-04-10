@@ -16,70 +16,105 @@
 
 package org.panda_lang.panda.interpreter.parser.implementation.general.expression;
 
-import org.jetbrains.annotations.Nullable;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsersLoader;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionTokens;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 
-class ExpressionParserTest {
+class ExpressionParserTest extends ExpressionParserTestBootstrap {
 
-    private static final ExpressionParser PARSER = new ExpressionParser(null, new ExpressionSubparsers());
-
-    @BeforeAll
-    public static void prepareParser() throws Exception {
-        ParserData data = new PandaParserData();
-        data.setComponent(PandaComponents.EXPRESSION, PARSER);
-
-        ExpressionSubparsers loadedSubparsers = new ExpressionSubparsersLoader().load(data);
-        PARSER.getSubparsers().merge(loadedSubparsers);
+    @Test
+    public void parseUnknown() {
+        parse("u n k n o w n", "Unknown expression");
     }
 
     @Test
-    public void testRead() {
-        Assertions.assertAll(
-                () -> Assertions.assertEquals("true", read("true")),
-                () -> Assertions.assertEquals("true", read("true false")),
-
-                () -> Assertions.assertEquals("this.call(a,b)", read("this.call(a,b)")),
-                () -> Assertions.assertEquals("this.get().call(a,b)", read("this.get().call(a,b) this.call(a,b)")),
-
-                //() -> Assertions.assertEquals("newObject(){}", read("new Object(){}")),
-                //() -> Assertions.assertEquals("newObject(){}.toString()", read("new Object(){}.toString() call()")),
-
-                () -> Assertions.assertEquals("this.instance", read("this.instance")),
-                () -> Assertions.assertEquals("this.instance.field", read("this.instance.field this.instance.anotherField")),
-
-                () -> Assertions.assertEquals("1", read("1")),
-                () -> Assertions.assertEquals("1.0", read("1.0")),
-                () -> Assertions.assertEquals("1.0D", read("1.0D")),
-                () -> Assertions.assertEquals("0x001", read("0x001 call()")),
-
-                () -> Assertions.assertEquals("1+1", read("1 + 1")),
-                () -> Assertions.assertEquals("1+1", read("1 + 1 call() + 1")),
-
-                () -> Assertions.assertEquals("(1.0)", read("(1.0)")),
-                () -> Assertions.assertEquals("(1.0)+1.0", read("(1.0) + 1.0 call()"))
-        );
+    public void parseSequences() {
+        parse("'hello panda'");
+        parse("'hello panda' 'hello expressions'", "Source contains 2 expressions");
     }
 
-    private @Nullable String read(String source) {
-        Tokens tokens = PARSER.read(PandaLexerUtils.convert(source));
+    @Test
+    public void parseLiterals() {
+        parse("null");
+        parse("true false",  RuntimeException.class, "Unread source: false");
+    }
 
-        if (!TokensUtils.isEmpty(tokens)) {
-            System.out.println(source + " : " + ((ExpressionTokens) tokens).getSubparser().getName());
-        }
+    @Test
+    public void parseSection() {
+        parse("('chance')");
+        parse("()", "Expression expected");
+        parse("('random') true", RuntimeException.class, "Unread source: true");
+    }
 
-        return TokensUtils.asString(tokens);
+    @Test
+    public void parseNumber() {
+        parse("10");
+        parse("10.0");
+        parse("10.0F");
+        parse("10_000");
+        parse("10.0F true", RuntimeException.class, "Unread source: true");
+    }
+
+    @Test
+    public void parseVariable() {
+        parse("variable");
+        parse("variable true", RuntimeException.class, "Unread source: true");
+        parse("variable.field", "Cannot find field called 'field'");
+        parse("String.CASE_INSENSITIVE_ORDER");
+    }
+
+    @Test
+    public void parseArrayAssignation() {
+        parse("array[0]");
+        parse("array[]", "Expression expected");
+        parse("array['text']", "Index of array has to be Integer");
+        parse("array[0] true", RuntimeException.class, "Unread source: true");
+    }
+
+    @Test
+    public void parseOperation() {
+        parse("1 + 1");
+        parse("(5 + 2) * 4");
+        parse("'a' + 'b'");
+        parse("'a' == 'b'");
+        parse("1 < 2");
+    }
+
+    @Test
+    public void parseMethod() {
+        parse("variable.toString()");
+        parse("variable.toString().toString()");
+        parse("variable.equals(1 + 2)");
+        parse("variable.toString() true", RuntimeException.class, "Unread source: true");
+        parse("String.valueOf(variable)");
+    }
+
+    @Test
+    public void parseNegate() {
+        parse("!true");
+        parse("!false && !false");
+        parse("!true false", RuntimeException.class, "Unread source: false");
+    }
+
+    @Test
+    public void parseConstructor() {
+        parse("new StringBuilder()");
+        parse("new StringBuilder('a')");
+        parse("new StringBuilder() true", RuntimeException.class, "Unread source: true");
+    }
+
+    @Test
+    public void parseArrayConstructor() {
+        parse("new String[0]");
+        parse("new String[]", "Array requires specified capacity");
+        parse("new String['a']", "Capacity has to be Int");
+        parse("new String[0] true", RuntimeException.class, "Unread source: true");
+    }
+
+    @Test
+    public void parseCrease() {
+        parse("i++");
+        parse("++i");
+        parse("i--");
+        parse("--i");
     }
 
 }

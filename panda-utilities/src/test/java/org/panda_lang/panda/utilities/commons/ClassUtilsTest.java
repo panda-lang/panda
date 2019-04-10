@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 class ClassUtilsTest {
 
     @Test
-    public void testIsAssignableFrom() {
+    void isAssignableFrom() {
         Assertions.assertTrue(ClassUtils.isAssignableFrom(int.class, int.class));
 
         Assertions.assertTrue(ClassUtils.isAssignableFrom(int.class, Integer.class));
@@ -32,6 +32,12 @@ class ClassUtilsTest {
         Assertions.assertTrue(ClassUtils.isAssignableFrom(Number.class, int.class));
 
         Assertions.assertFalse(ClassUtils.isAssignableFrom(int.class, String.class));
+    }
+
+    @Test
+    void exists() {
+        Assertions.assertTrue(ClassUtils.exists(String.class.getName()));
+        Assertions.assertFalse(ClassUtils.exists("xyz"));
     }
 
 }

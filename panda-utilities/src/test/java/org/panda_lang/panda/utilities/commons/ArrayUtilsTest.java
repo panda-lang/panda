@@ -28,7 +28,7 @@ class ArrayUtilsTest {
     private static final String[] ARRAY_WITH_NULL = new String[] { "a", "b", "c", null };
 
     @Test
-    public void testContainsNull() {
+    void containsNull() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(ArrayUtils.containsNull(ARRAY_WITH_NULL)),
 
@@ -38,7 +38,7 @@ class ArrayUtilsTest {
     }
 
     @Test
-    public void testContains() {
+    void contains() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(ArrayUtils.contains(ARRAY, "b")),
 
@@ -48,7 +48,35 @@ class ArrayUtilsTest {
     }
 
     @Test
-    public void testGet() {
+    void mergeArrays() {
+        Assertions.assertArrayEquals(new String[] {
+                "a", "b", "c",
+                "a", "b", "c", null
+        }, ArrayUtils.mergeArrays(ARRAY, ARRAY_WITH_NULL));
+    }
+
+    @Test
+    void isEmpty() {
+        Assertions.assertTrue(ArrayUtils.isEmpty(EMPTY_ARRAY));
+    }
+
+    @Test
+    void getArrayClass() {
+        Assertions.assertEquals(String[].class, ArrayUtils.getArrayClass(String.class));
+    }
+
+    @Test
+    void getDimensionalArrayType() {
+        Assertions.assertEquals(String[].class, ArrayUtils.getDimensionalArrayType(String.class, 2));
+    }
+
+    @Test
+    void of() {
+        Assertions.assertArrayEquals(new String[] { "a", "b" }, ArrayUtils.of("a", "b"));
+    }
+
+    @Test
+    void get() {
         Assertions.assertAll(
                 () -> Assertions.assertNotNull(ArrayUtils.get(ARRAY, 0)),
                 () -> Assertions.assertNotNull(ArrayUtils.get(ARRAY, 2)),
@@ -59,7 +87,7 @@ class ArrayUtilsTest {
     }
 
     @Test
-    public void testDimensionalArrayClass() {
+    void dimensionalArrayClass() {
         Assertions.assertAll(
                 () -> Assertions.assertEquals(Object[][].class, ArrayUtils.getDimensionalArrayType(Object.class, 3)),
                 () -> Assertions.assertThrows(IllegalArgumentException.class, () -> ArrayUtils.getDimensionalArrayType(Object.class, 0))

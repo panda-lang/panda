@@ -18,8 +18,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.scope.branching
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
@@ -32,8 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
@@ -54,19 +51,9 @@ public class ReturnParser extends UnifiedParserBootstrap {
             @Type(with = Component.class, value = BootstrapComponents.CURRENT_SOURCE_LABEL),
             @Type(with = Src.class, value = "value")
     })
-    public void parse(ParserData data, @Component Container container, Tokens source, @Nullable Tokens value) {
-        Return returnStatement;
-
-        if (TokensUtils.isEmpty(value)) {
-            returnStatement = new Return(null);
-        }
-        else {
-            Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, value);
-            returnStatement = new Return(expression);
-        }
-
-        StatementData statementData = new PandaStatementData(source.getCurrentLine());
-        returnStatement.setStatementData(statementData);
+    public void parse(ParserData data, @Component Container container, Snippet source, @Nullable Expression value) {
+        Return returnStatement = new Return(value);
+        returnStatement.setStatementData(new PandaStatementData(source.getCurrentLine()));
         container.addStatement(returnStatement);
     }
 

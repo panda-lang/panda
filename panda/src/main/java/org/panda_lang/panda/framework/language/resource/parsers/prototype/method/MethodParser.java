@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -70,7 +70,7 @@ public class MethodParser extends UnifiedParserBootstrap {
             @Type(with = Src.class, value = "*signature"),
             @Type(with = Src.class, value = "*parameters")
     })
-    boolean parse(ParserData data, LocalData local, ExtractorResult result, Tokens signature, Tokens parametersSource) {
+    boolean parse(ParserData data, LocalData local, ExtractorResult result, Snippet signature, Snippet parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
 
         if (result.hasIdentifier(VISIBILITY)) {
@@ -115,7 +115,7 @@ public class MethodParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("*body") Tokens body) throws Throwable {
+    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("*body") Snippet body) throws Throwable {
         ScopeParser.createParser(methodScope, delegatedData)
                 .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                 .parse(body);

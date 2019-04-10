@@ -22,17 +22,17 @@ import org.junit.jupiter.api.Test;
 class TimeUtilsTest {
 
     @Test
-    public void testToMilliseconds() {
+    public void toMilliseconds() {
         Assertions.assertEquals("1.0ms", TimeUtils.toMilliseconds(1_000_000));
     }
 
     @Test
-    public void testToSeconds() {
+    public void toSeconds() {
         Assertions.assertEquals("1.0s", TimeUtils.toSeconds(1_000));
     }
 
     @Test
-    public void testUptime() {
+    public void getUptime() {
         Assertions.assertTrue(TimeUtils.getUptime(System.currentTimeMillis() - 1L) > 0);
     }
 

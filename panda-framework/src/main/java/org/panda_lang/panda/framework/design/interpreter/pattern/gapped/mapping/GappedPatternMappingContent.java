@@ -18,20 +18,20 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.List;
 
 public class GappedPatternMappingContent {
 
-    private final List<Tokens> gaps;
+    private final List<Snippet> gaps;
 
-    public GappedPatternMappingContent(List<Tokens> gaps) {
+    public GappedPatternMappingContent(List<Snippet> gaps) {
         this.gaps = gaps;
     }
 
     public @Nullable Token getToken(int gapIndex, int tokenIndex) {
-        Tokens gap = getGap(gapIndex);
+        Snippet gap = getGap(gapIndex);
 
         if (gap == null) {
             return null;
@@ -40,11 +40,11 @@ public class GappedPatternMappingContent {
         return gap.getToken(tokenIndex);
     }
 
-    public Tokens getGap(int index) {
+    public Snippet getGap(int index) {
         return index < gaps.size() ? gaps.get(index) : null;
     }
 
-    public List<Tokens> getGaps() {
+    public List<Snippet> getGaps() {
         return gaps;
     }
 

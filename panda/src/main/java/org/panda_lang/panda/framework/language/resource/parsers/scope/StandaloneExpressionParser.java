@@ -31,41 +31,48 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionSubparsers;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
+
+import java.util.Optional;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
     private ExpressionParser expressionParser;
+    private Expression expression;
+    private int read;
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        ExpressionParser parent = data.getComponent(PandaComponents.EXPRESSION);
-
-        ExpressionSubparsers subparsers = parent.getSubparsers().fork();
-        subparsers.getSubparsers().removeIf(expressionParser -> expressionParser.getType() != ExpressionType.STANDALONE);
-        this.expressionParser = new ExpressionParser(parent, subparsers);
-
+        this.expressionParser = data.getComponent(PandaComponents.EXPRESSION);
         return defaultBuilder;
     }
 
     @Override
     public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        return expressionParser.read(source) != null;
+        Optional<Expression> expression = expressionParser.parseSilently(data, source);
+
+        if (!expression.isPresent()) {
+            return false;
+        }
+
+        this.expression = expression.get();
+        this.read = source.getReadLength();
+        return true;
     }
 
     @Autowired
     public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
         StatementData statementData = new PandaStatementData(source.getCurrentLine());
-        Expression expression = expressionParser.parseProgressively(data, source, true);
+        source.read(read);
 
         Statement statement = new ExpressionStatement(expression);
         statement.setStatementData(statementData);
+        expression = null;
+        read = 0;
 
         StatementCell cell = linker.getCurrentScope().reserveCell();
         cell.setStatement(statement);

@@ -24,15 +24,33 @@ import java.util.Stack;
 class StackUtilsTest {
 
     @Test
-    public void testFill() {
+    void push() {
+        Stack<String> stack = StackUtils.push(new Stack<>(), "a", "b", "c");
+
+        Assertions.assertEquals(3, stack.size());
+        Assertions.assertEquals("c", stack.pop());
+    }
+
+    @Test
+    void fill() {
         Assertions.assertEquals(9, StackUtils.fill(new Stack<>(), new Object(), 9).size());
     }
 
     @Test
-    public void testPopSilently() {
+    void popSilently() {
         Stack<?> stack = StackUtils.fill(new Stack<>(), new Object(), 10);
         Assertions.assertEquals(5, StackUtils.popSilently(stack, 5).size());
         Assertions.assertEquals(0, StackUtils.popSilently(stack, 6).size());
+    }
+
+    @Test
+    void reverse() {
+        Stack<String> stack = StackUtils.push(new Stack<>(), "a", "b", "c");
+        Stack<String> reversed = StackUtils.reverse(stack);
+
+        Assertions.assertSame(stack, reversed);
+        Assertions.assertEquals(3, stack.size());
+        Assertions.assertEquals("a", stack.pop());
     }
 
 }

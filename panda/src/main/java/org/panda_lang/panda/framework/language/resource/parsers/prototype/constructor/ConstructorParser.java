@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorScope;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PandaConstructor;
@@ -53,7 +53,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("*parameters") @Nullable Tokens parametersSource) {
+    private void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("*parameters") @Nullable Snippet parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
@@ -65,7 +65,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("*body") @Nullable Tokens body) throws Throwable {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("*body") @Nullable Snippet body) throws Throwable {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

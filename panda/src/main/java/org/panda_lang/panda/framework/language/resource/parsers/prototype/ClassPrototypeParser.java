@@ -47,8 +47,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserP
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-import org.panda_lang.panda.framework.design.interpreter.token.TokensUtils;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -103,15 +103,15 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    public void parseDeclaration(ParserData data, @Src("declaration") Tokens declaration) {
+    public void parseDeclaration(ParserData data, @Src("declaration") Snippet declaration) {
         if (declaration != null) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Nullable @Src("*body") Tokens body) throws Throwable {
-        if (TokensUtils.isEmpty(body)) {
+    public void parseBody(ParserData data, Generation generation, @Nullable @Src("*body") Snippet body) throws Throwable {
+        if (SnippetUtils.isEmpty(body)) {
             return;
         }
 
@@ -123,7 +123,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(bodyInfo, stream.toTokenizedSource());
+            UnifiedParser parser = pipeline.handle(bodyInfo, stream.toSnippet());
 
             if (parser == null) {
                 throw new PandaParserFailure("Cannot parse the element of the prototype", data.setComponent(UniversalComponents.SOURCE_STREAM, stream.updateCachedSource()));

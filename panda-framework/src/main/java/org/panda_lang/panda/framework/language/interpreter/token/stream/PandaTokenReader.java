@@ -18,13 +18,13 @@ package org.panda_lang.panda.framework.language.interpreter.token.stream;
 
 import org.jetbrains.annotations.NotNull;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 public class PandaTokenReader implements TokenReader {
 
-    private final Tokens tokens;
+    private final Snippet snippet;
     private ArrayDistributor<TokenRepresentation> representationsDistributor;
     private PandaTokenReaderIterator iterator;
 
@@ -33,9 +33,9 @@ public class PandaTokenReader implements TokenReader {
         this.setIndex(tokenReader.getIndex());
     }
 
-    public PandaTokenReader(Tokens tokens) {
-        this.tokens = tokens;
-        this.representationsDistributor = new ArrayDistributor<>(tokens.toArray());
+    public PandaTokenReader(Snippet snippet) {
+        this.snippet = snippet;
+        this.representationsDistributor = new ArrayDistributor<>(snippet.toArray());
         this.iterator = new PandaTokenReaderIterator(this);
     }
 
@@ -64,8 +64,8 @@ public class PandaTokenReader implements TokenReader {
     }
 
     @Override
-    public Tokens getTokenizedSource() {
-        return tokens;
+    public Snippet getTokenizedSource() {
+        return snippet;
     }
 
     @Override

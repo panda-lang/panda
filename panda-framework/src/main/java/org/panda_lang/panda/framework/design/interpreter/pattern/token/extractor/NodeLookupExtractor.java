@@ -92,6 +92,7 @@ class NodeLookupExtractor  {
         protected ExtractorResult currentResult;
         protected boolean notMatchable;
         protected int matchedIndex;
+        protected boolean merged;
 
         protected ExtractorResult getMergedResults() {
             if (precedingResult == null || currentResult == null) {
@@ -102,6 +103,11 @@ class NodeLookupExtractor  {
                 return new ExtractorResult("Lookup result not matched (" + getMergedErrorMessage() + ")");
             }
 
+            if (merged) {
+                return precedingResult;
+            }
+
+            merged = true;
             return precedingResult.merge(currentResult);
         }
 

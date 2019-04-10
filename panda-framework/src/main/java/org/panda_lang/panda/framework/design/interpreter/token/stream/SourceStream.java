@@ -17,44 +17,126 @@
 package org.panda_lang.panda.framework.design.interpreter.token.stream;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public interface SourceStream {
 
+    /**
+     * Read the next token
+     *
+     * @return the next token
+     */
     TokenRepresentation read();
 
-    Tokens read(int length);
+    /**
+     * Read the specified amount of tokens
+     *
+     * @param length amount of tokens to read
+     * @return tokens
+     */
+    Snippet read(int length);
 
-    Tokens readLineResidue();
+    /**
+     * Read the rest of the current line
+     *
+     * @return the rest of the source at the current line
+     */
+    Snippet readLineResidue();
 
+    /**
+     * Restore the previous source (before the read operation)
+     *
+     * @return the current instance with restored content
+     */
     SourceStream restoreCachedSource();
 
+    /**
+     * Override cached source
+     *
+     * @return the current instance
+     */
     SourceStream updateCachedSource();
 
-    SourceStream update(Tokens source);
+    /**
+     * Replace content with the specified source
+     *
+     * @param source the content
+     * @return the current instance with updated source
+     */
+    SourceStream update(Snippet source);
 
+    /**
+     * Get original source used to create the stream
+     *
+     * @return the original source
+     */
+    Snippet getOriginalSource();
+
+    /**
+     * Get current source as TokenReader
+     *
+     * @return the current content wrapped in TokenReader
+     */
     TokenReader toTokenReader();
 
-    Tokens toTokenizedSource();
+    /**
+     * Get current source as Tokens
+     *
+     * @return the current content wrapped in Tokens
+     */
+    Snippet toSnippet();
 
-    default Tokens readDifference(Tokens source) {
+    default Snippet readDifference(Snippet source) {
         return read(source.size());
     }
 
-    default Tokens readDifference(TokenReader reader) {
+    default Snippet readDifference(TokenReader reader) {
         return read(reader.getIndex() + 1);
     }
 
+    /**
+     * Check if the source has available content
+     *
+     * @return true if source contains available for read content
+     */
     default boolean hasUnreadSource() {
-        return toTokenizedSource().size() > 0;
+        return !toSnippet().isEmpty();
     }
 
-    default int getUnreadLength() {
-        return toTokenizedSource().size();
-    }
-
+    /**
+     * Get current line
+     *
+     * @return if there is no available source, the method returns -2, otherwise returns the number of current line
+     */
     default int getCurrentLine() {
-        return hasUnreadSource() ? toTokenizedSource().getFirst().getLine() : -2;
+        return hasUnreadSource() ? toSnippet().getFirst().getLine() : -2;
+    }
+
+    /**
+     * Get the amount of read tokens
+     *
+     * @return the amount of read tokens
+     */
+    default int getReadLength() {
+        return getOriginalLength() - getUnreadLength();
+    }
+
+    /**
+     * Get the amount of unread tokens
+     *
+     * @return the amount of unread tokens
+     */
+    default int getUnreadLength() {
+        return toSnippet().size();
+    }
+
+    /**
+     * Get the original length of source
+     *
+     * @return the original length of source
+     */
+    default int getOriginalLength() {
+        return getOriginalSource().size();
     }
 
 }

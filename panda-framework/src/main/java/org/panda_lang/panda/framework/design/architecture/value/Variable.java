@@ -25,7 +25,7 @@ public interface Variable {
 
     boolean isMutable();
 
-    int getNestingLevel();
+    int getLevel();
 
     default ClassPrototype getType() {
         return getTypeReference().fetch();

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.token.stream;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -60,7 +60,7 @@ public interface TokenReader extends Iterable<TokenRepresentation>, Iterator<Tok
 
     int getIndex();
 
-    Tokens getTokenizedSource();
+    Snippet getTokenizedSource();
 
     int length();
 

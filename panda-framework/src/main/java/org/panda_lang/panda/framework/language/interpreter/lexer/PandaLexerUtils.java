@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class PandaLexerUtils {
 
-    public static Tokens convert(String source) {
+    public static Snippet convert(String source) {
         return PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("runtime::PandaLexerUtils", source)).build().convert();
     }
 

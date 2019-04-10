@@ -52,9 +52,6 @@
         <maven.compiler.source>${panda.javaLanguageLevel}</maven.compiler.source>
         <maven.compiler.target>${panda.javaVersion}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
-        <!-- JUnit properties -->
-        <junit.jupiter.version>5.4.2</junit.jupiter.version>
     </properties>
 
     <dependencyManagement>
@@ -123,6 +120,11 @@
                 <artifactId>annotations</artifactId>
                 <version>17.0.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs</artifactId>
+                <version>3.1.12</version>
+            </dependency>
 
             <!-- Benchmarks -->
             <dependency>
@@ -141,8 +143,14 @@
             <!-- Tests -->
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.5.0-M1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>${junit.jupiter.version}</version>
+                <version>5.5.0-M1</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

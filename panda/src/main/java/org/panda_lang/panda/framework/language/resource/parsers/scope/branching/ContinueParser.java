@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Continue;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
@@ -41,7 +41,7 @@ public class ContinueParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    private void parseContinue(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Tokens source, @Component Container container) {
+    private void parseContinue(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Container container) {
         BranchingUtils.parseBranchingStatement(source, container, Continue::new);
     }
 

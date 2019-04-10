@@ -32,10 +32,12 @@ public class AnnotationsScannerSelector {
 
     private final AnnotationsScannerProcess process;
     private final AnnotationScannerStore store;
+    private boolean logging;
 
     public AnnotationsScannerSelector(AnnotationsScannerProcess process, AnnotationScannerStore store) {
         this.process = process;
         this.store = store;
+        this.logging = process.getProcessConfiguration().scanner.getLogger() != null;
     }
 
     public <T> Collection<T> select(AnnotationsSelector<T> selector) {
@@ -43,7 +45,11 @@ public class AnnotationsScannerSelector {
 
         try {
             Collection<T> selected = selector.select(process, store);
-            process.getAnnotationsScanner().getLogger().debug("Selected classes: " + selected.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
+
+            if (logging) {
+                process.getAnnotationsScanner().getLogger().debug("Selected classes: " + selected.size() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
+            }
+
             return selected;
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -67,6 +73,11 @@ public class AnnotationsScannerSelector {
 
     public Collection<Method> selectMethodsAnnotatedWith(Class<? extends Annotation> annotationType) {
         return select(new MethodAnnotationSelector(annotationType));
+    }
+
+    public AnnotationsScannerSelector disableLogging(boolean disabled) {
+        this.logging = !disabled;
+        return this;
     }
 
 }

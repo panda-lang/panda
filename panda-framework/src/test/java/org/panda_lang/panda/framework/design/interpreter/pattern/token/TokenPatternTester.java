@@ -17,10 +17,11 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.token;
 
 import org.junit.jupiter.api.Assertions;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
@@ -34,8 +35,8 @@ class TokenPatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Tokens tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
-        ExtractorResult result = pattern.extract(tokenizedSource);
+        Snippet tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
+        ExtractorResult result = pattern.extract(new PandaParserData(), tokenizedSource);
         Assertions.assertNotNull(result);
 
         if (result.hasErrorMessage()) {
@@ -49,7 +50,8 @@ class TokenPatternTester {
         Assertions.assertEquals(expected.length, result.getWildcards().size());
 
         for (Wildcard wildcard : expected) {
-            Assertions.assertEquals(wildcard.expected, result.getWildcards().get(wildcard.name).asString());
+            //noinspection OptionalGetWithoutIsPresent
+            Assertions.assertEquals(wildcard.expected, ((Snippet) result.getWildcard(wildcard.name).get().getValue()).asString());
         }
     }
 

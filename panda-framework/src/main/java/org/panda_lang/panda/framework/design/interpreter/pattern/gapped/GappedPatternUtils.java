@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.gapped;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.mapping.GappedPatternMappingContent;
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
@@ -31,7 +31,7 @@ public class GappedPatternUtils {
     public static @Nullable GappedPatternMappingContent extract(GappedPattern pattern, SourceStream source) {
         GappedPatternExtractor extractor = pattern.extractor();
         TokenReader reader = source.toTokenReader();
-        List<Tokens> gaps = extractor.extract(reader);
+        List<Snippet> gaps = extractor.extract(reader);
 
         if (gaps == null) {
             return null;
@@ -45,7 +45,7 @@ public class GappedPatternUtils {
         TokenReader copyOfReader = new PandaTokenReader(reader);
         GappedPatternExtractor extractor = pattern.extractor();
 
-        List<Tokens> hollows = extractor.extract(copyOfReader);
+        List<Snippet> hollows = extractor.extract(copyOfReader);
         return hollows != null && hollows.size() == pattern.getAmountOfHollows();
     }
 

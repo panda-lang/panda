@@ -16,10 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Tokens;
-
 public interface PatternMapping {
 
-    Tokens get(String name);
+    Object get(String name);
 
 }

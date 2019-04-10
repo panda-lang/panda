@@ -46,7 +46,7 @@ public class FieldAccessorFunction implements Function<ExecutableBranch, MemoryC
         }
 
         ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
-        branch.instance(pandaInstance.toValue());
+        //branch.instance(pandaInstance.toValue());
 
         return pandaInstance;
     }
