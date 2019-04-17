@@ -16,14 +16,28 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-interface LinearPatternElement {
+import org.jetbrains.annotations.Nullable;
 
-    default boolean isWildcard() {
+import java.util.Optional;
+
+public abstract class LinearPatternElement {
+
+    private final @Nullable String identifier;
+
+    LinearPatternElement(@Nullable String identifier) {
+        this.identifier = identifier;
+    }
+
+    boolean isWildcard() {
         return false;
     }
 
-    default boolean isUnit() {
+    boolean isUnit() {
         return false;
+    }
+
+    Optional<String> getIdentifier() {
+        return Optional.ofNullable(identifier);
     }
 
 }

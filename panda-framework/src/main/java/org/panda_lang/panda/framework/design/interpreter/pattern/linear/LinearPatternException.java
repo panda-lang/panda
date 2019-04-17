@@ -16,24 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 
-class UnitLinearPatternElement extends LinearPatternElement {
+public class LinearPatternException extends PandaFrameworkException {
 
-    private final String unit;
-
-    UnitLinearPatternElement(@Nullable String identifier, String unit) {
-        super(identifier);
-        this.unit = unit;
-    }
-
-    @Override
-    public boolean isUnit() {
-        return true;
-    }
-
-    public String getUnit() {
-        return unit;
+    public LinearPatternException(String message) {
+        super(message);
     }
 
 }

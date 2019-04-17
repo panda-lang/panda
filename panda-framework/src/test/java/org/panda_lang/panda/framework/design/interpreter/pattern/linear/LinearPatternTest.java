@@ -16,24 +16,15 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-import org.jetbrains.annotations.Nullable;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-class UnitLinearPatternElement extends LinearPatternElement {
+class LinearPatternTest {
 
-    private final String unit;
-
-    UnitLinearPatternElement(@Nullable String identifier, String unit) {
-        super(identifier);
-        this.unit = unit;
-    }
-
-    @Override
-    public boolean isUnit() {
-        return true;
-    }
-
-    public String getUnit() {
-        return unit;
+    @Test
+    void testElements() {
+        Assertions.assertEquals(1, LinearPattern.compile("test").getElement().size());
+        Assertions.assertEquals(3, LinearPattern.compile("test test test").getElement().size());
     }
 
 }
