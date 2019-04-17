@@ -16,7 +16,13 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-class WildcardLinearPatternElement implements LinearPatternElement  {
+import org.jetbrains.annotations.Nullable;
+
+class WildcardLinearPatternElement extends LinearPatternElement  {
+
+    WildcardLinearPatternElement(@Nullable String identifier) {
+        super(identifier);
+    }
 
     @Override
     public boolean isWildcard() {

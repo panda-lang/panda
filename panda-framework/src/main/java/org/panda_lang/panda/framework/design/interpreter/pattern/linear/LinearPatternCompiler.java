@@ -16,14 +16,65 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
 class LinearPatternCompiler {
 
-    public LinearPattern compile(String pattern) {
-        String[] elements = pattern.split(" ");
+    protected LinearPattern compile(String pattern) {
+        LinearPatternCompilerWorker worker = new LinearPatternCompilerWorker(pattern);
+        Optional<List<LinearPatternElement>> elements = worker.compile();
 
+        if (!elements.isPresent()) {
+            throw new LinearPatternException("Cannot compile the pattern");
+        }
 
+        return new LinearPattern(elements.get());
+    }
 
-        return new LinearPattern(null);
+    private static class LinearPatternCompilerWorker {
+
+        private final String pattern;
+
+        private LinearPatternCompilerWorker(String pattern) {
+            this.pattern = pattern;
+        }
+
+        private Optional<List<LinearPatternElement>> compile() {
+            String[] elements = pattern.split(" ");
+            List<LinearPatternElement> compiled = new ArrayList<>(elements.length);
+
+            for (String element : elements) {
+                LinearPatternElement compiledElement = compileElement(element);
+                compiled.add(compiledElement);
+            }
+
+            return Optional.of(compiled);
+        }
+
+        private LinearPatternElement compileElement(String element) {
+            String[] data = StringUtils.split(element, ":");
+            String identifier = null;
+            String content;
+
+            if (data.length == 1) {
+                content = data[0];
+            }
+            else {
+                identifier = data[0];
+                content = data[1];
+            }
+
+            if (content.startsWith("*")) {
+                return new WildcardLinearPatternElement(identifier);
+            }
+
+            return new UnitLinearPatternElement(identifier, content);
+        }
+
     }
 
 }
