@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -27,11 +26,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Bootst
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
@@ -47,7 +47,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        this.expressionParser = data.getComponent(PandaComponents.EXPRESSION);
+        this.expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
         return defaultBuilder;
     }
 

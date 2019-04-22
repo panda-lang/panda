@@ -18,9 +18,11 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.List;
+import java.util.function.Function;
 
 public class LinearPattern {
 
@@ -39,7 +41,11 @@ public class LinearPattern {
     }
 
     public LinearPatternResult match(SourceStream source) {
-        return new LinearPatternMatcher(this, source).match();
+        return match(source, null);
+    }
+
+    public LinearPatternResult match(SourceStream source, Function<DiffusedSource, Object> expressionMatcher) {
+        return new LinearPatternMatcher(this, source).match(expressionMatcher);
     }
 
     protected List<LinearPatternElement> getElements() {

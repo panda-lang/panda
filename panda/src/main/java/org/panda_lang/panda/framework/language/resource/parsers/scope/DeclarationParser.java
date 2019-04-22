@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.subparsers.variable.VariableInitializer;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_DECLARATION)
 public class DeclarationParser extends UnifiedParserBootstrap {

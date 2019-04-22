@@ -67,22 +67,28 @@ class LinearPatternCompiler {
             }
 
             String[] data = StringUtils.split(element, ":");
-            String identifier = null;
-            String content;
-
-            if (data.length == 1) {
-                content = data[0];
-            }
-            else {
-                identifier = data[0];
-                content = data[1];
-            }
+            String identifier = data.length == 1 ? null : data[0];
+            String content = identifier != null ? data[1] : data[0];
 
             if (content.startsWith("*")) {
-                return new WildcardLinearPatternElement(identifier);
+                return compileWildcard(identifier, content);
             }
 
             return new UnitLinearPatternElement(identifier, content);
+        }
+
+        private WildcardLinearPatternElement compileWildcard(@Nullable String identifier, String content) {
+            if (!content.contains("=")) {
+                return new WildcardLinearPatternElement(WildcardLinearPatternElement.Type.DEFAULT, identifier);
+            }
+
+            String data = StringUtils.splitFirst(content, "=")[1];
+
+            if (data.equals("expression")) {
+                return new WildcardLinearPatternElement(WildcardLinearPatternElement.Type.EXPRESSION, identifier);
+            }
+
+            return null;
         }
 
     }

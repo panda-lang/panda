@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block.looping;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
@@ -24,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.AbyssPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
@@ -48,7 +48,7 @@ public class LoopParser extends BlockSubparserBootstrap {
 
     @Autowired
     public BlockData parse(ParserData data, Generation generation, @Src("loop-expression") Snippet expressionSource) {
-        Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, expressionSource);
+        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, expressionSource);
 
         if (!expression.getReturnType().isClassOf("Int")) {
             throw new PandaParserException("Loop requires number as an argument");

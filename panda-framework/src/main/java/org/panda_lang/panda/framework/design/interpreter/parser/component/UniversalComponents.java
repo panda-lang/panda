@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserDebug;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
@@ -42,6 +43,8 @@ public final class UniversalComponents {
     public static final Component<PipelinePath> PIPELINE = Component.of("pipeline-path", PipelinePath.class);
 
     public static final Component<ModuleLoader> MODULE_LOADER = Component.of("module-loader", ModuleLoader.class);
+
+    public static final Component<ExpressionParser> EXPRESSION = Component.of("expression-parser", ExpressionParser.class);
 
 
 

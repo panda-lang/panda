@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 
@@ -24,6 +23,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
 
 class LinearPatternMatcher {
 
@@ -35,13 +36,13 @@ class LinearPatternMatcher {
         this.source = source;
     }
 
-    LinearPatternResult match() {
+    LinearPatternResult match(Function<DiffusedSource, Object> expressionMatcher) {
         DiffusedSource content = new DiffusedSource(source.toSnippet());
         List<String> identifiers = new ArrayList<>();
         Map<String, Object> wildcards = new HashMap<>();
 
         for (LinearPatternElement element : pattern.getElements()) {
-            if (!match(content, identifiers, wildcards, element)) {
+            if (!match(expressionMatcher, content, identifiers, wildcards, element)) {
                 return new LinearPatternResult();
             }
         }
@@ -50,29 +51,37 @@ class LinearPatternMatcher {
         return new LinearPatternResult(identifiers, wildcards);
     }
 
-    private boolean match(DiffusedSource content, List<String> identifiers, Map<String, Object> wildcards, LinearPatternElement element) {
+    private boolean match(Function<DiffusedSource, Object> matcher, DiffusedSource content, List<String> identifiers, Map<String, Object> wildcards, LinearPatternElement element) {
         if (!content.hasNext()) {
             return false;
         }
 
-        TokenRepresentation representation = content.next();
+        Optional<String> identifier = element.getIdentifier();
 
         if (element.isUnit()) {
-            if (element.getIdentifier().isPresent()) {
-                identifiers.add(element.getIdentifier().get());
-            }
-
-            return representation.getTokenValue().equals(element.getValue());
+            identifier.ifPresent(identifiers::add);
+            return content.next().getTokenValue().equals(element.getValue());
         }
 
         if (element.isWildcard()) {
-            if (!element.getIdentifier().isPresent()) {
-                return true;
+            WildcardLinearPatternElement wildcard = (WildcardLinearPatternElement) element;
+            identifier.ifPresent(identifiers::add);
+
+            Object value = null;
+
+            if (wildcard.getType() == WildcardLinearPatternElement.Type.DEFAULT) {
+                value = content.next();
             }
 
-            identifiers.add(element.getIdentifier().get());
-            wildcards.put(element.getIdentifier().get(), representation);
-            return true;
+            if (wildcard.getType() == WildcardLinearPatternElement.Type.EXPRESSION) {
+                value = matcher.apply(content);
+            }
+
+            if (identifier.isPresent()) {
+                wildcards.put(identifier.get(), value);
+            }
+
+            return value != null;
         }
 
         return false;

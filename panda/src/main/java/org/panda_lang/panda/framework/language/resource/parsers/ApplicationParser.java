@@ -28,22 +28,24 @@ import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.ExpressionWildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.messenger.translators.exception.ExceptionTranslator;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
 import org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.CommentParser;
+import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 public class ApplicationParser implements Parser {
@@ -80,8 +82,8 @@ public class ApplicationParser implements Parser {
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
         ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
-        ExpressionParser expressionParser = new ExpressionParser(interpretation.execute(subparsersLoader::load));
-        baseData.setComponent(PandaComponents.EXPRESSION, expressionParser);
+        ExpressionParser expressionParser = new PandaExpressionParser(interpretation.execute(() -> subparsersLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER)));
+        baseData.setComponent(UniversalComponents.EXPRESSION, expressionParser);
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
@@ -121,8 +123,8 @@ public class ApplicationParser implements Parser {
         // PandaFramework.getLogger().debug("• Expressions Time: " + TimeUtils.toMilliseconds(ExpressionParser.fullTime));
         PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
         PandaFramework.getLogger().debug("• Token Expr Reader Time: " + TimeUtils.toMilliseconds(ExpressionWildcardReader.time));
-        PandaFramework.getLogger().debug("• Token Expr Time: " + TimeUtils.toMilliseconds(ExpressionParser.time));
-        PandaFramework.getLogger().debug("• Token Expr Amount: " + ExpressionParser.amount);
+        PandaFramework.getLogger().debug("• Token Expr Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time));
+        PandaFramework.getLogger().debug("• Token Expr Amount: " + PandaExpressionParser.amount);
 
         PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
         PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelinePath().getTotalHandleTime()));

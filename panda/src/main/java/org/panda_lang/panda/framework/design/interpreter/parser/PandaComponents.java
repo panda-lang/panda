@@ -21,7 +21,6 @@ import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 
 /**
  * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components
@@ -35,7 +34,5 @@ public class PandaComponents {
     public static final Component<Container> CONTAINER = Component.of("panda-container", Container.class);
 
     public static final Component<Scope> SCOPE = Component.of("panda-scope", Scope.class);
-
-    public static final Component<ExpressionParser> EXPRESSION = Component.of("panda-expression-parser", ExpressionParser.class);
 
 }

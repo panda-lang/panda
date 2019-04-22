@@ -20,13 +20,25 @@ import org.jetbrains.annotations.Nullable;
 
 class WildcardLinearPatternElement extends LinearPatternElement  {
 
-    WildcardLinearPatternElement(@Nullable String identifier) {
+    enum Type {
+        DEFAULT,
+        EXPRESSION
+    }
+
+    private final Type type;
+
+    WildcardLinearPatternElement(Type type, @Nullable String identifier) {
         super("*", identifier);
+        this.type = type;
     }
 
     @Override
     public boolean isWildcard() {
         return true;
+    }
+
+    public Type getType() {
+        return type;
     }
 
 }

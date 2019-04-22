@@ -16,16 +16,16 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.general;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.extractor.GappedPatternExtractor;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -47,7 +47,7 @@ public class ArgumentParser implements Parser {
 
         SourceStream sourceStream = new PandaSourceStream(snippet);
         List<Expression> expressions = new ArrayList<>();
-        ExpressionParser expressionParser = data.getComponent(PandaComponents.EXPRESSION);
+        ExpressionParser expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
         GappedPatternExtractor extractor = PATTERN.extractor();
 
         while (sourceStream.hasUnreadSource()) {
