@@ -16,10 +16,51 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-public class LinearPatternMatcher {
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 
-    public LinearPatternMatcher(String content) {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+class LinearPatternMatcher {
+
+    private final LinearPattern pattern;
+    private final SourceStream source;
+
+    LinearPatternMatcher(LinearPattern pattern, SourceStream source) {
+        this.pattern = pattern;
+        this.source = source;
+    }
+
+    LinearPatternResult match() {
+        DiffusedSource content = new DiffusedSource(source.toSnippet());
+        List<String> identifiers = new ArrayList<>();
+        Map<String, Object> wildcards = new HashMap<>();
+
+        for (LinearPatternElement element : pattern.getElements()) {
+            if (!match(content, element)) {
+                return new LinearPatternResult();
+            }
+        }
+
+        return new LinearPatternResult(identifiers, wildcards);
+    }
+
+    private boolean match(DiffusedSource content, LinearPatternElement element) {
+        if (!content.hasNext()) {
+            return false;
+        }
+
+        TokenRepresentation representation = content.next();
+
+        if (element.isUnit()) {
+            return representation.getTokenValue().equals(element.getValue());
+        }
+
+        return false;
     }
 
 }

@@ -16,34 +16,33 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-import org.jetbrains.annotations.Nullable;
+import java.util.List;
+import java.util.Map;
 
-import java.util.Optional;
+public class LinearPatternResult {
 
-abstract class LinearPatternElement {
+    private final List<String> identifiers;
+    private final Map<String, Object> wildcards;
 
-    private final String value;
-    private final @Nullable String identifier;
-
-    LinearPatternElement(String value, @Nullable String identifier) {
-        this.value = value;
-        this.identifier = identifier;
+    LinearPatternResult(List<String> identifiers, Map<String, Object> wildcards) {
+        this.identifiers = identifiers;
+        this.wildcards = wildcards;
     }
 
-    boolean isWildcard() {
-        return false;
+    LinearPatternResult() {
+        this(null, null);
     }
 
-    boolean isUnit() {
-        return false;
+    public boolean isMatched() {
+        return identifiers != null;
     }
 
-    Optional<String> getIdentifier() {
-        return Optional.ofNullable(identifier);
+    public Map<? extends String, ? extends Object> getWildcards() {
+        return wildcards;
     }
 
-    public String getValue() {
-        return value;
+    public List<? extends String> getIdentifiers() {
+        return identifiers;
     }
 
 }
