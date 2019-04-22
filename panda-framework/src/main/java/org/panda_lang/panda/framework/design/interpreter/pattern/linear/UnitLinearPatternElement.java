@@ -20,11 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 class UnitLinearPatternElement extends LinearPatternElement {
 
-    private final String unit;
-
     UnitLinearPatternElement(@Nullable String identifier, String unit) {
-        super(identifier);
-        this.unit = unit;
+        super(unit, identifier);
     }
 
     @Override
@@ -33,7 +30,7 @@ class UnitLinearPatternElement extends LinearPatternElement {
     }
 
     public String getUnit() {
-        return unit;
+        return getValue();
     }
 
 }

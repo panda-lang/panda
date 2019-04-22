@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 class WildcardLinearPatternElement extends LinearPatternElement  {
 
     WildcardLinearPatternElement(@Nullable String identifier) {
-        super(identifier);
+        super("*", identifier);
     }
 
     @Override

@@ -18,13 +18,29 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 
 class LinearPatternTest {
 
     @Test
     void testElements() {
-        Assertions.assertEquals(1, LinearPattern.compile("test").getElement().size());
-        Assertions.assertEquals(3, LinearPattern.compile("test test test").getElement().size());
+        Assertions.assertEquals(1, LinearPattern.compile("test").getElements().size());
+        Assertions.assertEquals(3, LinearPattern.compile("test test test").getElements().size());
+    }
+
+    @Test
+    void testIsMatched() {
+        LinearPattern simplePattern = LinearPattern.compile("test");
+
+        Assertions.assertAll(
+                () -> Assertions.assertTrue(simplePattern.match(of("test")).isMatched()),
+                () -> Assertions.assertFalse(simplePattern.match(of("fail")).isMatched())
+        );
+    }
+
+    private static Snippet of(String source) {
+        return PandaLexerUtils.convert(source);
     }
 
 }

@@ -16,6 +16,10 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+
 import java.util.List;
 
 public class LinearPattern {
@@ -28,11 +32,15 @@ public class LinearPattern {
         this.element = element;
     }
 
-    public LinearPatternMatcher matcher(String content) {
-        return new LinearPatternMatcher(content);
+    public LinearPatternResult match(Snippet source) {
+        return match(new PandaSourceStream(source));
     }
 
-    protected List<LinearPatternElement> getElement() {
+    public LinearPatternResult match(SourceStream source) {
+        return new LinearPatternMatcher(this, source).match();
+    }
+
+    protected List<LinearPatternElement> getElements() {
         return element;
     }
 
