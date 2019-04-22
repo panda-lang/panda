@@ -41,15 +41,16 @@ class LinearPatternMatcher {
         Map<String, Object> wildcards = new HashMap<>();
 
         for (LinearPatternElement element : pattern.getElements()) {
-            if (!match(content, element)) {
+            if (!match(content, identifiers, wildcards, element)) {
                 return new LinearPatternResult();
             }
         }
 
+        source.read(content.getIndex());
         return new LinearPatternResult(identifiers, wildcards);
     }
 
-    private boolean match(DiffusedSource content, LinearPatternElement element) {
+    private boolean match(DiffusedSource content, List<String> identifiers, Map<String, Object> wildcards, LinearPatternElement element) {
         if (!content.hasNext()) {
             return false;
         }
@@ -57,7 +58,21 @@ class LinearPatternMatcher {
         TokenRepresentation representation = content.next();
 
         if (element.isUnit()) {
+            if (element.getIdentifier().isPresent()) {
+                identifiers.add(element.getIdentifier().get());
+            }
+
             return representation.getTokenValue().equals(element.getValue());
+        }
+
+        if (element.isWildcard()) {
+            if (!element.getIdentifier().isPresent()) {
+                return true;
+            }
+
+            identifiers.add(element.getIdentifier().get());
+            wildcards.put(element.getIdentifier().get(), representation);
+            return true;
         }
 
         return false;

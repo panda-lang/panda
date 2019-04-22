@@ -18,8 +18,6 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -75,26 +73,33 @@ public class StringUtils {
      * @return the array of elements
      */
     public static String[] split(String text, String delimiter) {
-        List<String> list = new ArrayList<>();
+        int occurrences = countOccurrences(text, delimiter);
+
+        if (occurrences == 0) {
+            return new String[] { text };
+        }
+
+        String[] elements = new String[occurrences + 1];
+        int arrayIndex = 0;
         int index = 0;
 
         while (index < text.length()) {
             int currentIndex = text.indexOf(delimiter, index);
 
             if (currentIndex == -1) {
-                list.add(text.substring(index));
+                elements[arrayIndex++] = text.substring(index);
                 break;
             }
 
-            list.add(text.substring(index, currentIndex));
+            elements[arrayIndex++] = text.substring(index, currentIndex);
             index = currentIndex + delimiter.length();
         }
 
         if (text.endsWith(delimiter)) {
-            list.add(EMPTY);
+            elements[arrayIndex] = EMPTY;
         }
 
-        return list.toArray(EMPTY_ARRAY);
+        return elements;
     }
 
     /**
