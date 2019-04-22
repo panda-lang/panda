@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPatternBuilder;
 
@@ -33,7 +33,7 @@ public class PandaTokenPattern {
     }
 
     public TokenPattern build(ParserData data) {
-        return builder.build().addWildcardReader(new ExpressionWildcardReader(data.getComponent(PandaComponents.EXPRESSION)));
+        return builder.build().addWildcardReader(new ExpressionWildcardReader(data.getComponent(UniversalComponents.EXPRESSION)));
     }
 
     public static PandaTokenPattern builder() {

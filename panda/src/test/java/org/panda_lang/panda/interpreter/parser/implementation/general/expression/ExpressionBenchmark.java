@@ -29,10 +29,12 @@ import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
+import org.panda_lang.panda.util.PandaUtils;
 
 @Fork(value = 1)
 @Warmup(iterations = 1)
@@ -55,7 +57,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
         @Setup(Level.Trial)
         public void setup() throws Exception {
-            this.expressionParser = new ExpressionParser(new ExpressionSubparsersLoader().load());
+            this.expressionParser = new PandaExpressionParser(new ExpressionSubparsersLoader().load(PandaUtils.DEFAULT_PANDA_SCANNER));
             this.data = prepareData();
         }
 

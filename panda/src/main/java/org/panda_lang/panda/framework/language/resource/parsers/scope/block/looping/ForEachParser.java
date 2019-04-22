@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserR
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.assignation.subparsers.variable.VariableInitializer;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -66,7 +66,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
 
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
-        Expression expression = data.getComponent(PandaComponents.EXPRESSION).parse(data, iterable);
+        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, iterable);
 
         if (expression == null) {
             throw new PandaParserException("Cannot parse expression: " + iterable);

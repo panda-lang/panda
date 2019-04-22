@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -31,7 +30,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Acc
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.FieldAccessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.subparsers.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 
@@ -65,7 +64,7 @@ public class AccessorParser implements Parser {
 
     public Accessor<? extends Variable> parse(ParserData data, Snippet source) {
         if (source.size() > 1) {
-            Expression instanceExpression = data.getComponent(PandaComponents.EXPRESSION).parse(data, source.subSource(0, source.size() - 2));
+            Expression instanceExpression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, source.subSource(0, source.size() - 2));
 
             if (instanceExpression == null) {
                 throw new PandaParserFailure("Cannot parse variable reference: " + source, data, source);

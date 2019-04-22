@@ -19,29 +19,17 @@ package org.panda_lang.panda.interpreter.parser.implementation.general.expressio
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.architecture.module.PandaModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.PandaParserDataUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParser;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionParserException;
-import org.panda_lang.panda.framework.design.resource.parsers.expression.fixed.ExpressionSubparsersLoader;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
-import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
-import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 class ExpressionParserTestBootstrap {
@@ -51,7 +39,7 @@ class ExpressionParserTestBootstrap {
 
     @BeforeAll
     public static void load() throws Exception {
-        PARSER = new ExpressionParser(new ExpressionSubparsersLoader().load());
+        PARSER = new PandaExpressionParser(new ExpressionSubparsersLoader().load(PandaUtils.DEFAULT_PANDA_SCANNER));
         DATA = prepareData();
     }
 
@@ -60,30 +48,8 @@ class ExpressionParserTestBootstrap {
         System.out.println(StringUtils.EMPTY);
     }
 
-    protected static ParserData prepareData() {
-        ParserData data = new PandaParserData();
-        data.setComponent(PandaComponents.EXPRESSION, PARSER);
-
-        Scope scope = new AbstractScope() {
-            @Override
-            public ScopeInstance createInstance(ExecutableBranch branch) {
-                return null;
-            }
-        };
-
-        ScopeLinker linker = new PandaScopeLinker(scope);
-        data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
-
-        ModulePath path = new PandaModulePath();
-        ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
-
-        loader.include(path.getDefaultModule());
-        data.setComponent(UniversalComponents.MODULE_LOADER, loader);
-
-        scope.addVariable(new PandaVariable(PandaTypes.STRING.getReference(), "variable"));
-        scope.addVariable(new PandaVariable(PandaTypes.STRING.toArray(), "array"));
-        scope.addVariable(new PandaVariable(PandaTypes.INT.getReference(), "i"));
-
+    protected static ParserData prepareData() throws Exception {
+        ParserData data = PandaParserDataUtils.createFakeData(PandaUtils.DEFAULT_PANDA_SCANNER);
         return data;
     }
 
