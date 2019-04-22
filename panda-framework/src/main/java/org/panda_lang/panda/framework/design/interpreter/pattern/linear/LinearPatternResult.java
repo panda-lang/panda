@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class LinearPatternResult {
 
@@ -35,6 +36,11 @@ public class LinearPatternResult {
 
     public boolean isMatched() {
         return identifiers != null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> Optional<T> getWildcard(String identifier) {
+        return isMatched() ? Optional.ofNullable((T) wildcards.get(identifier)) : Optional.empty();
     }
 
     public Map<? extends String, ? extends Object> getWildcards() {
