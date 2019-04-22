@@ -18,10 +18,13 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.Optional;
 
 class LinearPatternTest {
 
@@ -80,6 +83,16 @@ class LinearPatternTest {
 
     private String[] identifiersOf(String pattern, String source) {
         return LinearPattern.compile(pattern).match(of(source)).getIdentifiers().toArray(StringUtils.EMPTY_ARRAY);
+    }
+
+    @Test
+    void testWildcards() {
+        Optional<TokenRepresentation> wildcardValue = LinearPattern.compile("wildcard:*")
+                .match(of("random"))
+                .getWildcard("wildcard");
+
+        Assertions.assertTrue(wildcardValue.isPresent());
+        Assertions.assertEquals("random", wildcardValue.get().getTokenValue());
     }
 
     private static Snippet of(String source) {
