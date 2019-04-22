@@ -27,6 +27,9 @@ class LinearPatternTest {
     void testElements() {
         Assertions.assertEquals(1, LinearPattern.compile("test").getElements().size());
         Assertions.assertEquals(3, LinearPattern.compile("test test test").getElements().size());
+
+        Throwable linearPatternException = Assertions.assertThrows(LinearPatternException.class, () -> LinearPattern.compile(""));
+        Assertions.assertEquals("Cannot compile the pattern", linearPatternException.getMessage());
     }
 
     @Test

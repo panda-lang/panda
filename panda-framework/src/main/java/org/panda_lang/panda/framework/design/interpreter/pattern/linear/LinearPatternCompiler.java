@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
@@ -49,13 +50,22 @@ class LinearPatternCompiler {
 
             for (String element : elements) {
                 LinearPatternElement compiledElement = compileElement(element);
+
+                if (compiledElement == null) {
+                    return Optional.empty();
+                }
+
                 compiled.add(compiledElement);
             }
 
             return Optional.of(compiled);
         }
 
-        private LinearPatternElement compileElement(String element) {
+        private @Nullable LinearPatternElement compileElement(String element) {
+            if (StringUtils.isEmpty(element)) {
+                return null;
+            }
+
             String[] data = StringUtils.split(element, ":");
             String identifier = null;
             String content;
