@@ -32,7 +32,7 @@ public interface SourceStream {
      * Read the specified amount of tokens
      *
      * @param length amount of tokens to read
-     * @return tokens
+     * @return the read tokens
      */
     Snippet read(int length);
 
