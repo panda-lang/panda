@@ -16,20 +16,18 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block.looping;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.AbyssPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.utils.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -41,13 +39,12 @@ public class WhileParser extends BlockSubparserBootstrap {
     protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.WHILE))
-                .interceptor(new AbyssPatternInterceptor())
-                .pattern(new AbyssPatternData("while ( +* )", "while-expression"));
+                .pattern("while `( <*content> `)");
     }
 
     @Autowired
-    private BlockData parseWhile(ParserData data, @Src("while-expression") Snippet expressionSource) {
-        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, expressionSource);
+    private BlockData parseWhile(ParserData data, @Src("*content") Snippet contentSource) {
+        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, contentSource);
 
         if (!expression.getReturnType().isClassOf("Boolean")) {
             throw new PandaParserException("Loop requires boolean as an argument");
