@@ -28,6 +28,7 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -46,7 +47,7 @@ public class WhileParser extends BlockSubparserBootstrap {
     private BlockData parseWhile(ParserData data, @Src("*content") Snippet contentSource) {
         Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, contentSource);
 
-        if (!expression.getReturnType().isClassOf("Boolean")) {
+        if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
 

@@ -16,21 +16,20 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block.looping;
 
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.AbyssPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.utils.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.LoopBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -42,15 +41,14 @@ public class LoopParser extends BlockSubparserBootstrap {
     protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.LOOP))
-                .interceptor(new AbyssPatternInterceptor())
-                .pattern(new AbyssPatternData("loop ( +* )", "loop-expression"));
+                .pattern("loop `( <*content> `)");
     }
 
     @Autowired
-    public BlockData parse(ParserData data, Generation generation, @Src("loop-expression") Snippet expressionSource) {
-        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, expressionSource);
+    public BlockData parse(ParserData data, Generation generation, @Src("*content") Snippet content) {
+        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, content);
 
-        if (!expression.getReturnType().isClassOf("Int")) {
+        if (!PandaTypes.INT.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires number as an argument");
         }
 
