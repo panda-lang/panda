@@ -21,15 +21,15 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
+import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
-import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 public class PandaInterpreter implements Interpreter {
 
     private final Environment environment;
-    private final PandaLanguage language;
+    private final Language language;
 
     protected PandaInterpreter(PandaInterpreterBuilder builder) {
         this.environment = builder.environment;

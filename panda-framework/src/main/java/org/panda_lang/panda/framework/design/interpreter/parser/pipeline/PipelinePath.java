@@ -22,6 +22,10 @@ import java.util.Collection;
 
 public interface PipelinePath {
 
+    <P extends Parser> ParserPipeline<P> createPipeline(PipelineComponent<P> component);
+
+    boolean hasPipeline(PipelineComponent<?> component);
+
     <P extends Parser> ParserPipeline<P> getPipeline(PipelineComponent<P> component);
 
     long getTotalHandleTime();

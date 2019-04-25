@@ -14,10 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
+package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.AbstractComponent;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
 
 import java.util.Collection;
@@ -32,7 +37,8 @@ public class PandaPipelinePath implements PipelinePath {
         pipelines.put(UniversalPipelines.ALL, new PandaParserPipeline<>());
     }
 
-    protected <P extends Parser> ParserPipeline<P> getOrCreate(PipelineComponent<P> component) {
+    @Override
+    public <P extends Parser> ParserPipeline<P> createPipeline(PipelineComponent<P> component) {
         ParserPipeline<P> pipeline = getPipeline(component);
 
         if (pipeline == null) {
@@ -41,6 +47,11 @@ public class PandaPipelinePath implements PipelinePath {
         }
 
         return pipeline;
+    }
+
+    @Override
+    public boolean hasPipeline(PipelineComponent<?> component) {
+        return getPipeline(component) != null;
     }
 
     @Override
