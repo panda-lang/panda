@@ -22,6 +22,9 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.Iterator;
 
+/**
+ * DiffusedSource works like a shared iterator with its own index and source based on {@link org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet}
+ */
 public class DiffusedSource implements Iterable<TokenRepresentation>, Iterator<TokenRepresentation> {
 
     private final Snippet source;

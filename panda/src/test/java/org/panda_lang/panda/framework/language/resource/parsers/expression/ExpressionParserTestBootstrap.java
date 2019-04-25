@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.interpreter.parser.implementation.general.expression;
+package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -49,8 +49,7 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static ParserData prepareData() throws Exception {
-        ParserData data = PandaParserDataUtils.createFakeData(PandaUtils.DEFAULT_PANDA_SCANNER);
-        return data;
+        return PandaParserDataUtils.createFakeData(PandaUtils.DEFAULT_PANDA_SCANNER);
     }
 
     protected static void parse(String source, String message) {
