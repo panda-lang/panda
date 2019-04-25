@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
-import org.panda_lang.panda.framework.design.interpreter.pattern.AbyssPatternData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.utils.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.gapped.GappedPatternAssistant;

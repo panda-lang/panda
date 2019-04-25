@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.assi
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;

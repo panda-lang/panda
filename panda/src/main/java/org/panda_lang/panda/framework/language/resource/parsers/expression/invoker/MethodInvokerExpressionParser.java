@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.invo
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.invoker.MethodInvoker;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.invoker.MethodInvoker;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;

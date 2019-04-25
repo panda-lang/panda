@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.array;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;

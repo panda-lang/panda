@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;

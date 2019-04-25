@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPatternBuilder;
+import org.panda_lang.panda.framework.design.interpreter.pattern.utils.ExpressionWildcardReader;
 
 public class PandaTokenPattern {
 
