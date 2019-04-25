@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;

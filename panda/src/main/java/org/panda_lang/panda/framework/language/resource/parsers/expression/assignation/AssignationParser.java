@@ -33,10 +33,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.framework.design.interpreter.pattern.PandaTokenPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResultElement;
+import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResultElement;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -50,11 +50,11 @@ public class AssignationParser extends UnifiedParserBootstrap {
 
     private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]";
 
-    private TokenPattern pattern;
+    private DescriptivePattern pattern;
 
     @Override
     public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        this.pattern = PandaTokenPattern.builder()
+        this.pattern = PandaDescriptivePattern.builder()
                 .compile(PATTERN)
                 .build(data);
 

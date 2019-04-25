@@ -30,8 +30,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.TokenPattern;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 @ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
 public class ForEachParser extends BlockSubparserBootstrap {
 
-    private static final TokenPattern CONTENT_PATTERN = TokenPattern.builder()
+    private static final DescriptivePattern CONTENT_PATTERN = DescriptivePattern.builder()
             .compile("<type:reader type> <name> : <*iterable>")
             .build();
 

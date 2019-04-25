@@ -41,7 +41,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
