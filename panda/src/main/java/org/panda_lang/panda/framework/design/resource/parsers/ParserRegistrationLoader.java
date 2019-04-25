@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
+package org.panda_lang.panda.framework.design.resource.parsers;
 
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Collection;
@@ -54,7 +60,12 @@ public class ParserRegistrationLoader {
 
             for (String target : parserRegistration.target()) {
                 PipelineComponent<Parser> component = (PipelineComponent<Parser>) PipelineComponent.get(target);
-                registry.getOrCreate(component).registerParserRepresentation(representation);
+
+                if (!registry.hasPipeline(component)) {
+                    registry.createPipeline(component);
+                }
+
+                registry.getPipeline(component).registerParserRepresentation(representation);
             }
         }
 

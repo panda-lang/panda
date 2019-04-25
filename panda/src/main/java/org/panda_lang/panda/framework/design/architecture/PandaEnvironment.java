@@ -20,7 +20,7 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRegistrationLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.loader.AnnotatedModelsLoader;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;

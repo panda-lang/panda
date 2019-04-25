@@ -18,7 +18,7 @@ package org.panda_lang.panda;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.architecture.dynamic.block.PandaBlock;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
 
@@ -28,13 +28,13 @@ class ExecutableBranchTest {
     public void test() {
         MainScope main = new MainScope();
 
-        Block block = new PandaBlock();
+        Block block = new TestBlock();
         main.addStatement(block);
 
         System.out.println("Generating statements");
 
         for (int i = 0; i < 1000; i++) {
-            Block subBlock = new PandaBlock();
+            Block subBlock = new TestBlock();
             block.addStatement(subBlock);
             block = subBlock;
         }
@@ -44,5 +44,7 @@ class ExecutableBranchTest {
         PandaExecutableProcess process = new PandaExecutableProcess(null, main);
         process.execute();
     }
+
+    class TestBlock extends AbstractBlock { }
 
 }

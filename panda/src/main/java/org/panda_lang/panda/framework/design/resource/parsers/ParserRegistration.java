@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
+package org.panda_lang.panda.framework.design.resource.parsers;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -28,14 +29,14 @@ import java.lang.annotation.Target;
 public @interface ParserRegistration {
 
     /**
-     * Default pipelines: {@link org.panda_lang.panda.framework.design.interpreter.parser.PandaPipelines}
+     * Default pipelines: {@link org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines}
      *
      * @return the array of pipelines
      */
     String[] target();
 
     /**
-     * Default priorities {@link org.panda_lang.panda.framework.design.interpreter.parser.PandaPriorities}
+     * Default priorities {@link org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities}
      *
      * @return the priority
      */
