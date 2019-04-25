@@ -17,28 +17,26 @@
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.AbyssPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.utils.AbyssPatternData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_BLOCK)
@@ -47,8 +45,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
-                .interceptor(new AbyssPatternInterceptor())
-                .pattern(new AbyssPatternData("+* { +* }", "block-declaration", "block-body"));
+                .pattern("<*declaration> `{ <*body> `}");
     }
 
     @Override
@@ -60,7 +57,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, Generation generation, @Src("block-declaration") Snippet declaration) throws Throwable {
+    private void parse(ParserData data, LocalData local, Generation generation, @Src("*declaration") Snippet declaration) throws Throwable {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
@@ -88,7 +85,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Src("block-body") Snippet body) throws Throwable {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Src("*body") Snippet body) throws Throwable {
         ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(blockData, body);
     }
