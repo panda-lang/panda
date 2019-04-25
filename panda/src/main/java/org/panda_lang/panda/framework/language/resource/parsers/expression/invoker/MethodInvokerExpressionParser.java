@@ -27,11 +27,11 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ThisExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
+import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentsParser;
 
 public class MethodInvokerExpressionParser {
 
-    private static final ArgumentParser ARGUMENT_PARSER = new ArgumentParser();
+    private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
     private final Snippet instanceSource;
     private final String methodName;

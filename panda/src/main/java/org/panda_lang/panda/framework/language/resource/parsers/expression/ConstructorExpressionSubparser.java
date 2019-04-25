@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.Di
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.ArrayInstanceExpression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.callbacks.InstanceExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentParser;
+import org.panda_lang.panda.framework.language.resource.parsers.general.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
@@ -62,7 +62,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
     private static class ConstructorWorker extends AbstractExpressionSubparserWorker {
 
-        private static final ArgumentParser ARGUMENT_PARSER = new ArgumentParser();
+        private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
         public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
