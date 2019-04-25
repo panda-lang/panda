@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
@@ -40,11 +40,11 @@ public class PandaConstructor implements PrototypeConstructor {
     }
 
     @Override
-    public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch, Value... values) {
-        ClassPrototypeScopeInstance classInstance = classScope.createInstance(branch);
+    public ClassPrototypeScopeFrame createInstance(ExecutableBranch branch, Value... values) {
+        ClassPrototypeScopeFrame classInstance = classScope.createInstance(branch);
         Value instance = new PandaValue(classPrototype, classInstance);
 
-        ConstructorScopeInstance constructorInstance = constructorScope.createInstance(branch);
+        ConstructorScopeFrame constructorInstance = constructorScope.createInstance(branch);
         ParameterUtils.assignValues(constructorInstance, values);
 
         branch.instance(instance);

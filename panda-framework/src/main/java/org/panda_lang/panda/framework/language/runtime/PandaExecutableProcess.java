@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.runtime;
 
 import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
@@ -36,7 +36,7 @@ public class PandaExecutableProcess implements ExecutableProcess {
 
     @Override
     public Value execute() {
-        ScopeInstance instance = mainScope.createInstance(null); // TODO: check behaviour of branch after applying the 'null' value
+        ScopeFrame instance = mainScope.createInstance(null); // TODO: check behaviour of branch after applying the 'null' value
 
         PandaExecutableBranch branch = new PandaExecutableBranch(this, instance);
         branch.call();

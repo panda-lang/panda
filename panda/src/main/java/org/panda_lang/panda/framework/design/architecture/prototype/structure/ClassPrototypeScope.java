@@ -40,12 +40,12 @@ public class ClassPrototypeScope implements Scope {
     }
 
     @Override
-    public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch) {
+    public ClassPrototypeScopeFrame createInstance(ExecutableBranch branch) {
         if (prototype instanceof PandaClassPrototype) {
             ((PandaClassPrototype) prototype).initialize();
         }
 
-        ClassPrototypeScopeInstance instance = new ClassPrototypeScopeInstance(this, prototype);
+        ClassPrototypeScopeFrame instance = new ClassPrototypeScopeFrame(this, prototype);
 
         for (PrototypeField field : prototype.getFields().getListOfFields()) {
             if (!field.hasDefaultValue() || field.isStatic()) {

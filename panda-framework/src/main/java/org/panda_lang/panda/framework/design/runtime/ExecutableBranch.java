@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.runtime;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
@@ -114,7 +114,7 @@ public interface ExecutableBranch {
     /**
      * @return instance of the current scope
      */
-    ScopeInstance getCurrentScope();
+    ScopeFrame getCurrentScope();
 
     /**
      * @return current object

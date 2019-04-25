@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture.statement;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
@@ -32,7 +32,7 @@ public interface Scope extends Container {
      *
      * @return instance of the current wrapper
      */
-    ScopeInstance createInstance(ExecutableBranch branch);
+    ScopeFrame createInstance(ExecutableBranch branch);
 
     default int indexOf(Variable variable) {
         return getVariables().indexOf(variable);

@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.main;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 
 public class MainScope extends AbstractScope {
 
     @Override
-    public ScopeInstance createInstance(ExecutableBranch branch) {
-        return new MainInstance(this);
+    public ScopeFrame createInstance(ExecutableBranch branch) {
+        return new MainFrame(this);
     }
 
     @Override
