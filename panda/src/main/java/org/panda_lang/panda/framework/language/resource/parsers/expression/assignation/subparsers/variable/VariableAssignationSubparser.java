@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.interpreter.pattern.token.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparserBootstrap;

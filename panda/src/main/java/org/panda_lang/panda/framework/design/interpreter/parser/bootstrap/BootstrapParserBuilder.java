@@ -19,9 +19,9 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenPatternHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.DescriptivePatternHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.TokenPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.DescriptivePatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
@@ -115,11 +115,11 @@ public class BootstrapParserBuilder<T> {
         }
 
         if (interceptor == null) {
-            interceptor(new TokenPatternInterceptor());
+            interceptor(new DescriptivePatternInterceptor());
         }
 
         if (handler == null && pattern != null) {
-            handler = new TokenPatternHandler();
+            handler = new DescriptivePatternHandler();
         }
 
         if (layers.isEmpty()) {
