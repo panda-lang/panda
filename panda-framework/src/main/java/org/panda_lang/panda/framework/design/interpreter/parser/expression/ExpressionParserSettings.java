@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 public class ExpressionParserSettings {
 
@@ -86,6 +87,29 @@ public class ExpressionParserSettings {
 
     public boolean isCombined() {
         return combined;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ExpressionParserSettings settings = (ExpressionParserSettings) o;
+
+        return isStandaloneOnly() == settings.isStandaloneOnly() &&
+                isCombined() == settings.isCombined() &&
+                Objects.equals(getSelectedSubparsers(), settings.getSelectedSubparsers()) &&
+                Objects.equals(getSelectedMode(), settings.getSelectedMode());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSelectedSubparsers(), getSelectedMode(), isStandaloneOnly(), isCombined());
     }
 
     public static ExpressionParserSettings create() {
