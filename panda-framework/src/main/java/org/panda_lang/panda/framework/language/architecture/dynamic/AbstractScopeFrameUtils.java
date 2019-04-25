@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.block.main;
+package org.panda_lang.panda.framework.language.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 
-public class MainInstance extends AbstractScopeInstance<MainScope> {
+public class AbstractScopeFrameUtils {
 
-    public MainInstance(MainScope main) {
-        super(main);
-    }
-
-    @Override
-    public void execute(ExecutableBranch branch) {
-        branch.call(super.getScope().getStatementCells());
+    public static Value[] extractMemory(AbstractScopeFrame<?> scopeInstance) {
+        return scopeInstance.localMemory;
     }
 
 }

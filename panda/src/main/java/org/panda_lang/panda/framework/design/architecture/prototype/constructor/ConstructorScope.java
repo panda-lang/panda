@@ -31,8 +31,8 @@ public class ConstructorScope extends AbstractScope {
     }
 
     @Override
-    public ConstructorScopeInstance createInstance(ExecutableBranch branch) {
-        return new ConstructorScopeInstance(this);
+    public ConstructorScopeFrame createInstance(ExecutableBranch branch) {
+        return new ConstructorScopeFrame(this);
     }
 
     public List<Parameter> getParameters() {

@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic;
+package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 
-public class AbstractScopeInstanceUtils {
+public interface ScopeFrame extends StandaloneExecutable, MemoryContainer {
 
-    public static Value[] extractMemory(AbstractScopeInstance<?> scopeInstance) {
-        return scopeInstance.localMemory;
-    }
+    /**
+     * @return the proper scope
+     */
+    Scope getScope();
 
 }

@@ -19,19 +19,19 @@ package org.panda_lang.panda.framework.design.architecture.prototype.structure;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class ClassPrototypeScopeInstance extends AbstractScopeInstance<ClassPrototypeScope> {
+public class ClassPrototypeScopeFrame extends AbstractScopeFrame<ClassPrototypeScope> {
 
     private static final AtomicInteger idAssigner = new AtomicInteger();
 
     private final int id;
     private final ClassPrototype prototype;
 
-    public ClassPrototypeScopeInstance(ClassPrototypeScope scope, ClassPrototype classPrototype) {
+    public ClassPrototypeScopeFrame(ClassPrototypeScope scope, ClassPrototype classPrototype) {
         super(scope, classPrototype.getFields().getAmountOfFields());
 
         this.id = idAssigner.getAndIncrement();

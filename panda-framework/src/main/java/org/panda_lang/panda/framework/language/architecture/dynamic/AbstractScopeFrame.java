@@ -17,22 +17,22 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-public abstract class AbstractScopeInstance<T extends Scope> implements ScopeInstance {
+public abstract class AbstractScopeFrame<T extends Scope> implements ScopeFrame {
 
     protected final T scope;
     protected final Value[] localMemory;
 
-    protected AbstractScopeInstance(T scope, int localMemory) {
+    protected AbstractScopeFrame(T scope, int localMemory) {
         this.scope = scope;
         this.localMemory = new Value[localMemory];
     }
 
-    protected AbstractScopeInstance(T scope) {
+    protected AbstractScopeFrame(T scope) {
         this(scope, scope.getVariables().size());
     }
 

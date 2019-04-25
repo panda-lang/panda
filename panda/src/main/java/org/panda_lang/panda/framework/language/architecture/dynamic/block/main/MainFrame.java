@@ -14,16 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.dynamic;
+package org.panda_lang.panda.framework.language.architecture.dynamic.block.main;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
+import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 
-public interface ScopeInstance extends StandaloneExecutable, MemoryContainer {
+public class MainFrame extends AbstractScopeFrame<MainScope> {
 
-    /**
-     * @return the proper scope
-     */
-    Scope getScope();
+    public MainFrame(MainScope main) {
+        super(main);
+    }
+
+    @Override
+    public void execute(ExecutableBranch branch) {
+        branch.call(super.getScope().getStatementCells());
+    }
 
 }

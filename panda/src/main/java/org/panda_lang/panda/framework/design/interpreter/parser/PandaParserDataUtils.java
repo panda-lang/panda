@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.module.PandaModuleLoader;
@@ -54,7 +54,7 @@ public class PandaParserDataUtils {
 
         Scope scope = new AbstractScope() {
             @Override
-            public ScopeInstance createInstance(ExecutableBranch branch) {
+            public ScopeFrame createInstance(ExecutableBranch branch) {
                 return null;
             }
         };

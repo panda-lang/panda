@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.design.architecture.prototype.method;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 
-public class MethodScopeInstance extends AbstractScopeInstance<MethodScope> {
+public class MethodScopeFrame extends AbstractScopeFrame<MethodScope> {
 
-    public MethodScopeInstance(MethodScope methodWrapper) {
+    public MethodScopeFrame(MethodScope methodWrapper) {
         super(methodWrapper);
     }
 

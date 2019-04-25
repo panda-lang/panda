@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -41,14 +41,12 @@ public class FieldAccessorFunction implements Function<ExecutableBranch, MemoryC
             throw new PandaRuntimeException("Instance is not defined");
         }
 
-        if (!(instance.getObject() instanceof ClassPrototypeScopeInstance)) {
+        if (!(instance.getObject() instanceof ClassPrototypeScopeFrame)) {
             throw new PandaRuntimeException("Cannot get field value of external object");
         }
 
-        ClassPrototypeScopeInstance pandaInstance = (ClassPrototypeScopeInstance) instance.getObject();
-        //branch.instance(pandaInstance.toValue());
-
-        return pandaInstance;
+        //branch.instance(pandaInstance.toValue()); \/
+        return (ClassPrototypeScopeFrame) instance.getObject();
     }
 
 }

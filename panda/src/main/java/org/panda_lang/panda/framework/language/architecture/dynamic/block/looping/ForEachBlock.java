@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -45,7 +45,7 @@ public class ForEachBlock extends AbstractBlock implements ControlFlowCaller {
 
     @Override
     public void call(ExecutableBranch branch, ControlFlow flow) {
-        ScopeInstance currentScope = branch.getCurrentScope();
+        ScopeFrame currentScope = branch.getCurrentScope();
         Value iterableValue = expression.getExpressionValue(branch);
         Iterable iterable = iterableValue.getValue();
 

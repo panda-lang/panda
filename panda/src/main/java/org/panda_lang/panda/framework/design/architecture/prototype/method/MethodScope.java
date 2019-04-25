@@ -33,8 +33,8 @@ public class MethodScope extends AbstractScope {
     }
 
     @Override
-    public MethodScopeInstance createInstance(ExecutableBranch branch) {
-        return new MethodScopeInstance(this);
+    public MethodScopeFrame createInstance(ExecutableBranch branch) {
+        return new MethodScopeFrame(this);
     }
 
     public List<Parameter> getParameters() {

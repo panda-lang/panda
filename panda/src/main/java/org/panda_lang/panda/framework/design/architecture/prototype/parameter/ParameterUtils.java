@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstance;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeInstanceUtils;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrameUtils;
 
 import java.util.List;
 
@@ -34,12 +34,12 @@ public class ParameterUtils {
         }
     }
 
-    public static void assignValues(AbstractScopeInstance<?> instance, Value[] parameterValues) {
+    public static void assignValues(AbstractScopeFrame<?> instance, Value[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {
             throw new RuntimeException("Incompatible number of parameters");
         }
 
-        System.arraycopy(parameterValues, 0, AbstractScopeInstanceUtils.extractMemory(instance), 0, parameterValues.length);
+        System.arraycopy(parameterValues, 0, AbstractScopeFrameUtils.extractMemory(instance), 0, parameterValues.length);
     }
 
     public static ClassPrototypeReference[] toTypes(List<? extends Parameter> parameters) {

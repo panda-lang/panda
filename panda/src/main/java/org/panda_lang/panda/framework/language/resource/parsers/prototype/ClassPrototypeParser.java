@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.prototype.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeReferenceStatement;
 import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
@@ -150,7 +150,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
         PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
             @Override
-            public ClassPrototypeScopeInstance createInstance(ExecutableBranch branch, Value... values) {
+            public ClassPrototypeScopeFrame createInstance(ExecutableBranch branch, Value... values) {
                 return scope.createInstance(branch);
             }
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.runtime;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
-import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeInstance;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
@@ -33,13 +33,13 @@ public class PandaExecutableBranch implements ExecutableBranch {
     private static long fullUptime;
 
     private final PandaExecutableProcess process;
-    private final ScopeInstance currentScope;
+    private final ScopeFrame currentScope;
     private PandaControlFlow currentFlow;
     private Value returnedValue;
     private boolean interrupted;
     private Value instance;
 
-    public PandaExecutableBranch(PandaExecutableProcess process, ScopeInstance currentScope) {
+    public PandaExecutableBranch(PandaExecutableProcess process, ScopeFrame currentScope) {
         this.process = process;
         this.currentScope = currentScope;
     }
@@ -97,8 +97,8 @@ public class PandaExecutableBranch implements ExecutableBranch {
 
     @Override
     public ExecutableBranch callStandalone(Executable executable) {
-        boolean standaloneScope = executable instanceof ScopeInstance;
-        ScopeInstance scope = standaloneScope ? (ScopeInstance) executable : currentScope;
+        boolean standaloneScope = executable instanceof ScopeFrame;
+        ScopeFrame scope = standaloneScope ? (ScopeFrame) executable : currentScope;
 
         ExecutableBranch branch = new PandaExecutableBranch(process, scope);
         branch.instance(instance);
@@ -164,7 +164,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public ScopeInstance getCurrentScope() {
+    public ScopeFrame getCurrentScope() {
         return currentScope;
     }
 
