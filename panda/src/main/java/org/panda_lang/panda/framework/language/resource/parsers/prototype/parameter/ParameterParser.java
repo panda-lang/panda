@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PandaParameter;
+import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;

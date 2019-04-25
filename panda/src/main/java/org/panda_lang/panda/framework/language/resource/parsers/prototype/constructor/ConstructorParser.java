@@ -32,10 +32,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.architecture.prototype.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.ConstructorScope;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PandaConstructor;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorScope;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
