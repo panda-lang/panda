@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.assi
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -27,21 +26,19 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationComponents;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationPriorities;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
-import org.panda_lang.panda.framework.language.resource.parsers.general.accessor.AccessorParser;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationComponents;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationPriorities;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparserBootstrap;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
-
-    private static final AccessorParser ACCESSOR_PARSER = new AccessorParser();
 
     @Override
     protected BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
