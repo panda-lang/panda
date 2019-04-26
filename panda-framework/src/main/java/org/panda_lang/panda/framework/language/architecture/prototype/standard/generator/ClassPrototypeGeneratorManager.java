@@ -21,11 +21,13 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 
 public class ClassPrototypeGeneratorManager {
 
-    protected static final ClassPrototypeGenerator generator = new ClassPrototypeGenerator();
+    private static final ClassPrototypeGeneratorManager INSTANCE = new ClassPrototypeGeneratorManager();
+    private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
+
     protected static long reflectionsTime;
 
     public ClassPrototypeReference generate(Module module, Class<?> clazz) {
-        return generator.generate(module, clazz);
+        return GENERATOR.generate(module, clazz);
     }
 
     public static long getReflectionsTime() {
@@ -38,6 +40,10 @@ public class ClassPrototypeGeneratorManager {
 
     public static void resetReflectionsTime() {
         reflectionsTime = 0;
+    }
+
+    public static ClassPrototypeGeneratorManager getInstance() {
+        return INSTANCE;
     }
 
 }
