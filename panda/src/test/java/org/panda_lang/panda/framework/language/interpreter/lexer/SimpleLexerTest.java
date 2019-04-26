@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.interpreter.lexer;
+package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
