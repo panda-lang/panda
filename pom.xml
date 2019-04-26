@@ -75,9 +75,9 @@
 
             <!-- General -->
             <dependency>
-                <groupId>com.eclipsesource.minimal-json</groupId>
-                <artifactId>minimal-json</artifactId>
-                <version>0.9.5</version>
+                <groupId>org.hjson</groupId>
+                <artifactId>hjson</artifactId>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>info.picocli</groupId>

@@ -36,7 +36,7 @@ class LinearPatternMatcher {
         this.source = source;
     }
 
-    LinearPatternResult match(Function<DiffusedSource, Object> expressionMatcher) {
+    LinearPatternResult  match(Function<DiffusedSource, Object> expressionMatcher) {
         DiffusedSource content = new DiffusedSource(source.toSnippet());
         List<String> identifiers = new ArrayList<>();
         Map<String, Object> wildcards = new HashMap<>();

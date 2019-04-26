@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.interpreter.lexer.extractor;
+package org.panda_lang.panda.framework.language.interpreter.lexer.extractor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

@@ -152,7 +152,7 @@ public class PandaExpressionParser implements ExpressionParser {
         amount++;
         call++;
 
-        if (call > 100) {
+        if (call > 1000) {
             Collections.sort(subparsers);
             call = 0;
         }
