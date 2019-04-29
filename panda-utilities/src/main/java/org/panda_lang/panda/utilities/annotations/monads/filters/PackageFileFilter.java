@@ -48,9 +48,11 @@ public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFi
 
     private boolean check(AnnotationsScannerFile element) {
         for (String packageName : packages) {
+            /*
             if (AnnotationsScannerUtils.toClassPath(element.getOriginalPath()).startsWith(packageName)) {
                 return !exclude;
             }
+            */
 
             if (AnnotationsScannerUtils.toClassPath(element.getInternalPath()).startsWith(packageName)) {
                 return !exclude;

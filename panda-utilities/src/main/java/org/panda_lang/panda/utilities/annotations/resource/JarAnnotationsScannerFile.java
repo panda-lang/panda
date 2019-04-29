@@ -30,12 +30,14 @@ class JarAnnotationsScannerFile implements AnnotationsScannerFile {
     private final JarAnnotationsScannerResource resource;
     private final long fromIndex;
     private final long endIndex;
+    private final String internal;
 
     JarAnnotationsScannerFile(JarAnnotationsScannerResource resource, ZipEntry entry, long cursor, long nextCursor) {
         this.entry = entry;
         this.resource = resource;
         this.fromIndex = cursor;
         this.endIndex = nextCursor;
+        this.internal = getOriginalPath().substring(getOriginalPath().lastIndexOf("/") + 1);
     }
 
     @Override
@@ -45,7 +47,7 @@ class JarAnnotationsScannerFile implements AnnotationsScannerFile {
 
     @Override
     public String getInternalPath() {
-        return getOriginalPath().substring(getOriginalPath().lastIndexOf("/") + 1);
+        return internal;
     }
 
     @Override

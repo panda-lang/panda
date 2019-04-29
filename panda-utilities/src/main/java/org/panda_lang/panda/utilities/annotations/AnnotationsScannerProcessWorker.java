@@ -25,9 +25,8 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 class AnnotationsScannerProcessWorker {
 
@@ -46,15 +45,15 @@ class AnnotationsScannerProcessWorker {
 
     protected AnnotationsScannerProcessWorker fetch(Collection<? extends AnnotationsScannerResource<?>> resources) {
         for (AnnotationsScannerResource<?> resource : resources) {
-            Set<ClassFile> classFiles = scanResource(resource);
+            Collection<ClassFile> classFiles = scanResource(resource);
             process.getStore().addClassFiles(classFiles);
         }
 
         return this;
     }
 
-    private Set<ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
-        Set<ClassFile> classFiles = new HashSet<>();
+    private Collection<ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
+        Collection<ClassFile> classFiles = new ArrayList<>();
 
         for (AnnotationsFilter<URL> urlFilter : process.getProcessConfiguration().urlFilters) {
             if (!urlFilter.check(process.getMetadataAdapter(), resource.getLocation())) {

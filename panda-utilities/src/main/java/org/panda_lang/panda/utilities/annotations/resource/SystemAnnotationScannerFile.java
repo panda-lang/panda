@@ -26,12 +26,14 @@ import java.io.InputStream;
 
 class SystemAnnotationScannerFile implements AnnotationsScannerFile {
 
-    private final SystemAnnotationScannerResource root;
+    protected final SystemAnnotationScannerResource root;
     private final File file;
+    private final String internal;
 
     SystemAnnotationScannerFile(SystemAnnotationScannerResource root, File file) {
         this.root = root;
         this.file = file;
+        this.internal = StringUtils.replace(getOriginalPath(), "\\", "/").substring(root.getPath().length() + 1);
     }
 
     @Override
@@ -44,13 +46,13 @@ class SystemAnnotationScannerFile implements AnnotationsScannerFile {
     }
 
     @Override
-    public String getOriginalPath() {
-        return file.getPath();
+    public String getInternalPath() {
+        return internal;
     }
 
     @Override
-    public String getInternalPath() {
-        return StringUtils.replace(getOriginalPath(), "\\", "/").substring(root.getPath().length() + 1);
+    public String getOriginalPath() {
+        return file.getPath();
     }
 
 }

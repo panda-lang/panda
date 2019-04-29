@@ -14,20 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util;
+package org.panda_lang.panda.utilities.annotations.monads.filters;
 
-import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+public class MavenFilter extends URLFilter {
 
-public class PandaUtils {
-
-    public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.configuration()
-            .includeClassLoaders(false, Panda.class.getClassLoader())
-            .build()
-            .createProcess()
-            .addDefaultFilters()
-            .addDefaultProjectFilters("org.panda_lang")
-            .fetch();
+    public MavenFilter() {
+        super(true, "m2.repository");
+    }
 
 }

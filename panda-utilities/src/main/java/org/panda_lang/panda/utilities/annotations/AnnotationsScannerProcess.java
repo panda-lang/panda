@@ -48,11 +48,11 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
         worker.fetch(scanner.getConfiguration().resources);
 
         scanner.getLogger().debug("Fetched class files: " + store.getAmountOfCachedClassFiles() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
-        scanner.getLogger().debug("resourceTime: " + TimeUtils.toMilliseconds(System.nanoTime() - uptime - worker.fileTime));
+        scanner.getLogger().debug("workerTime: " + TimeUtils.toMilliseconds(System.nanoTime() - uptime - worker.fileTime));
         scanner.getLogger().debug("fileTime: " + TimeUtils.toMilliseconds(worker.fileTime - worker.jaTime));
         scanner.getLogger().debug("jaTime: " + TimeUtils.toMilliseconds(worker.jaTime));
         scanner.getLogger().debug("packageFilterTime: " + TimeUtils.toMilliseconds(PackageFileFilter.filterTime));
-        
+
         return this;
     }
 
