@@ -30,7 +30,9 @@ public class PandaFrameworkLogger {
     }
 
     public static void printJVMUptime() {
-        PANDA_FRAMEWORK_LOGGER.debug("JVM launch time: " + (System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime()) + "ms");
+        PANDA_FRAMEWORK_LOGGER.debug("");
+        PANDA_FRAMEWORK_LOGGER.debug("JVM launch time: " + (System.currentTimeMillis() - ManagementFactory.getRuntimeMXBean().getStartTime()) + "ms (｡•́︿•̀｡)");
+        PANDA_FRAMEWORK_LOGGER.debug("");
     }
 
 }
