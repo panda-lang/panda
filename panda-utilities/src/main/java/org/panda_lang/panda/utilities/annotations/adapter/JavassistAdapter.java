@@ -33,6 +33,7 @@ import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.InputStream;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +47,7 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
         return file.endsWith(".class");
     }
 
-    private List<String> splitDescriptorToTypeNames(final String descriptors) {
+    private List<String> splitDescriptorToTypeNames(String descriptors) {
         List<String> result = new ArrayList<>();
 
         if (descriptors != null && descriptors.length() != 0) {
@@ -69,7 +70,7 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     @Override
-    public boolean isPublic(Object o) {
+    public boolean isPublic(@Nullable Object o) {
         if (o == null) {
             return false;
         }
@@ -84,6 +85,10 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
 
         if (o instanceof FieldInfo) {
             return AccessFlag.isPublic(((FieldInfo) o).getAccessFlags());
+        }
+
+        if (o instanceof Class) {
+            return Modifier.isPublic(((Class) o).getModifiers());
         }
 
         return false;
@@ -130,7 +135,7 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     @Override
-    public List<String> getParameterAnnotationNames(final MethodInfo method, final int parameterIndex) {
+    public List<String> getParameterAnnotationNames(MethodInfo method, int parameterIndex) {
         List<String> result = new ArrayList<>();
 
         List<ParameterAnnotationsAttribute> parameterAnnotationsAttributes =
@@ -154,14 +159,14 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     @Override
-    public String getReturnTypeName(final MethodInfo method) {
+    public String getReturnTypeName(MethodInfo method) {
         String descriptor = method.getDescriptor();
         descriptor = descriptor.substring(descriptor.lastIndexOf(")") + 1);
         return splitDescriptorToTypeNames(descriptor).get(0);
     }
 
     @Override
-    public String getFieldName(final FieldInfo field) {
+    public String getFieldName(FieldInfo field) {
         return field.getName();
     }
 
@@ -200,17 +205,17 @@ public class JavassistAdapter implements MetadataAdapter<ClassFile, FieldInfo, M
     }
 
     @Override
-    public String getClassName(final ClassFile cls) {
+    public String getClassName(ClassFile cls) {
         return cls.getName();
     }
 
     @Override
-    public String getSuperclassName(final ClassFile cls) {
+    public String getSuperclassName(ClassFile cls) {
         return cls.getSuperclass();
     }
 
     @Override
-    public List<String> getInterfacesNames(final ClassFile cls) {
+    public List<String> getInterfacesNames(ClassFile cls) {
         return Arrays.asList(cls.getInterfaces());
     }
 
