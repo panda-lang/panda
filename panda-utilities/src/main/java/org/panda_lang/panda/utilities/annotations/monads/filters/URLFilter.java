@@ -24,6 +24,7 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.net.URL;
+import java.util.Arrays;
 
 public class URLFilter implements AnnotationsFilter<URL> {
 
@@ -32,15 +33,16 @@ public class URLFilter implements AnnotationsFilter<URL> {
 
     public URLFilter(boolean exclude, String... paths) {
         this.exclude = exclude;
-        this.paths = paths;
+
+        this.paths = Arrays.stream(paths)
+                .map(path -> StringUtils.replace(path, ".", "/"))
+                .toArray(String[]::new);
     }
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, URL element) {
-        String urlPath = StringUtils.replace(element.toExternalForm(), "/", ".");
-
         for (String path : paths) {
-            if (urlPath.contains(path)) {
+            if (element.toString().contains(path)) {
                 return !exclude;
             }
         }

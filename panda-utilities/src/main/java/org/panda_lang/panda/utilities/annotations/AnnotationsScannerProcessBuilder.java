@@ -20,7 +20,9 @@ import javassist.bytecode.ClassFile;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.MavenFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
+import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.net.URL;
@@ -65,8 +67,8 @@ public class AnnotationsScannerProcessBuilder {
      * @return the builder instance
      */
     public AnnotationsScannerProcessBuilder addDefaultFilters() {
-        addURLFilters(new JavaFilter());
-        addFileFilters(new PackageFileFilter(true, AnnotationsScannerConstants.PANDA_PACKAGES), new AnonymousFileFilter());
+        addURLFilters(new JavaFilter(), new URLFilter(true, AnnotationsScannerConstants.PANDA_PACKAGES), new MavenFilter());
+        addFileFilters(new AnonymousFileFilter());
         return this;
     }
 

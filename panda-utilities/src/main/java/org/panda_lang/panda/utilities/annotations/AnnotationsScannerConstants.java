@@ -25,10 +25,12 @@ class AnnotationsScannerConstants {
             "META-INF",
             "org.panda_lang.panda.utilities",                                                   // Panda
             "java", "com.sun", "sun", "jdk", "javax", "oracle", "com.oracle", "netscape",       // Java
-            "org.apache", "com.google", "org.slf4j",                                            // Popular
+
+            "javassist", "org.fusesource", "org.apiguardian", "org.ow2",                        // Internal
+            "org.apache", "com.google", "org.slf4j", "commons-lang.commons-lang",               // Popular
+
             "org.junit", "junit", "org.opentest4j",                                             // Tests
-            "org.jetbrains", "org.intellij", "com.intellij",                                    // IDE
-            "javassist", "org.fusesource", "org.apiguardian"                                    // Internal
+            "org.jetbrains", "org.intellij", "com.intellij", "lib.idea_rt",                     // IDE
     };
 
     static List<String> primitiveNames = Arrays.asList("boolean", "char", "byte", "short", "int", "long", "float", "double", "void");
