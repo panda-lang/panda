@@ -46,7 +46,7 @@ public class ArrayClassPrototypeUtils {
             return Optional.of(cached);
         }
 
-        Optional<ClassPrototypeReference> baseReference = loader.forClass(type.replace(PandaArray.IDENTIFIER, StringUtils.EMPTY));
+        Optional<ClassPrototypeReference> baseReference = loader.forClass(StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
         if (!baseReference.isPresent()) {
             return Optional.empty();

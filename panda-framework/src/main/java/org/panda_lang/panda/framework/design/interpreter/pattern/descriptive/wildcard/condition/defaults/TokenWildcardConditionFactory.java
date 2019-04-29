@@ -51,9 +51,8 @@ class TokenWildcardConditionFactory implements WildcardConditionFactory {
             throw new PandaFrameworkException("Token condition does renamed contain specification");
         }
 
-        String source = elements[1]
-                .replace("{", "{" + System.lineSeparator())
-                .replace("}", System.lineSeparator() + "}");
+        String source = StringUtils.replace(elements[1], "{", "{" + System.lineSeparator());
+        source = StringUtils.replace(source, "}", System.lineSeparator() + "}");
 
         JsonObject conditions = JsonValue
                 .readHjson(source)

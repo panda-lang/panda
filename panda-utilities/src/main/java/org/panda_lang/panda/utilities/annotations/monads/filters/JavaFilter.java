@@ -21,6 +21,7 @@ import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.net.URL;
 
@@ -28,7 +29,7 @@ public class JavaFilter implements AnnotationsFilter<URL> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, URL element) {
-        return !isJavaPath(element.toExternalForm().replace("/", "."));
+        return !isJavaPath(StringUtils.replace(element.toExternalForm(), "/", "."));
     }
 
     private boolean isJavaPath(String path) {

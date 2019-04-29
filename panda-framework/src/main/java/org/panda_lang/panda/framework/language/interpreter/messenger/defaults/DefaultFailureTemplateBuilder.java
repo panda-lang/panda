@@ -131,7 +131,7 @@ public class DefaultFailureTemplateBuilder {
     }
 
     public static @Nullable String indentation(String message) {
-        return message == null ? null : message.replace(System.lineSeparator(), System.lineSeparator() + "  ");
+        return message == null ? null : StringUtils.replace(message, System.lineSeparator(), System.lineSeparator() + "  ");
     }
 
     public static String stacktraceToString(Throwable exception) {

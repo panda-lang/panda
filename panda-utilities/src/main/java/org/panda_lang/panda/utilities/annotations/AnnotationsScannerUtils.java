@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.annotations;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.utils.MethodDescriptorUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 public class AnnotationsScannerUtils {
 
     public static String toClassPath(String path) {
-        return path.replace("/", ".").replace(".class", "");
+        return StringUtils.replace(StringUtils.replace(path, "/", "."), ".class", "");
     }
 
     public static Set<Method> forMethods(AnnotationsScannerProcess process, Collection<String> descriptors) {
@@ -72,7 +73,7 @@ public class AnnotationsScannerUtils {
         if (typeName.contains("[")) {
             int i = typeName.indexOf("[");
             type = typeName.substring(0, i);
-            String array = typeName.substring(i).replace("]", "");
+            String array = StringUtils.replace(typeName.substring(i), "]", "");
 
             if (AnnotationsScannerConstants.primitiveNames.contains(type)) {
                 type = AnnotationsScannerConstants.primitiveDescriptors.get(AnnotationsScannerConstants.primitiveNames.indexOf(type));

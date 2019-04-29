@@ -43,6 +43,8 @@ class BootstrapTest {
                 .syntax(PandaSyntax.getInstance())
                 .get();
 
+        Compiler.disable();
+
         Application application = new PandaApplicationBootstrap(panda)
                 .source("../examples/current_test.panda")
                 .createApplication();

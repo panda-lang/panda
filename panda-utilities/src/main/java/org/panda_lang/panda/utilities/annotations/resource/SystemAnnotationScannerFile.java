@@ -17,6 +17,7 @@
 package org.panda_lang.panda.utilities.annotations.resource;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerFile;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +50,7 @@ class SystemAnnotationScannerFile implements AnnotationsScannerFile {
 
     @Override
     public String getInternalPath() {
-        return getOriginalPath().replace("\\", "/").substring(root.getPath().length() + 1);
+        return StringUtils.replace(getOriginalPath(), "\\", "/").substring(root.getPath().length() + 1);
     }
 
 }
