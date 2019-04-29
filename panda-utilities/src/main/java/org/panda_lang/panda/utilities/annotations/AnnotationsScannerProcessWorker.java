@@ -35,6 +35,9 @@ class AnnotationsScannerProcessWorker {
     private final AnnotationsScannerProcess process;
     private final AnnotationScannerStore store;
 
+    protected long fileTime;
+    protected long jaTime;
+
     AnnotationsScannerProcessWorker(AnnotationsScannerProcess process) {
         this.process = process;
         this.scanner = process.getAnnotationsScanner();
@@ -64,7 +67,9 @@ class AnnotationsScannerProcessWorker {
                 continue;
             }
 
+            long time = System.nanoTime();
             ClassFile classFile = scanFile(annotationsScannerFile);
+            fileTime += (System.nanoTime() - time);
 
             if (classFile == null) {
                 continue;
@@ -85,6 +90,7 @@ class AnnotationsScannerProcessWorker {
             }
         }
 
+        long time = System.nanoTime();
         ClassFile pseudoClass;
 
         try {
@@ -92,6 +98,8 @@ class AnnotationsScannerProcessWorker {
         } catch (Exception e) {
             return null; // mute
         }
+
+        jaTime += (System.nanoTime() - time);
 
         if (!StringUtils.isEmpty(pseudoClass.getSuperclass())) {
             store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());

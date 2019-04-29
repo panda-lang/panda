@@ -17,6 +17,7 @@
 package org.panda_lang.panda.utilities.annotations.resource;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.io.File;
 import java.net.URISyntaxException;
@@ -95,7 +96,7 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
             return "/NO-SUCH-DIRECTORY/";
         }
 
-        return file.getPath().replace("\\", "/");
+        return StringUtils.replace(file.getPath(), "\\", "/");
     }
 
 }

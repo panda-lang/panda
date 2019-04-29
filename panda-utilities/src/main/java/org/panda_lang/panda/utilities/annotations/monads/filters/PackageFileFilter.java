@@ -26,6 +26,8 @@ import org.panda_lang.panda.utilities.annotations.monads.AnnotationsFilter;
 
 public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFile> {
 
+    public static long filterTime;
+
     private final boolean exclude;
     private final String[] packages;
 
@@ -36,6 +38,15 @@ public class PackageFileFilter implements AnnotationsFilter<AnnotationsScannerFi
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, AnnotationsScannerFile element) {
+        long time = System.nanoTime();
+
+        boolean result = check(element);
+
+        filterTime += (System.nanoTime() - time);
+        return result;
+    }
+
+    private boolean check(AnnotationsScannerFile element) {
         for (String packageName : packages) {
             if (AnnotationsScannerUtils.toClassPath(element.getOriginalPath()).startsWith(packageName)) {
                 return !exclude;
