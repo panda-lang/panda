@@ -24,6 +24,7 @@ public class PandaUtils {
 
     public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.configuration()
             .includeClassLoaders(false, Panda.class.getClassLoader())
+            .includeJavaClassPath()
             .build()
             .createProcess()
             .addDefaultFilters()
