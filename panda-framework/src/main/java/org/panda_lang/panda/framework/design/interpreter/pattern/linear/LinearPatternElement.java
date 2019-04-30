@@ -24,10 +24,12 @@ abstract class LinearPatternElement {
 
     private final String value;
     private final @Nullable String identifier;
+    private final boolean optional;
 
-    LinearPatternElement(String value, @Nullable String identifier) {
+    LinearPatternElement(String value, @Nullable String identifier, boolean optional) {
         this.value = value;
         this.identifier = identifier;
+        this.optional = optional;
     }
 
     boolean isWildcard() {
@@ -36,6 +38,10 @@ abstract class LinearPatternElement {
 
     boolean isUnit() {
         return false;
+    }
+
+    public boolean isOptional() {
+        return optional;
     }
 
     Optional<String> getIdentifier() {

@@ -38,13 +38,21 @@ class LinearPatternMatcher {
 
     LinearPatternResult  match(Function<DiffusedSource, Object> expressionMatcher) {
         DiffusedSource content = new DiffusedSource(source.toSnippet());
-        List<String> identifiers = new ArrayList<>();
         Map<String, Object> wildcards = new HashMap<>();
+        List<String> identifiers = new ArrayList<>();
 
         for (LinearPatternElement element : pattern.getElements()) {
-            if (!match(expressionMatcher, content, identifiers, wildcards, element)) {
-                return new LinearPatternResult();
+            boolean matched = match(expressionMatcher, content, identifiers, wildcards, element);
+
+            if (!matched) {
+                if (!element.isOptional()) {
+                    return new LinearPatternResult();
+                }
+
+                content.restore();
             }
+
+            content.backup();
         }
 
         source.read(content.getIndex());
