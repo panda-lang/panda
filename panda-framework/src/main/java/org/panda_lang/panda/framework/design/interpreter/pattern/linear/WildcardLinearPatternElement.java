@@ -27,8 +27,8 @@ class WildcardLinearPatternElement extends LinearPatternElement  {
 
     private final Type type;
 
-    WildcardLinearPatternElement(Type type, @Nullable String identifier) {
-        super("*", identifier);
+    WildcardLinearPatternElement(Type type, @Nullable String identifier, boolean optional) {
+        super("*", identifier, optional);
         this.type = type;
     }
 

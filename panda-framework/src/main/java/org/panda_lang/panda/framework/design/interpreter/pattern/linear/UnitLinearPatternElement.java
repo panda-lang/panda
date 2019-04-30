@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 
 class UnitLinearPatternElement extends LinearPatternElement {
 
-    UnitLinearPatternElement(@Nullable String identifier, String unit) {
-        super(unit, identifier);
+    UnitLinearPatternElement(@Nullable String identifier, String unit, boolean optional) {
+        super(unit, identifier, optional);
     }
 
     @Override

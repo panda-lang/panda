@@ -95,6 +95,21 @@ class LinearPatternTest {
         Assertions.assertEquals("random", wildcardValue.get().getTokenValue());
     }
 
+    @Test
+    void testIsOptional() {
+        Assertions.assertTrue(LinearPattern.compile("&id:unit").getElements().get(0).isOptional());
+        Assertions.assertFalse(LinearPattern.compile("id:unit").getElements().get(0).isOptional());
+    }
+
+    @Test
+    void testOptional() {
+        LinearPattern pattern = LinearPattern.compile("&opt:unit second:test");
+
+        Assertions.assertTrue(pattern.match(of("test")).isMatched());
+        Assertions.assertTrue(pattern.match(of("unit test")).isMatched());
+        Assertions.assertFalse(pattern.match(of("unit")).isMatched());
+    }
+
     private static Snippet of(String source) {
         return PandaLexerUtils.convert(source);
     }
