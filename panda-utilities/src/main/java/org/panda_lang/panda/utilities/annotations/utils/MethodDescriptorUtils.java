@@ -47,7 +47,7 @@ public class MethodDescriptorUtils {
         Class<?>[] parameterTypes = null;
 
         if (!StringUtils.isEmpty(methodParameters)) {
-            String[] parameterNames = methodParameters.split(",");
+            String[] parameterNames = StringUtils.split(methodParameters, ",");
             List<Class<?>> result = new ArrayList<>(parameterNames.length);
 
             for (String name : parameterNames) {

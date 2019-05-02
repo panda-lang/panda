@@ -23,6 +23,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.adapter.JavassistAdapter;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
 import org.panda_lang.panda.utilities.annotations.resource.AnnotationsScannerResourceFactory;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,7 +78,7 @@ public class AnnotationsScannerConfiguration {
         String javaClassPath = System.getProperty("java.class.path");
 
         if (javaClassPath != null) {
-            String[] paths = javaClassPath.split(File.pathSeparator);
+            String[] paths = StringUtils.split(javaClassPath, File.pathSeparator);
 
             for (String path : paths) {
                 includePath(path);

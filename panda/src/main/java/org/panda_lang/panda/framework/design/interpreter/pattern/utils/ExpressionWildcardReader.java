@@ -83,7 +83,7 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
     }
 
     private Collection<String> convert(String elements) {
-        return Arrays.asList(elements.split(","));
+        return Arrays.asList(StringUtils.split(elements, ","));
     }
 
 }

@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ public class WildcardConditionCompiler {
     }
 
     public @Nullable Snippet extract(String data, TokenDistributor distributor) {
-        String[] conditions = data.split(",");
+        String[] conditions = StringUtils.split(data, ",");
         List<WildcardCondition> wildcardConditions = new ArrayList<>(conditions.length);
 
         for (String condition : conditions) {

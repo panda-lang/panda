@@ -31,7 +31,7 @@ public class PackageUtils {
         String className = pack.substring(separator + 1);
         String packagePath = pack.substring(0, separator - 1);
 
-        String[] packages = packagePath.split("\\.");
+        String[] packages = StringUtils.split(packagePath, ".");
         StringBuilder builder = new StringBuilder();
 
         for (String element : packages) {
