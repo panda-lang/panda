@@ -3,6 +3,9 @@ module example-test
 import panda-lang
 
 main {
+    loop (5) {
+    }
+
     Console.print("Test",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Test",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Test",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)

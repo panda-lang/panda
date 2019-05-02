@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Bootst
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPatternResult;
@@ -40,7 +41,8 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
-            LinearPatternResult result = pattern.match(data.getComponent(UniversalComponents.SOURCE_STREAM));
+            ExpressionParser expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
+            LinearPatternResult result = pattern.match(data.getComponent(UniversalComponents.SOURCE_STREAM), source -> expressionParser.parse(data, source));
 
             if (!result.isMatched()) {
                 data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();

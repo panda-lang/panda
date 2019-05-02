@@ -22,6 +22,8 @@ import java.util.Optional;
 
 public class LinearPatternResult {
 
+    protected static final LinearPatternResult NOT_MATCHED = new LinearPatternResult();
+
     private final List<String> identifiers;
     private final Map<String, Object> wildcards;
 
@@ -30,7 +32,7 @@ public class LinearPatternResult {
         this.wildcards = wildcards;
     }
 
-    LinearPatternResult() {
+    private LinearPatternResult() {
         this(null, null);
     }
 

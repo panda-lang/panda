@@ -36,17 +36,17 @@ class LinearPatternMatcher {
         this.source = source;
     }
 
-    LinearPatternResult  match(Function<DiffusedSource, Object> expressionMatcher) {
+    LinearPatternResult match(Function<DiffusedSource, Object> expressionMatcher) {
         DiffusedSource content = new DiffusedSource(source.toSnippet());
-        Map<String, Object> wildcards = new HashMap<>();
-        List<String> identifiers = new ArrayList<>();
+        List<String> identifiers = new ArrayList<>(pattern.getElements().size());
+        Map<String, Object> wildcards = new HashMap<>(pattern.getElements().size());
 
         for (LinearPatternElement element : pattern.getElements()) {
             boolean matched = match(expressionMatcher, content, identifiers, wildcards, element);
 
             if (!matched) {
                 if (!element.isOptional()) {
-                    return new LinearPatternResult();
+                    return LinearPatternResult.NOT_MATCHED;
                 }
 
                 content.restore();
