@@ -45,7 +45,7 @@ class LinearPatternCompiler {
         }
 
         private Optional<List<LinearPatternElement>> compile() {
-            String[] elements = pattern.split(" ");
+            String[] elements = StringUtils.split(pattern, " ");
             List<LinearPatternElement> compiled = new ArrayList<>(elements.length);
 
             for (String element : elements) {
