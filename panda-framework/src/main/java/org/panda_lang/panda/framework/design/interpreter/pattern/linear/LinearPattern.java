@@ -37,7 +37,7 @@ public class LinearPattern {
     public LinearPatternResult match(Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
         LinearPatternResult result = match(stream);
-        return stream.hasUnreadSource() ? new LinearPatternResult() : result;
+        return stream.hasUnreadSource() ? LinearPatternResult.NOT_MATCHED : result;
     }
 
     public LinearPatternResult match(SourceStream source) {

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.scope.branching;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
@@ -37,7 +38,8 @@ public class BreakParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.BREAK))
-                .pattern("break [;]");
+                .interceptor(new LinearPatternInterceptor())
+                .pattern("break &:;");
     }
 
     @Autowired

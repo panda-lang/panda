@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.block;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
@@ -44,8 +45,7 @@ public class BlockParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
-                .pattern("<*declaration> `{ <*body> `}");
+        return defaultBuilder.pattern("<*declaration> `{ [<*body>] `}");
     }
 
     @Override
@@ -85,7 +85,11 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Src("*body") Snippet body) throws Throwable {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("*body") Snippet body) throws Throwable {
+        if (body == null) {
+            return;
+        }
+
         ContainerParser containerParser = new ContainerParser(block);
         containerParser.parse(blockData, body);
     }
