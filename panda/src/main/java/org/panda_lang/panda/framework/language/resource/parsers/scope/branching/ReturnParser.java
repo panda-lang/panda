@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.scope.branching
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
@@ -43,7 +44,8 @@ public class ReturnParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.RETURN))
-                .pattern("return [<value:reader expression>][;]");
+                .interceptor(new LinearPatternInterceptor())
+                .pattern("return &value:*=expression &:;");
     }
 
     @Autowired
