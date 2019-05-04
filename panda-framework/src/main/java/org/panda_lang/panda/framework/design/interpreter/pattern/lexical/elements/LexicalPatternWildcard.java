@@ -68,4 +68,9 @@ public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
         return data;
     }
 
+    @Override
+    public String toString() {
+        return getIdentifier() + ":*=" + getData();
+    }
+
 }

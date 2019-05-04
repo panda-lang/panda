@@ -29,4 +29,9 @@ public class LexicalPatternUnit extends DefaultLexicalPatternElement {
         return value;
     }
 
+    @Override
+    public String toString() {
+        return getValue();
+    }
+
 }

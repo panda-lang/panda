@@ -72,6 +72,10 @@ public class DescriptivePattern {
         return this;
     }
 
+    public String asString() {
+        return patternContent.toString();
+    }
+
     public Collection<? extends WildcardReader> getWildcardReaders() {
         return wildcardReaders;
     }

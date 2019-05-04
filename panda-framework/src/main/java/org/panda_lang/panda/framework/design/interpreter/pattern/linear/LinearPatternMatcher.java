@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 
 import java.util.ArrayList;
@@ -42,7 +43,15 @@ class LinearPatternMatcher {
         Map<String, Object> wildcards = new HashMap<>(pattern.getElements().size());
 
         for (LinearPatternElement element : pattern.getElements()) {
-            boolean matched = match(expressionMatcher, content, identifiers, wildcards, element);
+            boolean matched = false;
+
+            try {
+                matched = match(expressionMatcher, content, identifiers, wildcards, element);
+            } catch (ExpressionParserException e) {
+                continue;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             if (!matched) {
                 if (!element.isOptional()) {

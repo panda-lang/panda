@@ -22,9 +22,13 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ExtractorWorker {
 
     public static long fullTime;
+    public static Map<String, Long> timeMap = new HashMap<>();
 
     protected final DescriptivePattern pattern;
     protected final ParserData data;
@@ -54,7 +58,13 @@ public class ExtractorWorker {
             source.read(distributor.getIndex());
         }
 
-        fullTime += System.nanoTime() - time;
+        long period = System.nanoTime() - time;
+        fullTime += period;
+
+        String key = pattern.asString();
+        Long value = timeMap.computeIfAbsent(key, (k) -> 0L);
+        timeMap.put(key, value + period);
+
         return result;
     }
 
