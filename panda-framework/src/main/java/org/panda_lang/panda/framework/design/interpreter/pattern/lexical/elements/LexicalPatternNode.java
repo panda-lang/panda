@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements;
 
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -83,6 +85,11 @@ public class LexicalPatternNode extends DefaultLexicalPatternElement {
 
     public List<LexicalPatternElement> getElements() {
         return elements;
+    }
+
+    @Override
+    public String toString() {
+        return ContentJoiner.on(" ").join(elements).toString();
     }
 
 }
