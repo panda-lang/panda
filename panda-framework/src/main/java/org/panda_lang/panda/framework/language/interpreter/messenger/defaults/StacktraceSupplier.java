@@ -63,15 +63,22 @@ class StacktraceSupplier implements Supplier<String> {
                 gap = 0;
             }
 
-            if (lastElement.getFileName().equals(previousClass)) {
+            if (Objects.equals(lastElement.getFileName(), previousClass)) {
                 continue;
             }
 
+            Class<?> className = ReflectionUtils.forName(lastElement.getClassName());
+            String fileName = className != null ? lastElement.getFileName() : lastElement.getClassName();
+
             previousClass = lastElement.getFileName();
-            content.append("(").append(lastElement.getFileName()).append(":").append(lastElement.getLineNumber()).append(") <- ");
             count++;
 
-            if (Interpreter.class.isAssignableFrom(Objects.requireNonNull(ReflectionUtils.forName(lastElement.getClassName())))) {
+            content.append("(")
+                    .append(fileName).append(":")
+                    .append(lastElement.getLineNumber())
+                    .append(") <- ");
+
+            if (className == null || Interpreter.class.isAssignableFrom(className)) {
                 break;
             }
         }
