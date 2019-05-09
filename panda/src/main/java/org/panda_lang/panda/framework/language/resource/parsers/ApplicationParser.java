@@ -139,6 +139,7 @@ public class ApplicationParser implements Parser {
             PandaFramework.getLogger().debug("  " + entry.getKey() + ": " + TimeUtils.toMilliseconds(entry.getValue()));
         }
 
+        PandaFramework.getLogger().debug("");
         return application;
     }
 

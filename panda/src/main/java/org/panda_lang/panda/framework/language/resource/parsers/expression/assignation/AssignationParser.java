@@ -51,6 +51,8 @@ public class AssignationParser extends UnifiedParserBootstrap {
     private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]"; // slow
 
     private DescriptivePattern pattern;
+    private AssignationSubparser subparser;
+    private int read;
 
     @Override
     public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -77,7 +79,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
 
         SourceStream stream = new PandaSourceStream(declaration.get().getValue());
 
-        AssignationSubparser subparser = data
+        this.subparser = data
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.ASSIGNER)
                 .handleWithUpdatedSource(data, stream);
@@ -86,6 +88,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
             return false;
         }
 
+        this.read = source.getReadLength();
         return !stream.hasUnreadSource();
     }
 
@@ -94,9 +97,9 @@ public class AssignationParser extends UnifiedParserBootstrap {
         ParserData delegatedData = data.fork();
         delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
 
-        AssignationSubparser subparser = registry.getPipeline(PandaPipelines.ASSIGNER).handle(data, declaration);
         StatementCell cell = delegatedData.getComponent(PandaComponents.CONTAINER).reserveCell();
         Statement statement = subparser.parseAssignment(delegatedData, declaration, assignation);
+        subparser = null;
 
         if (statement == null) {
             throw new PandaParserFailure("Cannot parse assignment", delegatedData);
