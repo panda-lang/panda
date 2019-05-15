@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionType;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.operation.Operation;
@@ -47,8 +47,8 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public ExpressionType getType() {
-        return ExpressionType.COMBINED;
+    public ExpressionCategory getType() {
+        return ExpressionCategory.COMBINED;
     }
 
     @Override

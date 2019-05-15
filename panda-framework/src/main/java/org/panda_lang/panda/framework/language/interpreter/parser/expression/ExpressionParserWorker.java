@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCategory;
 
 import java.util.Collection;
 import java.util.Stack;
@@ -36,8 +37,7 @@ public class ExpressionParserWorker {
 
     protected ExpressionParserWorker(ExpressionParser parser, ExpressionContext context, SourceStream source, Collection<ExpressionSubparserRepresentation> subparsers, ExpressionParserSettings settings) {
         this.subparsers = subparsers.stream()
-                .filter(subparser -> settings.isCombined() || subparser.getSubparser().getType() != ExpressionType.COMBINED)
-                .filter(subparser -> !settings.isStandaloneOnly() || subparser.getSubparser().hasStandaloneSupport())
+                .filter(subparser -> settings.isCombined() || subparser.getSubparser().getType() != ExpressionCategory.COMBINED)
                 .map(subparser -> {
                     ExpressionSubparserWorker worker = subparser.getSubparser().createWorker();
 

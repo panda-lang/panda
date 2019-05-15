@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.NotNull;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCategory;
 
 public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
 
@@ -49,8 +50,8 @@ public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
         return ExpressionSubparserType.MODERATE;
     }
 
-    default ExpressionType getType() {
-        return ExpressionType.SINGULAR;
+    default ExpressionCategory getType() {
+        return ExpressionCategory.SINGULAR;
     }
 
     default double getPriority() {
