@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression;
+package org.panda_lang.panda.framework.design.runtime.expression;
 
-public enum ExpressionType {
+public enum ExpressionCategory {
 
     SINGULAR,
     COMBINED
