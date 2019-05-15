@@ -48,7 +48,7 @@ public class StaticExpressionSubparser implements ExpressionSubparser {
     private static class StaticWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             Token token = context.getCurrentRepresentation().getToken();
 
             if (token.getType() != TokenType.UNKNOWN || context.hasResults() || !context.getDiffusedSource().hasNext()) {

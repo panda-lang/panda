@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
@@ -36,6 +37,11 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public ExpressionCategory getCategory() {
+        return ExpressionCategory.STANDALONE;
+    }
+
+    @Override
     public String getSubparserName() {
         return "crease";
     }
@@ -43,7 +49,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
     private static class CreaseWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             CreaseType type = null;
 
             if (context.getCurrentRepresentation().contentEquals(Operators.INCREMENT)) {

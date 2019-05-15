@@ -55,7 +55,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
         private TokenRepresentation period;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             Token token = context.getCurrentRepresentation().getToken();
 
             if (Separators.PERIOD.equals(token)) {
@@ -97,7 +97,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(expression);
         }
 
-        private @AlwaysNull ExpressionResult<Expression> dispose() {
+        private @AlwaysNull ExpressionResult dispose() {
             this.content = null;
             this.period = null;
             return null;

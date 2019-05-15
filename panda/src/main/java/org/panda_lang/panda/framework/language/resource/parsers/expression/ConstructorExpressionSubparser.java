@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
@@ -56,6 +57,11 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public ExpressionCategory getCategory() {
+        return ExpressionCategory.STANDALONE;
+    }
+
+    @Override
     public String getSubparserName() {
         return "constructor";
     }
@@ -65,7 +71,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         private static final ArgumentsParser ARGUMENT_PARSER = new ArgumentsParser();
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             if (!context.getCurrentRepresentation().contentEquals(Keywords.NEW)) {
                 return null;
             }
@@ -101,7 +107,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             return parseArray(context, source, type, argumentsReader.getContent());
         }
 
-        private ExpressionResult<Expression> parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {
+        private ExpressionResult parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context.getData(), argumentsSource);
             PrototypeConstructor constructor = ConstructorUtils.matchConstructor(type, arguments);
 
@@ -112,7 +118,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(new InstanceExpressionCallback(type, constructor, arguments).toExpression());
         }
 
-        private ExpressionResult<Expression> parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet capacitySource) {
+        private ExpressionResult parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet capacitySource) {
             Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getData(), type.getClassName() + "[]");
 
             if (!reference.isPresent()) {

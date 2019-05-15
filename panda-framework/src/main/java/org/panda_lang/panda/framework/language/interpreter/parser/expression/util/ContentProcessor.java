@@ -21,7 +21,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface ContentProcessor {
 
@@ -52,6 +51,6 @@ public interface ContentProcessor {
      * @param last the last token, it is the closing separator (useful for errors, if the content is empty)
      * @return the processed result
      */
-    @Nullable ExpressionResult<Expression> process(SeparatedContentReader reader, ExpressionContext context, Snippet content, TokenRepresentation last);
+    @Nullable ExpressionResult process(SeparatedContentReader reader, ExpressionContext context, Snippet content, TokenRepresentation last);
 
 }

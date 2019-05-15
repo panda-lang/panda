@@ -42,11 +42,11 @@ public class SeparatedContentReader {
         this.contentProcessor = contentProcessor;
     }
 
-    public @Nullable ExpressionResult<Expression> read(ExpressionContext context) {
+    public @Nullable ExpressionResult read(ExpressionContext context) {
         return read(context, context.getDiffusedSource());
     }
 
-    public @Nullable ExpressionResult<Expression> read(ExpressionContext context, DiffusedSource source) {
+    public @Nullable ExpressionResult read(ExpressionContext context, DiffusedSource source) {
         if (!type.equals(source.getCurrent().getToken())) {
             return null;
         }

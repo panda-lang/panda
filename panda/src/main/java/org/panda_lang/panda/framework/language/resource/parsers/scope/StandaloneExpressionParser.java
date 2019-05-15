@@ -26,6 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -41,6 +42,8 @@ import java.util.Optional;
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_EXPRESSION)
 public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
+    private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();
+
     private ExpressionParser expressionParser;
     private Expression expression;
     private int read;
@@ -53,7 +56,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
     @Override
     public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        Optional<Expression> expression = expressionParser.parseSilently(data, source);
+        Optional<Expression> expression = expressionParser.parseSilently(data, source, SETTINGS);
 
         if (!expression.isPresent()) {
             return false;

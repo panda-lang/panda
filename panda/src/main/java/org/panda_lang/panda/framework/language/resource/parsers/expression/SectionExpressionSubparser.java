@@ -44,7 +44,7 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
         private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.DEFAULT);
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             return contentReader.read(context);
         }
 
