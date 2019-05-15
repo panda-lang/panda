@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.utilities.commons.iterable.ReversedIterable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -126,16 +125,6 @@ public class PandaExpressionParser implements ExpressionParser {
             throw new ExpressionParserException("Unknown expression", context, source.toSnippet());
         }
 
-        for (ExpressionResultProcessor processor : new ReversedIterable<>(context.getProcessors())) {
-            ExpressionResult<Expression> result = processor.process(context, context.getResults());
-
-            if (result.containsError()) {
-                throw new ExpressionParserException("Error occurred while processing the result: ", result.getErrorMessage(), context, context.getSource().toSnippet());
-            }
-
-            context.getResults().push(result.get());
-        }
-
         // if worker couldn't prepare the final result
         if (context.getResults().size() > 1) {
             throw new ExpressionParserException("Source contains " + context.getResults().size() + " expressions", context, source.toSnippet());
@@ -150,11 +139,14 @@ public class PandaExpressionParser implements ExpressionParser {
         uptime = System.nanoTime() - uptime;
         time += uptime;
         amount++;
-        call++;
 
-        if (call > 1000) {
+        if (call++ > 1000) {
             Collections.sort(subparsers);
             call = 0;
+        }
+
+        if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
+            throw new ExpressionParserException("Invalid category of expression", context, source.toSnippet());
         }
 
         return context.getResults().pop();

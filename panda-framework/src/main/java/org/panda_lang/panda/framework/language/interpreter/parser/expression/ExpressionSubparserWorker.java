@@ -23,9 +23,9 @@ public interface ExpressionSubparserWorker {
 
     ExpressionSubparserWorker withSubparser(ExpressionSubparserRepresentation subparser);
 
-    @Nullable ExpressionResult<Expression> next(ExpressionContext context);
+    @Nullable ExpressionResult next(ExpressionContext context);
 
-    default @Nullable ExpressionResult<Expression> finish(ExpressionContext context) {
+    default @Nullable ExpressionResult finish(ExpressionContext context) {
         throw new RuntimeException("Not implemented");
     }
 

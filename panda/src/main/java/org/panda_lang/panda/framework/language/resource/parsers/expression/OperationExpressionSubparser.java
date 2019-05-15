@@ -23,9 +23,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserType;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCategory;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.operation.OperationParser;
 
@@ -47,8 +46,8 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
-    public ExpressionCategory getType() {
-        return ExpressionCategory.COMBINED;
+    public ExpressionCategory getCategory() {
+        return ExpressionCategory.STANDALONE;
     }
 
     @Override
@@ -61,7 +60,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         private List<Operation.OperationElement> elements;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             if (!context.hasResults()) {
                 return null;
             }
@@ -86,7 +85,7 @@ public class OperationExpressionSubparser implements ExpressionSubparser {
         }
 
         @Override
-        public @Nullable ExpressionResult<Expression> finish(ExpressionContext context) {
+        public @Nullable ExpressionResult finish(ExpressionContext context) {
             if (elements == null) {
                 return null;
             }

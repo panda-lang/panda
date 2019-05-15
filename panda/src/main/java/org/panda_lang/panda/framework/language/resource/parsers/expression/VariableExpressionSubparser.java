@@ -56,7 +56,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
     private static class VariableWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             TokenRepresentation token = context.getCurrentRepresentation();
             boolean period = TokenUtils.contentEquals(context.getDiffusedSource().getPrevious(), Separators.PERIOD);
 
@@ -83,7 +83,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             }
 
             if (context.hasResults()) {
-                ExpressionResult<Expression> result = fromInstance(context.peekExpression(), name)
+                ExpressionResult result = fromInstance(context.peekExpression(), name)
                         .orElseGet(() -> ExpressionResult.error("Cannot find field called '" + name + "'", token));
 
                 if (result.isPresent()) {
@@ -103,7 +103,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             return null;
         }
 
-        private Optional<ExpressionResult<Expression>> fromInstance(Expression instance, String name) {
+        private Optional<ExpressionResult> fromInstance(Expression instance, String name) {
             ClassPrototype prototype = instance.getReturnType();
             PrototypeField field = prototype.getFields().getField(name);
 

@@ -20,11 +20,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 public class ExpressionContext {
@@ -34,7 +32,6 @@ public class ExpressionContext {
     private final SourceStream source;
 
     private final DiffusedSource diffusedSource;
-    private final List<ExpressionResultProcessor> processors = new ArrayList<>(0);
     private final Stack<Expression> results = new Stack<>();
     private TokenRepresentation current;
 
@@ -47,11 +44,6 @@ public class ExpressionContext {
 
     protected ExpressionContext withUpdatedToken(TokenRepresentation current) {
         this.current = current;
-        return this;
-    }
-
-    public ExpressionContext addProcessor(ExpressionResultProcessor processor) {
-        this.processors.add(processor);
         return this;
     }
 
@@ -69,10 +61,6 @@ public class ExpressionContext {
 
     public TokenRepresentation getCurrentRepresentation() {
         return current;
-    }
-
-    public List<? extends ExpressionResultProcessor> getProcessors() {
-        return processors;
     }
 
     public DiffusedSource getDiffusedSource() {

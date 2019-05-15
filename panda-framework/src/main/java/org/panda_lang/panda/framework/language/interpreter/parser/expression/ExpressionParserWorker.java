@@ -19,8 +19,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCategory;
 
 import java.util.Collection;
 import java.util.Stack;
@@ -31,13 +29,13 @@ public class ExpressionParserWorker {
 
     private final ExpressionSubparserWorker[] subparsers;
     private Stack<ExpressionSubparserWorker> workers = new Stack<>();
-    private ExpressionResult<Expression> error = null;
+    private ExpressionResult error = null;
     private int previousSubparser = NONE;
     private int lastSucceededRead = 0;
 
     protected ExpressionParserWorker(ExpressionParser parser, ExpressionContext context, SourceStream source, Collection<ExpressionSubparserRepresentation> subparsers, ExpressionParserSettings settings) {
         this.subparsers = subparsers.stream()
-                .filter(subparser -> settings.isCombined() || subparser.getSubparser().getType() != ExpressionCategory.COMBINED)
+                //.filter(subparser -> settings.isCombined() || subparser.getSubparser().getSubparserType() != ExpressionSubparserType.INDIVIDUAL)
                 .map(subparser -> {
                     ExpressionSubparserWorker worker = subparser.getSubparser().createWorker();
 
@@ -59,10 +57,11 @@ public class ExpressionParserWorker {
                 continue;
             }
 
-            ExpressionResult<Expression> result = worker.finish(context);
+            ExpressionResult result = worker.finish(context);
 
             if (result != null && result.isPresent()) {
                 context.getResults().push(result.get());
+                workers.push(worker);
                 break;
             }
         }
@@ -112,7 +111,7 @@ public class ExpressionParserWorker {
             return false;
         }
 
-        ExpressionResult<Expression> result = worker.next(context);
+        ExpressionResult result = worker.next(context);
 
         // if something went wrong
         if (result == null || result.containsError()) {
@@ -126,7 +125,6 @@ public class ExpressionParserWorker {
         }
 
         previousSubparser = index;
-        workers.push(worker);
 
         // not yet
         if (result.isEmpty()) {
@@ -135,33 +133,27 @@ public class ExpressionParserWorker {
 
         // save the result, cleanup cache, move the index
         context.getResults().push(result.get());
+        workers.push(worker);
         lastSucceededRead = context.getDiffusedSource().getIndex();
         error = null;
+
         return true;
-    }
-
-    public int getPreviousSubparser() {
-        return previousSubparser;
-    }
-
-    public Stack<ExpressionSubparserWorker> getWorkers() {
-        return workers;
     }
 
     public boolean hasError() {
         return getError() != null;
     }
 
-    public int getLastSucceededRead() {
-        return lastSucceededRead;
-    }
-
-    public ExpressionResult<Expression> getError() {
+    public ExpressionResult getError() {
         return error;
     }
 
-    public ExpressionSubparserWorker[] getSubparsers() {
-        return subparsers;
+    public ExpressionCategory getLastCategory() {
+        return workers.peek().getSubparserRepresentation().getSubparser().getCategory();
+    }
+
+    public int getLastSucceededRead() {
+        return lastSucceededRead;
     }
 
 }

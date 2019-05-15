@@ -51,7 +51,7 @@ public class ExpressionUtils {
         return new PandaExpression(new PandaValue(type, value));
     }
 
-    public static ExpressionResult<Expression> toExpressionResult(ClassPrototype type, Object value) {
+    public static ExpressionResult toExpressionResult(ClassPrototype type, Object value) {
         return ExpressionResult.of(toExpression(type, value));
     }
 

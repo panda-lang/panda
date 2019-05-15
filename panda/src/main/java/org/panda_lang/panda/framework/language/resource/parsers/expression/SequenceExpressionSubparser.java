@@ -42,7 +42,7 @@ public class SequenceExpressionSubparser implements ExpressionSubparser {
     private static class LiteralWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             TokenRepresentation token = context.getCurrentRepresentation();
 
             if (!token.getTokenName().equals("String")) {

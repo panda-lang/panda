@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
@@ -41,6 +42,11 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
     }
 
     @Override
+    public ExpressionCategory getCategory() {
+        return ExpressionCategory.STANDALONE;
+    }
+
+    @Override
     public String getSubparserName() {
         return "method";
     }
@@ -48,7 +54,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
     private static class MethodWorker extends AbstractExpressionSubparserWorker {
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             Token token = context.getCurrentRepresentation().getToken();
 
             if (token.getType() != TokenType.UNKNOWN) {
@@ -79,7 +85,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
             SeparatedContentReader parametersReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.NON_PROCESSING);
             TokenRepresentation separator = context.getDiffusedSource().next();
-            ExpressionResult<Expression> result = parametersReader.read(context);
+            ExpressionResult result = parametersReader.read(context);
 
             if (!parametersReader.hasContent()) {
                 return ExpressionResult.error("Cannot read parameters", separator);

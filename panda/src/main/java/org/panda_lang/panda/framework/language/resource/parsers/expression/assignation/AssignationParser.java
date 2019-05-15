@@ -52,7 +52,6 @@ public class AssignationParser extends UnifiedParserBootstrap {
 
     private DescriptivePattern pattern;
     private AssignationSubparser subparser;
-    private int read;
 
     @Override
     public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -88,7 +87,6 @@ public class AssignationParser extends UnifiedParserBootstrap {
             return false;
         }
 
-        this.read = source.getReadLength();
         return !stream.hasUnreadSource();
     }
 

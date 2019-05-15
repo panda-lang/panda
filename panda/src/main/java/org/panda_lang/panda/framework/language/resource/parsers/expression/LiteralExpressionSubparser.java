@@ -53,7 +53,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
         private boolean parsed;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             TokenRepresentation token = context.getCurrentRepresentation();
 
             if (token.getType() != TokenType.LITERAL) {

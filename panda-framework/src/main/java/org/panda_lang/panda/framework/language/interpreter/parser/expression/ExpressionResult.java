@@ -19,25 +19,25 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.function.Supplier;
 
-public class ExpressionResult<T> {
+public class ExpressionResult {
 
     private static final ExpressionResult EMPTY = of(null);
 
-    private final @Nullable T value;
-
+    private final @Nullable Expression value;
     private final @Nullable String errorMessage;
     private final @Nullable TokenRepresentation source;
 
-    ExpressionResult(@Nullable T value, TokenRepresentation source, String errorMessage) {
+    ExpressionResult(@Nullable Expression value, TokenRepresentation source, String errorMessage) {
         this.value = value;
         this.source = source;
         this.errorMessage = errorMessage;
     }
 
-    ExpressionResult(@Nullable T value) {
+    ExpressionResult(@Nullable Expression value) {
         this(value, null, null);
     }
 
@@ -57,15 +57,15 @@ public class ExpressionResult<T> {
         return source != null && errorMessage != null;
     }
 
-    public T orElse(T elseValue) {
+    public Expression orElse(Expression elseValue) {
         return isPresent() ? value : elseValue;
     }
 
-    public T orElseGet(Supplier<? extends T> supplier) {
+    public Expression orElseGet(Supplier<? extends Expression> supplier) {
         return isPresent() ? value : supplier.get();
     }
 
-    public T get() {
+    public Expression get() {
         return value;
     }
 
@@ -77,24 +77,23 @@ public class ExpressionResult<T> {
         return source;
     }
 
-    public static <T> ExpressionResult<T> error(String message, Snippet source) {
+    public static <T> ExpressionResult error(String message, Snippet source) {
         if (source.isEmpty()) {
             throw new IllegalArgumentException("Source cannot be empty");
         }
 
-        return new ExpressionResult<>(message, source.getFirst());
+        return new ExpressionResult(message, source.getFirst());
     }
 
-    public static <T> ExpressionResult<T> error(String message, TokenRepresentation source) {
-        return new ExpressionResult<>(message, source);
+    public static ExpressionResult error(String message, TokenRepresentation source) {
+        return new ExpressionResult(message, source);
     }
 
-    public static <T> ExpressionResult<T> of(T value) {
-        return new ExpressionResult<>(value);
+    public static <T> ExpressionResult of(Expression value) {
+        return new ExpressionResult(value);
     }
 
-    @SuppressWarnings("unchecked")
-    public static <T> ExpressionResult<T> empty() {
+    public static <T> ExpressionResult empty() {
         return EMPTY;
     }
 

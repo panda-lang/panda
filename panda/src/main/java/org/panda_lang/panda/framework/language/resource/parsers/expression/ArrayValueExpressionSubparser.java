@@ -48,7 +48,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
         private SeparatedContentReader contentReader;
 
         @Override
-        public @Nullable ExpressionResult<Expression> next(ExpressionContext context) {
+        public @Nullable ExpressionResult next(ExpressionContext context) {
             if (contentReader == null) {
                 if (!context.hasResults()) {
                     return null;
@@ -67,7 +67,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
                 this.contentReader = new SeparatedContentReader(Separators.SQUARE_BRACKET_LEFT, ContentProcessor.DEFAULT);
             }
 
-            ExpressionResult<Expression> result = contentReader.read(context);
+            ExpressionResult result = contentReader.read(context);
 
             if (result == null || result.containsError()) {
                 return result;
