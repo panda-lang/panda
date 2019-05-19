@@ -33,7 +33,7 @@ class BootstrapTest {
     public void testBootstraps() {
         PandaFrameworkLogger.printJVMUptime();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10; i++) {
             this.testBootstrap();
         }
     }
@@ -44,7 +44,7 @@ class BootstrapTest {
                 .get();
 
         Application application = new PandaApplicationBootstrap(panda)
-                .source("../examples/current_test.panda")
+                .source("../examples/main.panda")
                 .createApplication();
 
         if (application == null) {

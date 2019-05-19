@@ -1,30 +1,28 @@
-module example-test;
+module example-test
 
-import panda-lang;
-
-attach java.lang;
+import panda-lang
 
 main {
-    App app = new App();
-    app.start();
+    App app = new App()
+    app.start()
 
-    Console.print(App.getVersion());
+    Console.print(App.getVersion())
 }
 
 class App {
 
-    static String version = "indev-19.2.16";
+    hidden static String version = "indev-19.2.16"
 
     constructor () {
-        Console.print(getVersion());
+        Console.print(getVersion())
     }
 
     method start() {
         // [...]
     }
 
-    static String getVersion() {
-        return version;
+    static method String getVersion() {
+        return version
     }
 
 }

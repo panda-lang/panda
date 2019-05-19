@@ -36,9 +36,9 @@ public class PandaPriorities {
     public static final int SCOPE_BLOCK = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.DeclarationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.LateDeclarationParser}
      */
-    public static final int SCOPE_DECLARATION = 4;
+    public static final int SCOPE_LATE_DECLARATION = 4;
 
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.StandaloneExpressionParser}
