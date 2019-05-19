@@ -44,7 +44,7 @@ class BootstrapTest {
                 .get();
 
         Application application = new PandaApplicationBootstrap(panda)
-                .source("../examples/multifile")
+                .source("../examples/hello_world.panda")
                 .createApplication();
 
         if (application == null) {
