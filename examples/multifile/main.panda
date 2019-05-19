@@ -1,8 +1,8 @@
-module example.test;
+module example-test
 
-import panda.lang;
+import panda-lang
 
 main {
-    Foo foo = new Foo();
-    System.print(foo);
+    Foo foo = new Foo()
+    Console.print(foo)
 }
