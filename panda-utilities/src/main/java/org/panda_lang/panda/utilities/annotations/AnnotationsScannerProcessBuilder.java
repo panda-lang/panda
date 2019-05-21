@@ -22,7 +22,6 @@ import org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFi
 import org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.MavenFilter;
 import org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter;
-import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.net.URL;
@@ -67,7 +66,7 @@ public class AnnotationsScannerProcessBuilder {
      * @return the builder instance
      */
     public AnnotationsScannerProcessBuilder addDefaultFilters() {
-        addURLFilters(new JavaFilter(), new URLFilter(true, AnnotationsScannerConstants.PANDA_PACKAGES), new MavenFilter());
+        addURLFilters(new JavaFilter(), new MavenFilter());
         addFileFilters(new AnonymousFileFilter());
         return this;
     }

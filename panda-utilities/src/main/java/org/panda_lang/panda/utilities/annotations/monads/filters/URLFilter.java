@@ -41,8 +41,10 @@ public class URLFilter implements AnnotationsFilter<URL> {
 
     @Override
     public boolean check(MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter, URL element) {
+        String url = element.toString();
+
         for (String path : paths) {
-            if (element.toString().contains(path)) {
+            if (url.contains(path)) {
                 return !exclude;
             }
         }

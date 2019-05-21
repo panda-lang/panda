@@ -16,19 +16,18 @@
 
 package org.panda_lang.panda.util;
 
-import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
 
 public class PandaUtils {
 
     public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.configuration()
-            .includeClassLoaders(false, Panda.class.getClassLoader())
             .includeJavaClassPath()
             .build()
             .createProcess()
+            .addURLFilters(new URLFilter(false, "panda"))
             .addDefaultFilters()
-            .addDefaultProjectFilters("org.panda_lang")
             .fetch();
 
 }
