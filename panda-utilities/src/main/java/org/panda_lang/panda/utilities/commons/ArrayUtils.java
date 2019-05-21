@@ -19,11 +19,35 @@ package org.panda_lang.panda.utilities.commons;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public final class ArrayUtils {
 
     private ArrayUtils() { }
+
+    /**
+     * Convert array of elements to list, but skip empty (null) values
+     *
+     * @param elements the array to convert
+     * @param <T> the type
+     * @return the result list
+     */
+    @SafeVarargs
+    public static <T> List<T> asList(T... elements) {
+        List<T> list = new ArrayList<>(elements.length);
+
+        for (T element : elements) {
+            if (element == null) {
+                continue;
+            }
+
+            list.add(element);
+        }
+
+        return list;
+    }
 
     /**
      * Merge several arrays
