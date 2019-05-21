@@ -27,6 +27,7 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 class AnnotationsScannerProcessWorker {
 
@@ -52,17 +53,17 @@ class AnnotationsScannerProcessWorker {
         return this;
     }
 
-    private Collection<ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
-        Collection<ClassFile> classFiles = new ArrayList<>();
-
+    private Collection<@Nullable ClassFile> scanResource(AnnotationsScannerResource<?> resource) {
         for (AnnotationsFilter<URL> urlFilter : process.getProcessConfiguration().urlFilters) {
             if (!urlFilter.check(process.getMetadataAdapter(), resource.getLocation())) {
-                return classFiles;
+                return Collections.emptyList();
             }
         }
 
-        for (AnnotationsScannerFile annotationsScannerFile : resource) {
-            if (annotationsScannerFile == null || !annotationsScannerFile.getOriginalPath().endsWith(".class")) {
+        Collection<ClassFile> classFiles = new ArrayList<>();
+
+        for (@Nullable AnnotationsScannerFile annotationsScannerFile : resource) {
+            if (annotationsScannerFile == null) {
                 continue;
             }
 

@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.utilities.annotations.resource;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -53,11 +53,16 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
             }
 
             @Override
-            public SystemAnnotationScannerFile next() {
+            public @Nullable SystemAnnotationScannerFile next() {
                 File file = stack.pop();
 
                 if (file.isDirectory()) {
                     stack.addAll(listFiles(file));
+
+                    if (stack.isEmpty()) {
+                        return null;
+                    }
+
                     return next();
                 }
 
@@ -74,15 +79,23 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
     private List<File> listFiles(File file) {
         File[] files = file.listFiles();
 
-        if (files != null) {
-            return Arrays.asList(files);
+        if (files == null) {
+            return Collections.emptyList();
         }
 
-        return new ArrayList<>(0);
+        for (int i = 0, filesLength = files.length; i < filesLength; i++) {
+            File element = files[i];
+
+            if (element.isFile() && !element.toString().endsWith(".class")) {
+                files[i] = null;
+            }
+        }
+
+        return ArrayUtils.asList(files);
     }
 
     @Override
-    public Iterable<SystemAnnotationScannerFile> getFiles() {
+    public Iterable<@Nullable SystemAnnotationScannerFile> getFiles() {
         if (file == null || !file.exists()) {
             return Collections.emptyList();
         }

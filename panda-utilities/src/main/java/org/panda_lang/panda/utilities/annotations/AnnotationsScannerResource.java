@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.annotations;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.net.URL;
 
 public abstract class AnnotationsScannerResource<T extends AnnotationsScannerFile> implements Iterable<T> {
@@ -34,6 +36,6 @@ public abstract class AnnotationsScannerResource<T extends AnnotationsScannerFil
         return location;
     }
 
-    abstract protected Iterable<T> getFiles();
+    abstract protected Iterable<@Nullable T> getFiles();
 
 }
