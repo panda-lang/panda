@@ -20,6 +20,7 @@ import javassist.bytecode.ClassFile;
 import javassist.bytecode.FieldInfo;
 import javassist.bytecode.MethodInfo;
 import org.panda_lang.panda.utilities.annotations.adapter.MetadataAdapter;
+import org.panda_lang.panda.utilities.annotations.resource.SystemAnnotationScannerResourceIterator;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.Set;
@@ -46,10 +47,13 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
         AnnotationsScannerProcessWorker worker = new AnnotationsScannerProcessWorker(this);
         worker.fetch(scanner.getConfiguration().resources);
 
-        scanner.getLogger().debug("Fetched class files: " + store.getAmountOfCachedClassFiles() + " in " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));
-        scanner.getLogger().debug("workerTime: " + TimeUtils.toMilliseconds(System.nanoTime() - uptime - worker.fileTime));
+        long time = System.nanoTime() - uptime;
+
+        scanner.getLogger().debug("Fetched class files: " + store.getAmountOfCachedClassFiles() + " in " + TimeUtils.toMilliseconds(time));
+        scanner.getLogger().debug("workerTime: " + TimeUtils.toMilliseconds(time - worker.fileTime));
         scanner.getLogger().debug("fileTime: " + TimeUtils.toMilliseconds(worker.fileTime - worker.jaTime));
         scanner.getLogger().debug("jaTime: " + TimeUtils.toMilliseconds(worker.jaTime));
+        scanner.getLogger().debug("listTime: " + TimeUtils.toMilliseconds(SystemAnnotationScannerResourceIterator.listTime));
 
         return this;
     }

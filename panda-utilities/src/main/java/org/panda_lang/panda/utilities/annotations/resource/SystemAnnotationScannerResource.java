@@ -18,7 +18,6 @@ package org.panda_lang.panda.utilities.annotations.resource;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerResource;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.io.File;
@@ -26,12 +25,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
 
-class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
+public class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemAnnotationScannerFile> {
 
-    private final File file;
+    protected final File file;
+    private final String path;
 
     SystemAnnotationScannerResource(URL url) throws URISyntaxException {
         super(url);
@@ -40,63 +38,18 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
         if (!file.isDirectory() || !file.canRead()) {
             throw new RuntimeException("Cannot use dir " + file);
         }
+
+        this.path = StringUtils.replace(file.getPath(), "\\", "/");
     }
 
     @Override
     public Iterator<SystemAnnotationScannerFile> iterator() {
-        return new Iterator<SystemAnnotationScannerFile>() {
-
-            Stack<File> stack = new Stack<>();
-
-            {
-                stack.addAll(listFiles(file));
-            }
-
-            @Override
-            public @Nullable SystemAnnotationScannerFile next() {
-                File file = stack.pop();
-
-                if (file.isDirectory()) {
-                    stack.addAll(listFiles(file));
-
-                    if (stack.isEmpty()) {
-                        return null;
-                    }
-
-                    return next();
-                }
-
-                return new SystemAnnotationScannerFile(SystemAnnotationScannerResource.this, file);
-            }
-
-            @Override
-            public boolean hasNext() {
-                return !stack.isEmpty();
-            }
-        };
-    }
-
-    private List<File> listFiles(File file) {
-        File[] files = file.listFiles();
-
-        if (files == null) {
-            return Collections.emptyList();
-        }
-
-        for (int i = 0, filesLength = files.length; i < filesLength; i++) {
-            File element = files[i];
-
-            if (element.isFile() && !element.toString().endsWith(".class")) {
-                files[i] = null;
-            }
-        }
-
-        return ArrayUtils.asList(files);
+        return new SystemAnnotationScannerResourceIterator(this);
     }
 
     @Override
     public Iterable<@Nullable SystemAnnotationScannerFile> getFiles() {
-        if (file == null || !file.exists()) {
+        if (file == null) {
             return Collections.emptyList();
         }
 
@@ -105,11 +58,7 @@ class SystemAnnotationScannerResource extends AnnotationsScannerResource<SystemA
 
     @Override
     public String getPath() {
-        if (file == null) {
-            return "/NO-SUCH-DIRECTORY/";
-        }
-
-        return StringUtils.replace(file.getPath(), "\\", "/");
+        return path;
     }
 
 }
