@@ -60,7 +60,7 @@ class AnnotationsScannerProcessWorker {
             }
         }
 
-        Collection<ClassFile> classFiles = new ArrayList<>();
+        Collection<ClassFile> classFiles = new ArrayList<>(512);
 
         for (@Nullable AnnotationsScannerFile annotationsScannerFile : resource) {
             if (annotationsScannerFile == null) {
@@ -81,6 +81,16 @@ class AnnotationsScannerProcessWorker {
         return classFiles;
     }
 
+    private boolean checkUrl(AnnotationsScannerResource<?> resource) {
+        for (AnnotationsFilter<URL> urlFilter : process.getProcessConfiguration().urlFilters) {
+            if (!urlFilter.check(process.getMetadataAdapter(), resource.getLocation())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private @Nullable ClassFile scanFile(AnnotationsScannerFile file) {
         MetadataAdapter<ClassFile, FieldInfo, MethodInfo> metadataAdapter = process.getMetadataAdapter();
 
@@ -97,9 +107,15 @@ class AnnotationsScannerProcessWorker {
             pseudoClass = metadataAdapter.getOfCreateClassObject(scanner, file);
         } catch (Exception e) {
             return null; // mute
+        } finally {
+            jaTime += (System.nanoTime() - time);
         }
 
-        jaTime += (System.nanoTime() - time);
+        for (AnnotationsFilter<ClassFile> pseudoClassFilter : process.getProcessConfiguration().classFileFilters) {
+            if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {
+                return null;
+            }
+        }
 
         if (!StringUtils.isEmpty(pseudoClass.getSuperclass())) {
             store.addInheritors(pseudoClass.getSuperclass(), pseudoClass.getName());
@@ -108,12 +124,6 @@ class AnnotationsScannerProcessWorker {
         if (pseudoClass.getInterfaces() != null) {
             for (String anInterface : pseudoClass.getInterfaces()) {
                 store.addInheritors(anInterface, pseudoClass.getName());
-            }
-        }
-
-        for (AnnotationsFilter<ClassFile> pseudoClassFilter : process.getProcessConfiguration().classFileFilters) {
-            if (!pseudoClassFilter.check(metadataAdapter, pseudoClass)) {
-                return null;
             }
         }
 

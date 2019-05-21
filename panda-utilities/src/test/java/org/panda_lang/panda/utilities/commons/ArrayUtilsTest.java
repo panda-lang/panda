@@ -56,6 +56,13 @@ class ArrayUtilsTest {
     }
 
     @Test
+    void asList() {
+        Assertions.assertEquals(1, ArrayUtils.asList("a", null).size());
+        Assertions.assertEquals(1, ArrayUtils.asList(ArrayUtils.of(null, "a")).size());
+        Assertions.assertEquals(ARRAY_WITH_NULL.length - 1, ArrayUtils.asList(ARRAY_WITH_NULL).size());
+    }
+
+    @Test
     void isEmpty() {
         Assertions.assertTrue(ArrayUtils.isEmpty(EMPTY_ARRAY));
     }
