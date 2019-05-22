@@ -21,9 +21,24 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Lists {
+
+    /**
+     * Sort similar lists using the same comparator
+     *
+     * @param comparator the comparator to use
+     * @param collections the array of lists to sort
+     * @param <T> type of the lists
+     */
+    @SafeVarargs
+    public static <T> void sort(Comparator<T> comparator, List<? extends T>... collections) {
+        for (List<? extends T> collection : collections) {
+            collection.sort(comparator);
+        }
+    }
 
     /**
      * Reverse the provided list and return its

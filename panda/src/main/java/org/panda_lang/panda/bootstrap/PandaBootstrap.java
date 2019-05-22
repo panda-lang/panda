@@ -18,28 +18,19 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.framework.design.resource.Syntax;
-import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 
 public class PandaBootstrap {
 
-    protected Syntax syntax;
+    private static final PandaFactory FACTORY = new PandaFactory();
 
     private PandaBootstrap() {}
 
-    public PandaBootstrap syntax(Syntax syntax) {
-        this.syntax = syntax;
-        return this;
+    public Panda get() {
+        return FACTORY.createPanda();
     }
 
-    public Panda get() {
-        PandaFactory factory = new PandaFactory();
-        Panda panda = factory.createPanda();
-
-        PandaLanguage elements = panda.getPandaLanguage();
-        elements.setSyntax(syntax);
-
-        return panda;
+    public static PandaBootstrap initializeBootstrap() {
+        return new PandaBootstrap();
     }
 
 }

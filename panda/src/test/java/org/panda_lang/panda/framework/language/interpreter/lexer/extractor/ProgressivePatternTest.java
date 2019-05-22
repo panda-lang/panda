@@ -45,7 +45,7 @@ class ProgressivePatternTest {
     public void testVagueExtractor() {
         Source source = new PandaSource(ProgressivePatternTest.class, SOURCE);
 
-        Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), source).build();
+        Lexer lexer = PandaLexer.of(new PandaSyntax(), source).build();
         Snippet snippet = lexer.convert();
 
         ProgressivePatternResult result = EXTRACTOR.extract(snippet);

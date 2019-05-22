@@ -27,6 +27,8 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class DescriptivePatternTester {
 
+    private static final PandaSyntax SYNTAX = new PandaSyntax();
+
     protected static void test(String patternContent, String source, Wildcard... expected) {
         DescriptivePattern pattern = DescriptivePattern.builder()
                 .compile(patternContent)
@@ -35,7 +37,7 @@ class DescriptivePatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Snippet tokenizedSource = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("Test", source)).build().convert();
+        Snippet tokenizedSource = PandaLexer.of(SYNTAX, new PandaSource("Test", source)).build().convert();
         ExtractorResult result = pattern.extract(new PandaParserData(), tokenizedSource);
         Assertions.assertNotNull(result);
 

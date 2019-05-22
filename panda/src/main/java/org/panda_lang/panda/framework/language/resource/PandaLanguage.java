@@ -23,10 +23,6 @@ public class PandaLanguage implements Language {
 
     private Syntax syntax;
 
-    public PandaLanguage() {
-        this.syntax = PandaSyntax.getInstance();
-    }
-
     public void setSyntax(Syntax syntax) {
         this.syntax = syntax;
     }

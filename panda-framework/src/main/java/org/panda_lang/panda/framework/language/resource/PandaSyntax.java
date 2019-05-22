@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.resource;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.resource.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.DefaultCharacters;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keyword;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -29,52 +29,26 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence;
 import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequences;
+import org.panda_lang.panda.utilities.commons.collection.Lists;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Arrays;
 import java.util.List;
 
 public class PandaSyntax implements Syntax {
 
-    private static final PandaSyntax INSTANCE = new PandaSyntax();
+    private final List<Keyword> keywords = Arrays.asList(Keywords.values());
+    private final List<Literal> literals = Arrays.asList(Literals.values());
+    private final List<Operator> operators = Arrays.asList(Operators.values());
+    private final List<Sequence> sequences = Arrays.asList(Sequences.values());
+    private final List<Separator> separators = Arrays.asList(Separators.values());
+    private final char[] specialCharacters = DefaultCharacters.getSpecialCharacters();
 
-    private final List<Keyword> keywords;
-    private final List<Literal> literals;
-    private final List<Separator> separators;
-    private final List<Operator> operators;
-    private final List<Sequence> sequences;
-    private char[] specialCharacters;
-
-    private PandaSyntax() {
-        this.keywords = new ArrayList<>();
-        this.literals = new ArrayList<>();
-        this.separators = new ArrayList<>();
-        this.operators = new ArrayList<>();
-        this.sequences = new ArrayList<>();
-        this.specialCharacters = DefaultCharacters.getSpecialCharacters();
-
-        this.initialize();
+    public PandaSyntax() {
+        this.sort();
     }
 
-    private void initialize() {
-        Collections.addAll(keywords, Keywords.values());
-        Collections.addAll(literals, Literals.values());
-        Collections.addAll(separators, Separators.values());
-        Collections.addAll(operators, Operators.values());
-        Collections.addAll(sequences, Sequences.values());
-
-        Comparator<Token> tokenComparator = (x, y) -> Integer.compare(y.getTokenValue().length(), x.getTokenValue().length());
-
-        keywords.sort(tokenComparator);
-        literals.sort(tokenComparator);
-        separators.sort(tokenComparator);
-        operators.sort(tokenComparator);
-        sequences.sort(tokenComparator);
-    }
-
-    public void setSpecialCharacters(char[] specialCharacters) {
-        this.specialCharacters = specialCharacters;
+    public void sort() {
+        Lists.sort(TokenUtils.TOKEN_ORDER_COMPARATOR, keywords, literals, separators, operators, sequences);
     }
 
     @Override
@@ -105,10 +79,6 @@ public class PandaSyntax implements Syntax {
     @Override
     public List<Keyword> getKeywords() {
         return keywords;
-    }
-
-    public static PandaSyntax getInstance() {
-        return INSTANCE;
     }
 
 }
