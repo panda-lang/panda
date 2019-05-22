@@ -16,16 +16,17 @@
 
 package org.panda_lang.panda.bootstrap;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 public class PipelinePandaBootstrap {
 
     private final PandaBootstrap bootstrap;
-    private Collection<Class<? extends Pipelines>> componentClasses = new ArrayList<>(2);
+    private final PipelinePath path = new PandaPipelinePath();
 
     public PipelinePandaBootstrap(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
@@ -33,11 +34,24 @@ public class PipelinePandaBootstrap {
 
     @SafeVarargs
     public final PipelinePandaBootstrap usePipelines(Class<? extends Pipelines>... componentsClasses) {
-        this.componentClasses.addAll(Arrays.asList(componentsClasses));
+        for (Class<? extends Pipelines> componentClass : componentsClasses) {
+            try {
+                Pipelines pipelines = componentClass.newInstance();
+                Collection<PipelineComponent<?>> components = pipelines.collectPipelineComponents();
+
+                for (PipelineComponent<?> component : components) {
+                    path.createPipeline(component);
+                }
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new RuntimeException("Cannot create instance of pipelines container: " + e.getMessage());
+            }
+        }
+
         return this;
     }
 
     public PandaBootstrap collect() {
+        bootstrap.getPandaBuilder().withPipelinePath(path);
         return bootstrap;
     }
 

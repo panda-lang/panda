@@ -16,14 +16,21 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 
 public class PandaBuilder {
 
     protected PandaLanguage language;
+    protected PipelinePath pipelinePath;
 
     public PandaBuilder withLanguage(PandaLanguage language) {
         this.language = language;
+        return this;
+    }
+
+    public PandaBuilder withPipelinePath(PipelinePath pipelinePath) {
+        this.pipelinePath = pipelinePath;
         return this;
     }
 
