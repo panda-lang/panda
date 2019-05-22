@@ -26,7 +26,7 @@ public class MatchableDistributorTest {
 
     @Test
     public void testMatchable() {
-        Lexer lexer = PandaLexer.of(PandaSyntax.getInstance(), new PandaSource("MatchableDistributorTest", "test [ a { b } c ] element")).build();
+        Lexer lexer = PandaLexer.of(new PandaSyntax(), new PandaSource("MatchableDistributorTest", "test [ a { b } c ] element")).build();
         MatchableDistributor distributor = new MatchableDistributor(new TokenDistributor(lexer.convert()));
 
         while (distributor.hasNext()) {

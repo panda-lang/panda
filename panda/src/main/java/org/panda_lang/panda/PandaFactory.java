@@ -16,10 +16,18 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.framework.design.resource.Syntax;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+
 public class PandaFactory {
 
     public Panda createPanda() {
-        return new Panda();
+        Panda panda = new Panda();
+
+        Syntax syntax = new PandaSyntax();
+        panda.getPandaLanguage().setSyntax(syntax);
+
+        return panda;
     }
 
 }

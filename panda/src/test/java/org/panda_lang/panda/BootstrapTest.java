@@ -17,14 +17,13 @@
 package org.panda_lang.panda;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
+import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGenerator;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGeneratorManager;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 class BootstrapTest {
@@ -39,8 +38,7 @@ class BootstrapTest {
     }
 
     private void testBootstrap() {
-        Panda panda = new PandaBootstrap()
-                .syntax(PandaSyntax.getInstance())
+        Panda panda = PandaBootstrap.initializeBootstrap()
                 .get();
 
         Application application = new PandaApplicationBootstrap(panda)

@@ -22,7 +22,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
+import java.util.Comparator;
+
 public class TokenUtils {
+
+    public static final Comparator<Token> TOKEN_ORDER_COMPARATOR = (a, b) -> Integer.compare(b.getTokenValue().length(), a.getTokenValue().length());
 
     public static boolean contains(Token[] tokens, Token element) {
         for (Token token : tokens) {
