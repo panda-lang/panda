@@ -23,7 +23,7 @@ public class PandaLanguage implements Language {
 
     private Syntax syntax;
 
-    public void setSyntax(Syntax syntax) {
+    public PandaLanguage(Syntax syntax) {
         this.syntax = syntax;
     }
 

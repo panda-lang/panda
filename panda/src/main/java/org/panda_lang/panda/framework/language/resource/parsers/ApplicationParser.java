@@ -48,8 +48,6 @@ import org.panda_lang.panda.framework.language.resource.parsers.overall.CommentP
 import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
-import java.util.Map;
-
 public class ApplicationParser implements Parser {
 
     private final Interpretation interpretation;
@@ -135,11 +133,14 @@ public class ApplicationParser implements Parser {
         PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());
         PandaFramework.getLogger().debug("");
 
+        /*
         for (Map.Entry<String, Long> entry : ExtractorWorker.timeMap.entrySet()) {
             PandaFramework.getLogger().debug("  " + entry.getKey() + ": " + TimeUtils.toMilliseconds(entry.getValue()));
         }
 
         PandaFramework.getLogger().debug("");
+         */
+
         return application;
     }
 

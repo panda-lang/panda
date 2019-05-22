@@ -17,7 +17,6 @@
 package org.panda_lang.panda;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkLogger;
@@ -38,8 +37,8 @@ class BootstrapTest {
     }
 
     private void testBootstrap() {
-        Panda panda = PandaBootstrap.initializeBootstrap()
-                .get();
+        PandaFactory factory = new PandaFactory();
+        Panda panda = factory.createPanda();
 
         Application application = new PandaApplicationBootstrap(panda)
                 .source("../examples/current_test.panda")
