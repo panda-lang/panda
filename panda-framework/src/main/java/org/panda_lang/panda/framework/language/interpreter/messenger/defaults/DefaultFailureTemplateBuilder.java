@@ -16,17 +16,18 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
 
-import org.fusesource.jansi.Ansi;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.PackageUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.console.Colored;
+import org.panda_lang.panda.utilities.commons.console.Effect;
 import org.panda_lang.panda.utilities.commons.text.MessageFormatter;
 
 public class DefaultFailureTemplateBuilder {
 
-    private String content = Ansi.ansi().a("{{newline}}").bold().a("- - ~ ~< Messenger :: Severe Failure >~ ~ - -").reset().a("{{newline}}").toString();
+    private String content = "{{newline}}" + Colored.on("- - ~ ~< Messenger :: Severe Failure >~ ~ - -").effect(Effect.BOLD) + "{{newline}}";
 
     public DefaultFailureTemplateBuilder applyPlaceholders(MessageFormatter formatter, InterpreterFailure exception) {
         String source = exception.getSource();
@@ -39,13 +40,9 @@ public class DefaultFailureTemplateBuilder {
                 .register("{{location}}", exception::getLocation)
                 .register("{{message}}", exception::getMessage)
                 .register("{{index}}", () -> index)
-                .register("{{source}}", () -> index < 0 ? source : Ansi.ansi()
-                        .a(source.substring(0, index))
-                        .fgRed()
-                        .a(source.substring(index, endIndex))
-                        .reset()
-                        .a(source.substring(endIndex))
-                        .toString())
+                .register("{{source}}", () -> index < 0 ? source : source.substring(0, index)
+                        + Colored.on(source.substring(index, endIndex)).effect(Effect.RED)
+                        + source.substring(endIndex))
                 .register("{{stacktrace-last}}", () -> {
                     StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
 
