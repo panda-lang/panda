@@ -20,15 +20,12 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
-import org.panda_lang.panda.utilities.commons.LoggingUtils;
 
 public class PandaBootstrap {
 
     protected Syntax syntax;
 
-    public PandaBootstrap() {
-        LoggingUtils.skipJansi();
-    }
+    private PandaBootstrap() {}
 
     public PandaBootstrap syntax(Syntax syntax) {
         this.syntax = syntax;

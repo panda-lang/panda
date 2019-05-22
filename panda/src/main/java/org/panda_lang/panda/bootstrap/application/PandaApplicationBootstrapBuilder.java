@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.bootstrap;
+package org.panda_lang.panda.bootstrap.application;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.Panda;
