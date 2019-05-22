@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.AbstractComponent;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;

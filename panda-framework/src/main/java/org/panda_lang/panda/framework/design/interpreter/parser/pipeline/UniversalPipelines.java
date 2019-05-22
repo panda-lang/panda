@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 
-public final class UniversalPipelines extends Pipelines {
+public final class UniversalPipelines implements Pipelines {
 
     /**
      * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#ALL}

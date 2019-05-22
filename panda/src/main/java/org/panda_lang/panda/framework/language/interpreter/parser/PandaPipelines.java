@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.scope.block.Bloc
  * Used by {@link org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration}
  */
 @Autoload
-public class PandaPipelines extends Pipelines {
+public class PandaPipelines implements Pipelines {
 
     /**
      * Text representation of {@link PandaPipelines#PROTOTYPE}

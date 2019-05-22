@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
+package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 
 public class PandaParserRepresentation<P extends Parser> implements ParserRepresentation<P> {
 

@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepre
 
 import java.util.Arrays;
 
-class PandaPipelinePathTest extends Pipelines {
+class PandaPipelinePathTest implements Pipelines {
 
     private static final PipelineComponent<?> TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "test", Parser.class);
     private static final PipelineComponent<?> ANOTHER_TEST_COMPONENT = PipelineComponent.of(PandaPipelinePathTest.class, "another-test", Parser.class);
