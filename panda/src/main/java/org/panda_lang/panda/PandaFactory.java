@@ -16,18 +16,21 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class PandaFactory {
 
     public Panda createPanda() {
-        Panda panda = new Panda();
+        return PandaBootstrap.initializeBootstrap()
+                // load syntax
+                .withSyntax(new PandaSyntax())
 
-        Syntax syntax = new PandaSyntax();
-        panda.getPandaLanguage().setSyntax(syntax);
-
-        return panda;
+                // load pipeline manager
+                // load pipelines
+                // load expressions
+                // load parsers
+                // load models
+                .get();
     }
 
 }
