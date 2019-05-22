@@ -17,7 +17,7 @@
 package org.panda_lang.panda;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.bootstrap.PandaApplicationBootstrap;
+import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkLogger;
