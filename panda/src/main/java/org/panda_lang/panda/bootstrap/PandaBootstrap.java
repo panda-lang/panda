@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.bootstrap.PipelinePandaBootstrap;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaBuilder;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -41,7 +42,9 @@ public class PandaBootstrap {
             this.syntax = new PandaSyntax();
         }
 
-        return new Panda(new PandaLanguage(syntax));
+        return PandaBuilder.builder()
+                .withLanguage(new PandaLanguage(syntax))
+                .build();
     }
 
     public static PandaBootstrap initializeBootstrap() {

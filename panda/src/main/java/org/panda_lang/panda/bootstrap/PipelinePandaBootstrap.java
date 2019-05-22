@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.bootstrap;
 
-import org.panda_lang.panda.PandaBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
 
 import java.util.ArrayList;
