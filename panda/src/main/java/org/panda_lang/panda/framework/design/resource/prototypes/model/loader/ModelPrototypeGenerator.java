@@ -20,8 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 
 import java.lang.reflect.Method;
 import java.util.Optional;

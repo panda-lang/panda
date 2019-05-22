@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
 
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 public class Break extends AbstractExecutableStatement {
 

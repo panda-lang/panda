@@ -21,9 +21,9 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 public class PandaConstructor implements PrototypeConstructor {

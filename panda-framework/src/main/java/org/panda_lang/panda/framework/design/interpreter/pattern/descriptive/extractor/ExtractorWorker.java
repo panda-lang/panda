@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
+import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 import java.util.HashMap;

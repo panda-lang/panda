@@ -17,8 +17,8 @@
 package org.panda_lang.panda.utilities.commons.text;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.iterable.CharArrayDistributor;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
+import org.panda_lang.panda.utilities.commons.iterable.CharArrayDistributor;
 
 import java.util.Stack;
 

@@ -17,8 +17,8 @@
 package org.panda_lang.panda.utilities.annotations.utils;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerUtils;
-import org.panda_lang.panda.utilities.commons.collection.Sets;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -64,9 +64,11 @@ public class MethodDescriptorUtils {
             try {
                 if (!descriptor.contains("(")) {
                     return aClass.isInterface() ? aClass.getField(memberName) : aClass.getDeclaredField(memberName);
-                } else if (isConstructor(descriptor)) {
+                }
+                else if (isConstructor(descriptor)) {
                     return aClass.isInterface() ? aClass.getConstructor(parameterTypes) : aClass.getDeclaredConstructor(parameterTypes);
-                } else {
+                }
+                else {
                     return aClass.isInterface() ? aClass.getMethod(memberName, parameterTypes) : aClass.getDeclaredMethod(memberName, parameterTypes);
                 }
             } catch (Exception e) {

@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.resource.Autoload;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration}

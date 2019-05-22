@@ -23,10 +23,10 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeFields;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructors;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaFields;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethods;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;

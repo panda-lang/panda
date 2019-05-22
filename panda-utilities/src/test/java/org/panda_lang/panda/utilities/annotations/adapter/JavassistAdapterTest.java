@@ -25,7 +25,7 @@ class JavassistAdapterTest {
     private static final JavassistAdapter ADAPTER = new JavassistAdapter();
     private static final ClassFile CLASS_FILE = new ClassFile(false, "Test", null);
 
-    public class Foo { }
+    public class Foo {}
 
     @Test
     void acceptsInput() {

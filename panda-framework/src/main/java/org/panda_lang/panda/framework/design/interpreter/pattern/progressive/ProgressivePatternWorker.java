@@ -69,7 +69,7 @@ public class ProgressivePatternWorker {
             if (openingSeparator.hasOpposite() && openingSeparator.getOpposite().equals(token)) {
                 separators.pop();
             }
-            else if (separator.hasOpposite()){
+            else if (separator.hasOpposite()) {
                 separators.push(separator);
             }
 

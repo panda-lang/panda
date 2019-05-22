@@ -24,7 +24,7 @@ public class BenchmarkUtils {
     /**
      * Execute the runnable with the specified title and print an execution time in the console
      *
-     * @param title the title of test
+     * @param title    the title of test
      * @param runnable the runnable to execute
      */
     public static void execute(String title, ThrowingRunnable runnable) {
@@ -42,9 +42,9 @@ public class BenchmarkUtils {
     /**
      * Execute the supplier with the specified title, print an execution time in the console and return resulting value
      *
-     * @param title the title of test
+     * @param title    the title of test
      * @param supplier the supplier to execute
-     * @param <T> generic type of the value to return
+     * @param <T>      generic type of the value to return
      * @return the resulting value
      */
     public static <T> T execute(String title, ThrowingSupplier<T> supplier) {
@@ -65,9 +65,9 @@ public class BenchmarkUtils {
     /**
      * Display the message with the specified time in different formats
      *
-     * @param start the period of time
+     * @param start    the period of time
      * @param attempts the amount of attempts required to calculate an average time
-     * @param message the message of test
+     * @param message  the message of test
      */
     public static void print(long start, int attempts, String message) {
         long nsDif = System.nanoTime() - start;

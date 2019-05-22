@@ -31,7 +31,7 @@ public final class ArrayUtils {
      * Convert array of elements to list, but skip empty (null) values
      *
      * @param elements the array to convert
-     * @param <T> the type
+     * @param <T>      the type
      * @return the result list
      */
     @SafeVarargs
@@ -90,7 +90,7 @@ public final class ArrayUtils {
     /**
      * Check if the specified array contains the element
      *
-     * @param array the array to search
+     * @param array   the array to search
      * @param element the element to search for
      * @return true if the specified array contains the element, otherwise false
      */
@@ -119,7 +119,7 @@ public final class ArrayUtils {
      *
      * @param array the array to process
      * @param index the index of element to get
-     * @param <T> type of the array
+     * @param <T>   type of the array
      * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified array
      */
     public static <T> @Nullable T get(T[] array, int index) {
@@ -139,7 +139,7 @@ public final class ArrayUtils {
     /**
      * Get dimensional array for the specified type
      *
-     * @param type the type of the array
+     * @param type       the type of the array
      * @param dimensions the amount of dimensions
      * @return the class of the dimensional array
      */
@@ -159,7 +159,7 @@ public final class ArrayUtils {
      * Return array of the specified elements using varargs parameter
      *
      * @param elements elements in array
-     * @param <T> type of the array
+     * @param <T>      type of the array
      * @return the array of the specified elements
      */
     @SafeVarargs

@@ -24,7 +24,7 @@ public final class NumberUtils {
 
     public static final char[] ALLOWED_CHARACTERS = new char[] { '.', '_', 'x' };
 
-    public static final char[] NUMBER_EXTENSIONS = new char[]{ 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
+    public static final char[] NUMBER_EXTENSIONS = new char[] { 'b', 'B', 's', 'S', 'i', 'I', 'l', 'L', 'd', 'D', 'f', 'F' };
 
     private NumberUtils() { }
 

@@ -17,8 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.parsers;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
@@ -29,7 +27,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserP
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.Stack;
@@ -68,8 +68,7 @@ public class ContainerParser implements Parser {
 
             try {
                 parser.parse(delegatedData);
-            }
-            catch (ParserFailure failure) {
+            } catch (ParserFailure failure) {
                 failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, source);
                 throw failure;
             }

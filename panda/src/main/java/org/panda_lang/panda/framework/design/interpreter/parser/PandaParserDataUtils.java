@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.design.interpreter.parser;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
@@ -40,9 +40,9 @@ public class PandaParserDataUtils {
      * Create the fake parser data, which contains:
      * - expression parser
      * - variables:
-     *   > string variable
-     *   > string[] array
-     *   > int i
+     * > string variable
+     * > string[] array
+     * > int i
      * - scope linker
      * - abstract scope
      * - module path & loader

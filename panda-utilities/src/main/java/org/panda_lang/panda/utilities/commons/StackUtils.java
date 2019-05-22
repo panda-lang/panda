@@ -26,9 +26,9 @@ public class StackUtils {
     /**
      * Push multiple values at once
      *
-     * @param stack the stack to fill
+     * @param stack  the stack to fill
      * @param values the values to push
-     * @param <T> the type of the stack content
+     * @param <T>    the type of the stack content
      * @return the stack
      */
     @SafeVarargs
@@ -43,9 +43,9 @@ public class StackUtils {
     /**
      * Pop multiple values at once without worries that the stack is empty
      *
-     * @param stack the stack to drain
+     * @param stack  the stack to drain
      * @param amount amount of values to pop
-     * @param <T> the type of the values
+     * @param <T>    the type of the values
      * @return the stack
      */
     public static <T> Stack<T> popSilently(Stack<T> stack, int amount) {
@@ -61,10 +61,10 @@ public class StackUtils {
     /**
      * Fill the stack with the specified object
      *
-     * @param stack the stack to fill
+     * @param stack  the stack to fill
      * @param object the object to push
      * @param amount amount of pushes
-     * @param <T> the type of the values
+     * @param <T>    the type of the values
      * @return the stack
      */
     public static <T> Stack<T> fill(Stack<T> stack, T object, int amount) {
@@ -79,7 +79,7 @@ public class StackUtils {
      * Reverse the stack
      *
      * @param stack the stack to reverse
-     * @param <T> the type of the values
+     * @param <T>   the type of the values
      * @return the stack with reversed values
      */
     public static <T> Stack<T> reverse(Stack<T> stack) {

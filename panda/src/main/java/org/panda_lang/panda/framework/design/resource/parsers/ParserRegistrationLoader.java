@@ -21,11 +21,11 @@ import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserRepresentation;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Collection;

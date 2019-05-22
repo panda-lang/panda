@@ -100,7 +100,7 @@ public class ExpressionParserWorker {
      * Parse the next element from context using the subparser at the specified index
      *
      * @param context the context with data
-     * @param index the index of subparser in the array
+     * @param index   the index of subparser in the array
      * @return true if the result was found using the specified subparser, otherwise false
      */
     private boolean next(ExpressionContext context, int index) {

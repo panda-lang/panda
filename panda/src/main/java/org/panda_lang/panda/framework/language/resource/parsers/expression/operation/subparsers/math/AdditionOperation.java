@@ -17,8 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.operation.subparsers.math;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.operation.rpn.RPNOperationAction;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.operation.rpn.RPNOperationAction;
 
 public class AdditionOperation extends MathOperation {
 

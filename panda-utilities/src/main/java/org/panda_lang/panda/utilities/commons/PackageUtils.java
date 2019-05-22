@@ -54,7 +54,7 @@ public class PackageUtils {
     /**
      * Package to string
      *
-     * @param pack the package to stringify
+     * @param pack         the package to stringify
      * @param defaultValue the value returned when the package is null
      * @return the package name or the default value if package is null
      */

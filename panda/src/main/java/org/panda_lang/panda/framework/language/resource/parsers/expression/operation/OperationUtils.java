@@ -37,7 +37,7 @@ public class OperationUtils {
             if (!operator && element.isOperator()) {
                 operator = Operators.ADDITION.equals(element.getOperator());
             }
-            else if (!string && element.isExpression()){
+            else if (!string && element.isExpression()) {
                 string = PandaTypes.STRING.isAssignableFrom(element.getExpression().getReturnType());
             }
 

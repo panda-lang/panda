@@ -19,10 +19,10 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wi
 import org.hjson.JsonObject;
 import org.hjson.JsonValue;
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardCondition;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionFactory;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionResult;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 class TokenWildcardConditionFactory implements WildcardConditionFactory {
@@ -44,7 +44,7 @@ class TokenWildcardConditionFactory implements WildcardConditionFactory {
             renamed = true;
         }
 
-        String[] elements =  StringUtils.splitFirst(condition, " ");
+        String[] elements = StringUtils.splitFirst(condition, " ");
         boolean not = renamed;
 
         if (elements.length < 2) {

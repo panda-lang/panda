@@ -47,19 +47,19 @@ public class AnnotationsScannerProcessBuilder {
      * Add default filters:
      *
      * <ul>
-     *     <li>
-     *         URL filters:
-     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter}
-     *     </li>
-     *     <li>
-     *         File filters:
-     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFilter},
-     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter}
-     *     </li>
-     *     <li>
-     *         Class filters:
-     *           {@link org.panda_lang.panda.utilities.annotations.monads.filters.PublicClassFileFilter}
-     *     </li>
+     * <li>
+     * URL filters:
+     * {@link org.panda_lang.panda.utilities.annotations.monads.filters.JavaFilter}
+     * </li>
+     * <li>
+     * File filters:
+     * {@link org.panda_lang.panda.utilities.annotations.monads.filters.AnonymousFileFilter},
+     * {@link org.panda_lang.panda.utilities.annotations.monads.filters.PackageFileFilter}
+     * </li>
+     * <li>
+     * Class filters:
+     * {@link org.panda_lang.panda.utilities.annotations.monads.filters.PublicClassFileFilter}
+     * </li>
      * </ul>
      *
      * @return the builder instance

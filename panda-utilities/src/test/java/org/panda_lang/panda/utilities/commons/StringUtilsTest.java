@@ -71,16 +71,16 @@ class StringUtilsTest {
         Throwable amountException = Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtils.replaceRespectively("? ?", "?", "a"));
         Assertions.assertEquals("The amount of values does not match the amount of pattern occurrences", amountException.getMessage());
 
-        Throwable valuesException = Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtils.replaceRespectively("?", "?", new String[]{ null }));
+        Throwable valuesException = Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtils.replaceRespectively("?", "?", new String[] { null }));
         Assertions.assertEquals("Array of values contains null", valuesException.getMessage());
     }
 
     @Test
     public void replaceRespectivelyAndSoftly() {
-       Assertions.assertAll(
-               () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b", "c")),
-               () -> Assertions.assertEquals("a b ?", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b"))
-       );
+        Assertions.assertAll(
+                () -> Assertions.assertEquals("a b c", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b", "c")),
+                () -> Assertions.assertEquals("a b ?", StringUtils.replaceRespectivelyAndSoftly("? ? ?", "?", "a", "b"))
+        );
     }
 
     @Test
@@ -142,7 +142,7 @@ class StringUtilsTest {
     public void containsOtherCharacters() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b' })),
-                () -> Assertions.assertFalse(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b', 'c'}))
+                () -> Assertions.assertFalse(StringUtils.containsOtherCharacters("abc", new char[] { 'a', 'b', 'c' }))
         );
     }
 

@@ -36,7 +36,7 @@ public class StringUtils {
     /**
      * Check how the specified text starts
      *
-     * @param text the text to check
+     * @param text   the text to check
      * @param filter condition
      * @return result of the condition
      */
@@ -51,7 +51,7 @@ public class StringUtils {
     /**
      * Split text by the specified delimiter, but only once (to the first occurrence of the specified delimiter)
      *
-     * @param text the text to split
+     * @param text      the text to split
      * @param delimiter the delimiter to search for
      * @return array of splitted text
      */
@@ -68,7 +68,7 @@ public class StringUtils {
     /**
      * Split text by the specified delimiter (without regex)
      *
-     * @param text the text to split
+     * @param text      the text to split
      * @param delimiter the delimiting text
      * @return the array of elements
      */
@@ -105,8 +105,8 @@ public class StringUtils {
     /**
      * Last index of the element with given amount of last occurrences to ignore
      *
-     * @param text the text to search in
-     * @param element the element to search for
+     * @param text        the text to search in
+     * @param element     the element to search for
      * @param occurrences amount of occurrences to ignore before the element to search for
      * @return index of the element, -1 when the element is not found
      */
@@ -152,9 +152,9 @@ public class StringUtils {
     /**
      * Faster alternative to String#replace
      *
-     * @param text the text to search and replace in
+     * @param text         the text to search and replace in
      * @param searchString the text to search for
-     * @param replacement the text to replace with
+     * @param replacement  the text to replace with
      * @return the resulting text
      */
     public static String replace(String text, String searchString, String replacement) {
@@ -164,14 +164,14 @@ public class StringUtils {
     /**
      * Replaces each substring of the string that equals
      * to the literal target sequence with the specified literal replacement sequence
-     *
+     * <p>
      * ~ Based on Apache Commons Lang :: StringUtils#replace
      *
-     * @param text the text to search and replace in
-     * @param pattern the text to search for
+     * @param text        the text to search and replace in
+     * @param pattern     the text to search for
      * @param replacement the text to replace with
-     * @param fromIndex the index from which to start the search
-     * @param max amount of occurrences to replace
+     * @param fromIndex   the index from which to start the search
+     * @param max         amount of occurrences to replace
      * @return the resulting string
      */
     private static String replace(@Nullable String text, @Nullable String pattern, String replacement, int fromIndex, int max) {
@@ -210,8 +210,8 @@ public class StringUtils {
     /**
      * Replace the first occurrence of the specified pattern in the text
      *
-     * @param text the text to search and replace in
-     * @param pattern the text to search for
+     * @param text        the text to search and replace in
+     * @param pattern     the text to search for
      * @param replacement the text to replace with
      * @return the processed text
      */
@@ -222,10 +222,10 @@ public class StringUtils {
     /**
      * Replace the first occurrence of the specified pattern in the text
      *
-     * @param text the text to search and replace in
-     * @param pattern the text to search for
+     * @param text        the text to search and replace in
+     * @param pattern     the text to search for
      * @param replacement the text to replace with
-     * @param start position to start searching for
+     * @param start       position to start searching for
      * @return the processed text
      */
     public static String replaceFirst(String text, String pattern, String replacement, int start) {
@@ -236,10 +236,11 @@ public class StringUtils {
      * Replaces respectively substring of this string that matches the literal target sequence with the specified literal replacement sequence.
      * The replacement proceeds from the beginning of the string to the end, using the next element of the specified values
      *
-     * @param text The sequence of char values to be replace replacement – The replacement sequence of char values
+     * @param text    The sequence of char values to be replace replacement – The replacement sequence of char values
      * @param pattern The pattern to search
-     * @param values The replacement sequences
+     * @param values  The replacement sequences
      * @return the resulting string
+     *
      * @throws java.lang.IllegalArgumentException if the amount of patterns is different than the amount of values
      */
     public static String replaceRespectively(String text, String pattern, String... values) {
@@ -250,9 +251,9 @@ public class StringUtils {
      * Replaces respectively substring of this string that matches the literal target sequence with the specified literal replacement sequence.
      * The replacement proceeds from the beginning of the string to the end, using the next element of the specified values
      *
-     * @param text The sequence of char values to be replace replacement – The replacement sequence of char values
+     * @param text    The sequence of char values to be replace replacement – The replacement sequence of char values
      * @param pattern The pattern to search
-     * @param values The replacement sequences
+     * @param values  The replacement sequences
      * @return the resulting string
      */
     public static String replaceRespectivelyAndSoftly(String text, String pattern, String... values) {
@@ -390,7 +391,7 @@ public class StringUtils {
     /**
      * Amount of the occurrences of the specified text in string
      *
-     * @param text     the string to search in
+     * @param text    the string to search in
      * @param element the string to search for
      * @return amount of the occurrences
      */
@@ -413,7 +414,7 @@ public class StringUtils {
     /**
      * Checks if the specified text contains any character from the specified array
      *
-     * @param text a string to search
+     * @param text       a string to search
      * @param characters searched characters
      * @return true if the specified string contains any of the specified characters
      */
@@ -456,9 +457,9 @@ public class StringUtils {
     /**
      * Check if the specified string can be parsed as a number
      * Allowed characters:
-     *   0-9 - digits
-     *   x   - hexadecimal
-     *   .   - float
+     * 0-9 - digits
+     * x   - hexadecimal
+     * .   - float
      *
      * @param str string to check
      * @return true if the specified text can be a number
@@ -470,7 +471,7 @@ public class StringUtils {
     /**
      * Checks if the specified text is null or empty, throw exception if it is
      *
-     * @param text to check
+     * @param text             to check
      * @param exceptionMessage the message is used by {@link IllegalArgumentException}
      * @return the checked text
      */

@@ -36,9 +36,9 @@ public class FileUtils {
     /**
      * Efficient way to collect all paths (with subdirectories) in the specified directory
      *
-     * @param root the directory to search in
+     * @param root                   the directory to search in
      * @param estimatedAmountOfPaths the estimated amount of paths to collect
-     * @param pathFilter if path matches the filter, path is added to the list. Otherwise path will be checked as directory.
+     * @param pathFilter             if path matches the filter, path is added to the list. Otherwise path will be checked as directory.
      * @return the list of collected paths
      */
     public static List<Path> collectPaths(Path root, int estimatedAmountOfPaths, Predicate<Path> pathFilter) {

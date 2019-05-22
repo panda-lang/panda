@@ -116,7 +116,7 @@ public class AnnotationsScannerConfiguration {
      * Include specified class loaders
      *
      * @param includeParents if true the configuration will include also parents of the specified class loaders
-     * @param classLoaders class loaders to include
+     * @param classLoaders   class loaders to include
      * @return the configuration instance
      *
      * @see ClassLoader#getParent()

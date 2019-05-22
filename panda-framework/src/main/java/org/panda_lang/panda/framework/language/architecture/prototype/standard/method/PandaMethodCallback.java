@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 
 public class PandaMethodCallback implements MethodCallback<ClassPrototypeScopeFrame> {
 

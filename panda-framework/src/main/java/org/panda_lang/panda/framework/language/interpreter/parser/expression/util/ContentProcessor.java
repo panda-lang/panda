@@ -42,13 +42,12 @@ public interface ContentProcessor {
 
 
     /**
-     *
      * Process the read content and prepare the result
      *
-     * @param reader the current content reader instance
+     * @param reader  the current content reader instance
      * @param context the expression context
      * @param content the content between separators
-     * @param last the last token, it is the closing separator (useful for errors, if the content is empty)
+     * @param last    the last token, it is the closing separator (useful for errors, if the content is empty)
      * @return the processed result
      */
     @Nullable ExpressionResult process(SeparatedContentReader reader, ExpressionContext context, Snippet content, TokenRepresentation last);

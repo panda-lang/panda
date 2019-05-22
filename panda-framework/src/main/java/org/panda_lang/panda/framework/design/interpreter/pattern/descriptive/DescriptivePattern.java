@@ -17,15 +17,15 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.TokenExtractor;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionFactory;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.defaults.DefaultWildcardConditionFactories;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.defaults.DefaultWildcardReaders;
+import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.Collection;

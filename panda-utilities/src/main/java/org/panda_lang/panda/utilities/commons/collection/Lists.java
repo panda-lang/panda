@@ -29,7 +29,7 @@ public class Lists {
      * Reverse the provided list and return its
      *
      * @param list the list to reverse
-     * @param <T> type of the list
+     * @param <T>  type of the list
      * @return the reversed list
      */
     public static <T> List<T> reverse(List<T> list) {
@@ -41,7 +41,7 @@ public class Lists {
      * Create mutable list from varargs
      *
      * @param elements to add to the array
-     * @param <T> type of the list
+     * @param <T>      type of the list
      * @return created list
      */
     @SafeVarargs
@@ -52,9 +52,9 @@ public class Lists {
     /**
      * Get element of list at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
      *
-     * @param list the list to process
+     * @param list  the list to process
      * @param index the index of element to get
-     * @param <T> type of the list
+     * @param <T>   type of the list
      * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified list
      */
     public static <T> @Nullable T get(List<T> list, int index) {

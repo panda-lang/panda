@@ -26,7 +26,7 @@ public class CollectionUtils {
      * Join collections into the list
      *
      * @param collections collections to merge
-     * @param <T> generic type of the collections
+     * @param <T>         generic type of the collections
      * @return the list with the specified collections
      */
     @SafeVarargs

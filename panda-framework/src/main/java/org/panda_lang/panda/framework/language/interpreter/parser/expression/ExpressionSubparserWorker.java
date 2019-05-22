@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface ExpressionSubparserWorker {
 
