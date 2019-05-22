@@ -27,7 +27,7 @@ class CharsetPatternTest {
     @Test
     public void testCharsetPattern() {
         CharsetPattern charsetPattern = new CharsetPattern("*.*(*)");
-        charsetPattern.setCharset(new char[]{ '.', '(', ')' });
+        charsetPattern.setCharset(new char[] { '.', '(', ')' });
 
         Assertions.assertTrue(charsetPattern.match(EXPRESSION));
     }

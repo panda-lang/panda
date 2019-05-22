@@ -50,7 +50,6 @@ public class Operators {
     public static final Operator BITWISE_RIGHT_SHIFT = new Operator(OperatorFamilies.MATH, ">>");
 
 
-
     public static final Operator EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "==");
 
     public static final Operator NOT_EQUAL_TO = new Operator(OperatorFamilies.LOGICAL, "!=");
@@ -70,11 +69,9 @@ public class Operators {
     public static final Operator NOT = new Operator(OperatorFamilies.LOGICAL, "!");
 
 
-
     public static final Operator INCREMENT = new Operator(OperatorFamilies.INCREMENT_AND_DECREMENT, "++");
 
     public static final Operator DECREMENT = new Operator(OperatorFamilies.INCREMENT_AND_DECREMENT, "--");
-
 
 
     public static final Operator EROTEME = new Operator(OperatorFamilies.UNDEFINED, "?");
@@ -82,7 +79,6 @@ public class Operators {
     public static final Operator COLON = new Operator(OperatorFamilies.UNDEFINED, ":");
 
     public static final Operator ASSIGNMENT = new Operator(OperatorFamilies.UNDEFINED, "=");
-
 
 
     private static final Collection<Operator> VALUES;

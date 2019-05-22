@@ -24,7 +24,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 public class SequenceExpressionSubparser implements ExpressionSubparser {

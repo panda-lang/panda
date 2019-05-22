@@ -30,10 +30,10 @@ public class AnnotationsScanner {
      * Steps:
      *
      * <ul>
-     *     <li>filter resources by path</li>
-     *     <li>filter resources by package</li>
-     *     <li>filter resources by offline class content</li>
-     *     <li>collect offline classes</li>
+     * <li>filter resources by path</li>
+     * <li>filter resources by package</li>
+     * <li>filter resources by offline class content</li>
+     * <li>collect offline classes</li>
      * </ul>
      *
      * @return process builder

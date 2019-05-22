@@ -68,7 +68,7 @@ class ReflectionUtilsTest {
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-@interface AnnotationTest { }
+@interface AnnotationTest {}
 
 class Foo {
 

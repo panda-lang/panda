@@ -17,14 +17,10 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.field;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -32,11 +28,15 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptiveContentBuilder;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
 
@@ -59,7 +59,7 @@ public class FieldParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
-    public void parse(ParserData data, LocalData local, ExtractorResult result,  @Src("type") Snippet type, @Src("name") Snippet name) {
+    public void parse(ParserData data, LocalData local, ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
         ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
 
         FieldVisibility visibility = FieldVisibility.LOCAL;

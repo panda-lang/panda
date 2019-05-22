@@ -44,7 +44,7 @@ public class DefaultMessageFormatter {
     static {
         ENVIRONMENT.put("Panda", PandaFrameworkConstants.VERSION);
         ENVIRONMENT.put("Java", System.getProperty("java.version"));
-        ENVIRONMENT.put("OS",  System.getProperty("os.name"));
+        ENVIRONMENT.put("OS", System.getProperty("os.name"));
     }
 
     public static void addEnvironmentInfo(String title, String content) {

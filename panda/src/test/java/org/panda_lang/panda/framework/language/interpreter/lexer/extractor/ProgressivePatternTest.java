@@ -34,7 +34,7 @@ class ProgressivePatternTest {
 
     private static final String SOURCE = "(new Integer(5).intValue() + 3) + 2";
 
-    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(Separators.getOpeningSeparators(), new Token[]{
+    private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(Separators.getOpeningSeparators(), new Token[] {
             Operators.ADDITION,
             Operators.SUBTRACTION,
             Operators.DIVISION,

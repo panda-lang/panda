@@ -18,11 +18,11 @@ package org.panda_lang.panda;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.architecture.PandaEnvironment;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
 import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
 import org.panda_lang.panda.utilities.commons.FileUtils;

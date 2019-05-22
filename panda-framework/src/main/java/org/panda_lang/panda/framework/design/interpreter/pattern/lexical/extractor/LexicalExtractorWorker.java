@@ -23,8 +23,8 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.WildcardProcessor;
-import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.iterable.ArrayDistributor;
 
 import java.util.List;
 import java.util.Stack;
@@ -42,7 +42,7 @@ public class LexicalExtractorWorker<T> {
 
     public LexicalExtractorResult<T> extract(LexicalPatternElement pattern, String phrase) {
         if (pattern.isUnit()) {
-           return matchUnit(pattern, phrase);
+            return matchUnit(pattern, phrase);
         }
 
         if (pattern.isWildcard()) {

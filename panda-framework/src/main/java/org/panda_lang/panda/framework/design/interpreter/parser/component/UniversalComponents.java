@@ -47,7 +47,6 @@ public final class UniversalComponents {
     public static final Component<ExpressionParser> EXPRESSION = Component.of("expression-parser", ExpressionParser.class);
 
 
-
     public static final Component<Script> SCRIPT = Component.of("script", Script.class);
 
     public static final Component<Snippet> SOURCE = Component.of("source", Snippet.class);
@@ -55,7 +54,6 @@ public final class UniversalComponents {
     public static final Component<SourceStream> SOURCE_STREAM = Component.of("source-stream", SourceStream.class);
 
     public static final Component<ScopeLinker> SCOPE_LINKER = Component.of("panda-scope-linker", ScopeLinker.class);
-
 
 
     public static final Component<ParserDebug> PARSER_DEBUG = Component.of("parser-debug", ParserDebug.class);

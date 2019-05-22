@@ -26,8 +26,8 @@ public class ObjectUtils {
      * Try to cast or get null
      *
      * @param object the object to cast
-     * @param clazz the type to cast
-     * @param <T> the result type
+     * @param clazz  the type to cast
+     * @param <T>    the result type
      * @return casted object or null if object is not a clazz type
      */
     public static @Nullable <T> T cast(Class<T> clazz, @Nullable Object object) {
@@ -67,7 +67,7 @@ public class ObjectUtils {
     /**
      * Check if the value is one of the expected
      *
-     * @param value value to check
+     * @param value    value to check
      * @param expected expected values
      * @return true if expected values contains the specified value
      */

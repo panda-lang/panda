@@ -41,8 +41,8 @@ class CharacterUtilsTest {
 
     @Test
     public void testGetIndex() {
-        Assertions.assertEquals(-1, CharacterUtils.getIndex(new char[]{ 'a', 'b', 'c' }, 'd'));
-        Assertions.assertEquals(1, CharacterUtils.getIndex(new char[]{ 'a', 'b', 'c' }, 'b'));
+        Assertions.assertEquals(-1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c' }, 'd'));
+        Assertions.assertEquals(1, CharacterUtils.getIndex(new char[] { 'a', 'b', 'c' }, 'b'));
     }
 
     @Test

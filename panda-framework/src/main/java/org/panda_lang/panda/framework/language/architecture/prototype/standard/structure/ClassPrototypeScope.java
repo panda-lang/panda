@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
@@ -27,6 +26,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.StatementDat
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 
 import java.util.List;
 

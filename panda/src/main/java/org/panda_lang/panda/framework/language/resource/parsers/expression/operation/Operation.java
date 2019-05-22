@@ -17,11 +17,11 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.operation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 

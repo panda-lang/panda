@@ -17,6 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
@@ -24,8 +26,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.ContentProcessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.SeparatedContentReader;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.array.ArrayValueAccessor;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.array.ArrayValueAccessorUtils;

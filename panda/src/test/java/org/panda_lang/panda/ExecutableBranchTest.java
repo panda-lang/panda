@@ -45,6 +45,6 @@ class ExecutableBranchTest {
         process.execute();
     }
 
-    class TestBlock extends AbstractBlock { }
+    class TestBlock extends AbstractBlock {}
 
 }

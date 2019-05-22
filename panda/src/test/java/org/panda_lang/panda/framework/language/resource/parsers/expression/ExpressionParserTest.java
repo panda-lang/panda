@@ -34,7 +34,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseLiterals() {
         parse("null");
-        parse("true false",  RuntimeException.class, "Unread source: false");
+        parse("true false", RuntimeException.class, "Unread source: false");
     }
 
     @Test

@@ -22,9 +22,9 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternNode;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
-import org.panda_lang.panda.utilities.commons.iterable.CharArrayDistributor;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.iterable.CharArrayDistributor;
 import org.panda_lang.panda.utilities.commons.text.AttentiveContentReader;
 import org.panda_lang.panda.utilities.commons.text.BracketContentReader;
 

@@ -48,7 +48,7 @@ public class SeparatorStack {
         }
 
         if (!separators.peek().getOpposite().equals(separator)) {
-             return false;
+            return false;
         }
 
         separators.pop();

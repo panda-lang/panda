@@ -17,8 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
@@ -27,6 +25,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
+import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 import java.util.ArrayList;

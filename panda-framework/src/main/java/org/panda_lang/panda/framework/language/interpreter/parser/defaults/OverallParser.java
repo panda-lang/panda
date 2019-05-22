@@ -21,8 +21,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 

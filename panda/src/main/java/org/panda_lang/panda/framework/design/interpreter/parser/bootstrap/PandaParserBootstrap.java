@@ -18,12 +18,12 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.BootstrapHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 
 import java.util.List;
 

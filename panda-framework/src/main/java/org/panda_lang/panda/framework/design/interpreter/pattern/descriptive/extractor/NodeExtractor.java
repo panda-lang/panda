@@ -41,7 +41,7 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
         int matches = 0;
 
         for (int i = 0; i < elements.size(); i++) {
-            LexicalPatternElement previousElement = i > 0 && i - 1 < elements.size() ? elements.get(i - 1) : null;
+            LexicalPatternElement previousElement = i > 0 ? elements.get(i - 1) : null;
             LexicalPatternElement element = elements.get(i);
             int index = distributor.getIndex();
 
@@ -101,7 +101,7 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
     }
 
     /**
-     * @param element the element to match
+     * @param element     the element to match
      * @param distributor source
      * @return subresult or null if distributor does not contains source
      */

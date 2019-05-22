@@ -51,9 +51,9 @@ public class CreaseExpressionCallback extends NumberPriorities implements Expres
             case BYTE:
                 Byte byteValue = value.getValue();
                 return grow ? ++byteValue : --byteValue;
-           case SHORT:
-               Short shortValue = value.getValue();
-               return grow ? ++shortValue : --shortValue;
+            case SHORT:
+                Short shortValue = value.getValue();
+                return grow ? ++shortValue : --shortValue;
             case INT:
                 Integer intValue = value.getValue();
                 return grow ? ++intValue : --intValue;

@@ -52,7 +52,7 @@ public class DescriptiveContentBuilder {
         contentBuilder.append("[").append(element).append("]");
         return this;
     }
-    
+
     public String build() {
         return contentBuilder.toString();
     }
@@ -60,5 +60,5 @@ public class DescriptiveContentBuilder {
     public static DescriptiveContentBuilder create() {
         return new DescriptiveContentBuilder();
     }
-    
+
 }

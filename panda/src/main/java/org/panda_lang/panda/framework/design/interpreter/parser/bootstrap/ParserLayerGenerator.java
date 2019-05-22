@@ -20,16 +20,16 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.ProcessedAnnotation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.lang.annotation.Annotation;
@@ -56,8 +56,7 @@ class ParserLayerGenerator<T> {
                 try {
                     //noinspection unchecked
                     result = (T) invoke(autowiredMethod, parameters);
-                }
-                catch (ParserFailure failure) {
+                } catch (ParserFailure failure) {
                     failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(failure.getData().getComponent(BootstrapComponents.CURRENT_SOURCE)));
                     throw failure;
                 }
@@ -81,12 +80,10 @@ class ParserLayerGenerator<T> {
 
         try {
             return autowiredMethod.invoke(bootstrapParser.getBootstrap().getInstance(), parameters);
-        }
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations (" + autowiredMethod.getDeclaringClass() + ":" + autowiredMethod.getName() + ")");
             throw e;
-        }
-        catch (InvocationTargetException e) {
+        } catch (InvocationTargetException e) {
             throw e.getTargetException();
         }
     }

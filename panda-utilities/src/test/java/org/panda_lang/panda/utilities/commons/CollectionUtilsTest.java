@@ -18,7 +18,6 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.commons.CollectionUtils;
 import org.panda_lang.panda.utilities.commons.collection.Sets;
 
 import java.util.List;

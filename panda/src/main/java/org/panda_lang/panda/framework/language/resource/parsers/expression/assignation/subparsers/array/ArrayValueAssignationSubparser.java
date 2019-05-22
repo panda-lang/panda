@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.assi
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -27,13 +26,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.EmptyHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.EmptyInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparserBootstrap;

@@ -30,10 +30,10 @@ public class PandaCommand implements Runnable {
     @CommandLine.Parameters(arity = "1..*", paramLabel = "FILE", description = "File(s) to load")
     private File[] inputFiles;
 
-    @CommandLine.Option(names = {"-V", "--version"}, versionHelp = true, description = "display Panda version")
+    @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "display Panda version")
     private boolean versionInfoRequested;
 
-    @CommandLine.Option(names = {"-h", "--help"}, usageHelp = true, description = "display help message")
+    @CommandLine.Option(names = { "-h", "--help" }, usageHelp = true, description = "display help message")
     private boolean usageHelpRequested;
 
     public PandaCommand(PandaCLI cli) {

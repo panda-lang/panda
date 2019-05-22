@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 
 class ArrayUtilsTest {
 
-    private static final String[] EMPTY_ARRAY = new String[] { };
+    private static final String[] EMPTY_ARRAY = new String[] {};
 
     private static final String[] ARRAY = new String[] { "a", "b", "c" };
 

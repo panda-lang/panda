@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
@@ -99,7 +99,7 @@ class NodeElementLookupExtractor {
         return result;
     }
 
-    protected ExtractorResult extractWildcards(List<LexicalPatternElement> elements,  TokenDistributor distributor) {
+    protected ExtractorResult extractWildcards(List<LexicalPatternElement> elements, TokenDistributor distributor) {
         ExtractorResult precedingResult = new ExtractorResult();
 
         for (LexicalPatternElement element : elements) {

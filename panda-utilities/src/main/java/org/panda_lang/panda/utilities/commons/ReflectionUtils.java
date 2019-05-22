@@ -39,7 +39,7 @@ public class ReflectionUtils {
     /**
      * Collect methods annotated with the specified annotation
      *
-     * @param clazz class to search
+     * @param clazz      class to search
      * @param annotation annotation to search for
      * @return the list of annotated methods
      */
@@ -52,7 +52,7 @@ public class ReflectionUtils {
 
             for (Method method : declaredMethods) {
                 if (!method.isAnnotationPresent(annotation)) {
-                   continue;
+                    continue;
                 }
 
                 Annotation annotationInstance = method.getAnnotation(annotation);
@@ -68,7 +68,7 @@ public class ReflectionUtils {
     /**
      * Collect all methods with the same name
      *
-     * @param clazz class to search
+     * @param clazz      class to search
      * @param methodName name to search for
      * @return the list of the matching methods
      */
@@ -79,7 +79,7 @@ public class ReflectionUtils {
     /**
      * Collect all methods with same name
      *
-     * @param methods methods to search
+     * @param methods    methods to search
      * @param methodName name to search for
      * @return the list of the matching methods
      */
