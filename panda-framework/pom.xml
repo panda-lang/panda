@@ -38,12 +38,6 @@
             <artifactId>hjson</artifactId>
         </dependency>
 
-        <!-- Output -->
-        <dependency>
-            <groupId>org.fusesource.jansi</groupId>
-            <artifactId>jansi</artifactId>
-        </dependency>
-
         <!-- Benchmarks -->
         <dependency>
             <groupId>org.openjdk.jmh</groupId>
