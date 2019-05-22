@@ -27,12 +27,20 @@ public class PipelineComponent<P extends Parser> extends AbstractComponent<P> {
 
     private static final Map<String, AbstractComponent> COMPONENTS = new HashMap<>();
 
-    private PipelineComponent(String name, Class<P> type) {
+    private final Class<? extends Pipelines> container;
+
+    private PipelineComponent(Class<? extends Pipelines> container, String name, Class<P> type) {
         super(name, type);
+        this.container = container;
     }
 
-    public static <T extends Parser> PipelineComponent<T> of(String name, Class<T> type) {
-        return ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(name, type));
+    @Override
+    public String toString() {
+        return container.getSimpleName() + "::" + super.toString();
+    }
+
+    public static <T extends Parser> PipelineComponent<T> of(Class<? extends Pipelines> container, String name, Class<T> type) {
+        return ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
     }
 
     public static @Nullable PipelineComponent<? extends Parser> get(String name) {

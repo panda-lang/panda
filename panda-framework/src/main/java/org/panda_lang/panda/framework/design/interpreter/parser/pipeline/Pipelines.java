@@ -14,23 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.component;
+package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
-
-import java.util.HashMap;
-import java.util.Map;
-
-public class Component<T> extends AbstractComponent<T> {
-
-    private static final Map<String, AbstractComponent> COMPONENTS = new HashMap<>();
-
-    private Component(String name, Class<T> type) {
-        super(name, type);
-    }
-
-    public static <T> Component<T> of(String name, Class<T> type) {
-        return ofComponents(COMPONENTS, name, () -> new Component<>(name, type));
-    }
+abstract public class Pipelines {
 
 }

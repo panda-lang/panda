@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class PandaFactory {
@@ -27,6 +29,10 @@ public class PandaFactory {
 
                 // load pipeline manager
                 // load pipelines
+                .initializePipelines()
+                    .usePipelines(UniversalPipelines.class, PandaPipelines.class)
+                    .collect()
+
                 // load expressions
                 // load parsers
                 // load models

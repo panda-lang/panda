@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.bootstrap.PipelinePandaBootstrap;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
@@ -29,6 +30,10 @@ public class PandaBootstrap {
     public PandaBootstrap withSyntax(Syntax syntax) {
         this.syntax = syntax;
         return this;
+    }
+
+    public PipelinePandaBootstrap initializePipelines() {
+        return new PipelinePandaBootstrap(this);
     }
 
     public Panda get() {
