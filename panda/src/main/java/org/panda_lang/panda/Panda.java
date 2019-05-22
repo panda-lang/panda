@@ -20,7 +20,7 @@ import org.panda_lang.panda.cli.PandaCLI;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
-public class Panda {
+public final class Panda {
 
     private final PandaCLI pandaCLI;
     private final PandaLoader pandaLoader;
