@@ -24,6 +24,8 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class PandaBootstrap {
 
+    private final PandaBuilder pandaBuilder = PandaBuilder.builder();
+
     private Syntax syntax;
 
     private PandaBootstrap() {}
@@ -42,9 +44,13 @@ public class PandaBootstrap {
             this.syntax = new PandaSyntax();
         }
 
-        return PandaBuilder.builder()
+        return pandaBuilder
                 .withLanguage(new PandaLanguage(syntax))
                 .build();
+    }
+
+    public PandaBuilder getPandaBuilder() {
+        return pandaBuilder;
     }
 
     public static PandaBootstrap initializeBootstrap() {
