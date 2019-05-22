@@ -26,8 +26,9 @@ public final class Panda {
     private final PandaLoader pandaLoader;
     private final PandaLanguage pandaLanguage;
 
-    protected Panda(PandaLanguage language) {
-        this.pandaLanguage = language;
+    protected Panda(PandaBuilder builder) {
+        this.pandaLanguage = builder.language;
+
         this.pandaCLI = new PandaCLI(this);
         this.pandaLoader = new PandaLoader(this);
     }

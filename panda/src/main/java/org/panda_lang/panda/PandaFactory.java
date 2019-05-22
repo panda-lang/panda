@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda;
 
+import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
