@@ -16,6 +16,23 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-abstract public class Pipelines {
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.stream.Collectors;
+
+public interface Pipelines {
+
+    default Collection<PipelineComponent<?>> collectPipelineComponents() {
+        return Arrays.stream(this.getClass().getFields())
+                .filter(field -> PipelineComponent.class.isAssignableFrom(field.getType()))
+                .map(field -> {
+                    try {
+                        return (PipelineComponent<?>) field.get(this);
+                    } catch (IllegalAccessException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
 
 }

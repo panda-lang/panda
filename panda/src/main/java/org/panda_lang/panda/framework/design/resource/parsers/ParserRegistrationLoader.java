@@ -20,7 +20,7 @@ import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PandaParserRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
@@ -60,6 +60,11 @@ public class ParserRegistrationLoader {
 
             for (String target : parserRegistration.target()) {
                 PipelineComponent<Parser> component = (PipelineComponent<Parser>) PipelineComponent.get(target);
+
+                if (component == null) {
+                    PandaFramework.getLogger().warn("Pipeline '" + target + "' does not exist or its component was not initialized");
+                    continue;
+                }
 
                 if (!registry.hasPipeline(component)) {
                     registry.createPipeline(component);
