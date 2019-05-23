@@ -44,11 +44,11 @@ public abstract class AbstractComponent<R> {
         return name + "::" + type.getSimpleName();
     }
 
-    protected static <TYPE extends AbstractComponent, RETURN> TYPE ofComponents(Map<String, AbstractComponent> components, String name, Supplier<TYPE> supplier) {
-        AbstractComponent existingComponent = components.get(name);
+    protected static <TYPE> TYPE ofComponents(Map<String, TYPE> components, String name, Supplier<TYPE> supplier) {
+        TYPE existingComponent = components.get(name);
 
         if (existingComponent != null) {
-            throw new PandaFrameworkException("Component '" + name + "' already exists (type: " + existingComponent.getType() + ")");
+            throw new PandaFrameworkException("Component '" + name + "' already exists (type: " + ((AbstractComponent) existingComponent).getType() + ")");
         }
 
         TYPE component = supplier.get();
