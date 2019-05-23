@@ -16,25 +16,32 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 
 public class PandaBuilder {
 
     protected PandaLanguage language;
-    protected PipelinePath pipelinePath;
+    protected PandaResources resources;
 
     public PandaBuilder withLanguage(PandaLanguage language) {
         this.language = language;
         return this;
     }
 
-    public PandaBuilder withPipelinePath(PipelinePath pipelinePath) {
-        this.pipelinePath = pipelinePath;
+    public PandaBuilder withResources(PandaResources resources) {
+        this.resources = resources;
         return this;
     }
 
     public Panda build() {
+        if (language == null) {
+            throw new IllegalArgumentException("Language has to be defined");
+        }
+
+        if (resources == null) {
+            throw new IllegalArgumentException("Pipeline path has to be defined");
+        }
+
         return new Panda(this);
     }
 
