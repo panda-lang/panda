@@ -17,20 +17,20 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 public class PandaResources {
 
-    private final AnnotationsScanner scanner;
+    private final AnnotationsScannerProcess scannerProcess;
     private final PipelinePath pipelinePath;
 
-    public PandaResources(AnnotationsScanner scanner, PipelinePath pipelinePath) {
-        this.scanner = scanner;
+    public PandaResources(AnnotationsScannerProcess scannerProcess, PipelinePath pipelinePath) {
+        this.scannerProcess = scannerProcess;
         this.pipelinePath = pipelinePath;
     }
 
-    public AnnotationsScanner getScanner() {
-        return scanner;
+    public AnnotationsScannerProcess getScannerProcess() {
+        return scannerProcess;
     }
 
     public PipelinePath getPipelinePath() {

@@ -20,7 +20,6 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistrationLoader;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.loader.AnnotatedModelsLoader;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -31,8 +30,6 @@ public class PandaEnvironment implements Environment {
 
     protected final Panda panda;
     protected final ModulePath modulePath;
-
-    protected PipelinePath pipelinePath;
     protected PandaInterpreter interpreter;
 
     public PandaEnvironment(Panda panda) {
@@ -47,9 +44,6 @@ public class PandaEnvironment implements Environment {
         AutoloadLoader autoloadLoader = new AutoloadLoader();
         autoloadLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
 
-        ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
-        this.pipelinePath = registrationLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER);
-
         AnnotatedModelsLoader modelLoader = new AnnotatedModelsLoader();
         modelLoader.load(modulePath, PandaUtils.DEFAULT_PANDA_SCANNER);
 
@@ -61,7 +55,7 @@ public class PandaEnvironment implements Environment {
 
     @Override
     public PipelinePath getPipelinePath() {
-        return pipelinePath;
+        return panda.getResources().getPipelinePath();
     }
 
     @Override

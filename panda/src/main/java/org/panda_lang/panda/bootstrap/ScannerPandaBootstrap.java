@@ -18,13 +18,16 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcessBuilder;
 
 import java.util.function.Consumer;
 
-public class ScannerPandaBootstrap {
+public class ScannerPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap pandaBootstrap;
     private AnnotationsScanner scanner;
+    private AnnotationsScannerProcess scannerProcess;
 
     public ScannerPandaBootstrap(PandaBootstrap pandaBootstrap) {
         this.pandaBootstrap = pandaBootstrap;
@@ -32,17 +35,38 @@ public class ScannerPandaBootstrap {
 
     public ScannerPandaBootstrap configureScanner(Consumer<AnnotationsScannerConfiguration> scannerConsumer) {
         AnnotationsScannerConfiguration configuration = AnnotationsScanner.configuration();
+
         scannerConsumer.accept(configuration);
         this.scanner = configuration.build();
+
         return this;
     }
 
+    public ScannerPandaBootstrap prepareProcess(Consumer<AnnotationsScannerProcessBuilder> processBuilderConsumer) {
+        if (scanner == null) {
+            throw new PandaBootstrapException("AnnotationScanner was not initialized by Scanner bootstrap");
+        }
+
+        AnnotationsScannerProcessBuilder processBuilder = scanner.createProcess();
+        processBuilderConsumer.accept(processBuilder);
+        this.scannerProcess = processBuilder.fetch();
+
+        return this;
+    }
+
+    @Override
     public PandaBootstrap collect() {
         if (scanner == null) {
             throw new PandaBootstrapException("AnnotationScanner was not initialized by Scanner bootstrap");
         }
 
-        return pandaBootstrap.withScanner(scanner);
+        if (scannerProcess == null) {
+            this.scannerProcess = scanner.createProcess()
+                    .addDefaultFilters()
+                    .fetch();
+        }
+
+        return pandaBootstrap.withScannerProcess(scannerProcess);
     }
 
 }

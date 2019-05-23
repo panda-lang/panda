@@ -25,6 +25,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.Panda
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 public class PandaBootstrap {
 
@@ -32,7 +33,7 @@ public class PandaBootstrap {
 
     protected Syntax syntax;
     protected PipelinePath pipelinePath;
-    protected AnnotationsScanner scanner;
+    protected AnnotationsScannerProcess scannerProcess;
 
     private PandaBootstrap() { }
 
@@ -46,8 +47,8 @@ public class PandaBootstrap {
         return this;
     }
 
-    protected PandaBootstrap withScanner(AnnotationsScanner scanner) {
-        this.scanner = scanner;
+    protected PandaBootstrap withScannerProcess(AnnotationsScannerProcess scannerProcess) {
+        this.scannerProcess = scannerProcess;
         return this;
     }
 
@@ -64,17 +65,20 @@ public class PandaBootstrap {
             this.syntax = new PandaSyntax();
         }
 
-        if (scanner == null) {
+        if (pipelinePath == null) {
             this.pipelinePath = new PandaPipelinePath();
         }
 
-        if (scanner == null) {
-            this.scanner = AnnotationsScanner.configuration().build();
+        if (scannerProcess == null) {
+            this.scannerProcess = AnnotationsScanner.configuration()
+                    .build()
+                    .createProcess()
+                    .fetch();
         }
 
         return pandaBuilder
                 .withLanguage(new PandaLanguage(syntax))
-                .withResources(new PandaResources(scanner, pipelinePath))
+                .withResources(new PandaResources(scannerProcess, pipelinePath))
                 .build();
     }
 
