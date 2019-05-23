@@ -19,6 +19,9 @@ package org.panda_lang.panda.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistrationLoader;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 public class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
@@ -29,6 +32,17 @@ public class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     @SafeVarargs
     public final ParsersPandaBootstrap loadParsers(Class<? extends Parser>... parsers) {
+        return loadParsers(Arrays.asList(parsers));
+    }
+
+    public ParsersPandaBootstrap loadParsers(Collection<Class<? extends Parser>> parsers) {
+        if (bootstrap.pipelinePath == null) {
+            throw new PandaBootstrapException("Cannot load parsers because pipeline was not initialized");
+        }
+
+        ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
+        registrationLoader.loadParsers(bootstrap.pipelinePath, parsers);
+
         return null;
     }
 

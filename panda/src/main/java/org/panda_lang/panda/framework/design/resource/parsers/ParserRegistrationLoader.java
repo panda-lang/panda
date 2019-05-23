@@ -37,18 +37,22 @@ public class ParserRegistrationLoader {
     }
 
     public PipelinePath load(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
+        return loadPipelines(path, scannerProcess);
+    }
+
+    private PipelinePath loadPipelines(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
+        return loadParsers(path, new ParserRegistrationScannerLoader().load(scannerProcess));
+    }
+
+    public PipelinePath loadParsers(PipelinePath path, Collection<Class<? extends Parser>> parsers) {
         try {
-            return loadPipelines(path, scannerProcess);
+            return loadParsersInternal(path, parsers);
         } catch (Exception e) {
             throw new RuntimeException("Cannot load pipelines: " + e.getMessage(), e);
         }
     }
 
-    private PipelinePath loadPipelines(PipelinePath path, AnnotationsScannerProcess scannerProcess) throws Exception {
-        return loadParsers(path, new ParserRegistrationScannerLoader().load(scannerProcess));
-    }
-
-    public PipelinePath loadParsers(PipelinePath path, Collection<Class<? extends Parser>> parsers) throws Exception {
+    private PipelinePath loadParsersInternal(PipelinePath path, Collection<Class<? extends Parser>> parsers) throws InstantiationException, IllegalAccessException {
         for (Class<?> clazz : parsers) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
 
@@ -76,7 +80,7 @@ public class ParserRegistrationLoader {
         return path;
     }
 
-    private UnifiedParser createParserInstance(Class<?> currentClass, Class<? extends UnifiedParser> parserClass) throws Exception {
+    private UnifiedParser createParserInstance(Class<?> currentClass, Class<? extends UnifiedParser> parserClass) throws IllegalAccessException, InstantiationException {
         if (parserClass != UnifiedParser.class) {
             return parserClass.newInstance();
         }
@@ -87,7 +91,7 @@ public class ParserRegistrationLoader {
         throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
     }
 
-    private ParserHandler createHandlerInstance(Parser currentParser, Class<? extends ParserHandler> handlerClass) throws Exception {
+    private ParserHandler createHandlerInstance(Parser currentParser, Class<? extends ParserHandler> handlerClass) throws IllegalAccessException, InstantiationException {
         if (handlerClass != ParserHandler.class) {
             return handlerClass.newInstance();
         }
