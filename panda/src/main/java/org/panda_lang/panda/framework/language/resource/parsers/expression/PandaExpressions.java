@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.subpa
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.StaticExpressionSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.VariableExpressionSubparser;
 
-public final class PandaExpressionSubparsers extends Parsers {
+public final class PandaExpressions extends Parsers {
 
     public static final Class<? extends ExpressionSubparser>[] SUBPARSERS = of(
             ArrayValueExpressionSubparser.class,

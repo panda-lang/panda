@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation;
+package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
-public class AssignationPriorities {
+import java.util.Collection;
 
-    public static final double VARIABLE_DECLARATION = 1.0;
+public interface ExpressionSubparsers {
 
-    public static final double VARIABLE_ASSIGNATION = 2.0;
-
-    public static final double ARRAY_ASSIGNATION = 3.0;
+    Collection<? extends ExpressionSubparser> getSubparsers();
 
 }

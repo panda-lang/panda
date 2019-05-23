@@ -32,6 +32,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.prototype.constr
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.field.FieldParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.method.MethodParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.parameter.ParameterParser;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationParser;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.LateDeclarationParser;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.StandaloneExpressionParser;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockParser;
@@ -69,6 +70,7 @@ public final class PandaParsers extends Parsers {
             ParameterParser.class,
 
             // scope
+            AssignationParser.class,
             LateDeclarationParser.class,
             StandaloneExpressionParser.class,
 

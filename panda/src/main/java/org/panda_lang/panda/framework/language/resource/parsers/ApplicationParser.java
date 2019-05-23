@@ -31,6 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.utils.Expressio
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
@@ -44,7 +45,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.generation.Gen
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.common.CommentParser;
-import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 public class ApplicationParser implements Parser {
@@ -58,6 +58,7 @@ public class ApplicationParser implements Parser {
     public PandaApplication parse(SourceSet sourceSet) {
         PandaApplication application = new PandaApplication();
         Environment environment = interpretation.getEnvironment();
+        Resources resources = environment.getResources();
 
         ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());
         loader.include(environment.getModulePath().getDefaultModule());
@@ -72,16 +73,17 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.APPLICATION, application);
         baseData.setComponent(UniversalComponents.ENVIRONMENT, environment);
         baseData.setComponent(UniversalComponents.INTERPRETATION, interpretation);
-        baseData.setComponent(UniversalComponents.PIPELINE, environment.getPipelinePath());
         baseData.setComponent(UniversalComponents.GENERATION, generation);
         baseData.setComponent(UniversalComponents.MODULE_LOADER, loader);
         baseData.setComponent(UniversalComponents.PARSER_DEBUG, debug);
+        baseData.setComponent(UniversalComponents.PIPELINE, resources.getPipelinePath());
 
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
         ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
-        ExpressionParser expressionParser = new PandaExpressionParser(interpretation.execute(() -> subparsersLoader.load(PandaUtils.DEFAULT_PANDA_SCANNER)));
+        ExpressionParser expressionParser = new PandaExpressionParser(resources.getExpressionSubparsers());
+
         baseData.setComponent(UniversalComponents.EXPRESSION, expressionParser);
 
         for (Source source : sourceSet.getSources()) {
@@ -126,7 +128,7 @@ public class ApplicationParser implements Parser {
         PandaFramework.getLogger().debug("• Token Expr Amount: " + PandaExpressionParser.amount);
 
         PandaFramework.getLogger().debug("• Total Native Load Time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getTotalLoadTime()));
-        PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getPipelinePath().getTotalHandleTime()));
+        PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(resources.getPipelinePath().getTotalHandleTime()));
 
         PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().getAmountOfReferences());
         PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());

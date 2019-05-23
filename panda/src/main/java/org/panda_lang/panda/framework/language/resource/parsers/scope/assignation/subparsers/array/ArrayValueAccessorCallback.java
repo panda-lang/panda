@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.subparsers.variable;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-
-public class VariableComponents {
-
-    public static Component<Expression> INSTANCE_EXPRESSION = Component.of("panda-variable-instance-expression", Expression.class);
-
-    public static Component<String> INSTANCE_FIELD = Component.of("panda-variable-instance-field", String.class);
+public class ArrayValueAccessorCallback {
 
 }

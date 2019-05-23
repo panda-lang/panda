@@ -22,6 +22,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.resource.PandaFrameworkParsers;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationParsers;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
+import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
 
 public class PandaFactory {
 
@@ -30,16 +33,25 @@ public class PandaFactory {
                 // load syntax
                 .withSyntax(new PandaSyntax())
 
-                // load pipeline manager
+                // initialize scanner
+                .initializeScanner()
+                    .configureScanner(AnnotationsScannerConfiguration::includeJavaClassPath)
+                    .prepareProcess(builder -> {
+                        builder.addURLFilters(new URLFilter("panda"));
+                        builder.addDefaultFilters();
+                        builder.addDefaultProjectFilters("org.panda_lang.panda.framework.language.resource.prototypes");
+                    })
+                    .collect()
+
                 // load pipelines
                 .initializePipelines()
                     .usePipelines(UniversalPipelines.class, PandaPipelines.class)
                     .collect()
 
-                // load expressions
-                // load parsers
+                // load parsers and expressions subparsers
                 .initializeParsers()
-                    .loadParsersClasses(PandaFrameworkParsers.PARSERS, PandaParsers.PARSERS)
+                    .loadParsersClasses(PandaFrameworkParsers.PARSERS, PandaParsers.PARSERS, AssignationParsers.SUBPARSERS)
+                    .loadDefaultExpressionSubparsers()
                     .collect()
 
                 // load models

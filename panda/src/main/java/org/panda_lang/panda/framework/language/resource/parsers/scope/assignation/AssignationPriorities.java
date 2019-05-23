@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.subparsers.array;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation;
 
-public class ArrayValueAccessorCallback {
+public class AssignationPriorities {
+
+    public static final double VARIABLE_DECLARATION = 1.0;
+
+    public static final double VARIABLE_ASSIGNATION = 2.0;
+
+    public static final double ARRAY_ASSIGNATION = 3.0;
 
 }

@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.PandaExpressionUtils;
 
 public class PandaParserDataUtils {
 
@@ -49,7 +49,7 @@ public class PandaParserDataUtils {
      *
      * @return the fake data
      */
-    public static ParserData createFakeData(AnnotationsScannerProcess scanner) throws Exception {
+    public static ParserData createFakeData() throws Exception {
         ParserData data = new PandaParserData();
 
         Scope scope = new AbstractScope() {
@@ -73,7 +73,7 @@ public class PandaParserDataUtils {
         scope.addVariable(new PandaVariable(PandaTypes.INT.getReference(), "i"));
 
         ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
-        data.setComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(subparsersLoader.load(scanner)));
+        data.setComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
         return data;
     }

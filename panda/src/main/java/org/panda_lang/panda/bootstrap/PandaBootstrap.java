@@ -21,9 +21,11 @@ import org.panda_lang.panda.PandaBuilder;
 import org.panda_lang.panda.PandaResources;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.resource.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.loader.AutoloadLoader;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
@@ -34,6 +36,7 @@ public class PandaBootstrap {
     protected Syntax syntax;
     protected PipelinePath pipelinePath;
     protected AnnotationsScannerProcess scannerProcess;
+    protected ExpressionSubparsers expressionSubparsers;
 
     private PandaBootstrap() { }
 
@@ -49,6 +52,16 @@ public class PandaBootstrap {
 
     protected PandaBootstrap withScannerProcess(AnnotationsScannerProcess scannerProcess) {
         this.scannerProcess = scannerProcess;
+        return this;
+    }
+
+    public PandaBootstrap autoloadAnnotatedClasses() {
+        if (scannerProcess == null) {
+            throw new PandaBootstrapException("Cannot load parsers using scanner because it's not initialized");
+        }
+
+        AutoloadLoader autoloadLoader = new AutoloadLoader();
+        autoloadLoader.load(scannerProcess);
         return this;
     }
 
@@ -75,14 +88,17 @@ public class PandaBootstrap {
 
         if (scannerProcess == null) {
             this.scannerProcess = AnnotationsScanner.configuration()
+                    .muted()
                     .build()
                     .createProcess()
                     .fetch();
+
+            this.scannerProcess.getAnnotationsScanner().getLogger().unmute();
         }
 
         return pandaBuilder
                 .withLanguage(new PandaLanguage(syntax))
-                .withResources(new PandaResources(scannerProcess, pipelinePath))
+                .withResources(new PandaResources(scannerProcess, pipelinePath, expressionSubparsers))
                 .build();
     }
 

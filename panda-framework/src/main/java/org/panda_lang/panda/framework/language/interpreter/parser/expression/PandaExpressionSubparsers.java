@@ -14,18 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture;
+package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.resource.Resources;
+import java.util.Collection;
 
-public interface Environment {
+public class PandaExpressionSubparsers implements ExpressionSubparsers {
 
-    ModulePath getModulePath();
+    private final Collection<ExpressionSubparser> subparsers;
 
-    Interpreter getInterpreter();
+    public PandaExpressionSubparsers(Collection<ExpressionSubparser> subparsers) {
+        this.subparsers = subparsers;
+    }
 
-    Resources getResources();
+    @Override
+    public Collection<? extends ExpressionSubparser> getSubparsers() {
+        return subparsers;
+    }
 
 }

@@ -27,7 +27,6 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -42,12 +41,12 @@ public class PandaExpressionParser implements ExpressionParser {
     private final List<ExpressionSubparserRepresentation> subparsers;
     private int call;
 
-    public PandaExpressionParser(Collection<ExpressionSubparser> subparsers) {
-        if (subparsers.size() < 2) {
+    public PandaExpressionParser(ExpressionSubparsers subparsers) {
+        if (subparsers.getSubparsers().size() < 2) {
             throw new IllegalArgumentException("Expression parser does not support less than 2 subparsers");
         }
 
-        this.subparsers = subparsers.stream()
+        this.subparsers = subparsers.getSubparsers().stream()
                 .map(ExpressionSubparserRepresentation::new)
                 .sorted()
                 .collect(Collectors.toList());

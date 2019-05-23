@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
@@ -49,6 +50,8 @@ public class ScannerPandaBootstrap implements PandaBootstrapElement {
 
         AnnotationsScannerProcessBuilder processBuilder = scanner.createProcess();
         processBuilderConsumer.accept(processBuilder);
+
+        PandaFramework.getLogger().debug("--- Scanning");
         this.scannerProcess = processBuilder.fetch();
 
         return this;
