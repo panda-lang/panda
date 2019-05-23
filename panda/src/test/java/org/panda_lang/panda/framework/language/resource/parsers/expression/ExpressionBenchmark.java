@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.framework.language.resource.parsers.general.number.NumberParser;
+import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberParser;
 import org.panda_lang.panda.util.PandaUtils;
 
 @Fork(value = 1)

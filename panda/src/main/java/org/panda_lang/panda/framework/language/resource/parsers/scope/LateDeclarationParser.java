@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.ext
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.subparsers.variable.VariableInitializer;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.subparsers.variable.VariableInitializer;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.SCOPE_LABEL, priority = PandaPriorities.SCOPE_LATE_DECLARATION)

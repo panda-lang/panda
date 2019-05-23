@@ -48,13 +48,17 @@ public class ParserRegistrationLoader {
         try {
             return loadParsersInternal(path, parsers);
         } catch (Exception e) {
-            throw new RuntimeException("Cannot load pipelines: " + e.getMessage(), e);
+            throw new RuntimeException("Cannot load parsers: " + e.getMessage(), e);
         }
     }
 
     private PipelinePath loadParsersInternal(PipelinePath path, Collection<Class<? extends Parser>> parsers) throws InstantiationException, IllegalAccessException {
         for (Class<?> clazz : parsers) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
+
+            if (parserRegistration == null) {
+                continue;
+            }
 
             Parser parser = createParserInstance(clazz, parserRegistration.parserClass());
             ParserHandler handler = createHandlerInstance(parser, parserRegistration.handlerClass());
@@ -76,7 +80,6 @@ public class ParserRegistrationLoader {
             }
         }
 
-        PandaFramework.getLogger().debug("Pipelines: (" + path.names().size() + ") " + path.names());
         return path;
     }
 

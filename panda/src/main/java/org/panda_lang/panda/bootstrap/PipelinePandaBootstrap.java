@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.bootstrap;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
@@ -47,6 +48,7 @@ public class PipelinePandaBootstrap implements PandaBootstrapElement {
             }
         }
 
+        PandaFramework.getLogger().debug("Pipelines: (" + path.names().size() + ") " + path.names());
         return this;
     }
 

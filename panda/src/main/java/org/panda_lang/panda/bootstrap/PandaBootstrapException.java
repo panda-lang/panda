@@ -24,4 +24,8 @@ public class PandaBootstrapException extends PandaException {
         super(message);
     }
 
+    public PandaBootstrapException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

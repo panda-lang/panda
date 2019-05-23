@@ -17,6 +17,7 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistrationLoader;
 
 import java.util.Arrays;
@@ -25,24 +26,53 @@ import java.util.Collection;
 public class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
+    private final ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
 
     public ParsersPandaBootstrap(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
     }
 
-    @SafeVarargs
-    public final ParsersPandaBootstrap loadParsers(Class<? extends Parser>... parsers) {
-        return loadParsers(Arrays.asList(parsers));
+    public ParsersPandaBootstrap loadParsers(Parsers... parsers) {
+        for (Parsers group : parsers) {
+            loadParsersClasses(group.getParsers());
+        }
+
+        return this;
     }
 
-    public ParsersPandaBootstrap loadParsers(Collection<Class<? extends Parser>> parsers) {
+    @SafeVarargs
+    public final ParsersPandaBootstrap loadParsers(Class<? extends Parsers>... parsers) {
+        for (Class<? extends Parsers> group : parsers) {
+            try {
+                loadParsers(group.newInstance());
+            } catch (InstantiationException | IllegalAccessException e) {
+                throw new PandaBootstrapException("Cannot create Parsers instance: " + e.getMessage(), e);
+            }
+        }
+
+        return this;
+    }
+
+    @SafeVarargs
+    public final ParsersPandaBootstrap loadParsersClasses(Class<? extends Parser>[]... classes) {
+        for (Class<? extends Parser>[] parsers : classes) {
+            loadParsersClasses(parsers);
+        }
+
+        return this;
+    }
+
+    @SafeVarargs
+    public final ParsersPandaBootstrap loadParsersClasses(Class<? extends Parser>... classes) {
+        return loadParsers(Arrays.asList(classes));
+    }
+
+    public ParsersPandaBootstrap loadParsers(Collection<Class<? extends Parser>> classes) {
         if (bootstrap.pipelinePath == null) {
             throw new PandaBootstrapException("Cannot load parsers because pipeline was not initialized");
         }
 
-        ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
-        registrationLoader.loadParsers(bootstrap.pipelinePath, parsers);
-
+        registrationLoader.loadParsers(bootstrap.pipelinePath, classes);
         return null;
     }
 
@@ -55,9 +85,7 @@ public class ParsersPandaBootstrap implements PandaBootstrapElement {
             throw new PandaBootstrapException("Cannot load parsers because pipeline was not initialized");
         }
 
-        ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
         registrationLoader.load(bootstrap.pipelinePath, bootstrap.scannerProcess);
-
         return this;
     }
 

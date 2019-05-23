@@ -60,6 +60,10 @@ public class PandaBootstrap {
         return new ScannerPandaBootstrap(this);
     }
 
+    public ParsersPandaBootstrap initializeParsers() {
+        return new ParsersPandaBootstrap(this);
+    }
+
     public Panda get() {
         if (syntax == null) {
             this.syntax = new PandaSyntax();
