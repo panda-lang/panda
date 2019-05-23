@@ -18,20 +18,36 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaBuilder;
+import org.panda_lang.panda.PandaResources;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.resource.Syntax;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 
 public class PandaBootstrap {
 
     private final PandaBuilder pandaBuilder = PandaBuilder.builder();
 
-    private Syntax syntax;
+    protected Syntax syntax;
+    protected PipelinePath pipelinePath;
+    protected AnnotationsScanner scanner;
 
-    private PandaBootstrap() {}
+    private PandaBootstrap() { }
 
     public PandaBootstrap withSyntax(Syntax syntax) {
         this.syntax = syntax;
+        return this;
+    }
+
+    protected PandaBootstrap withPipelinePath(PipelinePath pipelinePath) {
+        this.pipelinePath = pipelinePath;
+        return this;
+    }
+
+    protected PandaBootstrap withScanner(AnnotationsScanner scanner) {
+        this.scanner = scanner;
         return this;
     }
 
@@ -39,13 +55,26 @@ public class PandaBootstrap {
         return new PipelinePandaBootstrap(this);
     }
 
+    public ScannerPandaBootstrap initializeScanner() {
+        return new ScannerPandaBootstrap(this);
+    }
+
     public Panda get() {
         if (syntax == null) {
             this.syntax = new PandaSyntax();
         }
 
+        if (scanner == null) {
+            this.pipelinePath = new PandaPipelinePath();
+        }
+
+        if (scanner == null) {
+            this.scanner = AnnotationsScanner.configuration().build();
+        }
+
         return pandaBuilder
                 .withLanguage(new PandaLanguage(syntax))
+                .withResources(new PandaResources(scanner, pipelinePath))
                 .build();
     }
 

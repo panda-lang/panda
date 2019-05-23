@@ -51,8 +51,7 @@ public class PipelinePandaBootstrap {
     }
 
     public PandaBootstrap collect() {
-        bootstrap.getPandaBuilder().withPipelinePath(path);
-        return bootstrap;
+        return bootstrap.withPipelinePath(path);
     }
 
 }
