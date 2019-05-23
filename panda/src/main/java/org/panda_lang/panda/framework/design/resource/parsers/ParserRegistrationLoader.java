@@ -20,11 +20,11 @@ import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
-import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaPipelinePath;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
@@ -33,25 +33,23 @@ import java.util.Collection;
 public class ParserRegistrationLoader {
 
     public PipelinePath load(AnnotationsScannerProcess scannerProcess) {
-        PandaPipelinePath registry = new PandaPipelinePath();
-
-        try {
-            loadPipelines(registry, scannerProcess);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return registry;
+        return load(new PandaPipelinePath(), scannerProcess);
     }
 
-    @SuppressWarnings("unchecked")
-    private void loadPipelines(PandaPipelinePath registry, AnnotationsScannerProcess scannerProcess) throws Exception {
-        PandaFramework.getLogger().debug("");
-        PandaFramework.getLogger().debug("--- Loading pipelines ");
+    public PipelinePath load(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
+        try {
+            return loadPipelines(path, scannerProcess);
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot load pipelines: " + e.getMessage(), e);
+        }
+    }
 
-        Collection<Class<?>> annotated = scannerProcess.createSelector().selectTypesAnnotatedWith(ParserRegistration.class);
+    private PipelinePath loadPipelines(PipelinePath path, AnnotationsScannerProcess scannerProcess) throws Exception {
+        return loadParsers(path, new ParserRegistrationScannerLoader().load(scannerProcess));
+    }
 
-        for (Class<?> clazz : annotated) {
+    public PipelinePath loadParsers(PipelinePath path, Collection<Class<? extends Parser>> parsers) throws Exception {
+        for (Class<?> clazz : parsers) {
             ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
 
             Parser parser = createParserInstance(clazz, parserRegistration.parserClass());
@@ -59,22 +57,23 @@ public class ParserRegistrationLoader {
             ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, parserRegistration.priority());
 
             for (String target : parserRegistration.target()) {
-                PipelineComponent<Parser> component = (PipelineComponent<Parser>) PipelineComponent.get(target);
+                PipelineComponent<Parser> component = PipelineComponent.get(target);
 
                 if (component == null) {
                     PandaFramework.getLogger().warn("Pipeline '" + target + "' does not exist or its component was not initialized");
                     continue;
                 }
 
-                if (!registry.hasPipeline(component)) {
-                    registry.createPipeline(component);
+                if (!path.hasPipeline(component)) {
+                    path.createPipeline(component);
                 }
 
-                registry.getPipeline(component).registerParserRepresentation(representation);
+                path.getPipeline(component).registerParserRepresentation(representation);
             }
         }
 
-        PandaFramework.getLogger().debug("Pipelines: (" + registry.names().size() + ") " + registry.names());
+        PandaFramework.getLogger().debug("Pipelines: (" + path.names().size() + ") " + path.names());
+        return path;
     }
 
     private UnifiedParser createParserInstance(Class<?> currentClass, Class<? extends UnifiedParser> parserClass) throws Exception {
