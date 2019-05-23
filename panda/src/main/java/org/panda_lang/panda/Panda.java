@@ -17,17 +17,20 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.cli.PandaCLI;
-import org.panda_lang.panda.framework.language.resource.PandaLanguage;
+import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 public final class Panda {
 
+    private final PandaResources resources;
+    private final Language language;
+
     private final PandaCLI pandaCLI;
     private final PandaLoader pandaLoader;
-    private final PandaLanguage pandaLanguage;
 
     protected Panda(PandaBuilder builder) {
-        this.pandaLanguage = builder.language;
+        this.language = builder.language;
+        this.resources = builder.resources;
 
         this.pandaCLI = new PandaCLI(this);
         this.pandaLoader = new PandaLoader(this);
@@ -37,16 +40,20 @@ public final class Panda {
         return PandaEngineFactoryConstants.VERSION;
     }
 
-    public PandaLanguage getPandaLanguage() {
-        return pandaLanguage;
+    public PandaCLI getPandaCLI() {
+        return pandaCLI;
     }
 
     public PandaLoader getPandaLoader() {
         return pandaLoader;
     }
 
-    public PandaCLI getPandaCLI() {
-        return pandaCLI;
+    public PandaResources getResources() {
+        return resources;
+    }
+
+    public Language getPandaLanguage() {
+        return language;
     }
 
 }
