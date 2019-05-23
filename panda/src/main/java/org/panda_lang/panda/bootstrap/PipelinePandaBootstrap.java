@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.Panda
 
 import java.util.Collection;
 
-public class PipelinePandaBootstrap {
+public class PipelinePandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
     private final PipelinePath path = new PandaPipelinePath();
@@ -50,6 +50,7 @@ public class PipelinePandaBootstrap {
         return this;
     }
 
+    @Override
     public PandaBootstrap collect() {
         return bootstrap.withPipelinePath(path);
     }
