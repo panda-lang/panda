@@ -17,22 +17,33 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.design.resource.Resources;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
-public class PandaResources {
+public class PandaResources implements Resources {
 
     private final AnnotationsScannerProcess scannerProcess;
     private final PipelinePath pipelinePath;
+    private final ExpressionSubparsers expressionSubparsers;
 
-    public PandaResources(AnnotationsScannerProcess scannerProcess, PipelinePath pipelinePath) {
-        this.scannerProcess = scannerProcess;
-        this.pipelinePath = pipelinePath;
+    public PandaResources(AnnotationsScannerProcess process, PipelinePath path, ExpressionSubparsers subparsers) {
+        this.scannerProcess = process;
+        this.pipelinePath = path;
+        this.expressionSubparsers = subparsers;
     }
 
+    @Override
+    public ExpressionSubparsers getExpressionSubparsers() {
+        return expressionSubparsers;
+    }
+
+    @Override
     public AnnotationsScannerProcess getScannerProcess() {
         return scannerProcess;
     }
 
+    @Override
     public PipelinePath getPipelinePath() {
         return pipelinePath;
     }

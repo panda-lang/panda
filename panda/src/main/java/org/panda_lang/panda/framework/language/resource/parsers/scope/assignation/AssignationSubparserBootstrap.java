@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
-public interface AssignationSubparser extends Parser {
+public abstract class AssignationSubparserBootstrap extends UnifiedParserBootstrap<@Nullable Statement> implements AssignationSubparser {
 
-    @Nullable Statement parseAssignment(ParserData data, Snippet source, Expression expression) throws Throwable;
+    @Override
+    public final @Nullable Statement parseAssignment(ParserData data, Snippet source, Expression expression) throws Throwable {
+        data.setComponent(AssignationComponents.EXPRESSION, expression);
+        data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source));
+        return parse(data);
+    }
 
 }

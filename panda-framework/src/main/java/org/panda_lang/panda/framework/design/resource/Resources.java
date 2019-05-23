@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture;
+package org.panda_lang.panda.framework.design.resource;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.resource.Resources;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
+import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
-public interface Environment {
+public interface Resources {
 
-    ModulePath getModulePath();
+    ExpressionSubparsers getExpressionSubparsers();
 
-    Interpreter getInterpreter();
+    AnnotationsScannerProcess getScannerProcess();
 
-    Resources getResources();
+    PipelinePath getPipelinePath();
 
 }

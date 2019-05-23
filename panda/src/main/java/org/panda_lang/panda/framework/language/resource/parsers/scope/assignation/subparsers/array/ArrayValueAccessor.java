@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.subparsers.array;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;

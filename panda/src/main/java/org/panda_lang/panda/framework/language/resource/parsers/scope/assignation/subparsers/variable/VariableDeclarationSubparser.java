@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.subparsers.variable;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.variable;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
@@ -34,9 +34,9 @@ import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationComponents;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationComponents;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationPriorities;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationSubparserBootstrap;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.subparsers.array;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
@@ -34,9 +34,9 @@ import org.panda_lang.panda.framework.language.architecture.prototype.array.Arra
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationComponents;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationPriorities;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationComponents;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationPriorities;
+import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)

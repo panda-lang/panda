@@ -19,42 +19,49 @@ package org.panda_lang.panda.utilities.annotations;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 
+import java.util.function.Consumer;
+
 public class AnnotationsScannerLogger {
 
     private final @Nullable Logger logger;
+    private boolean mute;
 
     public AnnotationsScannerLogger(@Nullable Logger logger) {
         this.logger = logger;
     }
 
     public void debug(String message) {
-        if (logger != null) {
-            logger.debug(message);
-        }
+        log(logger -> logger.debug(message));
     }
 
     public void info(String message) {
-        if (logger != null) {
-            logger.info(message);
-        }
+        log(logger -> logger.info(message));
     }
 
     public void warn(String message) {
-        if (logger != null) {
-            logger.warn(message);
-        }
+        log(logger -> logger.warn(message));
     }
 
     public void error(String message) {
-        if (logger != null) {
-            logger.error(message);
-        }
+        log(logger -> logger.error(message));
     }
 
     public void exception(Throwable exception) {
-        if (logger != null) {
-            exception.printStackTrace();
+        log(logger -> exception.printStackTrace());
+    }
+
+    private void log(Consumer<Logger> loggerConsumer) {
+        if (logger != null && !mute) {
+            loggerConsumer.accept(logger);
         }
+    }
+
+    public void mute() {
+        this.mute = true;
+    }
+
+    public void unmute() {
+        this.mute = false;
     }
 
 }

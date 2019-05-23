@@ -18,11 +18,12 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.cli.PandaCLI;
 import org.panda_lang.panda.framework.design.resource.Language;
+import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 public final class Panda {
 
-    private final PandaResources resources;
+    private final Resources resources;
     private final Language language;
 
     private final PandaCLI pandaCLI;
@@ -48,7 +49,7 @@ public final class Panda {
         return pandaLoader;
     }
 
-    public PandaResources getResources() {
+    public Resources getResources() {
         return resources;
     }
 

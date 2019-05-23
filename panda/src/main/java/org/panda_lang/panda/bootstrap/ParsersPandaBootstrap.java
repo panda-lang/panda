@@ -19,7 +19,11 @@ package org.panda_lang.panda.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistrationLoader;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.PandaExpressionUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -27,9 +31,20 @@ public class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
     private final ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
+    private final Collection<ExpressionSubparser> expressionSubparsers = new ArrayList<>();
 
     public ParsersPandaBootstrap(PandaBootstrap bootstrap) {
         this.bootstrap = bootstrap;
+    }
+
+    public ParsersPandaBootstrap loadExpressionSubparsers(Class<? extends ExpressionSubparser>... subparserClasses) {
+        this.expressionSubparsers.addAll(PandaExpressionUtils.collectSubparsers(subparserClasses).getSubparsers());
+        return this;
+    }
+
+    public ParsersPandaBootstrap loadDefaultExpressionSubparsers() {
+        this.expressionSubparsers.addAll(PandaExpressionUtils.collectSubparsers().getSubparsers());
+        return this;
     }
 
     public ParsersPandaBootstrap loadParsers(Parsers... parsers) {
@@ -91,6 +106,7 @@ public class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     @Override
     public PandaBootstrap collect() {
+        bootstrap.expressionSubparsers = new PandaExpressionSubparsers(expressionSubparsers);
         return bootstrap;
     }
 

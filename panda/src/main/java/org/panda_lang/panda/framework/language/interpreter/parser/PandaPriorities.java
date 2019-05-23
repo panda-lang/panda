@@ -45,7 +45,7 @@ public class PandaPriorities {
     public static final int SCOPE_EXPRESSION = 5;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationParser}
      */
     public static final int SCOPE_ASSIGNATION = 6;
 

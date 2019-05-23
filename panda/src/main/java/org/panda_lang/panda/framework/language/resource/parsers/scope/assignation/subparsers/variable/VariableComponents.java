@@ -14,20 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util;
+package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.variable;
 
-import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
-import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
-import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class PandaUtils {
+public class VariableComponents {
 
-    public static final AnnotationsScannerProcess DEFAULT_PANDA_SCANNER = AnnotationsScanner.configuration()
-            .includeJavaClassPath()
-            .build()
-            .createProcess()
-            .addURLFilters(new URLFilter(false, "panda"))
-            .addDefaultFilters()
-            .fetch();
+    public static Component<Expression> INSTANCE_EXPRESSION = Component.of("panda-variable-instance-expression", Expression.class);
+
+    public static Component<String> INSTANCE_FIELD = Component.of("panda-variable-instance-field", String.class);
 
 }

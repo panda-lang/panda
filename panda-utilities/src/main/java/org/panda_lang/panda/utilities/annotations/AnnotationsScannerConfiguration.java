@@ -61,6 +61,16 @@ public class AnnotationsScannerConfiguration {
     }
 
     /**
+     * Mute logger by default
+     *
+     * @return the configuration instance
+     */
+    public AnnotationsScannerConfiguration muted() {
+        this.logger.mute();
+        return this;
+    }
+
+    /**
      * Include class loaders used by application by default
      *
      * @return the configuration instance

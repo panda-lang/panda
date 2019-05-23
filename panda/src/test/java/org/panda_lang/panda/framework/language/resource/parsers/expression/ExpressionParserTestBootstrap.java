@@ -26,10 +26,8 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.util.PandaUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 class ExpressionParserTestBootstrap {
@@ -39,7 +37,7 @@ class ExpressionParserTestBootstrap {
 
     @BeforeAll
     public static void load() throws Exception {
-        PARSER = new PandaExpressionParser(new ExpressionSubparsersLoader().load(PandaUtils.DEFAULT_PANDA_SCANNER));
+        PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
         DATA = prepareData();
     }
 
@@ -49,7 +47,7 @@ class ExpressionParserTestBootstrap {
     }
 
     protected static ParserData prepareData() throws Exception {
-        return PandaParserDataUtils.createFakeData(PandaUtils.DEFAULT_PANDA_SCANNER);
+        return PandaParserDataUtils.createFakeData();
     }
 
     protected static void parse(String source, String message) {

@@ -31,6 +31,10 @@ public class URLFilter implements AnnotationsFilter<URL> {
     private boolean exclude;
     private final String[] paths;
 
+    public URLFilter(String... paths) {
+        this(false, paths);
+    }
+
     public URLFilter(boolean exclude, String... paths) {
         this.exclude = exclude;
 

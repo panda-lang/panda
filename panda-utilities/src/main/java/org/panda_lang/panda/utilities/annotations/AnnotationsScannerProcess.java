@@ -54,6 +54,7 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
         scanner.getLogger().debug("fileTime: " + TimeUtils.toMilliseconds(worker.fileTime - worker.jaTime));
         scanner.getLogger().debug("jaTime: " + TimeUtils.toMilliseconds(worker.jaTime));
         scanner.getLogger().debug("listTime: " + TimeUtils.toMilliseconds(SystemAnnotationScannerResourceIterator.listTime));
+        scanner.getLogger().debug("");
 
         return this;
     }
@@ -75,12 +76,12 @@ public class AnnotationsScannerProcess implements AnnotationsDisposable {
         return store;
     }
 
-    protected AnnotationsScanner getAnnotationsScanner() {
-        return scanner;
-    }
-
     public AnnotationsScannerProcessBuilder getProcessConfiguration() {
         return builder;
+    }
+
+    public AnnotationsScanner getAnnotationsScanner() {
+        return scanner;
     }
 
 }
