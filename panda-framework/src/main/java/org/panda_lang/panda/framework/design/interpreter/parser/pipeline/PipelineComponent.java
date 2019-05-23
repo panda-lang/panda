@@ -25,7 +25,7 @@ import java.util.Map;
 
 public class PipelineComponent<P extends Parser> extends AbstractComponent<P> {
 
-    private static final Map<String, AbstractComponent> COMPONENTS = new HashMap<>();
+    private static final Map<String, PipelineComponent<? extends Parser>> COMPONENTS = new HashMap<>();
 
     private final Class<? extends Pipelines> container;
 
@@ -39,14 +39,16 @@ public class PipelineComponent<P extends Parser> extends AbstractComponent<P> {
         return container.getSimpleName() + "::" + super.toString();
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Parser> PipelineComponent<T> of(Class<? extends Pipelines> container, String name, Class<T> type) {
-        return ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
+        return (PipelineComponent<T>) ofComponents(COMPONENTS, name, () -> new PipelineComponent<>(container, name, type));
     }
 
-    public static @Nullable PipelineComponent<? extends Parser> get(String name) {
-        for (Map.Entry<String, AbstractComponent> entry : COMPONENTS.entrySet()) {
+    @SuppressWarnings("unchecked")
+    public static @Nullable PipelineComponent<Parser> get(String name) {
+        for (Map.Entry<String, PipelineComponent<? extends Parser>> entry : COMPONENTS.entrySet()) {
             if (entry.getKey().equals(name)) {
-                return (PipelineComponent<?>) entry.getValue();
+                return (PipelineComponent<Parser>) entry.getValue();
             }
         }
 

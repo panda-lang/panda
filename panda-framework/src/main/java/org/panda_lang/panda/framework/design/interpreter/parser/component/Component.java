@@ -16,21 +16,20 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.component;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class Component<T> extends AbstractComponent<T> {
 
-    private static final Map<String, AbstractComponent> COMPONENTS = new HashMap<>();
+    private static final Map<String, Component<?>> COMPONENTS = new HashMap<>();
 
     private Component(String name, Class<T> type) {
         super(name, type);
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> Component<T> of(String name, Class<T> type) {
-        return ofComponents(COMPONENTS, name, () -> new Component<>(name, type));
+        return (Component<T>) ofComponents(COMPONENTS, name, () -> new Component<T>(name, type));
     }
 
 }
