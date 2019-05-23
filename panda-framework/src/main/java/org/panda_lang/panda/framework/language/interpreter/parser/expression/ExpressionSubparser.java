@@ -17,8 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.NotNull;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 
-public interface ExpressionSubparser extends Comparable<ExpressionSubparser> {
+public interface ExpressionSubparser extends Parser, Comparable<ExpressionSubparser> {
 
     int DEFAULT_PRIORITY = 1;
 

@@ -19,6 +19,8 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.resource.PandaFrameworkParsers;
+import org.panda_lang.panda.framework.language.resource.PandaParsers;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class PandaFactory {
@@ -36,6 +38,10 @@ public class PandaFactory {
 
                 // load expressions
                 // load parsers
+                .initializeParsers()
+                    .loadParsersClasses(PandaFrameworkParsers.PARSERS, PandaParsers.PARSERS)
+                    .collect()
+
                 // load models
                 .get();
     }

@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.panda.framework.design.resource.Autoload;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparser;
 
 /**
@@ -61,7 +61,7 @@ public class PandaPipelines implements Pipelines {
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
-     * Assigner parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.assignation.AssignationParser}
+     * Assigner parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.assignation.AssignationParser}
      */
     public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(PandaPipelines.class, ASSIGNER_LABEL, AssignationSubparser.class);
 

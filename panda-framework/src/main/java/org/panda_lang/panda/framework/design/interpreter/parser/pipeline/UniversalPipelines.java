@@ -34,7 +34,7 @@ public final class UniversalPipelines implements Pipelines {
      */
     public static final String OVERALL_LABEL = "overall";
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.interpreter.parser.defaults.OverallParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.OverallParser}
      */
     public static final PipelineComponent<UnifiedParser> OVERALL = PipelineComponent.of(UniversalPipelines.class, OVERALL_LABEL, UnifiedParser.class);
 
