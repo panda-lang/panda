@@ -73,25 +73,20 @@ public interface SourceStream {
     Snippet getOriginalSource();
 
     /**
-     * Get current source as TokenReader
-     *
-     * @return the current content wrapped in TokenReader
-     */
-    TokenReader toTokenReader();
-
-    /**
      * Get current source as Tokens
      *
      * @return the current content wrapped in Tokens
      */
     Snippet toSnippet();
 
+    /**
+     * Read the same amount of tokens as in the provided snippet
+     *
+     * @param source the source to compare with
+     * @return the read source
+     */
     default Snippet readDifference(Snippet source) {
         return read(source.size());
-    }
-
-    default Snippet readDifference(TokenReader reader) {
-        return read(reader.getIndex() + 1);
     }
 
     /**

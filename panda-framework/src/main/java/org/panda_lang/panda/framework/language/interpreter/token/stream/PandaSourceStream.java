@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.interpreter.token.stream;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
@@ -111,11 +110,6 @@ public class PandaSourceStream implements SourceStream {
     @Override
     public Snippet getOriginalSource() {
         return original;
-    }
-
-    @Override
-    public TokenReader toTokenReader() {
-        return new PandaTokenReader(this.toSnippet());
     }
 
     @Override

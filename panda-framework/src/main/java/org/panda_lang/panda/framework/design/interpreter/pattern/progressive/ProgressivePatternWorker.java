@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
@@ -29,12 +28,12 @@ public class ProgressivePatternWorker {
 
     private final ProgressivePattern extractor;
     private final ProgressivePatternResult result;
-    private final TokenReader source;
+    private final Snippet source;
 
     private Stack<Separator> separators = new Stack<>();
     private PandaSnippet expression = new PandaSnippet();
 
-    public ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, TokenReader source) {
+    public ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, Snippet source) {
         this.extractor = extractor;
         this.result = result;
         this.source = source;
