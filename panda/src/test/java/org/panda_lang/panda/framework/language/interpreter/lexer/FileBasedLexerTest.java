@@ -16,18 +16,15 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.TokenReader;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaTokenReader;
 
 import java.io.File;
 
@@ -45,13 +42,10 @@ class FileBasedLexerTest {
 
         Lexer lexer = PandaLexer.of(syntaxComposition, new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');")).build();
         Snippet snippet = lexer.convert();
-        TokenReader tokenReader = new PandaTokenReader(snippet);
 
-        for (TokenRepresentation tokenRepresentation : tokenReader) {
-            Token token = tokenRepresentation.getToken();
-
-            System.out.println((tokenRepresentation.getLine() + 1) + "[" + tokenReader.iterator().getIndex() + "]" + ": " + token.getType() + ": " + token.getTokenValue());
-        }
+        Assertions.assertEquals(17, snippet.size());
+        Assertions.assertEquals("a", snippet.getFirst().getTokenValue());
+        Assertions.assertEquals(";", snippet.getLast().getTokenValue());
     }
 
 }
