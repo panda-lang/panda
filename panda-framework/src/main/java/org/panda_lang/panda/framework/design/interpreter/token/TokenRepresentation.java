@@ -16,30 +16,38 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
-public interface TokenRepresentation {
+import java.util.Optional;
 
-    int getLine();
-
-    Token getToken();
-
-    default String getTokenName() {
-        return getToken().getName();
-    }
-
-    default String getTokenValue() {
-        return getToken().getTokenValue();
-    }
-
-    default String getTokenType() {
-        return getType().getTypeName();
-    }
-
-    default TokenType getType() {
-        return getToken().getType();
-    }
+public interface TokenRepresentation extends Token {
 
     default boolean contentEquals(Token token) {
         return getToken().equals(token);
     }
+
+    @Override
+    default boolean hasName() {
+        return getToken().hasName();
+    }
+
+    @Override
+    default Optional<String> getName() {
+        return getToken().getName();
+    }
+
+    @Override
+    default String getValue() {
+        return getToken().getValue();
+    }
+
+    @Override
+    default TokenType getType() {
+        return getToken().getType();
+    }
+
+    int getPosition();
+
+    int getLine();
+
+    Token getToken();
 
 }
