@@ -1,7 +1,5 @@
 module example
 
-import panda-lang
-
 main {
     Console.print("Hello Panda")
 }

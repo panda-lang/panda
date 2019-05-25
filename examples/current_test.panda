@@ -1,7 +1,5 @@
 module example-test
 
-import panda-lang
-
 class Foo extends Test {
 
     static method anotherEcho(String message1) {
