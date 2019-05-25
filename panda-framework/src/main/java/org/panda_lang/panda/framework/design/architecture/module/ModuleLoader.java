@@ -26,6 +26,8 @@ public interface ModuleLoader {
 
     ModuleLoader include(Module module);
 
+    ModuleLoader include(ModulePath path, String name);
+
     Optional<ClassPrototypeReference> forClass(String name);
 
     default Optional<ClassPrototypeReference> forClass(Class<?> clazz) {

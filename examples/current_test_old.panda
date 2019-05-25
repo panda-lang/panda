@@ -1,7 +1,5 @@
 module example-test;
 
-import panda-lang;
-
 attach java.lang;
 attach java.util;
 attach org.panda_lang.panda;

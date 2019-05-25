@@ -60,8 +60,9 @@ public class ApplicationParser implements Parser {
         Environment environment = interpretation.getEnvironment();
         Resources resources = environment.getResources();
 
-        ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());
-        loader.include(environment.getModulePath().getDefaultModule());
+        ModuleLoader loader = new PandaModuleLoader(environment.getModulePath())
+                .include(environment.getModulePath().getDefaultModule())
+                .include(environment.getModulePath(), "panda-lang");
 
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationTypes.getValues());

@@ -1,7 +1,5 @@
 module example-test
 
-import panda-lang
-
 main {
     loop (5) {
     }

@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.module;
 
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.module.LivingModule;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
@@ -46,6 +47,17 @@ public class PandaModuleLoader implements ModuleLoader {
     public PandaModuleLoader include(Module module) {
         this.loadedModules.put(module.getName(), new PandaLivingModule(this, module));
         return this;
+    }
+
+    @Override
+    public ModuleLoader include(ModulePath path, String name) {
+        Optional<Module> module = path.get(name);
+
+        if (!module.isPresent()) {
+            throw new PandaFrameworkException("Module " + name + " does not exist in the provided path");
+        }
+
+        return this.include(module.get());
     }
 
     @Override
