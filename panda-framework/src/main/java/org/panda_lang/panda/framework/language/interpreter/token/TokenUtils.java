@@ -26,7 +26,12 @@ import java.util.Comparator;
 
 public class TokenUtils {
 
-    public static final Comparator<Token> TOKEN_ORDER_COMPARATOR = (a, b) -> Integer.compare(b.getTokenValue().length(), a.getTokenValue().length());
+    public static final Comparator<Token> TOKEN_ORDER_COMPARATOR = (a, b) -> Integer.compare(b.getValue().length(), a.getValue().length());
+
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public static boolean hasName(Token token, String name) {
+        return token.hasName() && token.getName().get().equals(name);
+    }
 
     public static boolean contains(Token[] tokens, Token element) {
         for (Token token : tokens) {

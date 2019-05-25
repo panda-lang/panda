@@ -77,7 +77,7 @@ class LinearPatternMatcher {
 
         if (element.isUnit()) {
             identifier.ifPresent(identifiers::add);
-            return content.next().getTokenValue().equals(element.getValue());
+            return content.next().getValue().equals(element.getValue());
         }
 
         if (element.isWildcard()) {

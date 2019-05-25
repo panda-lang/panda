@@ -24,40 +24,24 @@ import java.util.Objects;
 public abstract class EqualableToken implements Token {
 
     @Override
-    public abstract String getTokenValue();
+    public abstract String getValue();
 
     @Override
     public abstract TokenType getType();
 
     @Override
-    public String getName() {
-        return getType().getTypeName();
-    }
-
-    @Override
     public int hashCode() {
-        int result = getType().hashCode();
-        result = 31 * result + getTokenValue().hashCode();
-        result = 31 * result + Objects.hashCode(getName());
-        return result;
+        return Objects.hash(getType(), getValue(), getName());
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-
-        if (!(o instanceof Token)) {
-            return false;
-        }
-
-        return equals((Token) o);
+        return this == o || (o instanceof Token && equals((Token) o));
     }
 
     @Override
     public String toString() {
-        return getTokenValue();
+        return getValue();
     }
 
 }

@@ -53,7 +53,7 @@ public class ModuleParser extends UnifiedParserBootstrap {
         StringBuilder nameBuilder = new StringBuilder();
 
         for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
-            nameBuilder.append(representation.getTokenValue());
+            nameBuilder.append(representation.getValue());
         }
 
         String moduleName = nameBuilder.toString();

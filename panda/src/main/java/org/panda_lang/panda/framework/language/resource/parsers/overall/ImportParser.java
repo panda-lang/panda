@@ -53,7 +53,7 @@ public class ImportParser extends UnifiedParserBootstrap {
         StringBuilder moduleName = new StringBuilder();
 
         for (TokenRepresentation representation : source.getTokensRepresentations()) {
-            moduleName.append(representation.getTokenValue());
+            moduleName.append(representation.getValue());
         }
 
         Optional<Module> module = environment.getModulePath().get(moduleName.toString());

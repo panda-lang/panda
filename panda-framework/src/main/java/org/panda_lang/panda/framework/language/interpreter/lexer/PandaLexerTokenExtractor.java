@@ -56,7 +56,7 @@ public class PandaLexerTokenExtractor {
             }
 
             lexer.getTokenizedLine().add(token);
-            tokenBuilder.delete(0, token.getTokenValue().length());
+            tokenBuilder.delete(0, token.getValue().length());
             tokenPreview = tokenBuilder.toString();
         }
 
@@ -69,7 +69,7 @@ public class PandaLexerTokenExtractor {
 
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
-                String value = token.getTokenValue();
+                String value = token.getValue();
 
                 if (lexer.getConfiguration().isIgnoringCase()) {
                     value = value.toLowerCase();

@@ -16,22 +16,47 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.Objects;
+import java.util.Optional;
 
 public interface Token {
 
-    String getTokenValue();
+    /**
+     * Get value of the token
+     *
+     * @return the value
+     */
+    String getValue();
 
-    String getName();
-
+    /**
+     * Get type of the token represented by {@link org.panda_lang.panda.framework.design.interpreter.token.TokenType}
+     *
+     * @return the type of the token
+     */
     TokenType getType();
 
-    default boolean equals(Token token) {
-        return token != null && equals(token.getType(), token.getName(), token.getTokenValue());
+    /**
+     * Get custom name of the token
+     *
+     * @return optional that may contain custom name of token
+     */
+    default Optional<String> getName() {
+        return Optional.empty();
     }
 
-    default boolean equals(TokenType type, String name, String value) {
-        return getType() == type && Objects.equals(getName(), name) && Objects.equals(getTokenValue(), value);
+    /**
+     * Check if the token has custom name
+     *
+     * @return true if token contains name
+     */
+    default boolean hasName() {
+        return getName().isPresent();
+    }
+
+    default boolean equals(@Nullable Token token) {
+        return token != null && getType() == token.getType() && Objects.equals(getName(), token.getName()) && Objects.equals(getValue(), token.getValue());
     }
 
 }

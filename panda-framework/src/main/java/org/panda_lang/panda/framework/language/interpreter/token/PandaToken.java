@@ -16,42 +16,40 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+
+import java.util.Optional;
 
 public class PandaToken extends EqualableToken {
 
     private final TokenType type;
-    private final String name;
+    private final Optional<String> name;
     private final String value;
 
     public PandaToken(TokenType type, String value) {
-        this(type, type.getTypeName(), value);
+        this(type, type.getName(), value);
     }
 
-    public PandaToken(TokenType type, String name, String value) {
+    public PandaToken(TokenType type, @Nullable String name, String value) {
         this.type = type;
         this.value = value;
-        this.name = name;
+        this.name = Optional.ofNullable(name);
     }
 
     @Override
-    public String getName() {
+    public Optional<String> getName() {
         return name;
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return value;
     }
 
     @Override
     public TokenType getType() {
         return type;
-    }
-
-    @Override
-    public String toString() {
-        return getTokenValue();
     }
 
 }

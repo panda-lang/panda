@@ -56,7 +56,7 @@ public class Separators {
 
     public static @Nullable Separator valueOf(Token token) {
         for (Separator separator : values()) {
-            if (separator.getTokenValue().equals(token.getTokenValue())) {
+            if (separator.getValue().equals(token.getValue())) {
                 return separator;
             }
         }
@@ -66,7 +66,7 @@ public class Separators {
 
     public static @Nullable Separator valueOf(String str) {
         for (Separator separator : values()) {
-            if (separator.getTokenValue().equals(str)) {
+            if (separator.getValue().equals(str)) {
                 return separator;
             }
         }

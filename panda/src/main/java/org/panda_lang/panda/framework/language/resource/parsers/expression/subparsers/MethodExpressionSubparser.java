@@ -61,7 +61,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            String methodName = token.getTokenValue();
+            String methodName = token.getValue();
 
             if (!context.getDiffusedSource().hasNext() || !context.getDiffusedSource().getNext().contentEquals(Separators.PARENTHESIS_LEFT)) {
                 return null;

@@ -28,7 +28,7 @@ public class Identifier extends EqualableToken {
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return identifier;
     }
 

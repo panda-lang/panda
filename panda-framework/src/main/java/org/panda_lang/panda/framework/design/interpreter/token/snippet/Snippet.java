@@ -153,7 +153,7 @@ public interface Snippet extends Iterable<TokenRepresentation> {
     }
 
     default String getTokenValue(int index) {
-        return getToken(index).getTokenValue();
+        return getToken(index).getValue();
     }
 
     default Token getToken(int index) {
@@ -177,7 +177,7 @@ public interface Snippet extends Iterable<TokenRepresentation> {
 
         for (TokenRepresentation representation : getTokensRepresentations()) {
             Token token = representation.getToken();
-            node.append(token.getTokenValue());
+            node.append(token.getValue());
         }
 
         return node.toString();

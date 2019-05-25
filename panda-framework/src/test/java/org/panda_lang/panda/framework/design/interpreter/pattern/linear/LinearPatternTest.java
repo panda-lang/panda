@@ -92,7 +92,7 @@ class LinearPatternTest {
                 .getWildcard("wildcard");
 
         Assertions.assertTrue(wildcardValue.isPresent());
-        Assertions.assertEquals("random", wildcardValue.get().getTokenValue());
+        Assertions.assertEquals("random", wildcardValue.get().getValue());
     }
 
     @Test

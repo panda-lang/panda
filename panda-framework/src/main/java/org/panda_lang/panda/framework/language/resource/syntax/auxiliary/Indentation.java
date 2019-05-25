@@ -37,7 +37,7 @@ public class Indentation extends EqualableToken {
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return StringUtils.EMPTY;
     }
 

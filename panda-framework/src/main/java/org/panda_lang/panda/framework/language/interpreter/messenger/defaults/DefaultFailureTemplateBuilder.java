@@ -37,6 +37,7 @@ public class DefaultFailureTemplateBuilder {
         int endIndex = index + element.length();
 
         formatter.register("{{line}}", () -> exception.getLine() < 0 ? "?" : exception.getLine() + 1)
+                .register("{{position}}", () -> "~") // TODO: position
                 .register("{{location}}", exception::getLocation)
                 .register("{{message}}", exception::getMessage)
                 .register("{{index}}", () -> index)
@@ -77,7 +78,7 @@ public class DefaultFailureTemplateBuilder {
     }
 
     public DefaultFailureTemplateBuilder includeLocation() {
-        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}");
+        content += getAsSection("Location:{{newline}}  Panda: {{location}} at line {{line}}:{{position}}");
         return this;
     }
 

@@ -93,7 +93,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         List<Parameter> parameters = new ParameterParser().parse(data, parametersSource);
         ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
 
-        String method = signature.getLast().getTokenValue();
+        String method = signature.getLast().getValue();
         MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
 
