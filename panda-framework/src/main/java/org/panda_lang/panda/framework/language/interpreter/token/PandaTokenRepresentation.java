@@ -25,16 +25,25 @@ import java.util.Objects;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 
+    private static final int UNKNOWN_INDEX = -2;
+
     private final Token token;
     private final int line;
+    private final int position;
 
-    public PandaTokenRepresentation(Token token, int line) {
+    public PandaTokenRepresentation(Token token, int line, int position) {
         if (token == null) {
             throw new InvalidParameterException("Token cannot be null");
         }
 
         this.token = token;
         this.line = line;
+        this.position = position;
+    }
+
+    @Override
+    public int getPosition() {
+        return position;
     }
 
     @Override
@@ -68,7 +77,7 @@ public class PandaTokenRepresentation implements TokenRepresentation {
 
     @Override
     public String toString() {
-        return token.getTokenValue();
+        return token.getValue();
     }
 
     public static TokenRepresentation of(TokenType type, String value) {
@@ -76,7 +85,7 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     public static TokenRepresentation of(Token token) {
-        return new PandaTokenRepresentation(token, -2);
+        return new PandaTokenRepresentation(token, UNKNOWN_INDEX, UNKNOWN_INDEX);
     }
 
 }
