@@ -49,7 +49,7 @@ public class Sequences {
             return null;
         }
 
-        String value = token.getTokenValue();
+        String value = token.getValue();
 
         for (Sequence sequence : values()) {
             if (!sequence.getName().equals(token.getName())) {

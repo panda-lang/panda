@@ -51,8 +51,8 @@ public class ParameterParser implements Parser {
             TokenRepresentation parameterTypeRepresentation = tokenRepresentations[i];
             TokenRepresentation parameterNameRepresentation = tokenRepresentations[i + 1];
 
-            String parameterType = parameterTypeRepresentation.getToken().getTokenValue();
-            String parameterName = parameterNameRepresentation.getToken().getTokenValue();
+            String parameterType = parameterTypeRepresentation.getToken().getValue();
+            String parameterName = parameterNameRepresentation.getToken().getValue();
 
             Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(data, parameterType, snippet), parameterName);
             parameters.add(parameter);

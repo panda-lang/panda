@@ -40,7 +40,7 @@ public class ClassPrototypeParserUtils {
             throw new PandaParserException("Unknown element " + next);
         }
 
-        switch (next.getTokenValue()) {
+        switch (next.getValue()) {
             case "implements": //temp
             case "extends":
                 readExtends(data, classDeclaration, classPrototype);
@@ -63,11 +63,11 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                Optional<ClassPrototypeReference> extendedPrototype = loader.forClass(classNameToken.getTokenValue());
+                Optional<ClassPrototypeReference> extendedPrototype = loader.forClass(classNameToken.getValue());
 
                 if (!extendedPrototype.isPresent()) {
                     data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(classDeclaration));
-                    throw new PandaParserFailure("Class " + classNameToken.getTokenValue() + " not found", data);
+                    throw new PandaParserFailure("Class " + classNameToken.getValue() + " not found", data);
                 }
 
                 prototype.addExtended(extendedPrototype.get());

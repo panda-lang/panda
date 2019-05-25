@@ -33,8 +33,7 @@ public class CommentParser implements Parser, ParserHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
-        Token token = source.toSnippet().getFirst().getToken();
-        return token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment");
+        return isComment(source.read().getToken());
     }
 
     public static Snippet uncomment(Snippet source) {
@@ -43,7 +42,7 @@ public class CommentParser implements Parser, ParserHandler {
         for (TokenRepresentation tokenRepresentation : source.getTokensRepresentations()) {
             Token token = tokenRepresentation.getToken();
 
-            if (token != null && token.getType() == TokenType.SEQUENCE && token.getName().equals("Comment")) {
+            if (isComment(token)) {
                 continue;
             }
 
@@ -51,6 +50,10 @@ public class CommentParser implements Parser, ParserHandler {
         }
 
         return new PandaSnippet(uncommentedSource);
+    }
+
+    private static boolean isComment(Token token) {
+        return token.getType() == TokenType.SEQUENCE && token.getName().isPresent() && token.getName().get().equals("Comment");
     }
 
 }

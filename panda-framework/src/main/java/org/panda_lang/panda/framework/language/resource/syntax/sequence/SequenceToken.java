@@ -22,14 +22,15 @@ public class SequenceToken extends PandaToken {
 
     private final Sequence sequence;
 
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
     public SequenceToken(Sequence sequence, String value) {
-        super(sequence.getType(), sequence.getName(), value);
+        super(sequence.getType(), sequence.getName().get(), value);
         this.sequence = sequence;
     }
 
     @Override
     public String toString() {
-        return sequence.getSequenceStart() + super.getTokenValue() + sequence.getSequenceEnd();
+        return sequence.getSequenceStart() + super.getValue() + sequence.getSequenceEnd();
     }
 
 }

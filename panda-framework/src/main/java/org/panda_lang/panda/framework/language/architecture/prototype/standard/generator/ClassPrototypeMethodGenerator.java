@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.generator;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
@@ -30,6 +31,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.security.InvalidParameterException;
+import java.util.Arrays;
 
 public class ClassPrototypeMethodGenerator {
 
@@ -109,8 +111,12 @@ public class ClassPrototypeMethodGenerator {
 
                 Value value = new PandaValue(returnType.fetch(), returnValue);
                 branch.setReturnValue(value);
+            } catch (IllegalArgumentException e) {
+                PandaFramework.getLogger().error("Argument mismatch:");
+                PandaFramework.getLogger().error("Required: " + Arrays.toString(method.getParameterTypes()));
+                PandaFramework.getLogger().error("Provided:" + Arrays.toString(parameters));
             } catch (Exception e) {
-                e.printStackTrace();
+                PandaFramework.getLogger().error("Error occurred invoking " + method.getName() + ": " + e.getMessage(), e);
             } finally {
                 ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
             }

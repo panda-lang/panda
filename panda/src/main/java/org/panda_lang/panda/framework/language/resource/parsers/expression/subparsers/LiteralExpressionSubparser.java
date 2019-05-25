@@ -59,7 +59,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            switch (token.getTokenValue()) {
+            switch (token.getValue()) {
                 case "null":
                     return ExpressionUtils.toExpressionResult(null, null);
                 case "true":

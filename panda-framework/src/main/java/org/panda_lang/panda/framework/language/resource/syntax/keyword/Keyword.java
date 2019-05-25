@@ -28,7 +28,7 @@ public class Keyword extends EqualableToken {
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return keyword;
     }
 

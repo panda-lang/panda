@@ -62,11 +62,11 @@ class TokenWildcardConditionFactory implements WildcardConditionFactory {
     }
 
     private WildcardConditionResult check(JsonObject conditions, TokenRepresentation representation) {
-        if (!equals("type", conditions, representation.getTokenType())) {
+        if (!equals("type", conditions, representation.getType().getName())) {
             return WildcardConditionResult.NEUTRAL;
         }
 
-        if (!equals("value", conditions, representation.getTokenValue())) {
+        if (!equals("value", conditions, representation.getValue())) {
             return WildcardConditionResult.NEUTRAL;
         }
 

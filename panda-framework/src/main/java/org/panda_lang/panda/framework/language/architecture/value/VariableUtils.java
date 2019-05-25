@@ -37,13 +37,13 @@ public class VariableUtils {
             return false;
         }
 
-        if (!CharacterUtils.belongsTo(token.getTokenValue().charAt(0), ALLOWED_START)) {
+        if (!CharacterUtils.belongsTo(token.getValue().charAt(0), ALLOWED_START)) {
             return false;
         }
 
-        char[] chars = token.getTokenValue().toCharArray();
+        char[] chars = token.getValue().toCharArray();
 
-        for (int i = 1; i < token.getTokenValue().toCharArray().length; i++) {
+        for (int i = 1; i < token.getValue().toCharArray().length; i++) {
             char c = chars[i];
 
             if (!CharacterUtils.belongsTo(c, ALLOWED)) {

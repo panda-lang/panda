@@ -49,19 +49,19 @@ public class TokenType {
     }
 
     private final int id;
-    private final String typeName;
+    private final String name;
 
-    public TokenType(String typeName) {
+    public TokenType(String name) {
         this.id = ID_ASSIGNER.getAndIncrement();
-        this.typeName = typeName;
+        this.name = name;
     }
 
     public int ordinal() {
         return id;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getName() {
+        return name;
     }
 
     @Override
@@ -85,7 +85,7 @@ public class TokenType {
 
     @Override
     public String toString() {
-        return getTypeName();
+        return getName();
     }
 
     public static Collection<? extends TokenType> values() {

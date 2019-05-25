@@ -45,7 +45,7 @@ public class Separator extends EqualableToken {
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return separator;
     }
 

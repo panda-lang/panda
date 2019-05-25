@@ -44,8 +44,8 @@ class FileBasedLexerTest {
         Snippet snippet = lexer.convert();
 
         Assertions.assertEquals(17, snippet.size());
-        Assertions.assertEquals("a", snippet.getFirst().getTokenValue());
-        Assertions.assertEquals(";", snippet.getLast().getTokenValue());
+        Assertions.assertEquals("a", snippet.getFirst().getValue());
+        Assertions.assertEquals(";", snippet.getLast().getValue());
     }
 
 }

@@ -133,7 +133,6 @@ public class ApplicationParser implements Parser {
 
         PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().getAmountOfReferences());
         PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());
-        PandaFramework.getLogger().debug("");
 
         /*
         for (Map.Entry<String, Long> entry : ExtractorWorker.timeMap.entrySet()) {

@@ -75,7 +75,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             ScopeLinker scopeLinker = context.getData().getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
 
-            String name = token.getTokenValue();
+            String name = token.getValue();
             Variable variable = scope.getVariable(name);
 
             if (variable != null) {

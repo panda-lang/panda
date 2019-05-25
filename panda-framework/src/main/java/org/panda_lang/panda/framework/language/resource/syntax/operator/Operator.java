@@ -40,7 +40,7 @@ public class Operator extends EqualableToken {
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return operator;
     }
 

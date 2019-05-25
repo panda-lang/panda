@@ -136,12 +136,14 @@ public class PandaLexer implements Lexer {
         if (configuration.hasIncludedIndentation()) {
             String paragraph = StringUtils.extractParagraph(linePreview);
             Indentation indentation = Indentation.valueOf(paragraph);
-            TokenRepresentation representation = new PandaTokenRepresentation(indentation, line);
+            TokenRepresentation representation = new PandaTokenRepresentation(indentation, line, 0);
             tokenRepresentations.add(representation);
         }
 
+        int position = configuration.hasIncludedIndentation() ? 1 : 0;
+
         for (Token token : tokenizedLine) {
-            TokenRepresentation representation = new PandaTokenRepresentation(token, line);
+            TokenRepresentation representation = new PandaTokenRepresentation(token, line, position++);
             tokenRepresentations.add(representation);
         }
 

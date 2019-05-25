@@ -16,25 +16,28 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.sequence;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
 
+import java.util.Optional;
+
 public class Sequence extends EqualableToken {
 
-    private final String tokenName;
+    private final Optional<String> name;
     private final String sequenceStart;
     private final String sequenceEnd;
 
-    public Sequence(String tokenName, char sequence) {
-        this(tokenName, Character.toString(sequence));
+    public Sequence(@Nullable String name, char sequence) {
+        this(name, Character.toString(sequence));
     }
 
-    public Sequence(String tokenName, String sequence) {
-        this(tokenName, sequence, sequence);
+    public Sequence(@Nullable String name, String sequence) {
+        this(name, sequence, sequence);
     }
 
-    public Sequence(String tokenName, String sequenceStart, String sequenceEnd) {
-        this.tokenName = tokenName;
+    public Sequence(@Nullable String name, String sequenceStart, String sequenceEnd) {
+        this.name = Optional.ofNullable(name);
         this.sequenceStart = sequenceStart;
         this.sequenceEnd = sequenceEnd;
     }
@@ -48,13 +51,13 @@ public class Sequence extends EqualableToken {
     }
 
     @Override
-    public String getTokenValue() {
+    public String getValue() {
         return getSequenceStart() + getSequenceEnd();
     }
 
     @Override
-    public String getName() {
-        return tokenName;
+    public Optional<String> getName() {
+        return name;
     }
 
     @Override
