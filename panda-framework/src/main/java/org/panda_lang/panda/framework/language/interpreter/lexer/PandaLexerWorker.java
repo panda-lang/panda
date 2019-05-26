@@ -48,7 +48,7 @@ class PandaLexerWorker {
     protected PandaLexerWorker(PandaLexer lexer, Source source) {
         this.lexer = lexer;
         this.source = source;
-        this.sequencer = new PandaLexerSequencer(this, getConfiguration().getSyntax().getSequences());
+        this.sequencer = new PandaLexerSequencer(this, getConfiguration().syntax.getSequences());
     }
 
     protected Snippet convert() {
@@ -82,7 +82,7 @@ class PandaLexerWorker {
             return;
         }
 
-        if (getConfiguration().isRespectingWhitespaces() && CharacterUtils.isWhitespace(c)) {
+        if (!getConfiguration().ignoringWhitespaces && CharacterUtils.isWhitespace(c)) {
             boolean extracted = extractor.extract(tokenBuilder);
 
             if (!extracted) {
@@ -98,7 +98,7 @@ class PandaLexerWorker {
     }
 
     private void check(char character) {
-        boolean special = CharacterUtils.belongsTo(character, getConfiguration().getSyntax().getSpecialCharacters());
+        boolean special = CharacterUtils.belongsTo(character, getConfiguration().syntax.getSpecialCharacters());
 
         if (previousSpecial && !special) {
             extractor.extract(tokenBuilder);
@@ -115,14 +115,14 @@ class PandaLexerWorker {
             return;
         }
 
-        if (getConfiguration().hasIncludedIndentation()) {
+        if (getConfiguration().includingIndentation) {
             String paragraph = StringUtils.extractParagraph(linePreview);
             Indentation indentation = Indentation.valueOf(paragraph);
             TokenRepresentation representation = new PandaTokenRepresentation(indentation, line, 0);
             representations.add(representation);
         }
 
-        int position = getConfiguration().hasIncludedIndentation() ? 1 : 0;
+        int position = getConfiguration().includingIndentation ? 1 : 0;
 
         for (Token token : tokenizedLine) {
             TokenRepresentation representation = new PandaTokenRepresentation(token, line, position++);

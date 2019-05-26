@@ -40,7 +40,7 @@ public class PandaLexer implements Lexer {
     }
 
     public static PandaLexerConfiguration of(Syntax syntax) {
-        return new PandaLexerConfiguration(syntax);
+        return new PandaLexerConfiguration().withSyntax(syntax);
     }
 
     public static PandaLexerConfiguration builder() {
