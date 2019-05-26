@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.commons.text.pattern.charset;
 
+import org.panda_lang.panda.utilities.commons.StringUtils;
+
 import java.util.Stack;
 
 public class CharsetPatternExtractor {
@@ -27,7 +29,7 @@ public class CharsetPatternExtractor {
 
     public String extract(String line, char[] set) {
         if (line == null) {
-            return "";
+            return StringUtils.EMPTY;
         }
 
         StringBuilder pattern = new StringBuilder();

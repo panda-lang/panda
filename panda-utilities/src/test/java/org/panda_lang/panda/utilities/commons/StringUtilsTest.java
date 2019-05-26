@@ -31,7 +31,7 @@ class StringUtilsTest {
     public void isEmpty() {
         Assertions.assertAll(
                 () -> Assertions.assertTrue(StringUtils.isEmpty(null)),
-                () -> Assertions.assertTrue(StringUtils.isEmpty("")),
+                () -> Assertions.assertTrue(StringUtils.isEmpty(StringUtils.EMPTY)),
                 () -> Assertions.assertTrue(StringUtils.isEmpty("  ")),
                 () -> Assertions.assertFalse(StringUtils.isEmpty(" test ")),
 
@@ -45,7 +45,7 @@ class StringUtilsTest {
     @Test
     public void replace() {
         Assertions.assertAll(
-                () -> Assertions.assertEquals("Test", StringUtils.replace("Tests x", "s x", "")),
+                () -> Assertions.assertEquals("Test", StringUtils.replace("Tests x", "s x", StringUtils.EMPTY)),
                 () -> Assertions.assertEquals("b b b", StringUtils.replace("a a a", "a", "b")),
                 () -> Assertions.assertEquals("a", StringUtils.replace("a", StringUtils.EMPTY, null))
         );

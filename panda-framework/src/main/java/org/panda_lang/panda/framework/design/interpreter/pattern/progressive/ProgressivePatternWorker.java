@@ -62,7 +62,7 @@ public class ProgressivePatternWorker {
                 return;
             }
 
-            Separator separator = (Separator) token;
+            Separator separator = representation.toToken();
             Separator openingSeparator = separators.peek();
 
             if (openingSeparator.hasOpposite() && openingSeparator.getOpposite().equals(token)) {

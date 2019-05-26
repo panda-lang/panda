@@ -112,7 +112,7 @@ class NodeLookupExtractor {
         }
 
         private String getMergedErrorMessage() {
-            String error = "";
+            String error = StringUtils.EMPTY;
 
             if (currentResult != null) {
                 error += currentResult.getErrorMessage();

@@ -49,4 +49,9 @@ public class Section extends EqualableToken {
         return separator;
     }
 
+    @Override
+    public String toString() {
+        return separator.toString() + " " + super.toString() + " " + separator.getOpposite().toString();
+    }
+
 }

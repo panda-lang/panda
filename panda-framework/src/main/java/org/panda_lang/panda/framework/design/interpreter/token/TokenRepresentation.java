@@ -45,6 +45,11 @@ public interface TokenRepresentation extends Token {
     }
 
     @SuppressWarnings("unchecked")
+    default <T extends Token> T toToken(Class<T> type) {
+        return (T) getToken();
+    }
+
+    @SuppressWarnings("unchecked")
     default <T extends Token> T toToken() {
         return (T) getToken();
     }

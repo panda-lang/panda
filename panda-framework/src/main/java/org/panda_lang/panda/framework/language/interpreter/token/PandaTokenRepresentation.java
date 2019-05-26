@@ -25,7 +25,7 @@ import java.util.Objects;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 
-    private static final int UNKNOWN_INDEX = -2;
+    private static final int UNKNOWN_INDEX = -3;
 
     private final Token token;
     private final int line;

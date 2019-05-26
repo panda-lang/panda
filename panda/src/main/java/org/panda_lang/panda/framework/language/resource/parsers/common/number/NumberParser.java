@@ -29,7 +29,7 @@ public class NumberParser implements ParticularParser<Value> {
 
     @Override
     public Value parse(ParserData data, Snippet source) {
-        String unknownNumber = StringUtils.replace(source.asString(), "_", "");
+        String unknownNumber = StringUtils.replace(source.asString(), "_", StringUtils.EMPTY);
         char numberTypeDefinitionCharacter = unknownNumber.charAt(unknownNumber.length() - 1);
 
         NumberType numberTypeDefinition = NumberType.of(numberTypeDefinitionCharacter);
