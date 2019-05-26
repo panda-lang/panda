@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 public class PandaParserFailure extends ParserFailure {
@@ -48,7 +49,7 @@ public class PandaParserFailure extends ParserFailure {
     }
 
     public PandaParserFailure(ParserData data, Object... values) {
-        this(ContentJoiner.on("").join(values).toString(), data);
+        this(ContentJoiner.on(StringUtils.EMPTY).join(values).toString(), data);
     }
 
     public PandaParserFailure(String message, ParserData data) {

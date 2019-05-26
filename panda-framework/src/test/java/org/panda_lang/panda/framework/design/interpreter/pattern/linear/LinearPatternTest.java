@@ -32,7 +32,7 @@ class LinearPatternTest {
     void testCompile() {
         Assertions.assertNotNull((LinearPattern.compile("unit")));
 
-        Throwable linearPatternException = Assertions.assertThrows(LinearPatternException.class, () -> LinearPattern.compile(""));
+        Throwable linearPatternException = Assertions.assertThrows(LinearPatternException.class, () -> LinearPattern.compile(StringUtils.EMPTY));
         Assertions.assertEquals("Cannot compile the pattern", linearPatternException.getMessage());
     }
 

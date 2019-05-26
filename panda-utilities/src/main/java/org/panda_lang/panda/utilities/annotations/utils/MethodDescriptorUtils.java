@@ -36,9 +36,9 @@ public class MethodDescriptorUtils {
     }
 
     public static Member getMemberFromDescriptor(String descriptor, Collection<ClassLoader> classLoaders) {
-        int p0 = descriptor.lastIndexOf('(');
-        String memberKey = p0 != -1 ? descriptor.substring(0, p0) : descriptor;
-        String methodParameters = p0 != -1 ? descriptor.substring(p0 + 1, descriptor.lastIndexOf(')')) : "";
+        int left = descriptor.lastIndexOf('(');
+        String memberKey = left != -1 ? descriptor.substring(0, left) : descriptor;
+        String methodParameters = left != -1 ? descriptor.substring(left + 1, descriptor.lastIndexOf(')')) : StringUtils.EMPTY;
 
         int p1 = Math.max(memberKey.lastIndexOf('.'), memberKey.lastIndexOf("$"));
         String className = memberKey.substring(memberKey.lastIndexOf(' ') + 1, p1);
@@ -58,21 +58,21 @@ public class MethodDescriptorUtils {
             parameterTypes = result.toArray(types);
         }
 
-        Class<?> aClass = AnnotationsScannerUtils.forName(className, classLoaders);
+        Class<?> clazz = AnnotationsScannerUtils.forName(className, classLoaders);
 
-        while (aClass != null) {
+        while (clazz != null) {
             try {
                 if (!descriptor.contains("(")) {
-                    return aClass.isInterface() ? aClass.getField(memberName) : aClass.getDeclaredField(memberName);
+                    return clazz.isInterface() ? clazz.getField(memberName) : clazz.getDeclaredField(memberName);
                 }
                 else if (isConstructor(descriptor)) {
-                    return aClass.isInterface() ? aClass.getConstructor(parameterTypes) : aClass.getDeclaredConstructor(parameterTypes);
+                    return clazz.isInterface() ? clazz.getConstructor(parameterTypes) : clazz.getDeclaredConstructor(parameterTypes);
                 }
                 else {
-                    return aClass.isInterface() ? aClass.getMethod(memberName, parameterTypes) : aClass.getDeclaredMethod(memberName, parameterTypes);
+                    return clazz.isInterface() ? clazz.getMethod(memberName, parameterTypes) : clazz.getDeclaredMethod(memberName, parameterTypes);
                 }
             } catch (Exception e) {
-                aClass = aClass.getSuperclass();
+                clazz = clazz.getSuperclass();
             }
         }
 
