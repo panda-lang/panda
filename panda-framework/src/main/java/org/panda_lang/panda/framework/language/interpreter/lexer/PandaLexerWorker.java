@@ -34,12 +34,11 @@ class PandaLexerWorker {
     private final PandaLexer lexer;
     private final Source source;
 
-    private final Collection<TokenRepresentation> representations = new ArrayList<>();
-    private final Collection<Token> tokenizedLine = new ArrayList<>();
-
-    private final StringBuilder tokenBuilder = new StringBuilder();
+    private final StringBuilder builder = new StringBuilder();
+    private final Collection<Token> lineTokens = new ArrayList<>();
     private final PandaLexerTokenExtractor extractor = new PandaLexerTokenExtractor(this);
-    private final PandaLexerSequencer sequencer;
+    private final PandaLexerSequencer sequencer  = new PandaLexerSequencer(this);
+    private final PandaLexerCollector collector = new PandaLexerCollector(this);
 
     private String linePreview = StringUtils.EMPTY;
     private boolean previousSpecial;
@@ -48,7 +47,6 @@ class PandaLexerWorker {
     protected PandaLexerWorker(PandaLexer lexer, Source source) {
         this.lexer = lexer;
         this.source = source;
-        this.sequencer = new PandaLexerSequencer(this, getConfiguration().syntax.getSequences());
     }
 
     protected Snippet convert() {
@@ -61,29 +59,26 @@ class PandaLexerWorker {
             throw new IllegalArgumentException("Source is empty");
         }
 
-        char[] sourceCharArray = (content + System.lineSeparator()).toCharArray();
+        char[] sourceArray = (content + System.lineSeparator()).toCharArray();
 
-        for (char c : sourceCharArray) {
-            next(c);
+        for (char character : sourceArray) {
+            next(character);
             checkLine();
         }
 
-        TokenRepresentation[] representations = new TokenRepresentation[this.representations.size()];
-        representations = this.representations.toArray(representations);
-
-        return new PandaSnippet(representations);
+        return new PandaSnippet(collector.collect());
     }
 
-    private void next(char c) {
-        linePreview += c;
-        String tokenPreview = tokenBuilder.toString();
+    private void next(char character) {
+        linePreview += character;
+        String tokenPreview = builder.toString();
 
-        if (sequencer.checkBefore(tokenBuilder, c)) {
+        if (sequencer.checkBefore(builder, character)) {
             return;
         }
 
-        if (!getConfiguration().ignoringWhitespaces && CharacterUtils.isWhitespace(c)) {
-            boolean extracted = extractor.extract(tokenBuilder);
+        if (!getConfiguration().ignoringWhitespaces && CharacterUtils.isWhitespace(character)) {
+            boolean extracted = extractor.extract(builder);
 
             if (!extracted) {
                 throw new PandaLexerException("Unknown token", tokenPreview, linePreview, source.getTitle(), line);
@@ -92,19 +87,19 @@ class PandaLexerWorker {
             return;
         }
 
-        check(c);
-        tokenBuilder.append(c);
-        sequencer.checkAfter(tokenBuilder);
+        check(character);
+        builder.append(character);
+        sequencer.checkAfter(builder);
     }
 
     private void check(char character) {
         boolean special = CharacterUtils.belongsTo(character, getConfiguration().syntax.getSpecialCharacters());
 
         if (previousSpecial && !special) {
-            extractor.extract(tokenBuilder);
+            extractor.extract(builder);
         }
         else if (!previousSpecial && special) {
-            extractor.extract(tokenBuilder);
+            extractor.extract(builder);
         }
 
         previousSpecial = special;
@@ -119,31 +114,27 @@ class PandaLexerWorker {
             String paragraph = StringUtils.extractParagraph(linePreview);
             Indentation indentation = Indentation.valueOf(paragraph);
             TokenRepresentation representation = new PandaTokenRepresentation(indentation, line, 0);
-            representations.add(representation);
+            collector.add(representation);
         }
 
         int position = getConfiguration().includingIndentation ? 1 : 0;
 
-        for (Token token : tokenizedLine) {
+        for (Token token : lineTokens) {
             TokenRepresentation representation = new PandaTokenRepresentation(token, line, position++);
-            representations.add(representation);
+            collector.add(representation);
         }
 
-        tokenizedLine.clear();
+        lineTokens.clear();
         linePreview = StringUtils.EMPTY;
         line++;
     }
 
-    protected int getLine() {
-        return line;
+    protected void addLineToken(Token token) {
+        lineTokens.add(token);
     }
 
-    protected StringBuilder getTokenBuilder() {
-        return tokenBuilder;
-    }
-
-    protected Collection<Token> getTokenizedLine() {
-        return tokenizedLine;
+    protected StringBuilder getBuilder() {
+        return builder;
     }
 
     protected PandaLexerConfiguration getConfiguration() {

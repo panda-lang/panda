@@ -20,18 +20,15 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence;
 import org.panda_lang.panda.framework.language.resource.syntax.sequence.SequenceToken;
 
-import java.util.Collection;
 import java.util.Stack;
 
 class PandaLexerSequencer {
 
     private final PandaLexerWorker worker;
-    private final Collection<Sequence> sequences;
     private final Stack<Sequence> sequenceStack;
 
-    public PandaLexerSequencer(PandaLexerWorker worker, Collection<Sequence> sequences) {
+    public PandaLexerSequencer(PandaLexerWorker worker) {
         this.worker = worker;
-        this.sequences = sequences;
         this.sequenceStack = new Stack<>();
     }
 
@@ -40,7 +37,7 @@ class PandaLexerSequencer {
             return false;
         }
 
-        String tokenPreview = worker.getTokenBuilder().append(c).toString();
+        String tokenPreview = worker.getBuilder().append(c).toString();
         Sequence sequence = sequenceStack.peek();
 
         if (!tokenPreview.endsWith(sequence.getSequenceEnd())) {
@@ -52,7 +49,7 @@ class PandaLexerSequencer {
         String sequenceValue = tokenPreview.substring(startIndex, endIndex);
 
         Token token = new SequenceToken(sequence, sequenceValue);
-        worker.getTokenizedLine().add(token);
+        worker.addLineToken(token);
 
         tokenBuilder.setLength(0);
         sequenceStack.pop();
@@ -62,7 +59,7 @@ class PandaLexerSequencer {
     public boolean checkAfter(StringBuilder tokenBuilder) {
         String tokenPreview = tokenBuilder.toString();
 
-        for (Sequence sequence : sequences) {
+        for (Sequence sequence : worker.getConfiguration().syntax.getSequences()) {
             if (!tokenPreview.startsWith(sequence.getSequenceStart())) {
                 continue;
             }
