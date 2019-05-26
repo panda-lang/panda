@@ -16,9 +16,12 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class PandaLexerUtils {
 
@@ -26,6 +29,28 @@ public class PandaLexerUtils {
 
     public static Snippet convert(String source) {
         return LEXER.convert(new PandaSource("runtime::PandaLexerUtils", source));
+    }
+
+    public static String toString(Snippet source) {
+        return toString(0, source);
+    }
+
+    private static String toString(int level, Snippet source) {
+        StringBuilder content = new StringBuilder();
+
+        for (TokenRepresentation representation : source) {
+            if (representation.getType() != TokenType.SECTION) {
+                content.append(representation.getToken().toString()).append(" ");
+            }
+            else {
+                content.append(System.lineSeparator())
+                        .append(StringUtils.buildSpace((level + 1) * 2))
+                        .append(representation.getToken().toString())
+                        .append(System.lineSeparator());
+            }
+        }
+
+        return content.toString();
     }
 
 }

@@ -54,7 +54,7 @@ class PandaLexerTokenExtractor {
                 token = new PandaToken(TokenType.UNKNOWN, tokenPreview);
             }
 
-            worker.getTokenizedLine().add(token);
+            worker.addLineToken(token);
             tokenBuilder.delete(0, token.getValue().length());
             tokenPreview = tokenBuilder.toString();
         }
