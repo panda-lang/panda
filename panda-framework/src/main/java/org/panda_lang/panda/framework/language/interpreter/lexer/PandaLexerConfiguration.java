@@ -20,62 +20,72 @@ import org.panda_lang.panda.framework.design.resource.Syntax;
 
 public class PandaLexerConfiguration {
 
-    private final Syntax syntax;
-    private boolean ignoringCase;
-    private boolean enabledSections;
-    private boolean includedIndentation;
-    private boolean respectingWhitespaces = true;
+    protected Syntax syntax;
+    protected boolean ignoringCase;
+    protected boolean enabledSections;
+    protected boolean ignoringWhitespaces;
+    protected boolean includingIndentation;
 
-    public PandaLexerConfiguration(Syntax syntax) {
+    protected PandaLexerConfiguration() { }
+
+    /**
+     * Syntax scheme used by lexer
+     *
+     * @param syntax the syntax to use
+     * @return configuration instance
+     */
+    public PandaLexerConfiguration withSyntax(Syntax syntax) {
         this.syntax = syntax;
+        return this;
     }
 
-    public PandaLexerConfiguration() {
-        this(null);
-    }
-
-    public PandaLexer build() {
-        return new PandaLexer(this);
-    }
-
+    /**
+     * Enable wrapping content between separator pairs into section tokens
+     *
+     * @return configuration instance
+     */
     public PandaLexerConfiguration enableSections() {
         this.enabledSections = true;
         return this;
     }
 
-    public PandaLexerConfiguration equalsIgnoreCase(boolean flag) {
-        this.ignoringCase = flag;
+    /**
+     * Enable ignoring case of tokens, e.g. SeLeCt, SELECT, select will be matched as the same token
+     *
+     * @return configuration instance
+     */
+    public PandaLexerConfiguration enableIgnoringCaseOfTokens() {
+        this.ignoringCase = true;
         return this;
     }
 
-    public PandaLexerConfiguration includeIndentation(boolean flag) {
-        this.includedIndentation = flag;
+    /**
+     * Enable including indentation into the {@link org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Indentation} token
+     *
+     * @return configuration instance
+     */
+    public PandaLexerConfiguration includeIndentation() {
+        this.includingIndentation = true;
         return this;
     }
 
-    public PandaLexerConfiguration respectWhitespaces(boolean flag) {
-        this.respectingWhitespaces = flag;
+    /**
+     * Enable ignoring whitespaces
+     *
+     * @return configuration instance
+     */
+    public PandaLexerConfiguration ignoreWhitespaces() {
+        this.ignoringWhitespaces = true;
         return this;
     }
 
-    public boolean hasEnabledSections() {
-        return enabledSections;
-    }
-
-    public boolean hasIncludedIndentation() {
-        return includedIndentation;
-    }
-
-    public boolean isRespectingWhitespaces() {
-        return respectingWhitespaces;
-    }
-
-    protected boolean isIgnoringCase() {
-        return ignoringCase;
-    }
-
-    protected Syntax getSyntax() {
-        return syntax;
+    /**
+     * Build lexer based on provided options
+     *
+     * @return the lexer instance
+     */
+    public PandaLexer build() {
+        return new PandaLexer(this);
     }
 
 }

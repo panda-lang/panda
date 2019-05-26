@@ -35,7 +35,7 @@ class PandaLexerTokenExtractor {
 
     protected boolean extract(StringBuilder tokenBuilder) {
         String tokenPreview = tokenBuilder.toString();
-        Syntax syntax= worker.getConfiguration().getSyntax();
+        Syntax syntax= worker.getConfiguration().syntax;
 
         while (tokenPreview.length() != 0) {
             tokenPreview = tokenPreview.trim();
@@ -64,13 +64,13 @@ class PandaLexerTokenExtractor {
 
     @SafeVarargs
     protected final @Nullable Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
-        String preparedTokenPreview = worker.getConfiguration().isIgnoringCase() ? tokenPreview.toLowerCase() : tokenPreview;
+        String preparedTokenPreview = worker.getConfiguration().ignoringCase ? tokenPreview.toLowerCase() : tokenPreview;
 
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
                 String value = token.getValue();
 
-                if (worker.getConfiguration().isIgnoringCase()) {
+                if (worker.getConfiguration().ignoringCase) {
                     value = value.toLowerCase();
                 }
 
