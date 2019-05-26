@@ -38,7 +38,7 @@ public class Indentation extends EqualableToken {
 
     @Override
     public String getValue() {
-        return StringUtils.EMPTY;
+        return StringUtils.buildSpace(size);
     }
 
     @Override
@@ -47,7 +47,10 @@ public class Indentation extends EqualableToken {
     }
 
     /**
-     * @see StringUtils#extractParagraph(String)
+     * Create indentation based on paragraph
+     *
+     * @param paragraph {@link StringUtils#extractParagraph(String)}
+     * @return instance of indentation based on paragraph
      */
     public static Indentation valueOf(String paragraph) {
         int size = 0;

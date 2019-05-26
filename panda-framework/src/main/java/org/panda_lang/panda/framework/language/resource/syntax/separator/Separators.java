@@ -40,9 +40,6 @@ public class Separators {
     public static final Separator SQUARE_BRACKET_LEFT = new Separator("[");
     public static final Separator SQUARE_BRACKET_RIGHT = new Separator("]");
 
-    //public static final Separator ANGLE_BRACKET_LEFT = new Separator("<");
-    //public static final Separator ANGLE_BRACKET_RIGHT = new Separator(">");
-
     private static final Collection<Separator> VALUES;
 
     static {
@@ -51,7 +48,6 @@ public class Separators {
         BRACE_LEFT.setOpposite(BRACE_RIGHT);
         SQUARE_BRACKET_LEFT.setOpposite(SQUARE_BRACKET_RIGHT);
         PARENTHESIS_LEFT.setOpposite(PARENTHESIS_RIGHT);
-        //ANGLE_BRACKET_LEFT.setOpposite(ANGLE_BRACKET_RIGHT);
     }
 
     public static @Nullable Separator valueOf(Token token) {
@@ -75,11 +71,11 @@ public class Separators {
     }
 
     public static Separator[] getOpeningSeparators() {
-        return new Separator[] { BRACE_LEFT, SQUARE_BRACKET_LEFT, PARENTHESIS_LEFT/*, ANGLE_BRACKET_LEFT*/ };
+        return new Separator[] { BRACE_LEFT, SQUARE_BRACKET_LEFT, PARENTHESIS_LEFT };
     }
 
     public static Separator[] getClosingSeparators() {
-        return new Separator[] { BRACE_RIGHT, SQUARE_BRACKET_RIGHT, PARENTHESIS_RIGHT, /*ANGLE_BRACKET_RIGHT*/ };
+        return new Separator[] { BRACE_RIGHT, SQUARE_BRACKET_RIGHT, PARENTHESIS_RIGHT };
     }
 
     public static Separator[] values() {
