@@ -27,27 +27,23 @@ import java.util.Collection;
  */
 public class Separators {
 
-    public static final Separator SEMICOLON = new Separator(";");
-    public static final Separator COMMA = new Separator(",");
-    public static final Separator PERIOD = new Separator(".");
+    public static final Separator SEMICOLON = new Separator(";", null);
+    public static final Separator COMMA = new Separator(",", null);
+    public static final Separator PERIOD = new Separator(".", null);
 
-    public static final Separator PARENTHESIS_LEFT = new Separator("(");
-    public static final Separator PARENTHESIS_RIGHT = new Separator(")");
+    public static final Separator PARENTHESIS_RIGHT = new Separator(")", null);
+    public static final Separator PARENTHESIS_LEFT = new Separator("(", PARENTHESIS_RIGHT);
 
-    public static final Separator BRACE_LEFT = new Separator("{");
-    public static final Separator BRACE_RIGHT = new Separator("}");
+    public static final Separator BRACE_RIGHT = new Separator("}", null);
+    public static final Separator BRACE_LEFT = new Separator("{", BRACE_RIGHT);
 
-    public static final Separator SQUARE_BRACKET_LEFT = new Separator("[");
-    public static final Separator SQUARE_BRACKET_RIGHT = new Separator("]");
+    public static final Separator SQUARE_BRACKET_RIGHT = new Separator("]", null);
+    public static final Separator SQUARE_BRACKET_LEFT = new Separator("[", SQUARE_BRACKET_RIGHT);
 
     private static final Collection<Separator> VALUES;
 
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Separators.class, Separator.class);
-
-        BRACE_LEFT.setOpposite(BRACE_RIGHT);
-        SQUARE_BRACKET_LEFT.setOpposite(SQUARE_BRACKET_RIGHT);
-        PARENTHESIS_LEFT.setOpposite(PARENTHESIS_RIGHT);
     }
 
     public static @Nullable Separator valueOf(Token token) {

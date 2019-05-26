@@ -22,17 +22,14 @@ import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
 public class Separator extends EqualableToken {
 
     private final String separator;
-    private Separator opposite;
+    private final Separator opposite;
 
-    public Separator(char separator) {
-        this(Character.toString(separator));
+    public Separator(char separator, Separator opposite) {
+        this(Character.toString(separator), opposite);
     }
 
-    public Separator(String separator) {
+    public Separator(String separator, Separator opposite) {
         this.separator = separator;
-    }
-
-    public void setOpposite(Separator opposite) {
         this.opposite = opposite;
     }
 
