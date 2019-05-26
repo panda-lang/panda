@@ -22,10 +22,10 @@ import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class PandaLexerUtils {
 
-    private static final PandaSyntax SYNTAX = new PandaSyntax();
+    private static final PandaLexer LEXER = PandaLexer.of(new PandaSyntax()).build();
 
     public static Snippet convert(String source) {
-        return PandaLexer.of(SYNTAX, new PandaSource("runtime::PandaLexerUtils", source)).build().convert();
+        return LEXER.convert(new PandaSource("runtime::PandaLexerUtils", source));
     }
 
 }

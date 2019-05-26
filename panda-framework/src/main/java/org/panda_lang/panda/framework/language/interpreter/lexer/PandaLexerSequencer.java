@@ -23,14 +23,14 @@ import org.panda_lang.panda.framework.language.resource.syntax.sequence.Sequence
 import java.util.Collection;
 import java.util.Stack;
 
-public class PandaLexerSequencer {
+class PandaLexerSequencer {
 
-    private final PandaLexer lexer;
+    private final PandaLexerWorker worker;
     private final Collection<Sequence> sequences;
     private final Stack<Sequence> sequenceStack;
 
-    public PandaLexerSequencer(PandaLexer lexer, Collection<Sequence> sequences) {
-        this.lexer = lexer;
+    public PandaLexerSequencer(PandaLexerWorker worker, Collection<Sequence> sequences) {
+        this.worker = worker;
         this.sequences = sequences;
         this.sequenceStack = new Stack<>();
     }
@@ -40,7 +40,7 @@ public class PandaLexerSequencer {
             return false;
         }
 
-        String tokenPreview = lexer.getTokenBuilder().append(c).toString();
+        String tokenPreview = worker.getTokenBuilder().append(c).toString();
         Sequence sequence = sequenceStack.peek();
 
         if (!tokenPreview.endsWith(sequence.getSequenceEnd())) {
@@ -52,7 +52,7 @@ public class PandaLexerSequencer {
         String sequenceValue = tokenPreview.substring(startIndex, endIndex);
 
         Token token = new SequenceToken(sequence, sequenceValue);
-        lexer.getTokenizedLine().add(token);
+        worker.getTokenizedLine().add(token);
 
         tokenBuilder.setLength(0);
         sequenceStack.pop();

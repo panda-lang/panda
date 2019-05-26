@@ -18,16 +18,19 @@ package org.panda_lang.panda.framework.language.interpreter.token.distributors;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 public class MatchableDistributorTest {
 
+    private static final Source SOURCE = new PandaSource("MatchableDistributorTest", "test [ a { b } c ] element");
+
     @Test
     public void testMatchable() {
-        Lexer lexer = PandaLexer.of(new PandaSyntax(), new PandaSource("MatchableDistributorTest", "test [ a { b } c ] element")).build();
-        MatchableDistributor distributor = new MatchableDistributor(new TokenDistributor(lexer.convert()));
+        Lexer lexer = PandaLexer.of(new PandaSyntax()).build();
+        MatchableDistributor distributor = new MatchableDistributor(new TokenDistributor(lexer.convert(SOURCE)));
 
         while (distributor.hasNext()) {
             System.out.println(distributor.nextVerified() + " isMatchable=" + distributor.isMatchable());

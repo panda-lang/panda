@@ -20,10 +20,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
-import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.Language;
-import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 
 import java.io.File;
@@ -31,17 +29,16 @@ import java.io.File;
 class FileBasedLexerTest {
 
     private static final File SOURCE_FILE = new File("examples/hello_world.panda");
+    private static final Source SOURCE = new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');");
 
     @Test
     public void testLexer() {
         PandaFactory pandaFactory = new PandaFactory();
         Panda panda = pandaFactory.createPanda();
 
-        Language pandaLanguage = panda.getPandaLanguage();
-        Syntax syntaxComposition = pandaLanguage.getSyntax();
-
-        Lexer lexer = PandaLexer.of(syntaxComposition, new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');")).build();
-        Snippet snippet = lexer.convert();
+        Snippet snippet = PandaLexer.of(panda.getPandaLanguage().getSyntax())
+                .build()
+                .convert(SOURCE);
 
         Assertions.assertEquals(17, snippet.size());
         Assertions.assertEquals("a", snippet.getFirst().getValue());

@@ -25,18 +25,17 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Collection;
 
-public class PandaLexerTokenExtractor {
+class PandaLexerTokenExtractor {
 
-    private final PandaLexer lexer;
-    private final Syntax syntax;
+    private final PandaLexerWorker worker;
 
-    public PandaLexerTokenExtractor(PandaLexer lexer) {
-        this.lexer = lexer;
-        this.syntax = lexer.getConfiguration().getSyntax();
+    protected PandaLexerTokenExtractor(PandaLexerWorker worker) {
+        this.worker = worker;
     }
 
     protected boolean extract(StringBuilder tokenBuilder) {
         String tokenPreview = tokenBuilder.toString();
+        Syntax syntax= worker.getConfiguration().getSyntax();
 
         while (tokenPreview.length() != 0) {
             tokenPreview = tokenPreview.trim();
@@ -55,7 +54,7 @@ public class PandaLexerTokenExtractor {
                 token = new PandaToken(TokenType.UNKNOWN, tokenPreview);
             }
 
-            lexer.getTokenizedLine().add(token);
+            worker.getTokenizedLine().add(token);
             tokenBuilder.delete(0, token.getValue().length());
             tokenPreview = tokenBuilder.toString();
         }
@@ -65,13 +64,13 @@ public class PandaLexerTokenExtractor {
 
     @SafeVarargs
     protected final @Nullable Token extractToken(String tokenPreview, Collection<? extends Token>... tokensCollections) {
-        String preparedTokenPreview = lexer.getConfiguration().isIgnoringCase() ? tokenPreview.toLowerCase() : tokenPreview;
+        String preparedTokenPreview = worker.getConfiguration().isIgnoringCase() ? tokenPreview.toLowerCase() : tokenPreview;
 
         for (Collection<? extends Token> tokensCollection : tokensCollections) {
             for (Token token : tokensCollection) {
                 String value = token.getValue();
 
-                if (lexer.getConfiguration().isIgnoringCase()) {
+                if (worker.getConfiguration().isIgnoringCase()) {
                     value = value.toLowerCase();
                 }
 
