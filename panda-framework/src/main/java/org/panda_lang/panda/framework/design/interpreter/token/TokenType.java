@@ -26,6 +26,10 @@ public class TokenType {
 
     private static final AtomicInteger ID_ASSIGNER = new AtomicInteger();
 
+    public static final TokenType SECTION = new TokenType("SECTION");
+
+    public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
+
     public static final TokenType IDENTIFIER = new TokenType("IDENTIFIER");
 
     public static final TokenType LITERAL = new TokenType("LITERAL");
@@ -39,8 +43,6 @@ public class TokenType {
     public static final TokenType OPERATOR = new TokenType("OPERATOR");
 
     public static final TokenType INDENTATION = new TokenType("INDENTATION");
-
-    public static final TokenType UNKNOWN = new TokenType("UNKNOWN");
 
     private static final Collection<TokenType> VALUES;
 

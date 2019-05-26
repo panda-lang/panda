@@ -16,28 +16,31 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.resource.Syntax;
 
 public class PandaLexerConfiguration {
 
-    private Source source;
-    private Syntax syntax;
+    private final Syntax syntax;
     private boolean ignoringCase;
+    private boolean enabledSections;
     private boolean includedIndentation;
     private boolean respectingWhitespaces = true;
 
-    public PandaLexerConfiguration(Syntax syntax, Source source) {
+    public PandaLexerConfiguration(Syntax syntax) {
         this.syntax = syntax;
-        this.source = source;
     }
 
     public PandaLexerConfiguration() {
-        this(null, null);
+        this(null);
     }
 
     public PandaLexer build() {
         return new PandaLexer(this);
+    }
+
+    public PandaLexerConfiguration enableSections() {
+        this.enabledSections = true;
+        return this;
     }
 
     public PandaLexerConfiguration equalsIgnoreCase(boolean flag) {
@@ -55,6 +58,10 @@ public class PandaLexerConfiguration {
         return this;
     }
 
+    public boolean hasEnabledSections() {
+        return enabledSections;
+    }
+
     public boolean hasIncludedIndentation() {
         return includedIndentation;
     }
@@ -69,10 +76,6 @@ public class PandaLexerConfiguration {
 
     protected Syntax getSyntax() {
         return syntax;
-    }
-
-    public Source getSource() {
-        return source;
     }
 
 }

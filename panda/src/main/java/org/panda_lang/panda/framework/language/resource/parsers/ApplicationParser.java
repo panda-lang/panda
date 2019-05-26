@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -39,7 +40,6 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.translators
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsersLoader;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
@@ -82,18 +82,20 @@ public class ApplicationParser implements Parser {
         ExceptionTranslator exceptionTranslator = new ExceptionTranslator(interpretation);
         interpretation.getMessenger().addMessageTranslator(exceptionTranslator);
 
-        ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
+        // ExpressionSubparsersLoader subparsersLoader = new ExpressionSubparsersLoader();
         ExpressionParser expressionParser = new PandaExpressionParser(resources.getExpressionSubparsers());
-
         baseData.setComponent(UniversalComponents.EXPRESSION, expressionParser);
+
+        Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
+                .enableSections()
+                .build();
 
         for (Source source : sourceSet.getSources()) {
             PandaScript pandaScript = new PandaScript(source.getTitle());
             exceptionTranslator.updateLocation(source.getTitle());
 
             interpretation.execute(() -> {
-                PandaLexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax(), source).build();
-                Snippet snippet = CommentParser.uncomment(lexer.convert());
+                Snippet snippet = CommentParser.uncomment(lexer.convert(source));
 
                 PandaSourceStream sourceStream = new PandaSourceStream(snippet);
                 exceptionTranslator.updateSource(sourceStream);

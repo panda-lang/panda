@@ -44,6 +44,11 @@ public interface TokenRepresentation extends Token {
         return getToken().getType();
     }
 
+    @SuppressWarnings("unchecked")
+    default <T extends Token> T toToken() {
+        return (T) getToken();
+    }
+
     int getPosition();
 
     int getLine();

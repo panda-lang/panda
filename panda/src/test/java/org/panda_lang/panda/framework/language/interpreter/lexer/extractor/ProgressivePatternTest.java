@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.interpreter.lexer.extractor;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
@@ -32,7 +31,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 class ProgressivePatternTest {
 
-    private static final String SOURCE = "(new Integer(5).intValue() + 3) + 2";
+    private static final Source SOURCE = new PandaSource(ProgressivePatternTest.class, "(new Integer(5).intValue() + 3) + 2");
 
     private static final ProgressivePattern EXTRACTOR = new ProgressivePattern(Separators.getOpeningSeparators(), new Token[] {
             Operators.ADDITION,
@@ -43,12 +42,12 @@ class ProgressivePatternTest {
 
     @Test
     public void testVagueExtractor() {
-        Source source = new PandaSource(ProgressivePatternTest.class, SOURCE);
-
-        Lexer lexer = PandaLexer.of(new PandaSyntax(), source).build();
-        Snippet snippet = lexer.convert();
+        Snippet snippet = PandaLexer.of(new PandaSyntax())
+                .build()
+                .convert(SOURCE);
 
         ProgressivePatternResult result = EXTRACTOR.extract(snippet);
+
         Assertions.assertNotNull(result);
         Assertions.assertTrue(result.isSucceeded());
         Assertions.assertEquals(3, result.size());

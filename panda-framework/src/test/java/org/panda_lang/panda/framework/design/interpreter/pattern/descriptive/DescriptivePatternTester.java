@@ -37,7 +37,7 @@ class DescriptivePatternTester {
         LexicalPatternElement content = pattern.getPatternContent();
         Assertions.assertNotNull(content);
 
-        Snippet tokenizedSource = PandaLexer.of(SYNTAX, new PandaSource("Test", source)).build().convert();
+        Snippet tokenizedSource = PandaLexer.of(SYNTAX).build().convert(new PandaSource("Test", source));
         ExtractorResult result = pattern.extract(new PandaParserData(), tokenizedSource);
         Assertions.assertNotNull(result);
 

@@ -18,18 +18,22 @@ package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
 class SimpleLexerTest {
 
+    private static final Source SOURCE = new PandaSource(SimpleLexerTest.class, "this.intValue()");
+
     @Test
     public void testKeywordsInUnknown() {
-        PandaLexer lexer = PandaLexer.of(new PandaSyntax(), new PandaSource(SimpleLexerTest.class, "this.intValue()")).build();
-        Snippet source = lexer.convert();
+        Snippet snippet = PandaLexer.of(new PandaSyntax())
+                .build()
+                .convert(SOURCE);
 
-        Assertions.assertEquals("this . intValue ( )", source.toString());
+        Assertions.assertEquals("this . intValue ( )", snippet.toString());
     }
 
 }
