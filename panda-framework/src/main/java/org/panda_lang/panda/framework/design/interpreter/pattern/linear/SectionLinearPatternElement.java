@@ -28,6 +28,11 @@ final class SectionLinearPatternElement extends LinearPatternElement {
         this.separator = separator;
     }
 
+    @Override
+    boolean isSection() {
+        return true;
+    }
+
     public Separator getSeparator() {
         return separator;
     }

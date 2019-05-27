@@ -16,9 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,9 +83,26 @@ class LinearPatternMatcher {
             return content.next().getValue().equals(element.getValue());
         }
 
+        if (element.isSection()) {
+            SectionLinearPatternElement sectionElement = (SectionLinearPatternElement) element;
+            TokenRepresentation next = content.next();
+
+            if (next.getType() != TokenType.SECTION) {
+                return false;
+            }
+
+            Section section = next.toToken();
+
+            if (!section.getSeparator().equals(sectionElement.getSeparator())) {
+                return false;
+            }
+
+            identifier.ifPresent(identifiers::add);
+            return true;
+        }
+
         if (element.isWildcard()) {
             WildcardLinearPatternElement wildcard = (WildcardLinearPatternElement) element;
-            identifier.ifPresent(identifiers::add);
 
             Object value = null;
 
@@ -94,8 +114,9 @@ class LinearPatternMatcher {
                 value = matcher.apply(content);
             }
 
-            if (identifier.isPresent()) {
+            if (value != null && identifier.isPresent()) {
                 wildcards.put(identifier.get(), value);
+                identifiers.add(identifier.get());
             }
 
             return value != null;

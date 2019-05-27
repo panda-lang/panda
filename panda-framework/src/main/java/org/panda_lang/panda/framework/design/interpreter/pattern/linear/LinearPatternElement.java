@@ -36,6 +36,10 @@ abstract class LinearPatternElement {
         return false;
     }
 
+    boolean isSection() {
+        return false;
+    }
+
     boolean isUnit() {
         return false;
     }
