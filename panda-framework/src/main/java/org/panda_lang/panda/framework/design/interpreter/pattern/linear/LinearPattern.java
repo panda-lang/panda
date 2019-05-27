@@ -26,6 +26,37 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * Fast pattern based on simple linear matching, uses only simple elements:
+ *
+ * <ul>
+ *  <li>unit</li>
+ *  <li>wildcards:
+ *   <ul>
+ *     <li>simple (only one token)</li>
+ *     <li>expression</li>
+ *   </ul>
+ *  </li>
+ *  <li>section</li>
+ * </ul>
+ *
+ * Supports identifiers and optional elements. <br>
+ * Identifier is determined by the content before the <code>:</code> operator, <br>
+ * optional is determined by the <code>&</code> before the identifier, example: <br><br>
+ *
+ *  <code>&identifier:token</code><br><br>
+ *
+ *  Sections are based on {@link org.panda_lang.panda.framework.language.resource.PandaSyntax}, <br>
+ *  its definition is determined by the <code>~</code> operator between separators. Usage: <br><br>
+ *
+ *  <code>class Test {~}</code><br><br>
+ *
+ * Wildcards are determined by the <code>*</code> operator. <br>
+ * Expression wildcards contains extra data defined by the <code>=expression</code> suffix, example: <br><br>
+ *
+ * <code>identifier:*=expression</code><br><br>
+ *
+ */
 public class LinearPattern {
 
     private static final LinearPatternCompiler COMPILER = new LinearPatternCompiler(new PandaSyntax(), new ArrayList<LinearPatternElementCompiler>() {{
