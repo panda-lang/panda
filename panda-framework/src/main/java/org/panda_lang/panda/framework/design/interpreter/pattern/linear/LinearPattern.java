@@ -59,8 +59,9 @@ import java.util.function.Function;
  */
 public class LinearPattern {
 
-    private static final LinearPatternCompiler COMPILER = new LinearPatternCompiler(new PandaSyntax(), new ArrayList<LinearPatternElementCompiler>() {{
+    private static final LinearPatternCompiler COMPILER = new LinearPatternCompiler(new PandaSyntax(), new ArrayList<LinearPatternElementCompiler>(2) {{
         add(new WildcardElementCompiler());
+        add(new SectionElementCompiler());
     }});
 
     static {
