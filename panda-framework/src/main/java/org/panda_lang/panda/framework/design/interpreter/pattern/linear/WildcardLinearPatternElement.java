@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.jetbrains.annotations.Nullable;
 
-class WildcardLinearPatternElement extends LinearPatternElement {
+final class WildcardLinearPatternElement extends LinearPatternElement {
 
     enum Type {
         DEFAULT,

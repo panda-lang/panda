@@ -16,17 +16,30 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.framework.design.resource.Syntax;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
 class LinearPatternCompiler {
 
+    protected final Syntax syntax;
+    protected final Collection<LinearPatternElementCompiler> elementCompilers;
+
+    public LinearPatternCompiler(Syntax syntax, Collection<LinearPatternElementCompiler> compilers) {
+        this.syntax = syntax;
+        this.elementCompilers = compilers;
+    }
+
+    protected void initialize() {
+        for (LinearPatternElementCompiler compiler : elementCompilers) {
+            compiler.initialize(this);
+        }
+    }
+
     protected LinearPattern compile(String pattern) {
-        LinearPatternCompilerWorker worker = new LinearPatternCompilerWorker(pattern);
+        LinearPatternCompilerWorker worker = new LinearPatternCompilerWorker(this, pattern);
         Optional<List<LinearPatternElement>> elements = worker.compile();
 
         if (!elements.isPresent()) {
@@ -34,69 +47,6 @@ class LinearPatternCompiler {
         }
 
         return new LinearPattern(elements.get());
-    }
-
-    private static class LinearPatternCompilerWorker {
-
-        private final String pattern;
-
-        private LinearPatternCompilerWorker(String pattern) {
-            this.pattern = pattern;
-        }
-
-        private Optional<List<LinearPatternElement>> compile() {
-            String[] elements = StringUtils.split(pattern, " ");
-            List<LinearPatternElement> compiled = new ArrayList<>(elements.length);
-
-            for (String element : elements) {
-                LinearPatternElement compiledElement = compileElement(element);
-
-                if (compiledElement == null) {
-                    return Optional.empty();
-                }
-
-                compiled.add(compiledElement);
-            }
-
-            return Optional.of(compiled);
-        }
-
-        private @Nullable LinearPatternElement compileElement(String element) {
-            if (StringUtils.isEmpty(element)) {
-                return null;
-            }
-
-            String[] data = StringUtils.split(element, ":");
-            String identifier = data.length == 1 ? null : data[0];
-
-            String content = identifier != null ? data[1] : data[0];
-            boolean optional = identifier != null && identifier.startsWith("&");
-
-            if (optional) {
-                identifier = identifier.substring(1);
-            }
-
-            if (content.startsWith("*")) {
-                return compileWildcard(identifier, content, optional);
-            }
-
-            return new UnitLinearPatternElement(identifier, content, optional);
-        }
-
-        private WildcardLinearPatternElement compileWildcard(@Nullable String identifier, String content, boolean optional) {
-            if (!content.contains("=")) {
-                return new WildcardLinearPatternElement(WildcardLinearPatternElement.Type.DEFAULT, identifier, optional);
-            }
-
-            String data = StringUtils.splitFirst(content, "=")[1];
-
-            if (data.equals("expression")) {
-                return new WildcardLinearPatternElement(WildcardLinearPatternElement.Type.EXPRESSION, identifier, optional);
-            }
-
-            return null;
-        }
-
     }
 
 }

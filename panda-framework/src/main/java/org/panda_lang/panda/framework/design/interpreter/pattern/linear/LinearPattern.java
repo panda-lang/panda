@@ -20,13 +20,21 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.PandaSyntax;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
 public class LinearPattern {
 
-    private static final LinearPatternCompiler COMPILER = new LinearPatternCompiler();
+    private static final LinearPatternCompiler COMPILER = new LinearPatternCompiler(new PandaSyntax(), new ArrayList<LinearPatternElementCompiler>() {{
+        add(new WildcardElementCompiler());
+    }});
+
+    static {
+        COMPILER.initialize();
+    }
 
     private final List<LinearPatternElement> element;
 
