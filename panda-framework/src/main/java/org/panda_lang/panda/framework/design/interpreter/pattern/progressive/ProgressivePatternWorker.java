@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 import java.util.Stack;
 
-public class ProgressivePatternWorker {
+class ProgressivePatternWorker {
 
     private final ProgressivePattern extractor;
     private final ProgressivePatternResult result;
@@ -33,13 +33,13 @@ public class ProgressivePatternWorker {
     private Stack<Separator> separators = new Stack<>();
     private PandaSnippet expression = new PandaSnippet();
 
-    public ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, Snippet source) {
+    ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, Snippet source) {
         this.extractor = extractor;
         this.result = result;
         this.source = source;
     }
 
-    public ProgressivePatternResult extract() {
+    ProgressivePatternResult extract() {
         for (TokenRepresentation representation : source) {
             verify(representation);
         }
