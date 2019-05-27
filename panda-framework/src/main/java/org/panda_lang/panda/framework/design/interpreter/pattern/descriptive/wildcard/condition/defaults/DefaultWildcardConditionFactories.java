@@ -23,14 +23,14 @@ import java.util.Collection;
 
 public class DefaultWildcardConditionFactories {
 
-    private static final Collection<WildcardConditionFactory> factories = new ArrayList<>();
+    private static final Collection<WildcardConditionFactory> FACTORIES = new ArrayList<>();
 
     static {
-        factories.add(new TokenWildcardConditionFactory());
+        FACTORIES.add(new TokenWildcardConditionFactory());
     }
 
     public static Collection<WildcardConditionFactory> getDefaultFactories() {
-        return new ArrayList<>(factories);
+        return new ArrayList<>(FACTORIES);
     }
 
 }

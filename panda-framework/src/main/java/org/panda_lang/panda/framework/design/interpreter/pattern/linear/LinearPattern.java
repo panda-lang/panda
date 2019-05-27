@@ -30,14 +30,14 @@ import java.util.function.Function;
  * Fast pattern based on simple linear matching, uses only simple elements:
  *
  * <ul>
- *  <li>unit</li>
- *  <li>wildcards:
- *   <ul>
- *     <li>simple (only one token)</li>
- *     <li>expression</li>
- *   </ul>
- *  </li>
- *  <li>section</li>
+ *     <li>unit</li>
+ *     <li>wildcards:
+ *         <ul>
+ *             <li>simple (only one token)</li>
+ *             <li>expression</li>
+ *         </ul>
+ *     </li>
+ *     <li>section</li>
  * </ul>
  *
  * Supports identifiers and optional elements. <br>

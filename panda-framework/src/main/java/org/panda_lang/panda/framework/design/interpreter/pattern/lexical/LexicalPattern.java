@@ -23,6 +23,25 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.extract
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.extractor.LexicalExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.WildcardProcessor;
 
+/**
+ * Powerful pattern based on simple lexical description. Supports:
+ *
+ * <ul>
+ *     <li>optionals: <code>[tokenA]</code></li>
+ *     <li>variants: <code>(tokenA|tokenB|tokenC)</code></li>
+ *     <li>dynamics: <code>{resolverName}</code></li>
+ *     <li>wildcards with data: <code>&#123;data&#125;</code></li>
+ *     <li>wildcards: <code>*</code></li>
+ *     <li>units: <code>tokenA</code></li>
+ *     <li>identifiers: <code>identifier:tokenA</code></li>
+ * </ul>
+ *
+ * Example: <br><br>
+ *
+ * <code>(send msg:[message] wildcard:* 3:to (console|terminalIdentifier:terminal[ ][screen *])|rand)</code><br><br>
+ *
+ * @param <T> the type of the expected return values processed by {@link org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.WildcardProcessor}
+ */
 public class LexicalPattern<T> {
 
     private final LexicalPatternElement pattern;

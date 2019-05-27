@@ -30,6 +30,21 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 
 import java.util.Collection;
 
+/**
+ * DescriptivePattern is based on {@link org.panda_lang.panda.framework.design.interpreter.pattern.lexical.LexicalPattern}, enhanced by: <br>
+ *
+ * <ul>
+ *     <li>wildcard condition factories: {@link org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionFactory}</li>
+ *     <li>wildcard readers: {@link org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReader}</li>
+ * </ul>
+ *
+ * Examples: <br><br>
+ *
+ * <code>&#123;type:reader type&#125; &#123;name&#125;</code><br>
+ * <code>&#123;source:reader expression include field&#125;</code><br>
+ * <code>module &#123;module:condition token {type:unknown}, token {value:-}&#125;[;]</code><br><br>
+ *
+ */
 public class DescriptivePattern {
 
     private final LexicalPatternElement patternContent;

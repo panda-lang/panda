@@ -23,14 +23,14 @@ import java.util.Collection;
 
 public class DefaultWildcardReaders {
 
-    private static final Collection<WildcardReader> readers = new ArrayList<>();
+    private static final Collection<WildcardReader> READERS = new ArrayList<>();
 
     static {
-        readers.add(new TypeReader());
+        READERS.add(new TypeReader());
     }
 
     public static Collection<WildcardReader> getDefaultReaders() {
-        return new ArrayList<>(readers);
+        return new ArrayList<>(READERS);
     }
 
 }
