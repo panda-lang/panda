@@ -18,38 +18,12 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Optional;
+interface LinearPatternElementCompiler {
 
-abstract class LinearPatternElement {
+    default void initialize(LinearPatternCompiler compiler) { }
 
-    private final String value;
-    private final @Nullable String identifier;
-    private final boolean optional;
+    boolean handle(LinearPatternCompiler compiler, @Nullable String identifier, String content, boolean optional);
 
-    public LinearPatternElement(String value, @Nullable String identifier, boolean optional) {
-        this.value = value;
-        this.identifier = identifier;
-        this.optional = optional;
-    }
-
-    boolean isWildcard() {
-        return false;
-    }
-
-    boolean isUnit() {
-        return false;
-    }
-
-    public boolean isOptional() {
-        return optional;
-    }
-
-    Optional<String> getIdentifier() {
-        return Optional.ofNullable(identifier);
-    }
-
-    public String getValue() {
-        return value;
-    }
+    LinearPatternElement compile(LinearPatternCompiler compiler, @Nullable String identifier, String content, boolean optional);
 
 }

@@ -17,39 +17,19 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 
-import java.util.Optional;
+final class SectionLinearPatternElement extends LinearPatternElement {
 
-abstract class LinearPatternElement {
+    private final Separator separator;
 
-    private final String value;
-    private final @Nullable String identifier;
-    private final boolean optional;
-
-    public LinearPatternElement(String value, @Nullable String identifier, boolean optional) {
-        this.value = value;
-        this.identifier = identifier;
-        this.optional = optional;
+    public SectionLinearPatternElement(Separator separator, String value, @Nullable String identifier, boolean optional) {
+        super(value, identifier, optional);
+        this.separator = separator;
     }
 
-    boolean isWildcard() {
-        return false;
-    }
-
-    boolean isUnit() {
-        return false;
-    }
-
-    public boolean isOptional() {
-        return optional;
-    }
-
-    Optional<String> getIdentifier() {
-        return Optional.ofNullable(identifier);
-    }
-
-    public String getValue() {
-        return value;
+    public Separator getSeparator() {
+        return separator;
     }
 
 }
