@@ -40,6 +40,10 @@ public interface LexicalPatternElement {
 
     boolean isOptional();
 
+    default boolean isSection() {
+        return this instanceof LexicalPatternSection;
+    }
+
     default boolean isVariant() {
         return this.isNode() && this.toNode().isVariant();
     }

@@ -20,8 +20,12 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternDynamic;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternNode;
+import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternSection;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternUnit;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.iterable.CharArrayDistributor;
@@ -34,6 +38,7 @@ import java.util.List;
 public class LexicalPatternCompiler {
 
     private static final char[] IDENTIFIER_CHARACTERS = CharacterUtils.mergeArrays(CharacterUtils.LITERALS, CharacterUtils.arrayOf('-'));
+    private static final Separator[] OPENING_SEPARATORS = Separators.getOpeningSeparators();
 
     private char escapeCharacter = '\\';
     private boolean splitByWhitespaces = false;
@@ -56,6 +61,16 @@ public class LexicalPatternCompiler {
 
             LexicalPatternElement element = null;
 
+            if (previousChar == '~' && identifier != null) {
+                String separatorValue = Character.toString(currentChar);
+                Separator separator = ArrayUtils.findIn(OPENING_SEPARATORS, token -> token.getValue().equals(separatorValue));
+
+                if (separator == null) {
+                    throw new LexicalPatternException("Unknown separator: " + currentChar);
+                }
+
+                element = new LexicalPatternSection(separator);
+            }
             if (isPatternOperator(previousChar, currentChar, '[')) {
                 element = this.compileOptional(contentReader.readCurrent());
             }

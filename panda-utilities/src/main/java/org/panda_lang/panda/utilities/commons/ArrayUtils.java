@@ -22,10 +22,21 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Predicate;
 
 public final class ArrayUtils {
 
     private ArrayUtils() { }
+
+    public static <T> @Nullable T findIn(T[] array, Predicate<T> condition) {
+        for (T element : array) {
+            if (condition.test(element)) {
+                return element;
+            }
+        }
+
+        return null;
+    }
 
     /**
      * Convert array of elements to list, but skip empty (null) values
