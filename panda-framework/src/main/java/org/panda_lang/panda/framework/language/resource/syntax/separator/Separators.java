@@ -70,10 +70,6 @@ public class Separators {
         return new Separator[] { BRACE_LEFT, SQUARE_BRACKET_LEFT, PARENTHESIS_LEFT };
     }
 
-    public static Separator[] getClosingSeparators() {
-        return new Separator[] { BRACE_RIGHT, SQUARE_BRACKET_RIGHT, PARENTHESIS_RIGHT };
-    }
-
     public static Separator[] values() {
         return VALUES.toArray(new Separator[0]);
     }

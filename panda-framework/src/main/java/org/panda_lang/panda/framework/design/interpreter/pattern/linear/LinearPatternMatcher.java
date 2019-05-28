@@ -97,7 +97,11 @@ class LinearPatternMatcher {
                 return false;
             }
 
-            identifier.ifPresent(identifiers::add);
+            if (identifier.isPresent()) {
+                identifiers.add(identifier.get());
+                wildcards.put(identifier.get(), section.getContent());
+            }
+
             return true;
         }
 
