@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public interface ParserHandler {
 
@@ -25,6 +25,6 @@ public interface ParserHandler {
      * @param source source
      * @return returns true if parsers fits to source
      */
-    boolean handle(ParserData data, SourceStream source);
+    boolean handle(ParserData data, Snippet source);
 
 }
