@@ -87,7 +87,7 @@ public class ApplicationParser implements Parser {
         baseData.setComponent(UniversalComponents.EXPRESSION, expressionParser);
 
         Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
-                // .enableSections()
+                //.enableSections()
                 .build();
 
         for (Source source : sourceSet.getSources()) {

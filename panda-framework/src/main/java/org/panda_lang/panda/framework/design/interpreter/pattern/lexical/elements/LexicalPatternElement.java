@@ -24,6 +24,10 @@ public interface LexicalPatternElement {
         return (LexicalPatternWildcard) this;
     }
 
+    default LexicalPatternSection toSection() {
+        return (LexicalPatternSection) this;
+    }
+
     default LexicalPatternNode toNode() {
         return (LexicalPatternNode) this;
     }
@@ -40,12 +44,12 @@ public interface LexicalPatternElement {
 
     boolean isOptional();
 
-    default boolean isSection() {
-        return this instanceof LexicalPatternSection;
-    }
-
     default boolean isVariant() {
         return this.isNode() && this.toNode().isVariant();
+    }
+
+    default boolean isSection() {
+        return this instanceof LexicalPatternSection;
     }
 
     default boolean isWildcard() {

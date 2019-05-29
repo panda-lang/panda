@@ -71,7 +71,7 @@ public class LexicalPatternCompiler {
 
                 element = new LexicalPatternSection(separator);
             }
-            if (isPatternOperator(previousChar, currentChar, '[')) {
+            else if (isPatternOperator(previousChar, currentChar, '[')) {
                 element = this.compileOptional(contentReader.readCurrent());
             }
             else if (isPatternOperator(previousChar, currentChar, '(')) {

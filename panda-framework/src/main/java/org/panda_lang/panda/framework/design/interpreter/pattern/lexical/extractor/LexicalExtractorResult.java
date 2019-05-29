@@ -25,12 +25,18 @@ import java.util.List;
 
 public class LexicalExtractorResult<T> {
 
+    private static final LexicalExtractorResult<?> ERR = new LexicalExtractorResult<>(false);
+
     private final boolean matched;
     private final List<String> wildcards;
     private final List<String> identifiers;
     private final List<ProcessedValue<T>> processedValues;
 
-    public LexicalExtractorResult(boolean matched) {
+    public LexicalExtractorResult() {
+        this(true);
+    }
+
+    private LexicalExtractorResult(boolean matched) {
         this.matched = matched;
         this.identifiers = matched ? new ArrayList<>() : null;
         this.wildcards = matched ? new ArrayList<>() : null;
@@ -85,6 +91,11 @@ public class LexicalExtractorResult<T> {
 
     public List<String> getWildcards() {
         return wildcards;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> LexicalExtractorResult<T> err() {
+        return (LexicalExtractorResult<T>) ERR;
     }
 
 }

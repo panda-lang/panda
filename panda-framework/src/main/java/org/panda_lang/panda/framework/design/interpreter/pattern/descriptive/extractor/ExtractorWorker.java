@@ -33,19 +33,17 @@ public class ExtractorWorker {
     protected final DescriptivePattern pattern;
     protected final ParserData data;
     protected final SourceStream source;
-    protected final UnitExtractor unitExtractor;
-    protected final WildcardExtractor wildcardExtractor;
-    protected final VariantExtractor variantExtractor;
-    protected final NodeExtractor nodeExtractor;
+
+    protected final UnitExtractor unitExtractor = new UnitExtractor(this);
+    protected final WildcardExtractor wildcardExtractor = new WildcardExtractor(this);
+    protected final SectionExtractor sectionExtractor = new SectionExtractor(this);
+    protected final VariantExtractor variantExtractor = new VariantExtractor(this);
+    protected final NodeExtractor nodeExtractor = new NodeExtractor(this);
 
     ExtractorWorker(DescriptivePattern pattern, ParserData data, SourceStream source) {
         this.pattern = pattern;
         this.data = data;
         this.source = source;
-        this.unitExtractor = new UnitExtractor(this);
-        this.wildcardExtractor = new WildcardExtractor(this);
-        this.variantExtractor = new VariantExtractor(this);
-        this.nodeExtractor = new NodeExtractor(this);
     }
 
     protected ExtractorResult extract() {
@@ -79,6 +77,10 @@ public class ExtractorWorker {
 
         if (element.isWildcard()) {
             return wildcardExtractor.extract(element.toWildcard(), distributor);
+        }
+
+        if (element.isSection()) {
+            return sectionExtractor.extract(element.toSection(), distributor);
         }
 
         if (element.isVariant()) {
