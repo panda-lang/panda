@@ -48,8 +48,8 @@ public class PandaApplication implements Application {
                     .flatMap(script -> script.getStatements().stream())
                     .collect(Collectors.toList());
 
-            System.out.println("Size: " + statements.size());
-            statements.forEach(statement -> System.out.println("statement: " + statement.toString()));
+            PandaFramework.getLogger().debug("Size: " + statements.size());
+            statements.forEach(statement -> PandaFramework.getLogger().debug("statement: " + statement.toString()));
 
             throw new RuntimeException("Main statement not found");
         }
