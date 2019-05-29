@@ -52,11 +52,6 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
 
     @Override
     public P handle(ParserData data, Snippet source) {
-        return handleWithUpdatedSource(data, new PandaSourceStream(source));
-    }
-
-    @Override
-    public P handleWithUpdatedSource(ParserData data, SourceStream source) {
         if (count > 100) {
             count = 0;
             sort();
@@ -73,17 +68,14 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
         return handle(data, source, representations);
     }
 
-    private @Nullable P handle(ParserData data, SourceStream source, Collection<? extends ParserRepresentation<P>> representations) {
+    private @Nullable P handle(ParserData data, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
-        Snippet cached = source.toSnippet();
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
-            source.update(cached);
 
             if (handler.handle(data, source)) {
                 representation.increaseUsages();
-                source.updateCachedSource();
 
                 long time = System.nanoTime() - currentTime;
                 handleTime += time;
@@ -97,7 +89,6 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
             }
         }
 
-        source.update(cached);
         handleTime += (System.nanoTime() - currentTime);
         return null;
     }
