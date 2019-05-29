@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
@@ -43,9 +44,12 @@ public class PandaApplication implements Application {
                 .collect(Collectors.toList());
 
         if (mains.isEmpty()) {
-            scripts.stream()
+            List<Statement> statements = scripts.stream()
                     .flatMap(script -> script.getStatements().stream())
-                    .forEach(statement -> System.out.println("statement: " + statement.toString()));
+                    .collect(Collectors.toList());
+
+            System.out.println("Size: " + statements.size());
+            statements.forEach(statement -> System.out.println("statement: " + statement.toString()));
 
             throw new RuntimeException("Main statement not found");
         }
