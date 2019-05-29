@@ -42,7 +42,6 @@ public class PandaParserFailure extends ParserFailure {
         this.data = builder.data.fork();
 
         SourceStream source = builder.source != null ? builder.source : this.data.getComponent(UniversalComponents.SOURCE_STREAM);
-        source.restoreCachedSource();
 
         this.currentLine = source.getCurrentLine();
         this.element = source.readLineResidue().toString();
@@ -62,11 +61,6 @@ public class PandaParserFailure extends ParserFailure {
 
     public PandaParserFailure(String message, String details, ParserData data) {
         this(builder().message(message).details(details).data(data));
-    }
-
-    public PandaParserFailure withUpdatedSource() {
-        data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();
-        return this;
     }
 
     @Override

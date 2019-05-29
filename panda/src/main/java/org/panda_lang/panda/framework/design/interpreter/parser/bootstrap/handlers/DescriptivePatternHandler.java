@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaP
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public class DescriptivePatternHandler implements BootstrapHandler, ParserHandler {
 
@@ -35,7 +35,7 @@ public class DescriptivePatternHandler implements BootstrapHandler, ParserHandle
     }
 
     @Override
-    public boolean handle(ParserData data, SourceStream source) {
+    public boolean handle(ParserData data, Snippet source) {
         return pattern.extract(data, source).isMatched();
     }
 

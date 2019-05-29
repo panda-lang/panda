@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -36,6 +37,7 @@ import org.panda_lang.panda.framework.language.architecture.statement.Expression
 import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.Optional;
 
@@ -55,15 +57,16 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        Optional<Expression> expression = expressionParser.parseSilently(data, source, SETTINGS);
+    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
+        SourceStream stream = new PandaSourceStream(source);
+        Optional<Expression> expression = expressionParser.parseSilently(data, stream, SETTINGS);
 
         if (!expression.isPresent()) {
             return false;
         }
 
         this.expression = expression.get();
-        this.read = source.getReadLength();
+        this.read = stream.getReadLength();
         return true;
     }
 

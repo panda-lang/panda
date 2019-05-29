@@ -49,11 +49,11 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
+    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
         return ObjectUtils.isNotNull(data
                 .getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(data, source.toSnippet()));
+                .handle(data, source));
     }
 
     @Autowired(order = 1)
