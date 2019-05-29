@@ -47,7 +47,6 @@ public class OverallParser implements Parser {
         int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {
-            stream.updateCachedSource();
             throw new PandaParserFailure("Unrecognized syntax", data);
         }
 

@@ -42,8 +42,8 @@ public class DefaultFailureTemplateBuilder {
                 .register("{{message}}", exception::getMessage)
                 .register("{{index}}", () -> index)
                 .register("{{source}}", () -> index < 0 ? source : source.substring(0, index)
-                        + Colored.on(source.substring(index, endIndex)).effect(Effect.RED)
-                        + source.substring(endIndex))
+                    + Colored.on(source.substring(index, endIndex)).effect(Effect.RED)
+                    + source.substring(endIndex))
                 .register("{{stacktrace-last}}", () -> {
                     StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
 

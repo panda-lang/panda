@@ -25,7 +25,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.architecture.statement.CommentStatement;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
@@ -37,8 +36,8 @@ import java.util.List;
 public class CommentParser implements UnifiedParser<CommentStatement>, ParserHandler {
 
     @Override
-    public boolean handle(ParserData data, SourceStream source) {
-        return isComment(source.read().getToken());
+    public boolean handle(ParserData data, Snippet source) {
+        return isComment(source.getFirst().getToken());
     }
 
     @Override

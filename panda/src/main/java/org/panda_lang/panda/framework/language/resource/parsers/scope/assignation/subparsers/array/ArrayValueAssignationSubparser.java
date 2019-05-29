@@ -28,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interc
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -55,21 +56,15 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        TokenRepresentation sectionRepresentation = source.toSnippet().getLast();
+    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
+        TokenRepresentation sectionRepresentation = source.getLast();
 
         if (sectionRepresentation.getType() != TokenType.SECTION) {
             return false;
         }
 
         Section section = sectionRepresentation.toToken();
-
-        if (!section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
-            return false;
-        }
-
-        source.read(source.getUnreadLength());
-        return true;
+        return section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT);
     }
 
     @Autowired

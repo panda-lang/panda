@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
 
@@ -28,12 +28,12 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
 
     protected abstract BootstrapParserBuilder<T> initialize(ParserData data, BootstrapParserBuilder<T> defaultBuilder);
 
-    public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
+    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
         return handler.handle(data, source);
     }
 
     @Override
-    public final boolean handle(ParserData data, SourceStream source) {
+    public final boolean handle(ParserData data, Snippet source) {
         return customHandle(get(data).getHandler(), data, source);
     }
 

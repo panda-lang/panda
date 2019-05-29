@@ -45,7 +45,6 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
             LinearPatternResult result = pattern.match(data.getComponent(UniversalComponents.SOURCE_STREAM), source -> expressionParser.parse(data, source));
 
             if (!result.isMatched()) {
-                data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();
                 throw new PandaParserFailure("Interceptor could not match token pattern", data);
             }
 
