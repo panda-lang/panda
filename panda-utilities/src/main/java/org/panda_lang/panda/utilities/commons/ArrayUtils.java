@@ -28,6 +28,14 @@ public final class ArrayUtils {
 
     private ArrayUtils() { }
 
+    /**
+     * Find value in array using the predicate condition
+     *
+     * @param array the array to search in
+     * @param condition the condition
+     * @param <T> type of array
+     * @return the found element or null
+     */
     public static <T> @Nullable T findIn(T[] array, Predicate<T> condition) {
         for (T element : array) {
             if (condition.test(element)) {
