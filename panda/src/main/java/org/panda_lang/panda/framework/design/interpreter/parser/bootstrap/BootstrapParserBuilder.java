@@ -89,6 +89,7 @@ public class BootstrapParserBuilder<T> {
     }
 
     public BootstrapParserBuilder<T> layers(Class<?> clazz) {
+        System.out.println("[LAYERS] Clazz: " + clazz.toString());
         return layers(ReflectionUtils.getMethodsAnnotatedWith(clazz, Autowired.class));
     }
 
@@ -100,8 +101,12 @@ public class BootstrapParserBuilder<T> {
         methods.stream()
                 .map(LayerMethod::new)
                 .sorted(Comparator.comparingInt(LayerMethod::getOrder))
-                .forEach(layers::add);
+                .forEach(layer -> {
+                    layers.add(layer);
+                    System.out.println("[LAYERS] " + layer.getMethod().getName());
+                });
 
+        System.out.println("[LAYERS] Size: " + methods.size());
         return this;
     }
 
