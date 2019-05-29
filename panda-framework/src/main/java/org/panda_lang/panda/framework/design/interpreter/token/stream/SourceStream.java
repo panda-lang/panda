@@ -37,6 +37,11 @@ public interface SourceStream {
     Snippet read(int length);
 
     /**
+     * Read the specified amount of tokens and dispose result (it won't create snippet)
+     */
+    void dispose(int length);
+
+    /**
      * Read the rest of the current line
      *
      * @return the rest of the source at the current line
@@ -44,26 +49,11 @@ public interface SourceStream {
     Snippet readLineResidue();
 
     /**
-     * Restore the previous source (before the read operation)
+     * Check if the source has available content
      *
-     * @return the current instance with restored content
+     * @return true if source contains available for read content
      */
-    SourceStream restoreCachedSource();
-
-    /**
-     * Override cached source
-     *
-     * @return the current instance
-     */
-    SourceStream updateCachedSource();
-
-    /**
-     * Replace content with the specified source
-     *
-     * @param source the content
-     * @return the current instance with updated source
-     */
-    SourceStream update(Snippet source);
+    boolean hasUnreadSource();
 
     /**
      * Get original source used to create the stream
@@ -71,32 +61,6 @@ public interface SourceStream {
      * @return the original source
      */
     Snippet getOriginalSource();
-
-    /**
-     * Get current source as Tokens
-     *
-     * @return the current content wrapped in Tokens
-     */
-    Snippet toSnippet();
-
-    /**
-     * Read the same amount of tokens as in the provided snippet
-     *
-     * @param source the source to compare with
-     * @return the read source
-     */
-    default Snippet readDifference(Snippet source) {
-        return read(source.size());
-    }
-
-    /**
-     * Check if the source has available content
-     *
-     * @return true if source contains available for read content
-     */
-    default boolean hasUnreadSource() {
-        return !toSnippet().isEmpty();
-    }
 
     /**
      * Get current line
@@ -113,7 +77,7 @@ public interface SourceStream {
      * @return the amount of read tokens
      */
     default int getReadLength() {
-        return getOriginalLength() - getUnreadLength();
+        return getOriginalSource().size() - getUnreadLength();
     }
 
     /**
@@ -126,12 +90,10 @@ public interface SourceStream {
     }
 
     /**
-     * Get the original length of source
+     * Get current source as Tokens
      *
-     * @return the original length of source
+     * @return the current content wrapped in Tokens
      */
-    default int getOriginalLength() {
-        return getOriginalSource().size();
-    }
+    Snippet toSnippet();
 
 }
