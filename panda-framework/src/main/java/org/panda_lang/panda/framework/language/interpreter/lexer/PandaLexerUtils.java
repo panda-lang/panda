@@ -25,7 +25,7 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class PandaLexerUtils {
 
-    private static final PandaLexer LEXER = PandaLexer.of(new PandaSyntax()).build();
+    private static final PandaLexer LEXER = PandaLexer.of(new PandaSyntax()).enableSections().build();
 
     public static Snippet convert(String source) {
         return LEXER.convert(new PandaSource("runtime::PandaLexerUtils", source));

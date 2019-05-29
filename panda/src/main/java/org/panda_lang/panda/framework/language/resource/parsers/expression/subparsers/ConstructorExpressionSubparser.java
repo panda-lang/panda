@@ -99,7 +99,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                 return parseDefault(context, source, type, section.getContent());
             }
 
-            return parseArray(context, source, type, section.getContent());
+            return parseArray(context, source, type, section);
         }
 
         private ExpressionResult parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {
@@ -113,15 +113,17 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             return ExpressionResult.of(new InstanceExpressionCallback(type, constructor, arguments).toExpression());
         }
 
-        private ExpressionResult parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet capacitySource) {
+        private ExpressionResult parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Section capacitySourceSection) {
             Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getData(), type.getClassName() + "[]");
 
             if (!reference.isPresent()) {
                 return ExpressionResult.error("Cannot fetch type: " + type.getClassName() + "[]", source.getLastReadSource());
             }
 
+            Snippet capacitySource = capacitySourceSection.getContent();
+
             if (capacitySource.isEmpty()) {
-                return ExpressionResult.error("Array requires specified capacity", source.getLastReadSource());
+                return ExpressionResult.error("Array requires specified capacity", capacitySourceSection.getOpeningSeparator());
             }
 
             Expression capacity = context.getParser().parse(context.getData(), capacitySource);

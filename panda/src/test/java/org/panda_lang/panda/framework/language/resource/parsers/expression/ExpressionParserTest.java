@@ -64,7 +64,7 @@ class ExpressionParserTest extends ExpressionParserTestBootstrap {
     @Test
     public void parseArrayAssignation() {
         parse("array[0]");
-        parse("array[]", "Expression expected");
+        parse("array[]", "Missing index expression");
         parse("array['text']", "Index of array has to be Integer");
         parse("array[0] true", RuntimeException.class, "Unread source: true");
     }
