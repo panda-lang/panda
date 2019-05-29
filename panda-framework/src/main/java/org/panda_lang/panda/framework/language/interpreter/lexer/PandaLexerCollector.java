@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.language.interpreter.token.MutableTokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
@@ -31,6 +32,7 @@ class PandaLexerCollector {
     private final PandaLexerWorker worker;
     private final List<TokenRepresentation> representations = new ArrayList<>();
     private final Stack<TokenRepresentation> sections = new Stack<>();
+    private final Stack<MutableTokenRepresentation> closingSeparators = new Stack<>();
 
     public PandaLexerCollector(PandaLexerWorker worker) {
         this.worker = worker;
@@ -72,19 +74,22 @@ class PandaLexerCollector {
                 return false;
             }
 
-            popSection();
+            popSection(separatorRepresentation);
             return true;
         }
 
         return false;
     }
 
-    private void initializeSection(TokenRepresentation separator) {
-        Section section = new Section(separator.toToken(), new PandaSnippet());
-        sections.push(new PandaTokenRepresentation(section, separator.getLine(), separator.getPosition() - 1));
+    private void initializeSection(TokenRepresentation openingSeparator) {
+        MutableTokenRepresentation closingSeparator = new MutableTokenRepresentation();
+        Section section = new Section(openingSeparator, new PandaSnippet(), closingSeparator);
+
+        sections.push(new PandaTokenRepresentation(section, openingSeparator.getLine(), openingSeparator.getPosition() - 1));
+        closingSeparators.push(closingSeparator);
     }
 
-    private void popSection() {
+    private void popSection(TokenRepresentation separator) {
         TokenRepresentation section = sections.pop();
 
         if (sections.isEmpty()) {
@@ -94,6 +99,7 @@ class PandaLexerCollector {
 
         Section parentSection = sections.peek().toToken();
         parentSection.getContent().addToken(section);
+        closingSeparators.pop().setRepresentation(separator);
     }
 
     protected List<TokenRepresentation> collect() {

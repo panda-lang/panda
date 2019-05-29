@@ -59,6 +59,10 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            if (section.getContent().isEmpty()) {
+                return ExpressionResult.error("Expression expected", current);
+            }
+
             return ExpressionResult.of(context.getParser().parse(context.getData(), section.getContent()));
         }
 

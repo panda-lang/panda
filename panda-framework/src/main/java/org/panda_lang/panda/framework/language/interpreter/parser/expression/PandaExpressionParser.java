@@ -107,6 +107,10 @@ public class PandaExpressionParser implements ExpressionParser {
         ExpressionContext context = new ExpressionContext(this, data, source);
         ExpressionParserWorker worker = new ExpressionParserWorker(this, context, source, subparsers, settings);
 
+        if (source.getOriginalLength() == 0) {
+            throw new ExpressionParserException("Expression expected", context, source);
+        }
+
         for (TokenRepresentation representation : context.getDiffusedSource()) {
             if (!worker.next(context.withUpdatedToken(representation))) {
                 break;

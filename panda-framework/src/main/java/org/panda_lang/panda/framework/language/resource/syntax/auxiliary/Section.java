@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.auxiliary;
 
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.token.EqualableToken;
@@ -23,11 +24,13 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class Section extends EqualableToken {
 
-    private final Separator separator;
+    private final TokenRepresentation openingSeparator;
+    private final TokenRepresentation closingSeparator;
     private final Snippet content;
 
-    public Section(Separator separator, Snippet content) {
-        this.separator = separator;
+    public Section(TokenRepresentation openingSeparator, Snippet content, TokenRepresentation closingSeparator) {
+        this.openingSeparator = openingSeparator;
+        this.closingSeparator = closingSeparator;
         this.content = content;
     }
 
@@ -45,13 +48,21 @@ public class Section extends EqualableToken {
         return content;
     }
 
+    public TokenRepresentation getOpeningSeparator() {
+        return openingSeparator;
+    }
+
+    public TokenRepresentation getClosingSeparator() {
+        return closingSeparator;
+    }
+
     public Separator getSeparator() {
-        return separator;
+        return openingSeparator.toToken();
     }
 
     @Override
     public String toString() {
-        return separator.toString() + " " + super.toString() + " " + separator.getOpposite().toString();
+        return getSeparator().toString() + " " + super.toString() + " " + getSeparator().getOpposite().toString();
     }
 
 }

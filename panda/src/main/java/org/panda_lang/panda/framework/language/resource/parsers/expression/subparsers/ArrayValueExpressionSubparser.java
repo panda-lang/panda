@@ -67,6 +67,10 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
+            if (section.getContent().isEmpty()) {
+                return ExpressionResult.error("Missing index expression", section.getOpeningSeparator());
+            }
+
             Expression instanceExpression = context.getResults().pop();
 
             if (!instance.getReturnType().isArray()) {
