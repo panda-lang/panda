@@ -68,7 +68,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.CLASS))
-                .pattern("class <name> [extends <inherited>] `{ [<*body>] `}");
+                .pattern("class <name> [extends <inherited>] body:~{");
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL)
@@ -110,7 +110,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Nullable @Src("*body") Snippet body) throws Throwable {
+    public void parseBody(ParserData data, Generation generation, @Nullable @Src("body") Snippet body) throws Throwable {
         if (SnippetUtils.isEmpty(body)) {
             return;
         }
@@ -123,10 +123,11 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
-            UnifiedParser parser = pipeline.handle(bodyInfo, stream.toSnippet());
+            Snippet currentSource = stream.toSnippet();
+            UnifiedParser parser = pipeline.handle(bodyInfo, currentSource);
 
             if (parser == null) {
-                throw new PandaParserFailure("Cannot parse the element of the prototype", data.setComponent(UniversalComponents.SOURCE_STREAM, stream.updateCachedSource()));
+                throw new PandaParserFailure("Cannot parse the element of the prototype", data, currentSource);
             }
 
             parser.parse(bodyInfo);

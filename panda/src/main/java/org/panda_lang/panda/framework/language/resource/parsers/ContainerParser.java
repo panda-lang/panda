@@ -57,11 +57,12 @@ public class ContainerParser implements Parser {
         delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
         while (source.hasUnreadSource()) {
+            Snippet currentSource = source.toSnippet();
             UnifiedParser parser = pipeline.handle(delegatedData.fork(), source.toSnippet());
             int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
-                throw new PandaParserFailure("Unrecognized syntax", data, source.toSnippet());
+                throw new PandaParserFailure("Unrecognized syntax", data, currentSource);
             }
 
             source.updateCachedSource();

@@ -57,7 +57,7 @@ final class SectionElementCompiler implements LinearPatternElementCompiler {
 
     @Override
     public LinearPatternElement compile(LinearPatternCompiler compiler, @Nullable String identifier, String content, boolean optional) {
-        return new SectionLinearPatternElement(handle, identifier, content, optional);
+        return new SectionLinearPatternElement(handle, content, identifier, optional);
     }
 
 }

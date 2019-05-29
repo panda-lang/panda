@@ -26,6 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
@@ -42,7 +43,8 @@ public class MainParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.MAIN))
-                .pattern("main `{ [<*main-body>] `}");
+                .interceptor(new LinearPatternInterceptor())
+                .pattern("main body:{~}");
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
@@ -52,7 +54,7 @@ public class MainParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    private void parseScope(ParserData data, @Local MainScope main, @Src("*main-body") @Nullable Snippet body) throws Throwable {
+    private void parseScope(ParserData data, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Throwable {
         ScopeParser.createParser(main, data)
                 .forkData()
                 .initializeLinker()

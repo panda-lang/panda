@@ -33,13 +33,13 @@ final class SectionExtractor extends AbstractElementExtractor<LexicalPatternSect
         TokenRepresentation next = distributor.next();
 
         if (next.getType() != TokenType.SECTION) {
-            return new ExtractorResult();
+            return new ExtractorResult("Token is not section");
         }
 
         Section section = next.toToken();
 
         if (!section.getSeparator().equals(element.getSeparator())) {
-            return new ExtractorResult();
+            return new ExtractorResult("Section separators does not match");
         }
 
         return new ExtractorResult()

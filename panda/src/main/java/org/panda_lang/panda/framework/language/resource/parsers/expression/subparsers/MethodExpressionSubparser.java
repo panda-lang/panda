@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
@@ -27,11 +26,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.ContentProcessor;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.invoker.MethodInvokerExpressionParser;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class MethodExpressionSubparser implements ExpressionSubparser {
@@ -63,7 +61,11 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
 
             String methodName = token.getValue();
 
-            if (!context.getDiffusedSource().hasNext() || !context.getDiffusedSource().getNext().contentEquals(Separators.PARENTHESIS_LEFT)) {
+            if (!context.getDiffusedSource().hasNext() || context.getDiffusedSource().getNext().getType() != TokenType.SECTION) {
+                return null;
+            }
+            
+            if (!context.getDiffusedSource().getNext().toToken(Section.class).getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
                 return null;
             }
 
@@ -83,16 +85,8 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Cannot find method called '" + methodName + "'", context.getCurrentRepresentation());
             }
 
-            SeparatedContentReader parametersReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.NON_PROCESSING);
-            TokenRepresentation separator = context.getDiffusedSource().next();
-            ExpressionResult result = parametersReader.read(context);
-
-            if (!parametersReader.hasContent()) {
-                return ExpressionResult.error("Cannot read parameters", separator);
-            }
-
             MethodInvokerExpressionParser methodParser = new MethodInvokerExpressionParser();
-            methodParser.parse(context.getData(), instance, methodName, parametersReader.getContent());
+            methodParser.parse(context.getData(), instance, methodName, context.getDiffusedSource().next().toToken(Section.class).getContent());
 
             if (context.hasResults()) {
                 context.popExpression();

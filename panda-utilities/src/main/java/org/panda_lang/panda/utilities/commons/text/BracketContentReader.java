@@ -30,6 +30,7 @@ public class BracketContentReader {
     private final CharArrayDistributor distributor;
     private char[] openingSequence = OPENING_SEQUENCE;
     private char[] closingSequence = CLOSING_SEQUENCE;
+    private char[] escape = new char[0];
 
     public BracketContentReader(CharArrayDistributor distributor) {
         this.distributor = distributor;
@@ -62,7 +63,7 @@ public class BracketContentReader {
                 break;
             }
 
-            verifySequences(sequences, openingSequence, closingSequence, current);
+            verifySequences(sequences, escape, openingSequence, closingSequence, distributor.getPrevious(), current);
             content.append(current);
         }
 
@@ -73,6 +74,10 @@ public class BracketContentReader {
         return content.toString();
     }
 
+    public void setEscapeCharacters(char[] escape) {
+        this.escape = escape;
+    }
+
     public void setOpeningSequence(char[] openingSequence) {
         this.openingSequence = openingSequence;
     }
@@ -81,7 +86,11 @@ public class BracketContentReader {
         this.closingSequence = closingSequence;
     }
 
-    protected static void verifySequences(Stack<Character> sequences, char[] openingSequence, char[] closingSequence, char current) {
+    protected static void verifySequences(Stack<Character> sequences, char[] escape, char[] openingSequence, char[] closingSequence, char previous, char current) {
+        if (CharacterUtils.belongsTo(previous, escape)) {
+            return;
+        }
+
         if (sequences.size() > 0 && CharacterUtils.belongsTo(current, closingSequence)) {
             char leftCurrent = openingSequence[CharacterUtils.getIndex(closingSequence, current)];
 

@@ -44,6 +44,8 @@ public class ExtractorWorker {
         this.pattern = pattern;
         this.data = data;
         this.source = source;
+
+        this.wildcardExtractor.initialize();
     }
 
     protected ExtractorResult extract() {

@@ -55,14 +55,14 @@ public class LexicalPatternCompiler {
             char previousChar = distributor.getPrevious();
             String identifier = null;
 
-            if (isPatternOperator(previousChar, currentChar, '<', '(', '{', '[', '*') && unitBuilder.length() > 0) {
+            if (isPatternOperator(previousChar, currentChar, '<', '(', '{', '[', '*', '~') && unitBuilder.length() > 0) {
                 identifier = compile(elements, unitBuilder);
             }
 
             LexicalPatternElement element = null;
 
-            if (previousChar == '~' && identifier != null) {
-                String separatorValue = Character.toString(currentChar);
+            if (currentChar == '~' && identifier != null) {
+                String separatorValue = Character.toString(distributor.next());
                 Separator separator = ArrayUtils.findIn(OPENING_SEPARATORS, token -> token.getValue().equals(separatorValue));
 
                 if (separator == null) {
@@ -171,6 +171,7 @@ public class LexicalPatternCompiler {
 
     private LexicalPatternElement compileVariant(String pattern) {
         AttentiveContentReader contentReader = new AttentiveContentReader(pattern);
+        contentReader.setEscapeCharacters(new char[] { escapeCharacter, '~' });
 
         List<String> variants = contentReader.select('|');
         List<LexicalPatternElement> elements = new ArrayList<>(variants.size());
@@ -197,6 +198,8 @@ public class LexicalPatternCompiler {
         }
         else {
             AttentiveContentReader contentReader = new AttentiveContentReader(pattern);
+            //contentReader.setEscapeCharacters(new char[] { escapeCharacter, '~' });
+
             List<String> variants = contentReader.select(':');
 
             if (variants.size() < 2) {

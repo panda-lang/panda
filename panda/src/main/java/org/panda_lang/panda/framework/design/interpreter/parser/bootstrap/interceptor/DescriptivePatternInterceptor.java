@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
@@ -25,14 +26,18 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptiv
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class DescriptivePatternInterceptor implements BootstrapInterceptor {
 
+    private PandaParserBootstrap bootstrap;
     private DescriptivePattern pattern;
 
     @Override
     public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
+        this.bootstrap = bootstrap;
+
         if (bootstrap.getPattern() == null) {
             return;
         }
@@ -47,11 +52,14 @@ public class DescriptivePatternInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
+            Snippet currentSource = data.getComponent(UniversalComponents.SOURCE_STREAM).toSnippet();
             ExtractorResult result = pattern.extract(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
 
             if (!result.isMatched()) {
-                data.getComponent(UniversalComponents.SOURCE_STREAM).updateCachedSource();
-                throw new PandaParserFailure("Interceptor could not match token pattern, error: " + result.getErrorMessage(), data);
+                PandaFramework.getLogger().error("Bootstrap parser: " + bootstrap.getPattern().toString());
+                PandaFramework.getLogger().error("Source: " + currentSource.toString());
+
+                throw new PandaParserFailure("Interceptor could not match token pattern, error: " + result.getErrorMessage(), data, currentSource);
             }
 
             interceptorData.addElement(new DescriptivePatternMapping(result));

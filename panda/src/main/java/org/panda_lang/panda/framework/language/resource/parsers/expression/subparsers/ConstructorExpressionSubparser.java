@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
@@ -33,18 +34,15 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.ContentProcessor;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.SeparatedContentReader;
-import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.common.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.ArrayInstanceExpression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.InstanceExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.common.ArgumentsParser;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
-import org.panda_lang.panda.utilities.commons.iterable.Loop;
 
 import java.util.Arrays;
 import java.util.Optional;
@@ -77,34 +75,31 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             }
 
             DiffusedSource source = context.getDiffusedSource();
-            TokenRepresentation current = source.getCurrent();
             source.backup();
 
-            Loop.LoopResult result = Loop.of(source)
-                    .loop((loop, representation) -> loop.breakLoop(TokenUtils.contentEquals(representation, Separators.PARENTHESIS_LEFT, Separators.SQUARE_BRACKET_LEFT)))
-                    .run();
+            Snippet typeSource = new PandaSnippet(source.next());
+            TokenRepresentation sectionRepresentation = source.next();
 
-            if (!result.isBroke()) {
+            if (sectionRepresentation.getType() != TokenType.SECTION) {
                 source.restore();
-                return ExpressionResult.error("Missing type", current);
+                return null;
             }
 
-            Snippet typeSource = source.getLastReadSource().subSource(0, -1);
+            Section section = sectionRepresentation.toToken();
+
+            if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT) && !section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
+                source.restore();
+                return null;
+            }
+
+            source.backup();
             ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getData(), typeSource.asString(), typeSource).fetch();
 
-            TokenRepresentation separator = source.getCurrent();
-            SeparatedContentReader argumentsReader = new SeparatedContentReader((Separator) separator.getToken(), ContentProcessor.NON_PROCESSING);
-            argumentsReader.read(context, source);
-
-            if (argumentsReader.getContent() == null) {
-                return ExpressionResult.error("Broken arguments", separator);
+            if (section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
+                return parseDefault(context, source, type, section.getContent());
             }
 
-            if (separator.contentEquals(Separators.PARENTHESIS_LEFT)) {
-                return parseDefault(context, source, type, argumentsReader.getContent());
-            }
-
-            return parseArray(context, source, type, argumentsReader.getContent());
+            return parseArray(context, source, type, section.getContent());
         }
 
         private ExpressionResult parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {

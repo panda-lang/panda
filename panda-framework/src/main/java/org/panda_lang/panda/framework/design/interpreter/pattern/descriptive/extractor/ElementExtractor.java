@@ -21,6 +21,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.To
 
 interface ElementExtractor<T extends LexicalPatternElement> {
 
+    default void initialize() { }
+
     ExtractorResult extract(T element, TokenDistributor distributor);
 
 }

@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -177,6 +178,17 @@ public interface Snippet extends Iterable<TokenRepresentation> {
 
         for (TokenRepresentation representation : getTokensRepresentations()) {
             Token token = representation.getToken();
+
+            if (token instanceof Section) {
+                Section section = representation.toToken();
+
+                node.append(section.getSeparator())
+                        .append(section.getContent().asString())
+                        .append(section.getSeparator().getOpposite());
+
+                continue;
+            }
+
             node.append(token.getValue());
         }
 

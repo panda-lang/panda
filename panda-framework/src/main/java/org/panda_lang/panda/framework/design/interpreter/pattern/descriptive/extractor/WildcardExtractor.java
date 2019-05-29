@@ -25,10 +25,14 @@ import org.panda_lang.panda.framework.language.interpreter.token.distributors.To
 
 class WildcardExtractor extends AbstractElementExtractor<LexicalPatternWildcard> {
 
-    private final WildcardCompiler wildcardCompiler;
+    private WildcardCompiler wildcardCompiler;
 
     protected WildcardExtractor(ExtractorWorker worker) {
         super(worker);
+    }
+
+    @Override
+    public void initialize() {
         this.wildcardCompiler = new WildcardCompiler(worker.pattern);
     }
 

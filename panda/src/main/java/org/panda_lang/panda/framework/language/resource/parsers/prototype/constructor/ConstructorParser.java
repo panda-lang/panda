@@ -49,11 +49,11 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
-                .pattern("constructor `( [<*parameters>] `) `{ [<*body>] `}");
+                .pattern("constructor parameters:~( body:~{");
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("*parameters") @Nullable Snippet parametersSource) {
+    private void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
@@ -65,7 +65,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("*body") @Nullable Snippet body) throws Throwable {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Throwable {
         ScopeParser.createParser(constructorScope, data)
                 .initializeLinker(classScope, constructorScope)
                 .parse(body);

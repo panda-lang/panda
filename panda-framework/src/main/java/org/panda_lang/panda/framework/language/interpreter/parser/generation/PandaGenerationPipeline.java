@@ -38,7 +38,6 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     @Override
     public boolean execute(ParserData data) throws Throwable {
         while (true) {
-            // System.out.println(generation.toString());
             currentLayer.callDelegates(this, data);
 
             if (currentLayer.countDelegates() > 0) {

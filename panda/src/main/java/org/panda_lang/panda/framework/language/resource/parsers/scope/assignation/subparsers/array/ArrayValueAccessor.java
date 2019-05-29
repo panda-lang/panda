@@ -58,7 +58,7 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
 
     public @Nullable PandaValue perform(ExecutableBranch branch) {
         Object[] array = instance.getExpressionValue(branch).getValue();
-        Number i = index.getExpressionValue(branch).getValue();
+        Integer i = index.getExpressionValue(branch).getValue();
         return action.perform(branch, prototype, type, array, i);
     }
 
@@ -72,7 +72,7 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
             return this;
         }
 
-        @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, Number index);
+        @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index);
 
         default @Nullable ClassPrototype getType() {
             return null;

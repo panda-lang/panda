@@ -62,13 +62,13 @@ public class MethodParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> `( [<*parameters>] `) `{ [<*body>] `}");
+        return defaultBuilder.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> parameters:~( body:~{");
     }
 
     @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
     @AutowiredParameters(skip = 3, value = {
             @Type(with = Src.class, value = "*signature"),
-            @Type(with = Src.class, value = "*parameters")
+            @Type(with = Src.class, value = "parameters")
     })
     boolean parse(ParserData data, LocalData local, ExtractorResult result, Snippet signature, Snippet parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
@@ -115,7 +115,7 @@ public class MethodParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("*body") Snippet body) throws Throwable {
+    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Snippet body) throws Throwable {
         ScopeParser.createParser(methodScope, delegatedData)
                 .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
                 .parse(body);

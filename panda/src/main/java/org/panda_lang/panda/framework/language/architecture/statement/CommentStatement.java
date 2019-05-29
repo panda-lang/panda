@@ -14,20 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
+package org.panda_lang.panda.framework.language.architecture.statement;
 
-import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
+public final class CommentStatement extends AbstractStatement {
 
-abstract class AbstractElementExtractor<T extends LexicalPatternElement> implements ElementExtractor<T> {
+    private final String comment;
 
-    protected final ExtractorWorker worker;
-
-    protected AbstractElementExtractor(ExtractorWorker worker) {
-        this.worker = worker;
+    public CommentStatement(String comment) {
+        this.comment = comment;
     }
 
-    protected ExtractorWorker getWorker() {
-        return worker;
+    public String getComment() {
+        return comment;
     }
 
 }

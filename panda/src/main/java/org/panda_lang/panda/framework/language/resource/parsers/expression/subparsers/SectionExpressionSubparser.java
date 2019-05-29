@@ -17,6 +17,8 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
@@ -24,6 +26,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.ContentProcessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.SeparatedContentReader;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class SectionExpressionSubparser implements ExpressionSubparser {
@@ -44,7 +47,19 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
-            return contentReader.read(context);
+            TokenRepresentation current = context.getCurrentRepresentation();
+
+            if (current.getType() != TokenType.SECTION) {
+                return null;
+            }
+
+            Section section = current.toToken();
+
+            if (!section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
+                return null;
+            }
+
+            return ExpressionResult.of(context.getParser().parse(context.getData(), section.getContent()));
         }
 
     }

@@ -53,12 +53,12 @@ public class ForEachParser extends BlockSubparserBootstrap {
     protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.FOREACH))
-                .pattern("foreach `( <*content> `)");
+                .pattern("foreach content:~(");
     }
 
     @Autowired
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("*content") Snippet content) {
+    public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("content") Snippet content) {
         ExtractorResult result = CONTENT_PATTERN.extract(data, content);
         Snippet name = result.getWildcard("name").get().getValue();
         Snippet type = result.getWildcard("type").get().getValue();

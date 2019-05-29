@@ -25,6 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operators;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -45,45 +46,34 @@ class TypeReader implements WildcardReader<Snippet> {
 
         PandaSnippet tokens = new PandaSnippet(type);
 
-        while (mayNext(distributor)) {
-            Snippet next = read(distributor);
+        while (distributor.hasNext()) {
+            TokenRepresentation next = readSection(distributor);
 
             if (next == null) {
+                distributor.setIndex(distributor.getIndex() - 1);
                 break;
             }
 
-            tokens.addTokens(next);
+            tokens.addToken(next);
         }
 
         return tokens;
     }
 
-    private boolean mayNext(TokenDistributor distributor) {
-        if (distributor.size() < 2) {
-            return false;
-        }
-
-        TokenRepresentation next = distributor.getNext();
-
-        if (next == null) {
-            return false;
-        }
-
-        if (next.contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
-            return true;
-        }
-
-        return next.contentEquals(Operators.LESS_THAN);
-    }
-
-    private @Nullable Snippet read(TokenDistributor distributor) {
+    private @Nullable TokenRepresentation readSection(TokenDistributor distributor) {
         TokenRepresentation next = distributor.next();
 
-        if (next.contentEquals(Separators.SQUARE_BRACKET_LEFT)) {
-            return distributor.getNext().contentEquals(Separators.SQUARE_BRACKET_RIGHT) ? new PandaSnippet(next, distributor.next()) : null;
+        if (next.getType() != TokenType.SECTION) {
+            return null;
         }
 
-        if (next.contentEquals(Operators.GREATER_THAN)) {
+        Section section = next.toToken();
+
+        if (section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
+            return next;
+        }
+
+        if (section.getSeparator().equals(Operators.GREATER_THAN)) {
             throw new PandaFrameworkException("Angle brackets not implemented yet");
         }
 

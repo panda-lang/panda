@@ -48,7 +48,7 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
             ExtractorResult workerResult;
 
             if (!element.isWildcard()) {
-                workerResult = extract(element, distributor);
+                workerResult = extractElement(element, distributor);
 
                 // out of source, but element was optional
                 if (workerResult == null) {
@@ -105,7 +105,7 @@ class NodeExtractor extends AbstractElementExtractor<LexicalPatternNode> {
      * @param distributor source
      * @return subresult or null if distributor does not contains source
      */
-    private @Nullable ExtractorResult extract(LexicalPatternElement element, TokenDistributor distributor) {
+    private @Nullable ExtractorResult extractElement(LexicalPatternElement element, TokenDistributor distributor) {
         if (distributor.hasNext()) {
             return super.getWorker().extract(distributor, element);
         }

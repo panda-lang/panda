@@ -26,6 +26,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.EmptyHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.EmptyInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -37,6 +39,7 @@ import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationSubparserBootstrap;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
@@ -53,7 +56,15 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
 
     @Override
     public boolean customHandle(ParserHandler handler, ParserData data, SourceStream source) {
-        if (!source.toSnippet().getLast().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
+        TokenRepresentation sectionRepresentation = source.toSnippet().getLast();
+
+        if (sectionRepresentation.getType() != TokenType.SECTION) {
+            return false;
+        }
+
+        Section section = sectionRepresentation.toToken();
+
+        if (!section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
             return false;
         }
 
@@ -65,8 +76,8 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     public Statement parse(ParserData data, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression expression) {
         return PARSER.parse(data, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
             @Override
-            public @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, Number index) {
-                array[index.intValue()] = expression.getExpressionValue(branch).getObject();
+            public @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
+                array[index] = expression.getExpressionValue(branch).getObject();
                 return null;
             }
 

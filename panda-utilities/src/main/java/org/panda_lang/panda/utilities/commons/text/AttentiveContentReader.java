@@ -27,6 +27,7 @@ public class AttentiveContentReader {
     private final CharArrayDistributor distributor;
     private char[] openingSequence = BracketContentReader.OPENING_SEQUENCE;
     private char[] closingSequence = BracketContentReader.CLOSING_SEQUENCE;
+    private char[] escape = new char[0];
 
     public AttentiveContentReader(CharArrayDistributor distributor) {
         this.distributor = distributor;
@@ -52,7 +53,7 @@ public class AttentiveContentReader {
                 continue;
             }
 
-            BracketContentReader.verifySequences(sequences, openingSequence, closingSequence, current);
+            BracketContentReader.verifySequences(sequences, escape, openingSequence, closingSequence, distributor.getPrevious(), current);
             content.append(current);
         }
 
@@ -62,6 +63,10 @@ public class AttentiveContentReader {
 
         distributor.setIndex(index);
         return selected;
+    }
+
+    public void setEscapeCharacters(char[] escape) {
+        this.escape = escape;
     }
 
     public void setOpeningSequence(char[] openingSequence) {

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
@@ -24,11 +25,10 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.ContentProcessor;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array.ArrayValueAccessor;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array.ArrayValueAccessorUtils;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class ArrayValueExpressionSubparser implements ExpressionSubparser {
@@ -45,44 +45,42 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
 
     private static class ArrayValueWorker extends AbstractExpressionSubparserWorker {
 
-        private SeparatedContentReader contentReader;
-
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
-            if (contentReader == null) {
-                if (!context.hasResults()) {
-                    return null;
-                }
-
-                Expression instance = context.getResults().peek();
-
-                if (instance.getReturnType() == null || !instance.getReturnType().isArray()) {
-                    return null;
-                }
-
-                if (!Separators.SQUARE_BRACKET_LEFT.equals(context.getCurrentRepresentation().getToken())) {
-                    return null;
-                }
-
-                this.contentReader = new SeparatedContentReader(Separators.SQUARE_BRACKET_LEFT, ContentProcessor.DEFAULT);
+            if (!context.hasResults()) {
+                return null;
             }
 
-            ExpressionResult result = contentReader.read(context);
+            Expression instance = context.getResults().peek();
 
-            if (result == null || result.containsError()) {
-                return result;
+            if (instance.getReturnType() == null) {
+                return null;
+            }
+
+            if (context.getCurrentRepresentation().getType() != TokenType.SECTION) {
+                return null;
+            }
+
+            Section section = context.getCurrentRepresentation().toToken();
+
+            if (!section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
+                return null;
             }
 
             Expression instanceExpression = context.getResults().pop();
-            Expression indexExpression = result.get();
 
-            if (!PandaTypes.INT.isAssignableFrom(indexExpression.getReturnType())) {
-                return ExpressionResult.error("Index of array has to be Integer", contentReader.getContent());
+            if (!instance.getReturnType().isArray()) {
+                ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
-            ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaValue(type, array[index.intValue()]);
-            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getData(), contentReader.getContent(), instanceExpression, indexExpression, action);
-            contentReader = null;
+            Expression indexExpression = context.getParser().parse(context.getData(), section.getContent());
+
+            if (!PandaTypes.INT.isAssignableFrom(indexExpression.getReturnType())) {
+                return ExpressionResult.error("Index of array has to be Integer", section.getContent());
+            }
+
+            ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaValue(type, array[index]);
+            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getData(), section.getContent(), instanceExpression, indexExpression, action);
 
             return ExpressionResult.of(accessor.toCallback().toExpression());
         }
