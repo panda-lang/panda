@@ -45,7 +45,7 @@ public class BlockParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("<*declaration> `{ [<*body>] `}");
+        return defaultBuilder.pattern("<*declaration> body:~{");
     }
 
     @Override
@@ -85,7 +85,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("*body") Snippet body) throws Throwable {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Throwable {
         if (body == null) {
             return;
         }

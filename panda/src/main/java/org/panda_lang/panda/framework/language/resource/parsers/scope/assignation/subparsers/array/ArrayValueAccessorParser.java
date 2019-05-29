@@ -16,48 +16,37 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.DistributorUtils;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.MatchableDistributor;
-import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class ArrayValueAccessorParser implements Parser {
 
-    public ArrayValueAccessor parse(ParserData data, Snippet source, ArrayValueAccessor.ArrayValueAccessorAction action) {
-        Snippet reversed = source.reverse();
+    public @Nullable ArrayValueAccessor parse(ParserData data, Snippet source, ArrayValueAccessor.ArrayValueAccessorAction action) {
+        TokenRepresentation sectionRepresentation = source.getLast();
 
-        MatchableDistributor matchable = new MatchableDistributor(new TokenDistributor(reversed));
-        matchable.withReplaced(DistributorUtils.REVERSED_OPERATORS);
-
-        if (!matchable.nextVerified().contentEquals(Separators.SQUARE_BRACKET_RIGHT)) {
+        if (sectionRepresentation.getType() != TokenType.SECTION) {
             return null;
         }
 
-        // update matchable reference
-        matchable.verify();
+        Section section = sectionRepresentation.toToken();
 
-        // read the [ ] section
-        while (matchable.hasNext() && !matchable.isMatchable()) {
-            matchable.nextVerified();
-        }
-
-        matchable.verify();
-
-        // check if the section is closed
-        if (!matchable.isMatchable()) {
+        if (!section.getSeparator().equals(Separators.SQUARE_BRACKET_LEFT)) {
             return null;
         }
 
-        Snippet instanceSource = reversed.subSource(matchable.getIndex(), reversed.size()).reverse();
-        Snippet indexSource = reversed.subSource(1, matchable.getIndex() - 1).reverse();
+        Snippet instanceSource = source.subSource(0, source.size() - 1);
+        Snippet indexSource = section.getContent();
 
         ExpressionParser parser = data.getComponent(UniversalComponents.EXPRESSION);
         Expression instance = parser.parse(data, instanceSource);

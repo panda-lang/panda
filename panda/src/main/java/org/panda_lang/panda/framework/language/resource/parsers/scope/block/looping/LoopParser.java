@@ -22,7 +22,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.LoopBlock;
@@ -41,11 +43,13 @@ public class LoopParser extends BlockSubparserBootstrap {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.LOOP))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("loop ( content:*=expression )");
+                .pattern("loop content:(~)");
     }
 
     @Autowired
-    public BlockData parse(ParserData data, Generation generation, @Src("content") Expression expression) {
+    public BlockData parse(ParserData data, Generation generation, @Src("content") Snippet content) {
+        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, content);
+
         if (!PandaTypes.INT.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires number as an argument");
         }

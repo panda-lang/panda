@@ -16,24 +16,34 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.common;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.language.architecture.statement.CommentStatement;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentParser implements Parser, ParserHandler {
+@ParserRegistration(target = UniversalPipelines.ALL_LABEL)
+public class CommentParser implements UnifiedParser<CommentStatement>, ParserHandler {
 
     @Override
     public boolean handle(ParserData data, SourceStream source) {
         return isComment(source.read().getToken());
+    }
+
+    @Override
+    public CommentStatement parse(ParserData data) {
+        return new CommentStatement(data.getComponent(UniversalComponents.SOURCE_STREAM).read().getValue());
     }
 
     public static Snippet uncomment(Snippet source) {

@@ -22,6 +22,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.WhileBlock;
@@ -40,11 +42,13 @@ public class WhileParser extends BlockSubparserBootstrap {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.WHILE))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("while ( content:*=expression )");
+                .pattern("while content:(~)");
     }
 
     @Autowired
-    private BlockData parseWhile(ParserData data, @Src("content") Expression expression) {
+    private BlockData parseWhile(ParserData data, @Src("content") Snippet content) {
+        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, content);
+
         if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");
         }
