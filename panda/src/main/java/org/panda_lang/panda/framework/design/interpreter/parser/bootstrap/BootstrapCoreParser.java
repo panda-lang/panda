@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
@@ -77,8 +76,6 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         T result = null;
 
         for (int i = 0; i < methods.size(); i++) {
-            PandaFramework.getLogger().debug(bootstrap.getInstance().getClass() + ":" + methods.get(i).getMethod().getName());
-
             GenerationCallback<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
             T currentResult = delegate(generation, data, callback, methods.get(i));
 
