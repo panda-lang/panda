@@ -49,8 +49,8 @@ public class PandaSourceStream implements SourceStream {
 
     @Override
     public Snippet read(int length) {
-        if (hasUnreadSource(length)) {
-            throw new IndexOutOfBoundsException("source(" + index + length + ") >= source.length (" + original.size() + ")");
+        if (!hasUnreadSource(length)) {
+            throw new IndexOutOfBoundsException("source(" + (index + length) + ") >= source.length (" + original.size() + ")");
         }
 
         return original.subSource(index, index += length);
