@@ -22,6 +22,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +44,8 @@ class PandaLexerCollector {
             representations.add(representation);
             return;
         }
+
+        System.out.println("[LEXER] " + StringUtils.buildSpace(sections.size() * 2) + representation.toString());
 
         if (representation.getToken() instanceof Separator) {
             if (processSeparator(representation)) {

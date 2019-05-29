@@ -98,10 +98,10 @@ public class ApplicationParser implements Parser {
 
             interpretation.execute(() -> {
                 Snippet snippet = lexer.convert(source);
-                System.out.println("SOURCE LEXED: " + snippet.toString());
+                System.out.println("SOURCE LEXED (" + snippet.size() + "): " + snippet.toString());
 
                 snippet = CommentParser.uncomment(snippet);
-                System.out.println("SOURCE UNCC: " + snippet.toString());
+                System.out.println("SOURCE UNCC (" + snippet.size() + "): " + snippet.toString());
 
                 PandaSourceStream sourceStream = new PandaSourceStream(snippet);
                 exceptionTranslator.updateSource(sourceStream);
