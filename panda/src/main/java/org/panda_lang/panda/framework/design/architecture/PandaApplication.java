@@ -43,6 +43,10 @@ public class PandaApplication implements Application {
                 .collect(Collectors.toList());
 
         if (mains.isEmpty()) {
+            scripts.stream()
+                    .flatMap(script -> script.getStatements().stream())
+                    .forEach(statement -> System.out.println("statement: " + statement.toString()));
+
             throw new RuntimeException("Main statement not found");
         }
 
