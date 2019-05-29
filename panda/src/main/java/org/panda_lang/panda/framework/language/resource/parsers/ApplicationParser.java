@@ -91,17 +91,11 @@ public class ApplicationParser implements Parser {
                 .build();
 
         for (Source source : sourceSet.getSources()) {
-            System.out.println("SOURCE: " + source.getContent());
-
             PandaScript pandaScript = new PandaScript(source.getTitle());
             exceptionTranslator.updateLocation(source.getTitle());
 
             interpretation.execute(() -> {
-                Snippet snippet = lexer.convert(source);
-                System.out.println("SOURCE LEXED (" + snippet.size() + "): " + snippet.toString());
-
-                snippet = CommentParser.uncomment(snippet);
-                System.out.println("SOURCE UNCC (" + snippet.size() + "): " + snippet.toString());
+                Snippet snippet = CommentParser.uncomment(lexer.convert(source));
 
                 PandaSourceStream sourceStream = new PandaSourceStream(snippet);
                 exceptionTranslator.updateSource(sourceStream);
