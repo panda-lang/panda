@@ -28,8 +28,7 @@ import java.util.NoSuchElementException;
 public class PandaSourceStream implements SourceStream {
 
     private final Snippet original;
-    private Snippet source;
-    private Snippet cachedSource;
+    private int index;
 
     public PandaSourceStream(Snippet source) {
         if (source == null) {
@@ -37,37 +36,24 @@ public class PandaSourceStream implements SourceStream {
         }
 
         this.original = source;
-        this.source = source;
-        this.cachedSource = source;
     }
 
     @Override
     public TokenRepresentation read() {
-        if (source.size() < 1) {
-            throw new NoSuchElementException("SourceStream is empty, cannot read next TokenRepresentation");
+        if (!hasUnreadSource()) {
+            throw new NoSuchElementException("SourceStream is empty, cannot read next representation");
         }
 
-        TokenRepresentation representation = source.get(0);
-        List<TokenRepresentation> tokens = source.getTokensRepresentations().subList(1, source.size());
-
-        this.cachedSource = this.source;
-        this.source = new PandaSnippet(tokens);
-
-        return representation;
+        return original.get(index++);
     }
 
     @Override
     public Snippet read(int length) {
-        TokenRepresentation[] array = new TokenRepresentation[length];
-
-        for (int i = 0; i < length; i++) {
-            array[i] = source.get(i);
+        if (hasUnreadSource(length)) {
+            throw new IndexOutOfBoundsException("source(" + index + length + ") >= source.length (" + original.size() + ")");
         }
 
-        this.cachedSource = this.source;
-        this.source = new PandaSnippet(source.getTokensRepresentations().subList(length, source.size()));
-
-        return new PandaSnippet(array);
+        return original.subSource(index, index += length);
     }
 
     @Override
@@ -79,32 +65,18 @@ public class PandaSourceStream implements SourceStream {
             TokenRepresentation representation = this.read();
 
             if (representation.getLine() != currentLine) {
-                this.restoreCachedSource();
                 break;
             }
 
             residue.add(representation);
         }
 
-        return new PandaSnippet(residue);
+        return new PandaSnippet(residue, false);
     }
 
     @Override
-    public PandaSourceStream restoreCachedSource() {
-        this.source = cachedSource;
-        return this;
-    }
-
-    @Override
-    public PandaSourceStream updateCachedSource() {
-        this.cachedSource = source;
-        return this;
-    }
-
-    @Override
-    public SourceStream update(Snippet source) {
-        this.source = source;
-        return this;
+    public void dispose(int length) {
+        index += length;
     }
 
     @Override
@@ -114,17 +86,21 @@ public class PandaSourceStream implements SourceStream {
 
     @Override
     public Snippet toSnippet() {
-        return new PandaSnippet(new ArrayList<>(this.source.getTokensRepresentations()));
+        return original.subSource(index, original.size());
     }
 
     @Override
     public boolean hasUnreadSource() {
-        return source.size() > 0;
+        return hasUnreadSource(1);
+    }
+
+    private boolean hasUnreadSource(int length) {
+        return (index + (length - 1)) < original.size();
     }
 
     @Override
     public String toString() {
-        return "PandaSourceStream['" + this.source + "']";
+        return "PandaSourceStream['" + this.toSnippet() + "']";
     }
 
 }
