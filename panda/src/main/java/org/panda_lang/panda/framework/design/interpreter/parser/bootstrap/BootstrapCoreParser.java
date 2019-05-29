@@ -77,15 +77,10 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         T result = null;
 
         for (int i = 0; i < methods.size(); i++) {
-            GenerationCallback<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
-            T currentResult;
+            PandaFramework.getLogger().debug(bootstrap.getInstance().getClass() + ":" + methods.get(i).getMethod().getName());
 
-            try {
-                currentResult = delegate(generation, data, callback, methods.get(i));
-            } catch (Throwable throwable) {
-                PandaFramework.getLogger().error(bootstrap.getInstance().getClass() + ":");
-                throw throwable;
-            }
+            GenerationCallback<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
+            T currentResult = delegate(generation, data, callback, methods.get(i));
 
             if (result == null) {
                 result = currentResult;
