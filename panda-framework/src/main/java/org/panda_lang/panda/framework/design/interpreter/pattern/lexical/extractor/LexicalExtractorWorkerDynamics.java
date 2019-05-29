@@ -131,7 +131,7 @@ final class LexicalExtractorWorkerDynamics<T> {
     }
 
     protected LexicalExtractorResult<T> matchDynamics(List<LexicalPatternElement> elements, String[] dynamics) {
-        LexicalExtractorResult<T> result = LexicalExtractorResult.err();
+        LexicalExtractorResult<T> result = new LexicalExtractorResult<>();
 
         for (int i = 0; i < elements.size(); i++) {
             LexicalPatternElement nodeElement = elements.get(i);
