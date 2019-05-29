@@ -32,7 +32,7 @@ public class Sequences {
 
     public static final Sequence RAW_STRING = new Sequence("String", "'");
 
-    public static final Sequence LINE_ORIENTED_COMMENT = new Sequence("Comment", "//", System.lineSeparator());
+    public static final Sequence LINE_ORIENTED_COMMENT = new Sequence("Comment", "//", "\n");
 
     public static final Sequence BLOCK_ORIENTED_COMMENT = new Sequence("Comment", "/*", "*/");
 
