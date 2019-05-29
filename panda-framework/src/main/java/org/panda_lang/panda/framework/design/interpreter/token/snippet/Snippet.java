@@ -58,10 +58,10 @@ public interface Snippet extends Iterable<TokenRepresentation> {
 
     default Snippet subSource(int fromIndex, int toIndex) {
         if (toIndex < 0) {
-            return new PandaSnippet(getTokensRepresentations().subList(fromIndex, size() + toIndex));
+            return new PandaSnippet(getTokensRepresentations().subList(fromIndex, size() + toIndex), false);
         }
 
-        return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex));
+        return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex), false);
     }
 
     default Snippet selectLine(int line) {
@@ -79,7 +79,7 @@ public interface Snippet extends Iterable<TokenRepresentation> {
             selected.add(tokenRepresentation);
         }
 
-        return new PandaSnippet(selected);
+        return new PandaSnippet(selected, false);
     }
 
     default int indexOf(Token token) {

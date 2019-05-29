@@ -33,12 +33,16 @@ public class PandaSnippet implements Snippet {
         this.tokens = new ArrayList<>();
     }
 
-    public PandaSnippet(TokenRepresentation... tokenRepresentations) {
-        this(Lists.mutableOf(tokenRepresentations));
+    public PandaSnippet(TokenRepresentation... representations) {
+        this(Lists.mutableOf(representations));
     }
 
-    public PandaSnippet(List<TokenRepresentation> tokenRepresentations) {
-        this.tokens = new ArrayList<>(tokenRepresentations);
+    public PandaSnippet(List<TokenRepresentation> representations) {
+        this(representations, true);
+    }
+
+    public PandaSnippet(List<TokenRepresentation> representations, boolean clone) {
+        this.tokens = clone ? new ArrayList<>(representations) : representations;
     }
 
     @Override
