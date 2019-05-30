@@ -19,7 +19,7 @@
 </p>
 
 #### 〽️ Maven
-The latest indev build:
+The latest indev build
 
 ```xml
 <dependency>
