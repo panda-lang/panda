@@ -21,9 +21,6 @@ import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGenerator;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGeneratorManager;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 class BootstrapTest {
 
@@ -50,10 +47,6 @@ class BootstrapTest {
         }
 
         application.launch();
-        PandaFramework.getLogger().debug("Reflections time: " + TimeUtils.toMilliseconds(ClassPrototypeGeneratorManager.getReflectionsTime()));
-
-        ClassPrototypeGenerator.resetLoadTime();
-        ClassPrototypeGeneratorManager.resetReflectionsTime();
     }
 
 }

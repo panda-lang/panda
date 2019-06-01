@@ -25,19 +25,19 @@ import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 import java.lang.reflect.Constructor;
 
-public class ClassPrototypeConstructorGenerator {
+final class ClassPrototypeConstructorGenerator {
 
     private final ClassPrototypeGenerator generator;
     private final ClassPrototype prototype;
     private final Constructor<?> constructor;
 
-    public ClassPrototypeConstructorGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Constructor<?> constructor) {
+    ClassPrototypeConstructorGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Constructor<?> constructor) {
         this.generator = generator;
         this.prototype = prototype;
         this.constructor = constructor;
     }
 
-    public PrototypeConstructor generate() {
+    protected PrototypeConstructor generate() {
         ClassPrototypeReference[] parameters = new ClassPrototypeReference[constructor.getParameterCount()];
 
         for (int i = 0; i < parameters.length; i++) {
@@ -62,8 +62,6 @@ public class ClassPrototypeConstructorGenerator {
                     return constructor.newInstance(args);
                 } catch (Exception e) {
                     e.printStackTrace();
-                } finally {
-                    ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
                 }
 
                 return null;

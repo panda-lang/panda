@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
+package org.panda_lang.panda.framework.design.interpreter.messenger;
 
 import org.panda_lang.panda.framework.PandaFrameworkConstants;
 import org.panda_lang.panda.utilities.commons.text.MessageFormatter;

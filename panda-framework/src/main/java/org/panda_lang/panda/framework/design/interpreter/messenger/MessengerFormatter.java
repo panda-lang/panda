@@ -16,13 +16,18 @@
 
 package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-public enum  MessengerLevel {
+import org.jetbrains.annotations.Nullable;
 
-    DEBUG,
-    TRACE,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE;
+import java.util.function.BiFunction;
+
+public interface MessengerFormatter {
+
+    String format(String message, Object... values);
+
+    <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, Object, String> replacementFunction);
+
+    MessengerFormatter fork();
+
+    Messenger getMessenger();
 
 }

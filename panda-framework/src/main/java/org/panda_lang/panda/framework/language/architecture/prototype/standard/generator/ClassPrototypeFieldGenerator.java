@@ -33,19 +33,19 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 
-public class ClassPrototypeFieldGenerator {
+final class ClassPrototypeFieldGenerator {
 
     private final ClassPrototypeGenerator generator;
     private final ClassPrototype prototype;
     private final Field field;
 
-    public ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Field field) {
+    ClassPrototypeFieldGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Field field) {
         this.generator = generator;
         this.prototype = prototype;
         this.field = field;
     }
 
-    public PrototypeField generate() {
+    protected PrototypeField generate() {
         ClassPrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), field.getType());
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
@@ -73,12 +73,9 @@ public class ClassPrototypeFieldGenerator {
                     return new PandaValue(returnType.fetch(), value);
                 } catch (IllegalAccessException e) {
                     throw new PandaRuntimeException(e);
-                } finally {
-                    ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
                 }
             }
         });
-
 
         prototypeField.setDefaultValue(fieldExpression);
         prototypeField.setStaticValue(PandaStaticValue.of(fieldExpression, null));

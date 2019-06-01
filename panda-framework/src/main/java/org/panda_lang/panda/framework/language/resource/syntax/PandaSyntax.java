@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource;
+package org.panda_lang.panda.framework.language.resource.syntax;
 
 import org.panda_lang.panda.framework.design.resource.Syntax;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
-import org.panda_lang.panda.framework.language.resource.syntax.DefaultCharacters;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keyword;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.resource.syntax.literal.Literal;

@@ -16,13 +16,8 @@
 
 package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-public enum  MessengerLevel {
+public interface MessengerInitializer {
 
-    DEBUG,
-    TRACE,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE;
+    void onInitialize(Messenger messenger);
 
 }

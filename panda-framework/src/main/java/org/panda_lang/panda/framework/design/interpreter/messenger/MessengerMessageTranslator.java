@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-public interface MessengerMessageTranslator<T> {
+public interface MessengerMessageTranslator<T extends Object> {
 
-    void handle(Messenger messenger, T element);
+    boolean handle(Messenger messenger, T element);
 
     Class<T> getType();
 

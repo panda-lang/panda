@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.utilities.commons.IOUtils;
 
@@ -43,6 +44,10 @@ public class PandaURLSource {
 
     public URL getLocation() {
         return this.location;
+    }
+
+    public static PandaURLSource fromResource(String resourcePath) {
+        return fromUrl(PandaFramework.class.getResource(resourcePath));
     }
 
     public static PandaURLSource fromPath(String path) {

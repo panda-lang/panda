@@ -1,0 +1,25 @@
+
+&b- - ~ ~< Messenger :: Severe Failure >~ ~ - -
+
+Caused by: {{message}}
+
+% if {{details}} != null %
+Details:
+  {{details}}
+
+% end %
+Source:
+  {{source}}
+  {{marker}}
+
+Location:
+  Panda: {{location}} at line {{line}}:{{position}}
+
+Details:
+  Generation: {{generation}}
+  Framework: {{stacktrace-last}}
+  Stack: {{stacktrace}}
+
+Environment: {{environment}}
+
+End of Failure

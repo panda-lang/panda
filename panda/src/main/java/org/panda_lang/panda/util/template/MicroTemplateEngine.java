@@ -14,22 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource;
+package org.panda_lang.panda.util.template;
 
-import org.panda_lang.panda.framework.design.resource.Language;
-import org.panda_lang.panda.framework.design.resource.Syntax;
+import org.panda_lang.panda.Panda;
 
-public class PandaLanguage implements Language {
+public final class MicroTemplateEngine {
 
-    private Syntax syntax;
+    private final Panda panda;
+    private final MicroTemplateLoader loader = new MicroTemplateLoader(this);
 
-    public PandaLanguage(Syntax syntax) {
-        this.syntax = syntax;
+    public MicroTemplateEngine(Panda panda) {
+        this.panda = panda;
     }
 
-    @Override
-    public Syntax getSyntax() {
-        return syntax;
-    }
+
 
 }

@@ -24,22 +24,8 @@ public class ClassPrototypeGeneratorManager {
     private static final ClassPrototypeGeneratorManager INSTANCE = new ClassPrototypeGeneratorManager();
     private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
 
-    protected static long reflectionsTime;
-
     public ClassPrototypeReference generate(Module module, Class<?> clazz) {
         return GENERATOR.generate(module, clazz);
-    }
-
-    public static long getReflectionsTime() {
-        return reflectionsTime;
-    }
-
-    public static long getTotalLoadTime() {
-        return ClassPrototypeGenerator.totalLoadTime;
-    }
-
-    public static void resetReflectionsTime() {
-        reflectionsTime = 0;
     }
 
     public static ClassPrototypeGeneratorManager getInstance() {

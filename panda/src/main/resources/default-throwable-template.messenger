@@ -1,0 +1,11 @@
+
+&b- - ~ ~< Messenger :: Exception >~ ~ - -
+
+Caused by: {{message}}
+
+Details:
+  {{details}}
+
+Environment: {{environment}}
+
+End of Exception

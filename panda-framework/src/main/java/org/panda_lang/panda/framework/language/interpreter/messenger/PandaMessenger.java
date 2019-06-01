@@ -16,8 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger;
 
+import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
@@ -29,12 +32,18 @@ import java.util.List;
 
 public class PandaMessenger implements Messenger {
 
+    private final Interpretation interpretation;
+    private final MessengerFormatter formatter = new PandaMessengerFormatter(this);
     private final List<MessengerMessageTranslator> translators = new ArrayList<>();
-    private MessengerOutputListener outputListener;
+    private MessengerOutputListener outputListener = new DefaultOutputListener(PandaFramework.getLogger());
+
+    public PandaMessenger(Interpretation interpretation) {
+        this.interpretation = interpretation;
+    }
 
     @Override
     @SuppressWarnings("unchecked")
-    public void send(Object message) {
+    public boolean send(Object message) {
         MessengerMessageTranslator translator = null;
 
         for (MessengerMessageTranslator messageTranslator : new ReversedIterable<>(translators)) {
@@ -55,7 +64,7 @@ public class PandaMessenger implements Messenger {
             throw new PandaFrameworkException("Cannot translate a message - translator for " + message.getClass() + " not found");
         }
 
-        translator.handle(this, message);
+        return translator.handle(this, message);
     }
 
     @Override
@@ -77,6 +86,16 @@ public class PandaMessenger implements Messenger {
     @Override
     public void setOutputListener(MessengerOutputListener listener) {
         this.outputListener = listener;
+    }
+
+    @Override
+    public MessengerFormatter getMessengerFormatter() {
+        return formatter;
+    }
+
+    @Override
+    public Interpretation getInterpretation() {
+        return interpretation;
     }
 
 }

@@ -29,12 +29,11 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class ClassPrototypeGenerator {
+final class ClassPrototypeGenerator {
 
-    protected static long totalLoadTime;
     protected static boolean locked;
 
-    public ClassPrototypeReference generate(Module module, Class<?> type) {
+    protected ClassPrototypeReference generate(Module module, Class<?> type) {
         boolean bypass = !locked;
 
         if (bypass) {
@@ -47,8 +46,6 @@ public class ClassPrototypeGenerator {
                 .build();
 
         prototype.getReference().addInitializer(() -> {
-            long currentTime = System.nanoTime();
-
             for (Field field : type.getFields()) {
                 ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
                 PrototypeField prototypeField = generator.generate();
@@ -68,7 +65,6 @@ public class ClassPrototypeGenerator {
             }
 
             if (bypass) {
-                totalLoadTime += System.nanoTime() - currentTime;
                 locked = false;
             }
         });
@@ -76,7 +72,7 @@ public class ClassPrototypeGenerator {
         return module.add(prototype.getReference());
     }
 
-    public ClassPrototypeReference computeIfAbsent(Module module, Class<?> type) {
+    protected ClassPrototypeReference computeIfAbsent(Module module, Class<?> type) {
         //noinspection OptionalGetWithoutIsPresent
         ClassPrototypeReference reference = (module == null || !module.hasClass(type))
                 ? generate(module, type)
@@ -95,10 +91,6 @@ public class ClassPrototypeGenerator {
         }
 
         return reference;
-    }
-
-    public static void resetLoadTime() {
-        totalLoadTime = 0;
     }
 
 }

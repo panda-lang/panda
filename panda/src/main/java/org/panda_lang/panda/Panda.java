@@ -23,13 +23,21 @@ import org.panda_lang.panda.util.embed.PandaEngineFactoryConstants;
 
 public final class Panda {
 
-    private final Resources resources;
     private final Language language;
+    private final Resources resources;
 
     private final PandaCLI pandaCLI;
     private final PandaLoader pandaLoader;
 
     protected Panda(PandaBuilder builder) {
+        if (builder.language == null) {
+            throw new IllegalArgumentException("Language has to be defined");
+        }
+
+        if (builder.resources == null) {
+            throw new IllegalArgumentException("Pipeline path has to be defined");
+        }
+
         this.language = builder.language;
         this.resources = builder.resources;
 

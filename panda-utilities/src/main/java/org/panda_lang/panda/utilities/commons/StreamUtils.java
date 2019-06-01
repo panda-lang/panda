@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.commons;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.ToIntFunction;
@@ -50,6 +51,12 @@ public class StreamUtils {
 
     private static <T> Stream<T> stream(Iterable<T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false);
+    }
+
+    public static <T> BinaryOperator<T> emptyBinaryOperator() {
+        return (a, b) -> {
+            throw new RuntimeException("Empty binary operator called by parallel stream");
+        };
     }
 
 }

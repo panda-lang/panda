@@ -33,13 +33,13 @@ import java.lang.reflect.Modifier;
 import java.security.InvalidParameterException;
 import java.util.Arrays;
 
-public class ClassPrototypeMethodGenerator {
+final class ClassPrototypeMethodGenerator {
 
     private final ClassPrototypeGenerator generator;
     private final ClassPrototype prototype;
     private final Method method;
 
-    public ClassPrototypeMethodGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Method method) {
+    ClassPrototypeMethodGenerator(ClassPrototypeGenerator generator, ClassPrototype prototype, Method method) {
         if (method == null) {
             throw new InvalidParameterException("Method cannot be null");
         }
@@ -49,7 +49,7 @@ public class ClassPrototypeMethodGenerator {
         this.method = method;
     }
 
-    public PrototypeMethod generate() {
+    protected PrototypeMethod generate() {
         ClassPrototypeReference returnType = generator.computeIfAbsent(prototype.getModule(), method.getReturnType());
         ClassPrototypeReference[] parametersTypes = ClassPrototypeGeneratorUtils.toTypes(prototype.getModule(), method.getParameterTypes());
 
@@ -117,8 +117,6 @@ public class ClassPrototypeMethodGenerator {
                 PandaFramework.getLogger().error("Provided:" + Arrays.toString(parameters));
             } catch (Exception e) {
                 PandaFramework.getLogger().error("Error occurred invoking " + method.getName() + ": " + e.getMessage(), e);
-            } finally {
-                ClassPrototypeGeneratorManager.reflectionsTime += System.nanoTime() - start;
             }
         };
 

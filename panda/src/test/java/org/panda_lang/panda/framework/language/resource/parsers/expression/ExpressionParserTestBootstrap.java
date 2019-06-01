@@ -19,16 +19,21 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.PandaParserDataUtils;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.HashMap;
 
 class ExpressionParserTestBootstrap {
 
@@ -36,7 +41,7 @@ class ExpressionParserTestBootstrap {
     private static ParserData DATA;
 
     @BeforeAll
-    public static void load() throws Exception {
+    public static void load() {
         PARSER = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
         DATA = prepareData();
     }
@@ -46,8 +51,12 @@ class ExpressionParserTestBootstrap {
         System.out.println(StringUtils.EMPTY);
     }
 
-    protected static ParserData prepareData() throws Exception {
-        return PandaParserDataUtils.createFakeData();
+    protected static ParserData prepareData() {
+        return PandaParserDataUtils.createFakeData(new HashMap<Variable, Object>() {{
+            put(new PandaVariable(PandaTypes.STRING.getReference(), "variable"), null);
+            put(new PandaVariable(PandaTypes.STRING.toArray(), "array"), null);
+            put(new PandaVariable(PandaTypes.INT.getReference(), "i"), null);
+        }});
     }
 
     protected static void parse(String source, String message) {

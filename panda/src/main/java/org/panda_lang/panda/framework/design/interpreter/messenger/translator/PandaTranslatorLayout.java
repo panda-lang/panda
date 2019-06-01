@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource;
+package org.panda_lang.panda.framework.design.interpreter.messenger.translator;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.language.resource.parsers.OverallParser;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 
-public final class PandaFrameworkParsers extends Parsers {
+public interface PandaTranslatorLayout<T extends Object> {
 
-    public static final Class<? extends Parser>[] PARSERS = of(
-            OverallParser.class
-    );
+    default void onHandle(MessengerFormatter formatter, T element) { }
 
-    @Override
-    public Class<? extends Parser>[] getParsers() {
-        return PARSERS;
-    }
+    boolean isInterrupting();
+
+    MessengerLevel getLevel();
+
+    Source getTemplateSource();
+
+    Class<T> getType();
 
 }

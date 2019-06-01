@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 
 class SimpleLexerTest {
 

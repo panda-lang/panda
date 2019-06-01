@@ -17,6 +17,7 @@
 package org.panda_lang.panda;
 
 import org.panda_lang.panda.framework.language.resource.PandaLanguage;
+import org.panda_lang.panda.framework.language.resource.PandaResources;
 
 public class PandaBuilder {
 
@@ -34,14 +35,6 @@ public class PandaBuilder {
     }
 
     public Panda build() {
-        if (language == null) {
-            throw new IllegalArgumentException("Language has to be defined");
-        }
-
-        if (resources == null) {
-            throw new IllegalArgumentException("Pipeline path has to be defined");
-        }
-
         return new Panda(this);
     }
 
