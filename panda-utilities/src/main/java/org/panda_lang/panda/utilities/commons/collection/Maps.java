@@ -16,10 +16,19 @@
 
 package org.panda_lang.panda.utilities.commons.collection;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class Maps {
+
+    public static <K, V> Map.Entry<K, V> entryOf(K key, V value) {
+        return new AbstractMap.SimpleEntry<>(key, value);
+    }
+
+    public static <K, V> Map.Entry<K, V> immutableEntryOf(K key, V value) {
+        return new AbstractMap.SimpleImmutableEntry<>(key, value);
+    }
 
     public static <K, V> Map<K, V> of(Object... values) {
         return of(null, null, values);

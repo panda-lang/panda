@@ -17,6 +17,7 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.language.resource.loader.AutoloadLoader;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScanner;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
@@ -26,12 +27,12 @@ import java.util.function.Consumer;
 
 public class ScannerPandaBootstrap implements PandaBootstrapElement {
 
-    private final PandaBootstrap pandaBootstrap;
+    private final PandaBootstrap bootstrap;
     private AnnotationsScanner scanner;
-    private AnnotationsScannerProcess scannerProcess;
+    protected AnnotationsScannerProcess scannerProcess;
 
-    public ScannerPandaBootstrap(PandaBootstrap pandaBootstrap) {
-        this.pandaBootstrap = pandaBootstrap;
+    public ScannerPandaBootstrap(PandaBootstrap bootstrap) {
+        this.bootstrap = bootstrap;
     }
 
     public ScannerPandaBootstrap configureScanner(Consumer<AnnotationsScannerConfiguration> scannerConsumer) {
@@ -57,6 +58,16 @@ public class ScannerPandaBootstrap implements PandaBootstrapElement {
         return this;
     }
 
+    public ScannerPandaBootstrap autoloadAnnotatedClasses() {
+        if (scannerProcess == null) {
+            throw new PandaBootstrapException("Cannot load parsers using scanner because it's not initialized");
+        }
+
+        AutoloadLoader autoloadLoader = new AutoloadLoader();
+        autoloadLoader.load(scannerProcess);
+        return this;
+    }
+
     @Override
     public PandaBootstrap collect() {
         if (scanner == null) {
@@ -69,7 +80,8 @@ public class ScannerPandaBootstrap implements PandaBootstrapElement {
                     .fetch();
         }
 
-        return pandaBootstrap.withScannerProcess(scannerProcess);
+        bootstrap.resources.withScannerProcess(scannerProcess);
+        return bootstrap;
     }
 
 }

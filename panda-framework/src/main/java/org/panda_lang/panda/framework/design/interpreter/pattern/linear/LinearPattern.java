@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ import java.util.function.Function;
  *
  *  <code>&identifier:token</code><br><br>
  *
- *  Sections are based on {@link org.panda_lang.panda.framework.language.resource.PandaSyntax}, <br>
+ *  Sections are based on {@link org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax}, <br>
  *  its definition is determined by the <code>~</code> operator between separators. Usage: <br><br>
  *
  *  <code>class Test {~}</code><br><br>

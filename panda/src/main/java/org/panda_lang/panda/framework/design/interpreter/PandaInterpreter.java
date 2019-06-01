@@ -20,9 +20,12 @@ import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
+import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
+import org.panda_lang.panda.framework.design.interpreter.pattern.utils.ExpressionWildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
@@ -38,7 +41,7 @@ public class PandaInterpreter implements Interpreter {
 
     @Override
     public PandaApplication interpret(SourceSet sources) {
-        Interpretation interpretation = new PandaInterpretation(environment, this, language);
+        Interpretation interpretation = new PandaInterpretation(language, environment, this);
         long uptime = System.nanoTime();
 
         ApplicationParser parser = new ApplicationParser(interpretation);
@@ -49,6 +52,15 @@ public class PandaInterpreter implements Interpreter {
             return null;
         }
 
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Parse details ");
+        PandaFramework.getLogger().debug("• Token Pattern Time: " + TimeUtils.toMilliseconds(ExtractorWorker.fullTime));
+        PandaFramework.getLogger().debug("• Token Expr Reader Time: " + TimeUtils.toMilliseconds(ExpressionWildcardReader.time));
+        PandaFramework.getLogger().debug("• Token Expr Time: " + TimeUtils.toMilliseconds(PandaExpressionParser.time));
+        PandaFramework.getLogger().debug("• Token Expr Amount: " + PandaExpressionParser.amount);
+        PandaFramework.getLogger().debug("• Total Handle Time: " + TimeUtils.toMilliseconds(environment.getResources().getPipelinePath().getTotalHandleTime()));
+        PandaFramework.getLogger().debug("• Amount of references: " + environment.getModulePath().getAmountOfReferences());
+        PandaFramework.getLogger().debug("• Amount of used prototypes: " + environment.getModulePath().getAmountOfUsedPrototypes());
         PandaFramework.getLogger().debug("");
         PandaFramework.getLogger().debug("--- Interpretation details ");
         PandaFramework.getLogger().debug("• Parse time: " + TimeUtils.toMilliseconds(System.nanoTime() - uptime));

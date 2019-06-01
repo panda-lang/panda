@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
-import org.panda_lang.panda.framework.language.resource.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class PandaLexerUtils {

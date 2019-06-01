@@ -56,7 +56,8 @@ public class PipelinePandaBootstrap implements PandaBootstrapElement {
 
     @Override
     public PandaBootstrap collect() {
-        return bootstrap.withPipelinePath(path);
+        bootstrap.resources.withPipelinePath(path);
+        return bootstrap;
     }
 
 }

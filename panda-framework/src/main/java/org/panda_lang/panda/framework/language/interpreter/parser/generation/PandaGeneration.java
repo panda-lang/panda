@@ -32,12 +32,14 @@ public class PandaGeneration implements Generation {
     private final Map<String, GenerationPipeline> pipelines = new LinkedHashMap<>();
     private GenerationPipeline currentPipeline;
 
-    public void initialize(List<? extends PipelineType> types) {
+    public PandaGeneration initialize(List<? extends PipelineType> types) {
         Collections.sort(types);
 
         for (PipelineType type : types) {
             pipelines.put(type.getName(), new PandaGenerationPipeline(this, type.getName()));
         }
+
+        return this;
     }
 
     @Override

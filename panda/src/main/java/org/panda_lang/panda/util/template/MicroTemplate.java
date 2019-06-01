@@ -14,15 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.messenger;
+package org.panda_lang.panda.util.template;
 
-public enum  MessengerLevel {
+public final class MicroTemplate {
 
-    DEBUG,
-    TRACE,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE;
+
 
 }

@@ -30,11 +30,9 @@ public interface Interpretation {
 
     <T> T execute(ThrowingSupplier<T> callback);
 
-    default boolean isHealthy() {
-        return getFailures().isEmpty();
-    }
+    boolean isHealthy();
 
-    Collection<InterpreterFailure> getFailures();
+    Collection<Throwable> getFailures();
 
     Messenger getMessenger();
 

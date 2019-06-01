@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.resource;
 
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparsers;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
@@ -24,8 +25,10 @@ public interface Resources {
 
     ExpressionSubparsers getExpressionSubparsers();
 
-    AnnotationsScannerProcess getScannerProcess();
-
     PipelinePath getPipelinePath();
+
+    MessengerInitializer getMessengerInitializer();
+
+    AnnotationsScannerProcess getScannerProcess();
 
 }

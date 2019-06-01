@@ -14,14 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
+package org.panda_lang.panda.framework.language.interpreter.messenger;
 
-import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
+import org.slf4j.Logger;
 
-public class DefaultOutputListener implements MessengerOutputListener {
+final class DefaultOutputListener implements MessengerOutputListener {
+
+    private final Logger logger;
+
+    DefaultOutputListener(Logger logger) {
+        this.logger = logger;
+    }
 
     @Override
     public void onMessage(MessengerMessage message) {
@@ -33,16 +39,20 @@ public class DefaultOutputListener implements MessengerOutputListener {
     private void log(MessengerLevel level, String message) {
         switch (level) {
             case DEBUG:
-                PandaFramework.getLogger().debug(message);
+                logger.debug(message);
+                break;
+            case TRACE:
+                logger.trace(message);
                 break;
             case INFO:
-                PandaFramework.getLogger().info(message);
+                logger.info(message);
                 break;
             case WARNING:
-                PandaFramework.getLogger().warn(message);
+                logger.warn(message);
                 break;
+            case ERROR:
             case FAILURE:
-                PandaFramework.getLogger().error(message);
+                logger.error(message);
                 break;
         }
     }

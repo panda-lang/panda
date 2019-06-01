@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.messenger;
 
+import org.panda_lang.panda.framework.design.interpreter.Interpretation;
+
 public interface Messenger {
 
-    void send(Object message);
+    boolean send(Object message);
 
     void sendMessage(MessengerLevel level, String message);
 
@@ -27,5 +29,9 @@ public interface Messenger {
     void addMessageTranslator(MessengerMessageTranslator<?> translator);
 
     void setOutputListener(MessengerOutputListener listener);
+
+    MessengerFormatter getMessengerFormatter();
+
+    Interpretation getInterpretation();
 
 }

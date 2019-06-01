@@ -20,13 +20,9 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
-import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessenger;
-import org.panda_lang.panda.framework.language.interpreter.messenger.defaults.DefaultOutputListener;
-import org.panda_lang.panda.framework.language.interpreter.messenger.translators.InterpreterFailureTranslator;
-import org.panda_lang.panda.framework.language.interpreter.messenger.translators.PandaLexerFailureTranslator;
 import org.panda_lang.panda.utilities.commons.function.ThrowingRunnable;
 import org.panda_lang.panda.utilities.commons.function.ThrowingSupplier;
 
@@ -35,35 +31,26 @@ import java.util.Collection;
 
 public class PandaInterpretation implements Interpretation {
 
+    private final Language language;
     private final Environment environment;
     private final Interpreter interpreter;
-    private final Language language;
     private final Messenger messenger;
-    private final Collection<InterpreterFailure> failures;
+    private final Collection<Throwable> failures = new ArrayList<>(1);
+    private boolean healthy = true;
 
-    public PandaInterpretation(Environment environment, Interpreter interpreter, Language language) {
+    public PandaInterpretation(Language language, Environment environment, Interpreter interpreter) {
+        this.language = language;
         this.environment = environment;
         this.interpreter = interpreter;
-        this.language = language;
-        this.failures = new ArrayList<>(1);
-
-        this.messenger = new PandaMessenger();
-        this.messenger.addMessageTranslator(new PandaLexerFailureTranslator());
-        this.messenger.addMessageTranslator(new InterpreterFailureTranslator(this));
-        this.messenger.setOutputListener(new DefaultOutputListener());
+        this.messenger = new PandaMessenger(this);
     }
 
     @Override
     public Interpretation execute(ThrowingRunnable runnable) {
-        if (!this.isHealthy()) {
-            return this;
-        }
-
-        try {
+        execute(() -> {
             runnable.run();
-        } catch (Throwable exception) {
-            this.getMessenger().send(exception);
-        }
+            return null;
+        });
 
         return this;
     }
@@ -73,14 +60,18 @@ public class PandaInterpretation implements Interpretation {
         try {
             return isHealthy() ? callback.get() : null;
         } catch (Throwable exception) {
-            this.getMessenger().send(exception);
+            this.healthy = !this.getMessenger().send(exception);
+            return null;
         }
-
-        return null;
     }
 
     @Override
-    public Collection<InterpreterFailure> getFailures() {
+    public boolean isHealthy() {
+        return healthy;
+    }
+
+    @Override
+    public Collection<Throwable> getFailures() {
         return failures;
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.messenger.defaults;
+package org.panda_lang.panda.framework.design.interpreter.messenger;
 
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
@@ -23,11 +23,11 @@ import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-class StacktraceSupplier implements Supplier<String> {
+public class StacktraceSupplier implements Supplier<String> {
 
     private final Exception exception;
 
-    StacktraceSupplier(Exception exception) {
+    public StacktraceSupplier(Exception exception) {
         this.exception = exception;
     }
 

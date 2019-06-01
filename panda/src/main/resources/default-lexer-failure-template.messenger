@@ -1,0 +1,15 @@
+
+&b- - ~ ~< Messenger :: Lexer Failure >~ ~ - -
+
+Caused by: {{message}}
+
+Source:
+  {{source}}
+  {{marker}}
+
+Location:
+  Panda: {{location}} at line {{line}}:{{position}}
+
+Environment: {{environment}}
+
+End of Lexer Failure

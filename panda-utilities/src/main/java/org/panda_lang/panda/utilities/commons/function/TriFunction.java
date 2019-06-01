@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.messenger;
+package org.panda_lang.panda.utilities.commons.function;
 
-public enum  MessengerLevel {
+@FunctionalInterface
+public interface TriFunction<A, B, C, R> {
 
-    DEBUG,
-    TRACE,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE;
+    R apply(A a, B b, C c);
 
 }

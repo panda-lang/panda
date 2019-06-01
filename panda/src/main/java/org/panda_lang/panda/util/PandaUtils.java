@@ -14,15 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.messenger;
+package org.panda_lang.panda.util;
 
-public enum  MessengerLevel {
+import java.util.Map;
 
-    DEBUG,
-    TRACE,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE;
+public final class PandaUtils {
+
+    private PandaUtils() { }
+
+    public static <T> T eval(Map<String, Object> data, String expression) {
+        return null;
+    }
 
 }

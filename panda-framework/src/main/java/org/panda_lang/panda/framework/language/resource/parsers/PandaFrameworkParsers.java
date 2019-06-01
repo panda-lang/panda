@@ -14,15 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.messenger;
+package org.panda_lang.panda.framework.language.resource.parsers;
 
-public enum  MessengerLevel {
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
 
-    DEBUG,
-    TRACE,
-    INFO,
-    WARNING,
-    ERROR,
-    FAILURE;
+public final class PandaFrameworkParsers extends Parsers {
+
+    public static final Class<? extends Parser>[] PARSERS = of(
+            OverallParser.class
+    );
+
+    @Override
+    public Class<? extends Parser>[] getParsers() {
+        return PARSERS;
+    }
 
 }
