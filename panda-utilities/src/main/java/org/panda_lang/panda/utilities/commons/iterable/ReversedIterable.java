@@ -34,7 +34,7 @@ public class ReversedIterable<T> implements Iterable<T> {
 
     class ReversedIterator implements Iterator<T> {
 
-        private int index = list.size() - 1;
+        private int index = list.size();
 
         @Override
         public boolean hasNext() {
@@ -43,7 +43,7 @@ public class ReversedIterable<T> implements Iterable<T> {
 
         @Override
         public T next() {
-            return index - 1 > -1 ? list.get(index--) : null;
+            return list.get(--index);
         }
 
     }
