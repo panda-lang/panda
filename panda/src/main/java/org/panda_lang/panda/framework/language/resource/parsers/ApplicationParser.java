@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.language.interpreter.messenger.ThrowableTranslatorLayout;
+import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
@@ -74,8 +74,8 @@ public class ApplicationParser implements Parser {
 
         PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(interpretation.getMessenger());
 
-        ThrowableTranslatorLayout throwableTranslatorLayout = new ThrowableTranslatorLayout();
-        translatorLayoutManager.load(throwableTranslatorLayout);
+        ExceptionTranslatorLayout exceptionTranslatorLayout = new ExceptionTranslatorLayout();
+        translatorLayoutManager.load(exceptionTranslatorLayout);
 
         Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
                 .enableSections()
@@ -96,7 +96,7 @@ public class ApplicationParser implements Parser {
                         .setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
                 OverallParser overallParser = new OverallParser(delegatedData);
-                throwableTranslatorLayout.update(source.getTitle(), sourceStream);
+                exceptionTranslatorLayout.update(source.getTitle(), sourceStream);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
                     interpretation.execute(() -> overallParser.parseNext(delegatedData));

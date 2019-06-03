@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.messenger;
+package org.panda_lang.panda.framework.language.interpreter.messenger.layouts;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
@@ -37,13 +37,18 @@ public class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<
     }
 
     @Override
+    public String getPrefix() {
+        return "[LexerFailure] #!# ";
+    }
+
+    @Override
     public MessengerLevel getLevel() {
         return MessengerLevel.FAILURE;
     }
 
     @Override
     public Source getTemplateSource() {
-        return new PandaSource(PandaURLSource.fromResource("./default-lexer-failure-template.messenger"));
+        return new PandaSource(PandaURLSource.fromResource("/default-lexer-failure-template.messenger"));
     }
 
     @Override

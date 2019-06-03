@@ -35,7 +35,7 @@ public class PandaMessenger implements Messenger {
     private final Interpretation interpretation;
     private final MessengerFormatter formatter = new PandaMessengerFormatter(this);
     private final List<MessengerMessageTranslator> translators = new ArrayList<>();
-    private MessengerOutputListener outputListener = new DefaultOutputListener(PandaFramework.getLogger());
+    private MessengerOutputListener outputListener = new PandaMessengerOutputListener(PandaFramework.getLogger());
 
     public PandaMessenger(Interpretation interpretation) {
         this.interpretation = interpretation;

@@ -17,6 +17,8 @@
 package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatterManager;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayoutManager;
 
@@ -27,6 +29,7 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
     private final Collection<Class<? extends PandaTranslatorLayout<?>>> layouts = new ArrayList<>();
+    private final Collection<Class<? extends MessengerDataFormatter<?>>> dataFormatters = new ArrayList<>();
     private MessengerOutputListener outputListener;
 
     public MessengerPandaBootstrap(PandaBootstrap bootstrap) {
@@ -38,6 +41,11 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
         return this;
     }
 
+    public MessengerPandaBootstrap withDataFormatter(Class<? extends MessengerDataFormatter<?>> dataFormatterClass) {
+        dataFormatters.add(dataFormatterClass);
+        return this;
+    }
+
     public MessengerPandaBootstrap withOutputListener(MessengerOutputListener outputListener) {
         this.outputListener = outputListener;
         return this;
@@ -46,12 +54,15 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
     @Override
     public PandaBootstrap collect() {
         bootstrap.resources.withMessengerInitializer(messenger -> {
-            PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(messenger);
-            layouts.forEach(translatorLayoutManager::load);
-
             if (outputListener != null) {
                 messenger.setOutputListener(outputListener);
             }
+
+            PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(messenger);
+            layouts.forEach(translatorLayoutManager::load);
+
+            MessengerDataFormatterManager dataFormatterManager = new MessengerDataFormatterManager(messenger);
+            dataFormatters.forEach(dataFormatterManager::load);
         });
 
         return bootstrap;

@@ -20,18 +20,58 @@ import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 
 public interface Messenger {
 
+    /**
+     * Send object through the messenger
+     *
+     * @param message the message-object to send
+     * @return true if message breaks the process of interpretation/execution
+     */
     boolean send(Object message);
 
+    /**
+     * Send standard text message through messenger
+     *
+     * @param level the level of message
+     * @param message the message to send
+     */
     void sendMessage(MessengerLevel level, String message);
 
+    /**
+     * Send messenger message through messenger.
+     *
+     * @param message the message to send
+     *
+     * @see org.panda_lang.panda.framework.design.interpreter.messenger.Messenger#sendMessage(MessengerLevel, String)
+     */
     void sendMessage(MessengerMessage message);
 
+    /**
+     * Add message translator associated with the specified type
+     *
+     * @param translator the translator to register
+     */
     void addMessageTranslator(MessengerMessageTranslator<?> translator);
 
+    /**
+     * Change output listener.
+     * Default output listener sends messages through {@link org.panda_lang.panda.framework.PandaFramework#getLogger()}
+     *
+     * @param listener the listener to set
+     */
     void setOutputListener(MessengerOutputListener listener);
 
+    /**
+     * Get formatter used by messenger
+     *
+     * @return the formatter instance
+     */
     MessengerFormatter getMessengerFormatter();
 
+    /**
+     * Get associated interpretation process
+     *
+     * @return the interpretation instance
+     */
     Interpretation getInterpretation();
 
 }

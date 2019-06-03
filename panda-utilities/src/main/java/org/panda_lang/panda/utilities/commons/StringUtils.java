@@ -34,21 +34,6 @@ public class StringUtils {
     public static final String[] EMPTY_ARRAY = new String[0];
 
     /**
-     * Check how the specified text starts
-     *
-     * @param text   the text to check
-     * @param filter condition
-     * @return result of the condition
-     */
-    public static boolean startsWith(String text, Predicate<char[]> filter) {
-        if (text.length() == 0) {
-            return false;
-        }
-
-        return filter.test(text.toCharArray());
-    }
-
-    /**
      * Split text by the specified delimiter, but only once (to the first occurrence of the specified delimiter)
      *
      * @param text      the text to split
@@ -291,21 +276,21 @@ public class StringUtils {
     /**
      * Capitalize characters in string, merged from StringUtils.capitalize [modules - commons-lang:commons-lang3]
      *
-     * @param str the string to capitalize, may be null
+     * @param text the string to capitalize, may be null
      * @return the capitalized string, {@code null} if null string input
      */
-    public static String capitalize(String str) {
+    public static String capitalize(String text) {
         int strLen;
 
-        if (str == null || (strLen = str.length()) == 0) {
-            return str;
+        if (text == null || (strLen = text.length()) == 0) {
+            return text;
         }
 
-        int firstCodePoint = str.codePointAt(0);
+        int firstCodePoint = text.codePointAt(0);
         int newCodePoint = Character.toTitleCase(firstCodePoint);
 
         if (firstCodePoint == newCodePoint) {
-            return str;
+            return text;
         }
 
         int[] newCodePoints = new int[strLen];
@@ -313,12 +298,27 @@ public class StringUtils {
         newCodePoints[outOffset++] = newCodePoint;
 
         for (int inOffset = Character.charCount(firstCodePoint); inOffset < strLen; ) {
-            int codePoint = str.codePointAt(inOffset);
+            int codePoint = text.codePointAt(inOffset);
             newCodePoints[outOffset++] = codePoint;
             inOffset += Character.charCount(codePoint);
         }
 
         return new String(newCodePoints, 0, outOffset);
+    }
+
+    /**
+     * Check how the specified text starts
+     *
+     * @param text   the text to check
+     * @param filter condition
+     * @return result of the condition
+     */
+    public static boolean startsWith(String text, Predicate<char[]> filter) {
+        if (text.length() == 0) {
+            return false;
+        }
+
+        return filter.test(text.toCharArray());
     }
 
     /**

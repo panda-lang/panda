@@ -3,7 +3,7 @@
 
 Caused by: {{message}}
 
-% if {{details}} != null %
+% {{details}} != null %
 Details:
   {{details}}
 

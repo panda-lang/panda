@@ -17,9 +17,15 @@
 package org.panda_lang.panda.framework.design.interpreter.messenger.translator;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessengerMessage;
+import org.panda_lang.panda.utilities.commons.CharacterUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
 final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
+
 
     private final PandaTranslatorLayout<T> scheme;
 
@@ -29,10 +35,18 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
     @Override
     public boolean handle(Messenger messenger, T element) {
-        String template = scheme.getTemplateSource().getContent();
+        MessengerFormatter formatter = messenger.getMessengerFormatter().fork();
+        scheme.onHandle(formatter, element);
 
-        String message = messenger.getMessengerFormatter().format(template, element);
-        messenger.sendMessage(scheme.getLevel(), message);
+        String content = formatter.format(scheme.getTemplateSource().getContent(), element);
+        String[] lines = StringUtils.split(content, System.lineSeparator());
+
+        for (int i = 0; i < lines.length; i++) {
+            lines[i] = CharacterUtils.BACKSPACE + scheme.getPrefix() + lines[i];
+        }
+
+        MessengerMessage message = new PandaMessengerMessage(scheme.getLevel(), lines);
+        messenger.sendMessage(message);
 
         return scheme.isInterrupting();
     }

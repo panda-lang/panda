@@ -42,7 +42,9 @@ public class PandaInterpretation implements Interpretation {
         this.language = language;
         this.environment = environment;
         this.interpreter = interpreter;
+
         this.messenger = new PandaMessenger(this);
+        this.environment.getResources().getMessengerInitializer().onInitialize(messenger);
     }
 
     @Override

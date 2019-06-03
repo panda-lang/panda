@@ -14,24 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.messenger.translator;
+package org.panda_lang.panda.framework.design.interpreter.messenger.formatters;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
 
-public interface PandaTranslatorLayout<T extends Object> {
+public interface MessengerDataFormatter<T> {
 
-    default void onHandle(MessengerFormatter formatter, T element) { }
+    void onInitialize(MessengerTypeFormatter<T> typeFormatter);
 
-    boolean isInterrupting();
-
-    String getPrefix();
-
-    MessengerLevel getLevel();
-
-    Source getTemplateSource();
-
-    Class<T> getType();
+    @Nullable Class<T> getType();
 
 }
