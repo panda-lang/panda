@@ -14,23 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.messenger.translator;
+package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import java.util.function.BiFunction;
 
-public interface PandaTranslatorLayout<T extends Object> {
+public interface MessengerTypeFormatter<T> {
 
-    default void onHandle(MessengerFormatter formatter, T element) { }
-
-    boolean isInterrupting();
-
-    String getPrefix();
-
-    MessengerLevel getLevel();
-
-    Source getTemplateSource();
+    MessengerTypeFormatter<T> register(String placeholder, BiFunction<MessengerFormatter, T, Object> replacementFunction);
 
     Class<T> getType();
 

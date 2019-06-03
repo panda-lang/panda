@@ -25,6 +25,7 @@ public class CharacterUtils {
     public static final char[] LITERALS = mergeArrays(LETTERS, DIGITS);
 
     public static final char TAB = '\t';
+    public static final char BACKSPACE = '\b';
     public static final char NO_BREAK_SPACE = '\u00A0';
 
     /**

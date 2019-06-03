@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.messenger;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
@@ -35,13 +36,13 @@ import java.util.stream.Stream;
 final class PandaMessengerFormatter implements MessengerFormatter {
 
     private final Messenger messenger;
-    private final TreeMap<Class<?>, Map<String, BiFunction<MessengerFormatter, Object, String>>> placeholders;
+    private final TreeMap<Class<?>, Map<String, BiFunction<MessengerFormatter, Object, Object>>> placeholders;
 
     public PandaMessengerFormatter(Messenger messenger) {
         this(messenger, new TreeMap<>(ClassUtils.CLASS_ASSIGNATION_COMPARATOR));
     }
 
-    private PandaMessengerFormatter(Messenger messenger, TreeMap<Class<?>, Map<String, BiFunction<MessengerFormatter, Object, String>>> placeholders) {
+    private PandaMessengerFormatter(Messenger messenger, TreeMap<Class<?>, Map<String, BiFunction<MessengerFormatter, Object, Object>>> placeholders) {
         this.messenger = messenger;
         this.placeholders = placeholders;
     }
@@ -50,27 +51,41 @@ final class PandaMessengerFormatter implements MessengerFormatter {
     public String format(String message, Object... values) {
         return placeholders.entrySet().stream()
                 .map(entry -> Maps.immutableEntryOf(entry.getValue(), ArrayUtils.findIn(values, value -> ClassUtils.isAssignableFrom(entry.getKey(), value))))
-                .flatMap(this::createFormatterFunctions)
+                .flatMap(data -> Stream.concat(createFormatterFunctions(data), createFormatterFunctions(Maps.immutableEntryOf(placeholders.get(null), null))))
                 .reduce(message, (content, function) -> function.apply(content), StreamUtils.emptyBinaryOperator());
     }
 
-    private Stream<Function<String, String>> createFormatterFunctions(Map.Entry<Map<String, BiFunction<MessengerFormatter, Object, String>>, Object> data) {
+    private Stream<Function<String, String>> createFormatterFunctions(Map.Entry<Map<String, BiFunction<MessengerFormatter, Object, Object>>, Object> data) {
         return data.getKey().entrySet().stream().map(entry -> createFormatterFunction(entry, data.getValue()));
     }
 
-    private Function<String, String> createFormatterFunction(Map.Entry<String, BiFunction<MessengerFormatter, Object, String>> entry, Object data) {
-        return message -> StringUtils.replace(message, entry.getKey(), entry.getValue().apply(this, data));
+    private Function<String, String> createFormatterFunction(Map.Entry<String, BiFunction<MessengerFormatter, Object, Object>> entry, Object data) {
+        return message -> {
+            Object value = entry.getValue().apply(this, data);
+
+            if (value == null) {
+                value = "<placeholder error: " + entry.getKey() + " == null>";
+            }
+
+            return StringUtils.replace(message, entry.getKey(), value.toString());
+        };
     }
 
     @Override
-    public <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, Object, String> replacementFunction) {
-        placeholders.computeIfAbsent(requiredData, key -> new HashMap<>()).put(placeholder, replacementFunction);
+    @SuppressWarnings("unchecked")
+    public <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, ?, Object> replacementFunction) {
+        placeholders.computeIfAbsent(requiredData, key -> new HashMap<>()).put(placeholder, (BiFunction<MessengerFormatter, Object, Object>) replacementFunction);
         return this;
     }
 
     @Override
     public MessengerFormatter fork() {
         return new PandaMessengerFormatter(messenger, new TreeMap<>(placeholders));
+    }
+
+    @Override
+    public <T> MessengerTypeFormatter<T> getTypeFormatter(Class<T> type) {
+        return new PandaMessengerTypeFormatter<>(this, type);
     }
 
     @Override

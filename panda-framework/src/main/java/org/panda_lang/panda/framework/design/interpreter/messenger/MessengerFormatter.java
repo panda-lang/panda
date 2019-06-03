@@ -22,12 +22,47 @@ import java.util.function.BiFunction;
 
 public interface MessengerFormatter {
 
-    String format(String message, Object... values);
+    /**
+     * Format message using registered placeholders and with provided data
+     *
+     * @param message the message to format
+     * @param data the values to use as data for placeholders
+     * @return formatted message
+     */
+    String format(String message, Object... data);
 
-    <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, Object, String> replacementFunction);
+    /**
+     * Register new placeholder
+     *
+     * @param placeholder the name of the placeholder
+     * @param requiredData the required type of data to use that placeholder (if null, it means that placeholder does not require provided data)
+     * @param replacementFunction the value to replace with
+     * @param <T> type of required data
+     * @return the instance of formatter
+     */
+    <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, ?, Object> replacementFunction);
 
+    /**
+     * Register group of placeholders associated with the specified type
+     *
+     * @param type the type of the group
+     * @param <T> type
+     * @return instance of type formatter
+     */
+    <T> MessengerTypeFormatter<T> getTypeFormatter(Class<T> type);
+
+    /**
+     * Clone formatter into a new instance
+     *
+     * @return the new instance
+     */
     MessengerFormatter fork();
 
+    /**
+     * Get {@link org.panda_lang.panda.framework.design.interpreter.messenger.Messenger}
+     *
+     * @return the messenger instance
+     */
     Messenger getMessenger();
 
 }

@@ -18,8 +18,11 @@ package org.panda_lang.panda;
 
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.language.interpreter.messenger.InterpreterFailureTranslatorLayout;
-import org.panda_lang.panda.framework.language.interpreter.messenger.PandaLexerFailureTranslatorLayout;
+import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.EnvironmentFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.InterpreterFailureFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ThrowableFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
+import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.parsers.PandaFrameworkParsers;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
@@ -49,6 +52,9 @@ public class PandaFactory {
                 .initializeMessenger()
                     .withLayout(PandaLexerFailureTranslatorLayout.class)
                     .withLayout(InterpreterFailureTranslatorLayout.class)
+                    .withDataFormatter(ThrowableFormatter.class)
+                    .withDataFormatter(EnvironmentFormatter.class)
+                    .withDataFormatter(InterpreterFailureFormatter.class)
                     .collect()
 
                 // load pipelines

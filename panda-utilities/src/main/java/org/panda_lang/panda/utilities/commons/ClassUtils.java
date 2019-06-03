@@ -21,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ClassUtils {
 
@@ -28,11 +29,15 @@ public class ClassUtils {
      * Compare which class is assignable to another, higher priority has the uppermost class
      */
     public static final Comparator<Class<?>> CLASS_ASSIGNATION_COMPARATOR = (a, b) -> {
-        if (a.isAssignableFrom(b)) {
+        if (Objects.equals(a, b)) {
+            return 0;
+        }
+
+        if (a == null || isAssignableFrom(a, b)) {
             return -1;
         }
 
-        if (b.isAssignableFrom(a)) {
+        if (b == null || isAssignableFrom(b, a)) {
             return 1;
         }
 
@@ -56,13 +61,17 @@ public class ClassUtils {
 
     public static boolean isAssignableFrom(Class<?> to, @Nullable Object from) {
         if (from == null) {
-            return true;
+            return false;
         }
 
         return isAssignableFrom(to, from.getClass());
     }
 
     public static boolean isAssignableFrom(Class<?> to, Class<?> from) {
+        if (to == null || from == null) {
+            return false;
+        }
+
         if (to.isPrimitive()) {
             to = PRIMITIVE_EQUIVALENT.get(to);
         }

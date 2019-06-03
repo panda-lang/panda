@@ -31,6 +31,10 @@ public class PandaURLSource {
     private final URL location;
 
     private PandaURLSource(URL location) {
+        if (location == null) {
+            throw new IllegalArgumentException("URL cannot be null");
+        }
+
         this.location = location;
     }
 
@@ -47,7 +51,13 @@ public class PandaURLSource {
     }
 
     public static PandaURLSource fromResource(String resourcePath) {
-        return fromUrl(PandaFramework.class.getResource(resourcePath));
+        URL resource = PandaFramework.class.getResource(resourcePath);
+
+        if (resource == null) {
+            throw new IllegalArgumentException("Resource '" + resourcePath + "' does not exist. Remember that the path should start with '/' separator.");
+        }
+
+        return fromUrl(resource);
     }
 
     public static PandaURLSource fromPath(String path) {
