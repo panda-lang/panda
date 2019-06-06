@@ -45,6 +45,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
@@ -84,7 +85,9 @@ public class MethodParser extends UnifiedParserBootstrap {
             Optional<ClassPrototypeReference> reference = registry.forClass(signature.subSource(0, signature.size() - 1).asString());
 
             if (!reference.isPresent()) {
-                throw new PandaParserFailure("Unknown type", data, signature);
+                throw PandaParserFailure.builder("Unknown type", data)
+                        .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, signature))
+                        .build();
             }
 
             returnType = reference.get();

@@ -16,11 +16,9 @@
 
 package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-import java.util.function.BiFunction;
-
 public interface MessengerTypeFormatter<T> {
 
-    MessengerTypeFormatter<T> register(String placeholder, BiFunction<MessengerFormatter, T, Object> replacementFunction);
+    MessengerTypeFormatter<T> register(String placeholder, FormatterFunction<T> replacementFunction);
 
     Class<T> getType();
 

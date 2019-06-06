@@ -16,10 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token.stream;
 
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 
-public interface SourceStream {
+public interface SourceStream extends Snippetable {
 
     /**
      * Read the next token
@@ -68,7 +70,7 @@ public interface SourceStream {
      * @return if there is no available source, the method returns -2, otherwise returns the number of current line
      */
     default int getCurrentLine() {
-        return hasUnreadSource() ? toSnippet().getFirst().getLine() : -2;
+        return hasUnreadSource() ? toSnippet().getFirst().getLocation().getLine() : SourceLocation.UNKNOWN_LOCATION;
     }
 
     /**
@@ -94,6 +96,7 @@ public interface SourceStream {
      *
      * @return the current content wrapped in Tokens
      */
+    @Override
     Snippet toSnippet();
 
 }

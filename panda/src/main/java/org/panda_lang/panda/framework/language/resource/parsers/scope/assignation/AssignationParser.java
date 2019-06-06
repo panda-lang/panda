@@ -37,6 +37,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 
 import java.util.Optional;
 
@@ -89,7 +90,9 @@ public class AssignationParser extends UnifiedParserBootstrap {
         subparser = null;
 
         if (statement == null) {
-            throw new PandaParserFailure("Cannot parse assignment", delegatedData);
+            throw PandaParserFailure.builder("Cannot parse assignment", delegatedData)
+                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, declaration))
+                    .build();
         }
 
         cell.setStatement(statement);

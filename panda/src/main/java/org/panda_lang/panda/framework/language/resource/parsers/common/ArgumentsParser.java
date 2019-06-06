@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -53,11 +53,16 @@ public class ArgumentsParser implements Parser {
                 TokenRepresentation comma = source.read();
 
                 if (!Separators.COMMA.equals(comma.getToken())) {
-                    throw new PandaParserFailure("Illegal token", data, new PandaSnippet(comma));
+                    throw PandaParserFailure.builder("Illegal token", data)
+                            .withSourceFragment(new PandaSourceFragment(snippet, comma))
+                            .withNote("Remove highlighted comma")
+                            .build();
                 }
 
                 if (!source.hasUnreadSource()) {
-                    throw new PandaParserFailure("Arguments cannot end with a comma", data, new PandaSnippet(comma));
+                    throw PandaParserFailure.builder("Arguments cannot end with a comma", data)
+                            .withSourceFragment(new PandaSourceFragment(source, comma))
+                            .build();
                 }
             }
         }

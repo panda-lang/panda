@@ -124,9 +124,7 @@ public class FileUtils {
 
         try {
             List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-            String[] result = new String[list.size()];
-
-            return list.toArray(result);
+            return list.toArray(StringUtils.EMPTY_ARRAY);
         } catch (IOException e) {
             e.printStackTrace();
         }

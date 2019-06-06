@@ -36,8 +36,26 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
         this.bootstrap = bootstrap;
     }
 
+    @SafeVarargs
+    public final MessengerPandaBootstrap withLayouts(Class<? extends PandaTranslatorLayout<?>>... layoutClasses) {
+        for (Class<? extends PandaTranslatorLayout<?>> layoutClass : layoutClasses) {
+            withLayout(layoutClass);
+        }
+
+        return this;
+    }
+
     public MessengerPandaBootstrap withLayout(Class<? extends PandaTranslatorLayout<?>> layoutClass) {
         layouts.add(layoutClass);
+        return this;
+    }
+
+    @SafeVarargs
+    public final MessengerPandaBootstrap withDataFormatters(Class<? extends MessengerDataFormatter<?>>... dataFormatterClasses) {
+        for (Class<? extends MessengerDataFormatter<?>> dataFormatterClass : dataFormatterClasses) {
+            withDataFormatter(dataFormatterClass);
+        }
+
         return this;
     }
 

@@ -3,8 +3,8 @@
 
 Caused by: {{message}}
 
-Details:
-  {{details}}
+Stacktrace:
+  {{stacktrace}}
 
 Environment: {{environment}}
 

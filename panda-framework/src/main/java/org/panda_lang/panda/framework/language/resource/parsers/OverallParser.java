@@ -23,8 +23,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 public class OverallParser implements Parser {
 
@@ -43,17 +45,22 @@ public class OverallParser implements Parser {
             return;
         }
 
-        UnifiedParser parser = pipeline.handle(data, stream.toSnippet());
+        Snippet source = stream.toSnippet();
+        UnifiedParser parser = pipeline.handle(data, source);
         int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {
-            throw new PandaParserFailure("Unrecognized syntax", data);
+            throw PandaParserFailure.builder("Unrecognized syntax", data)
+                    .withSourceFragment(new PandaSourceFragment(source))
+                    .build();
         }
 
         parser.parse(data.fork());
 
         if (sourceLength == stream.getUnreadLength()) {
-            throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with the current source", data);
+            throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", data)
+                    .withSourceFragment(new PandaSourceFragment(source, stream))
+                    .build();
         }
     }
 

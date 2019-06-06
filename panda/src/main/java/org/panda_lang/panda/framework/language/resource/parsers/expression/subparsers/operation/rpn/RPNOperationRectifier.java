@@ -16,12 +16,12 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.rpn;
 
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressionCallback;
@@ -47,7 +47,7 @@ class RPNOperationRectifier {
             RPNOperationSupplier supplier = suppliers.get(operator);
 
             if (supplier == null) {
-                throw new PandaParserFailure("Unexpected or unsupported operator " + operator, data);
+                throw new PandaFrameworkException("Unexpected or unsupported operator " + operator);
             }
 
             Expression a = values.pop();

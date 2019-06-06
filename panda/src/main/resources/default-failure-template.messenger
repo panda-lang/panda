@@ -3,7 +3,7 @@
 
 Caused by: {{message}}
 
-% {{details}} != null %
+% details != null %
 Details:
   {{details}}
 
@@ -16,7 +16,9 @@ Location:
   Panda: {{location}} at line {{line}}:{{position}}
 
 Details:
+% data != null %
   Generation: {{generation}}
+% end %
   Framework: {{stacktrace-last}}
   Stack: {{stacktrace}}
 

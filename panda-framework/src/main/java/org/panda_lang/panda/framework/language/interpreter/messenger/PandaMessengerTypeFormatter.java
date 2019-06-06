@@ -16,10 +16,9 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger;
 
+import org.panda_lang.panda.framework.design.interpreter.messenger.FormatterFunction;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
-
-import java.util.function.BiFunction;
 
 final class PandaMessengerTypeFormatter<T> implements MessengerTypeFormatter<T> {
 
@@ -32,7 +31,7 @@ final class PandaMessengerTypeFormatter<T> implements MessengerTypeFormatter<T> 
     }
 
     @Override
-    public PandaMessengerTypeFormatter<T> register(String placeholder, BiFunction<MessengerFormatter, T, Object> replacementFunction) {
+    public PandaMessengerTypeFormatter<T> register(String placeholder, FormatterFunction<T> replacementFunction) {
         formatter.register(placeholder, getType(), replacementFunction);
         return this;
     }

@@ -63,7 +63,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
 
         boolean mutable = result.hasIdentifier("mutable");
         boolean nullable = result.hasIdentifier("nullable");
-        Variable variable = INITIALIZER.createVariable(data, loader, scope, mutable, nullable, type.asString(), name.asString());
+        Variable variable = INITIALIZER.createVariable(data, loader, scope, mutable, nullable, type, name);
 
         return VariableAssignerUtils.of(data, scope, variable, expression).toExecutableStatement();
     }

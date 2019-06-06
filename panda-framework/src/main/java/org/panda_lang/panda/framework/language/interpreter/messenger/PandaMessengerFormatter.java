@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.messenger;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.messenger.FormatterFunction;
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
@@ -28,21 +29,20 @@ import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
-import java.util.function.BiFunction;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 final class PandaMessengerFormatter implements MessengerFormatter {
 
     private final Messenger messenger;
-    private final TreeMap<Class<?>, Map<String, BiFunction<MessengerFormatter, Object, Object>>> placeholders;
+    private final Map<Class<?>, Map<String, FormatterFunction>> placeholders;
 
     public PandaMessengerFormatter(Messenger messenger) {
-        this(messenger, new TreeMap<>(ClassUtils.CLASS_ASSIGNATION_COMPARATOR));
+        this(messenger, new HashMap<>());
     }
 
-    private PandaMessengerFormatter(Messenger messenger, TreeMap<Class<?>, Map<String, BiFunction<MessengerFormatter, Object, Object>>> placeholders) {
+    private PandaMessengerFormatter(Messenger messenger, Map<Class<?>, Map<String, FormatterFunction>> placeholders) {
         this.messenger = messenger;
         this.placeholders = placeholders;
     }
@@ -50,16 +50,23 @@ final class PandaMessengerFormatter implements MessengerFormatter {
     @Override
     public String format(String message, Object... values) {
         return placeholders.entrySet().stream()
-                .map(entry -> Maps.immutableEntryOf(entry.getValue(), ArrayUtils.findIn(values, value -> ClassUtils.isAssignableFrom(entry.getKey(), value))))
-                .flatMap(data -> Stream.concat(createFormatterFunctions(data), createFormatterFunctions(Maps.immutableEntryOf(placeholders.get(null), null))))
+                .map(entry -> toEntry(entry, values))
+                .filter(Objects::nonNull)
+                .flatMap(data -> Stream.concat(createFunction(data), createFunction(Maps.immutableEntryOf(placeholders.get(null), null))))
                 .reduce(message, (content, function) -> function.apply(content), StreamUtils.emptyBinaryOperator());
     }
 
-    private Stream<Function<String, String>> createFormatterFunctions(Map.Entry<Map<String, BiFunction<MessengerFormatter, Object, Object>>, Object> data) {
+    private @Nullable Map.Entry<Map<String, FormatterFunction>, Object> toEntry(Map.Entry<Class<?>, Map<String, FormatterFunction>> entry, Object[] values) {
+        Object data = ArrayUtils.findIn(values, value -> ClassUtils.isAssignableFrom(entry.getKey(), value));
+        return data != null ? Maps.immutableEntryOf(entry.getValue(), data) : null;
+    }
+
+    private Stream<Function<String, String>> createFunction(Map.Entry<Map<String, FormatterFunction>, Object> data) {
         return data.getKey().entrySet().stream().map(entry -> createFormatterFunction(entry, data.getValue()));
     }
 
-    private Function<String, String> createFormatterFunction(Map.Entry<String, BiFunction<MessengerFormatter, Object, Object>> entry, Object data) {
+    @SuppressWarnings("unchecked")
+    private Function<String, String> createFormatterFunction(Map.Entry<String, FormatterFunction> entry, Object data) {
         return message -> {
             Object value = entry.getValue().apply(this, data);
 
@@ -72,15 +79,14 @@ final class PandaMessengerFormatter implements MessengerFormatter {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, ?, Object> replacementFunction) {
-        placeholders.computeIfAbsent(requiredData, key -> new HashMap<>()).put(placeholder, (BiFunction<MessengerFormatter, Object, Object>) replacementFunction);
+    public <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, FormatterFunction<?> replacementFunction) {
+        placeholders.computeIfAbsent(requiredData, key -> new HashMap<>()).put(placeholder, replacementFunction);
         return this;
     }
 
     @Override
     public MessengerFormatter fork() {
-        return new PandaMessengerFormatter(messenger, new TreeMap<>(placeholders));
+        return new PandaMessengerFormatter(messenger, new HashMap<>(placeholders));
     }
 
     @Override

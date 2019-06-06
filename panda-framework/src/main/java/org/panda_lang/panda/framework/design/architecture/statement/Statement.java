@@ -16,17 +16,18 @@
 
 package org.panda_lang.panda.framework.design.architecture.statement;
 
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
+
 /**
  * Generalized interface for language elements
  */
 public interface Statement {
 
-    void setStatementData(StatementData statementData);
-
-    default boolean hasStatementData() {
-        return getStatementData() != null;
-    }
-
-    StatementData getStatementData();
+    /**
+     * Get location of statement
+     *
+     * @return
+     */
+    SourceLocation getSourceLocation();
 
 }

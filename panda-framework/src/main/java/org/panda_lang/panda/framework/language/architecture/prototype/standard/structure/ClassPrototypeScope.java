@@ -22,18 +22,17 @@ import org.panda_lang.panda.framework.design.architecture.prototype.field.Protot
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 
 import java.util.List;
 
-public class ClassPrototypeScope implements Scope {
+public class ClassPrototypeScope extends AbstractStatement implements Scope {
 
     private final ClassPrototype prototype;
-    protected StatementData statementData;
 
     public ClassPrototypeScope(ClassPrototype prototype) {
         this.prototype = prototype;
@@ -67,16 +66,6 @@ public class ClassPrototypeScope implements Scope {
     @Override
     public StatementCell addStatement(Statement statement) {
         throw new RuntimeException("Cannot add element to the class scope");
-    }
-
-    @Override
-    public void setStatementData(StatementData statementData) {
-        this.statementData = statementData;
-    }
-
-    @Override
-    public StatementData getStatementData() {
-        return statementData;
     }
 
     @Override

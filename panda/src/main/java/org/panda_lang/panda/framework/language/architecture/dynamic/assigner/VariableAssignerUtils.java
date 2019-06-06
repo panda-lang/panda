@@ -27,7 +27,11 @@ public class VariableAssignerUtils {
 
     public static Assigner<Variable> of(ParserData data, Scope scope, Variable variable, Expression expression) {
         if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
-            throw new PandaParserFailure("Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable", data);
+            String message = "Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable";
+
+            throw PandaParserFailure.builder(message, data)
+                    .withNote("Change variable type or ensure the expression has compatible return type")
+                    .build();
         }
 
         return new VariableAccessor(variable, scope.indexOf(variable)).toAssigner(expression);

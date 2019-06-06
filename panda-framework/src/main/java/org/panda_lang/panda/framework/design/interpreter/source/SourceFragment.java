@@ -14,22 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.statement;
+package org.panda_lang.panda.framework.design.interpreter.source;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
-public abstract class AbstractStatement implements Statement {
+public interface SourceFragment {
 
-    protected SourceLocation location;
+    Snippet getIndicatedFragment();
 
-    public void setLocation(SourceLocation location) {
-        this.location = location;
-    }
+    Snippet getFragment();
 
-    @Override
-    public SourceLocation getSourceLocation() {
-        return location;
-    }
+    int getIndex();
+
+    int getLine();
+
+    String getLocation();
 
 }

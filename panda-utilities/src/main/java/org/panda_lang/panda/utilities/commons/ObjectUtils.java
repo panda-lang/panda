@@ -19,6 +19,8 @@ package org.panda_lang.panda.utilities.commons;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
+import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 public class ObjectUtils {
 
@@ -79,6 +81,43 @@ public class ObjectUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Compare only one value that belongs to class and determines equality
+     *
+     * @param object the current object (~ this)
+     * @param value the value of current object
+     * @param to the object to compare with
+     * @param getter the getter to obtain value from compared object
+     * @param <T> type of current object
+     * @param <C> type of compared values
+     * @return true if compared objects are equal
+     */
+    public static <T, C> boolean equals(T object, C value, Object to, Function<T, C> getter) {
+        return equals(object, to, ((a, b) -> Objects.equals(value, getter.apply(b))));
+    }
+
+    /**
+     * Compare objects without boilerplate initial statements like (object == this) & (getClass() != to.getClass())
+     *
+     * @param object the current object (this)
+     * @param to the object to compare with
+     * @param equals the predicate which determines equality
+     * @param <T> type of objects to compare
+     * @return true if objects are the same type and fulfils the predicate
+     */
+    @SuppressWarnings("unchecked")
+    public static <T> boolean equals(T object, Object to, BiPredicate<T, T> equals) {
+        if (object == to) {
+            return true;
+        }
+
+        if (to == null || object.getClass() != to.getClass()) {
+            return false;
+        }
+
+        return equals.test(object, (T) to);
     }
 
 }

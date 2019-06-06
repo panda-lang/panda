@@ -28,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
@@ -53,7 +54,7 @@ public class LateDeclarationParser extends UnifiedParserBootstrap {
             @Type(with = Src.class, value = "type"),
             @Type(with = Src.class, value = "name")
     })
-    public void parse(ParserData data, ExtractorResult result, ModuleLoader loader, ScopeLinker linker, String type, String name) {
+    public void parse(ParserData data, ExtractorResult result, ModuleLoader loader, ScopeLinker linker, Snippet type, Snippet name) {
         INITIALIZER.createVariable(data, loader, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
     }
 

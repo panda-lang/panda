@@ -23,6 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.Pro
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers.ConcatenationOperatorSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers.LogicalOperatorSubparser;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers.MathOperationSubparser;
@@ -37,7 +38,9 @@ public class OperationParser implements Parser {
         Expression expression = parse(data, Operation.of(data.getComponent(UniversalComponents.EXPRESSION), data, result));
 
         if (expression == null) {
-            throw new PandaParserFailure("Unknown operation", data, source);
+            throw PandaParserFailure.builder("Unknown operation", data)
+                    .withSourceFragment(new PandaSourceFragment(source))
+                    .build();
         }
 
         return expression;

@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 
 public class SnippetUtils {
@@ -40,7 +41,7 @@ public class SnippetUtils {
     }
 
     public static int getLine(@Nullable Snippet snippet) {
-        return snippet != null ? snippet.getCurrentLine() : -2;
+        return snippet != null ? snippet.getCurrentLocation().getLine() : SourceLocation.UNKNOWN_LOCATION;
     }
 
 }

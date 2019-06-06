@@ -25,7 +25,7 @@ The latest indev build:
 <dependency>
     <groupId>org.panda-lang</groupId>
     <artifactId>panda</artifactId>
-    <version>indev-19.5.22</version>
+    <version>indev-19.6.4</version>
 </dependency>
 ```
 

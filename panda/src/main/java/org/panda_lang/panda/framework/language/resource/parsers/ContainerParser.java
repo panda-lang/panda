@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -29,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.Stack;
@@ -60,18 +60,17 @@ public class ContainerParser implements Parser {
             int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
-                throw new PandaParserFailure("Unrecognized syntax", data, currentSource);
+                throw PandaParserFailure.builder("Unrecognized syntax", data)
+                        .withSourceFragment(new PandaSourceFragment(body, currentSource))
+                        .build();
             }
 
-            try {
-                parser.parse(delegatedData);
-            } catch (ParserFailure failure) {
-                failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, source);
-                throw failure;
-            }
+            parser.parse(delegatedData);
 
             if (sourceLength == source.getUnreadLength()) {
-                throw new PandaParserFailure(parser.getClass().getSimpleName() + " did nothing with source", delegatedData, source.toSnippet());
+                throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with source", delegatedData)
+                        .withSourceFragment(new PandaSourceFragment(currentSource, source))
+                        .build();
             }
 
             parsers.push(parser);

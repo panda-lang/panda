@@ -14,22 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.statement;
+package org.panda_lang.panda.framework.design.interpreter.messenger;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
+import java.util.function.BiFunction;
 
-public abstract class AbstractStatement implements Statement {
-
-    protected SourceLocation location;
-
-    public void setLocation(SourceLocation location) {
-        this.location = location;
-    }
-
-    @Override
-    public SourceLocation getSourceLocation() {
-        return location;
-    }
+@FunctionalInterface
+public interface FormatterFunction<T> extends BiFunction<MessengerFormatter, T, Object> {
 
 }

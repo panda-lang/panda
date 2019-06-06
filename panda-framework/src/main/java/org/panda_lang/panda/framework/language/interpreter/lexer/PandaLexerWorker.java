@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSourceLocation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Indentation;
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
@@ -81,7 +82,11 @@ class PandaLexerWorker {
             boolean extracted = extractor.extract(builder);
 
             if (!extracted) {
-                throw new PandaLexerException("Unknown token", tokenPreview, linePreview, source.getTitle(), line);
+                throw PandaLexerException.builder("Unknown token")
+                        .withLocation(new PandaSourceLocation(source, line, lineTokens.size()))
+                        .withToken(tokenPreview)
+                        .withLine(linePreview)
+                        .build();
             }
 
             return;
@@ -113,14 +118,14 @@ class PandaLexerWorker {
         if (getConfiguration().includingIndentation) {
             String paragraph = StringUtils.extractParagraph(linePreview);
             Indentation indentation = Indentation.valueOf(paragraph);
-            TokenRepresentation representation = new PandaTokenRepresentation(indentation, line, 0);
+            TokenRepresentation representation = new PandaTokenRepresentation(indentation, new PandaSourceLocation(source, line, 0));
             collector.add(representation);
         }
 
         int position = getConfiguration().includingIndentation ? 1 : 0;
 
         for (Token token : lineTokens) {
-            TokenRepresentation representation = new PandaTokenRepresentation(token, line, position++);
+            TokenRepresentation representation = new PandaTokenRepresentation(token, new PandaSourceLocation(source, line, position++));
             collector.add(representation);
         }
 

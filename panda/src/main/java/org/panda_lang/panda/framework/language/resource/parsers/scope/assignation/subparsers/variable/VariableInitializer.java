@@ -21,9 +21,11 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 
 import java.util.Optional;
 
@@ -31,18 +33,24 @@ public class VariableInitializer {
 
     public static final String DECLARATION_PARSER = "mutable:[mutable] nullable:[nullable] <type:reader type> <name:condition token {type:unknown}>";
 
-    public Variable createVariable(ParserData data, ModuleLoader loader, Scope scope, boolean mutable, boolean nullable, String type, String name) {
-        if (StringUtils.isEmpty(type)) {
-            throw new PandaParserFailure("Type does not specified", data);
-        }
-
-        Optional<ClassPrototypeReference> prototype = loader.forClass(type);
+    public Variable createVariable(ParserData data, ModuleLoader loader, Scope scope, boolean mutable, boolean nullable, Snippetable type, Snippetable name) {
+        Optional<ClassPrototypeReference> prototype = loader.forClass(type.toSnippet().asString());
 
         if (!prototype.isPresent()) {
-            throw new PandaParserFailure("Cannot recognize variable type: " + type, data);
+            throw PandaParserFailure.builder("Cannot recognize variable type: " + type, data)
+                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, type))
+                    .build();
         }
 
-        Variable variable = new PandaVariable(prototype.get(), name, 0, mutable, nullable);
+        Snippet nameSource = name.toSnippet();
+
+        if (nameSource.size() > 1) {
+            throw PandaParserFailure.builder("Variable name has to be singe word", data)
+                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, name))
+                    .build();
+        }
+
+        Variable variable = new PandaVariable(prototype.get(), nameSource.asString(), 0, mutable, nullable);
         scope.addVariable(variable);
 
         return variable;

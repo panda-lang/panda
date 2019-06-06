@@ -26,7 +26,7 @@ public final class ThrowableFormatter implements MessengerDataFormatter<Throwabl
     @Override
     public void onInitialize(MessengerTypeFormatter<Throwable> typeFormatter) {
         typeFormatter
-                .register("{{message}}", (formatter, exception) -> exception.getMessage())
+                .register("{{message}}", (formatter, exception) -> exception.getMessage() == null ? exception.getClass() : exception.getMessage())
                 .register("{{stacktrace}}", (formatter, exception) -> new StacktraceSupplier(exception).get())
                 .register("{{stacktrace-last}}", (formatter, exception) -> {
                     StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);

@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 
@@ -48,7 +48,9 @@ class RPNOperationTransformer {
             Operator operator = element.getOperator();
 
             if (!priorities.containsKey(operator)) {
-                throw new PandaParserFailure("Unexpected or unsupported operator " + operator, data, new PandaSnippet(element.getOperatorRepresentation()));
+                throw PandaParserFailure.builder("Unexpected or unsupported operator " + operator, data)
+                        .withSourceFragment(new PandaSourceFragment(element.getOperatorRepresentation()))
+                        .build();
             }
 
             if (operators.size() != 0) {

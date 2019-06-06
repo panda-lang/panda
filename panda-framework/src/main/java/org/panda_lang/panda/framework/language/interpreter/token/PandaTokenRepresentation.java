@@ -16,39 +16,33 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.security.InvalidParameterException;
 import java.util.Objects;
 
 public class PandaTokenRepresentation implements TokenRepresentation {
 
-    private static final int UNKNOWN_INDEX = -3;
-
     private final Token token;
-    private final int line;
-    private final int position;
+    private final SourceLocation location;
 
-    public PandaTokenRepresentation(Token token, int line, int position) {
+    public PandaTokenRepresentation(Token token, SourceLocation location) {
         if (token == null) {
             throw new InvalidParameterException("Token cannot be null");
         }
 
+        if (location == null) {
+            throw new InvalidParameterException("Location of token cannot be null");
+        }
+
         this.token = token;
-        this.line = line;
-        this.position = position;
-    }
-
-    @Override
-    public int getPosition() {
-        return position;
-    }
-
-    @Override
-    public int getLine() {
-        return line;
+        this.location = location;
     }
 
     @Override
@@ -57,17 +51,13 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     @Override
+    public SourceLocation getLocation() {
+        return location;
+    }
+
+    @Override
     public boolean equals(Object to) {
-        if (this == to) {
-            return true;
-        }
-
-        if (to == null || getClass() != to.getClass()) {
-            return false;
-        }
-
-        PandaTokenRepresentation that = (PandaTokenRepresentation) to;
-        return getToken().equals(that.getToken());
+        return ObjectUtils.equals(this, getToken(), to, PandaTokenRepresentation::getToken);
     }
 
     @Override
@@ -85,7 +75,9 @@ public class PandaTokenRepresentation implements TokenRepresentation {
     }
 
     public static TokenRepresentation of(Token token) {
-        return new PandaTokenRepresentation(token, UNKNOWN_INDEX, UNKNOWN_INDEX);
+        Source source = new PandaSource("<unknown>", token.getValue());
+        SourceLocation location = new PandaSourceLocation(source, SourceLocation.UNKNOWN_LOCATION, SourceLocation.UNKNOWN_LOCATION);
+        return new PandaTokenRepresentation(token, location);
     }
 
 }

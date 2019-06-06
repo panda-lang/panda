@@ -33,7 +33,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
@@ -55,7 +54,7 @@ public class ReturnParser extends UnifiedParserBootstrap {
     })
     public void parse(ParserData data, @Component Container container, Snippet source, @Nullable Expression value) {
         Return returnStatement = new Return(value);
-        returnStatement.setStatementData(new PandaStatementData(source.getCurrentLine()));
+        returnStatement.setLocation(source.getCurrentLocation());
         container.addStatement(returnStatement);
     }
 

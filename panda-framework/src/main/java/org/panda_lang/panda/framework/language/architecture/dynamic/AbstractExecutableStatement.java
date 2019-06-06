@@ -17,20 +17,8 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ExecutableStatement;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 
-public abstract class AbstractExecutableStatement implements ExecutableStatement {
-
-    protected StatementData statementData;
-
-    @Override
-    public void setStatementData(StatementData statementData) {
-        this.statementData = statementData;
-    }
-
-    @Override
-    public StatementData getStatementData() {
-        return statementData;
-    }
+public abstract class AbstractExecutableStatement extends AbstractStatement implements ExecutableStatement {
 
 }

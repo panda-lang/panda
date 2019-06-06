@@ -34,6 +34,7 @@ import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Optional;
@@ -59,7 +60,9 @@ public class ImportParser extends UnifiedParserBootstrap {
         Optional<Module> module = environment.getModulePath().get(moduleName.toString());
 
         if (!module.isPresent()) {
-            throw new PandaParserFailure("Unknown module " + moduleName, data);
+            throw PandaParserFailure.builder("Unknown module " + moduleName, data)
+                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, source))
+                    .build();
         }
 
         ImportStatement importStatement = new ImportStatement(module.get());
