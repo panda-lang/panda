@@ -54,8 +54,7 @@ public class MethodDescriptorUtils {
                 result.add(AnnotationsScannerUtils.forName(name.trim(), classLoaders));
             }
 
-            Class<?>[] types = new Class[result.size()];
-            parameterTypes = result.toArray(types);
+            parameterTypes = result.toArray(new Class[0]);
         }
 
         Class<?> clazz = AnnotationsScannerUtils.forName(className, classLoaders);

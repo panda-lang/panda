@@ -18,8 +18,6 @@ package org.panda_lang.panda.framework.design.interpreter.messenger;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.BiFunction;
-
 public interface MessengerFormatter {
 
     /**
@@ -40,7 +38,7 @@ public interface MessengerFormatter {
      * @param <T> type of required data
      * @return the instance of formatter
      */
-    <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, BiFunction<MessengerFormatter, ?, Object> replacementFunction);
+    <T> MessengerFormatter register(String placeholder, @Nullable Class<T> requiredData, FormatterFunction<?> replacementFunction);
 
     /**
      * Register group of placeholders associated with the specified type

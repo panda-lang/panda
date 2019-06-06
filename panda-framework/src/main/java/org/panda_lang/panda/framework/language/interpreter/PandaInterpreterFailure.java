@@ -14,20 +14,31 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter;
+package org.panda_lang.panda.framework.language.interpreter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
 
-public abstract class InterpreterFailure extends PandaFrameworkException {
+public class PandaInterpreterFailure extends InterpreterFailure {
 
-    protected InterpreterFailure(String message) {
+    private final SourceFragment sourceFragment;
+    private final String note;
+
+    public PandaInterpreterFailure(String message, SourceFragment fragment, @Nullable String note) {
         super(message);
+        this.sourceFragment = fragment;
+        this.note = note;
     }
 
-    public abstract @Nullable String getNote();
+    @Override
+    public @Nullable String getNote() {
+        return note;
+    }
 
-    public abstract SourceFragment getSourceFragment();
+    @Override
+    public SourceFragment getSourceFragment() {
+        return sourceFragment;
+    }
 
 }

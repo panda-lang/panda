@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.layouts;
 
-import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
@@ -25,11 +24,6 @@ import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 
 public class PandaLexerFailureTranslatorLayout implements PandaTranslatorLayout<PandaLexerException> {
-
-    @Override
-    public void onHandle(MessengerFormatter formatter, PandaLexerException element) {
-        element.printStackTrace();
-    }
 
     @Override
     public boolean isInterrupting() {

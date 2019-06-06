@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.MutableTokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSourceLocation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separator;
@@ -87,7 +89,10 @@ class PandaLexerCollector {
         MutableTokenRepresentation closingSeparator = new MutableTokenRepresentation();
         Section section = new Section(openingSeparator, new PandaSnippet(), closingSeparator);
 
-        sections.push(new PandaTokenRepresentation(section, openingSeparator.getLine(), openingSeparator.getPosition() - 1));
+        SourceLocation location = openingSeparator.getLocation();
+        SourceLocation sectionLocation = new PandaSourceLocation(location.getSource(), location.getLine(), location.getIndex() - 1);
+
+        sections.push(new PandaTokenRepresentation(section, sectionLocation));
         closingSeparators.push(closingSeparator);
     }
 
@@ -96,6 +101,7 @@ class PandaLexerCollector {
 
         if (sections.isEmpty()) {
             representations.add(section);
+            closingSeparators.pop();
             return;
         }
 
@@ -105,6 +111,10 @@ class PandaLexerCollector {
     }
 
     protected List<TokenRepresentation> collect() {
+        if (!sections.isEmpty() || !closingSeparators.isEmpty()) {
+            throw new PandaLexerException("Cannot find closing separator", null, null, null, "");
+        }
+
         return representations;
     }
 

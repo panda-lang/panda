@@ -14,22 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.statement;
+package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
+public interface Snippetable {
 
-public abstract class AbstractStatement implements Statement {
-
-    protected SourceLocation location;
-
-    public void setLocation(SourceLocation location) {
-        this.location = location;
-    }
-
-    @Override
-    public SourceLocation getSourceLocation() {
-        return location;
-    }
+    Snippet toSnippet();
 
 }

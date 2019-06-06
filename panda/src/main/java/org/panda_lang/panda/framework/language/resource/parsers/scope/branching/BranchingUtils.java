@@ -17,21 +17,17 @@
 package org.panda_lang.panda.framework.language.resource.parsers.scope.branching;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
+import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
 
 import java.util.function.Supplier;
 
 class BranchingUtils {
 
-    static void parseBranchingStatement(Snippet source, Container container, Supplier<Statement> supplier) {
-        Statement statement = supplier.get();
+    static void parseBranchingStatement(Snippet source, Container container, Supplier<AbstractStatement> supplier) {
+        AbstractStatement statement = supplier.get();
+        statement.setLocation(source.getCurrentLocation());
         container.addStatement(statement);
-
-        StatementData statementData = new PandaStatementData(source.getCurrentLine());
-        statement.setStatementData(statementData);
     }
 
 }

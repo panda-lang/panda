@@ -26,8 +26,9 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.invoker.MethodInvoker;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.ThisExpressionCallback;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.common.ArgumentsParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.ThisExpressionCallback;
 
 public class MethodInvokerExpressionParser {
 
@@ -65,7 +66,10 @@ public class MethodInvokerExpressionParser {
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, argumentTypes);
 
         if (prototypeMethod == null) {
-            throw new PandaParserFailure("Class " + prototype.getClassName() + " does not have method with these parameters" + methodName, data, argumentsSource);
+            throw PandaParserFailure.builder("Class " + prototype.getClassName() + " does not have method with these parameters" + methodName, data)
+                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, argumentsSource))
+                    .withNote("Change parameters or add a new method with provided parameters")
+                    .build();
         }
 
         this.invoker = new MethodInvoker(prototypeMethod, instance, arguments);

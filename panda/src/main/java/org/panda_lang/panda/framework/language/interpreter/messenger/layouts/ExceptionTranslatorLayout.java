@@ -31,8 +31,6 @@ public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwabl
 
     @Override
     public void onHandle(MessengerFormatter formatter, Throwable element) {
-        element.printStackTrace();
-
         /*
         MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
                 .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())

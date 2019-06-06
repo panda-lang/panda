@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 
@@ -28,13 +29,8 @@ public final class MutableTokenRepresentation implements TokenRepresentation {
     }
 
     @Override
-    public int getPosition() {
-        return representation.getPosition();
-    }
-
-    @Override
-    public int getLine() {
-        return representation.getLine();
+    public SourceLocation getLocation() {
+        return representation.getLocation();
     }
 
     @Override

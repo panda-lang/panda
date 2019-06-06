@@ -36,6 +36,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
@@ -64,14 +65,18 @@ public class BlockParser extends UnifiedParserBootstrap {
         BlockSubparser blockParser = pipeline.handle(data, declarationStream.toSnippet());
 
         if (blockParser == null) {
-            throw new PandaParserFailure("Unknown block", data);
+            throw PandaParserFailure.builder("Unknown block", data)
+                    .withSourceFragment(new PandaSourceFragment(declaration))
+                    .build();
         }
 
         ParserData delegatedData = local.allocateInstance(data.fork());
         BlockData blockData = blockParser.parse(delegatedData, declaration);
 
         if (blockData == null || blockData.getBlock() == null) {
-            throw new PandaParserFailure(blockParser.getClass().getSimpleName() + " cannot parse current block", data);
+            throw PandaParserFailure.builder(blockParser.getClass().getSimpleName() + " cannot parse current block", data)
+                    .withSourceFragment(new PandaSourceFragment(declaration))
+                    .build();
         }
 
         local.allocateInstance(blockData.getBlock());

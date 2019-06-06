@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.statement;
+package org.panda_lang.panda.framework.design.interpreter.source;
 
-public interface StatementData {
+public interface SourceLocation {
 
-    int getSourceLine();
+    int UNKNOWN_LOCATION = -3;
+
+    int getIndex();
+
+    int getLine();
+
+    Source getSource();
 
 }

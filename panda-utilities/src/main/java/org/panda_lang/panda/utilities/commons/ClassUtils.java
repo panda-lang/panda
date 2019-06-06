@@ -18,31 +18,10 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class ClassUtils {
-
-    /**
-     * Compare which class is assignable to another, higher priority has the uppermost class
-     */
-    public static final Comparator<Class<?>> CLASS_ASSIGNATION_COMPARATOR = (a, b) -> {
-        if (Objects.equals(a, b)) {
-            return 0;
-        }
-
-        if (a == null || isAssignableFrom(a, b)) {
-            return -1;
-        }
-
-        if (b == null || isAssignableFrom(b, a)) {
-            return 1;
-        }
-
-        return 0;
-    };
 
     private static final Map<Class<?>, Class<?>> PRIMITIVE_EQUIVALENT = new HashMap<>();
 
@@ -52,8 +31,8 @@ public class ClassUtils {
         PRIMITIVE_EQUIVALENT.put(int.class, Integer.class);
         PRIMITIVE_EQUIVALENT.put(long.class, Long.class);
 
-        PRIMITIVE_EQUIVALENT.put(double.class, Double.class);
         PRIMITIVE_EQUIVALENT.put(float.class, Float.class);
+        PRIMITIVE_EQUIVALENT.put(double.class, Double.class);
 
         PRIMITIVE_EQUIVALENT.put(boolean.class, Boolean.class);
         PRIMITIVE_EQUIVALENT.put(char.class, Character.class);

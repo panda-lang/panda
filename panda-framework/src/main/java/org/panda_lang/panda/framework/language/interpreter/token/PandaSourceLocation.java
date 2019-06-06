@@ -14,22 +14,36 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.statement;
+package org.panda_lang.panda.framework.language.interpreter.token;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 
-public abstract class AbstractStatement implements Statement {
+public final class PandaSourceLocation implements SourceLocation {
 
-    protected SourceLocation location;
+    private final Source source;
+    private final int line;
+    private final int position;
 
-    public void setLocation(SourceLocation location) {
-        this.location = location;
+    public PandaSourceLocation(Source source, int line, int position) {
+        this.source = source;
+        this.line = line;
+        this.position = position;
     }
 
     @Override
-    public SourceLocation getSourceLocation() {
-        return location;
+    public int getIndex() {
+        return position;
+    }
+
+    @Override
+    public int getLine() {
+        return line;
+    }
+
+    @Override
+    public Source getSource() {
+        return source;
     }
 
 }

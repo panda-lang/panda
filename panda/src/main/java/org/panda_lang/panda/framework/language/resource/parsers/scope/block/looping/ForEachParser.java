@@ -73,7 +73,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         }
 
         VariableInitializer initializer = new VariableInitializer();
-        Variable variable = initializer.createVariable(data, moduleLoader, scope, true, true, type.asString(), name.asString());
+        Variable variable = initializer.createVariable(data, moduleLoader, scope, true, true, type, name);
         int variableId = scope.indexOf(variable);
 
         if (!PandaTypes.ITERABLE.isAssignableFrom(expression.getReturnType())) {

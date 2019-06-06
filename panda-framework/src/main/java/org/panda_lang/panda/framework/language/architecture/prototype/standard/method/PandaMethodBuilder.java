@@ -16,14 +16,9 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-
-import java.util.Optional;
 
 public class PandaMethodBuilder {
 
@@ -46,6 +41,7 @@ public class PandaMethodBuilder {
         return this;
     }
 
+    /*
     public PandaMethodBuilder parameterTypes(ParserData data, ModuleLoader moduleLoader, String... parameterTypes) {
         ClassPrototypeReference[] prototypes = new ClassPrototypeReference[parameterTypes.length];
 
@@ -62,6 +58,7 @@ public class PandaMethodBuilder {
         this.parameterTypes = prototypes;
         return this;
     }
+    */
 
     public PandaMethodBuilder parameterTypes(ClassPrototypeReference... parameterTypes) {
         this.parameterTypes = parameterTypes;

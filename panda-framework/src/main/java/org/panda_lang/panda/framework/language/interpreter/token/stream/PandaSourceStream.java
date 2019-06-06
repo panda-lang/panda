@@ -64,7 +64,7 @@ public class PandaSourceStream implements SourceStream {
         while (this.hasUnreadSource()) {
             TokenRepresentation representation = this.read();
 
-            if (representation.getLine() != currentLine) {
+            if (representation.getLocation().getLine() != currentLine) {
                 break;
             }
 

@@ -16,9 +16,6 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.scope;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.architecture.statement.StatementData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -34,7 +31,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
-import org.panda_lang.panda.framework.language.architecture.statement.PandaStatementData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -72,16 +68,14 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
 
     @Autowired
     public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
-        StatementData statementData = new PandaStatementData(source.getCurrentLine());
-        source.read(read);
+        ExpressionStatement statement = new ExpressionStatement(expression);
+        statement.setLocation(source.toSnippet().getCurrentLocation());
 
-        Statement statement = new ExpressionStatement(expression);
-        statement.setStatementData(statementData);
         expression = null;
+        source.read(read);
         read = 0;
 
-        StatementCell cell = linker.getCurrentScope().reserveCell();
-        cell.setStatement(statement);
+        linker.getCurrentScope().reserveCell().setStatement(statement);
     }
 
 }

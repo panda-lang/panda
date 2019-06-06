@@ -22,11 +22,12 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 import java.util.Optional;
 
@@ -54,10 +55,12 @@ public class ClassPrototypeParserUtils {
         ModuleLoader loader = data.getComponent(UniversalComponents.MODULE_LOADER);
 
         for (int i = 2; i < classDeclaration.size(); i++) {
-            Token classNameToken = classDeclaration.getToken(i);
+            TokenRepresentation classNameToken = classDeclaration.get(i);
 
             if (classNameToken == null) {
-                throw new PandaParserFailure("Declaration token not found", data);
+                throw PandaParserFailure.builder("Declaration token not found", data)
+                        .withSourceFragment(new PandaSourceFragment(classDeclaration, classDeclaration))
+                        .build();
             }
             else if (classNameToken.getType() == TokenType.SEPARATOR) {
                 continue;
@@ -66,8 +69,9 @@ public class ClassPrototypeParserUtils {
                 Optional<ClassPrototypeReference> extendedPrototype = loader.forClass(classNameToken.getValue());
 
                 if (!extendedPrototype.isPresent()) {
-                    data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(classDeclaration));
-                    throw new PandaParserFailure("Class " + classNameToken.getValue() + " not found", data);
+                    throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", data)
+                            .withSourceFragment(new PandaSourceFragment(classDeclaration, classDeclaration))
+                            .build();
                 }
 
                 prototype.addExtended(extendedPrototype.get());

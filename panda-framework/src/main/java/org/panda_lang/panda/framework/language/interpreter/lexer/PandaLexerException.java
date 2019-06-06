@@ -17,52 +17,68 @@
 package org.panda_lang.panda.framework.language.interpreter.lexer;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
+import org.panda_lang.panda.framework.language.interpreter.PandaInterpreterFailure;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 
-public class PandaLexerException extends InterpreterFailure {
+public class PandaLexerException extends PandaInterpreterFailure {
 
-    private final String tokenPreview;
-    private final String linePreview;
-    private final String location;
-    private final int line;
-
-    public PandaLexerException(String message, String tokenPreview, String linePreview, String location, int line) {
-        super(message);
-
-        this.tokenPreview = tokenPreview;
-        this.linePreview = linePreview;
-        this.location = location;
-        this.line = line;
+    public PandaLexerException(String message, Snippetable token, Snippetable line, SourceLocation location, @Nullable String note) {
+        super(message, new PandaSourceFragment(line, token), note);
     }
 
-    @Override
-    public @Nullable String getDetails() {
-        return null;
+    private PandaLexerException(PandaLexerExceptionBuilder builder) {
+        this(builder.message, builder.token, builder.line, builder.location, builder.note);
     }
 
-    @Override
-    public String getElement() {
-        return tokenPreview;
+    public static PandaLexerExceptionBuilder builder(String message) {
+        return new PandaLexerExceptionBuilder(message);
     }
 
-    @Override
-    public String getSource() {
-        return linePreview;
-    }
+    static class PandaLexerExceptionBuilder {
 
-    @Override
-    public String getMessage() {
-        return super.getMessage();
-    }
+        private final String message;
+        private Snippetable token;
+        private Snippetable line;
+        private SourceLocation location;
+        private String note;
 
-    @Override
-    public String getLocation() {
-        return location;
-    }
+        PandaLexerExceptionBuilder(String message) {
+            this.message = message;
+        }
 
-    @Override
-    public int getLine() {
-        return line;
+        protected PandaLexerExceptionBuilder withNote(String note) {
+            this.note = note;
+            return this;
+        }
+
+        protected PandaLexerExceptionBuilder withLocation(SourceLocation location) {
+            this.location = location;
+            return this;
+        }
+
+        protected PandaLexerExceptionBuilder withToken(String token) {
+            this.token = toSnippetable(token);
+            return this;
+        }
+
+        protected PandaLexerExceptionBuilder withLine(String line) {
+            this.line = toSnippetable(line);
+            return this;
+        }
+
+        private Snippetable toSnippetable(String content) {
+            return new PandaTokenRepresentation(new PandaToken(TokenType.UNKNOWN, content), location);
+        }
+
+        protected PandaLexerException build() {
+            return new PandaLexerException(this);
+        }
+
     }
 
 }

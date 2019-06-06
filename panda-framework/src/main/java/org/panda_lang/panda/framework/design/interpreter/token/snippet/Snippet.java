@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.token.snippet;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
@@ -27,14 +28,14 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-public interface Snippet extends Iterable<TokenRepresentation> {
+public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
 
     @Override
     default Iterator<TokenRepresentation> iterator() {
         return new SnippetIterator(this);
     }
 
-    default Snippet reverse() {
+    default Snippet reversed() {
         Snippet snippet = new PandaSnippet(getTokensRepresentations());
         Collections.reverse(snippet.getTokensRepresentations());
         return snippet;
@@ -64,15 +65,15 @@ public interface Snippet extends Iterable<TokenRepresentation> {
         return new PandaSnippet(getTokensRepresentations().subList(fromIndex, toIndex), false);
     }
 
-    default Snippet selectLine(int line) {
+    default Snippet getLine(int line) {
         List<TokenRepresentation> selected = new ArrayList<>();
 
         for (TokenRepresentation tokenRepresentation : getTokensRepresentations()) {
-            if (tokenRepresentation.getLine() < line) {
+            if (tokenRepresentation.getLocation().getLine() < line) {
                 continue;
             }
 
-            if (tokenRepresentation.getLine() > line) {
+            if (tokenRepresentation.getLocation().getLine() > line) {
                 break;
             }
 
@@ -153,10 +154,6 @@ public interface Snippet extends Iterable<TokenRepresentation> {
         return hasElement(index) ? get(index) : null;
     }
 
-    default String getTokenValue(int index) {
-        return getToken(index).getValue();
-    }
-
     default Token getToken(int index) {
         return get(index).getToken();
     }
@@ -169,8 +166,8 @@ public interface Snippet extends Iterable<TokenRepresentation> {
         return getLast(0);
     }
 
-    default int getCurrentLine() {
-        return hasElement(0) ? get(0).getLine() + 1 : -1;
+    default SourceLocation getCurrentLocation() {
+        return hasElement(0) ? get(0).getLocation() : null;
     }
 
     default String asString() {
@@ -198,5 +195,10 @@ public interface Snippet extends Iterable<TokenRepresentation> {
     List<TokenRepresentation> getTokensRepresentations();
 
     TokenRepresentation[] toArray();
+
+    @Override
+    default Snippet toSnippet() {
+        return this;
+    }
 
 }

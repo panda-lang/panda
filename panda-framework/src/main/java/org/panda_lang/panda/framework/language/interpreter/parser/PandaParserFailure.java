@@ -18,49 +18,16 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
-import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-import org.panda_lang.panda.utilities.commons.StringUtils;
-import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.panda.framework.language.interpreter.PandaInterpreterFailure;
 
-public class PandaParserFailure extends ParserFailure {
+public class PandaParserFailure extends PandaInterpreterFailure implements ParserFailure {
 
     private final ParserData data;
-    private final String message;
-    private final String details;
 
-    private final int currentLine;
-    private final String element;
-
-    public PandaParserFailure(PandaParserFailureBuilder builder) {
-        super(builder.message);
-
-        this.message = builder.message;
-        this.details = builder.details;
-        this.data = builder.data.fork();
-
-        SourceStream source = builder.source != null ? builder.source : this.data.getComponent(UniversalComponents.SOURCE_STREAM);
-
-        this.currentLine = source.getCurrentLine();
-        this.element = source.readLineResidue().toString();
-    }
-
-    public PandaParserFailure(ParserData data, Object... values) {
-        this(ContentJoiner.on(StringUtils.EMPTY).join(values).toString(), data);
-    }
-
-    public PandaParserFailure(String message, ParserData data) {
-        this(message, null, data);
-    }
-
-    public PandaParserFailure(String message, ParserData data, Snippet source) {
-        this(message, null, data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source)));
-    }
-
-    public PandaParserFailure(String message, String details, ParserData data) {
-        this(builder().message(message).details(details).data(data));
+    protected PandaParserFailure(PandaParserFailureBuilder builder) {
+        super(builder.message, builder.fragment, builder.note);
+        this.data = builder.data;
     }
 
     @Override
@@ -68,69 +35,29 @@ public class PandaParserFailure extends ParserFailure {
         return data;
     }
 
-    @Override
-    public String getElement() {
-        return element;
-    }
-
-    @Override
-    public String getSource() {
-        return data.getComponent(UniversalComponents.SOURCE).selectLine(this.getLine()).toString();
-    }
-
-    @Override
-    public String getLocation() {
-        return data.getComponent(UniversalComponents.SCRIPT).getScriptName();
-    }
-
-    @Override
-    public int getLine() {
-        return currentLine;
-    }
-
-    @Override
-    public String getDetails() {
-        return details;
-    }
-
-    @Override
-    public String getMessage() {
-        return message;
-    }
-
-    public static PandaParserFailureBuilder builder() {
-        return new PandaParserFailureBuilder();
+    public static PandaParserFailureBuilder builder(String message, ParserData data) {
+        return new PandaParserFailureBuilder(message, data);
     }
 
     public static class PandaParserFailureBuilder {
 
-        private String message;
-        private String details;
-        private ParserData data;
-        private SourceStream source;
+        private final String message;
+        private final ParserData data;
+        private SourceFragment fragment;
+        private String note;
 
-        public PandaParserFailureBuilder message(String message) {
+        private PandaParserFailureBuilder(String message, ParserData data) {
             this.message = message;
-            return this;
-        }
-
-        public PandaParserFailureBuilder details(String details) {
-            this.details = details;
-            return this;
-        }
-
-        public PandaParserFailureBuilder data(ParserData data) {
             this.data = data;
+        }
+
+        public PandaParserFailureBuilder withSourceFragment(SourceFragment fragment) {
+            this.fragment = fragment;
             return this;
         }
 
-        public PandaParserFailureBuilder source(Snippet source) {
-            this.source = new PandaSourceStream(source);
-            return this;
-        }
-
-        public PandaParserFailureBuilder source(SourceStream source) {
-            this.source = source;
+        public PandaParserFailureBuilder withNote(String note) {
+            this.note = note;
             return this;
         }
 

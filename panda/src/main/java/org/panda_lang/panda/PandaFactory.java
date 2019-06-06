@@ -19,15 +19,16 @@ package org.panda_lang.panda;
 import org.panda_lang.panda.bootstrap.PandaBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.EnvironmentFormatter;
-import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.InterpreterFailureFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ParserFailureFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.SourceFragmentFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ThrowableFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.resource.parsers.PandaFrameworkParsers;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
-import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
+import org.panda_lang.panda.framework.language.resource.parsers.PandaFrameworkParsers;
 import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationParsers;
+import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
 import org.panda_lang.panda.utilities.annotations.monads.filters.URLFilter;
 
@@ -50,11 +51,9 @@ public class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .withLayout(PandaLexerFailureTranslatorLayout.class)
-                    .withLayout(InterpreterFailureTranslatorLayout.class)
-                    .withDataFormatter(ThrowableFormatter.class)
-                    .withDataFormatter(EnvironmentFormatter.class)
-                    .withDataFormatter(InterpreterFailureFormatter.class)
+                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class)
+                    .withDataFormatters(EnvironmentFormatter.class, SourceFragmentFormatter.class)
+                    .withDataFormatters(ThrowableFormatter.class, ParserFailureFormatter.class)
                     .collect()
 
                 // load pipelines

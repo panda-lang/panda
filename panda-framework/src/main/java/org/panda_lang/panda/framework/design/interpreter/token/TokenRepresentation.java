@@ -16,12 +16,52 @@
 
 package org.panda_lang.panda.framework.design.interpreter.token;
 
+import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
+
 import java.util.Optional;
 
-public interface TokenRepresentation extends Token {
+public interface TokenRepresentation extends Token, Snippetable {
 
+    /**
+     * Compare wrapped token with another token, utility method
+     *
+     * @param token the token to compare with
+     * @return true if tokens are equal
+     */
     default boolean contentEquals(Token token) {
         return getToken().equals(token);
+    }
+
+    /**
+     * Get the wrapped token
+     *
+     * @return the original token
+     */
+    Token getToken();
+
+    /**
+     * Get location of token
+     *
+     * @return the location
+     */
+    SourceLocation getLocation();
+
+    @SuppressWarnings("unchecked")
+    default <T extends Token> T toToken(Class<T> type) {
+        return (T) getToken();
+    }
+
+    @SuppressWarnings("unchecked")
+    default <T extends Token> T toToken() {
+        return (T) getToken();
+    }
+
+    @Override
+    default Snippet toSnippet() {
+        return new PandaSnippet(this);
     }
 
     @Override
@@ -43,21 +83,5 @@ public interface TokenRepresentation extends Token {
     default TokenType getType() {
         return getToken().getType();
     }
-
-    @SuppressWarnings("unchecked")
-    default <T extends Token> T toToken(Class<T> type) {
-        return (T) getToken();
-    }
-
-    @SuppressWarnings("unchecked")
-    default <T extends Token> T toToken() {
-        return (T) getToken();
-    }
-
-    int getPosition();
-
-    int getLine();
-
-    Token getToken();
 
 }

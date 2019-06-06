@@ -25,7 +25,10 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPatternResult;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 public class LinearPatternInterceptor implements BootstrapInterceptor {
 
@@ -41,11 +44,16 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
         InterceptorData interceptorData = new InterceptorData();
 
         if (pattern != null) {
+            SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+            Snippet currentSource = stream.toSnippet();
+
             ExpressionParser expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
-            LinearPatternResult result = pattern.match(data.getComponent(UniversalComponents.SOURCE_STREAM), source -> expressionParser.parse(data, source));
+            LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(data, source));
 
             if (!result.isMatched()) {
-                throw new PandaParserFailure("Interceptor could not match token pattern", data);
+                throw PandaParserFailure.builder("Interceptor could not match token pattern", data)
+                        .withSourceFragment(new PandaSourceFragment(currentSource))
+                        .build();
             }
 
             interceptorData.addElement(new LinearPatternMapping(result));

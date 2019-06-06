@@ -16,10 +16,11 @@
 
 package org.panda_lang.panda.framework.language.interpreter.token;
 
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
 import org.panda_lang.panda.utilities.commons.collection.Lists;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,46 +47,30 @@ public class PandaSnippet implements Snippet {
     }
 
     @Override
-    public TokenRepresentation[] toArray() {
-        TokenRepresentation[] array = new TokenRepresentation[tokens.size()];
-        return tokens.toArray(array);
-    }
-
-    @Override
-    public List<TokenRepresentation> getTokensRepresentations() {
-        return tokens;
-    }
-
-    @Override
-    public boolean equals(Object to) {
-        if (this == to) {
-            return true;
-        }
-
-        if (to == null || getClass() != to.getClass()) {
-            return false;
-        }
-
-        PandaSnippet another = (PandaSnippet) to;
-        return tokens.equals(another.tokens);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(tokens);
     }
 
     @Override
+    public boolean equals(Object to) {
+        return ObjectUtils.equals(this, tokens, to, tokenRepresentations -> tokenRepresentations.tokens);
+    }
+
+    @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        return ContentJoiner.on(" ")
+                .join(tokens, representation -> representation.getToken().toString())
+                .toString();
+    }
 
-        for (TokenRepresentation representation : tokens) {
-            Token token = representation.getToken();
-            builder.append(token.toString());
-            builder.append(" ");
-        }
+    @Override
+    public TokenRepresentation[] toArray() {
+        return tokens.toArray(new TokenRepresentation[0]);
+    }
 
-        return builder.toString().trim();
+    @Override
+    public List<TokenRepresentation> getTokensRepresentations() {
+        return tokens;
     }
 
 }

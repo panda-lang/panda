@@ -28,6 +28,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.Des
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 public class DescriptivePatternInterceptor implements BootstrapInterceptor {
 
@@ -59,7 +60,10 @@ public class DescriptivePatternInterceptor implements BootstrapInterceptor {
                 PandaFramework.getLogger().error("Bootstrap parser: " + bootstrap.getPattern().toString());
                 PandaFramework.getLogger().error("Source: " + currentSource.toString());
 
-                throw new PandaParserFailure("Interceptor could not match token pattern, error: " + result.getErrorMessage(), data, currentSource);
+                throw PandaParserFailure.builder("Interceptor could not match token pattern, error: " + result.getErrorMessage(), data)
+                        .withSourceFragment(new PandaSourceFragment(currentSource))
+                        .withNote("Compare your source with required pattern: " + bootstrap.getPattern().toString())
+                        .build();
             }
 
             interceptorData.addElement(new DescriptivePatternMapping(result));

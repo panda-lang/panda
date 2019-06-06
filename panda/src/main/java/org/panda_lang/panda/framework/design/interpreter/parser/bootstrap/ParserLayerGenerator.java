@@ -19,7 +19,6 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.ProcessedAnnotation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
@@ -30,6 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.lang.annotation.Annotation;
@@ -56,7 +56,7 @@ class ParserLayerGenerator<T> {
                 try {
                     //noinspection unchecked
                     result = (T) invoke(autowiredMethod, parameters);
-                } catch (ParserFailure failure) {
+                } catch (PandaParserFailure failure) {
                     failure.getData().setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(failure.getData().getComponent(BootstrapComponents.CURRENT_SOURCE)));
                     throw failure;
                 }
