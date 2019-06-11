@@ -58,6 +58,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaSc
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 @ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
 public class ClassPrototypeParser extends UnifiedParserBootstrap {
@@ -133,6 +134,10 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
             }
 
             parser.parse(bodyInfo);
+
+            if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {
+                stream.read();
+            }
         }
     }
 
