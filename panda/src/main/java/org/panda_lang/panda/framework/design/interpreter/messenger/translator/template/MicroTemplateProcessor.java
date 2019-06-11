@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.messenger.translator.t
 
 import org.panda_lang.panda.utilities.commons.CharacterUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.commons.console.Effect;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.util.Map;
@@ -61,6 +62,14 @@ final class MicroTemplateProcessor {
         }
 
         return ContentJoiner.on(System.lineSeparator()).join((Object[]) lines).toString();
+    }
+
+    protected String colored(String content) {
+        for (Effect effect : Effect.values()) {
+            content = StringUtils.replace(content, "&" + effect.getSimpleCode(), effect.getCode());
+        }
+
+        return content;
     }
 
 }
