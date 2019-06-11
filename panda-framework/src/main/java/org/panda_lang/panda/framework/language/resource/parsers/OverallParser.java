@@ -26,6 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Univers
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 public class OverallParser implements Parser {
 
@@ -60,6 +61,10 @@ public class OverallParser implements Parser {
             throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", data)
                     .withSource(stream.getOriginalSource(), source)
                     .build();
+        }
+
+        if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {
+            stream.read();
         }
     }
 
