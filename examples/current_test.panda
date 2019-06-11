@@ -16,7 +16,7 @@ class Test {
 
     constructor(String message2) {
         Console.print(message2)
-        this.testField = this
+        this.testField = thisx
         testField = this
         this.echo(String.valueOf(double))
         echo(this)

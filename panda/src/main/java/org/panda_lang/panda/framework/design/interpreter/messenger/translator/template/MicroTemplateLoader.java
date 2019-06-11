@@ -26,6 +26,7 @@ final class MicroTemplateLoader {
         content = processor.processContent(content, request.getData());
         content = request.getFormatter().format(content, request.getData().values());
         content = processor.insertPrefix(content, request.getPrefix());
+        content = processor.colored(content);
 
         return new MicroTemplate(content);
     }
