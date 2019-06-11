@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.formatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.console.Colored;
 import org.panda_lang.panda.utilities.commons.console.Effect;
 
@@ -31,8 +33,8 @@ public final class SourceFragmentFormatter implements MessengerDataFormatter<Sou
                 .register("{{line}}", (formatter, fragment) -> fragment.getLine() < 0 ? "?" : fragment.getLine() + 1)
                 .register("{{index}}", (formatter, fragment) -> fragment.getIndicatedFragment().getCurrentLocation().getIndex())
                 .register("{{source}}", (formatter, fragment) -> {
-                    String source = fragment.getFragment().asString();
-                    String element = fragment.getIndicatedFragment().asString();
+                    String source = getCurrentLine(fragment).toString();
+                    String element = fragment.getIndicatedFragment().toString();
 
                     int index = source.indexOf(element);
                     int endIndex = index + element.length();
@@ -40,7 +42,17 @@ public final class SourceFragmentFormatter implements MessengerDataFormatter<Sou
                     return index < 0 ? source : source.substring(0, index)
                             + Colored.on(source.substring(index, endIndex)).effect(Effect.RED)
                             + source.substring(endIndex);
+                })
+                .register("{{marker}}", (formatter, fragment) -> {
+                    String source = getCurrentLine(fragment).toString();
+                    String element = fragment.getIndicatedFragment().toString();
+
+                    return StringUtils.buildSpace(source.indexOf(element)) + "^";
                 });
+    }
+
+    private Snippet getCurrentLine(SourceFragment fragment) {
+        return fragment.getFragment().getLine(fragment.getIndicatedFragment().getCurrentLocation().getLine());
     }
 
     @Override

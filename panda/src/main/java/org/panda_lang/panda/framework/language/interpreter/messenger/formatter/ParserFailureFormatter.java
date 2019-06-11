@@ -18,16 +18,17 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.formatter;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
-public final class ParserFailureFormatter implements MessengerDataFormatter<ParserFailure> {
+public final class ParserFailureFormatter implements MessengerDataFormatter<PandaParserFailure> {
 
     @Override
-    public void onInitialize(MessengerTypeFormatter<ParserFailure> typeFormatter) {
+    public void onInitialize(MessengerTypeFormatter<PandaParserFailure> typeFormatter) {
         typeFormatter
+                .register("{{note}}", (formatter, failure) -> failure.getNote())
                 .register("{{generation}}", (formatter, failure) -> {
                     Generation generation = failure.getData().getComponent(UniversalComponents.GENERATION);
                     GenerationPipeline pipeline = generation.currentPipeline();
@@ -41,8 +42,8 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pars
     }
 
     @Override
-    public Class<ParserFailure> getType() {
-        return ParserFailure.class;
+    public Class<PandaParserFailure> getType() {
+        return PandaParserFailure.class;
     }
 
 }

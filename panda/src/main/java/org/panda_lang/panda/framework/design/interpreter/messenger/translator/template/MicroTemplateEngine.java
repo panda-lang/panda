@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.template;
+package org.panda_lang.panda.framework.design.interpreter.messenger.translator.template;
 
-final class MicroTemplateLoader {
+public final class MicroTemplateEngine {
 
-    private final MicroTemplateEngine microTemplateEngine;
+    private final MicroTemplateLoader loader = new MicroTemplateLoader();
 
-    public MicroTemplateLoader(MicroTemplateEngine microTemplateEngine) {
-        this.microTemplateEngine = microTemplateEngine;
+    public MicroTemplate load(MicroTemplateRequest request) {
+        return loader.load(request);
     }
 
 }

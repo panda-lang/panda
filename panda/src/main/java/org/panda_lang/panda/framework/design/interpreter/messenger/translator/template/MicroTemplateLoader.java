@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.template;
+package org.panda_lang.panda.framework.design.interpreter.messenger.translator.template;
 
-public final class MicroTemplate {
+final class MicroTemplateLoader {
 
+    private final MicroTemplateProcessor processor = new MicroTemplateProcessor();
 
+    MicroTemplate load(MicroTemplateRequest request) {
+        String content = request.getSource().getContent();
+
+        content = processor.processContent(content, request.getData());
+        content = request.getFormatter().format(content, request.getData().values());
+        content = processor.insertPrefix(content, request.getPrefix());
+
+        return new MicroTemplate(content);
+    }
 
 }

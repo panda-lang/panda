@@ -41,7 +41,8 @@ public final class EnvironmentFormatter implements MessengerDataFormatter<Object
                     StringBuilder content = new StringBuilder();
 
                     ENVIRONMENT.forEach((key, value) -> content
-                            .append("{{newline}}  ")
+                            .append(System.lineSeparator())
+                            .append("  ")
                             .append(key)
                             .append(": ")
                             .append(value)
