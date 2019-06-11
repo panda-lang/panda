@@ -42,7 +42,7 @@ final class MicroTemplateProcessor {
             contentBuilder.append(content, previousIndex, matcher.start());
             previousIndex = matcher.end();
 
-            if (!data.containsKey(condition)) {
+            if (data.get(condition) == null) {
                 continue;
             }
 
