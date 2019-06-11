@@ -20,34 +20,18 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerForm
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 
 import java.util.Map;
 
-public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwable> {
-
-    private String location;
-    private SourceStream source;
+public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<PandaParserFailure> {
 
     @Override
-    public void onHandle(MessengerFormatter formatter, Throwable element, Map<String, Object> data) {
-        /*
-        MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())
-                .register("{{location}}", () -> location != null ? location : "?")
-                .register("{{line}}", () -> source != null && source.getCurrentLine() > -1 ? source.getCurrentLine() + 1 : "?")
-                .register("{{details}}", () -> DefaultFailureTemplateBuilder.stacktraceToString(element));
-        */
-        this.location = null;
-        this.source = null;
-    }
-
-    public ExceptionTranslatorLayout update(String location, SourceStream source) {
-        this.location = location;
-        this.source = source;
-        return this;
+    public void onHandle(MessengerFormatter formatter, PandaParserFailure element, Map<String, Object> data) {
+        data.put("source", element.getSourceFragment());
+        data.put("data", element.getData());
     }
 
     @Override
@@ -57,22 +41,22 @@ public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwabl
 
     @Override
     public String getPrefix() {
-        return "[Exception] #!# ";
+        return "[InterpreterFailure] #!# ";
     }
 
     @Override
     public MessengerLevel getLevel() {
-        return MessengerLevel.ERROR;
+        return MessengerLevel.FAILURE;
     }
 
     @Override
     public Source getTemplateSource() {
-        return new PandaSource(PandaURLSource.fromResource("/default-exception-template.messenger"));
+        return new PandaSource(PandaURLSource.fromResource("/default-failure-template.messenger"));
     }
 
     @Override
-    public Class<Throwable> getType() {
-        return Throwable.class;
+    public Class<PandaParserFailure> getType() {
+        return PandaParserFailure.class;
     }
 
 }

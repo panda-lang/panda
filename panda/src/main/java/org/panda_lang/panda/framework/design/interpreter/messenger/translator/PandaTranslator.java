@@ -20,32 +20,41 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplate;
+import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateEngine;
+import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateRequest;
 import org.panda_lang.panda.framework.language.interpreter.messenger.PandaMessengerMessage;
-import org.panda_lang.panda.utilities.commons.CharacterUtils;
-import org.panda_lang.panda.utilities.commons.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
-
+    private final MicroTemplateEngine engine;
     private final PandaTranslatorLayout<T> scheme;
 
-    PandaTranslator(PandaTranslatorLayout<T> scheme) {
+    PandaTranslator(MicroTemplateEngine engine, PandaTranslatorLayout<T> scheme) {
+        this.engine = engine;
         this.scheme = scheme;
     }
 
     @Override
     public boolean handle(Messenger messenger, T element) {
+        Map<String, Object> data = new HashMap<>();
+        data.put(null, element);
+
         MessengerFormatter formatter = messenger.getMessengerFormatter().fork();
-        scheme.onHandle(formatter, element);
+        scheme.onHandle(formatter, element, data);
 
-        String content = formatter.format(scheme.getTemplateSource().getContent(), element);
-        String[] lines = StringUtils.split(content, System.lineSeparator());
+        MicroTemplateRequest request = MicroTemplateRequest.builder()
+                .withSource(scheme.getTemplateSource())
+                .withFormatter(formatter)
+                .withData(data)
+                .withPrefix(scheme.getPrefix())
+                .build();
 
-        for (int i = 0; i < lines.length; i++) {
-            lines[i] = CharacterUtils.BACKSPACE + scheme.getPrefix() + lines[i];
-        }
-
-        MessengerMessage message = new PandaMessengerMessage(scheme.getLevel(), lines);
+        MicroTemplate template = engine.load(request);
+        MessengerMessage message = new PandaMessengerMessage(scheme.getLevel(), template.toLines());
         messenger.sendMessage(message);
 
         return scheme.isInterrupting();

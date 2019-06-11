@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.S
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ThrowableFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
+import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
 import org.panda_lang.panda.framework.language.resource.parsers.PandaFrameworkParsers;
@@ -51,7 +52,7 @@ public class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class)
+                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
                     .withDataFormatters(EnvironmentFormatter.class, SourceFragmentFormatter.class)
                     .withDataFormatters(ThrowableFormatter.class, ParserFailureFormatter.class)
                     .collect()

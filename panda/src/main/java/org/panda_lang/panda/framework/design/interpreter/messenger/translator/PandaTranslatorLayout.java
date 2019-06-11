@@ -20,9 +20,11 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerForm
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 
+import java.util.Map;
+
 public interface PandaTranslatorLayout<T extends Object> {
 
-    default void onHandle(MessengerFormatter formatter, T element) { }
+    default void onHandle(MessengerFormatter formatter, T element, Map<String, Object> data) { }
 
     boolean isInterrupting();
 

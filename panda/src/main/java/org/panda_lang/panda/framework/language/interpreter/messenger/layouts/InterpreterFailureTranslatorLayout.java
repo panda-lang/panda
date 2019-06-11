@@ -17,13 +17,21 @@
 package org.panda_lang.panda.framework.language.interpreter.messenger.layouts;
 
 import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 
+import java.util.Map;
+
 public class InterpreterFailureTranslatorLayout implements PandaTranslatorLayout<InterpreterFailure> {
+
+    @Override
+    public void onHandle(MessengerFormatter formatter, InterpreterFailure element, Map<String, Object> data) {
+        data.put("source", element.getSourceFragment());
+    }
 
     @Override
     public boolean isInterrupting() {

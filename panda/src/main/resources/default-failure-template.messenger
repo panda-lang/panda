@@ -3,9 +3,9 @@
 
 Caused by: {{message}}
 
-% details != null %
-Details:
-  {{details}}
+% note %
+Note:
+  {{note}}
 
 % end %
 Source:
@@ -13,10 +13,10 @@ Source:
   {{marker}}
 
 Location:
-  Panda: {{location}} at line {{line}}:{{position}}
+  Panda: {{location}} at line {{line}}:{{index}}
 
 Details:
-% data != null %
+% data %
   Generation: {{generation}}
 % end %
   Framework: {{stacktrace-last}}

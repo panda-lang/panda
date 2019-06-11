@@ -8,7 +8,7 @@ Source:
   {{marker}}
 
 Location:
-  Panda: {{location}} at line {{line}}:{{position}}
+  Panda: {{location}} at line {{line}}:{{index}}
 
 Environment: {{environment}}
 

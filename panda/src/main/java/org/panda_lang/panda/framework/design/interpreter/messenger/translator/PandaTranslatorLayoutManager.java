@@ -17,10 +17,12 @@
 package org.panda_lang.panda.framework.design.interpreter.messenger.translator;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateEngine;
 
 public final class PandaTranslatorLayoutManager {
 
     private final Messenger messenger;
+    private final MicroTemplateEngine engine = new MicroTemplateEngine();
 
     public PandaTranslatorLayoutManager(Messenger messenger) {
         this.messenger = messenger;
@@ -43,7 +45,7 @@ public final class PandaTranslatorLayoutManager {
     }
 
     public void load(PandaTranslatorLayout<?> layout) {
-        PandaTranslator<?> translator = new PandaTranslator<>(layout);
+        PandaTranslator<?> translator = new PandaTranslator<>(engine, layout);
         messenger.addMessageTranslator(translator);
     }
 

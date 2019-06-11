@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.util.template;
+package org.panda_lang.panda.framework.design.interpreter.messenger.translator.template;
 
-import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
-public final class MicroTemplateEngine {
+public final class MicroTemplate {
 
-    private final Panda panda;
-    private final MicroTemplateLoader loader = new MicroTemplateLoader(this);
+    private final String content;
 
-    public MicroTemplateEngine(Panda panda) {
-        this.panda = panda;
+    MicroTemplate(String content) {
+        this.content = content;
     }
 
-
+    public String[] toLines() {
+        return StringUtils.split(content, System.lineSeparator());
+    }
 
 }
