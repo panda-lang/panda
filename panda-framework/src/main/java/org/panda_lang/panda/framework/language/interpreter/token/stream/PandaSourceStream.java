@@ -80,6 +80,11 @@ public class PandaSourceStream implements SourceStream {
     }
 
     @Override
+    public TokenRepresentation getCurrent() {
+        return original.get(index);
+    }
+
+    @Override
     public Snippet getOriginalSource() {
         return original;
     }
