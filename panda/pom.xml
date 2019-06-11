@@ -20,7 +20,7 @@
     <parent>
         <artifactId>panda-parent</artifactId>
         <groupId>org.panda-lang</groupId>
-        <version>indev-19.6.4</version>
+        <version>indev-19.6.12</version>
     </parent>
 
     <artifactId>panda</artifactId>
