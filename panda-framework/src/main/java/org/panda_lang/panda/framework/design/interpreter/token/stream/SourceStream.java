@@ -58,6 +58,13 @@ public interface SourceStream extends Snippetable {
     boolean hasUnreadSource();
 
     /**
+     * Get current token
+     *
+     * @return current token
+     */
+    TokenRepresentation getCurrent();
+
+    /**
      * Get original source used to create the stream
      *
      * @return the original source

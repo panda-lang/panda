@@ -16,7 +16,7 @@ class Test {
 
     constructor(String message2) {
         Console.print(message2)
-        this.testField = thisx
+        this.testField = this
         testField = this
         this.echo(String.valueOf(double))
         echo(this)
@@ -109,6 +109,7 @@ main {
     // 3849 3839 | 479 113 = 3660 expr |
     //Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
+    Console.print("Supproted by Variant")
 }
 
 class TestArray {

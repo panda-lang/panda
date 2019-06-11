@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Stack;
 
@@ -74,6 +75,10 @@ public class ContainerParser implements Parser {
 
             parsers.push(parser);
             delegatedData.setComponent(PandaComponents.CONTAINER, container);
+
+            if (source.hasUnreadSource() && source.getCurrent().contentEquals(Separators.SEMICOLON)) {
+                source.read();
+            }
         }
 
         delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);
