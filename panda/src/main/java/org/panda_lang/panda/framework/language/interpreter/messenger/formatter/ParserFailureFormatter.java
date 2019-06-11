@@ -29,7 +29,7 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pand
     public void onInitialize(MessengerTypeFormatter<PandaParserFailure> typeFormatter) {
         typeFormatter
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
-                .register("{{generation}}", (formatter, failure) -> {
+                .register("{{pipeline}}", (formatter, failure) -> {
                     Generation generation = failure.getData().getComponent(UniversalComponents.GENERATION);
                     GenerationPipeline pipeline = generation.currentPipeline();
 
@@ -37,7 +37,7 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pand
                         return "<out of pipeline>";
                     }
 
-                    return pipeline.currentLayer().toString() + " (" + pipeline.name() + ")";
+                    return pipeline.name() + " { " + pipeline.currentLayer().toString() + " }";
                 });
     }
 

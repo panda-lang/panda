@@ -95,7 +95,7 @@ public class PandaGenerationLayer implements GenerationLayer {
     @Override
     public String toString() {
         if (countDelegates() == 0) {
-            return "<empty>";
+            return "layer: empty";
         }
 
         String layerName = currentUnit != null ? currentUnit.getCallback().toString() : "<ne";

@@ -16,11 +16,11 @@ Location:
   Panda: {{location}} at line {{line}}:{{index}}
 
 Details:
-% data %
-  Generation: {{generation}}
-% end %
   Framework: {{stacktrace-last}}
   Stack: {{stacktrace}}
+% pipeline %
+  Generation: {{pipeline}}
+% end %
 
 Environment: {{environment}}
 

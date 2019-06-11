@@ -19,6 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.layouts;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
@@ -33,6 +35,14 @@ public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<Pand
         data.put("source", element.getSourceFragment());
         data.put("data", element.getData());
         data.put("note", element.getNote());
+
+        GenerationPipeline pipeline = element.getData()
+                .getComponent(UniversalComponents.GENERATION)
+                .currentPipeline();
+
+        if (pipeline != null) {
+            data.put("pipeline", pipeline);
+        }
     }
 
     @Override
