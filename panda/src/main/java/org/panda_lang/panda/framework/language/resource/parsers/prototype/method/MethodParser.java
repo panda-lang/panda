@@ -45,7 +45,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
@@ -86,7 +85,8 @@ public class MethodParser extends UnifiedParserBootstrap {
 
             if (!reference.isPresent()) {
                 throw PandaParserFailure.builder("Unknown type", data)
-                        .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, signature))
+                        .withStreamOrigin(signature)
+                        .withNote("Make sure that the name does not have a typo and module which should contain that class is imported")
                         .build();
             }
 

@@ -47,7 +47,7 @@ public class PandaStaticValue implements StaticValue {
 
     @Override
     public Value getValue() {
-        return external ? expression.getExpressionValue(copyOfBranch) : value;
+        return external ? expression.evaluate(copyOfBranch) : value;
     }
 
     @Override

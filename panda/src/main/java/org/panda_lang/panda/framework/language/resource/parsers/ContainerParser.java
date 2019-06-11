@@ -28,7 +28,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 import java.util.Stack;
@@ -61,7 +60,7 @@ public class ContainerParser implements Parser {
 
             if (parser == null) {
                 throw PandaParserFailure.builder("Unrecognized syntax", data)
-                        .withSourceFragment(new PandaSourceFragment(body, currentSource))
+                        .withSource(body, currentSource)
                         .build();
             }
 
@@ -69,7 +68,7 @@ public class ContainerParser implements Parser {
 
             if (sourceLength == source.getUnreadLength()) {
                 throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with source", delegatedData)
-                        .withSourceFragment(new PandaSourceFragment(currentSource, source))
+                        .withSource(body, currentSource)
                         .build();
             }
 

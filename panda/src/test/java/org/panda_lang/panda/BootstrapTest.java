@@ -42,7 +42,7 @@ class BootstrapTest {
                 .createApplication();
 
         if (application == null) {
-            PandaFramework.getLogger().warn("Interpretation failed, application does not exist");
+            PandaFramework.getLogger().error("Interpretation failed, application does not exist");
             return;
         }
 

@@ -48,7 +48,7 @@ public class FieldExpressionCallback implements ExpressionCallback {
         }
 
         if (field.isNative()) {
-            return field.getDefaultValue().getExpressionValue(branch);
+            return field.getDefaultValue().evaluate(branch);
         }
 
         Value value = accessor.getValue(branch);

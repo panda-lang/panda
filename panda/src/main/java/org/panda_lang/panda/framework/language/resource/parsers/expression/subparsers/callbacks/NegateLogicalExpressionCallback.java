@@ -39,7 +39,7 @@ public class NegateLogicalExpressionCallback implements ExpressionCallback {
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        Value value = logicalExpression.getExpressionValue(branch);
+        Value value = logicalExpression.evaluate(branch);
         boolean val = value.getValue(); // TODO: Handle null?
 
         return new PandaValue(expression.getReturnType(), !val);

@@ -18,6 +18,8 @@ package org.panda_lang.panda.framework.design.interpreter.messenger;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
+
 public interface MessengerFormatter {
 
     /**
@@ -27,7 +29,7 @@ public interface MessengerFormatter {
      * @param data the values to use as data for placeholders
      * @return formatted message
      */
-    String format(String message, Object... data);
+    String format(String message, Collection<Object> data);
 
     /**
      * Register new placeholder

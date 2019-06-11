@@ -21,12 +21,12 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.FormatterFunc
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 import org.panda_lang.panda.utilities.commons.collection.Maps;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -48,7 +48,7 @@ final class PandaMessengerFormatter implements MessengerFormatter {
     }
 
     @Override
-    public String format(String message, Object... values) {
+    public String format(String message, Collection<Object> values) {
         return placeholders.entrySet().stream()
                 .map(entry -> toEntry(entry, values))
                 .filter(Objects::nonNull)
@@ -56,13 +56,18 @@ final class PandaMessengerFormatter implements MessengerFormatter {
                 .reduce(message, (content, function) -> function.apply(content), StreamUtils.emptyBinaryOperator());
     }
 
-    private @Nullable Map.Entry<Map<String, FormatterFunction>, Object> toEntry(Map.Entry<Class<?>, Map<String, FormatterFunction>> entry, Object[] values) {
-        Object data = ArrayUtils.findIn(values, value -> ClassUtils.isAssignableFrom(entry.getKey(), value));
-        return data != null ? Maps.immutableEntryOf(entry.getValue(), data) : null;
+    private @Nullable Map.Entry<Map<String, FormatterFunction>, Object> toEntry(Map.Entry<Class<?>, Map<String, FormatterFunction>> entry, Collection<Object> values) {
+        return values.stream()
+                .filter(value -> ClassUtils.isAssignableFrom(entry.getKey(), value))
+                .findFirst()
+                .map(value -> Maps.immutableEntryOf(entry.getValue(), value))
+                .orElse(null);
     }
 
     private Stream<Function<String, String>> createFunction(Map.Entry<Map<String, FormatterFunction>, Object> data) {
-        return data.getKey().entrySet().stream().map(entry -> createFormatterFunction(entry, data.getValue()));
+        return data.getKey()
+                .entrySet().stream()
+                .map(entry -> createFormatterFunction(entry, data.getValue()));
     }
 
     @SuppressWarnings("unchecked")

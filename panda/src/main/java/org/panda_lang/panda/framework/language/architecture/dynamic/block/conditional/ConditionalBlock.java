@@ -38,7 +38,7 @@ public class ConditionalBlock extends AbstractBlock {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        Value value = condition.getExpressionValue(branch);
+        Value value = condition.evaluate(branch);
         boolean flag = value.getValue();
 
         if (flag) {

@@ -39,7 +39,7 @@ public class ConcatenationExpressionCallback implements ExpressionCallback {
         StringBuilder content = new StringBuilder();
 
         for (Expression value : values) {
-            content.append(value.getExpressionValue(branch).getObject());
+            content.append(value.evaluate(branch).getObject());
         }
 
         return new PandaValue(PandaTypes.STRING, content);

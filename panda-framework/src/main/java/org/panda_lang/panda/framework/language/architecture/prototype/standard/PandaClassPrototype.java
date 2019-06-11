@@ -48,7 +48,7 @@ public class PandaClassPrototype extends AbstractClassPrototype {
             }
 
             Expression expression = field.getDefaultValue();
-            StaticValue staticValue = PandaStaticValue.of(expression.getExpressionValue(null));
+            StaticValue staticValue = PandaStaticValue.of(expression.evaluate(null));
             field.setStaticValue(staticValue);
         }
     }

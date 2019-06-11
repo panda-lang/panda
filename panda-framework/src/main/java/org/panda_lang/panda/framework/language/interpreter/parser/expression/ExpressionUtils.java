@@ -30,7 +30,7 @@ public class ExpressionUtils {
 
         for (int i = 0; i < values.length; i++) {
             Expression expression = expressions[i];
-            values[i] = expression.getExpressionValue(branch);
+            values[i] = expression.evaluate(branch);
         }
 
         return values;

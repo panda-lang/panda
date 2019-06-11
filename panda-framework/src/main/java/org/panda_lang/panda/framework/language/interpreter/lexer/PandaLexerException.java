@@ -21,14 +21,14 @@ import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpreterFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentCreator;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaToken;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 
 public class PandaLexerException extends PandaInterpreterFailure {
 
     public PandaLexerException(String message, Snippetable token, Snippetable line, SourceLocation location, @Nullable String note) {
-        super(message, new PandaSourceFragment(line, token), note);
+        super(message, new PandaSourceFragmentCreator<>(fragment -> fragment).of(line, token).create(), note);
     }
 
     private PandaLexerException(PandaLexerExceptionBuilder builder) {

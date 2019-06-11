@@ -36,7 +36,6 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.Exc
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -70,7 +69,7 @@ public class ApplicationParser implements Parser {
                 .setComponent(UniversalComponents.MODULE_LOADER, loader)
                 .setComponent(UniversalComponents.PIPELINE, resources.getPipelinePath())
                 .setComponent(UniversalComponents.PARSER_DEBUG, new PandaParserDebug(true))
-                .setComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(resources.getExpressionSubparsers()));
+                .setComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser());
 
         PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(interpretation.getMessenger());
 

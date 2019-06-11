@@ -28,7 +28,6 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPa
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 public class LinearPatternInterceptor implements BootstrapInterceptor {
 
@@ -52,7 +51,7 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
 
             if (!result.isMatched()) {
                 throw PandaParserFailure.builder("Interceptor could not match token pattern", data)
-                        .withSourceFragment(new PandaSourceFragment(currentSource))
+                        .withStreamOrigin(currentSource)
                         .build();
             }
 

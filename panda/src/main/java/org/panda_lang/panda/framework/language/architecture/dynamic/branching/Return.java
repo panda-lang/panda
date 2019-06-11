@@ -32,7 +32,7 @@ public class Return extends AbstractExecutableStatement {
     @Override
     public void execute(ExecutableBranch branch) {
         if (value != null) {
-            Value returnValue = value.getExpressionValue(branch);
+            Value returnValue = value.evaluate(branch);
             branch.returnValue(returnValue);
         }
 

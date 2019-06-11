@@ -38,7 +38,7 @@ public class ArrayInstanceExpression implements ExpressionCallback {
 
     @Override
     public Value call(Expression expression, ExecutableBranch branch) {
-        return new PandaValue(prototype, Array.newInstance(prototype.getType(), new int[] { capacity.getExpressionValue(branch).getValue() }));
+        return new PandaValue(prototype, Array.newInstance(prototype.getType(), new int[] { capacity.evaluate(branch).getValue() }));
     }
 
     @Override

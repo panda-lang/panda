@@ -61,7 +61,7 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public Value getExpressionValue(ExecutableBranch branch) {
+    public Value evaluate(ExecutableBranch branch) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
             return callback.call(this, branch);
         }
