@@ -16,10 +16,16 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
+import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
+
 import java.util.Collection;
 
 public interface ExpressionSubparsers {
 
     Collection<? extends ExpressionSubparser> getSubparsers();
+
+    default ExpressionParser toExpressionParser() {
+        return new PandaExpressionParser(this);
+    }
 
 }

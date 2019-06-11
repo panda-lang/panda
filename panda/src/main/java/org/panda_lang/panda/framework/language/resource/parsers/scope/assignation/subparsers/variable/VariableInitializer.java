@@ -25,7 +25,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class VariableInitializer {
 
         if (!prototype.isPresent()) {
             throw PandaParserFailure.builder("Cannot recognize variable type: " + type, data)
-                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, type))
+                    .withStreamOrigin(type)
                     .build();
         }
 
@@ -46,7 +45,7 @@ public class VariableInitializer {
 
         if (nameSource.size() > 1) {
             throw PandaParserFailure.builder("Variable name has to be singe word", data)
-                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, name))
+                    .withStreamOrigin(name)
                     .build();
         }
 

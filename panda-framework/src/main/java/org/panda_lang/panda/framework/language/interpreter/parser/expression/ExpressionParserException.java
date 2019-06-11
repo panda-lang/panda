@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 public class ExpressionParserException extends PandaParserFailure {
@@ -28,7 +27,7 @@ public class ExpressionParserException extends PandaParserFailure {
     private final String expressionMessage;
 
     public ExpressionParserException(String prefix, String message, ExpressionContext context, Snippet source) {
-        super(builder(message, context.getData()).withSourceFragment(new PandaSourceFragment(source)));
+        super(builder(message, context.getData()).withStreamOrigin(source));
         this.expressionMessage = message;
     }
 

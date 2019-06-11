@@ -35,7 +35,7 @@ public class FieldAccessorFunction implements Function<ExecutableBranch, MemoryC
 
     @Override
     public MemoryContainer apply(ExecutableBranch branch) {
-        Value instance = instanceExpression.getExpressionValue(branch);
+        Value instance = instanceExpression.evaluate(branch);
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");

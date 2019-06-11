@@ -96,7 +96,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
             ClassPrototype prototype = context.getData().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
-                return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find field '" + name + "'", token));
+                return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find variable '" + name + "'", token));
             }
 
             // return ExpressionResult.error("Cannot find variable or field called '" + name + "'", token);

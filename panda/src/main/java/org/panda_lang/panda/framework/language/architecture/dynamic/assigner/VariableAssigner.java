@@ -36,7 +36,7 @@ public class VariableAssigner extends AbstractAssigner<Variable> {
     @Override
     public void execute(ExecutableBranch branch) {
         Variable variable = accessor.getVariable();
-        Value value = expression.getExpressionValue(branch);
+        Value value = expression.evaluate(branch);
 
         if (value == null) {
             throw new PandaRuntimeException("Cannot assign not existing value to variable '" + variable.getName() + "'");

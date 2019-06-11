@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 
@@ -49,14 +48,12 @@ class RPNOperationTransformer {
 
             if (!priorities.containsKey(operator)) {
                 throw PandaParserFailure.builder("Unexpected or unsupported operator " + operator, data)
-                        .withSourceFragment(new PandaSourceFragment(element.getOperatorRepresentation()))
+                        .withStreamOrigin(element.getOperatorRepresentation())
                         .build();
             }
 
-            if (operators.size() != 0) {
-                if (compare(operators.peek(), operator)) {
-                    values.push(operators.pop());
-                }
+            if (operators.size() != 0 && compare(operators.peek(), operator)) {
+                values.push(operators.pop());
             }
 
             operators.push(operator);

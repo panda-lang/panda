@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceLocation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -29,28 +30,26 @@ public final class PandaSourceFragment implements SourceFragment {
     private final Snippet fragment;
     private final Snippet indicatedFragment;
 
-    public PandaSourceFragment(Snippetable indicatedFragment) {
-        this(indicatedFragment, indicatedFragment);
-    }
-
-    public PandaSourceFragment(Snippetable fragment, Snippetable indicatedFragment) {
-        this(fragment, indicatedFragment.toSnippet());
-    }
-
-    public PandaSourceFragment(Snippetable fragment, Snippet indicatedFragment) {
-        this(indicatedFragment.getCurrentLocation(), fragment, indicatedFragment);
-    }
-
     public PandaSourceFragment(SourceLocation location, Snippetable fragment, Snippetable indicatedFragment) {
         this(location.getSource().getTitle(), location.getLine(), location.getIndex(), fragment, indicatedFragment);
     }
 
     public PandaSourceFragment(String location, int line, int index, Snippetable fragment, Snippetable indicatedFragment) {
+        this.fragment = fragment.toSnippet();
+
+        if (this.fragment.isEmpty()) {
+            throw new PandaFrameworkException("Source snippet cannot be empty");
+        }
+
+        this.indicatedFragment = indicatedFragment.toSnippet();
+
+        if (this.indicatedFragment.isEmpty()) {
+            throw new PandaFrameworkException("Indicated snippet cannot be empty");
+        }
+
         this.location = location;
         this.line = line;
         this.index = index;
-        this.fragment = fragment.toSnippet();
-        this.indicatedFragment = indicatedFragment.toSnippet();
     }
 
     @Override

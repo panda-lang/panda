@@ -26,7 +26,7 @@ public interface Expression {
         return getReturnType() == null;
     }
 
-    Value getExpressionValue(ExecutableBranch branch);
+    Value evaluate(ExecutableBranch branch);
 
     ClassPrototype getReturnType();
 

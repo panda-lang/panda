@@ -72,7 +72,7 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
         return PARSER.parse(data, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
             @Override
             public @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
-                array[index] = expression.getExpressionValue(branch).getObject();
+                array[index] = expression.evaluate(branch).getObject();
                 return null;
             }
 

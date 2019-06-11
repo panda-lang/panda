@@ -19,7 +19,9 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpreterFailure;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentCreator;
 
 public class PandaParserFailure extends PandaInterpreterFailure implements ParserFailure {
 
@@ -54,6 +56,25 @@ public class PandaParserFailure extends PandaInterpreterFailure implements Parse
         public PandaParserFailureBuilder withSourceFragment(SourceFragment fragment) {
             this.fragment = fragment;
             return this;
+        }
+
+        public PandaParserFailureBuilder withSource(Snippetable source, Snippetable indicated) {
+            return withSourceFragment()
+                    .of(source, indicated)
+                    .create();
+        }
+
+        public PandaParserFailureBuilder withStreamOrigin(Snippetable indicated) {
+            return withSourceFragment()
+                    .ofStreamOrigin(data, indicated)
+                    .create();
+        }
+
+        public PandaSourceFragmentCreator<PandaParserFailureBuilder> withSourceFragment() {
+            return new PandaSourceFragmentCreator<>(source -> {
+                this.fragment = source;
+                return this;
+            });
         }
 
         public PandaParserFailureBuilder withNote(String note) {

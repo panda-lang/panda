@@ -21,7 +21,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Collection;
@@ -77,7 +76,9 @@ public class PandaClassPrototypeUtils {
             }
 
             throw PandaParserFailure.builder("Unknown type " + types[i], data)
-                    .withSourceFragment(PandaSourceFragmentUtils.ofStream(data))
+                    .withSourceFragment()
+                        .ofCurrentStream(data)
+                        .create()
                     .build();
         }
 

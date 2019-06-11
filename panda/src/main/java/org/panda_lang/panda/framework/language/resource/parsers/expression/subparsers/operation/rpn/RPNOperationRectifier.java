@@ -57,7 +57,7 @@ class RPNOperationRectifier {
             Expression expression = new PandaExpression(new PandaExpressionCallback(action.returnType()) {
                 @Override
                 public Value call(Expression expression, ExecutableBranch branch) {
-                    return new PandaValue(getReturnType(), action.get(branch, a.getExpressionValue(branch), b.getExpressionValue(branch)));
+                    return new PandaValue(getReturnType(), action.get(branch, a.evaluate(branch), b.evaluate(branch)));
                 }
             });
 

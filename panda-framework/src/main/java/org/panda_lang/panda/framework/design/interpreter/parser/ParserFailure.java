@@ -16,8 +16,12 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
+import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
+
 public interface ParserFailure {
 
     ParserData getData();
+
+    SourceFragment getSourceFragment();
 
 }

@@ -55,7 +55,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -129,7 +128,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
 
             if (parser == null) {
                 throw PandaParserFailure.builder("Cannot parse the element of the prototype", data)
-                        .withSourceFragment(new PandaSourceFragment(body, currentSource))
+                        .withSource(body, currentSource)
                         .build();
             }
 

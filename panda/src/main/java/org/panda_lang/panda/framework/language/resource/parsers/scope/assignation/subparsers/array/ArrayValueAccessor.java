@@ -57,8 +57,8 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
     }
 
     public @Nullable PandaValue perform(ExecutableBranch branch) {
-        Object[] array = instance.getExpressionValue(branch).getValue();
-        Integer i = index.getExpressionValue(branch).getValue();
+        Object[] array = instance.evaluate(branch).getValue();
+        Integer i = index.evaluate(branch).getValue();
         return action.perform(branch, prototype, type, array, i);
     }
 

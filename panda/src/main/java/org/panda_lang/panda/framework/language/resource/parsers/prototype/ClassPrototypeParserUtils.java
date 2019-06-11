@@ -27,7 +27,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 import java.util.Optional;
 
@@ -59,7 +58,7 @@ public class ClassPrototypeParserUtils {
 
             if (classNameToken == null) {
                 throw PandaParserFailure.builder("Declaration token not found", data)
-                        .withSourceFragment(new PandaSourceFragment(classDeclaration, classDeclaration))
+                        .withSource(classDeclaration, classDeclaration)
                         .build();
             }
             else if (classNameToken.getType() == TokenType.SEPARATOR) {
@@ -70,7 +69,8 @@ public class ClassPrototypeParserUtils {
 
                 if (!extendedPrototype.isPresent()) {
                     throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", data)
-                            .withSourceFragment(new PandaSourceFragment(classDeclaration, classDeclaration))
+                            .withSource(classDeclaration, classDeclaration)
+                            .withNote("Make sure that the name does not have a typo and module which should contain that class is imported")
                             .build();
                 }
 

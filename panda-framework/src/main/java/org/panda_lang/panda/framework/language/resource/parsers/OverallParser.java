@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Univers
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragment;
 
 public class OverallParser implements Parser {
 
@@ -51,7 +50,7 @@ public class OverallParser implements Parser {
 
         if (parser == null) {
             throw PandaParserFailure.builder("Unrecognized syntax", data)
-                    .withSourceFragment(new PandaSourceFragment(source))
+                    .withSource(stream.getOriginalSource(), source)
                     .build();
         }
 
@@ -59,7 +58,7 @@ public class OverallParser implements Parser {
 
         if (sourceLength == stream.getUnreadLength()) {
             throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", data)
-                    .withSourceFragment(new PandaSourceFragment(source, stream))
+                    .withSource(stream.getOriginalSource(), source)
                     .build();
         }
     }

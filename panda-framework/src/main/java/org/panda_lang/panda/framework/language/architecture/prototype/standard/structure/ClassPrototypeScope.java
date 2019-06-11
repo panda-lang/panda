@@ -52,7 +52,7 @@ public class ClassPrototypeScope extends AbstractStatement implements Scope {
             }
 
             Expression expression = field.getDefaultValue();
-            instance.set(field.getFieldIndex(), expression.getExpressionValue(branch));
+            instance.set(field.getFieldIndex(), expression.evaluate(branch));
         }
 
         return instance;

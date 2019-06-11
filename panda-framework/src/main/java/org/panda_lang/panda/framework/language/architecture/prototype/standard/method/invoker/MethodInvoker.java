@@ -46,7 +46,7 @@ public class MethodInvoker extends AbstractExecutableStatement implements Standa
         Value instance = null;
 
         if (instanceExpression != null) {
-            instance = instanceExpression.getExpressionValue(branch);
+            instance = instanceExpression.evaluate(branch);
 
             if (!instance.isNull()) {
                 branch.instance(instance);

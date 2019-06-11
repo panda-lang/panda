@@ -38,7 +38,7 @@ public class LoopBlock extends AbstractBlock implements ControlFlowCaller {
 
     @Override
     public void call(ExecutableBranch branch, ControlFlow flow) {
-        Value value = expression.getExpressionValue(branch);
+        Value value = expression.evaluate(branch);
         int times = value.getValue();
 
         for (int i = 0; i < times; i++) {

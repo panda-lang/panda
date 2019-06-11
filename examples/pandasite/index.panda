@@ -1,0 +1,12 @@
+module awesomeness
+
+class Panda {
+    method void hello(String name) {
+        Console.print("Hey, " + name + ". You're finally awake ฅ^•ﻌ•^ฅ ")
+    }
+}
+
+main {
+    Panda panda = new Panda()
+    panda.hello("you")
+}

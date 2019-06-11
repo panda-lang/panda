@@ -46,7 +46,7 @@ public class ForEachBlock extends AbstractBlock implements ControlFlowCaller {
     @Override
     public void call(ExecutableBranch branch, ControlFlow flow) {
         ScopeFrame currentScope = branch.getCurrentScope();
-        Value iterableValue = expression.getExpressionValue(branch);
+        Value iterableValue = expression.evaluate(branch);
         Iterable iterable = iterableValue.getValue();
 
         for (Object value : iterable) {

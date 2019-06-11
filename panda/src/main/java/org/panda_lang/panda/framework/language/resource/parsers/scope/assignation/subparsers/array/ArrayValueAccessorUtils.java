@@ -23,14 +23,13 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFragmentUtils;
 
 public class ArrayValueAccessorUtils {
 
     public static ArrayValueAccessor of(ParserData data, Snippet source, Expression instance, Expression index, ArrayValueAccessor.ArrayValueAccessorAction action) {
         if (!instance.getReturnType().isArray()) {
             throw PandaParserFailure.builder("Cannot use index on non-array type (" + instance.getReturnType() + ")", data)
-                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, source))
+                    .withStreamOrigin(source)
                     .build();
         }
 
@@ -38,7 +37,7 @@ public class ArrayValueAccessorUtils {
 
         if (arrayPrototype == null) {
             throw PandaParserFailure.builder("Cannot locate array class", data)
-                    .withSourceFragment(PandaSourceFragmentUtils.ofStreamOrigin(data, source))
+                    .withStreamOrigin(source)
                     .build();
         }
 

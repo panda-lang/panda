@@ -30,7 +30,7 @@ public class ExpressionStatement extends AbstractExecutableStatement {
 
     @Override
     public void execute(ExecutableBranch branch) {
-        expression.getExpressionValue(branch);
+        expression.evaluate(branch);
     }
 
     public Expression getExpression() {

@@ -37,7 +37,7 @@ public class WhileBlock extends AbstractBlock implements ControlFlowCaller {
 
     @Override
     public void call(ExecutableBranch branch, ControlFlow flow) {
-        while (expression.getExpressionValue(branch).getValue()) {
+        while (expression.evaluate(branch).getValue()) {
             flow.reset();
             flow.call();
 
