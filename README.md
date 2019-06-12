@@ -1,9 +1,9 @@
 ![Logo](https://panda-lang.org/github/v1/logo-1.png)
 
 <p align="center">
-   <a href="https://travis-ci.org/Panda-Programming-Language/Panda"><img src="https://travis-ci.org/Panda-Programming-Language/Panda.svg?branch=master" alt="Build Status"></a>
-   <a href="https://ci.appveyor.com/project/Panda-Programming-Language/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl/branch/master?svg=true"></a>
-   <a href="https://www.codefactor.io/repository/github/panda-programming-language/panda"><img src="https://www.codefactor.io/repository/github/panda-programming-language/panda/badge" alt="CodeFactor"></a>
+   <a href="https://travis-ci.org/panda-lang/panda"><img src="https://travis-ci.org/panda-lang/panda.svg?branch=master" alt="Build Status"></a>
+   <a href="https://ci.appveyor.com/project/panda-lang/panda/branch/master"><img src="https://ci.appveyor.com/api/projects/status/gpkf5t7v3b3wepcl/branch/master?svg=true"></a>
+   <a href="https://www.codefactor.io/repository/github/panda-lang/panda"><img src="https://www.codefactor.io/repository/github/panda-lang/panda/badge" alt="CodeFactor"></a>
     
   <hr>
    
@@ -33,7 +33,7 @@ Maven repository: [repo.panda-lang.org](https://repo.panda-lang.org/)
 
 ```xml
 <repository>
-    <id>panda-repo</id>
+    <id>panda-repository</id>
     <name>Panda Repository</name>
     <url>https://repo.panda-lang.org/</url>
 </repository>
@@ -56,6 +56,6 @@ panda/
 ```
 
 #### 💞 Other
-- Lily the Panda IDE: https://github.com/Panda-Programming-Language/Lily <br>
-- Light: https://github.com/Panda-Programming-Language/Light
+- Lily the Panda IDE: https://github.com/panda-lang/lily <br>
+- Light: https://github.com/panda-lang/light
 - 🥞
