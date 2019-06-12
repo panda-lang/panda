@@ -55,7 +55,8 @@ panda/
 +--pom.xml                   The main maven build script
 ```
 
-#### 💞 Other
-- Lily the Panda IDE: https://github.com/panda-lang/lily <br>
-- Light: https://github.com/panda-lang/light
+#### 💞 See also
+- [Reposilite](https://github.com/panda-lang/reposilite)
+- [Light](https://github.com/panda-lang/light)
+- [Lily](https://github.com/panda-lang/lily)
 - 🥞
