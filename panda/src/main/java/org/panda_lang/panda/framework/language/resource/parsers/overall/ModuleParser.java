@@ -45,7 +45,7 @@ public class ModuleParser extends UnifiedParserBootstrap {
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.MODULE))
-                .pattern("module <module:condition token {type:unknown}, token {value:-}>[;]");
+                .pattern("module <module:condition token {type:unknown}, token {value:-}, token {value:.}>[;]");
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL)
