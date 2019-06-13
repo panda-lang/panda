@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.common.ArgumentsParser;
 import org.panda_lang.panda.framework.language.resource.parsers.common.CommentParser;
 import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberParser;
-import org.panda_lang.panda.framework.language.resource.parsers.overall.ImportParser;
+import org.panda_lang.panda.framework.language.resource.parsers.overall.RequireParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.MainParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.ModuleParser;
 import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeParser;
@@ -58,7 +58,7 @@ public final class PandaParsers extends Parsers {
             NumberParser.class,
 
             // overall
-            ImportParser.class,
+            RequireParser.class,
             MainParser.class,
             ModuleParser.class,
 
