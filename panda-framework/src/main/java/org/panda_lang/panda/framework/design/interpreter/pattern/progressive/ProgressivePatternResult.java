@@ -17,33 +17,38 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.progressive;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProgressivePatternResult {
+public class ProgressivePatternResult implements MatcherResult {
 
+    private final Snippet source;
     private final List<ProgressivePatternElement> elements;
-    private boolean succeeded;
+    private boolean matched;
 
-    public ProgressivePatternResult() {
+    protected ProgressivePatternResult(Snippet source) {
         this.elements = new ArrayList<>(3);
+        this.source = source;
     }
 
-    public void succeed() {
-        this.succeeded = true;
-    }
-
-    public int size() {
-        return elements.size();
+    protected void succeed() {
+        this.matched = true;
     }
 
     protected void addElement(ProgressivePatternElement element) {
         this.elements.add(element);
     }
 
-    public boolean isSucceeded() {
-        return succeeded;
+    public int size() {
+        return elements.size();
+    }
+
+    @Override
+    public boolean isMatched() {
+        return matched;
     }
 
     public @Nullable String get(int index) {
@@ -56,6 +61,11 @@ public class ProgressivePatternResult {
 
     public List<ProgressivePatternElement> getElements() {
         return elements;
+    }
+
+    @Override
+    public Snippet getSource() {
+        return source;
     }
 
 }

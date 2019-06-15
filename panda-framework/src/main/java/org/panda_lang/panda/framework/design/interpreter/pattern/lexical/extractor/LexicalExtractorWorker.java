@@ -23,6 +23,8 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.element
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternWildcard;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.ProcessedValue;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.WildcardProcessor;
+import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
+import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 
 import java.util.List;
 
@@ -39,6 +41,10 @@ public class LexicalExtractorWorker<T> {
     }
 
     public LexicalExtractorResult<T> extract(LexicalPatternElement pattern, String phrase) {
+        return extractElement(pattern, phrase).withSource(PandaTokenRepresentation.of(TokenType.UNKNOWN, phrase));
+    }
+
+    private LexicalExtractorResult<T> extractElement(LexicalPatternElement pattern, String phrase) {
         if (pattern.isUnit()) {
             return matchUnit(pattern, phrase);
         }

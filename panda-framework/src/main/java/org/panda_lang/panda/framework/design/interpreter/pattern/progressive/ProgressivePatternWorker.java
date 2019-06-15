@@ -28,19 +28,17 @@ class ProgressivePatternWorker {
 
     private final ProgressivePattern extractor;
     private final ProgressivePatternResult result;
-    private final Snippet source;
 
     private Stack<Separator> separators = new Stack<>();
     private PandaSnippet expression = new PandaSnippet();
 
-    ProgressivePatternWorker(ProgressivePattern extractor, ProgressivePatternResult result, Snippet source) {
+    ProgressivePatternWorker(ProgressivePattern extractor, Snippet source) {
         this.extractor = extractor;
-        this.result = result;
-        this.source = source;
+        this.result = new ProgressivePatternResult(source);
     }
 
     ProgressivePatternResult extract() {
-        for (TokenRepresentation representation : source) {
+        for (TokenRepresentation representation : result.getSource()) {
             verify(representation);
         }
 

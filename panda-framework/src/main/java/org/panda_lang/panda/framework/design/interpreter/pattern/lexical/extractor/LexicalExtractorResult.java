@@ -17,16 +17,20 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.lexical.extractor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.processed.ProcessedValue;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LexicalExtractorResult<T> {
+public class LexicalExtractorResult<T> implements MatcherResult {
 
     private static final LexicalExtractorResult<?> ERR = new LexicalExtractorResult<>(false);
 
+    private Snippet source;
     private final boolean matched;
     private final List<String> wildcards;
     private final List<String> identifiers;
@@ -77,6 +81,12 @@ public class LexicalExtractorResult<T> {
         return this;
     }
 
+    protected LexicalExtractorResult<T> withSource(Snippetable source) {
+        this.source = source.toSnippet();
+        return this;
+    }
+
+    @Override
     public boolean isMatched() {
         return matched;
     }
@@ -91,6 +101,11 @@ public class LexicalExtractorResult<T> {
 
     public List<String> getWildcards() {
         return wildcards;
+    }
+
+    @Override
+    public Snippet getSource() {
+        return source;
     }
 
     @SuppressWarnings("unchecked")
