@@ -16,26 +16,32 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.linear;
 
+import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-public class LinearPatternResult {
+public class LinearPatternResult implements MatcherResult {
 
     protected static final LinearPatternResult NOT_MATCHED = new LinearPatternResult();
 
+    private final Snippet source;
     private final List<String> identifiers;
     private final Map<String, Object> wildcards;
 
-    LinearPatternResult(List<String> identifiers, Map<String, Object> wildcards) {
+    LinearPatternResult(Snippet source, List<String> identifiers, Map<String, Object> wildcards) {
+        this.source = source;
         this.identifiers = identifiers;
         this.wildcards = wildcards;
     }
 
     private LinearPatternResult() {
-        this(null, null);
+        this(null, null, null);
     }
 
+    @Override
     public boolean isMatched() {
         return identifiers != null;
     }
@@ -51,6 +57,11 @@ public class LinearPatternResult {
 
     public List<? extends String> getIdentifiers() {
         return identifiers;
+    }
+
+    @Override
+    public Snippet getSource() {
+        return source;
     }
 
 }

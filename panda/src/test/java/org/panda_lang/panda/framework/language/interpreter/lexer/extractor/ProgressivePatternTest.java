@@ -49,7 +49,7 @@ class ProgressivePatternTest {
         ProgressivePatternResult result = EXTRACTOR.extract(snippet);
 
         Assertions.assertNotNull(result);
-        Assertions.assertTrue(result.isSucceeded());
+        Assertions.assertTrue(result.isMatched());
         Assertions.assertEquals(3, result.size());
 
         Assertions.assertAll(

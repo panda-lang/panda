@@ -57,7 +57,7 @@ public class ExtractorWorker {
         ExtractorResult result = extract(distributor, pattern.getPatternContent());
 
         if (result.isMatched()) {
-            source.read(distributor.getIndex());
+            result.withSource(source.read(distributor.getIndex()));
         }
 
         long period = System.nanoTime() - time;

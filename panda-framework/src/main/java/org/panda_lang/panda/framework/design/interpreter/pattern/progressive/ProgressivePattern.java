@@ -31,7 +31,7 @@ public class ProgressivePattern {
     }
 
     public ProgressivePatternResult extract(Snippet source) {
-        ProgressivePatternWorker worker = new ProgressivePatternWorker(this, new ProgressivePatternResult(), source);
+        ProgressivePatternWorker worker = new ProgressivePatternWorker(this, source);
         return worker.extract();
     }
 

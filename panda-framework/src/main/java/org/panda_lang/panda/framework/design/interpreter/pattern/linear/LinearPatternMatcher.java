@@ -67,8 +67,7 @@ class LinearPatternMatcher {
             content.backup();
         }
 
-        source.read(content.getIndex());
-        return new LinearPatternResult(identifiers, wildcards);
+        return new LinearPatternResult(source.read(content.getIndex()), identifiers, wildcards);
     }
 
     private boolean match(Function<DiffusedSource, Object> matcher, DiffusedSource content, List<String> identifiers, Map<String, Object> wildcards, LinearPatternElement element) {

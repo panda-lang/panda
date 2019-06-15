@@ -16,12 +16,17 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
+import org.panda_lang.panda.framework.design.interpreter.pattern.MatcherResult;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ExtractorResult {
+public class ExtractorResult implements MatcherResult {
 
+    private Snippet source;
     private final String errorMessage;
     private final List<String> identifiers;
     private final List<ExtractorResultElement> wildcards;
@@ -67,6 +72,11 @@ public class ExtractorResult {
         return this;
     }
 
+    public ExtractorResult withSource(Snippetable source) {
+        this.source = source.toSnippet();
+        return this;
+    }
+
     public ExtractorResult addWildcard(String name, Object wildcardContent) {
         getWildcards().add(new ExtractorResultElement(name, wildcardContent));
         return this;
@@ -80,6 +90,7 @@ public class ExtractorResult {
         return errorMessage != null;
     }
 
+    @Override
     public boolean isMatched() {
         return errorMessage == null;
     }
@@ -100,6 +111,11 @@ public class ExtractorResult {
 
     public List<String> getIdentifiers() {
         return identifiers;
+    }
+
+    @Override
+    public Snippet getSource() {
+        return source;
     }
 
 }
