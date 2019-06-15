@@ -109,7 +109,6 @@ main {
     // 3849 3839 | 479 113 = 3660 expr |
     //Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
     Console.print("Random",  (false || false) + ", " + false || true, true && false, true && true, (false || false) + ", " + false || true, true && false, true && true)
-    Console.print("Supproted by Variant")
 }
 
 class TestArray {
