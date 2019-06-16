@@ -20,8 +20,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.panda.framework.design.resource.Autoload;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationSubparser;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationSubparser;
+import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockSubparser;
 
 /**
  * Used by {@link org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration}
@@ -34,25 +34,25 @@ public class PandaPipelines implements Pipelines {
      */
     public static final String PROTOTYPE_LABEL = "prototype";
     /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeParser}
+     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeParser}
      */
     public static final PipelineComponent<UnifiedParser> PROTOTYPE = PipelineComponent.of(PandaPipelines.class, PROTOTYPE_LABEL, UnifiedParser.class);
 
     /**
-     * Text representation of {@link PandaPipelines#SCOPE}
+     * Text representation of {@link PandaPipelines#CONTAINER}
      */
-    public static final String SCOPE_LABEL = "scope";
+    public static final String CONTAINER_LABEL = "container";
     /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ScopeParser}
+     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ContainerParser}
      */
-    public static final PipelineComponent<UnifiedParser> SCOPE = PipelineComponent.of(PandaPipelines.class, SCOPE_LABEL, UnifiedParser.class);
+    public static final PipelineComponent<UnifiedParser> CONTAINER = PipelineComponent.of(PandaPipelines.class, CONTAINER_LABEL, UnifiedParser.class);
 
     /**
      * Text representation of {@link PandaPipelines#BLOCK}
      */
     public static final String BLOCK_LABEL = "block";
     /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockParser}
+     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockParser}
      */
     public static final PipelineComponent<BlockSubparser> BLOCK = PipelineComponent.of(PandaPipelines.class, BLOCK_LABEL, BlockSubparser.class);
 
@@ -61,7 +61,7 @@ public class PandaPipelines implements Pipelines {
      */
     public static final String ASSIGNER_LABEL = "assignation";
     /**
-     * Assigner parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationParser}
+     * Assigner parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationParser}
      */
     public static final PipelineComponent<AssignationSubparser> ASSIGNER = PipelineComponent.of(PandaPipelines.class, ASSIGNER_LABEL, AssignationSubparser.class);
 

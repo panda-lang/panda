@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.subpa
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks.VariableExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberUtils;
-import org.panda_lang.panda.framework.language.resource.parsers.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
 import java.util.Optional;
