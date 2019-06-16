@@ -19,34 +19,34 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 public class PandaPriorities {
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.prototype.method.MethodParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.method.MethodParser}
      */
     public static final int PROTOTYPE_METHOD = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.prototype.field.FieldParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.field.FieldParser}
      */
     public static final int PROTOTYPE_FIELD = 2;
 
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.block.BlockParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockParser}
      */
-    public static final int SCOPE_BLOCK = 1;
+    public static final int CONTAINER_BLOCK = 1;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.LateDeclarationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.container.LateDeclarationParser}
      */
-    public static final int SCOPE_LATE_DECLARATION = 4;
+    public static final int CONTAINER_LATE_DECLARATION = 4;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.StandaloneExpressionParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.container.StandaloneExpressionParser}
      */
-    public static final int SCOPE_EXPRESSION = 5;
+    public static final int CONTAINER_EXPRESSION = 5;
 
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.AssignationParser}
+     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationParser}
      */
-    public static final int SCOPE_ASSIGNATION = 6;
+    public static final int CONTAINER_ASSIGNATION = 6;
 
 }

@@ -31,8 +31,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-import java.util.Stack;
-
 public class ContainerParser implements Parser {
 
     private final Container container;
@@ -43,10 +41,8 @@ public class ContainerParser implements Parser {
 
     public void parse(ParserData data, Snippet body) throws Throwable {
         ParserData delegatedData = data.fork();
-        Stack<UnifiedParser<?>> parsers = new Stack<>();
-
         PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.SCOPE);
+        ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.CONTAINER);
 
         SourceStream source = new PandaSourceStream(body);
         delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, source);
@@ -73,7 +69,6 @@ public class ContainerParser implements Parser {
                         .build();
             }
 
-            parsers.push(parser);
             delegatedData.setComponent(PandaComponents.CONTAINER, container);
 
             if (source.hasUnreadSource() && source.getCurrent().contentEquals(Separators.SEMICOLON)) {
@@ -82,7 +77,6 @@ public class ContainerParser implements Parser {
         }
 
         delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);
-        parsers.clear();
     }
 
 }

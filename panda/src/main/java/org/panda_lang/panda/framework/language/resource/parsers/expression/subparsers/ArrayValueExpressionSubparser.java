@@ -26,8 +26,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array.ArrayValueAccessor;
-import org.panda_lang.panda.framework.language.resource.parsers.scope.assignation.subparsers.array.ArrayValueAccessorUtils;
+import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.array.ArrayValueAccessor;
+import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.array.ArrayValueAccessorUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
