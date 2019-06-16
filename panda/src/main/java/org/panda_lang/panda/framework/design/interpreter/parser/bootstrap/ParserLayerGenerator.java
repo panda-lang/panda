@@ -49,7 +49,7 @@ class ParserLayerGenerator<T> {
 
         return new GenerationCallback<T>() {
             @Override
-            public @Nullable T call(GenerationPipeline pipeline, ParserData data) throws Throwable {
+            public @Nullable T call(GenerationPipeline pipeline, ParserData data) throws Exception {
                 Object[] parameters = convertParameters(layer, data, pipeline.generation(), interceptorData, localData);
                 T result;
 
@@ -75,7 +75,7 @@ class ParserLayerGenerator<T> {
         };
     }
 
-    private @Nullable Object invoke(Method autowiredMethod, Object... parameters) throws Throwable {
+    private @Nullable Object invoke(Method autowiredMethod, Object... parameters) throws Exception {
         autowiredMethod.setAccessible(true);
 
         try {
@@ -84,11 +84,15 @@ class ParserLayerGenerator<T> {
             PandaFramework.getLogger().warn(autowiredMethod.getName() + " may contains invalid annotations (" + autowiredMethod.getDeclaringClass() + ":" + autowiredMethod.getName() + ")");
             throw e;
         } catch (InvocationTargetException e) {
-            throw e.getTargetException();
+            if (e.getTargetException() instanceof Exception) {
+                throw (Exception) e.getTargetException();
+            }
+
+            throw new RuntimeException("Error occurred: " + e.getMessage(), e.getTargetException());
         }
     }
 
-    private Object[] convertParameters(LayerMethod layerMethod, ParserData delegatedData, Generation generation, InterceptorData interceptorData, LocalData localData) throws Throwable {
+    private Object[] convertParameters(LayerMethod layerMethod, ParserData delegatedData, Generation generation, InterceptorData interceptorData, LocalData localData) throws Exception {
         Method autowiredMethod = layerMethod.getMethod();
         Class<?>[] parameterTypes = autowiredMethod.getParameterTypes();
 

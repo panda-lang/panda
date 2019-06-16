@@ -47,12 +47,12 @@ final class StacktraceSupplier implements Supplier<String> {
                 break;
             }
 
-            if (!lastElement.getClassName().startsWith("org.panda_lang")
+            if (i != 0 && (!lastElement.getClassName().startsWith("org.panda_lang")
                     || lastElement.getClassName().contains("ParserLayerGenerator")
                     || lastElement.getClassName().contains("UnifiedBootstrapParser")
                     || lastElement.getClassName().contains("UnifiedParserBootstrap")
                     || lastElement.getClassName().contains("Generation")
-                    || lastElement.isNativeMethod()) {
+                    || lastElement.isNativeMethod())) {
 
                 gap++;
                 continue;

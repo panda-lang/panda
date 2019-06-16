@@ -28,42 +28,32 @@ import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaSc
 
 public class ScopeParser implements Parser {
 
-    private final Scope scope;
-    private ParserData data;
-
-    private ScopeParser(Scope scope, ParserData data) {
-        this.scope = scope;
-        this.data = data;
-    }
-
-    public ScopeParser forkData() {
-        this.data = data.fork();
-        return this;
-    }
-
-    public ScopeParser initializeLinker() {
-        data.setComponent(UniversalComponents.SCOPE_LINKER, new PandaScopeLinker(scope));
-        return this;
-    }
-
-    public ScopeParser initializeLinker(Scope parentScope, Scope currentScope) {
-        ScopeLinker linker = new PandaScopeLinker(parentScope);
-        linker.pushScope(currentScope);
-        data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
-        return this;
-    }
-
-    public void parse(@Nullable Snippet body) throws Throwable {
+    public void parse(@Nullable Scope parent, Scope current, ParserData data, @Nullable Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
         }
 
-        ContainerParser parser = new ContainerParser(scope);
-        parser.parse(data, body);
-    }
+        ScopeLinker parentLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
+        ScopeLinker linker = parentLinker;
 
-    public static ScopeParser createParser(Scope parent, ParserData data) {
-        return new ScopeParser(parent, data);
+        if (linker == null) {
+            linker = new PandaScopeLinker(parent != null ? parent : current);
+
+            if (parent != null) {
+                linker.pushScope(current);
+            }
+
+            data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
+        }
+        else {
+            linker.pushScope(current);
+        }
+
+        ContainerParser parser = new ContainerParser(current);
+        parser.parse(data, body);
+
+        linker.popScope();
+        data.setComponent(UniversalComponents.SCOPE_LINKER, parentLinker);
     }
 
 }

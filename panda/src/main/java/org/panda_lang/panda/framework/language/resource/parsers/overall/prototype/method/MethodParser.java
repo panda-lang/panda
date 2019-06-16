@@ -46,7 +46,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
+import org.panda_lang.panda.framework.language.resource.parsers.ScopeParserUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ParameterParser;
 
@@ -97,7 +97,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
 
         String method = signature.getLast().getValue();
-        MethodScope methodScope = local.allocateInstance(new MethodScope(method, parameters));
+        MethodScope methodScope = local.allocated(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
 
         data.setComponent(PandaComponents.SCOPE, methodScope);
@@ -119,9 +119,7 @@ public class MethodParser extends UnifiedParserBootstrap {
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
     void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Snippet body) throws Throwable {
-        ScopeParser.createParser(methodScope, delegatedData)
-                .initializeLinker(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope)
-                .parse(body);
+        ScopeParserUtils.parse(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope, delegatedData, body);
     }
 
 }

@@ -52,7 +52,7 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
     }
 
     @Override
-    public final T parse(ParserData data) throws Throwable {
+    public final T parse(ParserData data) throws Exception {
         SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
         Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();
@@ -71,7 +71,7 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         return delegate(data, data.getComponent(UniversalComponents.GENERATION), interceptorData, new LocalData(), index);
     }
 
-    protected T delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int order) throws Throwable {
+    protected T delegate(ParserData data, Generation generation, InterceptorData interceptorData, LocalData localData, int order) throws Exception {
         List<LayerMethod> methods = layers.stream()
                 .filter((method) -> method.getOrder() == order)
                 .sorted(Comparator.comparingInt(method -> method.getDelegation().getPriority()))
@@ -92,7 +92,7 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         return result;
     }
 
-    private T delegate(Generation generation, ParserData data, GenerationCallback<T> callback, LayerMethod method) throws Throwable {
+    private T delegate(Generation generation, ParserData data, GenerationCallback<T> callback, LayerMethod method) throws Exception {
         GenerationPipeline pipeline = generation.pipeline(method.getType());
         GenerationLayer currentLayer = pipeline.currentLayer();
         GenerationLayer nextLayer = pipeline.nextLayer();
