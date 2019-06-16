@@ -38,7 +38,7 @@ public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, Par
     }
 
     @Override
-    public final T parse(ParserData data) throws Throwable {
+    public final T parse(ParserData data) throws Exception {
         return get(data).getParser().parse(data);
     }
 

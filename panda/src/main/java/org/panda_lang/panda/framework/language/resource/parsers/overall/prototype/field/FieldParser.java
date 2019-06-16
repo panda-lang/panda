@@ -85,7 +85,7 @@ public class FieldParser extends UnifiedParserBootstrap {
                 .build();
 
         prototype.getFields().addField(field);
-        local.allocateInstance(field);
+        local.allocated(field);
     }
 
     @Autowired(order = 2)

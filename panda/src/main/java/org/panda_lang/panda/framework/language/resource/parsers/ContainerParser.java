@@ -39,7 +39,7 @@ public class ContainerParser implements Parser {
         this.container = container;
     }
 
-    public void parse(ParserData data, Snippet body) throws Throwable {
+    public void parse(ParserData data, Snippet body) throws Exception {
         ParserData delegatedData = data.fork();
         PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.CONTAINER);

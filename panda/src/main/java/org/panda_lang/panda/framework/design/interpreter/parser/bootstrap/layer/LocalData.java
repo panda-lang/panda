@@ -29,15 +29,15 @@ public class LocalData {
         this.data = new HashMap<>();
     }
 
-    public <T> T allocateInstance(T element) {
-        return allocateInstance(element.getClass().getSimpleName(), element);
+    public <T> T allocated(T element) {
+        return allocated(element.getClass().getSimpleName(), element);
     }
 
-    public <T> T allocateInstance(Class<T> clazz, T element) {
-        return allocateInstance(clazz.getSimpleName(), element);
+    public <T> T allocated(Class<T> clazz, T element) {
+        return allocated(clazz.getSimpleName(), element);
     }
 
-    public <T> T allocateInstance(String name, T element) {
+    public <T> T allocated(String name, T element) {
         data.put(name, element);
         return element;
     }

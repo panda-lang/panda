@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 
 public interface ScopeLinker {
 
-    void pushScope(Scope scope);
+    ScopeLinker pushScope(Scope scope);
 
     Scope popScope();
 

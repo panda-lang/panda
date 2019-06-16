@@ -31,8 +31,9 @@ public class PandaScopeLinker implements ScopeLinker {
     }
 
     @Override
-    public void pushScope(Scope scope) {
+    public PandaScopeLinker pushScope(Scope scope) {
         scopeStack.push(scope);
+        return this;
     }
 
     @Override

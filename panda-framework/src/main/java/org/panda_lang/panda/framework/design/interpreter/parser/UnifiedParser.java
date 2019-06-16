@@ -21,6 +21,6 @@ public interface UnifiedParser<T> extends Parser {
     /**
      * @param data set of information about source and interpretation process
      */
-    T parse(ParserData data) throws Throwable;
+    T parse(ParserData data) throws Exception;
 
 }

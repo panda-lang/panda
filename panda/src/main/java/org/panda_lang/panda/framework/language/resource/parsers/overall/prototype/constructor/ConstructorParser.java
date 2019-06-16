@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.architecture.prototype.standard.c
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
+import org.panda_lang.panda.framework.language.resource.parsers.ScopeParserUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
@@ -57,7 +57,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
         ParameterParser parameterParser = new ParameterParser();
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
-        ConstructorScope constructorScope = local.allocateInstance(new ConstructorScope(parameters));
+        ConstructorScope constructorScope = local.allocated(new ConstructorScope(parameters));
         ParameterUtils.addAll(constructorScope.getVariables(), parameters, 0);
 
         PrototypeConstructor constructor = new PandaConstructor(classScope.getPrototype(), classScope, constructorScope);
@@ -66,9 +66,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
     private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Throwable {
-        ScopeParser.createParser(constructorScope, data)
-                .initializeLinker(classScope, constructorScope)
-                .parse(body);
+        ScopeParserUtils.parse(classScope, constructorScope, data, body);
     }
 
 }

@@ -69,7 +69,7 @@ public class BlockParser extends UnifiedParserBootstrap {
                     .build();
         }
 
-        ParserData delegatedData = local.allocateInstance(data.fork());
+        ParserData delegatedData = local.allocated(data.fork());
         BlockData blockData = blockParser.parse(delegatedData, declaration);
 
         if (blockData == null || blockData.getBlock() == null) {
@@ -78,7 +78,7 @@ public class BlockParser extends UnifiedParserBootstrap {
                     .build();
         }
 
-        local.allocateInstance(blockData.getBlock());
+        local.allocated(blockData.getBlock());
 
         if (blockData.isUnlisted()) {
             return;
