@@ -16,22 +16,66 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.formatter;
 
-import org.panda_lang.panda.framework.design.interpreter.Interpreter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
+import org.panda_lang.panda.framework.language.resource.parsers.ApplicationParser;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
-import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
+import org.panda_lang.panda.utilities.commons.PackageUtils;
+import org.panda_lang.panda.utilities.commons.StringUtils;
 
-import java.util.Objects;
-import java.util.function.Supplier;
+public final class StacktraceFormatter implements MessengerDataFormatter<StackTraceElement[]> {
 
-final class StacktraceSupplier implements Supplier<String> {
+    @Override
+    public void onInitialize(MessengerTypeFormatter<StackTraceElement[]> typeFormatter) {
+        typeFormatter
+                .register("{{stacktrace}}", (messengerFormatter, stackTraceElements) -> {
+                    StringBuilder stacktrace = new StringBuilder();
 
-    private final Throwable exception;
+                    for (StackTraceElement element : stackTraceElements) {
+                        stacktrace.append(System.lineSeparator())
+                                .append(StringUtils.buildSpace(2))
+                                .append(element.toString());
+                    }
 
-    public StacktraceSupplier(Throwable exception) {
-        this.exception = exception;
+                    return stacktrace.toString();
+                })
+                .register("{{stacktrace-last}}", (messengerFormatter, stackTraceElements) -> {
+                    StackTraceElement lastElement = ArrayUtils.get(stackTraceElements, 0);
+
+                    if (lastElement == null) {
+                        return "<unknown>";
+                    }
+
+                    return PackageUtils.getShortenPackage(lastElement.getClassName()) + " (" + lastElement.getFileName() + ":" + lastElement.getLineNumber() + ")";
+                })
+                .register("{{stacktrace-simple}}", (messengerFormatter, stackTraceElements) -> {
+                    StringBuilder stacktrace = new StringBuilder();
+
+                    for (StackTraceElement element : stackTraceElements) {
+                        boolean status = ClassUtils.forName(element.getClassName())
+                                .map(clazz -> clazz == ApplicationParser.class)
+                                .orElse(false);
+
+                        stacktrace.append(System.lineSeparator())
+                                .append(StringUtils.buildSpace(4))
+                                .append(element.toString());
+
+                        if (status) {
+                            break;
+                        }
+                    }
+
+                    return stacktrace.toString();
+                });
     }
 
     @Override
+    public Class<StackTraceElement[]> getType() {
+        return StackTraceElement[].class;
+    }
+
+    /*
     public String get() {
         StringBuilder content = new StringBuilder();
         StackTraceElement[] elements = exception.getStackTrace();
@@ -90,4 +134,5 @@ final class StacktraceSupplier implements Supplier<String> {
         return content.append("[...]").toString();
     }
 
+*/
 }

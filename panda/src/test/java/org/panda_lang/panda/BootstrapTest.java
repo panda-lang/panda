@@ -38,7 +38,8 @@ class BootstrapTest {
         Panda panda = factory.createPanda();
 
         Application application = new PandaApplicationBootstrap(panda)
-                .source("../examples/current_test.panda")
+                .workingDirectory("../examples/")
+                .main("current_test.panda")
                 .createApplication();
 
         if (application == null) {

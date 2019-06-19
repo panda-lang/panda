@@ -24,18 +24,23 @@ import org.panda_lang.panda.framework.design.resource.prototypes.model.loader.An
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
+import java.io.File;
+
 public class PandaEnvironment implements Environment {
 
-    protected final Panda panda;
-    protected final ModulePath modulePath;
-    protected PandaInterpreter interpreter;
+    private final Panda panda;
+    private final File workingDirectory;
+    private ModulePath modulePath;
+    private PandaInterpreter interpreter;
 
-    public PandaEnvironment(Panda panda) {
+    public PandaEnvironment(Panda panda, File workingDirectory) {
         this.panda = panda;
-        this.modulePath = new PandaModulePath();
+        this.workingDirectory = workingDirectory;
     }
 
     public void initialize() {
+        this.modulePath = new PandaModulePath();
+
         PandaTypes types = new PandaTypes();
         types.fill(modulePath);
 
@@ -61,6 +66,11 @@ public class PandaEnvironment implements Environment {
     @Override
     public PandaInterpreter getInterpreter() {
         return interpreter;
+    }
+
+    @Override
+    public File getDirectory() {
+        return workingDirectory;
     }
 
 }

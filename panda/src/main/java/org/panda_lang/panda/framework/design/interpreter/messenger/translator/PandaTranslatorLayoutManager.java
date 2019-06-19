@@ -44,9 +44,10 @@ public final class PandaTranslatorLayoutManager {
         }
     }
 
-    public void load(PandaTranslatorLayout<?> layout) {
-        PandaTranslator<?> translator = new PandaTranslator<>(engine, layout);
+    public <T extends PandaTranslatorLayout<G>, G> T load(T layout) {
+        PandaTranslator<G> translator = new PandaTranslator<>(engine, layout);
         messenger.addMessageTranslator(translator);
+        return layout;
     }
 
 }

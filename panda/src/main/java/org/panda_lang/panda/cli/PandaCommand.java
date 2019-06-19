@@ -27,8 +27,8 @@ public class PandaCommand implements Runnable {
 
     private final PandaCLI cli;
 
-    @CommandLine.Parameters(arity = "1..*", paramLabel = "FILE", description = "File(s) to load")
-    private File[] inputFiles;
+    @CommandLine.Parameters(index = "0", paramLabel = "SCRIPT", description = "Script to load")
+    private File script;
 
     @CommandLine.Option(names = { "-V", "--version" }, versionHelp = true, description = "display Panda version")
     private boolean versionInfoRequested;
@@ -54,7 +54,7 @@ public class PandaCommand implements Runnable {
             return;
         }
 
-        Application application = cli.getPanda().getPandaLoader().loadFiles(inputFiles);
+        Application application = cli.getPanda().getPandaLoader().load(script, script.getParentFile());
         application.launch();
     }
 

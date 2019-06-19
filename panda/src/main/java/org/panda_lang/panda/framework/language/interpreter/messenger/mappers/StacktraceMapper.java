@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter;
+package org.panda_lang.panda.framework.language.interpreter.messenger.mappers;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.Application;
-import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import java.util.function.Function;
 
-public interface Interpreter {
+public final class StacktraceMapper implements Function<StackTraceElement[], StackTraceElement[]> {
 
-    /**
-     * Starts the process of interpretation
-     */
-    @Nullable Application interpret(Source source);
+    @Override
+    public StackTraceElement[] apply(StackTraceElement[] stackTraceElements) {
+        return new StackTraceElement[0];
+    }
 
 }

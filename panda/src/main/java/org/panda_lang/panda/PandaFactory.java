@@ -21,6 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Univers
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.EnvironmentFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ParserFailureFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.SourceFragmentFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.StacktraceFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ThrowableFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
@@ -54,7 +55,7 @@ public class PandaFactory {
                 .initializeMessenger()
                     .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
                     .withDataFormatters(EnvironmentFormatter.class, SourceFragmentFormatter.class)
-                    .withDataFormatters(ThrowableFormatter.class, ParserFailureFormatter.class)
+                    .withDataFormatters(ThrowableFormatter.class, ParserFailureFormatter.class, StacktraceFormatter.class)
                     .collect()
 
                 // load pipelines

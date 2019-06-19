@@ -27,6 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
+import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
@@ -46,6 +47,8 @@ public final class UniversalComponents {
 
     public static final Component<ExpressionParser> EXPRESSION = Component.of("expression-parser", ExpressionParser.class);
 
+
+    public static final Component<SourceSet> SOURCES = Component.of("source-set", SourceSet.class);
 
     public static final Component<Script> SCRIPT = Component.of("script", Script.class);
 

@@ -1,0 +1,9 @@
+module example-test
+
+class Required {
+
+    method hello() {
+        Console.print("Required print")
+    }
+
+}

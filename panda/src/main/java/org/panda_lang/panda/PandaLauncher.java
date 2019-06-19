@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda;
 
-import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.FileUtils;
 
@@ -41,10 +40,7 @@ public final class PandaLauncher {
         PandaLoader pandaLoader = panda.getPandaLoader();
         Collection<File> files = FileUtils.findFilesByExtension(System.getProperty("user.dir"), ".panda");
 
-        for (File file : files) {
-            Application application = pandaLoader.loadFiles(file);
-            application.launch(args);
-        }
+        // TODO: find panda.json
     }
 
 }

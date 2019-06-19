@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 public class ClassUtils {
 
@@ -64,11 +65,14 @@ public class ClassUtils {
     }
 
     public static boolean exists(String name) {
+        return forName(name).isPresent();
+    }
+
+    public static Optional<Class<?>> forName(String name) {
         try {
-            Class.forName(name);
-            return true;
+            return Optional.of(Class.forName(name));
         } catch (ClassNotFoundException e) {
-            return false;
+            return Optional.empty();
         }
     }
 

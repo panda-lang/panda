@@ -29,6 +29,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
@@ -38,6 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDat
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
 public class ApplicationParser implements Parser {
@@ -48,11 +50,11 @@ public class ApplicationParser implements Parser {
         this.interpretation = interpretation;
     }
 
-    public PandaApplication parse(SourceSet sourceSet) {
-        PandaApplication application = new PandaApplication();
+    public PandaApplication parse(Source source) {
+        PandaApplication application = new PandaApplication(interpretation.getEnvironment());
 
-        PandaGeneration generation = new PandaGeneration();
-        generation.initialize(GenerationTypes.getValues());
+        SourceSet sources = new PandaSourceSet();
+        sources.addSource(source);
 
         Environment environment = interpretation.getEnvironment();
         Resources resources = environment.getResources();
@@ -60,6 +62,9 @@ public class ApplicationParser implements Parser {
         ModuleLoader loader = new PandaModuleLoader(environment.getModulePath())
                 .include(environment.getModulePath().getDefaultModule())
                 .include(environment.getModulePath(), "panda-lang");
+
+        PandaGeneration generation = new PandaGeneration();
+        generation.initialize(GenerationTypes.getValues());
 
         ParserData baseData = new PandaParserData()
                 .setComponent(UniversalComponents.APPLICATION, application)
@@ -69,24 +74,23 @@ public class ApplicationParser implements Parser {
                 .setComponent(UniversalComponents.MODULE_LOADER, loader)
                 .setComponent(UniversalComponents.PIPELINE, resources.getPipelinePath())
                 .setComponent(UniversalComponents.PARSER_DEBUG, new PandaParserDebug(true))
-                .setComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser());
+                .setComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser())
+                .setComponent(UniversalComponents.SOURCES, sources);
 
         PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(interpretation.getMessenger());
-
-        ExceptionTranslatorLayout exceptionTranslatorLayout = new ExceptionTranslatorLayout();
-        translatorLayoutManager.load(exceptionTranslatorLayout);
+        ExceptionTranslatorLayout exceptionTranslatorLayout = translatorLayoutManager.load(new ExceptionTranslatorLayout());
 
         Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
                 .enableSections()
                 .build();
 
-        for (Source source : sourceSet.getSources()) {
-            PandaScript pandaScript = new PandaScript(source.getTitle());
+        for (Source current : sources) {
+            PandaScript pandaScript = new PandaScript(current.getTitle());
             application.addScript(pandaScript);
 
             interpretation.execute(() -> {
-                Snippet snippet = lexer.convert(source);
-                PandaSourceStream sourceStream = new PandaSourceStream(snippet);
+                Snippet snippet = lexer.convert(current);
+                SourceStream sourceStream = new PandaSourceStream(snippet);
 
                 ParserData delegatedData = baseData.fork()
                         .setComponent(UniversalComponents.SOURCE, snippet)
@@ -95,7 +99,7 @@ public class ApplicationParser implements Parser {
                         .setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
                 OverallParser overallParser = new OverallParser(delegatedData);
-                exceptionTranslatorLayout.update(source.getTitle(), sourceStream);
+                exceptionTranslatorLayout.update(current.getTitle(), sourceStream);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
                     interpretation.execute(() -> overallParser.parseNext(delegatedData));

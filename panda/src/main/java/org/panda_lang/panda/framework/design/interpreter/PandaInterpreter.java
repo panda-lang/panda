@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.utils.ExpressionWildcardReader;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.resource.Language;
 import org.panda_lang.panda.framework.language.interpreter.PandaInterpretation;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
@@ -40,12 +40,12 @@ public class PandaInterpreter implements Interpreter {
     }
 
     @Override
-    public PandaApplication interpret(SourceSet sources) {
+    public PandaApplication interpret(Source source) {
         Interpretation interpretation = new PandaInterpretation(language, environment, this);
         long uptime = System.nanoTime();
 
         ApplicationParser parser = new ApplicationParser(interpretation);
-        PandaApplication application = parser.parse(sources);
+        PandaApplication application = parser.parse(source);
 
         if (!interpretation.isHealthy()) {
             interpretation.getMessenger().sendMessage(MessengerLevel.FAILURE, "Interpretation failed, cannot parse specified sources");

@@ -58,8 +58,8 @@ class FileUtilsTest {
 
     @Test
     void isIn() {
-        Assertions.assertTrue(FileUtils.isIn(directory.listFiles(), "a"));
-        Assertions.assertFalse(FileUtils.isIn(directory.listFiles(), "d"));
+        Assertions.assertTrue(FileUtils.contains(directory.listFiles(), "a"));
+        Assertions.assertFalse(FileUtils.contains(directory.listFiles(), "d"));
     }
 
     @Test
@@ -68,19 +68,19 @@ class FileUtilsTest {
     }
 
     @Test
-    void getContentOfFile() {
+    void getContentOfFile() throws IOException {
         Assertions.assertEquals(CONTENT, FileUtils.getContentOfFile(content));
     }
 
     @Test
-    void getContentAsLines() {
+    void getContentAsLines() throws IOException  {
         Assertions.assertArrayEquals(CONTENT.split(System.lineSeparator()), FileUtils.getContentAsLines(content));
     }
 
     @Test
     void getFileName() {
-        Assertions.assertEquals("content", FileUtils.getFileName(content));
-        Assertions.assertEquals("c", FileUtils.getFileName(new File(directory, "c.test")));
+        Assertions.assertEquals("content", FileUtils.getName(content));
+        Assertions.assertEquals("c", FileUtils.getName(new File(directory, "c.test")));
     }
 
     @Test
@@ -95,7 +95,7 @@ class FileUtilsTest {
     }
 
     @Test
-    void overrideFile() {
+    void overrideFile() throws IOException  {
         FileUtils.overrideFile(content, "#onlypanda");
         Assertions.assertEquals("#onlypanda", FileUtils.getContentOfFile(content));
         FileUtils.overrideFile(content, CONTENT);

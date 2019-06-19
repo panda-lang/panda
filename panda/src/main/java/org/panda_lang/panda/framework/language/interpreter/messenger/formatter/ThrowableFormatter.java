@@ -18,25 +18,12 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.formatter;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
-import org.panda_lang.panda.utilities.commons.ArrayUtils;
-import org.panda_lang.panda.utilities.commons.PackageUtils;
 
 public final class ThrowableFormatter implements MessengerDataFormatter<Throwable> {
 
     @Override
     public void onInitialize(MessengerTypeFormatter<Throwable> typeFormatter) {
-        typeFormatter
-                .register("{{message}}", (formatter, exception) -> exception.getMessage() == null ? exception.getClass() : exception.getMessage())
-                .register("{{stacktrace}}", (formatter, exception) -> new StacktraceSupplier(exception).get())
-                .register("{{stacktrace-last}}", (formatter, exception) -> {
-                    StackTraceElement lastElement = ArrayUtils.get(exception.getStackTrace(), 0);
-
-                    if (lastElement == null) {
-                        return "<unknown>";
-                    }
-
-                    return PackageUtils.getShortenPackage(lastElement.getClassName()) + " (" + lastElement.getFileName() + ":" + lastElement.getLineNumber() + ")";
-                });
+        typeFormatter.register("{{message}}", (formatter, exception) -> exception.getMessage() == null ? exception.getClass() : exception.getMessage());
     }
 
     @Override

@@ -19,30 +19,45 @@ package org.panda_lang.panda.framework.language.interpreter.source;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 
-import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PandaSourceSet implements SourceSet {
 
-    private final Collection<Source> sources;
+    private final List<Source> sources;
 
     public PandaSourceSet() {
-        this.sources = new LinkedHashSet<>();
+        this.sources = new LinkedList<>();
     }
 
     @Override
     public Iterator<Source> iterator() {
-        return sources.iterator();
+        return new Iterator<Source>() {
+
+            private int index;
+
+            @Override
+            public boolean hasNext() {
+                return index < sources.size();
+            }
+
+            @Override
+            public Source next() {
+                return sources.get(index++);
+            }
+
+        };
     }
 
+    @Override
     public void addSource(Source source) {
         this.sources.add(source);
     }
 
     @Override
-    public Collection<Source> getSources() {
-        return sources;
+    public boolean isEmpty() {
+        return sources.isEmpty();
     }
 
 }

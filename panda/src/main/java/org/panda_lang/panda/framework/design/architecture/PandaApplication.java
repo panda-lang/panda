@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
@@ -29,11 +29,11 @@ import java.util.stream.Collectors;
 
 public class PandaApplication implements Application {
 
-    protected final List<Script> scripts;
-    protected String workingDirectory;
+    private final Environment environment;
+    private final List<Script> scripts = new ArrayList<>();
 
-    public PandaApplication() {
-        this.scripts = new ArrayList<>();
+    public PandaApplication(Environment environment) {
+        this.environment = environment;
     }
 
     @Override
@@ -44,18 +44,11 @@ public class PandaApplication implements Application {
                 .collect(Collectors.toList());
 
         if (mains.isEmpty()) {
-            List<Statement> statements = scripts.stream()
-                    .flatMap(script -> script.getStatements().stream())
-                    .collect(Collectors.toList());
-
-            PandaFramework.getLogger().debug("Size: " + statements.size());
-            statements.forEach(statement -> PandaFramework.getLogger().debug("statement: " + statement.toString()));
-
-            throw new RuntimeException("Main statement not found");
+            throw new PandaFrameworkException("Main statement not found");
         }
 
         if (mains.size() > 1) {
-            throw new RuntimeException("Duplicated main statement");
+            throw new PandaFrameworkException("Duplicated main statement");
         }
 
         PandaFramework.getLogger().debug("[PandaApp] Launching application...");
@@ -72,19 +65,14 @@ public class PandaApplication implements Application {
         scripts.add(script);
     }
 
-    public void setWorkingDirectory(String workingDirectory) {
-        this.workingDirectory = workingDirectory;
-    }
-
     @Override
     public List<? extends Script> getScripts() {
         return scripts;
     }
 
     @Override
-    public String getWorkingDirectory() {
-        return workingDirectory;
+    public Environment getEnvironment() {
+        return environment;
     }
-
 
 }

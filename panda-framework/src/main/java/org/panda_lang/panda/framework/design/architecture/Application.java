@@ -31,8 +31,10 @@ public interface Application {
     Collection<? extends Script> getScripts();
 
     /**
-     * @return directory where application was called
+     * Get application environment
+     *
+     * @return the application environment
      */
-    String getWorkingDirectory();
+    Environment getEnvironment();
 
 }
