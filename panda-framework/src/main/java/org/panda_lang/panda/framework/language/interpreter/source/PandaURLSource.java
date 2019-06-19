@@ -18,6 +18,8 @@ package org.panda_lang.panda.framework.language.interpreter.source;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.panda_lang.panda.utilities.commons.FileUtils;
 import org.panda_lang.panda.utilities.commons.IOUtils;
 
 import java.io.File;
@@ -26,7 +28,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class PandaURLSource {
+public class PandaURLSource implements Source {
 
     private final URL location;
 
@@ -38,6 +40,7 @@ public class PandaURLSource {
         this.location = location;
     }
 
+    @Override
     public String getContent() {
         try (InputStream inputStream = this.location.openStream()) {
             return IOUtils.convertStreamToString(inputStream);
@@ -48,6 +51,11 @@ public class PandaURLSource {
 
     public URL getLocation() {
         return this.location;
+    }
+
+    @Override
+    public String getTitle() {
+        return FileUtils.getName(location.getPath());
     }
 
     public static PandaURLSource fromResource(String resourcePath) {

@@ -32,6 +32,7 @@ public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<Pand
 
     @Override
     public void onHandle(MessengerFormatter formatter, PandaParserFailure element, Map<String, Object> data) {
+        data.put("stacktrace", element.getStackTrace());
         data.put("source", element.getSourceFragment());
         data.put("data", element.getData());
         data.put("note", element.getNote());

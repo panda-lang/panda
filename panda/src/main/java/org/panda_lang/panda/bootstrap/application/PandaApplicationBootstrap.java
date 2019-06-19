@@ -25,24 +25,29 @@ import java.io.File;
 public class PandaApplicationBootstrap {
 
     protected final Panda panda;
-    protected File source;
+    protected String main;
+    protected File workingDirectory;
 
     public PandaApplicationBootstrap(Panda panda) {
         this.panda = panda;
     }
 
-    public PandaApplicationBootstrap source(String source) {
-        return source(new File(source));
+    public PandaApplicationBootstrap main(String sourcePath) {
+        this.main = sourcePath;
+        return this;
     }
 
-    public PandaApplicationBootstrap source(File source) {
-        this.source = source;
+    public PandaApplicationBootstrap workingDirectory(String workingDirectory) {
+        return workingDirectory(new File(workingDirectory));
+    }
+
+    public PandaApplicationBootstrap workingDirectory(File workingDirectory) {
+        this.workingDirectory = workingDirectory;
         return this;
     }
 
     public @Nullable PandaApplication createApplication() {
-        PandaApplicationBootstrapBuilder applicationBuilder = new PandaApplicationBootstrapBuilder(this);
-        return applicationBuilder.build();
+        return panda.getPandaLoader().load(main, workingDirectory);
     }
 
 }

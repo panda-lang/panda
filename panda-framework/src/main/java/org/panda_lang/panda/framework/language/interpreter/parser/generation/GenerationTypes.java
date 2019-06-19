@@ -28,6 +28,9 @@ public class GenerationTypes {
     public static final String RAW_SYNTAX_LABEL = "RAW_SYNTAX";
     public static final PipelineType RAW_SYNTAX = new PipelineType(RAW_SYNTAX_LABEL, 1.0);
 
+    public static final String PREPROCESSOR_LABEL = "PREPROCESSOR";
+    public static final PipelineType PREPROCESSOR = new PipelineType(PREPROCESSOR_LABEL, 2.0);
+
     public static final String TYPES_LABEL = "TYPES";
     public static final PipelineType TYPES = new PipelineType(TYPES_LABEL, 2.0);
 

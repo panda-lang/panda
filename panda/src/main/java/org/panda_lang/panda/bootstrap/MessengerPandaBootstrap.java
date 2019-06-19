@@ -30,6 +30,7 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
     private final PandaBootstrap bootstrap;
     private final Collection<Class<? extends PandaTranslatorLayout<?>>> layouts = new ArrayList<>();
     private final Collection<Class<? extends MessengerDataFormatter<?>>> dataFormatters = new ArrayList<>();
+    //private final Collection<Class<? extends MessengerDataFormatter<?>>> dataFormatters = new ArrayList<>();
     private MessengerOutputListener outputListener;
 
     public MessengerPandaBootstrap(PandaBootstrap bootstrap) {

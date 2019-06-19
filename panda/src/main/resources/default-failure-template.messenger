@@ -17,7 +17,7 @@ Location:
 
 Details:
   Framework: {{stacktrace-last}}
-  Stack: {{stacktrace}}
+  Stack: {{stacktrace-simple}}
 % pipeline %
   Generation: {{pipeline}}
 % end %

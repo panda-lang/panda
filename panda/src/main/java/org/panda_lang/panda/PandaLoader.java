@@ -17,15 +17,11 @@
 package org.panda_lang.panda;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.architecture.PandaEnvironment;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceProvider;
-import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
-import org.panda_lang.panda.framework.language.interpreter.source.providers.DirectorySourceProvider;
-import org.panda_lang.panda.framework.language.interpreter.source.providers.FileSourceProvider;
-import org.panda_lang.panda.utilities.commons.FileUtils;
+import org.panda_lang.panda.framework.design.interpreter.source.Source;
+import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 
 import java.io.File;
 
@@ -37,30 +33,20 @@ public class PandaLoader {
         this.panda = panda;
     }
 
-    public PandaApplication loadFiles(String... paths) {
-        return load(new FileSourceProvider(FileUtils.toFiles(paths)));
+    public @Nullable PandaApplication load(String main, File workingDirectory) {
+        return load(PandaURLSource.fromFile(new File(workingDirectory, main)), workingDirectory);
     }
 
-    public PandaApplication loadFiles(File... files) {
-        return load(new FileSourceProvider(files));
+    public @Nullable PandaApplication load(File main, File workingDirectory) {
+        return load(PandaURLSource.fromFile(main), workingDirectory);
     }
 
-    public PandaApplication loadDirectory(File directory) {
-        return load(new DirectorySourceProvider(directory));
-    }
-
-    public @Nullable PandaApplication load(SourceProvider provider) {
-        SourceSet sourceSet = provider.toSourceSet();
-
-        if (sourceSet.isEmpty()) {
-            throw new PandaFrameworkException("Sources are not provided");
-        }
-
-        PandaEnvironment environment = new PandaEnvironment(panda);
+    public @Nullable PandaApplication load(Source main, File workingDirectory) {
+        PandaEnvironment environment = new PandaEnvironment(panda, workingDirectory);
         environment.initialize();
 
         PandaInterpreter interpreter = environment.getInterpreter();
-        return interpreter.interpret(sourceSet);
+        return interpreter.interpret(main);
     }
 
 }

@@ -16,22 +16,35 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.commons.collection.map.TreeNode;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public class FileUtils {
+
+    /**
+     * Efficient way to collect all paths (with subdirectories) in the specified directory
+     *
+     * @param root                   the directory to search in
+     * @param pathFilter             if path matches the filter, path is added to the list. Otherwise path will be checked as directory.
+     * @return the list of collected paths
+     */
+    public static List<Path> collectPaths(Path root, Predicate<Path> pathFilter) {
+        return collectPaths(new ArrayList<>(), root, pathFilter);
+    }
 
     /**
      * Efficient way to collect all paths (with subdirectories) in the specified directory
@@ -69,18 +82,8 @@ public class FileUtils {
      * @param fileName name of file
      * @return true if file is in specified array
      */
-    public static boolean isIn(File[] files, String fileName) {
-        if (files == null) {
-            return false;
-        }
-
-        for (File file : files) {
-            if (file.getName().equals(fileName)) {
-                return true;
-            }
-        }
-
-        return false;
+    public static boolean contains(File[] files, String fileName) {
+        return Arrays.stream(files).anyMatch(file -> file.getName().equals(fileName));
     }
 
     /**
@@ -90,62 +93,22 @@ public class FileUtils {
      * @return amount of files
      */
     public static int getAmountOfFiles(File directory) {
-        if (!directory.isDirectory()) {
-            return 0;
-        }
-
-        File[] files = directory.listFiles();
-
-        if (files == null) {
-            return 0;
-        }
-
-        return files.length;
+        return directory.isDirectory() ? Objects.requireNonNull(directory.listFiles()).length : 0;
     }
 
     /**
      * @return content of the specified file
      */
-    public static String getContentOfFile(File file) {
-        try {
-            return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't read contents of file: " + file, e);
-        }
+    public static String getContentOfFile(File file) throws IOException {
+        return new String(Files.readAllBytes(file.toPath()), StandardCharsets.UTF_8);
     }
 
     /**
      * @return content of file divided by lines
      */
-    public static @Nullable String[] getContentAsLines(File file) {
-        if (!file.exists()) {
-            return new String[0];
-        }
-
-        try {
-            List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
-            return list.toArray(StringUtils.EMPTY_ARRAY);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    /**
-     * Get file name without extension
-     *
-     * @return file name without extension
-     */
-    public static String getFileName(File file) {
-        String fileName = file.getName();
-        int pos = fileName.lastIndexOf(".");
-
-        if (pos == -1) {
-            return fileName;
-        }
-
-        return fileName.substring(0, pos);
+    public static String[] getContentAsLines(File file) throws IOException {
+        List<String> list = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        return list.toArray(StringUtils.EMPTY_ARRAY);
     }
 
     /**
@@ -165,17 +128,11 @@ public class FileUtils {
     }
 
     private static void findFilesByExtension(File directory, String extension, Collection<File> files) {
-        if (directory.isFile()) {
+        if (!directory.isDirectory()) {
             return;
         }
 
-        File[] filesList = directory.listFiles();
-
-        if (filesList == null) {
-            return;
-        }
-
-        for (File file : filesList) {
+        for (File file : Objects.requireNonNull(directory.listFiles())) {
             if (file.isDirectory()) {
                 findFilesByExtension(file, extension, files);
                 continue;
@@ -218,12 +175,8 @@ public class FileUtils {
     /**
      * Override content of the specified file
      */
-    public static void overrideFile(File file, String content) {
-        try {
-            Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException e) {
-            throw new RuntimeException("Can't write contents to file: " + file, e);
-        }
+    public static void overrideFile(File file, String content) throws IOException {
+        Files.write(file.toPath(), content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
     }
 
     /**
@@ -257,13 +210,41 @@ public class FileUtils {
      * @return array of files
      */
     public static File[] toFiles(String... paths) {
-        File[] files = new File[paths.length];
+        return Arrays.stream(paths)
+                .map(File::new)
+                .toArray(File[]::new);
+    }
 
-        for (int i = 0; i < files.length; i++) {
-            files[i] = new File(paths[i]);
-        }
+    /**
+     * Get file name without extension
+     *
+     * @return file name without extension
+     */
+    public static String getName(File file) {
+        String name = file.getName();
+        int pos = name.lastIndexOf(".");
+        return pos == -1 ? name : name.substring(0, pos);
+    }
 
-        return files;
+    /**
+     * Get file name of URL
+     *
+     * @param url the url to check
+     * @return the name of file
+     */
+    public static String getName(URL url) {
+        String path = url.toString();
+        return path.substring(path.lastIndexOf('/') + 1);
+    }
+
+    /**
+     * Get file name of path
+     *
+     * @param path the path to check
+     * @return the name of file
+     */
+    public static String getName(String path) {
+        return path.substring(path.lastIndexOf('/') + 1);
     }
 
 }

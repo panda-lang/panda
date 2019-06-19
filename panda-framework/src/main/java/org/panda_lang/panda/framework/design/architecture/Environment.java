@@ -20,12 +20,36 @@ import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.Interpreter;
 import org.panda_lang.panda.framework.design.resource.Resources;
 
+import java.io.File;
+
 public interface Environment {
 
+    /**
+     * Get module path of environment
+     *
+     * @return the module path
+     */
     ModulePath getModulePath();
 
+    /**
+     * Get interpreter of environment
+     *
+     * @return the interpreter
+     */
     Interpreter getInterpreter();
 
+    /**
+     * Get resources assigned to the environment
+     *
+     * @return the resources
+     */
     Resources getResources();
+
+    /**
+     * Get working directory
+     *
+     * @return the working directory
+     */
+    File getDirectory();
 
 }
