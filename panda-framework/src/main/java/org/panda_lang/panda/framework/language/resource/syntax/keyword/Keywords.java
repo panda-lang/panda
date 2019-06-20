@@ -29,8 +29,6 @@ public class Keywords {
 
     public static final Keyword AS = new Keyword("as");
 
-    public static final Keyword ATTACH = new Keyword("attach");
-
     public static final Keyword BOOLEAN = new Keyword("boolean");
 
     public static final Keyword BREAK = new Keyword("break");
@@ -55,8 +53,6 @@ public class Keywords {
 
     public static final Keyword FOR = new Keyword("for");
 
-    public static final Keyword GROUP = new Keyword("group");
-
     public static final Keyword HIDDEN = new Keyword("hidden");
 
     public static final Keyword IF = new Keyword("if");
@@ -67,8 +63,6 @@ public class Keywords {
 
     public static final Keyword INSTANCE_OF = new Keyword("instanceof");
 
-    public static final Keyword INT = new Keyword("int");
-
     public static final Keyword INTERFACE = new Keyword("interface");
 
     public static final Keyword LATE = new Keyword("late");
@@ -76,8 +70,6 @@ public class Keywords {
     public static final Keyword LAZY = new Keyword("lazy");
 
     public static final Keyword LOCAL = new Keyword("local");
-
-    public static final Keyword LONG = new Keyword("long");
 
     public static final Keyword LOOP = new Keyword("loop");
 
@@ -95,10 +87,6 @@ public class Keywords {
 
     public static final Keyword NULLABLE = new Keyword("nullable");
 
-    public static final Keyword PRIVATE = new Keyword("private");
-
-    public static final Keyword PUBLIC = new Keyword("public");
-
     public static final Keyword RETURN = new Keyword("return");
 
     public static final Keyword REQUIRE = new Keyword("require");
@@ -110,6 +98,8 @@ public class Keywords {
     public static final Keyword SYNCHRONIZED = new Keyword("synchronized");
 
     public static final Keyword SWITCH = new Keyword("switch");
+
+    public static final Keyword THROW = new Keyword("throw");
 
     public static final Keyword TRY = new Keyword("try");
 
