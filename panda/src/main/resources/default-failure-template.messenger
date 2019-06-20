@@ -17,10 +17,11 @@ Location:
 
 Details:
   Framework: {{stacktrace-last}}
-  Stack: {{stacktrace-simple}}
 % pipeline %
   Generation: {{pipeline}}
 % end %
+
+Stack: {{stacktrace-simple}}
 
 Environment: {{environment}}
 

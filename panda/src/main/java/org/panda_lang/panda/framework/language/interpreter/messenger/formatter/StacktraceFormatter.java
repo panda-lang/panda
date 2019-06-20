@@ -58,7 +58,7 @@ public final class StacktraceFormatter implements MessengerDataFormatter<StackTr
                                 .orElse(false);
 
                         stacktrace.append(System.lineSeparator())
-                                .append(StringUtils.buildSpace(4))
+                                .append(StringUtils.buildSpace(2))
                                 .append(element.toString());
 
                         if (status) {

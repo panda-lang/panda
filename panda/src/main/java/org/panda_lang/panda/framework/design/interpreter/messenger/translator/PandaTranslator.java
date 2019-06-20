@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessage;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerMessageTranslator;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplate;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateEngine;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateRequest;
@@ -32,10 +33,12 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
     private final MicroTemplateEngine engine;
     private final PandaTranslatorLayout<T> scheme;
+    private final Map<Class<?>, MessengerDataMapper> mappers;
 
-    PandaTranslator(MicroTemplateEngine engine, PandaTranslatorLayout<T> scheme) {
+    PandaTranslator(MicroTemplateEngine engine, PandaTranslatorLayout<T> scheme, Map<Class<?>, MessengerDataMapper> mappers) {
         this.engine = engine;
         this.scheme = scheme;
+        this.mappers = mappers;
     }
 
     @Override
@@ -45,6 +48,17 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
         MessengerFormatter formatter = messenger.getMessengerFormatter().fork();
         scheme.onHandle(formatter, element, data);
+
+        HashMap<String, Object> patch = new HashMap<>();
+        data.forEach((key, value) -> {
+            if (!mappers.containsKey(value.getClass())) {
+                return;
+            }
+
+            //noinspection unchecked
+            patch.put(key, mappers.get(value.getClass()).apply(value));
+        });
+        data.putAll(patch);
 
         MicroTemplateRequest request = MicroTemplateRequest.builder()
                 .withSource(scheme.getTemplateSource())

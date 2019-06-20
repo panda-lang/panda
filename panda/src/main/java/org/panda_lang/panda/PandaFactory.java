@@ -23,9 +23,11 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.P
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.SourceFragmentFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.StacktraceFormatter;
 import org.panda_lang.panda.framework.language.interpreter.messenger.formatter.ThrowableFormatter;
+import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.InterpreterFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.PandaLexerFailureTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ParserFailureTranslatorLayout;
+import org.panda_lang.panda.framework.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
 import org.panda_lang.panda.framework.language.resource.parsers.PandaFrameworkParsers;
@@ -53,9 +55,10 @@ public class PandaFactory {
 
                 // initialize messenger
                 .initializeMessenger()
-                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class)
+                    .withLayouts(PandaLexerFailureTranslatorLayout.class, InterpreterFailureTranslatorLayout.class, ParserFailureTranslatorLayout.class, ExceptionTranslatorLayout.class)
                     .withDataFormatters(EnvironmentFormatter.class, SourceFragmentFormatter.class)
                     .withDataFormatters(ThrowableFormatter.class, ParserFailureFormatter.class, StacktraceFormatter.class)
+                    .withDataMapper(new StacktraceMapper())
                     .collect()
 
                 // load pipelines
