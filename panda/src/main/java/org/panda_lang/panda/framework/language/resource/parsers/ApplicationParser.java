@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceSet;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -62,7 +62,7 @@ public class ApplicationParser implements Parser {
                 .include(environment.getModulePath(), "panda-lang");
 
         PandaGeneration generation = new PandaGeneration();
-        generation.initialize(GenerationTypes.getValues());
+        generation.initialize(GenerationCycles.getValues());
 
         ParserData baseData = new PandaParserData()
                 .setComponent(UniversalComponents.APPLICATION, application)
@@ -102,7 +102,7 @@ public class ApplicationParser implements Parser {
         }
 
         return interpretation
-                .execute(() -> generation.execute(baseData))
+                .execute(generation::launch)
                 .execute(() -> application);
     }
 

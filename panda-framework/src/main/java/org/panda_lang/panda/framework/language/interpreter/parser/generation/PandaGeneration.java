@@ -17,59 +17,58 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.CycleType;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class PandaGeneration implements Generation {
 
-    private final Map<String, GenerationPipeline> pipelines = new LinkedHashMap<>();
-    private GenerationPipeline currentPipeline;
+    private final Map<String, GenerationCycle> cycles = new LinkedHashMap<>();
+    private GenerationCycle currentCycle;
 
-    public PandaGeneration initialize(List<? extends PipelineType> types) {
+    public PandaGeneration initialize(List<? extends CycleType> types) {
         Collections.sort(types);
 
-        for (PipelineType type : types) {
-            pipelines.put(type.getName(), new PandaGenerationPipeline(this, type.getName()));
+        for (CycleType type : types) {
+            cycles.put(type.getName(), new PandaGenerationCycle(this, type.getName()));
         }
 
         return this;
     }
 
     @Override
-    public void execute(ParserData data) throws Exception {
-        while (countDelegates(null) > 0) {
-            executeOnce(data);
+    public void launch() throws Exception {
+        while (countTasks(null) > 0) {
+            executeOnce();
         }
     }
 
-    private void executeOnce(ParserData data) throws Exception {
-        for (GenerationPipeline pipeline : pipelines.values()) {
-            // System.out.println("Called " + pipeline.name());
-            currentPipeline = pipeline;
+    private void executeOnce() throws Exception {
+        for (GenerationCycle cycle : cycles.values()) {
+            currentCycle = cycle;
 
-            if (!pipeline.execute(data)) {
+            if (!cycle.execute()) {
                 break;
             }
         }
 
-        currentPipeline = null;
+        currentCycle = null;
     }
 
     @Override
-    public int countDelegates(@Nullable GenerationPipeline toPipeline) {
+    public int countTasks(@Nullable GenerationCycle to) {
         int count = 0;
 
-        for (GenerationPipeline pipeline : pipelines.values()) {
-            count += pipeline.countDelegates();
+        for (GenerationCycle cycle : cycles.values()) {
+            count += cycle.countTasks();
 
-            if (pipeline.equals(toPipeline)) {
+            if (cycle.equals(to)) {
                 break;
             }
         }
@@ -78,30 +77,41 @@ public class PandaGeneration implements Generation {
     }
 
     @Override
-    public @Nullable GenerationPipeline currentPipeline() {
-        return currentPipeline;
+    public int countTasks() {
+        return countTasks(null);
     }
 
     @Override
-    public GenerationPipeline pipeline(PipelineType type) {
-        return pipeline(type.getName());
+    public Optional<GenerationCycle> getCurrentCycle() {
+        return Optional.ofNullable(currentCycle);
     }
 
     @Override
-    public GenerationPipeline pipeline(String name) {
-        return pipelines.get(name);
+    public GenerationCycle getCycle(CycleType type) {
+        return getCycle(type.getName());
+    }
+
+    @Override
+    public GenerationCycle getCycle(String name) {
+        GenerationCycle cycle = cycles.get(name);
+
+        if (cycle == null) {
+            throw new IllegalArgumentException("Cycle " + name + " does not exist");
+        }
+
+        return cycle;
     }
 
     @Override
     public String toString() {
         StringBuilder message = new StringBuilder("Panda Generation { ");
 
-        for (GenerationPipeline pipeline : pipelines.values()) {
-            if (pipeline.countDelegates() == 0) {
+        for (GenerationCycle cycle : cycles.values()) {
+            if (cycle.countTasks() == 0) {
                 continue;
             }
 
-            message.append(pipeline.toString()).append(", ");
+            message.append(cycle.toString()).append(", ");
         }
 
         message.setLength(message.length() - 2);

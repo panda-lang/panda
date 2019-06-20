@@ -16,27 +16,38 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.jetbrains.annotations.NotNull;
-
-public class PipelineType implements Comparable<PipelineType> {
+/**
+ * Comparable type of cycle, required to create a new cycle
+ */
+public final class CycleType implements Comparable<CycleType> {
 
     private final String name;
     private final double priority;
 
-    public PipelineType(String name, double priority) {
+    public CycleType(String name, double priority) {
         this.name = name;
         this.priority = priority;
     }
 
     @Override
-    public int compareTo(@NotNull PipelineType o) {
-        return Double.compare(priority, o.priority);
+    public int compareTo(CycleType to) {
+        return Double.compare(priority, to.priority);
     }
 
+    /**
+     * Get priority of cycle
+     * 
+     * @return the priority
+     */
     public double getPriority() {
         return priority;
     }
 
+    /**
+     * Get name of cycle
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }

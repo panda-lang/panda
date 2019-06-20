@@ -17,27 +17,24 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationUnit;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationTask;
 
-class PandaGenerationUnit implements GenerationUnit {
+class GenerationUnit {
 
-    private final GenerationCallback callback;
+    private final GenerationTask task;
     private final ParserData delegated;
 
-    PandaGenerationUnit(GenerationCallback callback, ParserData delegated) {
-        this.callback = callback;
+    GenerationUnit(GenerationTask task, ParserData delegated) {
+        this.task = task;
         this.delegated = delegated;
     }
 
-    @Override
     public ParserData getDelegated() {
         return delegated;
     }
 
-    @Override
-    public GenerationCallback getCallback() {
-        return callback;
+    public GenerationTask getTask() {
+        return task;
     }
 
 }

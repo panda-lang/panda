@@ -44,7 +44,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParserUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
@@ -65,7 +65,7 @@ public class MethodParser extends UnifiedParserBootstrap {
         return defaultBuilder.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> parameters:~( body:~{");
     }
 
-    @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
+    @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
     @AutowiredParameters(skip = 3, value = {
             @Type(with = Src.class, value = "*signature"),
             @Type(with = Src.class, value = "parameters")

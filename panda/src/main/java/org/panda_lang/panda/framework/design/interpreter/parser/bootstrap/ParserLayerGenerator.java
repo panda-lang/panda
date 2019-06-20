@@ -27,8 +27,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationTask;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
@@ -44,13 +44,13 @@ class ParserLayerGenerator<T> {
         this.bootstrapParser = bootstrapParser;
     }
 
-    protected GenerationCallback<T> callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextOrder, boolean last) {
+    protected GenerationTask<T> callback(InterceptorData interceptorData, LocalData localData, LayerMethod layer, int nextOrder, boolean last) {
         Method autowiredMethod = layer.getMethod();
 
-        return new GenerationCallback<T>() {
+        return new GenerationTask<T>() {
             @Override
-            public @Nullable T call(GenerationPipeline pipeline, ParserData data) throws Exception {
-                Object[] parameters = convertParameters(layer, data, pipeline.generation(), interceptorData, localData);
+            public @Nullable T call(GenerationCycle cycle, ParserData data) throws Exception {
+                Object[] parameters = convertParameters(layer, data, cycle.generation(), interceptorData, localData);
                 T result;
 
                 try {
@@ -62,7 +62,7 @@ class ParserLayerGenerator<T> {
                 }
 
                 if (last && (nextOrder - bootstrapParser.getIndex()) < bootstrapParser.getLayers().size()) {
-                    bootstrapParser.delegate(data.fork(), pipeline.generation(), interceptorData, localData, nextOrder);
+                    bootstrapParser.delegate(data.fork(), cycle.generation(), interceptorData, localData, nextOrder);
                 }
 
                 return result;

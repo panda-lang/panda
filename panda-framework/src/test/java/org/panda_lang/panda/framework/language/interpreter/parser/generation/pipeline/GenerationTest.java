@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation.pi
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.CycleType;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
 
 import java.util.Arrays;
@@ -31,9 +31,9 @@ class GenerationTest {
     @BeforeAll
     public static void createPipelines() {
         generation.initialize(Arrays.asList(
-                new PipelineType("b", 2.0),
-                new PipelineType("a", 1.0),
-                new PipelineType("c", 3.0))
+                new CycleType("b", 2.0),
+                new CycleType("a", 1.0),
+                new CycleType("c", 3.0))
         );
     }
 
@@ -41,15 +41,15 @@ class GenerationTest {
     public void testPipelineGeneration() throws Throwable {
         StringBuilder outputBuilder = new StringBuilder();
 
-        generation.pipeline("b").nextLayer().delegate((pipeline, data) -> outputBuilder.append("b "), null);
-        generation.pipeline("a").nextLayer().delegate((pipeline, data) -> outputBuilder.append("a "), null);
-        generation.pipeline("c").nextLayer().delegate((pipeline, data) -> outputBuilder.append("c "), null);
+        generation.getCycle("b").nextPhase().delegate((pipeline, data) -> outputBuilder.append("b "), null);
+        generation.getCycle("a").nextPhase().delegate((pipeline, data) -> outputBuilder.append("a "), null);
+        generation.getCycle("c").nextPhase().delegate((pipeline, data) -> outputBuilder.append("c "), null);
 
-        generation.pipeline("b").nextLayer().delegate((pipeline, delegatedData) -> {
+        generation.getCycle("b").nextPhase().delegate((pipeline, delegatedData) -> {
             outputBuilder.append("b2 ");
 
-            pipeline.nextLayer().delegate((pipeline1, delegatedData1) -> {
-                pipeline1.generation().pipeline("a").nextLayer().delegate((pipeline2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
+            pipeline.nextPhase().delegate((pipeline1, delegatedData1) -> {
+                pipeline1.generation().getCycle("a").nextPhase().delegate((pipeline2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
                 outputBuilder.append("b3 ");
                 return null;
             }, delegatedData);
@@ -57,11 +57,11 @@ class GenerationTest {
             return null;
         }, null);
 
-        generation.execute(null);
+        generation.launch();
         Assertions.assertEquals("a b b2 b3 a2 c", outputBuilder.toString().trim());
 
         outputBuilder.setLength(0);
-        generation.execute(null);
+        generation.launch();
         Assertions.assertEquals("", outputBuilder.toString());
     }
 
