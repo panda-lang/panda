@@ -16,13 +16,40 @@
 
 package org.panda_lang.panda.framework.language.interpreter.messenger.mappers;
 
-import java.util.function.Function;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.utilities.commons.StackTraceUtils;
 
-public final class StacktraceMapper implements Function<StackTraceElement[], StackTraceElement[]> {
+import java.util.Arrays;
+
+public final class StacktraceMapper implements MessengerDataMapper<StackTraceElement[], StackTraceElement[]> {
+
+    private static final Class<?>[] IGNORED_CLASSES = new Class<?>[] {
+            PandaParserFailure.class,
+            BootstrapCoreParser.class,
+            UnifiedParserBootstrap.class
+    };
+
+    private static final String[] IGNORED = new String[] {
+            "sun.reflect", "java.lang.reflect",
+            "ParserLayerGenerator"
+    };
 
     @Override
     public StackTraceElement[] apply(StackTraceElement[] stackTraceElements) {
-        return new StackTraceElement[0];
+        StackTraceElement[] stacktrace = StackTraceUtils.filter(stackTraceElements, IGNORED_CLASSES);
+
+        return Arrays.stream(stacktrace)
+                .filter(element -> ArrayUtils.findIn(IGNORED, value -> element.getClassName().contains(value)) == null)
+                .toArray(StackTraceElement[]::new);
+    }
+
+    @Override
+    public Class<StackTraceElement[]> getType() {
+        return StackTraceElement[].class;
     }
 
 }

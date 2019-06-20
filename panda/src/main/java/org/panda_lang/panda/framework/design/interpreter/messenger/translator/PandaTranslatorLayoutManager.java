@@ -17,15 +17,20 @@
 package org.panda_lang.panda.framework.design.interpreter.messenger.translator;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.Messenger;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.template.MicroTemplateEngine;
+
+import java.util.Map;
 
 public final class PandaTranslatorLayoutManager {
 
     private final Messenger messenger;
+    private final Map<Class<?>, MessengerDataMapper> mappers;
     private final MicroTemplateEngine engine = new MicroTemplateEngine();
 
-    public PandaTranslatorLayoutManager(Messenger messenger) {
+    public PandaTranslatorLayoutManager(Messenger messenger, Map<Class<?>, MessengerDataMapper> mappers) {
         this.messenger = messenger;
+        this.mappers = mappers;
     }
 
     @SafeVarargs
@@ -45,7 +50,7 @@ public final class PandaTranslatorLayoutManager {
     }
 
     public <T extends PandaTranslatorLayout<G>, G> T load(T layout) {
-        PandaTranslator<G> translator = new PandaTranslator<>(engine, layout);
+        PandaTranslator<G> translator = new PandaTranslator<>(engine, layout, mappers);
         messenger.addMessageTranslator(translator);
         return layout;
     }

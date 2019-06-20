@@ -19,18 +19,21 @@ package org.panda_lang.panda.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerOutputListener;
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatterManager;
+import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayoutManager;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class MessengerPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
     private final Collection<Class<? extends PandaTranslatorLayout<?>>> layouts = new ArrayList<>();
     private final Collection<Class<? extends MessengerDataFormatter<?>>> dataFormatters = new ArrayList<>();
-    //private final Collection<Class<? extends MessengerDataFormatter<?>>> dataFormatters = new ArrayList<>();
+    private final Map<Class<?>, MessengerDataMapper> dataMappers = new HashMap<>();
     private MessengerOutputListener outputListener;
 
     public MessengerPandaBootstrap(PandaBootstrap bootstrap) {
@@ -70,6 +73,11 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
         return this;
     }
 
+    public MessengerPandaBootstrap withDataMapper(MessengerDataMapper<?, ?> dataMapper) {
+        this.dataMappers.put(dataMapper.getType(), dataMapper);
+        return this;
+    }
+
     @Override
     public PandaBootstrap collect() {
         bootstrap.resources.withMessengerInitializer(messenger -> {
@@ -77,7 +85,7 @@ public final class MessengerPandaBootstrap implements PandaBootstrapElement {
                 messenger.setOutputListener(outputListener);
             }
 
-            PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(messenger);
+            PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(messenger, dataMappers);
             layouts.forEach(translatorLayoutManager::load);
 
             MessengerDataFormatterManager dataFormatterManager = new MessengerDataFormatterManager(messenger);

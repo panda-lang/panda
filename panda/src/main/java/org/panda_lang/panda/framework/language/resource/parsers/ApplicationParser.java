@@ -22,7 +22,6 @@ import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayoutManager;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -33,7 +32,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStre
 import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.ExceptionTranslatorLayout;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
@@ -77,9 +75,6 @@ public class ApplicationParser implements Parser {
                 .setComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser())
                 .setComponent(UniversalComponents.SOURCES, sources);
 
-        PandaTranslatorLayoutManager translatorLayoutManager = new PandaTranslatorLayoutManager(interpretation.getMessenger());
-        ExceptionTranslatorLayout exceptionTranslatorLayout = translatorLayoutManager.load(new ExceptionTranslatorLayout());
-
         Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
                 .enableSections()
                 .build();
@@ -99,7 +94,6 @@ public class ApplicationParser implements Parser {
                         .setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
                 OverallParser overallParser = new OverallParser(delegatedData);
-                exceptionTranslatorLayout.update(current.getTitle(), sourceStream);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
                     interpretation.execute(() -> overallParser.parseNext(delegatedData));

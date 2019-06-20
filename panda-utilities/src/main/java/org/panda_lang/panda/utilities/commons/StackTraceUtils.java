@@ -29,7 +29,7 @@ public final class StackTraceUtils {
         Stack<StackTraceElement> elements = new Stack<>();
 
         for (StackTraceElement element : stackTrace) {
-            if (ArrayUtils.contains(ignoredClasses, element.getClassName())) {
+            if (Arrays.stream(ignoredClasses).anyMatch(name -> element.getClassName().contains(name))) {
                 continue;
             }
 
