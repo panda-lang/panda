@@ -43,13 +43,13 @@ public class PandaGeneration implements Generation {
     }
 
     @Override
-    public void execute(ParserData data) throws Throwable {
+    public void execute(ParserData data) throws Exception {
         while (countDelegates(null) > 0) {
             executeOnce(data);
         }
     }
 
-    private void executeOnce(ParserData data) throws Throwable {
+    private void executeOnce(ParserData data) throws Exception {
         for (GenerationPipeline pipeline : pipelines.values()) {
             // System.out.println("Called " + pipeline.name());
             currentPipeline = pipeline;

@@ -57,7 +57,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, Generation generation, @Src("*declaration") Snippet declaration) throws Throwable {
+    private void parse(ParserData data, LocalData local, Generation generation, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
@@ -89,7 +89,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Throwable {
+    private void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
         if (body == null) {
             return;
         }

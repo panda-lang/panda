@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface GenerationPipeline {
 
-    boolean execute(ParserData data) throws Throwable;
+    boolean execute(ParserData data) throws Exception;
 
     int countDelegates();
 

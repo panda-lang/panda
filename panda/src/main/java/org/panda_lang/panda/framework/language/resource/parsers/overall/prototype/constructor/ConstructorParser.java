@@ -65,7 +65,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Throwable {
+    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
         ScopeParserUtils.parse(classScope, constructorScope, data, body);
     }
 

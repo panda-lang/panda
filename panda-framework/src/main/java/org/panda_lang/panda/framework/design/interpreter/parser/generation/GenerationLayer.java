@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface GenerationLayer {
 
-    void callDelegates(GenerationPipeline pipeline, ParserData data) throws Throwable;
+    void callDelegates(GenerationPipeline pipeline, ParserData data) throws Exception;
 
     GenerationLayer delegateBefore(GenerationCallback callback, ParserData delegated);
 

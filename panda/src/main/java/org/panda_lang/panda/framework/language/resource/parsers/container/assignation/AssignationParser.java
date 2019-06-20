@@ -80,7 +80,7 @@ public class AssignationParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    public void parse(ParserData data, @Src("*declaration") Snippet declaration, @Src("assignation") Expression assignation) throws Throwable {
+    public void parse(ParserData data, @Src("*declaration") Snippet declaration, @Src("assignation") Expression assignation) throws Exception {
         ParserData delegatedData = data.fork();
         delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
 

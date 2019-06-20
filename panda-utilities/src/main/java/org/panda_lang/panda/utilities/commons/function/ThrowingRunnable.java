@@ -19,6 +19,6 @@ package org.panda_lang.panda.utilities.commons.function;
 @FunctionalInterface
 public interface ThrowingRunnable {
 
-    void run() throws Throwable;
+    void run() throws Exception;
 
 }

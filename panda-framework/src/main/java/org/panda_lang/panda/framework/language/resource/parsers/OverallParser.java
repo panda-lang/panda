@@ -40,7 +40,7 @@ public class OverallParser implements Parser {
         this.stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
     }
 
-    public void parseNext(ParserData data) throws Throwable {
+    public void parseNext(ParserData data) throws Exception {
         if (!interpretation.isHealthy() || !hasNext()) {
             return;
         }

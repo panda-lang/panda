@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 public abstract class BlockSubparserBootstrap extends UnifiedParserBootstrap<BlockData> implements BlockSubparser {
 
     @Override
-    public final BlockData parse(ParserData data, Snippet declaration) throws Throwable {
+    public final BlockData parse(ParserData data, Snippet declaration) throws Exception {
         return super.parse(data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(declaration)));
     }
 
