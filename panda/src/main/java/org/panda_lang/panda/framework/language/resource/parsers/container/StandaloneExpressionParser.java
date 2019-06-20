@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container;
 
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -24,7 +25,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
-import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -67,7 +67,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    public void parseExpression(ParserData data, @Component SourceStream source, @Component ScopeLinker linker) {
+    public void parseExpression(ParserData data, @Component SourceStream source, @Component Container container) {
         ExpressionStatement statement = new ExpressionStatement(expression);
         statement.setLocation(source.toSnippet().getCurrentLocation());
 
@@ -75,7 +75,7 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
         source.read(read);
         read = 0;
 
-        linker.getCurrentScope().reserveCell().setStatement(statement);
+        container.reserveCell().setStatement(statement);
     }
 
 }
