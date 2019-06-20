@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline;
+package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface GenerationUnit {
+public interface GenerationCallback<T> {
 
-    ParserData getDelegated();
-
-    GenerationCallback getCallback();
+    @Nullable T call(GenerationPipeline pipeline, ParserData data) throws Exception;
 
 }

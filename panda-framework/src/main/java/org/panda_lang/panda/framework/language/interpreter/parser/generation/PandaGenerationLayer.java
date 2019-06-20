@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationUnit;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationUnit;
 
 import java.util.ArrayList;
 import java.util.List;

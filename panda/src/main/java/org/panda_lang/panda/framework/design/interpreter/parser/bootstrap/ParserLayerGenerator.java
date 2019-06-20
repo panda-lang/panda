@@ -26,9 +26,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCallback;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 

@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerForm
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;

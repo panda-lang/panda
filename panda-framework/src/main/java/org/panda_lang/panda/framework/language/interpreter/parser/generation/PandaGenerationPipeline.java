@@ -17,9 +17,9 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationLayer;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
 
 public class PandaGenerationPipeline implements GenerationPipeline {
 

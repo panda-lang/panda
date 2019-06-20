@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.utilities.commons.StringUtils;
