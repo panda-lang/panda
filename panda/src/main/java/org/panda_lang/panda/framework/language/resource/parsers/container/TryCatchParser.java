@@ -16,19 +16,31 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container;
 
+import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.statement.PandaContainer;
+import org.panda_lang.panda.framework.design.architecture.statement.Scope;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.language.architecture.dynamic.TryCatchExecutable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
+import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.CONTAINER_LABEL)
 public final class TryCatchParser extends UnifiedParserBootstrap {
+
+    private final ContainerParser containerParser = new ContainerParser();
+    private final VariableParser initializer = new VariableParser();
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
@@ -38,8 +50,21 @@ public final class TryCatchParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    void parse(ParserData data, @Src("try-body") Snippet tryBody, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) {
+    void parse(ParserData data, @Component Container container, @Src("try-body") Snippet tryBody, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
+        Container tryContainer = containerParser.parse(new PandaContainer(), tryBody, data);
 
+        Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
+        Variable variable = initializer.parseVariable(data, scope, true, true, catchWhat);
+
+        TryCatchExecutable tryCatch = new TryCatchExecutable(tryContainer, new PandaContainer());
+        container.addStatement(tryCatch);
+
+        Class<?> type = variable.getType().getAssociatedClass();
+
+        if (Throwable.class.isAssignableFrom(type)) {
+            //noinspection unchecked
+            tryCatch.addHandler((Class<? extends Throwable>) type, containerParser.parse(new PandaContainer(), catchBody, data));
+        }
     }
 
 }

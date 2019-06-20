@@ -114,6 +114,12 @@ main {
 
     Required required = new Required()
     required.hello()
+
+    try {
+        Console.print("Try")
+    } catch (Exception e) {
+        e.printStackTrace()
+    }
 }
 
 class TestArray {

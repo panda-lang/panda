@@ -44,7 +44,7 @@ public interface ExecutableBranch {
      *
      * @param cells a collection of statement cells
      */
-    void call(Collection<StatementCell> cells);
+    void call(Collection<? extends StatementCell> cells);
 
     /**
      * Call a collection of statements by ControlFlow
@@ -52,7 +52,7 @@ public interface ExecutableBranch {
      * @param cells  a collection of statement cells
      * @param caller a flow caller
      */
-    ControlFlow callFlow(Collection<StatementCell> cells, ControlFlowCaller caller);
+    ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCaller caller);
 
     /**
      * Call single executable by {@link ExecutableProcess}

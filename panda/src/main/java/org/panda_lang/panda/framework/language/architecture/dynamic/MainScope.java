@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.block.main;
+package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
@@ -30,6 +30,19 @@ public class MainScope extends AbstractScope {
     @Override
     public String toString() {
         return "'scope': 'main'";
+    }
+
+    public class MainFrame extends AbstractScopeFrame<MainScope> {
+
+        public MainFrame(MainScope main) {
+            super(main);
+        }
+
+        @Override
+        public void execute(ExecutableBranch branch) {
+            branch.call(super.getScope().getStatementCells());
+        }
+
     }
 
 }

@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
+import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParserUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 

@@ -51,7 +51,7 @@ final class PandaTranslator<T> implements MessengerMessageTranslator<T> {
 
         HashMap<String, Object> patch = new HashMap<>();
         data.forEach((key, value) -> {
-            if (!mappers.containsKey(value.getClass())) {
+            if (value == null || !mappers.containsKey(value.getClass())) {
                 return;
             }
 

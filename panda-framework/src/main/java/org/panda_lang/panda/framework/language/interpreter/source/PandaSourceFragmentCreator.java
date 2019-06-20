@@ -37,12 +37,12 @@ public final class PandaSourceFragmentCreator<T> {
         return of(data.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource(), indicated);
     }
 
-    public PandaSourceFragmentCreator<T> ofOriginalSource(ParserData data, Snippetable indicated) {
-        return of(data.getComponent(UniversalComponents.SOURCE), indicated);
+    public PandaSourceFragmentCreator<T> ofOriginals(ParserData data) {
+        return ofOriginalSource(data, data.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource());
     }
 
-    public PandaSourceFragmentCreator<T> ofCurrentStream(ParserData data) {
-        return ofCurrentStream(data, data.getComponent(UniversalComponents.SOURCE_STREAM));
+    public PandaSourceFragmentCreator<T> ofOriginalSource(ParserData data, Snippetable indicated) {
+        return of(data.getComponent(UniversalComponents.SOURCE), indicated);
     }
 
     public PandaSourceFragmentCreator<T> ofCurrentStream(ParserData data, Snippetable indicated) {

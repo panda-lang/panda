@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.statement.ExpressionStatement;
+import org.panda_lang.panda.framework.language.architecture.dynamic.ExpressionExecutable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
@@ -67,15 +67,15 @@ public class StandaloneExpressionParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    public void parseExpression(ParserData data, @Component SourceStream source, @Component Container container) {
-        ExpressionStatement statement = new ExpressionStatement(expression);
+    void parseExpression(ParserData data, @Component SourceStream source, @Component Container container) {
+        ExpressionExecutable statement = new ExpressionExecutable(expression);
         statement.setLocation(source.toSnippet().getCurrentLocation());
 
         expression = null;
         source.read(read);
         read = 0;
 
-        container.reserveCell().setStatement(statement);
+        container.addStatement(statement);
     }
 
 }

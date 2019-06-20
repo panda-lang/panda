@@ -17,7 +17,6 @@
 package org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
@@ -41,29 +40,28 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.assign
 @ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
-    private static final VariableInitializer INITIALIZER = new VariableInitializer();
+    private static final VariableParser INITIALIZER = new VariableParser();
 
     @Override
     public BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
-        return defaultBuilder.pattern(VariableInitializer.DECLARATION_PARSER);
+        return defaultBuilder.pattern(VariableParser.DECLARATION_PARSER);
     }
 
     @Autowired
     @AutowiredParameters(skip = 2, value = {
             @Type(with = Component.class),
-            @Type(with = Component.class),
             @Type(with = Src.class, value = "type"),
             @Type(with = Src.class, value = "name"),
             @Type(with = Component.class, value = AssignationComponents.EXPRESSION_LABEL)
     })
-    public @Nullable Statement parse(ParserData data, ExtractorResult result, ModuleLoader loader, Scope scope, Snippet type, Snippet name, Expression expression) {
+    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Snippet type, Snippet name, Expression expression) {
         if (!result.isMatched()) {
             return null;
         }
 
         boolean mutable = result.hasIdentifier("mutable");
         boolean nullable = result.hasIdentifier("nullable");
-        Variable variable = INITIALIZER.createVariable(data, loader, scope, mutable, nullable, type, name);
+        Variable variable = INITIALIZER.createVariable(data, scope, mutable, nullable, type, name);
 
         return VariableAssignerUtils.of(data, scope, variable, expression).toExecutableStatement();
     }

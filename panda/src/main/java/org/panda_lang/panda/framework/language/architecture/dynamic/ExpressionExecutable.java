@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.dynamic.block.main;
+package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class MainFrame extends AbstractScopeFrame<MainScope> {
+public class ExpressionExecutable extends AbstractExecutableStatement {
 
-    public MainFrame(MainScope main) {
-        super(main);
+    private final Expression expression;
+
+    public ExpressionExecutable(Expression expression) {
+        this.expression = expression;
     }
 
     @Override
     public void execute(ExecutableBranch branch) {
-        branch.call(super.getScope().getStatementCells());
+        expression.evaluate(branch);
+    }
+
+    public Expression getExpression() {
+        return expression;
     }
 
 }

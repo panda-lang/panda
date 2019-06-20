@@ -35,7 +35,7 @@ public final class StacktraceMapper implements MessengerDataMapper<StackTraceEle
 
     private static final String[] IGNORED = new String[] {
             "sun.reflect", "java.lang.reflect",
-            "ParserLayerGenerator"
+            "ParserLayerGenerator", "PandaGeneration", "PandaInterpretation", "AssignationSubparserBootstrap"
     };
 
     @Override
