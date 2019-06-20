@@ -53,7 +53,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponent
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -72,7 +72,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
                 .pattern("class <name> [extends <inherited>] body:~{");
     }
 
-    @Autowired(type = GenerationTypes.TYPES_LABEL)
+    @Autowired(type = GenerationCycles.TYPES_LABEL)
     public void parse(ParserData data, Generation generation, @Src("name") String className) throws Exception {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
@@ -103,14 +103,14 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
     }
 
-    @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
+    @Autowired(type = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
     public void parseDeclaration(ParserData data, @Src("declaration") Snippet declaration) {
         if (declaration != null) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
-    @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
+    @Autowired(type = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
     public void parseBody(ParserData data, Generation generation, @Nullable @Src("body") Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
@@ -141,7 +141,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
         }
     }
 
-    @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
+    @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
     public void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassPrototypeScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);

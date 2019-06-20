@@ -16,19 +16,47 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+public interface GenerationCycle {
 
-public interface GenerationPipeline {
+    /**
+     * Launch cycle
+     *
+     * @return true if all tasks was called
+     * @throws Exception allows you to handle exception that may occur in tasks
+     */
+    boolean execute() throws Exception;
 
-    boolean execute(ParserData data) throws Exception;
+    /**
+     * @return amount of tasks
+     */
+    int countTasks();
 
-    int countDelegates();
+    /**
+     * Get next phase
+     *
+     * @return the next phase
+     */
+    GenerationPhase nextPhase();
 
-    GenerationLayer nextLayer();
+    /**
+     * Get current phase
+     *
+     * @return the current phase
+     */
+    GenerationPhase currentPhase();
 
-    GenerationLayer currentLayer();
-
+    /**
+     * Get generation
+     *
+     * @return the generation
+     */
     Generation generation();
 
+    /**
+     * Get name of cycle
+     *
+     * @return the name
+     */
     String name();
+
 }

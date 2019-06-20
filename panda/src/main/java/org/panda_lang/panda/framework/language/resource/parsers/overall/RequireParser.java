@@ -37,7 +37,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -56,7 +56,7 @@ public class RequireParser extends UnifiedParserBootstrap {
                 .pattern("require (<require:condition token {type:unknown}, token {value:-}, token {value:.}>|<requiredFile>)");
     }
 
-    @Autowired(type = GenerationTypes.TYPES_LABEL)
+    @Autowired(type = GenerationCycles.TYPES_LABEL)
     @AutowiredParameters(skip = 1, value = {
             @Type(with = Component.class),
             @Type(with = Component.class),

@@ -23,9 +23,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCallback;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationTask;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPhase;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 
@@ -81,7 +81,7 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         T result = null;
 
         for (int i = 0; i < methods.size(); i++) {
-            GenerationCallback<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
+            GenerationTask<T> callback = generator.callback(interceptorData, localData, methods.get(i), order + 1, methods.size() == i + 1);
             T currentResult = delegate(generation, data, callback, methods.get(i));
 
             if (result == null) {
@@ -92,33 +92,33 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         return result;
     }
 
-    private T delegate(Generation generation, ParserData data, GenerationCallback<T> callback, LayerMethod method) throws Exception {
-        GenerationPipeline pipeline = generation.pipeline(method.getType());
-        GenerationLayer currentLayer = pipeline.currentLayer();
-        GenerationLayer nextLayer = pipeline.nextLayer();
+    private T delegate(Generation generation, ParserData data, GenerationTask<T> callback, LayerMethod method) throws Exception {
+        GenerationCycle cycle = generation.getCycle(method.getType());
+        GenerationPhase phase = cycle.currentPhase();
+        GenerationPhase nextPhase = cycle.nextPhase();
 
         // System.out.println("[BCP] delegate: " + method.getMethod().toString() + " - " + method.getDelegation().name());
 
         switch (method.getDelegation()) {
             case IMMEDIATELY:
-                return callback.call(pipeline, data);
+                return callback.call(cycle, data);
             case CURRENT_BEFORE:
-                currentLayer.delegateBefore(callback, data);
+                phase.delegateBefore(callback, data);
                 break;
             case CURRENT_DEFAULT:
-                currentLayer.delegate(callback, data);
+                phase.delegate(callback, data);
                 break;
             case CURRENT_AFTER:
-                currentLayer.delegate(callback, data);
+                phase.delegate(callback, data);
                 break;
             case NEXT_BEFORE:
-                nextLayer.delegateBefore(callback, data);
+                nextPhase.delegateBefore(callback, data);
                 break;
             case NEXT_DEFAULT:
-                nextLayer.delegate(callback, data);
+                nextPhase.delegate(callback, data);
                 break;
             case NEXT_AFTER:
-                nextLayer.delegateAfter(callback, data);
+                nextPhase.delegateAfter(callback, data);
                 break;
             default:
                 throw new ParserBootstrapException("Unknown delegation: " + method.getDelegation());

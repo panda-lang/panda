@@ -16,37 +16,37 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.CycleType;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class GenerationTypes {
-
-    public static final String RAW_SYNTAX_LABEL = "RAW_SYNTAX";
-    public static final PipelineType RAW_SYNTAX = new PipelineType(RAW_SYNTAX_LABEL, 1.0);
-
-    public static final String PREPROCESSOR_LABEL = "PREPROCESSOR";
-    public static final PipelineType PREPROCESSOR = new PipelineType(PREPROCESSOR_LABEL, 2.0);
-
-    public static final String TYPES_LABEL = "TYPES";
-    public static final PipelineType TYPES = new PipelineType(TYPES_LABEL, 2.0);
+public class GenerationCycles {
 
     public static final String SYNTAX_LABEL = "SYNTAX";
-    public static final PipelineType SYNTAX = new PipelineType(SYNTAX_LABEL, 3.0);
+    public static final CycleType SYNTAX = new CycleType(SYNTAX_LABEL, 1.0);
+
+    public static final String PREPROCESSOR_LABEL = "PREPROCESSOR";
+    public static final CycleType PREPROCESSOR = new CycleType(PREPROCESSOR_LABEL, 2.0);
+
+    public static final String TYPES_LABEL = "TYPES";
+    public static final CycleType TYPES = new CycleType(TYPES_LABEL, 2.0);
+
+    public static final String DEFAULT_LABEL = "DEFAULT";
+    public static final CycleType DEFAULT = new CycleType(DEFAULT_LABEL, 3.0);
 
     public static final String CONTENT_LABEL = "CONTENT";
-    public static final PipelineType CONTENT = new PipelineType(CONTENT_LABEL, 4.0);
+    public static final CycleType CONTENT = new CycleType(CONTENT_LABEL, 4.0);
 
-    private static final Collection<PipelineType> VALUES;
+    private static final Collection<CycleType> VALUES;
 
     static {
-        VALUES = ReflectionUtils.getStaticFieldValues(GenerationTypes.class, PipelineType.class);
+        VALUES = ReflectionUtils.getStaticFieldValues(GenerationCycles.class, CycleType.class);
     }
 
-    public static List<? extends PipelineType> getValues() {
+    public static List<? extends CycleType> getValues() {
         return new ArrayList<>(VALUES);
     }
 

@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.architecture.statement.ModuleStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Optional;
@@ -48,7 +48,7 @@ public class ModuleParser extends UnifiedParserBootstrap {
                 .pattern("module <module:condition token {type:unknown}, token {value:-}, token {value:.}>[;]");
     }
 
-    @Autowired(type = GenerationTypes.TYPES_LABEL)
+    @Autowired(type = GenerationCycles.TYPES_LABEL)
     private void parse(ParserData data, @Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Snippet moduleSource) {
         StringBuilder nameBuilder = new StringBuilder();
 

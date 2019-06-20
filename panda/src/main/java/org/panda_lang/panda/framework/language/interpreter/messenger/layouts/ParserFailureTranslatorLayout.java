@@ -20,13 +20,14 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerForm
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerLevel;
 import org.panda_lang.panda.framework.design.interpreter.messenger.translator.PandaTranslatorLayout;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<PandaParserFailure> {
 
@@ -37,13 +38,11 @@ public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<Pand
         data.put("data", element.getData());
         data.put("note", element.getNote());
 
-        GenerationPipeline pipeline = element.getData()
+        Optional<GenerationCycle> pipeline = element.getData()
                 .getComponent(UniversalComponents.GENERATION)
-                .currentPipeline();
+                .getCurrentCycle();
 
-        if (pipeline != null) {
-            data.put("pipeline", pipeline);
-        }
+        pipeline.ifPresent(cycle -> data.put("cycle", cycle));
     }
 
     @Override

@@ -37,7 +37,7 @@ import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderU
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationTypes;
+import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
@@ -58,7 +58,7 @@ public class FieldParser extends UnifiedParserBootstrap {
                 );
     }
 
-    @Autowired(order = 1, type = GenerationTypes.TYPES_LABEL)
+    @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
     public void parse(ParserData data, LocalData local, ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
         ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
 

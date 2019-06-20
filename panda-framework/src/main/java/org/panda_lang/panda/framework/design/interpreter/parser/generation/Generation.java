@@ -16,19 +16,54 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import java.util.Optional;
 
+/**
+ * Generation is the multilayer task manager divided into cycles and phases.
+ */
 public interface Generation {
 
-    void execute(ParserData data) throws Exception;
+    /**
+     * Launch cycles
+     *
+     * @throws Exception if {@link org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPhase} throws an exception, you should catch it and handle
+     */
+    void launch() throws Exception;
 
-    int countDelegates(@Nullable GenerationPipeline toPipeline);
+    /**
+     * Get amount of tasks before the specified cycle.
+     *
+     * @param to the cycle to which it count
+     * @return the amount of tasks
+     */
+    int countTasks(GenerationCycle to);
 
-    @Nullable GenerationPipeline currentPipeline();
+    /**
+     * Get amount of all tasks
+     *
+     * @return the amount of tasks
+     */
+    int countTasks();
 
-    GenerationPipeline pipeline(PipelineType type);
+    /**
+     * @return current cycle
+     */
+    Optional<GenerationCycle> getCurrentCycle();
 
-    GenerationPipeline pipeline(String name);
+    /**
+     * Get cycle
+     *
+     * @param name the name of cycle
+     * @return the cycle
+     */
+    GenerationCycle getCycle(String name);
+
+    /**
+     * Get cycle
+     *
+     * @param type the type of cycle
+     * @return the cycle
+     */
+    GenerationCycle getCycle(CycleType type);
 
 }

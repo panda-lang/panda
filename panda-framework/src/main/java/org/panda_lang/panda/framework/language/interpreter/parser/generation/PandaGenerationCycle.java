@@ -16,44 +16,41 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationLayer;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPhase;
 
-public class PandaGenerationPipeline implements GenerationPipeline {
+public class PandaGenerationCycle implements GenerationCycle {
 
     private final String name;
     private final Generation generation;
-    private GenerationLayer currentLayer;
-    private GenerationLayer nextLayer;
+    private GenerationPhase currentPhase;
+    private GenerationPhase nextPhase;
 
-    public PandaGenerationPipeline(Generation generation, String name) {
+    public PandaGenerationCycle(Generation generation, String name) {
         this.name = name;
         this.generation = generation;
-        this.currentLayer = new PandaGenerationLayer(this);
-        this.nextLayer = new PandaGenerationLayer(this);
+        this.currentPhase = new PandaGenerationPhase(this);
+        this.nextPhase = new PandaGenerationPhase(this);
     }
 
     @Override
-    public boolean execute(ParserData data) throws Exception {
+    public boolean execute() throws Exception {
         while (true) {
-            currentLayer.callDelegates(this, data);
+            currentPhase.callTasks();
 
-            if (currentLayer.countDelegates() > 0) {
+            if (currentPhase.countTasks() > 0) {
                 continue;
             }
 
-            if (nextLayer.countDelegates() == 0) {
+            if (nextPhase.countTasks() == 0) {
                 break;
             }
 
-            currentLayer = nextLayer;
-            nextLayer = new PandaGenerationLayer(this);
+            currentPhase = nextPhase;
+            nextPhase = new PandaGenerationPhase(this);
 
-            //System.out.println("CNT: " + generation.countDelegates(this));
-
-            if (generation.countDelegates(this) > 0) {
+            if (generation.countTasks(this) > 0) {
                 return false;
             }
         }
@@ -62,18 +59,18 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     }
 
     @Override
-    public int countDelegates() {
-        return currentLayer.countDelegates() + nextLayer.countDelegates();
+    public int countTasks() {
+        return currentPhase.countTasks() + nextPhase.countTasks();
     }
 
     @Override
-    public GenerationLayer currentLayer() {
-        return currentLayer;
+    public GenerationPhase currentPhase() {
+        return currentPhase;
     }
 
     @Override
-    public GenerationLayer nextLayer() {
-        return nextLayer;
+    public GenerationPhase nextPhase() {
+        return nextPhase;
     }
 
     @Override
@@ -88,11 +85,11 @@ public class PandaGenerationPipeline implements GenerationPipeline {
 
     @Override
     public String toString() {
-        if (countDelegates() == 0) {
+        if (countTasks() == 0) {
             return name + " { <empty> }";
         }
 
-        return name + " { c: " + currentLayer + " | n: " + nextLayer + " }";
+        return name + " { c: " + currentPhase + " | n: " + nextPhase + " }";
     }
 
 }

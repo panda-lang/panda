@@ -20,8 +20,10 @@ import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerType
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
+
+import java.util.Optional;
 
 public final class ParserFailureFormatter implements MessengerDataFormatter<PandaParserFailure> {
 
@@ -29,15 +31,16 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pand
     public void onInitialize(MessengerTypeFormatter<PandaParserFailure> typeFormatter) {
         typeFormatter
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
-                .register("{{pipeline}}", (formatter, failure) -> {
+                .register("{{cycle}}", (formatter, failure) -> {
                     Generation generation = failure.getData().getComponent(UniversalComponents.GENERATION);
-                    GenerationPipeline pipeline = generation.currentPipeline();
+                    Optional<GenerationCycle> cycleValue = generation.getCurrentCycle();
 
-                    if (pipeline == null) {
-                        return "<out of pipeline>";
+                    if (!cycleValue.isPresent()) {
+                        return "<out of cycle>";
                     }
 
-                    return pipeline.name() + " { " + pipeline.currentLayer().toString() + " }";
+                    GenerationCycle cycle = cycleValue.get();
+                    return cycle.name() + " { " + cycle.currentPhase().toString() + " }";
                 });
     }
 

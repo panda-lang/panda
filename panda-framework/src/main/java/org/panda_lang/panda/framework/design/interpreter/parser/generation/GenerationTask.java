@@ -16,12 +16,19 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface GenerationUnit {
+public interface GenerationTask<T> {
 
-    ParserData getDelegated();
-
-    GenerationCallback getCallback();
+    /**
+     * Call task
+     *
+     * @param cycle current cycle
+     * @param data data assigned to task
+     * @return task value
+     * @throws Exception allows you to handle exception that may occur
+     */
+    @Nullable T call(GenerationCycle cycle, ParserData data) throws Exception;
 
 }
