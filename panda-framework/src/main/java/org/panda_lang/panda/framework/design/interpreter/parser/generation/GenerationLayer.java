@@ -14,12 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation.casual;
+package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface CasualParserGenerationCallback {
+public interface GenerationLayer {
 
-    void call(ParserData delegatedData, CasualGenerationLayer nextLayer) throws Exception;
+    void callDelegates(GenerationPipeline pipeline, ParserData data) throws Throwable;
+
+    GenerationLayer delegateBefore(GenerationCallback callback, ParserData delegated);
+
+    GenerationLayer delegate(GenerationCallback callback, ParserData delegated);
+
+    GenerationLayer delegateAfter(GenerationCallback callback, ParserData delegated);
+
+    int countDelegates();
 
 }

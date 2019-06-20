@@ -19,8 +19,8 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.formatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.MessengerTypeFormatter;
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataFormatter;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public final class ParserFailureFormatter implements MessengerDataFormatter<PandaParserFailure> {

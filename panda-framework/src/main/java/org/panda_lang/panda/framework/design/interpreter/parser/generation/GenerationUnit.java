@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation.casual;
+package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
-public interface CasualParserGeneration {
+public interface GenerationUnit {
 
-    void execute(ParserData currentData) throws Exception;
+    ParserData getDelegated();
 
-    CasualGenerationLayer getLayer(CasualParserGenerationType generationType);
+    GenerationCallback getCallback();
 
 }

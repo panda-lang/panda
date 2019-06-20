@@ -18,9 +18,9 @@ package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.Generation;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.GenerationPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.PipelineType;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;

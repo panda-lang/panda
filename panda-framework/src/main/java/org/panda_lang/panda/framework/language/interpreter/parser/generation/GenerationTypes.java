@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline.PipelineType;
+import org.panda_lang.panda.framework.design.interpreter.parser.generation.PipelineType;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 import java.util.ArrayList;

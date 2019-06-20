@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.generation.pipeline;
+package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
 import org.jetbrains.annotations.NotNull;
 
