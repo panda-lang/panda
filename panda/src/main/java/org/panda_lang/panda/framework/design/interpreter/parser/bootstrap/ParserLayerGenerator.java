@@ -50,10 +50,10 @@ class ParserLayerGenerator<T> {
         return new GenerationTask<T>() {
             @Override
             public @Nullable T call(GenerationCycle cycle, ParserData data) throws Exception {
-                Object[] parameters = convertParameters(layer, data, cycle.generation(), interceptorData, localData);
                 T result;
 
                 try {
+                    Object[] parameters = convertParameters(layer, data, cycle.generation(), interceptorData, localData);
                     //noinspection unchecked
                     result = (T) invoke(autowiredMethod, parameters);
                 } catch (PandaParserFailure failure) {
@@ -117,9 +117,19 @@ class ParserLayerGenerator<T> {
             int to = autowiredParameters.to();
 
             for (Type type : autowiredParameters.value()) {
+                int currentIndex = type.index() != -1 ? type.index() : index++;
+
+                if (currentIndex >= processedAnnotations.length) {
+                    throw PandaParserFailure.builder("Mismatched amount of autowired parameters at " + layerMethod.getMethod(), delegatedData)
+                            .withSourceFragment()
+                                .ofOriginals(delegatedData)
+                                .create()
+                            .build();
+                }
+
                 ProcessedAnnotation processedAnnotation = new ProcessedAnnotation(type.with());
                 processedAnnotation.load("value", type.value());
-                processedAnnotations[type.index() != -1 ? type.index() : index++] = processedAnnotation;
+                processedAnnotations[currentIndex] = processedAnnotation;
 
                 if (to != -1 && to <= index) {
                     break;

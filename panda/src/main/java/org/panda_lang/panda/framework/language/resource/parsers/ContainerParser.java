@@ -33,13 +33,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class ContainerParser implements Parser {
 
-    private final Container container;
-
-    public ContainerParser(Container container) {
-        this.container = container;
-    }
-
-    public void parse(ParserData data, Snippet body) throws Exception {
+    public Container parse(Container container, Snippet body, ParserData data) throws Exception {
         ParserData delegatedData = data.fork();
         PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.CONTAINER);
@@ -77,6 +71,7 @@ public class ContainerParser implements Parser {
         }
 
         delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);
+        return container;
     }
 
 }

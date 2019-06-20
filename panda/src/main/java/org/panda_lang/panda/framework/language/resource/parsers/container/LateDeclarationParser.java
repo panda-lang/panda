@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container;
 
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
@@ -32,30 +31,29 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
-import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableInitializer;
+import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
 public class LateDeclarationParser extends UnifiedParserBootstrap {
 
-    private static final VariableInitializer INITIALIZER = new VariableInitializer();
+    private static final VariableParser INITIALIZER = new VariableParser();
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.LATE))
-                .pattern("late " + VariableInitializer.DECLARATION_PARSER);
+                .pattern("late " + VariableParser.DECLARATION_PARSER);
     }
 
     @Autowired
     @AutowiredParameters(skip = 2, value = {
             @Type(with = Component.class),
-            @Type(with = Component.class),
             @Type(with = Src.class, value = "type"),
             @Type(with = Src.class, value = "name")
     })
-    public void parse(ParserData data, ExtractorResult result, ModuleLoader loader, ScopeLinker linker, Snippet type, Snippet name) {
-        INITIALIZER.createVariable(data, loader, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
+    public void parse(ParserData data, ExtractorResult result, ScopeLinker linker, Snippet type, Snippet name) {
+        INITIALIZER.createVariable(data, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
     }
 
 }

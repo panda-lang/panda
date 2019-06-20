@@ -77,7 +77,7 @@ public class PandaClassPrototypeUtils {
 
             throw PandaParserFailure.builder("Unknown type " + types[i], data)
                     .withSourceFragment()
-                        .ofCurrentStream(data)
+                        .ofOriginals(data)
                         .create()
                     .build();
         }

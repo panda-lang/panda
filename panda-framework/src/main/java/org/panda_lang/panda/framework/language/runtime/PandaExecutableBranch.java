@@ -54,7 +54,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public void call(Collection<StatementCell> cells) {
+    public void call(Collection<? extends StatementCell> cells) {
         for (StatementCell statementCell : cells) {
             if (isInterrupted()) {
                 return;
@@ -68,7 +68,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public ControlFlow callFlow(Collection<StatementCell> cells, ControlFlowCaller caller) {
+    public ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCaller caller) {
         if (isInterrupted()) {
             return currentFlow;
         }

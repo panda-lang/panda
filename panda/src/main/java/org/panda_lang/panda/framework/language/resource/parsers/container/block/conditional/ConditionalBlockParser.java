@@ -69,7 +69,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
         if (condition == null) {
             throw PandaParserFailure.builder("Empty condition", data)
                     .withSourceFragment()
-                        .ofCurrentStream(parentData)
+                        .ofOriginals(parentData)
                         .create()
                     .build();
 

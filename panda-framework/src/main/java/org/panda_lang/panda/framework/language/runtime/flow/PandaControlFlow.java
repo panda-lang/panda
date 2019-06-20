@@ -27,12 +27,12 @@ import java.util.Collection;
 public class PandaControlFlow implements Executable, ControlFlow {
 
     private final ExecutableBranch branch;
-    private final Collection<StatementCell> cells;
+    private final Collection<? extends StatementCell> cells;
     private final ControlFlowCaller caller;
     private boolean skipped;
     private boolean escaped;
 
-    public PandaControlFlow(ExecutableBranch branch, Collection<StatementCell> cells, ControlFlowCaller caller) {
+    public PandaControlFlow(ExecutableBranch branch, Collection<? extends StatementCell> cells, ControlFlowCaller caller) {
         this.branch = branch;
         this.cells = cells;
         this.caller = caller;

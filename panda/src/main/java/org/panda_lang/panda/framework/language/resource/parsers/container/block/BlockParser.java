@@ -43,6 +43,8 @@ import org.panda_lang.panda.utilities.commons.ObjectUtils;
 @ParserRegistration(target = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends UnifiedParserBootstrap {
 
+    private final ContainerParser containerParser = new ContainerParser();
+
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder.pattern("<*declaration> body:~{");
@@ -57,7 +59,7 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, Generation generation, @Src("*declaration") Snippet declaration) throws Exception {
+    void parse(ParserData data, LocalData local, Generation generation, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
@@ -89,13 +91,10 @@ public class BlockParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2)
-    private void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
-        if (body == null) {
-            return;
+    void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
+        if (body != null) {
+            containerParser.parse(block, body, blockData);
         }
-
-        ContainerParser containerParser = new ContainerParser(block);
-        containerParser.parse(blockData, body);
     }
 
 }

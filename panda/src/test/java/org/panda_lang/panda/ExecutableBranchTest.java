@@ -19,7 +19,7 @@ package org.panda_lang.panda;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
-import org.panda_lang.panda.framework.language.architecture.dynamic.block.main.MainScope;
+import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
 import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
 
 class ExecutableBranchTest {

@@ -57,10 +57,6 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();
 
-        // System.out.println(" ");
-        // System.out.println("[BCP] " + source);
-        // System.out.println("[BCP] " + bootstrap.getInstance());
-
         InterceptorData interceptorData = bootstrap.hasInterceptor() ? bootstrap.getInterceptor().handle(this, data) : new InterceptorData();
         int difference = length - stream.getUnreadLength();
 
@@ -77,7 +73,6 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
                 .sorted(Comparator.comparingInt(method -> method.getDelegation().getPriority()))
                 .collect(Collectors.toList());
 
-        // System.out.println("[BCP] Methods: " + methods.size());
         T result = null;
 
         for (int i = 0; i < methods.size(); i++) {
@@ -96,8 +91,6 @@ public class BootstrapCoreParser<T> implements UnifiedParser<T> {
         GenerationCycle cycle = generation.getCycle(method.getType());
         GenerationPhase phase = cycle.currentPhase();
         GenerationPhase nextPhase = cycle.nextPhase();
-
-        // System.out.println("[BCP] delegate: " + method.getMethod().toString() + " - " + method.getDelegation().name());
 
         switch (method.getDelegation()) {
             case IMMEDIATELY:

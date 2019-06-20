@@ -39,9 +39,15 @@ public final class SourceFragmentFormatter implements MessengerDataFormatter<Sou
                     int index = source.indexOf(element);
                     int endIndex = index + element.length();
 
-                    return index < 0 ? source : source.substring(0, index)
+                    String content = index < 0 ? source : source.substring(0, index)
                             + Colored.on(source.substring(index, endIndex)).effect(Effect.RED)
                             + source.substring(endIndex);
+
+                    if (content.isEmpty()) {
+                        content = Colored.on("<omitted>").effect(Effect.BOLD).toString();
+                    }
+
+                    return content;
                 })
                 .register("{{marker}}", (formatter, fragment) -> {
                     String source = getCurrentLine(fragment).toString();

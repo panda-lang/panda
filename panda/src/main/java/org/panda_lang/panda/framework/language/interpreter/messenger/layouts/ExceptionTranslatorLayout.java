@@ -35,17 +35,11 @@ public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwabl
     public void onHandle(MessengerFormatter formatter, Throwable element, Map<String, Object> data) {
         data.put("stacktrace", element.getStackTrace());
 
-        /*
-        MessageFormatter formatter = DefaultMessageFormatter.getFormatter()
-                .register("{{message}}", () -> element.getMessage() != null ? element.getMessage() : element.getClass().getSimpleName())
-                .register("{{location}}", () -> location != null ? location : "?")
-                .register("{{line}}", () -> source != null && source.getCurrentLine() > -1 ? source.getCurrentLine() + 1 : "?")
-                .register("{{details}}", () -> DefaultFailureTemplateBuilder.stacktraceToString(element));
-        */
-
-
-        this.location = null;
-        this.source = null;
+        formatter.getTypeFormatter(Throwable.class)
+                .register("{{message}}", (f, e) -> {
+                    String simpleName = element.getClass().getSimpleName();
+                    return element.getMessage() != null ? simpleName + ": " + element.getMessage() :simpleName;
+                });
     }
 
     public ExceptionTranslatorLayout update(String location, SourceStream source) {

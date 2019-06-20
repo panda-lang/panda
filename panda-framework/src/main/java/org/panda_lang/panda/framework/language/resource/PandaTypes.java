@@ -49,6 +49,7 @@ public class PandaTypes {
     public static final ClassPrototype NUMBER = of(Number.class).fetch();
     public static final ClassPrototype ITERABLE = of(Iterable.class).fetch();
     public static final ClassPrototype LIST = of(List.class).fetch();
+    public static final ClassPrototype EXCEPTION = of(Exception.class).fetch();
 
     static {
         of(ArrayList.class);

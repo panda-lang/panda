@@ -28,6 +28,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaSc
 
 public class ScopeParser implements Parser {
 
+    private final ContainerParser containerParser = new ContainerParser();
+
     public void parse(@Nullable Scope parent, Scope current, ParserData data, @Nullable Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
@@ -49,8 +51,7 @@ public class ScopeParser implements Parser {
             linker.pushScope(current);
         }
 
-        ContainerParser parser = new ContainerParser(current);
-        parser.parse(data, body);
+        containerParser.parse(current, body, data);
 
         linker.popScope();
         data.setComponent(UniversalComponents.SCOPE_LINKER, parentLinker);

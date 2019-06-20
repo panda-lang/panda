@@ -16,14 +16,11 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container.block.looping;
 
-import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -33,11 +30,10 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.ForEachBlock;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableInitializer;
+import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockData;
 import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -49,6 +45,8 @@ public class ForEachParser extends BlockSubparserBootstrap {
             .compile("<type:reader type> <name> : <*iterable>")
             .build();
 
+    private final VariableParser initializer = new VariableParser();
+
     @Override
     protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
         return defaultBuilder
@@ -58,13 +56,12 @@ public class ForEachParser extends BlockSubparserBootstrap {
 
     @Autowired
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public BlockData parseBlock(ParserData data, @Component ModuleLoader moduleLoader, @Src("content") Snippet content) {
+    public BlockData parseBlock(ParserData data, @Src("content") Snippet content) {
         ExtractorResult result = CONTENT_PATTERN.extract(data, content);
         Snippet name = result.getWildcard("name").get().getValue();
         Snippet type = result.getWildcard("type").get().getValue();
         Snippet iterable = result.getWildcard("*iterable").get().getValue();
 
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
         Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, iterable);
 
@@ -72,8 +69,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
             throw new PandaParserException("Cannot parse expression: " + iterable);
         }
 
-        VariableInitializer initializer = new VariableInitializer();
-        Variable variable = initializer.createVariable(data, moduleLoader, scope, true, true, type, name);
+        Variable variable = initializer.createVariable(data, scope, true, true, type, name);
         int variableId = scope.indexOf(variable);
 
         if (!PandaTypes.ITERABLE.isAssignableFrom(expression.getReturnType())) {
