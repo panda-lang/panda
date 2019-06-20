@@ -45,6 +45,8 @@ import java.util.List;
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends UnifiedParserBootstrap {
 
+    private final ParameterParser parameterParser = new ParameterParser();
+
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
@@ -53,8 +55,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 1)
-    private void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
-        ParameterParser parameterParser = new ParameterParser();
+    void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
         List<Parameter> parameters = parameterParser.parse(data, parametersSource);
 
         ConstructorScope constructorScope = local.allocated(new ConstructorScope(parameters));
@@ -65,7 +66,7 @@ public class ConstructorParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    private void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
+    void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
         ScopeParserUtils.parse(classScope, constructorScope, data, body);
     }
 

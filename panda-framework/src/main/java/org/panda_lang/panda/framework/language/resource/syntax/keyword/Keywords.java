@@ -35,7 +35,9 @@ public class Keywords {
 
     public static final Keyword BREAK = new Keyword("break");
 
-    public static final Keyword CASE = new Keyword("catch");
+    public static final Keyword CASE = new Keyword("case");
+
+    public static final Keyword CATCH = new Keyword("catch");
 
     public static final Keyword CLASS = new Keyword("class");
 
@@ -108,6 +110,8 @@ public class Keywords {
     public static final Keyword SYNCHRONIZED = new Keyword("synchronized");
 
     public static final Keyword SWITCH = new Keyword("switch");
+
+    public static final Keyword TRY = new Keyword("try");
 
     public static final Keyword WHILE = new Keyword("while");
 
