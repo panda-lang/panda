@@ -28,7 +28,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 public abstract class AssignationSubparserBootstrap extends UnifiedParserBootstrap<@Nullable Statement> implements AssignationSubparser {
 
     @Override
-    public final @Nullable Statement parseAssignment(ParserData data, Snippet source, Expression expression) throws Throwable {
+    public final @Nullable Statement parseAssignment(ParserData data, Snippet source, Expression expression) throws Exception {
         data.setComponent(AssignationComponents.EXPRESSION, expression);
         data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(source));
         return parse(data);

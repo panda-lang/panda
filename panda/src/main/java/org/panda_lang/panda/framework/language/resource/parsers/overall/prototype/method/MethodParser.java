@@ -118,7 +118,7 @@ public class MethodParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Snippet body) throws Throwable {
+    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Snippet body) throws Exception {
         ScopeParserUtils.parse(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope, delegatedData, body);
     }
 

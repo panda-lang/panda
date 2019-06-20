@@ -23,6 +23,6 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public interface BlockSubparser extends Parser, ParserHandler {
 
-    BlockData parse(ParserData data, Snippet declaration) throws Throwable;
+    BlockData parse(ParserData data, Snippet declaration) throws Exception;
 
 }

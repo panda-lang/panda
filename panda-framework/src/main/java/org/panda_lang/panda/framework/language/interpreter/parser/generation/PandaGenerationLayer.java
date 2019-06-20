@@ -44,13 +44,13 @@ public class PandaGenerationLayer implements GenerationLayer {
         this.pipeline = pipeline;
     }
 
-    private void call(ParserData currentData, GenerationLayer nextLayer) throws Throwable {
+    private void call(ParserData currentData, GenerationLayer nextLayer) throws Exception {
         call(before, currentData, nextLayer);
         call(delegates, currentData, nextLayer);
         call(after, currentData, nextLayer);
     }
 
-    private void call(List<GenerationUnit> units, ParserData currentInfo, GenerationLayer nextLayer) throws Throwable {
+    private void call(List<GenerationUnit> units, ParserData currentInfo, GenerationLayer nextLayer) throws Exception {
         List<GenerationUnit> unitList = new ArrayList<>(units);
         units.clear();
 
@@ -63,7 +63,7 @@ public class PandaGenerationLayer implements GenerationLayer {
     }
 
     @Override
-    public void callDelegates(GenerationPipeline pipeline, ParserData data) throws Throwable {
+    public void callDelegates(GenerationPipeline pipeline, ParserData data) throws Exception {
         call(data, pipeline.nextLayer());
     }
 

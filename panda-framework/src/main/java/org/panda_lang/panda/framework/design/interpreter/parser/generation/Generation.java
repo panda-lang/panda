@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 
 public interface Generation {
 
-    void execute(ParserData data) throws Throwable;
+    void execute(ParserData data) throws Exception;
 
     int countDelegates(@Nullable GenerationPipeline toPipeline);
 

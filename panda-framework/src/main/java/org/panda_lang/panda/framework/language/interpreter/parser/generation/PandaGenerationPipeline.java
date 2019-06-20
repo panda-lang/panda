@@ -36,7 +36,7 @@ public class PandaGenerationPipeline implements GenerationPipeline {
     }
 
     @Override
-    public boolean execute(ParserData data) throws Throwable {
+    public boolean execute(ParserData data) throws Exception {
         while (true) {
             currentLayer.callDelegates(this, data);
 

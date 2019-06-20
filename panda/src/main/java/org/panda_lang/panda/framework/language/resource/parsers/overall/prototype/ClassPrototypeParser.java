@@ -111,7 +111,7 @@ public class ClassPrototypeParser extends UnifiedParserBootstrap {
     }
 
     @Autowired(type = GenerationTypes.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Nullable @Src("body") Snippet body) throws Throwable {
+    public void parseBody(ParserData data, Generation generation, @Nullable @Src("body") Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
         }
