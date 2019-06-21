@@ -116,9 +116,9 @@ main {
     required.hello()
 
     try {
-        Console.print("Try")
+        throw new RuntimeException("Try")
     } catch (Exception e) {
-        e.printStackTrace()
+        Console.print(e.getMessage())
     }
 }
 

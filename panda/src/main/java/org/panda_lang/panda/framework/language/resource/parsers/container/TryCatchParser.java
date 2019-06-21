@@ -55,6 +55,7 @@ public final class TryCatchParser extends UnifiedParserBootstrap {
 
         Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
         Variable variable = initializer.parseVariable(data, scope, true, true, catchWhat);
+        int variablePointer = scope.indexOf(variable);
 
         TryCatchExecutable tryCatch = new TryCatchExecutable(tryContainer, new PandaContainer());
         container.addStatement(tryCatch);
@@ -63,7 +64,7 @@ public final class TryCatchParser extends UnifiedParserBootstrap {
 
         if (Throwable.class.isAssignableFrom(type)) {
             //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type, containerParser.parse(new PandaContainer(), catchBody, data));
+            tryCatch.addHandler((Class<? extends Throwable>) type, variable, variablePointer, containerParser.parse(new PandaContainer(), catchBody, data));
         }
     }
 

@@ -16,47 +16,37 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container.branching;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
+import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Throw;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(target = PandaPipelines.CONTAINER_LABEL)
-public class ReturnParser extends UnifiedParserBootstrap {
+public final class ThrowParser extends UnifiedParserBootstrap {
 
     @Override
     protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
         return defaultBuilder
-                .handler(new TokenHandler(Keywords.RETURN))
+                .handler(new TokenHandler(Keywords.THROW))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("return &value:*=expression");
+                .pattern("throw &value:*=expression");
     }
 
     @Autowired
-    @AutowiredParameters(value = {
-            @Type(with = Component.class),
-            @Type(with = Component.class, value = BootstrapComponents.CURRENT_SOURCE_LABEL),
-            @Type(with = Src.class, value = "value")
-    })
-    public void parse(Container container, Snippet source, @Nullable Expression value) {
-        Return returnStatement = new Return(value);
-        returnStatement.setLocation(source.getCurrentLocation());
-        container.addStatement(returnStatement);
+    void parse(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Container container, @Src("value") Expression expression) {
+        BranchingUtils.parseBranchingStatement(source, container, () -> new Throw(expression));
     }
 
 }

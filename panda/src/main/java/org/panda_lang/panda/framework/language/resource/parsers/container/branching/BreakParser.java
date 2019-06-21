@@ -39,7 +39,7 @@ public class BreakParser extends UnifiedParserBootstrap {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.BREAK))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("break &:;");
+                .pattern("break");
     }
 
     @Autowired
