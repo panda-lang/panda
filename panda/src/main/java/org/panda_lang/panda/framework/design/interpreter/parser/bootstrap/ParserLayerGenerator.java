@@ -114,7 +114,6 @@ class ParserLayerGenerator<T> {
         if (layerMethod.hasAutowiredParameters()) {
             AutowiredParameters autowiredParameters = layerMethod.getAutowiredParameters();
             int index = autowiredParameters.skip();
-            int to = autowiredParameters.to();
 
             for (Type type : autowiredParameters.value()) {
                 int currentIndex = type.index() != -1 ? type.index() : index++;
@@ -130,10 +129,6 @@ class ParserLayerGenerator<T> {
                 ProcessedAnnotation processedAnnotation = new ProcessedAnnotation(type.with());
                 processedAnnotation.load("value", type.value());
                 processedAnnotations[currentIndex] = processedAnnotation;
-
-                if (to != -1 && to <= index) {
-                    break;
-                }
             }
         }
 

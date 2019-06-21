@@ -17,7 +17,9 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,7 +28,7 @@ public final class TryCatchExecutable extends AbstractExecutableStatement {
 
     private final Container tryContainer;
     private final Container finallyContainer;
-    private final Map<Class<? extends Throwable>, Container> catchContainers = new HashMap<>();
+    private final Map<Class<? extends Throwable>, Data> catchContainers = new HashMap<>();
 
     public TryCatchExecutable(Container tryContainer, Container finallyContainer) {
         this.tryContainer = tryContainer;
@@ -38,21 +40,44 @@ public final class TryCatchExecutable extends AbstractExecutableStatement {
         try {
             branch.call(tryContainer.getStatementCells());
         } catch (Throwable throwable) {
-            Container catchContainer = catchContainers.get(throwable.getClass());
+            Data catchData = catchContainers.get(throwable.getClass());
 
-            if (catchContainer == null) {
+            if (catchData == null) {
+                catchData = catchContainers.entrySet().stream()
+                        .filter(entry -> entry.getKey().isAssignableFrom(throwable.getClass()))
+                        .findFirst()
+                        .map(Map.Entry::getValue)
+                        .orElse(null);
+            }
+
+            if (catchData == null) {
                 throw throwable;
             }
 
-            branch.call(catchContainer.getStatementCells());
+            branch.getCurrentScope().set(catchData.pointer, new PandaValue(catchData.variable.getType(), throwable));
+            branch.call(catchData.container.getStatementCells());
         } finally {
             branch.call(finallyContainer.getStatementCells());
         }
     }
 
-    public TryCatchExecutable addHandler(Class<? extends Throwable> type, Container container) {
-        catchContainers.put(type, container);
+    public TryCatchExecutable addHandler(Class<? extends Throwable> type, Variable variable, int variablePointer, Container container) {
+        catchContainers.put(type, new Data(variable, variablePointer, container));
         return this;
+    }
+
+    private static class Data {
+
+        private Variable variable;
+        private int pointer;
+        private Container container;
+
+        public Data(Variable variable, int pointer, Container container) {
+            this.variable = variable;
+            this.pointer = pointer;
+            this.container = container;
+        }
+
     }
 
 }

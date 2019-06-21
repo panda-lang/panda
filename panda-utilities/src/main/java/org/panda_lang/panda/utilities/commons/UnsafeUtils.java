@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations;
+package org.panda_lang.panda.utilities.commons;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import sun.misc.Unsafe;
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AutowiredParameters {
+import java.lang.reflect.Field;
 
-    int skip() default 0;
+public final class UnsafeUtils {
 
-    Type[] value();
+    private static Unsafe unsafe;
+
+    static {
+        try {
+            Field theUnsafeField = Unsafe.class.getDeclaredField("theUnsafe");
+            theUnsafeField.setAccessible(true);
+            unsafe = (Unsafe) theUnsafeField.get(null);
+        }
+        catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static Unsafe getUnsafe() {
+        return unsafe;
+    }
 
 }

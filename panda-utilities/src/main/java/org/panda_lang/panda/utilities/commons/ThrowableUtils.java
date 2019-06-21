@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations;
+package org.panda_lang.panda.utilities.commons;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public final class ThrowableUtils {
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AutowiredParameters {
-
-    int skip() default 0;
-
-    Type[] value();
+    /**
+     * Throw any throwable without required signatures
+     *
+     * @param e throwable to throw
+     * @param <E> generics trick
+     * @throws E specified throwable
+     */
+    @SuppressWarnings("unchecked")
+    public static <E extends Throwable> void throwAny(Throwable e) throws E {
+        throw (E) e;
+    }
 
 }

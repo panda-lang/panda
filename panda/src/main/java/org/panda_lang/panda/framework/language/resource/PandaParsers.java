@@ -36,6 +36,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.block.
 import org.panda_lang.panda.framework.language.resource.parsers.container.branching.BreakParser;
 import org.panda_lang.panda.framework.language.resource.parsers.container.branching.ContinueParser;
 import org.panda_lang.panda.framework.language.resource.parsers.container.branching.ReturnParser;
+import org.panda_lang.panda.framework.language.resource.parsers.container.branching.ThrowParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.MainParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.ModuleParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.RequireParser;
@@ -86,7 +87,8 @@ public final class PandaParsers extends Parsers {
             // branching
             BreakParser.class,
             ContinueParser.class,
-            ReturnParser.class
+            ReturnParser.class,
+            ThrowParser.class
     );
 
     @Override

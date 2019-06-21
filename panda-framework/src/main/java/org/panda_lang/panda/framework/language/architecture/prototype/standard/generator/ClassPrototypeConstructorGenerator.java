@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 final class ClassPrototypeConstructorGenerator {
 
@@ -60,7 +61,7 @@ final class ClassPrototypeConstructorGenerator {
                     }
 
                     return constructor.newInstance(args);
-                } catch (Exception e) {
+                } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
                     e.printStackTrace();
                 }
 

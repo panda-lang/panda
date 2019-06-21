@@ -39,7 +39,7 @@ public class ContinueParser extends UnifiedParserBootstrap {
         return defaultBuilder
                 .handler(new TokenHandler(Keywords.CONTINUE))
                 .interceptor(new LinearPatternInterceptor())
-                .pattern("continue &:;");
+                .pattern("continue");
     }
 
     @Autowired
