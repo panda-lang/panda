@@ -23,10 +23,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Bootst
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -48,15 +46,8 @@ public class ReturnParser extends UnifiedParserBootstrap {
     }
 
     @Autowired
-    @AutowiredParameters(value = {
-            @Type(with = Component.class),
-            @Type(with = Component.class, value = BootstrapComponents.CURRENT_SOURCE_LABEL),
-            @Type(with = Src.class, value = "value")
-    })
-    public void parse(Container container, Snippet source, @Nullable Expression value) {
-        Return returnStatement = new Return(value);
-        returnStatement.setLocation(source.getCurrentLocation());
-        container.addStatement(returnStatement);
+    public void parse(@Component Container container, @Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Src("value") @Nullable Expression value) {
+        BranchingUtils.parseBranchingStatement(source, container, () -> new Return(value));
     }
 
 }
