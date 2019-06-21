@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.interpreter.messenger.mappers;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.StackTraceUtils;
@@ -30,7 +30,7 @@ public final class StacktraceMapper implements MessengerDataMapper<StackTraceEle
     private static final Class<?>[] IGNORED_CLASSES = new Class<?>[] {
             PandaParserFailure.class,
             BootstrapCoreParser.class,
-            UnifiedParserBootstrap.class
+            ParserBootstrap.class
     };
 
     private static final String[] IGNORED = new String[] {

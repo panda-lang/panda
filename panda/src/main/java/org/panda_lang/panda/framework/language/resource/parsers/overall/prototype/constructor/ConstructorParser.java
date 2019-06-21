@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.constructor.
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.UnifiedParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import java.util.List;
 
 @ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL)
-public class ConstructorParser extends UnifiedParserBootstrap {
+public class ConstructorParser extends ParserBootstrap {
 
     private final ParameterParser parameterParser = new ParameterParser();
 
