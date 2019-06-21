@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
-public abstract class UnifiedParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
+public abstract class ParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
 
     protected ParserRepresentation<UnifiedParser<T>> parser;
 
