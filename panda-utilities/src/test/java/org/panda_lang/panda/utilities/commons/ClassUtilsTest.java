@@ -19,6 +19,8 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collection;
+
 class ClassUtilsTest {
 
     @Test
@@ -39,5 +41,25 @@ class ClassUtilsTest {
         Assertions.assertTrue(ClassUtils.exists(String.class.getName()));
         Assertions.assertFalse(ClassUtils.exists("xyz"));
     }
+
+    @Test
+    void forName() {
+        Assertions.assertTrue(ClassUtils.forName(String.class.getName()).isPresent());
+        Assertions.assertFalse(ClassUtils.forName("xyz").isPresent());
+    }
+
+    @Test
+    void selectMostRelated() {
+        Collection<Class<?>> classes = ArrayUtils.asList(A.class, B.class, C.class);
+
+        Assertions.assertEquals(A.class, ClassUtils.selectMostRelated(classes, A.class).orElse(null));
+        Assertions.assertEquals(C.class, ClassUtils.selectMostRelated(classes, C.class).orElse(null));
+    }
+
+    class A { }
+
+    class B extends A { }
+
+    class C extends B { }
 
 }

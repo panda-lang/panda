@@ -19,21 +19,78 @@ package org.panda_lang.panda.utilities.commons.collection;
 import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public final class Maps {
 
+    /**
+     * Swap keys with values
+     *
+     * @param map the map to swap
+     * @param mapSupplier the supplier to get new map instance
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return new swapped map
+     */
+    public static <K, V> Map<V, K> swapped(Map<K, V> map, Supplier<Map<V, K>> mapSupplier) {
+        return map.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getValue,
+                        Map.Entry::getKey,
+                        (key, value) -> { throw new IllegalStateException(String.format("Duplicate key %s", key)); },
+                        mapSupplier
+                ));
+    }
+
+    /**
+     * Get mutable entry
+     *
+     * @param key key of entry
+     * @param value value of entry
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return mutable entry
+     */
     public static <K, V> Map.Entry<K, V> entryOf(K key, V value) {
         return new AbstractMap.SimpleEntry<>(key, value);
     }
 
+    /**
+     * Get immutable entry
+     *
+     * @param key key of entry
+     * @param value value of entry
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return immutable entry
+     */
     public static <K, V> Map.Entry<K, V> immutableEntryOf(K key, V value) {
         return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 
+    /**
+     * Create map based on vararg parameter
+     *
+     * @param values values
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return map based on the specified values
+     */
     public static <K, V> Map<K, V> of(Object... values) {
         return of(null, null, values);
     }
 
+    /**
+     * Create map based on vararg parameter
+     *
+     * @param values values
+     * @param keyType the class to define type of key
+     * @param valueType the class to define type of value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return map based on the specified values
+     */
     public static <K, V> Map<K, V> of(Class<K> keyType, Class<V> valueType, Object... values) {
         Map<K, V> map = new HashMap<>();
 

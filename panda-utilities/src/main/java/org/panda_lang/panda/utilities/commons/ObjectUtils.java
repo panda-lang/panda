@@ -54,7 +54,7 @@ public class ObjectUtils {
      * Check if all values are null
      *
      * @param objects array to check
-     * @return true if all values are null
+     * @return true if all values are null and false for non null element/empty array
      */
     public static boolean areNull(Object... objects) {
         for (Object object : objects) {

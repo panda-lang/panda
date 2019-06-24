@@ -18,56 +18,99 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 public class ClassUtils {
 
-    private static final Map<Class<?>, Class<?>> PRIMITIVE_EQUIVALENT = new HashMap<>();
+    private static final Map<Class<?>, Class<?>> PRIMITIVE_EQUIVALENT = new HashMap<Class<?>, Class<?>>() {{
+        put(byte.class, Byte.class);
+        put(short.class, Short.class);
+        put(int.class, Integer.class);
+        put(long.class, Long.class);
 
-    static {
-        PRIMITIVE_EQUIVALENT.put(byte.class, Byte.class);
-        PRIMITIVE_EQUIVALENT.put(short.class, Short.class);
-        PRIMITIVE_EQUIVALENT.put(int.class, Integer.class);
-        PRIMITIVE_EQUIVALENT.put(long.class, Long.class);
+        put(float.class, Float.class);
+        put(double.class, Double.class);
 
-        PRIMITIVE_EQUIVALENT.put(float.class, Float.class);
-        PRIMITIVE_EQUIVALENT.put(double.class, Double.class);
+        put(boolean.class, Boolean.class);
+        put(char.class, Character.class);
+    }};
 
-        PRIMITIVE_EQUIVALENT.put(boolean.class, Boolean.class);
-        PRIMITIVE_EQUIVALENT.put(char.class, Character.class);
+    /**
+     * Select the most related class from the specified collection
+     *
+     * @param classes the collection to search in
+     * @param to the class to compare with
+     * @return the most related class from collection (may not exist)
+     */
+    public static Optional<Class<?>> selectMostRelated(Collection<Class<?>> classes, Class<?> to) {
+        Class<?> selected = null;
+
+        for (Class<?> clazz : classes) {
+            if (clazz.isAssignableFrom(to)) {
+                if (selected != null && clazz.isAssignableFrom(selected)) {
+                    continue;
+                }
+
+                selected = clazz;
+            }
+        }
+
+        return Optional.ofNullable(selected);
     }
 
-    public static boolean isAssignableFrom(Class<?> to, @Nullable Object from) {
-        if (from == null) {
+    /**
+     * Check if the class is assignable to another with primitive types support.
+     * Utility command for nullable fromObject.
+     *
+     * @see org.panda_lang.panda.utilities.commons.ClassUtils#isAssignableFrom(Class, Class)
+     */
+    public static boolean isAssignableFrom(Class<?> toClass, @Nullable Object fromObject) {
+        return fromObject != null && isAssignableFrom(toClass, fromObject.getClass());
+    }
+
+    /**
+     * Check if the class is assignable to another with primitive types support
+     *
+     * @param toClass the root class
+     * @param fromClass the {@link java.lang.Class} object to be checked
+     * @return true if toClass is assignable to fromClass
+     */
+    public static boolean isAssignableFrom(Class<?> toClass, Class<?> fromClass) {
+        if (toClass == null || fromClass == null) {
             return false;
         }
 
-        return isAssignableFrom(to, from.getClass());
-    }
-
-    public static boolean isAssignableFrom(Class<?> to, Class<?> from) {
-        if (to == null || from == null) {
-            return false;
+        if (toClass.isPrimitive()) {
+            toClass = PRIMITIVE_EQUIVALENT.get(toClass);
         }
 
-        if (to.isPrimitive()) {
-            to = PRIMITIVE_EQUIVALENT.get(to);
+        if (fromClass.isPrimitive()) {
+            fromClass = PRIMITIVE_EQUIVALENT.get(fromClass);
         }
 
-        if (from.isPrimitive()) {
-            from = PRIMITIVE_EQUIVALENT.get(from);
-        }
-
-        return to.isAssignableFrom(from);
+        return toClass.isAssignableFrom(fromClass);
 
     }
 
+    /**
+     * Check if the class exists using {@link org.panda_lang.panda.utilities.commons.ClassUtils#forName(String)}
+     *
+     * @param name the name of class
+     * @return true if class exists, otherwise false
+     */
     public static boolean exists(String name) {
         return forName(name).isPresent();
     }
 
+    /**
+     * Get class using {@link java.lang.Class#forName(String)} as {@link java.util.Optional}
+     *
+     * @param name the name of class
+     * @return optional with class (with null instead of {@link java.lang.ClassNotFoundException})
+     */
     public static Optional<Class<?>> forName(String name) {
         try {
             return Optional.of(Class.forName(name));
