@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.PandaEnvironment;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
 
 import java.io.File;
+import java.util.Optional;
 
 public class PandaLoader {
 
@@ -33,15 +33,15 @@ public class PandaLoader {
         this.panda = panda;
     }
 
-    public @Nullable PandaApplication load(String main, File workingDirectory) {
+    public Optional<Application> load(String main, File workingDirectory) {
         return load(PandaURLSource.fromFile(new File(workingDirectory, main)), workingDirectory);
     }
 
-    public @Nullable PandaApplication load(File main, File workingDirectory) {
+    public Optional<Application> load(File main, File workingDirectory) {
         return load(PandaURLSource.fromFile(main), workingDirectory);
     }
 
-    public @Nullable PandaApplication load(Source main, File workingDirectory) {
+    public Optional<Application> load(Source main, File workingDirectory) {
         PandaEnvironment environment = new PandaEnvironment(panda, workingDirectory);
         environment.initialize();
 

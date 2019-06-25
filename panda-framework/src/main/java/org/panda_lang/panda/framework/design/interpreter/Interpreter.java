@@ -16,15 +16,16 @@
 
 package org.panda_lang.panda.framework.design.interpreter;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
+
+import java.util.Optional;
 
 public interface Interpreter {
 
     /**
      * Starts the process of interpretation
      */
-    @Nullable Application interpret(Source source);
+    Optional<Application> interpret(Source source);
 
 }
