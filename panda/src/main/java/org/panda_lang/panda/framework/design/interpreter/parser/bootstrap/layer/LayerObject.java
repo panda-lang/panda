@@ -22,14 +22,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Set;
 
 public class LayerObject {
 
     private final Method method;
 
     public LayerObject() {
-        List<Method> methods = ReflectionUtils.getMethodsAnnotatedWith(getClass(), Autowired.class);
+        Set<Method> methods = ReflectionUtils.getMethodsAnnotatedWith(getClass(), Autowired.class);
         methods.addAll(ReflectionUtils.getMethodsAnnotatedWith(getClass(), AutowiredParameters.class));
 
         if (methods.size() == 0) {
@@ -40,7 +40,7 @@ public class LayerObject {
             throw new ParserBootstrapException("You can use only one @Autowired method per layer");
         }
 
-        this.method = methods.get(0);
+        this.method = methods.iterator().next();
     }
 
     public LayerMethod toLayerMethod() {
