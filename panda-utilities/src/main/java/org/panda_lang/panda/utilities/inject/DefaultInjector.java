@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 final class DefaultInjector implements Injector {
@@ -29,11 +28,11 @@ final class DefaultInjector implements Injector {
 
     @Override
     public <T> T newInstance(Class<T> type) {
-        return null;
+        return new ConstructorInjection(this).invoke(type);
     }
 
     @Override
-    public <T> T invokeMethod(Method method, Object instance) throws InvocationTargetException, IllegalAccessException {
+    public <T> T invokeMethod(Method method, Object instance) {
         return new MethodInjector(this).invoke(method, instance);
     }
 

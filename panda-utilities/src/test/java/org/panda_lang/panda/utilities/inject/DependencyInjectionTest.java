@@ -19,40 +19,43 @@ package org.panda_lang.panda.utilities.inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
+import org.panda_lang.panda.utilities.commons.collection.Maps;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.Map;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 class DependencyInjectionTest {
 
     private static final String HELLO = "Hello Injector";
+    private static final Map<String, String> MAP = Maps.of("hello", HELLO);
 
     @Test
-    void testInjector() throws InvocationTargetException, IllegalAccessException {
-        Injector injector = DependencyInjection.createInjector(new InjectorController() {
-            @Override
-            public void initialize(InjectorResources resources) {
-                resources.on(String.class).assignInstance("Hello Injector");
+    void testInjector() {
+        Injector injector = DependencyInjection.createInjector(resources -> {
+            resources.on(String.class).assignInstance("Hello Injector");
 
-                resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
-                    System.out.println(annotation.value());
-                    // np. ret map.get(value)
-                    return null;
-                });
-            }
+            resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
+                return MAP.get(annotation.value());
+            });
         });
 
-        String result = injector.invokeMethod(ReflectionUtils.getMethods(TestClass.class, "testTypeInvoke").get(0), new TestClass());
-        Assertions.assertEquals(HELLO, result);
+        TestClass instance = injector.newInstance(TestClass.class);
+        Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testTypeInvoke", String.class).get(), instance));
+        Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get(), instance));
     }
 
-    private class TestClass {
+    private static class TestClass {
 
-        public String testTypeInvoke(String hello) {
+        TestClass(String hello) {
+            Assertions.assertEquals(HELLO, hello);
+        }
+
+        private String testTypeInvoke(String hello) {
             Assertions.assertEquals(HELLO, hello);
             return hello;
         }
 
-        public String testAnnotationInvoke(@CustomAnnotation("hello") String hello) {
+        protected String testAnnotationInvoke(@CustomAnnotation("hello") String hello) {
             Assertions.assertEquals(HELLO, hello);
             return hello;
         }

@@ -26,20 +26,26 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 class ReflectionUtilsTest {
 
     @Test
-    public void testGetMethodsAnnotatedWith() {
-        List<Method> methods = ReflectionUtils.getMethodsAnnotatedWith(Bar.class, AnnotationTest.class);
-
-        Assertions.assertEquals(2, methods.size());
-        Assertions.assertEquals("test", methods.get(0).getName());
-        Assertions.assertEquals("test", methods.get(1).getName());
+    void getMethod() {
+        Assertions.assertTrue(ReflectionUtils.getMethod(ReflectionUtilsTest.class, "getMethod").isPresent());
+        Assertions.assertFalse(ReflectionUtils.getMethod(ReflectionUtilsTest.class, "getMethodFake").isPresent());
     }
 
     @Test
-    public void testGetMethods() {
+    void getMethodsAnnotatedWith() {
+        Set<Method> methods = ReflectionUtils.getMethodsAnnotatedWith(Bar.class, AnnotationTest.class);
+
+        Assertions.assertEquals(2, methods.size());
+        methods.forEach(method -> Assertions.assertEquals("test", method.getName()));
+    }
+
+    @Test
+    void getMethods() {
         List<Method> methods = ReflectionUtils.getMethods(Bar.class, "test");
 
         Assertions.assertAll(
@@ -49,7 +55,7 @@ class ReflectionUtilsTest {
     }
 
     @Test
-    public void testStaticFieldValues() {
+    void getStaticFieldValues() {
         Collection<String> values = ReflectionUtils.getStaticFieldValues(Foo.class, String.class);
 
         Assertions.assertEquals(1, values.size());
@@ -57,7 +63,7 @@ class ReflectionUtilsTest {
     }
 
     @Test
-    public void testFieldValues() {
+    void getFieldValues() {
         Collection<String> values = ReflectionUtils.getFieldValues(Bar.class, String.class, new Bar());
 
         Assertions.assertEquals(1, values.size());

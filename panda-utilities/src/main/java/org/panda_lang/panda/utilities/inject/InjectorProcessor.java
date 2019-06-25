@@ -20,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Executable;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Optional;
 
 final class InjectorProcessor {
@@ -31,50 +30,43 @@ final class InjectorProcessor {
         this.injector = injector;
     }
 
-    protected Object[] fetchValues(Executable executable) throws InvocationTargetException, IllegalAccessException {
+    protected Object[] fetchValues(Executable executable) throws InjectorException {
         Class<?>[] parameterTypes = executable.getParameterTypes();
 
         Annotation[][] parameterAnnotations = executable.getParameterAnnotations();
-
-        /*
-        InjectorAnnotation[] processedAnnotations = new InjectorAnnotation[parameterTypes.length];
-
-        for (int i = 0; i < processedAnnotations.length; i++) {
-            Annotation[] annotations = parameterAnnotations[i];
-
-            if (annotations.length == 0) {
-                continue;
-            }
-
-            InjectorAnnotation processedAnnotation = new InjectorAnnotation(annotations[0].annotationType());
-            processedAnnotations[i] = processedAnnotation;
-            processedAnnotation.load(annotations[0]);
-        }
-        */
-
         Object[] parameters = new Object[parameterTypes.length];
 
         for (int i = 0; i < parameterTypes.length; i++) {
-            parameters[i] = fetchParameter(i, parameterTypes[i], parameterAnnotations[i]);
+            try {
+                parameters[i] = fetchParameter(parameterTypes[i], parameterAnnotations[i]);
+            } catch (Exception e) {
+                throw new InjectorException("Failed to fetch values for " + executable + ": " + e.getMessage(), e);
+            }
         }
 
         return parameters;
     }
 
-    private @Nullable Object fetchParameter(int i, Class<?> type, Annotation[] annotations) {
-        Optional<InjectorResourceBind<?>> bindValue = injector.getResources().getBind(type);
+    private @Nullable Object fetchParameter(Class<?> type, Annotation[] annotations) throws Exception {
+        InjectorResources resources = injector.getResources();
+
+        for (Annotation annotation : annotations) {
+            Optional<InjectorResourceBind<?>> bindValue = resources.getBind(annotation.annotationType());
+
+            if (!bindValue.isPresent()) {
+                continue;
+            }
+
+            return bindValue.get().getValue(type, annotation);
+        }
+
+        Optional<InjectorResourceBind<?>> bindValue = resources.getBind(type);
 
         if (!bindValue.isPresent()) {
-            throw new NullPointerException("Missing bind");
+            throw new InjectorException("Missing bind for " + type + " parameter");
         }
 
-        try {
-            return bindValue.get().getValue(type, annotations.length > 0 ? annotations[0] : null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return null;
+        return bindValue.get().getValue(type, annotations);
     }
 
 }

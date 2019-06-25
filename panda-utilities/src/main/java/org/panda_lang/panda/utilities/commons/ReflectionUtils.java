@@ -23,46 +23,29 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ReflectionUtils {
 
-    public static @Nullable Class<?> forName(String name) {
-        try {
-            return Class.forName(name);
-        } catch (ClassNotFoundException e) {
-            return null;
-        }
-    }
-
     /**
-     * Collect methods annotated with the specified annotation
+     * Get method wrapped into optional instead of exception if method does not exist.
+     * Comparing to {@link java.lang.Class#getMethod(String, Class[])} it also checks non-public methods.
      *
-     * @param clazz      class to search
-     * @param annotation annotation to search for
-     * @return the list of annotated methods
+     * @param clazz the class to search in
+     * @param methodName name of method
+     * @param parameterTypes parameter types of method
+     * @return the result method wrapped into optional
      */
-    public static List<Method> getMethodsAnnotatedWith(Class<?> clazz, Class<? extends Annotation> annotation) {
-        List<Method> methods = new ArrayList<>();
-        Class<?> currentClazz = clazz;
-
-        while (currentClazz != Object.class) {
-            Method[] declaredMethods = currentClazz.getDeclaredMethods();
-
-            for (Method method : declaredMethods) {
-                if (!method.isAnnotationPresent(annotation)) {
-                    continue;
-                }
-
-                Annotation annotationInstance = method.getAnnotation(annotation);
-                methods.add(method);
-            }
-
-            currentClazz = currentClazz.getSuperclass();
-        }
-
-        return methods;
+    public static Optional<Method> getMethod(Class<?> clazz, String methodName, Class<?>... parameterTypes) {
+        return getMethods(clazz, methodName).stream()
+                .filter(method -> Arrays.equals(method.getParameterTypes(), parameterTypes))
+                .findFirst();
     }
 
     /**
@@ -73,58 +56,71 @@ public class ReflectionUtils {
      * @return the list of the matching methods
      */
     public static List<Method> getMethods(Class<?> clazz, String methodName) {
-        return CollectionUtils.listOf(getMethods(clazz.getMethods(), methodName), getMethods(clazz.getDeclaredMethods(), methodName));
+        return Arrays.stream(clazz.getDeclaredMethods())
+                .filter(method -> method.getName().equals(methodName))
+                .collect(Collectors.toList());
     }
 
     /**
-     * Collect all methods with same name
+     * Collect methods annotated with the specified annotation
      *
-     * @param methods    methods to search
-     * @param methodName name to search for
-     * @return the list of the matching methods
+     * @param clazz      class to search
+     * @param annotation annotation to search for
+     * @return the set of annotated methods
      */
-    public static List<Method> getMethods(Method[] methods, String methodName) {
-        List<Method> matchedMethods = new ArrayList<>();
+    public static Set<Method> getMethodsAnnotatedWith(Class<?> clazz, Class<? extends Annotation> annotation) {
+        Set<Method> methods = new HashSet<>();
+        Class<?> currentClazz = clazz;
 
-        for (Method method : methods) {
-            if (method.getName().equals(methodName)) {
-                matchedMethods.add(method);
-            }
+        while (currentClazz != Object.class) {
+            methods.addAll(Arrays.stream(currentClazz.getDeclaredMethods())
+                    .filter(method -> method.isAnnotationPresent(annotation))
+                    .collect(Collectors.toList()));
+
+            currentClazz = currentClazz.getSuperclass();
         }
 
-        return matchedMethods;
+        return methods;
     }
 
+    /**
+     * Collect values of static fields with the specified type
+     *
+     * @param clazz class to search in
+     * @param type type of field
+     * @param <T> value type
+     * @return collection of collected values
+     */
     public static <T> Collection<T> getStaticFieldValues(Class<?> clazz, Class<T> type) {
         return getFieldValues(clazz, type, null);
     }
 
+    /**
+     * Collect values of static fields with the specified type
+     *
+     * @param clazz class to search in
+     * @param type type of fields
+     * @param instance instance
+     * @param <R> type of values
+     * @param <T> type of instance
+     * @return collection of collected values
+     */
     @SuppressWarnings("unchecked")
     public static <R, T> Collection<R> getFieldValues(Class<T> clazz, Class<R> type, @Nullable T instance) {
-        Collection<Field> fields = new ArrayList<>(type.getDeclaredFields().length);
-
-        for (Field declaredField : clazz.getDeclaredFields()) {
-            if (declaredField.getType() != type) {
-                continue;
-            }
-
-            if (instance == null && !Modifier.isStatic(declaredField.getModifiers())) {
-                continue;
-            }
-
-            fields.add(declaredField);
-        }
+        Collection<Field> fields = Arrays.stream(clazz.getDeclaredFields())
+                .filter(field -> field.getType() == type)
+                .filter(field ->  instance != null || Modifier.isStatic(field.getModifiers()))
+                .collect(Collectors.toList());
 
         Collection<R> values = new ArrayList<>(fields.size());
 
         try {
             for (Field field : fields) {
                 field.setAccessible(true);
-                Object value = field.get(instance);
-                values.add(value != null ? (R) value : null);
+                values.add((R) field.get(instance));
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
         }
 
         return values;

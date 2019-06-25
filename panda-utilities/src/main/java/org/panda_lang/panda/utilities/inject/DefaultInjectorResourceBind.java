@@ -33,9 +33,8 @@ class DefaultInjectorResourceBind<T> implements InjectorResourceBind<T> {
         this.associatedType = associatedType;
     }
 
-    private <V> InjectorResourceBindValue<V> with(InjectorResourceBindValue<V> value) {
-        this.value = (InjectorResourceBindValue<T>) value;
-        return value;
+    private <V> void with(InjectorResourceBindValue<T> value) {
+        this.value = value;
     }
 
     @Override

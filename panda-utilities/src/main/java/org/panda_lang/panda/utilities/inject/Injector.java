@@ -18,14 +18,13 @@ package org.panda_lang.panda.utilities.inject;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public interface Injector {
 
-    <T> T newInstance(Class<T> type) throws InvocationTargetException, IllegalAccessException;
+    <T> T newInstance(Class<T> type);
 
-    <T> T invokeMethod(Method method, @Nullable Object instance) throws InvocationTargetException, IllegalAccessException;
+    <T> T invokeMethod(Method method, @Nullable Object instance);
 
     InjectorResources getResources();
 
