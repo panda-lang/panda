@@ -70,6 +70,21 @@ public final class Maps {
     }
 
     /**
+     * {@link java.util.Map#put(Object, Object)} but returns the used value
+     *
+     * @param map the map to put in
+     * @param key the key
+     * @param value the value
+     * @param <K> type of key
+     * @param <V> type of value
+     * @return the object used as value
+     */
+    public static <K, V> V put(Map<? super K, ? super V> map, K key, V value) {
+        map.put(key, value);
+        return value;
+    }
+
+    /**
      * Create map based on vararg parameter
      *
      * @param values values
@@ -92,11 +107,11 @@ public final class Maps {
      * @return map based on the specified values
      */
     public static <K, V> Map<K, V> of(Class<K> keyType, Class<V> valueType, Object... values) {
-        Map<K, V> map = new HashMap<>();
-
         if (values.length % 2 != 0) {
             throw new IllegalArgumentException("The number of given values is not even");
         }
+
+        Map<K, V> map = new HashMap<>();
 
         for (int i = 0; i < values.length; i += 2) {
             //noinspection unchecked
