@@ -23,9 +23,6 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.AbstractExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.ContentProcessor;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.util.SeparatedContentReader;
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
@@ -42,8 +39,6 @@ public class SectionExpressionSubparser implements ExpressionSubparser {
     }
 
     private static class SentenceWorker extends AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
-
-        private final SeparatedContentReader contentReader = new SeparatedContentReader(Separators.PARENTHESIS_LEFT, ContentProcessor.DEFAULT);
 
         @Override
         public @Nullable ExpressionResult next(ExpressionContext context) {
