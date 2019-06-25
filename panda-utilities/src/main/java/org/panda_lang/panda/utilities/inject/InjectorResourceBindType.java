@@ -16,14 +16,25 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-@FunctionalInterface
-public interface InjectorController {
+import java.lang.annotation.Annotation;
 
-    /**
-     * Resources initializer
-     *
-     * @param resources the resources to initialize
-     */
-    void initialize(InjectorResources resources);
+enum InjectorResourceBindType {
+
+    ANNOTATION(1),
+    TYPE(0);
+
+    private final int priority;
+
+    InjectorResourceBindType(int priority) {
+        this.priority = priority;
+    }
+
+    protected int getPriority() {
+        return priority;
+    }
+
+    static InjectorResourceBindType of(Class<?> clazz) {
+        return Annotation.class.isAssignableFrom(clazz) ? ANNOTATION : TYPE;
+    }
 
 }

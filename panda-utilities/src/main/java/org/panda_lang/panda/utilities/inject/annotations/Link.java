@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.inject;
+package org.panda_lang.panda.utilities.inject.annotations;
 
-@FunctionalInterface
-public interface InjectorController {
+import java.lang.annotation.Annotation;
 
-    /**
-     * Resources initializer
-     *
-     * @param resources the resources to initialize
-     */
-    void initialize(InjectorResources resources);
+public @interface Link {
+
+    int id();
+
+    Class<? extends Annotation> with();
+
+    String value();
 
 }

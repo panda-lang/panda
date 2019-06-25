@@ -22,34 +22,47 @@ import java.util.function.BiFunction;
 
 public interface InjectorResourceBind<T> extends Comparable<InjectorResourceBind> {
 
+    /**
+     * Assign class to the bind (a new instance will be created each time)
+     *
+     * @param type the type of value to assign
+     */
     void assign(Class<?> type);
 
+    /**
+     * Assign object to the bind
+     *
+     * @param value the instance to assign
+     */
     void assignInstance(Object value);
 
+    /**
+     * Assign custom handler to the bind
+     *
+     * @param handler the handler which accepts type of parameter and bind type as arguments
+     */
     void assignHandler(BiFunction<Class<?>, T, Object> handler);
+
+    /**
+     * Get value of bind for the expected (parameter) type and instance of bind type
+     *
+     * @param expected the expected return type
+     * @param bind instance of bind generic type
+     * @return the result value
+     * @throws Exception if anything wrong will happen, whole process should be stopped
+     */
+    Object getValue(Class<?> expected, Object bind) throws Exception;
+
+    /**
+     * Get associated type with the bind
+     *
+     * @return the associated type
+     */
+    Class<T> getAssociatedType();
 
     @Override
     default int compareTo(@NotNull InjectorResourceBind bind) {
-        return Integer.compare(getType().priority, bind.getType().priority);
-    }
-
-    Object getValue(Class<?> expected, Object bind) throws Exception;
-
-    Class<T> getAssociatedType();
-
-    BindType getType();
-
-    enum BindType {
-
-        ANNOTATION(1),
-        TYPE(0);
-
-        private final int priority;
-
-        BindType(int priority) {
-            this.priority = priority;
-        }
-
+        return Integer.compare(InjectorResourceBindType.of(getAssociatedType()).getPriority(), InjectorResourceBindType.of(bind.getAssociatedType()).getPriority());
     }
 
 }
