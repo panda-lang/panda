@@ -45,7 +45,7 @@ public class ClassUtils {
      * @param to the class to compare with
      * @return the most related class from collection (may not exist)
      */
-    public static Optional<Class<?>> selectMostRelated(Collection<Class<?>> classes, Class<?> to) {
+    public static Optional<Class<?>> selectMostRelated(Collection<? extends Class<?>> classes, Class<?> to) {
         Class<?> selected = null;
 
         for (Class<?> clazz : classes) {
