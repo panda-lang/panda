@@ -32,7 +32,7 @@ class DependencyInjectionTest {
     @Test
     void testInjector() {
         Injector injector = DependencyInjection.createInjector(resources -> {
-            resources.on(String.class).assignInstance("Hello Injector");
+            resources.on(String.class).assignInstance(HELLO);
 
             resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
                 return MAP.get(annotation.value());
@@ -46,18 +46,18 @@ class DependencyInjectionTest {
 
     private static class TestClass {
 
-        TestClass(String hello) {
-            Assertions.assertEquals(HELLO, hello);
+        TestClass(String value) {
+            Assertions.assertEquals(HELLO, value);
         }
 
-        private String testTypeInvoke(String hello) {
-            Assertions.assertEquals(HELLO, hello);
-            return hello;
+        private String testTypeInvoke(String value) {
+            Assertions.assertEquals(HELLO, value);
+            return value;
         }
 
-        protected String testAnnotationInvoke(@CustomAnnotation("hello") String hello) {
-            Assertions.assertEquals(HELLO, hello);
-            return hello;
+        protected String testAnnotationInvoke(@CustomAnnotation("hello") String value) {
+            Assertions.assertEquals(HELLO, value);
+            return value;
         }
 
     }
