@@ -16,5 +16,32 @@
 
 package org.panda_lang.panda.utilities.inject;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.security.InvalidParameterException;
+
 final class ConstructorInjection {
+
+    private final InjectorProcessor processor;
+
+    ConstructorInjection(Injector injector) {
+        this.processor = new InjectorProcessor(injector);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T invoke(Class<T> type) {
+        if (type.getDeclaredConstructors().length != 1) {
+            throw new InvalidParameterException("Class has to contain only one constructor");
+        }
+
+        try {
+            Constructor<?> constructor = type.getDeclaredConstructors()[0];
+            constructor.setAccessible(true);
+
+            return (T) constructor.newInstance(processor.fetchValues(constructor));
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            throw new InjectorException("Cannot evaluate: " + e.getMessage(), e);
+        }
+    }
+
 }

@@ -28,8 +28,13 @@ final class MethodInjector {
     }
 
     @SuppressWarnings("unchecked")
-    protected <T> T invoke(Method method, Object instance) throws InvocationTargetException, IllegalAccessException {
-        return (T) method.invoke(instance, processor.fetchValues(method));
+    protected <T> T invoke(Method method, Object instance) {
+        try {
+            method.setAccessible(true);
+            return (T) method.invoke(instance, processor.fetchValues(method));
+        } catch (IllegalAccessException | InvocationTargetException | InjectorException e ) {
+            throw new InjectorException("Cannot invoke the method: " + e.getMessage(), e);
+        }
     }
 
 }

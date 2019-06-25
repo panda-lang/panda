@@ -16,9 +16,14 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-@FunctionalInterface
-interface InjectorResourceBindValue<T> {
+public final class InjectorException extends RuntimeException {
 
-    Object getValue(Class<?> expected, T bind) throws Exception;
+    public InjectorException(String message) {
+        super(message);
+    }
+
+    InjectorException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

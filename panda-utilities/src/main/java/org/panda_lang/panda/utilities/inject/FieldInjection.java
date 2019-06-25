@@ -17,4 +17,5 @@
 package org.panda_lang.panda.utilities.inject;
 
 final class FieldInjection {
+
 }

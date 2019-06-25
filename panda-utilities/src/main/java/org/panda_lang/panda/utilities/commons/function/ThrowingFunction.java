@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.inject;
+package org.panda_lang.panda.utilities.commons.function;
 
 @FunctionalInterface
-interface InjectorResourceBindValue<T> {
+public interface ThrowingFunction<T, R, E extends Exception> {
 
-    Object getValue(Class<?> expected, T bind) throws Exception;
+    R apply(T t) throws E;
 
 }
+
+
