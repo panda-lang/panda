@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.interpreter.parser.expression.util;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers;
 
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 
-public abstract class AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
+abstract class AbstractExpressionSubparserWorker implements ExpressionSubparserWorker {
 
     private ExpressionSubparserRepresentation subparser;
 
