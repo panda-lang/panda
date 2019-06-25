@@ -24,11 +24,8 @@ import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 
-import java.io.File;
-
 class FileBasedLexerTest {
 
-    private static final File SOURCE_FILE = new File("examples/hello_world.panda");
     private static final Source SOURCE = new PandaSource(FileBasedLexerTest.class, "a('z').b.c('y').d('x');");
 
     @Test

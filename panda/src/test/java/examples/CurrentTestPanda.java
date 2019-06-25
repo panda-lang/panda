@@ -14,40 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package examples;
 
 import org.junit.jupiter.api.Test;
+import org.panda_lang.panda.Panda;
+import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
-import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkLogger;
 import org.panda_lang.panda.framework.design.architecture.Application;
 
-class BootstrapTest {
+import java.util.Optional;
+
+class CurrentTestPanda {
 
     @Test
-    public void testBootstraps() {
+    public void testCurrentTest() {
         PandaFrameworkLogger.printJVMUptime();
 
-        for (int i = 0; i < 1; i++) {
-            this.testBootstrap();
-        }
-    }
-
-    private void testBootstrap() {
         PandaFactory factory = new PandaFactory();
         Panda panda = factory.createPanda();
 
-        Application application = new PandaApplicationBootstrap(panda)
+        Optional<Application> application = new PandaApplicationBootstrap(panda)
                 .workingDirectory("../examples/")
                 .main("current_test.panda")
                 .createApplication();
 
-        if (application == null) {
-            PandaFramework.getLogger().error("Interpretation failed, application does not exist");
-            return;
-        }
-
-        application.launch();
+        application.ifPresent(app -> app.launch());
     }
 
 }

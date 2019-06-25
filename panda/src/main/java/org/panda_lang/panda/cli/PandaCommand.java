@@ -17,7 +17,6 @@
 package org.panda_lang.panda.cli;
 
 import org.panda_lang.panda.PandaConstants;
-import org.panda_lang.panda.framework.design.architecture.Application;
 import picocli.CommandLine;
 
 import java.io.File;
@@ -54,8 +53,9 @@ public class PandaCommand implements Runnable {
             return;
         }
 
-        Application application = cli.getPanda().getPandaLoader().load(script, script.getParentFile());
-        application.launch();
+        cli.getPanda().getPandaLoader()
+                .load(script, script.getParentFile())
+                .ifPresent(application -> application.launch());
     }
 
 }

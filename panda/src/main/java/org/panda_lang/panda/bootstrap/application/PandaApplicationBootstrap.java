@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.bootstrap.application;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.Panda;
-import org.panda_lang.panda.framework.design.architecture.PandaApplication;
+import org.panda_lang.panda.framework.design.architecture.Application;
 
 import java.io.File;
+import java.util.Optional;
 
 public class PandaApplicationBootstrap {
 
@@ -46,7 +46,7 @@ public class PandaApplicationBootstrap {
         return this;
     }
 
-    public @Nullable PandaApplication createApplication() {
+    public Optional<Application> createApplication() {
         return panda.getPandaLoader().load(main, workingDirectory);
     }
 
