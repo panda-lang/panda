@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-import java.lang.annotation.Annotation;
 import java.util.Objects;
 import java.util.function.BiFunction;
 
@@ -53,11 +52,7 @@ class DefaultInjectorResourceBind<T> implements InjectorResourceBind<T> {
     }
 
     @Override
-    public BindType getType() {
-        return Annotation.class.isAssignableFrom(associatedType) ? BindType.ANNOTATION : BindType.TYPE;
-    }
-
-    @Override
+    @SuppressWarnings("unchecked")
     public Object getValue(Class<?> expected, Object bind) throws Exception {
         return value.getValue(expected, (T) bind);
     }

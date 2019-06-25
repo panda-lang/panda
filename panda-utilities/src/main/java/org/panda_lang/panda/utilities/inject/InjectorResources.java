@@ -21,10 +21,30 @@ import java.util.Optional;
 
 public interface InjectorResources {
 
+    /**
+     * Create bind for the specified type
+     *
+     * @param associatedType type to bind
+     * @param <T> type
+     * @return the bind based on associated type
+     */
     <T> InjectorResourceBind<T> on(Class<T> associatedType);
 
+    /**
+     * Create bind for parameters annotated with the specified annotation
+     *
+     * @param annotation the annotation to bind
+     * @param <T> type of annotation
+     * @return the bind based on associate annotation
+     */
     <T extends Annotation> InjectorResourceBind<T> annotatedWith(Class<T> annotation);
 
+    /**
+     * Get bind for the specified type or annotation
+     *
+     * @param associatedType the associated class with bind to search for
+     * @return the wrapped bind
+     */
     Optional<InjectorResourceBind<?>> getBind(Class<?> associatedType);
 
 }

@@ -22,10 +22,30 @@ import java.lang.reflect.Method;
 
 public interface Injector {
 
+    /**
+     * Create a new instance of the specified type using Injector
+     *
+     * @param type the class to instantiate
+     * @param <T> the type
+     * @return a new instance
+     */
     <T> T newInstance(Class<T> type);
 
-    <T> T invokeMethod(Method method, @Nullable Object instance);
+    /**
+     * Invoke the method using Injector
+     *
+     * @param method the method to invoke
+     * @param instance the instance to use (nullable for static context)
+     * @param <T> the return type
+     * @return the return value
+     */
+    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance);
 
+    /**
+     * Get resources of injector
+     *
+     * @return the resources
+     */
     InjectorResources getResources();
 
 }
