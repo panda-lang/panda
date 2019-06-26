@@ -16,23 +16,30 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-import java.util.Objects;
+import org.panda_lang.panda.utilities.commons.ObjectUtils;
+
 import java.util.function.BiFunction;
 
-class DefaultInjectorResourceBind<T> implements InjectorResourceBind<T> {
+class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
 
-    private final Class<T> associatedType;
-    private InjectorResourceBindValue<T> value;
+    private final Class<?> associatedType;
+    private final Class<?> dataType;
+    private InjectorResourceBindValue<V> value;
 
-    DefaultInjectorResourceBind(Class<T> associatedType) {
-        if (Objects.isNull(associatedType)) {
+    DefaultInjectorResourceBind(Class<?> associatedType) {
+        this(associatedType, associatedType);
+    }
+
+    DefaultInjectorResourceBind(Class<?> associatedType, Class<?> dataType) {
+        if (ObjectUtils.areNull(associatedType, dataType)) {
             throw new IllegalArgumentException("Associated type cannot be null at the same time");
         }
 
         this.associatedType = associatedType;
+        this.dataType = dataType;
     }
 
-    private <V> void with(InjectorResourceBindValue<T> value) {
+    private void with(InjectorResourceBindValue<V> value) {
         this.value = value;
     }
 
@@ -47,19 +54,23 @@ class DefaultInjectorResourceBind<T> implements InjectorResourceBind<T> {
     }
 
     @Override
-    public void assignHandler(BiFunction<Class<?>, T, Object> handler) {
+    public void assignHandler(BiFunction<Class<?>, V, ?> handler) {
         with(new HandledInjectorResourceBindValue<>(handler));
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public Object getValue(Class<?> expected, Object bind) throws Exception {
-        return value.getValue(expected, (T) bind);
+    public Object getValue(Class<?> expected, V data) throws Exception {
+        return value.getValue(expected, data);
     }
 
     @Override
-    public Class<T> getAssociatedType() {
+    public Class<?> getAssociatedType() {
         return associatedType;
+    }
+
+    @Override
+    public Class<?> getDataType() {
+        return dataType;
     }
 
 }

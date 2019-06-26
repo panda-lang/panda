@@ -22,28 +22,73 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-class InjectorAnnotation {
+public class InjectorAnnotation<T extends Annotation> {
 
-    private final Class<? extends Annotation> annotationType;
-    private final Map<String, Object> values = new HashMap<>();
+    private final T annotation;
+    private final Metadata<T> metadata;
 
-    InjectorAnnotation(Class<? extends Annotation> annotationType) {
-        this.annotationType = annotationType;
+    InjectorAnnotation(Metadata<T> metadata) {
+        this(null, metadata);
     }
 
-    protected void load(Annotation annotation) throws InvocationTargetException, IllegalAccessException {
-        for (Method declaredMethod : annotation.annotationType().getDeclaredMethods()) {
-            values.put(declaredMethod.getName(), declaredMethod.invoke(annotation));
+    InjectorAnnotation(T annotation) throws InvocationTargetException, IllegalAccessException {
+        this(annotation, new Metadata<>(annotation.getClass()));
+        this.metadata.load(annotation);
+    }
+
+    private InjectorAnnotation(T annotation, Metadata<T> metadata) {
+        this.annotation = annotation;
+        this.metadata = metadata;
+    }
+
+    public boolean hasAnnotation() {
+        return annotation != null;
+    }
+
+    public Metadata<T> getMetadata() {
+        return metadata;
+    }
+
+    public T getAnnotation() {
+        return annotation;
+    }
+
+    public static class Metadata<T extends Annotation> {
+
+        private final Class<? extends Annotation> annotationType;
+        private final Map<String, Object> values = new HashMap<>();
+
+        public Metadata(Class<? extends Annotation> annotationType) {
+            this.annotationType = annotationType;
         }
-    }
 
-    protected void load(String key, Object value) {
-        values.put(key, value);
-    }
+        private Metadata<T> load(T annotation) throws InvocationTargetException, IllegalAccessException {
+            for (Method declaredMethod : annotation.annotationType().getDeclaredMethods()) {
+                values.put(declaredMethod.getName(), declaredMethod.invoke(annotation));
+            }
 
-    @SuppressWarnings("unchecked")
-    protected <T> T getValue(String key) {
-        return (T) values.get(key);
+            return this;
+        }
+
+        protected Metadata<T> load(String key, Object value) {
+            values.put(key, value);
+            return this;
+        }
+
+        @SuppressWarnings("unchecked")
+        public  <V> V getValue(String key) {
+            return (V) values.get(key);
+        }
+
+        public String getValue() {
+            return getValue("value");
+        }
+
+        @SuppressWarnings("unchecked")
+        public Class<T> getAnnotationType() {
+            return (Class<T>) annotationType;
+        }
+
     }
 
 }

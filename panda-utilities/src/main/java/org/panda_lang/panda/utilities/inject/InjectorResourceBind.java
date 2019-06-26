@@ -20,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
 
-public interface InjectorResourceBind<T> extends Comparable<InjectorResourceBind> {
+public interface InjectorResourceBind<T, V> extends Comparable<InjectorResourceBind> {
 
     /**
      * Assign class to the bind (a new instance will be created each time)
@@ -41,24 +41,31 @@ public interface InjectorResourceBind<T> extends Comparable<InjectorResourceBind
      *
      * @param handler the handler which accepts type of parameter and bind type as arguments
      */
-    void assignHandler(BiFunction<Class<?>, T, Object> handler);
+    void assignHandler(BiFunction<Class<?>, V, ?> handler);
 
     /**
      * Get value of bind for the expected (parameter) type and instance of bind type
      *
      * @param expected the expected return type
-     * @param bind instance of bind generic type
+     * @param data instance of bind generic type
      * @return the result value
      * @throws Exception if anything wrong will happen, whole process should be stopped
      */
-    Object getValue(Class<?> expected, Object bind) throws Exception;
+    Object getValue(Class<?> expected, V data) throws Exception;
 
     /**
      * Get associated type with the bind
      *
      * @return the associated type
      */
-    Class<T> getAssociatedType();
+    Class<?> getAssociatedType();
+
+    /**
+     * Get data type
+     *
+     * @return the data type
+     */
+    Class<?> getDataType();
 
     @Override
     default int compareTo(@NotNull InjectorResourceBind bind) {
