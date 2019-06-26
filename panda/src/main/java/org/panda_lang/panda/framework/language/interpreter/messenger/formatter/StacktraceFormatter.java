@@ -24,6 +24,8 @@ import org.panda_lang.panda.utilities.commons.ClassUtils;
 import org.panda_lang.panda.utilities.commons.PackageUtils;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
+import java.util.Optional;
+
 public final class StacktraceFormatter implements MessengerDataFormatter<StackTraceElement[]> {
 
     @Override
@@ -41,13 +43,14 @@ public final class StacktraceFormatter implements MessengerDataFormatter<StackTr
                     return stacktrace.toString();
                 })
                 .register("{{stacktrace-last}}", (messengerFormatter, stackTraceElements) -> {
-                    StackTraceElement lastElement = ArrayUtils.get(stackTraceElements, 0);
+                    Optional<StackTraceElement> lastElement = ArrayUtils.get(stackTraceElements, 0);
 
-                    if (lastElement == null) {
+                    if (!lastElement.isPresent()) {
                         return "<unknown>";
                     }
 
-                    return PackageUtils.getShortenPackage(lastElement.getClassName()) + " (" + lastElement.getFileName() + ":" + lastElement.getLineNumber() + ")";
+                    StackTraceElement element = lastElement.get();
+                    return PackageUtils.getShortenPackage(element.getClassName()) + " (" + element.getFileName() + ":" + element.getLineNumber() + ")";
                 })
                 .register("{{stacktrace-simple}}", (messengerFormatter, stackTraceElements) -> {
                     StringBuilder stacktrace = new StringBuilder();

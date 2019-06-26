@@ -34,6 +34,7 @@ import org.panda_lang.panda.utilities.commons.text.BracketContentReader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class LexicalPatternCompiler {
 
@@ -63,13 +64,13 @@ public class LexicalPatternCompiler {
 
             if (currentChar == '~' && identifier != null) {
                 String separatorValue = Character.toString(distributor.next());
-                Separator separator = ArrayUtils.findIn(OPENING_SEPARATORS, token -> token.getValue().equals(separatorValue));
+                Optional<Separator> separator = ArrayUtils.findIn(OPENING_SEPARATORS, token -> token.getValue().equals(separatorValue));
 
-                if (separator == null) {
+                if (!separator.isPresent()) {
                     throw new LexicalPatternException("Unknown separator: " + currentChar);
                 }
 
-                element = new LexicalPatternSection(separator);
+                element = new LexicalPatternSection(separator.get());
             }
             else if (isPatternOperator(previousChar, currentChar, '[')) {
                 element = this.compileOptional(contentReader.readCurrent());

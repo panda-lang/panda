@@ -14,37 +14,31 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda;
+package org.panda_lang.panda.framework.language.runtime;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
+import org.panda_lang.panda.framework.design.architecture.dynamic.PandaBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
-import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
 
-class ExecutableBranchTest {
+class ExecutableBranchComponentTest {
 
     @Test
-    public void test() {
+    void testStackLimit() {
         MainScope main = new MainScope();
 
-        Block block = new TestBlock();
+        Block block = new PandaBlock();
         main.addStatement(block);
 
-        System.out.println("Generating statements");
-
-        for (int i = 0; i < 1000; i++) {
-            Block subBlock = new TestBlock();
+        // ~StackOverflowError
+        for (int i = 0; i < 1024; i++) {
+            Block subBlock = new PandaBlock();
             block.addStatement(subBlock);
             block = subBlock;
         }
 
-        System.out.println("Executing statements");
-
         PandaExecutableProcess process = new PandaExecutableProcess(null, main);
         process.execute();
     }
-
-    class TestBlock extends AbstractBlock {}
 
 }

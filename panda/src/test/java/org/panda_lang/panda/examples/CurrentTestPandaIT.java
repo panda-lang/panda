@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package examples;
+package org.panda_lang.panda.examples;
 
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.Panda;
@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 
 import java.util.Optional;
 
-class CurrentTestPanda {
+class CurrentTestPandaIT {
 
     @Test
     public void testCurrentTest() {
@@ -35,7 +35,7 @@ class CurrentTestPanda {
         Panda panda = factory.createPanda();
 
         Optional<Application> application = new PandaApplicationBootstrap(panda)
-                .workingDirectory("../examples/")
+                .workingDirectory("../examples/tests/")
                 .main("current_test.panda")
                 .createApplication();
 
