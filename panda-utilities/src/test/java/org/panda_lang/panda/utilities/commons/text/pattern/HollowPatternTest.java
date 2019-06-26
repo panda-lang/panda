@@ -42,10 +42,7 @@ class HollowPatternTest {
                 .hollow()
                 .build();
 
-        boolean matched = hollowPattern.match("set (variable1 to 14) to value of (set variable2 to 10)");
-
-        System.out.println(matched);
-        System.out.println(hollowPattern.getHollows());
+        Assertions.assertTrue(hollowPattern.match("set (variable1 to 14) to value of (set variable2 to 10)"));
     }
 
 }

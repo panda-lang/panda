@@ -17,7 +17,6 @@
 package org.panda_lang.panda.utilities.inject;
 
 import org.panda_lang.panda.utilities.commons.ClassUtils;
-import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
@@ -26,24 +25,31 @@ import java.util.Optional;
 
 final class DefaultInjectorResources implements InjectorResources {
 
-    private final Map<Class<?>, InjectorResourceBind<?>> binds = new HashMap<>();
+    private final Map<Class<?>, InjectorResourceBind> binds = new HashMap<>();
 
-    private <T> InjectorResourceBind<T> with(InjectorResourceBind<T> bind) {
-        return Maps.put(binds, bind.getAssociatedType(), bind);
+    private <T, V> InjectorResourceBind<T, V> with(InjectorResourceBind<T, V> bind) {
+        binds.put(bind.getAssociatedType(), bind);
+        return bind;
     }
 
     @Override
-    public <T> InjectorResourceBind<T> on(Class<T> type) {
+    public <T> InjectorResourceBind<T, T> on(Class<T> type) {
         return with(new DefaultInjectorResourceBind<>(type));
     }
 
     @Override
-    public <T extends Annotation> InjectorResourceBind<T> annotatedWith(Class<T> annotation) {
+    public <T extends Annotation> InjectorResourceBind<T, T> annotatedWith(Class<T> annotation) {
         return with(new DefaultInjectorResourceBind<>(annotation));
     }
 
     @Override
-    public Optional<InjectorResourceBind<?>> getBind(Class<?> associatedType) {
+    public <T extends Annotation> InjectorResourceBind<T, InjectorAnnotation<T>> annotatedWithMetadata(Class<T> annotation) {
+        return with(new AnnotationInjectorResourceBind<>(annotation));
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> associatedType) {
         return ClassUtils.selectMostRelated(binds.keySet(), associatedType).map(binds::get);
     }
 

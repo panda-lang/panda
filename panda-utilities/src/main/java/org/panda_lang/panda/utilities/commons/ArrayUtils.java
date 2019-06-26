@@ -19,54 +19,13 @@ package org.panda_lang.panda.utilities.commons;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public final class ArrayUtils {
 
     private ArrayUtils() { }
-
-    /**
-     * Find value in array using the predicate condition
-     *
-     * @param array the array to search in
-     * @param condition the condition
-     * @param <T> type of array
-     * @return the found element or null
-     */
-    public static <T> @Nullable T findIn(T[] array, Predicate<T> condition) {
-        for (T element : array) {
-            if (condition.test(element)) {
-                return element;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Convert array of elements to list, but skip empty (null) values
-     *
-     * @param elements the array to convert
-     * @param <T>      the type
-     * @return the result list
-     */
-    @SafeVarargs
-    public static <T> List<T> asList(T... elements) {
-        List<T> list = new ArrayList<>(elements.length);
-
-        for (T element : elements) {
-            if (element == null) {
-                continue;
-            }
-
-            list.add(element);
-        }
-
-        return list;
-    }
 
     /**
      * Merge several arrays
@@ -95,6 +54,24 @@ public final class ArrayUtils {
         }
 
         return mergedArray;
+    }
+
+    /**
+     * Find value in array using the predicate condition
+     *
+     * @param array the array to search in
+     * @param condition the condition
+     * @param <T> type of array
+     * @return the found element or null
+     */
+    public static <T> Optional<T> findIn(T[] array, Predicate<T> condition) {
+        for (T element : array) {
+            if (condition.test(element)) {
+                return Optional.ofNullable(element);
+            }
+        }
+
+        return Optional.empty();
     }
 
     /**
@@ -134,28 +111,6 @@ public final class ArrayUtils {
     }
 
     /**
-     * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
-     *
-     * @param array the array to process
-     * @param index the index of element to get
-     * @param <T>   type of the array
-     * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified array
-     */
-    public static <T> @Nullable T get(T[] array, int index) {
-        return index > -1 && index < array.length ? array[index] : null;
-    }
-
-    /**
-     * Get array class for the specified type
-     *
-     * @param clazz type of array
-     * @return array of type
-     */
-    public static Class<?> getArrayClass(Class<?> clazz) {
-        return Array.newInstance(clazz, 0).getClass();
-    }
-
-    /**
      * Get dimensional array for the specified type
      *
      * @param type       the type of the array
@@ -172,6 +127,46 @@ public final class ArrayUtils {
         }
 
         return Array.newInstance(type, new int[dimensions - 1]).getClass();
+    }
+
+    /**
+     * Get array class for the specified type
+     *
+     * @param clazz type of array
+     * @return array of type
+     */
+    public static Class<?> getArrayClass(Class<?> clazz) {
+        return Array.newInstance(clazz, 0).getClass();
+    }
+
+    /**
+     * Get index of element that pass the condition
+     *
+     * @param array the array to search in
+     * @param condition the condition to test elements
+     * @param <T> type of array
+     * @return index of element or -1 if element was not found
+     */
+    public static <T> int getIndex(T[] array, Predicate<T> condition) {
+        for (int i = 0; i < array.length; i++) {
+            if (condition.test(array[i])) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * Get element of array at the given position without risk of {@link java.lang.ArrayIndexOutOfBoundsException}
+     *
+     * @param array the array to process
+     * @param index the index of element to get
+     * @param <T>   type of the array
+     * @return the element at the index position, null if the index is less than 0 or greater than the size of the specified array
+     */
+    public static <T> Optional<T> get(T[] array, int index) {
+        return index > -1 && index < array.length ? Optional.ofNullable(array[index]) : Optional.empty();
     }
 
     /**

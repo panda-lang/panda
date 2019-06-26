@@ -28,7 +28,7 @@ public interface InjectorResources {
      * @param <T> type
      * @return the bind based on associated type
      */
-    <T> InjectorResourceBind<T> on(Class<T> associatedType);
+    <T> InjectorResourceBind<T, T> on(Class<T> associatedType);
 
     /**
      * Create bind for parameters annotated with the specified annotation
@@ -37,7 +37,16 @@ public interface InjectorResources {
      * @param <T> type of annotation
      * @return the bind based on associate annotation
      */
-    <T extends Annotation> InjectorResourceBind<T> annotatedWith(Class<T> annotation);
+    <T extends Annotation> InjectorResourceBind<T, T> annotatedWith(Class<T> annotation);
+
+    /**
+     * Create bind for parameters annotated with the specified annotation with no
+     *
+     * @param annotation the annotation to bind
+     * @param <T> type of annotation
+     * @return the bind based on associate annotation
+     */
+    <T extends Annotation> InjectorResourceBind<T, InjectorAnnotation<T>> annotatedWithMetadata(Class<T> annotation);
 
     /**
      * Get bind for the specified type or annotation
@@ -45,6 +54,6 @@ public interface InjectorResources {
      * @param associatedType the associated class with bind to search for
      * @return the wrapped bind
      */
-    Optional<InjectorResourceBind<?>> getBind(Class<?> associatedType);
+    Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> associatedType);
 
 }

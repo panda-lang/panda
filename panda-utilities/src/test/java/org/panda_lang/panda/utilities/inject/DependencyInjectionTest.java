@@ -19,15 +19,26 @@ package org.panda_lang.panda.utilities.inject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
-import org.panda_lang.panda.utilities.commons.collection.Maps;
+import org.panda_lang.panda.utilities.inject.annotations.Autowired;
+import org.panda_lang.panda.utilities.inject.annotations.Injectable;
+import org.panda_lang.panda.utilities.inject.annotations.Wired;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.util.HashMap;
 import java.util.Map;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 class DependencyInjectionTest {
 
-    private static final String HELLO = "Hello Injector";
-    private static final Map<String, String> MAP = Maps.of("hello", HELLO);
+    private static final String HELLO = "Hello";
+    private static final String HELLO_WIRED = HELLO + " Wired";
+    private static final String HELLO_AUTOWIRED = HELLO + " Autowired";
+
+    private static final Map<String, String> MAP = new HashMap<String, String>() {{
+        put("hello-autowired", HELLO_AUTOWIRED);
+        put("hello-wired", HELLO_WIRED);
+    }};
 
     @Test
     void testInjector() {
@@ -37,31 +48,49 @@ class DependencyInjectionTest {
             resources.annotatedWith(CustomAnnotation.class).assignHandler((expected, annotation) -> {
                 return MAP.get(annotation.value());
             });
+
+            resources.annotatedWithMetadata(CustomAnnotation.class).assignHandler((expected, annotation) -> {
+                return MAP.get(annotation.getMetadata().getValue());
+            });
         });
 
         TestClass instance = injector.newInstance(TestClass.class);
         Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testTypeInvoke", String.class).get(), instance));
-        Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get(), instance));
+        Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get(), instance));
+        Assertions.assertEquals(HELLO_WIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testWiredInvoke", String.class).get(), instance));
     }
 
     private static class TestClass {
 
+        @Autowired
         TestClass(String value) {
             Assertions.assertEquals(HELLO, value);
         }
 
-        private String testTypeInvoke(String value) {
+        @Autowired
+        public String testTypeInvoke(String value) {
             Assertions.assertEquals(HELLO, value);
             return value;
         }
 
-        protected String testAnnotationInvoke(@CustomAnnotation("hello") String value) {
-            Assertions.assertEquals(HELLO, value);
+        @Autowired
+        private String testAnnotationInvoke(@CustomAnnotation("hello-autowired") String value) {
+            Assertions.assertEquals(HELLO_AUTOWIRED, value);
+            return value;
+        }
+
+        @Wired({
+             @Wired.Link(parameter = "value", with = CustomAnnotation.class, value = "hello-wired")
+        })
+        protected String testWiredInvoke(String value) {
+            Assertions.assertEquals(HELLO_WIRED, value);
             return value;
         }
 
     }
 
+    @Injectable
+    @Retention(RetentionPolicy.RUNTIME)
     private @interface CustomAnnotation {
 
         String value();

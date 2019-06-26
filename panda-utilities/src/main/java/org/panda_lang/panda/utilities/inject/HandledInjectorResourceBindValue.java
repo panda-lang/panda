@@ -20,9 +20,9 @@ import java.util.function.BiFunction;
 
 final class HandledInjectorResourceBindValue<T> implements InjectorResourceBindValue<T> {
 
-    private final BiFunction<Class<?>, T, Object> handler;
+    private final BiFunction<Class<?>, T, ?> handler;
 
-    HandledInjectorResourceBindValue(BiFunction<Class<?>, T, Object> handler) {
+    HandledInjectorResourceBindValue(BiFunction<Class<?>, T, ?> handler) {
         this.handler = handler;
     }
 

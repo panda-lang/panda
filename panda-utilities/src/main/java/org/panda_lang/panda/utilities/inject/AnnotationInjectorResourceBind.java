@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.inject.annotations;
+package org.panda_lang.panda.utilities.inject;
 
 import java.lang.annotation.Annotation;
 
-public @interface Link {
+final class AnnotationInjectorResourceBind<T extends Annotation> extends DefaultInjectorResourceBind<T, InjectorAnnotation<T>> {
 
-    int id();
+    AnnotationInjectorResourceBind(Class<T> associatedType) {
+        super(associatedType, InjectorAnnotation.class);
+    }
 
-    Class<? extends Annotation> with();
-
-    String value();
+    @Override
+    public Object getValue(Class<?> expected, InjectorAnnotation<T> data) throws Exception {
+        return super.getValue(expected, data);
+    }
 
 }

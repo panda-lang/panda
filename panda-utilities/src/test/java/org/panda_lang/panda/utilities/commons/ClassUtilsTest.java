@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.commons;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collection;
 
 class ClassUtilsTest {
@@ -50,7 +51,7 @@ class ClassUtilsTest {
 
     @Test
     void selectMostRelated() {
-        Collection<Class<?>> classes = ArrayUtils.asList(A.class, B.class, C.class);
+        Collection<Class<?>> classes = Arrays.asList(A.class, B.class, C.class);
 
         Assertions.assertEquals(A.class, ClassUtils.selectMostRelated(classes, A.class).orElse(null));
         Assertions.assertEquals(C.class, ClassUtils.selectMostRelated(classes, C.class).orElse(null));

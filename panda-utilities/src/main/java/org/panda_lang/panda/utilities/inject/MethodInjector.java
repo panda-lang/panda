@@ -33,7 +33,7 @@ final class MethodInjector {
             method.setAccessible(true);
             return (T) method.invoke(instance, processor.fetchValues(method));
         } catch (IllegalAccessException | InvocationTargetException | InjectorException e ) {
-            throw new InjectorException("Cannot invoke the method: " + e.getMessage(), e);
+            throw new InjectorException("Cannot invoke the method, caused by " + e.getClass() + (e.getMessage() != null ? ": " + e.getMessage() : ""), e);
         }
     }
 
