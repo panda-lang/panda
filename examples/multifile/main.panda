@@ -1,6 +1,0 @@
-module example-test
-
-main {
-    Foo foo = new Foo()
-    Console.print(foo)
-}

@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.examples;
 
-import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
@@ -25,10 +24,9 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 
 import java.util.Optional;
 
-class CurrentTestPandaIT {
+class ExamplesLauncher {
 
-    @Test
-    public void testCurrentTest() {
+    void launch(String file) {
         PandaFrameworkLogger.printJVMUptime();
 
         PandaFactory factory = new PandaFactory();
@@ -36,7 +34,7 @@ class CurrentTestPandaIT {
 
         Optional<Application> application = new PandaApplicationBootstrap(panda)
                 .workingDirectory("../examples/tests/")
-                .main("current_test.panda")
+                .main(file)
                 .createApplication();
 
         application.ifPresent(app -> app.launch());
