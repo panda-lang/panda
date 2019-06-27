@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.examples;
 
+import org.junit.jupiter.api.Assertions;
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.PandaFactory;
 import org.panda_lang.panda.bootstrap.application.PandaApplicationBootstrap;
@@ -37,7 +38,8 @@ class ExamplesLauncher {
                 .main(file)
                 .createApplication();
 
-        application.ifPresent(app -> app.launch());
+        Assertions.assertTrue(application.isPresent());
+        Assertions.assertDoesNotThrow(() -> application.get().launch());
     }
 
 }
