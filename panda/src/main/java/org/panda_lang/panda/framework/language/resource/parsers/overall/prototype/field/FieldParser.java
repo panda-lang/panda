@@ -59,7 +59,7 @@ public class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
-    public void parse(ParserData data, LocalData local, ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
+    void parse(ParserData data, LocalData local, ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
         ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
 
         FieldVisibility visibility = FieldVisibility.LOCAL;
@@ -89,7 +89,7 @@ public class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2)
-    public void parseAssignation(ParserData data, @Local PrototypeField field, @Src("name") Snippet name, @Src("assignation") @Nullable Expression assignationValue) {
+    void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
             //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", data, name);
             return;

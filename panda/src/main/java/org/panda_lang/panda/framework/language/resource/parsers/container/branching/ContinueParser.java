@@ -43,7 +43,7 @@ public class ContinueParser extends ParserBootstrap {
     }
 
     @Autowired
-    private void parseContinue(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Container container) {
+    void parseContinue(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Container container) {
         BranchingUtils.parseBranchingStatement(source, container, Continue::new);
     }
 

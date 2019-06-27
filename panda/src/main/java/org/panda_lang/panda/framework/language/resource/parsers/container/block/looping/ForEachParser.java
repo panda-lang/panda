@@ -56,7 +56,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
 
     @Autowired
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    public BlockData parseBlock(ParserData data, @Src("content") Snippet content) {
+    BlockData parseBlock(ParserData data, @Src("content") Snippet content) {
         ExtractorResult result = CONTENT_PATTERN.extract(data, content);
         Snippet name = result.getWildcard("name").get().getValue();
         Snippet type = result.getWildcard("type").get().getValue();

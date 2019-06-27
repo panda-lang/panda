@@ -23,7 +23,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -47,7 +46,7 @@ public class LoopParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    public BlockData parse(ParserData data, Generation generation, @Src("content") Snippet content) {
+    BlockData parseContent(ParserData data, @Src("content") Snippet content) {
         Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, content);
 
         if (!PandaTypes.INT.isAssignableFrom(expression.getReturnType())) {

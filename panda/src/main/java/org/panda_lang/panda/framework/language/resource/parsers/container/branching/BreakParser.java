@@ -43,7 +43,7 @@ public class BreakParser extends ParserBootstrap {
     }
 
     @Autowired
-    private void parseBreak(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Container container) {
+    void parseBreak(@Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Component Container container) {
         BranchingUtils.parseBranchingStatement(source, container, Break::new);
     }
 

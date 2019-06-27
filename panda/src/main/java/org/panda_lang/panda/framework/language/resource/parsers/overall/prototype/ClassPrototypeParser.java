@@ -33,7 +33,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
@@ -73,7 +72,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(type = GenerationCycles.TYPES_LABEL)
-    public void parse(ParserData data, Generation generation, @Src("name") String className) throws Exception {
+    void parse(ParserData data, @Src("name") String className) throws Exception {
         PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
 
@@ -104,14 +103,14 @@ public class ClassPrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(type = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    public void parseDeclaration(ParserData data, @Src("declaration") Snippet declaration) {
+    void parseDeclaration(ParserData data, @Src("declaration") Snippet declaration) {
         if (declaration != null) {
             ClassPrototypeParserUtils.readDeclaration(data, declaration);
         }
     }
 
     @Autowired(type = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    public void parseBody(ParserData data, Generation generation, @Nullable @Src("body") Snippet body) throws Exception {
+    void parseBody(ParserData data, @Nullable @Src("body") Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
         }
@@ -142,7 +141,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
-    public void parseAfter(ParserData data) {
+    void parseAfter(ParserData data) {
         ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassPrototypeScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 

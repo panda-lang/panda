@@ -49,7 +49,7 @@ public class ModuleParser extends ParserBootstrap {
     }
 
     @Autowired(type = GenerationCycles.TYPES_LABEL)
-    private void parse(ParserData data, @Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Snippet moduleSource) {
+    void parse(@Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Snippet moduleSource) {
         StringBuilder nameBuilder = new StringBuilder();
 
         for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {

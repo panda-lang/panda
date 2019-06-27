@@ -52,7 +52,7 @@ public class LateDeclarationParser extends ParserBootstrap {
             @Type(with = Src.class, value = "type"),
             @Type(with = Src.class, value = "name")
     })
-    public void parse(ParserData data, ExtractorResult result, ScopeLinker linker, Snippet type, Snippet name) {
+    void parse(ParserData data, ExtractorResult result, ScopeLinker linker, Snippet type, Snippet name) {
         INITIALIZER.createVariable(data, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
     }
 
