@@ -18,7 +18,7 @@ package org.panda_lang.panda.examples;
 
 import org.junit.jupiter.api.Test;
 
-class CurrentTestExampleIT extends ExamplesLauncher {
+class CurrentTestExampleTest extends ExamplesLauncher {
 
     @Test
     void testCurrentTest() {
