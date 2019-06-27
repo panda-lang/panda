@@ -48,7 +48,7 @@ final class InjectorProcessor {
         return parameters;
     }
 
-    private InjectorAnnotation<?>[] mapAnnotations(Executable executable) throws InvocationTargetException, IllegalAccessException  {
+    private InjectorAnnotation<?>[] mapAnnotations(Executable executable) throws InjectorException, InvocationTargetException, IllegalAccessException  {
         Class<?>[] parameterTypes = executable.getParameterTypes();
         Parameter[] parameters = executable.getParameters();
 
@@ -86,7 +86,7 @@ final class InjectorProcessor {
         return injectorAnnotations;
     }
 
-    private Object fetchValue(Executable executable, @Nullable InjectorAnnotation<?> annotation, Class<?> type) {
+    private Object fetchValue(Executable executable, @Nullable InjectorAnnotation<?> annotation, Class<?> type) throws InjectorException {
         try {
             return fetchParameter(annotation, type);
         } catch (Exception e) {

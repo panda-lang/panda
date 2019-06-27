@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.inject;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public interface Injector {
@@ -29,7 +30,7 @@ public interface Injector {
      * @param <T> the type
      * @return a new instance
      */
-    <T> T newInstance(Class<T> type);
+    <T> T newInstance(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException;
 
     /**
      * Invoke the method using Injector
@@ -39,7 +40,7 @@ public interface Injector {
      * @param <T> the return type
      * @return the return value
      */
-    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance);
+    @Nullable <T> T invokeMethod(Method method, @Nullable Object instance) throws IllegalAccessException, InvocationTargetException, InjectorException;
 
     /**
      * Get resources of injector

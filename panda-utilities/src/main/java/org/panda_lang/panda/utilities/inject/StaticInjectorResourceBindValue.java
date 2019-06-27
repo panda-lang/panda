@@ -16,17 +16,23 @@
 
 package org.panda_lang.panda.utilities.inject;
 
+import java.util.function.Supplier;
+
 final class StaticInjectorResourceBindValue<T> implements InjectorResourceBindValue<T> {
 
-    private final Object value;
+    private final Supplier<?> valueSupplier;
 
     StaticInjectorResourceBindValue(Object value) {
-        this.value = value;
+        this(() -> value);
+    }
+
+    StaticInjectorResourceBindValue(Supplier<?> valueSupplier) {
+        this.valueSupplier = valueSupplier;
     }
 
     @Override
     public Object getValue(Class<?> expected, T bind) {
-        return value;
+        return valueSupplier.get();
     }
 
 }

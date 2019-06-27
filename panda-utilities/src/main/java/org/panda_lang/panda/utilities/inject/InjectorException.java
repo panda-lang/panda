@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.utilities.inject;
 
-public final class InjectorException extends RuntimeException {
+public final class InjectorException extends Exception {
 
     public InjectorException(String message) {
         super(message);

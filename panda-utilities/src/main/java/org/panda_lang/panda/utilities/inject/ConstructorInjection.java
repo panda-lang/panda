@@ -29,19 +29,15 @@ final class ConstructorInjection {
     }
 
     @SuppressWarnings("unchecked")
-    public <T> T invoke(Class<T> type) {
+    public <T> T invoke(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException {
         if (type.getDeclaredConstructors().length != 1) {
             throw new InvalidParameterException("Class has to contain only one constructor");
         }
 
-        try {
-            Constructor<?> constructor = type.getDeclaredConstructors()[0];
-            constructor.setAccessible(true);
+        Constructor<?> constructor = type.getDeclaredConstructors()[0];
+        constructor.setAccessible(true);
 
-            return (T) constructor.newInstance(processor.fetchValues(constructor));
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new InjectorException("Cannot evaluate: " + e.getMessage(), e);
-        }
+        return (T) constructor.newInstance(processor.fetchValues(constructor));
     }
 
 }

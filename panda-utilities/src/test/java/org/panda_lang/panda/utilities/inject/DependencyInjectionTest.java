@@ -54,10 +54,12 @@ class DependencyInjectionTest {
             });
         });
 
-        TestClass instance = injector.newInstance(TestClass.class);
-        Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testTypeInvoke", String.class).get(), instance));
-        Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get(), instance));
-        Assertions.assertEquals(HELLO_WIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testWiredInvoke", String.class).get(), instance));
+        Assertions.assertDoesNotThrow(() -> {
+            TestClass instance = injector.newInstance(TestClass.class);
+            Assertions.assertEquals(HELLO, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testTypeInvoke", String.class).get(), instance));
+            Assertions.assertEquals(HELLO_AUTOWIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testAnnotationInvoke", String.class).get(), instance));
+            Assertions.assertEquals(HELLO_WIRED, injector.invokeMethod(ReflectionUtils.getMethod(TestClass.class, "testWiredInvoke", String.class).get(), instance));
+        });
     }
 
     private static class TestClass {

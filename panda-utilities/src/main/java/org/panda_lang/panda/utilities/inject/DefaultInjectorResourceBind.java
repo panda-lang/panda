@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.inject;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
 
@@ -51,6 +52,11 @@ class DefaultInjectorResourceBind<T, V> implements InjectorResourceBind<T, V> {
     @Override
     public void assignInstance(Object value) {
         with(new StaticInjectorResourceBindValue<>(value));
+    }
+
+    @Override
+    public void assignInstance(Supplier<?> valueSupplier) {
+        with(new StaticInjectorResourceBindValue<>(valueSupplier));
     }
 
     @Override
