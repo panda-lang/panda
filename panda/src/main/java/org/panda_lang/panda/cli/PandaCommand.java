@@ -17,9 +17,12 @@
 package org.panda_lang.panda.cli;
 
 import org.panda_lang.panda.PandaConstants;
+import org.panda_lang.panda.framework.PandaFramework;
+import org.panda_lang.panda.framework.design.architecture.Application;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.util.Optional;
 
 @CommandLine.Command(name = "panda", version = "Panda " + PandaConstants.VERSION)
 public class PandaCommand implements Runnable {
@@ -53,9 +56,14 @@ public class PandaCommand implements Runnable {
             return;
         }
 
-        cli.getPanda().getPandaLoader()
-                .load(script, script.getParentFile())
-                .ifPresent(application -> application.launch());
+        Optional<Application> application = cli.getPanda().getPandaLoader().load(script, script.getParentFile());
+
+        if (!application.isPresent()) {
+            PandaFramework.getLogger().error("Cannot load application");
+            return;
+        }
+
+        application.get().launch();
     }
 
 }
