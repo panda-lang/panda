@@ -19,6 +19,7 @@ package org.panda_lang.panda.utilities.inject;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 public interface InjectorResourceBind<T, V> extends Comparable<InjectorResourceBind> {
 
@@ -35,6 +36,13 @@ public interface InjectorResourceBind<T, V> extends Comparable<InjectorResourceB
      * @param value the instance to assign
      */
     void assignInstance(Object value);
+
+    /**
+     * Assign value supplier to the bind
+     *
+     * @param valueSupplier the supplier to assign
+     */
+    void assignInstance(Supplier<?> valueSupplier);
 
     /**
      * Assign custom handler to the bind
