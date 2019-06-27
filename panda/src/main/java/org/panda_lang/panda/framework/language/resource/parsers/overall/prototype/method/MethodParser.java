@@ -26,10 +26,8 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -66,11 +64,7 @@ public class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
-    @AutowiredParameters(skip = 3, value = {
-            @Type(with = Src.class, value = "*signature"),
-            @Type(with = Src.class, value = "parameters")
-    })
-    boolean parse(ParserData data, LocalData local, ExtractorResult result, Snippet signature, Snippet parametersSource) {
+    boolean parse(ParserData data, LocalData local, ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
 
         if (result.hasIdentifier(VISIBILITY)) {

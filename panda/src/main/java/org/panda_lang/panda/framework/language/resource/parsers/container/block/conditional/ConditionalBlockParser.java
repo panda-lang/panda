@@ -47,7 +47,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    public BlockData parse(ParserData data, ExtractorResult pattern, @Component ParserData parentData, @Src("condition") @Nullable Expression condition) {
+    BlockData parse(ParserData data, ExtractorResult pattern, @Component ParserData parentData, @Src("condition") @Nullable Expression condition) {
         if (pattern.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock();
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);

@@ -48,12 +48,12 @@ public class MainParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
-    private void createScope(ParserData data, LocalData localData, @Component Script script) {
+    void createScope(LocalData localData, @Component Script script) {
         script.getStatements().add(localData.allocated(new MainScope()));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    private void parseScope(ParserData data, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
+    void parseScope(ParserData data, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
         ScopeParserUtils.parse(main, data.fork(), body);
     }
 

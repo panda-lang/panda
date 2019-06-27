@@ -46,7 +46,7 @@ public class WhileParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    private BlockData parseWhile(ParserData data, @Src("content") Snippet content) {
+    BlockData parseWhile(ParserData data, @Src("content") Snippet content) {
         Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, content);
 
         if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {

@@ -46,7 +46,7 @@ public class ReturnParser extends ParserBootstrap {
     }
 
     @Autowired
-    public void parse(@Component Container container, @Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Src("value") @Nullable Expression value) {
+    void parse(@Component Container container, @Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Src("value") @Nullable Expression value) {
         BranchingUtils.parseBranchingStatement(source, container, () -> new Return(value));
     }
 

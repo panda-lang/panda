@@ -26,7 +26,6 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -59,7 +58,7 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1)
-    void parse(ParserData data, LocalData local, Generation generation, @Src("*declaration") Snippet declaration) throws Exception {
+    void parse(ParserData data, LocalData local, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
         ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
