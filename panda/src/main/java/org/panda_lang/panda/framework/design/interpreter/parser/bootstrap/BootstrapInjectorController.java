@@ -1,0 +1,116 @@
+/*
+ * Copyright (c) 2015-2019 Dzikoysk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
+
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.pattern.PatternMapping;
+import org.panda_lang.panda.utilities.commons.StringUtils;
+import org.panda_lang.panda.utilities.inject.InjectorAnnotation;
+import org.panda_lang.panda.utilities.inject.InjectorController;
+import org.panda_lang.panda.utilities.inject.InjectorResources;
+
+import java.util.Map;
+
+final class BootstrapInjectorController implements InjectorController {
+
+    private ParserData data;
+    private InterceptorData interceptorData;
+    private LocalData localData;
+
+    BootstrapInjectorController(ParserData data, InterceptorData interceptorData, LocalData localData) {
+        this.data = data;
+        this.interceptorData = interceptorData;
+        this.localData = localData;
+    }
+
+    @Override
+    public void initialize(InjectorResources resources) {
+        resources.on(ParserData.class).assignInstance(() -> data);
+        resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
+        resources.on(LocalData.class).assignInstance(() -> localData);
+
+        resources.annotatedWithMetadata(Component.class).assignHandler((type, annotation) -> {
+            return findComponent(annotation, type);
+        });
+
+        resources.annotatedWithMetadata(Src.class).assignHandler((type, annotation) -> {
+            return findSource(annotation, type);
+        });
+
+        resources.annotatedWithMetadata(Local.class).assignHandler((type, annotation) -> {
+            return findLocal(annotation, type);
+        });
+
+        resources.annotatedWithMetadata(Inter.class).assignHandler((type, annotation) -> {
+            return interceptorData.getValue(type);
+        });
+    }
+
+    private @Nullable Object findComponent(InjectorAnnotation<?> annotation, Class<?> type) {
+        return data.getComponents().entrySet().stream()
+                .filter(entry -> {
+                    String value = annotation.getMetadata().getValue();
+
+                    if (!StringUtils.isEmpty(value) && entry.getKey().getName().equals(value)) {
+                        return true;
+                    }
+
+                    return type == entry.getKey().getType();
+                })
+                .map(Map.Entry::getValue)
+                .findFirst()
+                .orElse(null);
+    }
+
+    private @Nullable Object findSource(InjectorAnnotation<?> annotation, Class<?> requiredType) {
+        PatternMapping redactor = interceptorData.getValue(PatternMapping.class);
+
+        if (redactor == null) {
+            return new BootstrapException("Pattern mappings are not defined for @Redactor");
+        }
+
+        Object value = redactor.get(annotation.getMetadata().getValue());
+
+        if (value != null && requiredType == String.class) {
+            return value.toString();
+        }
+
+        if (value != null && !requiredType.isAssignableFrom(value.getClass())) {
+            throw new BootstrapException("Cannot match types: " + requiredType + " != " + value.getClass());
+        }
+
+        return value;
+    }
+
+    private @Nullable Object findLocal(InjectorAnnotation<?> annotation, Class<?> type) {
+        String name = annotation.getMetadata().getValue();
+
+        if (!StringUtils.isEmpty(name)) {
+            return localData.getValue(name);
+        }
+
+        return localData.getValue(type);
+    }
+
+}

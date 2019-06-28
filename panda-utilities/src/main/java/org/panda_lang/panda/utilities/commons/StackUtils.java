@@ -17,6 +17,8 @@
 package org.panda_lang.panda.utilities.commons;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
@@ -33,10 +35,7 @@ public class StackUtils {
      */
     @SafeVarargs
     public static <T> Stack<T> push(Stack<T> stack, T... values) {
-        for (T value : values) {
-            stack.push(value);
-        }
-
+        Arrays.stream(values).forEach(stack::push);
         return stack;
     }
 
@@ -80,7 +79,7 @@ public class StackUtils {
      *
      * @param stack the stack to reverse
      * @param <T>   the type of the values
-     * @return the stack with reversed values
+     * @return the stack with reversed values (the same instance)
      */
     public static <T> Stack<T> reverse(Stack<T> stack) {
         List<T> reversed = new ArrayList<>(stack);
@@ -92,6 +91,19 @@ public class StackUtils {
             stack.push(element);
         }
 
+        return stack;
+    }
+
+    /**
+     * Create stack using another collection
+     *
+     * @param collection the collection to use
+     * @param <T> type of collection
+     * @return a new stack based on the specified collection
+     */
+    public static <T> Stack<T> of(Collection<? extends T> collection) {
+        Stack<T> stack = new Stack<>();
+        stack.addAll(collection);
         return stack;
     }
 

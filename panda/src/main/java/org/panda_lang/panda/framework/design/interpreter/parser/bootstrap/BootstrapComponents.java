@@ -19,10 +19,9 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
-public class BootstrapComponents {
+public final class BootstrapComponents {
 
     public static final String CURRENT_SOURCE_LABEL = "bootstrap-current-source";
-
     public static final Component<Snippet> CURRENT_SOURCE = Component.of(CURRENT_SOURCE_LABEL, Snippet.class);
 
 }

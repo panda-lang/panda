@@ -20,11 +20,11 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.EmptyHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.EmptyInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.EmptyInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -49,8 +49,8 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
-    protected BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer<@Nullable Statement> initialize(ParserData data, BootstrapInitializer<@Nullable Statement> initializer) {
+        return initializer
                 .interceptor(new EmptyInterceptor())
                 .handler(new EmptyHandler());
     }

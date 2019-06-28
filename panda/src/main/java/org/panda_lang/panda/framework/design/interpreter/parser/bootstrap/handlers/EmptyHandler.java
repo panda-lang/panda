@@ -17,15 +17,10 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
-public class EmptyHandler implements BootstrapHandler {
-
-    @Override
-    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
-
-    }
+public class EmptyHandler implements ParserHandler {
 
     @Override
     public boolean handle(ParserData data, Snippet source) {

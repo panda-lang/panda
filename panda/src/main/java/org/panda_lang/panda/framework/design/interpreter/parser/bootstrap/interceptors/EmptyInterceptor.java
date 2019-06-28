@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 
-public interface BootstrapInterceptor {
+public class EmptyInterceptor implements BootstrapInterceptor {
 
-    void initialize(PandaParserBootstrap bootstrap, ParserData data);
-
-    InterceptorData handle(BootstrapCoreParser parser, ParserData data);
+    @Override
+    public InterceptorData handle(InterceptorData interceptorData, ParserData data) {
+        return interceptorData;
+    }
 
 }

@@ -17,21 +17,20 @@
 package org.panda_lang.panda.framework.language.interpreter.messenger.mappers;
 
 import org.panda_lang.panda.framework.design.interpreter.messenger.formatters.MessengerDataMapper;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrapUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
-import org.panda_lang.panda.utilities.commons.StackTraceUtils;
-
-import java.util.Arrays;
 
 public final class StacktraceMapper implements MessengerDataMapper<StackTraceElement[], StackTraceElement[]> {
 
-    private static final Class<?>[] IGNORED_CLASSES = new Class<?>[] {
-            PandaParserFailure.class,
-            BootstrapCoreParser.class,
-            ParserBootstrap.class
-    };
+    private static final Class<?>[] IGNORED_CLASSES = ArrayUtils.mergeArrays(
+            ParserBootstrapUtils.getInternalClasses(),
+            ArrayUtils.of(
+                    PandaParserFailure.class,
+                    ParserBootstrap.class
+            )
+    );
 
     private static final String[] IGNORED = new String[] {
             "sun.reflect", "java.lang.reflect",
@@ -40,11 +39,16 @@ public final class StacktraceMapper implements MessengerDataMapper<StackTraceEle
 
     @Override
     public StackTraceElement[] apply(StackTraceElement[] stackTraceElements) {
+        return stackTraceElements;
+
+        /*
         StackTraceElement[] stacktrace = StackTraceUtils.filter(stackTraceElements, IGNORED_CLASSES);
 
         return Arrays.stream(stacktrace)
-                .filter(element -> ArrayUtils.findIn(IGNORED, value -> element.getClassName().contains(value)) == null)
+                .filter(element -> ArrayUtils.findIn(IGNORED, value -> !element.getClassName().contains(value)).isPresent())
                 .toArray(StackTraceElement[]::new);
+
+         */
     }
 
     @Override

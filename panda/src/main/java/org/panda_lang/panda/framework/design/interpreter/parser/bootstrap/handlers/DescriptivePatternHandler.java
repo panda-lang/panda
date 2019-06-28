@@ -17,21 +17,28 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapContent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+
+import java.util.Objects;
 
 public class DescriptivePatternHandler implements BootstrapHandler, ParserHandler {
 
     private DescriptivePattern pattern;
 
     @Override
-    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
+    public void initialize(BootstrapContent content) {
+        if (!content.getPattern().isPresent()) {
+            return;
+        }
+
         this.pattern = PandaDescriptivePattern.builder()
-                .compile(bootstrap.getPattern().toString())
-                .build(data);
+                .compile(Objects.toString(content.getPattern().get().toString()))
+                .build(content.getData());
     }
 
     @Override

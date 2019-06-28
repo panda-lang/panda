@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.block
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
@@ -48,8 +48,8 @@ public class ForEachParser extends BlockSubparserBootstrap {
     private final VariableParser initializer = new VariableParser();
 
     @Override
-    protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer<BlockData> initialize(ParserData data, BootstrapInitializer<BlockData> initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.FOREACH))
                 .pattern("foreach content:~(");
     }

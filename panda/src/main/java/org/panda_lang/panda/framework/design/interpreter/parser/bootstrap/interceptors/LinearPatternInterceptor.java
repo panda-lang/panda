@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapContent;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPattern;
@@ -31,17 +31,22 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 
 public class LinearPatternInterceptor implements BootstrapInterceptor {
 
+    private BootstrapContent content;
     private LinearPattern pattern;
 
     @Override
-    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
-        this.pattern = LinearPattern.compile(bootstrap.getPattern().toString());
+    public void initialize(BootstrapContent content) {
+        this.content = content;
+
+        if (!content.getPattern().isPresent()) {
+            return;
+        }
+
+        this.pattern = LinearPattern.compile(content.getPattern().get().toString());
     }
 
     @Override
-    public InterceptorData handle(BootstrapCoreParser parser, ParserData data) {
-        InterceptorData interceptorData = new InterceptorData();
-
+    public InterceptorData handle(InterceptorData interceptorData, ParserData data) {
         if (pattern != null) {
             SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
             Snippet currentSource = stream.toSnippet();
@@ -50,7 +55,7 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
             LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(data, source));
 
             if (!result.isMatched()) {
-                throw PandaParserFailure.builder("Interceptor could not match token pattern", data)
+                throw PandaParserFailure.builder("Interceptor could not match pattern '" + content.getPattern().orElse("<pattern is null>") + "'", data)
                         .withStreamOrigin(currentSource)
                         .build();
             }

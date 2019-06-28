@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -47,9 +47,9 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     private int read;
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
         this.expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
-        return defaultBuilder;
+        return initializer;
     }
 
     @Override

@@ -22,13 +22,10 @@ import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
@@ -36,6 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaURLSource;
@@ -50,30 +48,25 @@ import java.util.Optional;
 public class RequireParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.REQUIRE))
                 .pattern("require (<require:condition token {type:unknown}, token {value:-}, token {value:.}>|<requiredFile>)");
     }
 
-    @Autowired(type = GenerationCycles.TYPES_LABEL)
-    @AutowiredParameters(skip = 1, value = {
-            @Type(with = Component.class),
-            @Type(with = Component.class),
-            @Type(with = Component.class),
-            @Type(with = Src.class, value = "require"),
-            @Type(with = Src.class, value = "requiredFile")
-    })
-    void parse(ParserData data, Environment environment, ModuleLoader loader, PandaScript script, @Nullable Snippet require, @Nullable Snippet requiredFile) {
+    @Autowired(cycle = GenerationCycles.TYPES_LABEL)
+    void parse(ParserData data, @Src("require") @Nullable Snippet require, @Src("requiredFile") @Nullable Snippet requiredFile) {
         if (require != null) {
-            parseModule(data, environment, loader, script, require);
+            parseModule(data, require);
             return;
         }
 
         parseFile(data, Objects.requireNonNull(requiredFile));
     }
 
-    private void parseModule(ParserData data, Environment environment, ModuleLoader loader, PandaScript script, Snippet require) {
+    private void parseModule(ParserData data, Snippet require) {
+        Environment environment = data.getComponent(UniversalComponents.ENVIRONMENT);
+
         String moduleName = require.asString();
         Optional<Module> module = environment.getModulePath().get(moduleName);
 
@@ -84,8 +77,11 @@ public class RequireParser extends ParserBootstrap {
                     .build();
         }
 
+        ModuleLoader loader = data.getComponent(UniversalComponents.MODULE_LOADER);
         loader.include(module.get());
-        script.getStatements().add(new ImportStatement(module.get()));
+
+        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+        script.addStatement(new ImportStatement(module.get()));
     }
 
     private void parseFile(ParserData data, Snippet requiredFile) {

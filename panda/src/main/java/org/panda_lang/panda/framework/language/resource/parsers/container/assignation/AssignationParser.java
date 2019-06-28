@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
@@ -49,12 +49,12 @@ public class AssignationParser extends ParserBootstrap {
     private AssignationSubparser subparser;
 
     @Override
-    public BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
+    public BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
         this.pattern = PandaDescriptivePattern.builder()
                 .compile(PATTERN)
                 .build(data);
 
-        return defaultBuilder.pattern(PATTERN);
+        return initializer.pattern(PATTERN);
     }
 
     @Override

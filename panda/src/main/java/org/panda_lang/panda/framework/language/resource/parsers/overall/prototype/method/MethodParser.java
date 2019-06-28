@@ -23,13 +23,14 @@ import org.panda_lang.panda.framework.design.architecture.prototype.method.Metho
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -59,12 +60,12 @@ public class MethodParser extends ParserBootstrap {
     private static final String STATIC = "s";
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> parameters:~( body:~{");
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> parameters:~( body:~{");
     }
 
-    @Autowired(order = 1, type = GenerationCycles.TYPES_LABEL)
-    boolean parse(ParserData data, LocalData local, ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
+    @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
+    boolean parse(ParserData data, LocalData local, @Inter ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
 
         if (result.hasIdentifier(VISIBILITY)) {

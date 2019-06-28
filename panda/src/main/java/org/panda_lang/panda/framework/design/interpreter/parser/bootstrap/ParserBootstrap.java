@@ -26,7 +26,7 @@ public abstract class ParserBootstrap<T> implements UnifiedParser<T>, ParserHand
 
     protected ParserRepresentation<UnifiedParser<T>> parser;
 
-    protected abstract BootstrapParserBuilder<T> initialize(ParserData data, BootstrapParserBuilder<T> defaultBuilder);
+    protected abstract BootstrapInitializer<T> initialize(ParserData data, BootstrapInitializer<T> initializer);
 
     public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
         return handler.handle(data, source);
@@ -47,7 +47,7 @@ public abstract class ParserBootstrap<T> implements UnifiedParser<T>, ParserHand
             return parser;
         }
 
-        this.parser = initialize(data, PandaParserBootstrap.<T> builder().instance(this)).build(data);
+        this.parser = initialize(data, new BootstrapInitializer<T>().instance(this)).build(data);
         return parser;
     }
 

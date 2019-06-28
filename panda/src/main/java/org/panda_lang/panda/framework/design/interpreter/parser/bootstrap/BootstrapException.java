@@ -14,10 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-public @interface BootstrapAnnotation {
+import org.panda_lang.panda.PandaException;
 
-    boolean nullable() default false;
+public class BootstrapException extends PandaException {
+
+    BootstrapException(String message) {
+        super(message);
+    }
+
+    BootstrapException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }

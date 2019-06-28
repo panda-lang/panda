@@ -17,13 +17,12 @@
 package org.panda_lang.panda.framework.language.resource.parsers.container;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
@@ -40,19 +39,14 @@ public class LateDeclarationParser extends ParserBootstrap {
     private static final VariableParser INITIALIZER = new VariableParser();
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.LATE))
                 .pattern("late " + VariableParser.DECLARATION_PARSER);
     }
 
     @Autowired
-    @AutowiredParameters(skip = 2, value = {
-            @Type(with = Component.class),
-            @Type(with = Src.class, value = "type"),
-            @Type(with = Src.class, value = "name")
-    })
-    void parse(ParserData data, ExtractorResult result, ScopeLinker linker, Snippet type, Snippet name) {
+    void parse(ParserData data, @Inter ExtractorResult result, @Component ScopeLinker linker, @Src("type") Snippet type, @Src("name") Snippet name) {
         INITIALIZER.createVariable(data, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
     }
 

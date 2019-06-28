@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Target(ElementType.PARAMETER)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Interceptor {
+public class BlockInterceptor {
 
 }

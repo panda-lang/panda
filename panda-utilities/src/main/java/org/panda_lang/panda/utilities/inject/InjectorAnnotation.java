@@ -32,7 +32,7 @@ public class InjectorAnnotation<T extends Annotation> {
     }
 
     InjectorAnnotation(T annotation) throws InvocationTargetException, IllegalAccessException {
-        this(annotation, new Metadata<>(annotation.getClass()));
+        this(annotation, new Metadata<>(annotation.annotationType()));
         this.metadata.load(annotation);
     }
 

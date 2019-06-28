@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+public final class ParserBootstrapUtils {
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface AutowiredParameters {
+    private static final Class<?>[] INTERNAL = new Class<?>[] {
+        BootstrapUnifiedParser.class,
+        BootstrapTaskScheduler.class
+    };
 
-    int skip() default 0;
+    private ParserBootstrapUtils() { }
 
-    Type[] value();
+    /**
+     * Get internal classes. Useful when we want to exclude some internal classes from stacktrace.
+     *
+     * @return the array of internal classes
+     */
+    public static Class<?>[] getInternalClasses() {
+        return INTERNAL.clone();
+    }
 
 }

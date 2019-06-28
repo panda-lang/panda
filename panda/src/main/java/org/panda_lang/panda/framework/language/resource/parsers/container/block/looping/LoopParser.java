@@ -17,11 +17,11 @@
 package org.panda_lang.panda.framework.language.resource.parsers.container.block.looping;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
@@ -38,8 +38,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class LoopParser extends BlockSubparserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder<BlockData> initialize(ParserData data, BootstrapParserBuilder<BlockData> defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer<BlockData> initialize(ParserData data, BootstrapInitializer<BlockData> initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.LOOP))
                 .interceptor(new LinearPatternInterceptor())
                 .pattern("loop content:(~)");
