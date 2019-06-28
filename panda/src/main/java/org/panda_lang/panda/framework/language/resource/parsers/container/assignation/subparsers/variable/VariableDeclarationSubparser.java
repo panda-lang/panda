@@ -21,16 +21,14 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.AutowiredParameters;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Type;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.VariableAssignerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationComponents;
@@ -43,18 +41,12 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
     private static final VariableParser INITIALIZER = new VariableParser();
 
     @Override
-    public BootstrapParserBuilder<@Nullable Statement> initialize(ParserData data, BootstrapParserBuilder<@Nullable Statement> defaultBuilder) {
-        return defaultBuilder.pattern(VariableParser.DECLARATION_PARSER);
+    public BootstrapInitializer<@Nullable Statement> initialize(ParserData data, BootstrapInitializer<@Nullable Statement> initializer) {
+        return initializer.pattern(VariableParser.DECLARATION_PARSER);
     }
 
     @Autowired
-    @AutowiredParameters(skip = 2, value = {
-            @Type(with = Component.class),
-            @Type(with = Src.class, value = "type"),
-            @Type(with = Src.class, value = "name"),
-            @Type(with = Component.class, value = AssignationComponents.EXPRESSION_LABEL)
-    })
-    public @Nullable Statement parse(ParserData data, ExtractorResult result, Scope scope, Snippet type, Snippet name, Expression expression) {
+    public @Nullable Statement parse(ParserData data, @Component Scope scope, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
         if (!result.isMatched()) {
             return null;
         }
@@ -63,7 +55,7 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
         boolean nullable = result.hasIdentifier("nullable");
         Variable variable = INITIALIZER.createVariable(data, scope, mutable, nullable, type, name);
 
-        return VariableAssignerUtils.of(data, scope, variable, expression).toExecutableStatement();
+        return VariableAssignerUtils.of(data, scope, variable, data.getComponent(AssignationComponents.EXPRESSION)).toExecutableStatement();
     }
 
 }

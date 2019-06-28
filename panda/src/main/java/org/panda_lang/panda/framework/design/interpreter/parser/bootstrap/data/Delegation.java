@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data;
 
-import org.panda_lang.panda.PandaException;
+public enum Delegation {
 
-public class ParserBootstrapException extends PandaException {
+    IMMEDIATELY(0),
 
-    public ParserBootstrapException(String message) {
-        super(message);
+    CURRENT_BEFORE(1),
+    CURRENT_DEFAULT(2),
+    CURRENT_AFTER(3),
+
+    NEXT_BEFORE(4),
+    NEXT_DEFAULT(5),
+    NEXT_AFTER(6);
+
+    private final int priority;
+
+    Delegation(int priority) {
+        this.priority = priority;
     }
 
-    public ParserBootstrapException(String message, Throwable cause) {
-        super(message, cause);
+    public int getPriority() {
+        return priority;
     }
 
 }

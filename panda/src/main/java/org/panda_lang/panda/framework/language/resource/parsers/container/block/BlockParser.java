@@ -19,12 +19,12 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.block
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -45,8 +45,8 @@ public class BlockParser extends ParserBootstrap {
     private final ContainerParser containerParser = new ContainerParser();
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder.pattern("<*declaration> body:~{");
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer.pattern("<*declaration> body:~{");
     }
 
     @Override

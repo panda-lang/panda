@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapCoreParser;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.InterceptorData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapContent;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
@@ -31,26 +31,24 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 
 public class DescriptivePatternInterceptor implements BootstrapInterceptor {
 
-    private PandaParserBootstrap bootstrap;
+    private BootstrapContent bootstrap;
     private DescriptivePattern pattern;
 
     @Override
-    public void initialize(PandaParserBootstrap bootstrap, ParserData data) {
-        this.bootstrap = bootstrap;
+    public void initialize(BootstrapContent content) {
+        this.bootstrap = content;
 
-        if (bootstrap.getPattern() == null) {
+        if (!content.getPattern().isPresent()) {
             return;
         }
 
         this.pattern = PandaDescriptivePattern.builder()
-                .compile(bootstrap.getPattern().toString())
-                .build(data);
+                .compile(content.getPattern().get().toString())
+                .build(content.getData());
     }
 
     @Override
-    public InterceptorData handle(BootstrapCoreParser parser, ParserData data) {
-        InterceptorData interceptorData = new InterceptorData();
-
+    public InterceptorData handle(InterceptorData interceptorData, ParserData data) {
         if (pattern != null) {
             Snippet currentSource = data.getComponent(UniversalComponents.SOURCE_STREAM).toSnippet();
             ExtractorResult result = pattern.extract(data, data.getComponent(UniversalComponents.SOURCE_STREAM));

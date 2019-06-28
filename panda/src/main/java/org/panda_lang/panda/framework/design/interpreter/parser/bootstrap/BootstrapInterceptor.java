@@ -14,28 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-public enum Delegation {
+import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 
-    IMMEDIATELY(0),
+public interface BootstrapInterceptor {
 
-    CURRENT_BEFORE(1),
-    CURRENT_DEFAULT(2),
-    CURRENT_AFTER(3),
+    default void initialize(BootstrapContent content) { }
 
-    NEXT_BEFORE(4),
-    NEXT_DEFAULT(5),
-    NEXT_AFTER(6);
-
-    private final int priority;
-
-    Delegation(int priority) {
-        this.priority = priority;
-    }
-
-    public int getPriority() {
-        return priority;
-    }
+    InterceptorData handle(InterceptorData interceptorData, ParserData data);
 
 }

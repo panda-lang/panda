@@ -19,13 +19,13 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.branc
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.LinearPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -37,8 +37,8 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public final class ThrowParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.THROW))
                 .interceptor(new LinearPatternInterceptor())
                 .pattern("throw &value:*=expression");

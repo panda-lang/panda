@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.PandaContain
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -43,8 +43,8 @@ public final class TryCatchParser extends ParserBootstrap {
     private final VariableParser initializer = new VariableParser();
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.TRY))
                 .pattern("try try-body:~{ catch catch-what:~( catch-body:~{");
     }

@@ -101,7 +101,7 @@ final class InjectorProcessor {
             Optional<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(annotation.getMetadata().getAnnotationType());
 
             if (!bindValue.isPresent()) {
-                throw new InjectorException("Missing bind for '" + annotation.getMetadata().getAnnotationType() + "' annotation");
+                throw new InjectorException("Missing annotation bind for '" + annotation.getMetadata().getAnnotationType() + "' annotation");
             }
 
             InjectorResourceBind<?, ? super Object> bind = bindValue.get();
@@ -116,7 +116,7 @@ final class InjectorProcessor {
         Optional<InjectorResourceBind<?, ? super Object>> bindValue = resources.getBind(type);
 
         if (!bindValue.isPresent()) {
-            throw new InjectorException("Missing bind for " + type + " parameter");
+            throw new InjectorException("Missing type bind for " + type + " parameter");
         }
 
         return bindValue.get().getValue(type, null);

@@ -20,9 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.DescriptivePatternHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.BootstrapInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptor.DescriptivePatternInterceptor;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.LayerMethod;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.DescriptivePatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
@@ -30,13 +28,11 @@ import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Comparator;
-import java.util.List;
 
-public class BootstrapParserBuilder<T> {
+public class BootstrapInitializer<T> {
 
-    protected Object instance;
     protected String name;
+    protected Object instance;
 
     protected String pipeline;
     protected ParserHandler handler;
@@ -44,68 +40,55 @@ public class BootstrapParserBuilder<T> {
 
     protected Object pattern;
     protected BootstrapInterceptor interceptor;
-    protected final List<LayerMethod> layers = new ArrayList<>();
+    protected final Collection<Method> layers = new ArrayList<>();
 
-    protected BootstrapParserBuilder() { }
+    BootstrapInitializer() { }
 
-    public BootstrapParserBuilder<T> instance(Object object) {
+    public BootstrapInitializer<T> instance(Object object) {
         this.instance = object;
         return this;
     }
 
-    public BootstrapParserBuilder<T> name(String name) {
+    public BootstrapInitializer<T> name(String name) {
         this.name = name;
         return this;
     }
 
-    public BootstrapParserBuilder<T> pipeline(String pipeline) {
+    public BootstrapInitializer<T> pipeline(String pipeline) {
         this.pipeline = pipeline;
         return this;
     }
 
-    public BootstrapParserBuilder<T> interceptor(BootstrapInterceptor interceptor) {
+    public BootstrapInitializer<T> interceptor(BootstrapInterceptor interceptor) {
         this.interceptor = interceptor;
         return this;
     }
 
-    public BootstrapParserBuilder<T> handler(ParserHandler handler) {
+    public BootstrapInitializer<T> handler(ParserHandler handler) {
         this.handler = handler;
         return this;
     }
 
-    public BootstrapParserBuilder<T> pattern(Object pattern) {
+    public BootstrapInitializer<T> pattern(Object pattern) {
         this.pattern = pattern;
         return this;
     }
 
-    public BootstrapParserBuilder<T> priority(int priority) {
+    public BootstrapInitializer<T> priority(int priority) {
         this.priority = priority;
         return this;
     }
 
-    public BootstrapParserBuilder<T> layer(LayerMethod layer) {
-        layers.add(layer);
-        return this;
-    }
-
-    public BootstrapParserBuilder<T> layers(Class<?> clazz) {
+    public BootstrapInitializer<T> layers(Class<?> clazz) {
         return layers(ReflectionUtils.getMethodsAnnotatedWith(clazz, Autowired.class));
     }
 
-    public BootstrapParserBuilder<T> layers(Class<?> clazz, String methodName) {
-        return layers(ReflectionUtils.getMethods(clazz, methodName));
-    }
-
-    public BootstrapParserBuilder<T> layers(Collection<Method> methods) {
-        methods.stream()
-                .map(LayerMethod::new)
-                .sorted(Comparator.comparingInt(LayerMethod::getOrder))
-                .forEach(layers::add);
-
+    public BootstrapInitializer<T> layers(Collection<Method> methods) {
+        layers.addAll(methods);
         return this;
     }
 
-    public ParserRepresentation<UnifiedParser<T>> build(ParserData data) {
+    protected ParserRepresentation<UnifiedParser<T>> build(ParserData data) {
         if (name == null && instance != null) {
             name(instance.getClass().getSimpleName());
         }
@@ -123,10 +106,10 @@ public class BootstrapParserBuilder<T> {
         }
 
         if (layers.isEmpty()) {
-            throw new ParserBootstrapException("Bootstrap does not contain any layers");
+            throw new BootstrapException("Bootstrap does not contain any layers");
         }
 
-        return new PandaParserBootstrap<>(this).generate(data);
+        return new BootstrapGenerator().generate(this, new BootstrapContentImpl(name, instance, data, handler, interceptor, pattern));
     }
 
 }

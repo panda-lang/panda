@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer.Delegation;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 
 import java.lang.annotation.ElementType;
@@ -24,16 +24,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Target(ElementType.METHOD)
+@Target({ ElementType.METHOD, ElementType.CONSTRUCTOR, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Autowired {
-
-    String type() default GenerationCycles.CONTENT_LABEL;
 
     Delegation delegation() default Delegation.IMMEDIATELY;
 
     int order() default 0;
 
-    int suborder() default 0;
+    String cycle() default GenerationCycles.DEFAULT_LABEL;
 
 }

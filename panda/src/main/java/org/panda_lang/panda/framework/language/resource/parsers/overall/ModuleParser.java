@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapParserBuilder;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -42,13 +42,13 @@ import java.util.Optional;
 public class ModuleParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapParserBuilder initialize(ParserData data, BootstrapParserBuilder defaultBuilder) {
-        return defaultBuilder
+    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+        return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
                 .pattern("module <module:condition token {type:unknown}, token {value:-}, token {value:.}>[;]");
     }
 
-    @Autowired(type = GenerationCycles.TYPES_LABEL)
+    @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(@Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Snippet moduleSource) {
         StringBuilder nameBuilder = new StringBuilder();
 

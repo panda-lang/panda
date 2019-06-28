@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.PandaParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 public interface BootstrapHandler extends ParserHandler {
 
-    void initialize(PandaParserBootstrap bootstrap, ParserData data);
+    void initialize(BootstrapContent content);
 
 }

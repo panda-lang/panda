@@ -14,28 +14,42 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.layer;
+package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-public class InterceptorData {
+public class LocalData {
 
-    private final List<Object> data;
+    private final Map<String, Object> data;
 
-    public InterceptorData() {
-        this.data = new ArrayList<>();
+    public LocalData() {
+        this.data = new HashMap<>();
     }
 
-    public void addElement(Object element) {
-        data.add(element);
+    public <T> T allocated(T element) {
+        return allocated(element.getClass().getSimpleName(), element);
+    }
+
+    public <T> T allocated(Class<T> clazz, T element) {
+        return allocated(clazz.getSimpleName(), element);
+    }
+
+    public <T> T allocated(String name, T element) {
+        data.put(name, element);
+        return element;
+    }
+
+    @SuppressWarnings("unchecked")
+    public @Nullable <T> T getValue(String name) {
+        return (T) data.get(name);
     }
 
     @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(Class<T> type) {
-        for (Object datum : data) {
+        for (Object datum : data.values()) {
             if (datum == null) {
                 continue;
             }
