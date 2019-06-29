@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.framework.design.architecture;
 
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 import java.util.List;
@@ -23,16 +24,36 @@ import java.util.List;
 public interface Script {
 
     /**
-     * @return selected statements by the specified class
+     * Select all statements assignable from the specified class
+     *
+     * @return the selected statements
      */
     <T extends Statement> List<T> select(Class<? extends T> statementClass);
 
     /**
-     * @return list of the statement declarations
+     * Add statement to the script
+     *
+     * @param statement the statement to add
      */
-    List<Statement> getStatements();
+    void addStatement(Statement statement);
 
     /**
+     * Get script content
+     *
+     * @return list of the statement declarations
+     */
+    List<? extends Statement> getStatements();
+
+    /**
+     * Get associated module
+     *
+     * @return the module
+     */
+    Module getModule();
+
+    /**
+     * Get script name
+     *
      * @return the script name, e.g. name of file or generated name
      */
     String getScriptName();
