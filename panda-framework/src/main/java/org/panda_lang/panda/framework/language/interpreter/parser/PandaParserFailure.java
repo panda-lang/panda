@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserFailure;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippetable;
@@ -25,32 +25,32 @@ import org.panda_lang.panda.framework.language.interpreter.source.PandaSourceFra
 
 public class PandaParserFailure extends PandaInterpreterFailure implements ParserFailure {
 
-    private final ParserData data;
+    private final Context context;
 
     protected PandaParserFailure(PandaParserFailureBuilder builder) {
         super(builder.message, builder.fragment, builder.note);
-        this.data = builder.data;
+        this.context = builder.context;
     }
 
     @Override
-    public ParserData getData() {
-        return data;
+    public Context getContext() {
+        return context;
     }
 
-    public static PandaParserFailureBuilder builder(String message, ParserData data) {
-        return new PandaParserFailureBuilder(message, data);
+    public static PandaParserFailureBuilder builder(String message, Context context) {
+        return new PandaParserFailureBuilder(message, context);
     }
 
     public static class PandaParserFailureBuilder {
 
         private final String message;
-        private final ParserData data;
+        private final Context context;
         private SourceFragment fragment;
         private String note;
 
-        private PandaParserFailureBuilder(String message, ParserData data) {
+        private PandaParserFailureBuilder(String message, Context context) {
             this.message = message;
-            this.data = data;
+            this.context = context;
         }
 
         public PandaParserFailureBuilder withSourceFragment(SourceFragment fragment) {
@@ -66,7 +66,7 @@ public class PandaParserFailure extends PandaInterpreterFailure implements Parse
 
         public PandaParserFailureBuilder withStreamOrigin(Snippetable indicated) {
             return withSourceFragment()
-                    .ofStreamOrigin(data, indicated)
+                    .ofStreamOrigin(context, indicated)
                     .create();
         }
 

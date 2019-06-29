@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.module;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -29,35 +29,35 @@ import java.util.function.Function;
 
 public class ModuleLoaderUtils {
 
-    public static @Nullable ClassPrototypeReference getReferenceOrNull(ParserData data, String className) {
-        return getReferenceOrOptional(data, className).orElse(null);
+    public static @Nullable ClassPrototypeReference getReferenceOrNull(Context context, String className) {
+        return getReferenceOrOptional(context, className).orElse(null);
     }
 
-    public static Optional<ClassPrototypeReference> getReferenceOrOptional(ParserData data, String className) {
-        return data.getComponent(UniversalComponents.MODULE_LOADER).forClass(className);
+    public static Optional<ClassPrototypeReference> getReferenceOrOptional(Context context, String className) {
+        return context.getComponent(UniversalComponents.MODULE_LOADER).forClass(className);
     }
 
-    public static ClassPrototypeReference getReferenceOrThrow(ParserData data, String className, @Nullable Snippet source) {
-        return getReferenceOrThrow(data, className, "Unknown type " + className, source);
+    public static ClassPrototypeReference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
+        return getReferenceOrThrow(context, className, "Unknown type " + className, source);
     }
 
-    public static ClassPrototypeReference getReferenceOrThrow(ParserData data, String className, String message, @Nullable Snippet source) {
-        return getReferenceOrThrow(data, loader -> loader.forClass(className), "Unknown type " + className, source);
+    public static ClassPrototypeReference getReferenceOrThrow(Context context, String className, String message, @Nullable Snippet source) {
+        return getReferenceOrThrow(context, loader -> loader.forClass(className), "Unknown type " + className, source);
     }
 
-    public static ClassPrototypeReference getReferenceOrThrow(ParserData data, Class<?> type, @Nullable Snippet source) {
-        return getReferenceOrThrow(data, type, "Unknown type " + type, source);
+    public static ClassPrototypeReference getReferenceOrThrow(Context context, Class<?> type, @Nullable Snippet source) {
+        return getReferenceOrThrow(context, type, "Unknown type " + type, source);
     }
 
-    public static ClassPrototypeReference getReferenceOrThrow(ParserData data, Class<?> type, String message, @Nullable Snippet source) {
-        return getReferenceOrThrow(data, loader -> loader.forClass(type), message, source);
+    public static ClassPrototypeReference getReferenceOrThrow(Context context, Class<?> type, String message, @Nullable Snippet source) {
+        return getReferenceOrThrow(context, loader -> loader.forClass(type), message, source);
     }
 
-    static ClassPrototypeReference getReferenceOrThrow(ParserData data, Function<ModuleLoader, Optional<ClassPrototypeReference>> mapper, String message, Snippet source) {
-        Optional<ClassPrototypeReference> reference = mapper.apply(data.getComponent(UniversalComponents.MODULE_LOADER));
+    static ClassPrototypeReference getReferenceOrThrow(Context context, Function<ModuleLoader, Optional<ClassPrototypeReference>> mapper, String message, Snippet source) {
+        Optional<ClassPrototypeReference> reference = mapper.apply(context.getComponent(UniversalComponents.MODULE_LOADER));
 
         if (!reference.isPresent()) {
-            throw PandaParserFailure.builder(message, data)
+            throw PandaParserFailure.builder(message, context)
                     .withStreamOrigin(source)
                     .build();
         }

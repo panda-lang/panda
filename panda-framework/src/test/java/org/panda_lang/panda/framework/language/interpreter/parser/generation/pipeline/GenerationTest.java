@@ -41,18 +41,18 @@ class GenerationTest {
     public void testPipelineGeneration() throws Throwable {
         StringBuilder outputBuilder = new StringBuilder();
 
-        generation.getCycle("b").nextPhase().delegate((pipeline, data) -> outputBuilder.append("b "), null);
-        generation.getCycle("a").nextPhase().delegate((pipeline, data) -> outputBuilder.append("a "), null);
-        generation.getCycle("c").nextPhase().delegate((pipeline, data) -> outputBuilder.append("c "), null);
+        generation.getCycle("b").nextPhase().delegate((pipeline, context) -> outputBuilder.append("b "), null);
+        generation.getCycle("a").nextPhase().delegate((pipeline, context) -> outputBuilder.append("a "), null);
+        generation.getCycle("c").nextPhase().delegate((pipeline, context) -> outputBuilder.append("c "), null);
 
-        generation.getCycle("b").nextPhase().delegate((pipeline, delegatedData) -> {
+        generation.getCycle("b").nextPhase().delegate((pipeline, delegatedContext) -> {
             outputBuilder.append("b2 ");
 
-            pipeline.nextPhase().delegate((pipeline1, delegatedData1) -> {
-                pipeline1.generation().getCycle("a").nextPhase().delegate((pipeline2, delegatedData2) -> outputBuilder.append("a2 "), delegatedData1);
+            pipeline.nextPhase().delegate((pipeline1, delegatedContext1) -> {
+                pipeline1.generation().getCycle("a").nextPhase().delegate((pipeline2, delegatedContext2) -> outputBuilder.append("a2 "), delegatedContext1);
                 outputBuilder.append("b3 ");
                 return null;
-            }, delegatedData);
+            }, delegatedContext);
 
             return null;
         }, null);

@@ -29,10 +29,10 @@ import java.util.Map;
 public class InterpreterFailureTranslatorLayout implements PandaTranslatorLayout<InterpreterFailure> {
 
     @Override
-    public void onHandle(MessengerFormatter formatter, InterpreterFailure element, Map<String, Object> data) {
-        data.put("stacktrace", element.getStackTrace());
-        data.put("source", element.getSourceFragment());
-        data.put("note", element.getNote());
+    public void onHandle(MessengerFormatter formatter, InterpreterFailure element, Map<String, Object> context) {
+        context.put("stacktrace", element.getStackTrace());
+        context.put("source", element.getSourceFragment());
+        context.put("note", element.getNote());
     }
 
     @Override

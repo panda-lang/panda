@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 
 public interface GenerationTask<T> {
 
@@ -25,10 +25,10 @@ public interface GenerationTask<T> {
      * Call task
      *
      * @param cycle current cycle
-     * @param data data assigned to task
+     * @param context data assigned to task
      * @return task value
      * @throws Exception allows you to handle exception that may occur
      */
-    @Nullable T call(GenerationCycle cycle, ParserData data) throws Exception;
+    @Nullable T call(GenerationCycle cycle, Context context) throws Exception;
 
 }

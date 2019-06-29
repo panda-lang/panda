@@ -18,19 +18,19 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 public final class ScopeParserUtils {
 
     private static final ScopeParser INSTANCE = new ScopeParser();
 
-    public static void parse(Scope current, ParserData data, @Nullable Snippet body) throws Exception {
-        parse(null, current, data, body);
+    public static void parse(Scope current, Context context, @Nullable Snippet body) throws Exception {
+        parse(null, current, context, body);
     }
 
-    public static void parse(@Nullable Scope parent, Scope current, ParserData data, @Nullable Snippet body) throws Exception {
-        INSTANCE.parse(parent, current, data, body);
+    public static void parse(@Nullable Scope parent, Scope current, Context context, @Nullable Snippet body) throws Exception {
+        INSTANCE.parse(parent, current, context, body);
     }
 
 }

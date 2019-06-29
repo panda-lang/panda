@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.statement.PandaContainer;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -43,18 +43,18 @@ public final class TryCatchParser extends ParserBootstrap {
     private final VariableParser initializer = new VariableParser();
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.TRY))
                 .pattern("try try-body:~{ catch catch-what:~( catch-body:~{");
     }
 
     @Autowired
-    void parse(ParserData data, @Component Container container, @Src("try-body") Snippet tryBody, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
-        Container tryContainer = containerParser.parse(new PandaContainer(), tryBody, data);
+    void parse(Context context, @Component Container container, @Src("try-body") Snippet tryBody, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
+        Container tryContainer = containerParser.parse(new PandaContainer(), tryBody, context);
 
-        Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
-        Variable variable = initializer.parseVariable(data, scope, true, true, catchWhat);
+        Scope scope = context.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
+        Variable variable = initializer.parseVariable(context, scope, true, true, catchWhat);
         int variablePointer = scope.indexOf(variable);
 
         TryCatchExecutable tryCatch = new TryCatchExecutable(tryContainer, new PandaContainer());
@@ -64,7 +64,7 @@ public final class TryCatchParser extends ParserBootstrap {
 
         if (Throwable.class.isAssignableFrom(type)) {
             //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type, variable, variablePointer, containerParser.parse(new PandaContainer(), catchBody, data));
+            tryCatch.addHandler((Class<? extends Throwable>) type, variable, variablePointer, containerParser.parse(new PandaContainer(), catchBody, context));
         }
     }
 

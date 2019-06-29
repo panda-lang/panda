@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelin
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaTokenRepresentation;
 
 import java.util.Arrays;
@@ -61,7 +61,7 @@ class PandaPipelinePathTest implements Pipelines {
 
     @Test
     void getTotalHandleTime() {
-        Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT).handle(new PandaParserData(), PandaTokenRepresentation.of(TokenType.UNKNOWN, "test").toSnippet()));
+        Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT).handle(new PandaContext(), PandaTokenRepresentation.of(TokenType.UNKNOWN, "test").toSnippet()));
         Assertions.assertTrue(defaultPath.getTotalHandleTime() > 0);
     }
 

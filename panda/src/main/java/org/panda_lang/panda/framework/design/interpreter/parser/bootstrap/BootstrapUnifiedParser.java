@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
@@ -38,23 +38,23 @@ final class BootstrapUnifiedParser<T> implements UnifiedParser<T> {
     }
 
     @Override
-    public final T parse(ParserData data) throws Exception {
-        SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+    public final T parse(Context context) throws Exception {
+        SourceStream stream = context.getComponent(UniversalComponents.SOURCE_STREAM);
         Snippet source = stream.toSnippet();
         int length = stream.getUnreadLength();
 
         InterceptorData interceptorData = content.getInterceptor()
-                .map(interceptor -> interceptor.handle(new InterceptorData(), data))
+                .map(interceptor -> interceptor.handle(new InterceptorData(), context))
                 .orElse(new InterceptorData());
 
         int difference = length - stream.getUnreadLength();
 
         if (difference > 0) {
-            data.setComponent(BootstrapComponents.CURRENT_SOURCE, source.subSource(0, difference));
+            context.withComponent(BootstrapComponents.CURRENT_SOURCE, source.subSource(0, difference));
         }
 
         BootstrapTaskScheduler<T> scheduler = new BootstrapTaskScheduler<>(content, StackUtils.reverse(StackUtils.of(methods)));
-        return scheduler.schedule(data, interceptorData, new LocalData());
+        return scheduler.schedule(context, interceptorData, new LocalData());
     }
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 
@@ -24,7 +24,7 @@ import java.util.Map;
 
 public class RPNOperationBuilder {
 
-    private ParserData data;
+    private Context context;
     private Operation operation;
     protected Map<Operator, Integer> priorities;
     protected Map<Operator, RPNOperationSupplier> suppliers;
@@ -34,8 +34,8 @@ public class RPNOperationBuilder {
         return this;
     }
 
-    public RPNOperationBuilder withData(ParserData data) {
-        this.data = data;
+    public RPNOperationBuilder withData(Context context) {
+        this.context = context;
         return this;
     }
 
@@ -50,7 +50,7 @@ public class RPNOperationBuilder {
     }
 
     public RPNOperation build() {
-        return new RPNOperationTransformer(this).parse(data, operation);
+        return new RPNOperationTransformer(this).parse(context, operation);
     }
 
 }

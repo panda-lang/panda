@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 
 public class EmptyInterceptor implements BootstrapInterceptor {
 
     @Override
-    public InterceptorData handle(InterceptorData interceptorData, ParserData data) {
+    public InterceptorData handle(InterceptorData interceptorData, Context context) {
         return interceptorData;
     }
 

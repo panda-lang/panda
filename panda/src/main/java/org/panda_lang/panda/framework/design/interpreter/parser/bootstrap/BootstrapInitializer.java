@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.DescriptivePatternHandler;
@@ -88,7 +88,7 @@ public class BootstrapInitializer<T> {
         return this;
     }
 
-    protected ParserRepresentation<UnifiedParser<T>> build(ParserData data) {
+    protected ParserRepresentation<UnifiedParser<T>> build(Context context) {
         if (name == null && instance != null) {
             name(instance.getClass().getSimpleName());
         }
@@ -109,7 +109,7 @@ public class BootstrapInitializer<T> {
             throw new BootstrapException("Bootstrap does not contain any layers");
         }
 
-        return new BootstrapGenerator().generate(this, new BootstrapContentImpl(name, instance, data, handler, interceptor, pattern));
+        return new BootstrapGenerator().generate(this, new BootstrapContentImpl(name, instance, context, handler, interceptor, pattern));
     }
 
 }

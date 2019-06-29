@@ -16,7 +16,8 @@
 
 package org.panda_lang.panda.framework.language.interpreter.source;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.jetbrains.annotations.NotNull;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceFragment;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -33,23 +34,23 @@ public final class PandaSourceFragmentCreator<T> {
         this.mapper = mapper;
     }
 
-    public PandaSourceFragmentCreator<T> ofStreamOrigin(ParserData data, Snippetable indicated) {
-        return of(data.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource(), indicated);
+    public PandaSourceFragmentCreator<T> ofStreamOrigin(Context context, Snippetable indicated) {
+        return of(context.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource(), indicated);
     }
 
-    public PandaSourceFragmentCreator<T> ofOriginals(ParserData data) {
-        return ofOriginalSource(data, data.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource());
+    public PandaSourceFragmentCreator<T> ofOriginals(Context context) {
+        return ofOriginalSource(context, context.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource());
     }
 
-    public PandaSourceFragmentCreator<T> ofOriginalSource(ParserData data, Snippetable indicated) {
-        return of(data.getComponent(UniversalComponents.SOURCE), indicated);
+    public PandaSourceFragmentCreator<T> ofOriginalSource(Context context, Snippetable indicated) {
+        return of(context.getComponent(UniversalComponents.SOURCE), indicated);
     }
 
-    public PandaSourceFragmentCreator<T> ofCurrentStream(ParserData data, Snippetable indicated) {
-        return of(data.getComponent(UniversalComponents.SOURCE_STREAM), indicated);
+    public PandaSourceFragmentCreator<T> ofCurrentStream(Context context, Snippetable indicated) {
+        return of(context.getComponent(UniversalComponents.SOURCE_STREAM), indicated);
     }
 
-    public PandaSourceFragmentCreator<T> ofIndicated(Snippetable indicatedFragment) {
+    public PandaSourceFragmentCreator<T> ofIndicated(@NotNull Snippetable indicatedFragment) {
         return of(indicatedFragment, indicatedFragment);
     }
 

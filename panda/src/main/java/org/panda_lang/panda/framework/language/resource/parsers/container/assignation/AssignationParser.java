@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.assig
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -49,17 +49,17 @@ public class AssignationParser extends ParserBootstrap {
     private AssignationSubparser subparser;
 
     @Override
-    public BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    public BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         this.pattern = PandaDescriptivePattern.builder()
                 .compile(PATTERN)
-                .build(data);
+                .build(context);
 
         return initializer.pattern(PATTERN);
     }
 
     @Override
-    public boolean customHandle(@Nullable ParserHandler handler, ParserData data, Snippet source) {
-        ExtractorResult result = pattern.extract(data, source);
+    public boolean customHandle(@Nullable ParserHandler handler, Context context, Snippet source) {
+        ExtractorResult result = pattern.extract(context, source);
 
         if (!result.isMatched()) {
             return false;
@@ -71,25 +71,24 @@ public class AssignationParser extends ParserBootstrap {
             return false;
         }
 
-        this.subparser = data
-                .getComponent(UniversalComponents.PIPELINE)
+        this.subparser = context.getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.ASSIGNER)
-                .handle(data, declaration.get().getValue());
+                .handle(context, declaration.get().getValue());
 
         return subparser != null;
     }
 
     @Autowired
-    void parse(ParserData data, @Src("*declaration") Snippet declaration, @Src("assignation") Expression assignation) throws Exception {
-        ParserData delegatedData = data.fork();
-        delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
+    void parse(Context context, @Src("*declaration") Snippet declaration, @Src("assignation") Expression assignation) throws Exception {
+        Context delegatedContext = context.fork();
+        delegatedContext.withComponent(AssignationComponents.SCOPE, delegatedContext.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
 
-        StatementCell cell = delegatedData.getComponent(PandaComponents.CONTAINER).reserveCell();
-        Statement statement = subparser.parseAssignment(delegatedData, declaration, assignation);
+        StatementCell cell = delegatedContext.getComponent(PandaComponents.CONTAINER).reserveCell();
+        Statement statement = subparser.parseAssignment(delegatedContext, declaration, assignation);
         subparser = null;
 
         if (statement == null) {
-            throw PandaParserFailure.builder("Cannot parse assignment", delegatedData)
+            throw PandaParserFailure.builder("Cannot parse assignment", delegatedContext)
                     .withStreamOrigin(declaration)
                     .build();
         }

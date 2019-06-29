@@ -20,24 +20,23 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.architecture.statement.StaticScope;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
-import org.panda_lang.panda.framework.language.resource.parsers.expression.PandaExpressionUtils;
 
 import java.util.Map;
 
 public class PandaParserDataUtils {
 
     /**
-     * Create the fake parser data, which contains:
+     * Create the fake parser context, which contains:
      * - expression parser
      * - variables:
      * > string variable
@@ -49,20 +48,20 @@ public class PandaParserDataUtils {
      *
      * @return the fake data
      */
-    public static ParserData createFakeData(Map<Variable, Object> variables) {
-        ParserData data = new PandaParserData();
-        data.setComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
+    public static Context createFakeData(Map<Variable, Object> variables) {
+        Context context = new PandaContext();
+        context.withComponent(UniversalComponents.EXPRESSION, new PandaExpressionParser(PandaExpressionUtils.collectSubparsers()));
 
         ModulePath path = new PandaModulePath();
         ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
         loader.include(path.getDefaultModule());
-        data.setComponent(UniversalComponents.MODULE_LOADER, loader);
+        context.withComponent(UniversalComponents.MODULE_LOADER, loader);
 
         Scope scope = new StaticScope(variables);
         ScopeLinker linker = new PandaScopeLinker(scope);
-        data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
+        context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
 
-        return data;
+        return context;
     }
 
 }

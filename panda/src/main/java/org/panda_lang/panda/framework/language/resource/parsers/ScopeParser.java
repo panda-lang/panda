@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -30,12 +30,12 @@ public class ScopeParser implements Parser {
 
     private final ContainerParser containerParser = new ContainerParser();
 
-    public void parse(@Nullable Scope parent, Scope current, ParserData data, @Nullable Snippet body) throws Exception {
+    public void parse(@Nullable Scope parent, Scope current, Context context, @Nullable Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
         }
 
-        ScopeLinker parentLinker = data.getComponent(UniversalComponents.SCOPE_LINKER);
+        ScopeLinker parentLinker = context.getComponent(UniversalComponents.SCOPE_LINKER);
         ScopeLinker linker = parentLinker;
 
         if (linker == null) {
@@ -45,16 +45,16 @@ public class ScopeParser implements Parser {
                 linker.pushScope(current);
             }
 
-            data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
+            context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
         }
         else {
             linker.pushScope(current);
         }
 
-        containerParser.parse(current, body, data);
+        containerParser.parse(current, body, context);
 
         linker.popScope();
-        data.setComponent(UniversalComponents.SCOPE_LINKER, parentLinker);
+        context.withComponent(UniversalComponents.SCOPE_LINKER, parentLinker);
     }
 
 }

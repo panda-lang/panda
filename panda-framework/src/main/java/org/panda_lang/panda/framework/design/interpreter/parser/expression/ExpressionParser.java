@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -27,20 +27,20 @@ import java.util.Optional;
 
 public interface ExpressionParser extends Parser {
 
-    Optional<Expression> parseSilently(ParserData data, Snippet source);
+    Optional<Expression> parseSilently(Context context, Snippet source);
 
-    Optional<Expression> parseSilently(ParserData data, SourceStream source);
+    Optional<Expression> parseSilently(Context context, SourceStream source);
 
-    Optional<Expression> parseSilently(ParserData data, SourceStream source, ExpressionParserSettings settings);
+    Optional<Expression> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings);
 
-    Expression parse(ParserData data, Snippet source);
+    Expression parse(Context context, Snippet source);
 
-    Expression parse(ParserData data, DiffusedSource source);
+    Expression parse(Context context, DiffusedSource source);
 
-    Expression parse(ParserData data, DiffusedSource source, ExpressionParserSettings settings);
+    Expression parse(Context context, DiffusedSource source, ExpressionParserSettings settings);
 
-    Expression parse(ParserData data, SourceStream source);
+    Expression parse(Context context, SourceStream source);
 
-    Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings);
+    Expression parse(Context context, SourceStream source, ExpressionParserSettings settings);
 
 }

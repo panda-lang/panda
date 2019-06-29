@@ -45,7 +45,7 @@ public class NegateExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            Expression expression = context.getParser().parse(context.getData(), context.getDiffusedSource());
+            Expression expression = context.getParser().parse(context.getContext(), context.getDiffusedSource());
             return ExpressionResult.of(new NegateLogicalExpressionCallback(expression).toExpression());
         }
 

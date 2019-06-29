@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall.prototy
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -48,15 +48,15 @@ public class ConstructorParser extends ParserBootstrap {
     private final ParameterParser parameterParser = new ParameterParser();
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CONSTRUCTOR))
                 .pattern("constructor parameters:~( body:~{");
     }
 
     @Autowired(order = 1)
-    void parse(ParserData data, LocalData local, @Component ClassPrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
-        List<Parameter> parameters = parameterParser.parse(data, parametersSource);
+    void parse(Context context, LocalData local, @Component ClassPrototypeScope classScope, @Src("parameters") @Nullable Snippet parametersSource) {
+        List<Parameter> parameters = parameterParser.parse(context, parametersSource);
 
         ConstructorScope constructorScope = local.allocated(new ConstructorScope(parameters));
         ParameterUtils.addAll(constructorScope.getVariables(), parameters, 0);
@@ -66,8 +66,8 @@ public class ConstructorParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parseBody(ParserData data, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
-        ScopeParserUtils.parse(classScope, constructorScope, data, body);
+    void parseBody(Context context, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
+        ScopeParserUtils.parse(classScope, constructorScope, context, body);
     }
 
 }

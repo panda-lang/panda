@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
@@ -65,15 +65,15 @@ public class ClassPrototypeParser extends ParserBootstrap {
     private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.CLASS))
                 .pattern("class <name> [extends <inherited>] body:~{");
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(ParserData data, @Src("name") String className) throws Exception {
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+    void parse(Context context, @Src("name") String className) throws Exception {
+        PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
         Module module = script.getModule();
 
         if (className == null) {
@@ -86,48 +86,48 @@ public class ClassPrototypeParser extends ParserBootstrap {
                 .name(className)
                 .build();
 
-        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
+        context.withComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
         module.add(prototype.getReference());
 
         prototype.addExtended(PandaTypes.OBJECT.getReference());
-        data.setComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
+        context.withComponent(ClassPrototypeComponents.CLASS_PROTOTYPE, prototype);
 
         ClassPrototypeScope scope = new ClassPrototypeScope(prototype);
-        data.setComponent(ClassPrototypeComponents.CLASS_SCOPE, scope);
+        context.withComponent(ClassPrototypeComponents.CLASS_SCOPE, scope);
 
         ClassPrototypeReferenceStatement referenceStatement = new ClassPrototypeReferenceStatement(prototype, scope);
         script.getStatements().add(referenceStatement);
 
         ScopeLinker linker = new PandaScopeLinker(scope);
-        data.setComponent(UniversalComponents.SCOPE_LINKER, linker);
+        context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
-    void parseDeclaration(ParserData data, @Src("declaration") Snippet declaration) {
+    void parseDeclaration(Context context, @Src("declaration") Snippet declaration) {
         if (declaration != null) {
-            ClassPrototypeParserUtils.readDeclaration(data, declaration);
+            ClassPrototypeParserUtils.readDeclaration(context, declaration);
         }
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.NEXT_AFTER)
-    void parseBody(ParserData data, @Nullable @Src("body") Snippet body) throws Exception {
+    void parseBody(Context context, @Nullable @Src("body") Snippet body) throws Exception {
         if (SnippetUtils.isEmpty(body)) {
             return;
         }
 
-        PipelinePath pipelinePath = data.getComponent(UniversalComponents.PIPELINE);
+        PipelinePath pipelinePath = context.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.PROTOTYPE);
 
-        ParserData bodyInfo = data.fork();
+        Context bodyInfo = context.fork();
         SourceStream stream = new PandaSourceStream(body);
-        bodyInfo.setComponent(UniversalComponents.SOURCE_STREAM, stream);
+        bodyInfo.withComponent(UniversalComponents.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
             Snippet currentSource = stream.toSnippet();
             UnifiedParser parser = pipeline.handle(bodyInfo, currentSource);
 
             if (parser == null) {
-                throw PandaParserFailure.builder("Cannot parse the element of the prototype", data)
+                throw PandaParserFailure.builder("Cannot parse the element of the prototype", context)
                         .withSource(body, currentSource)
                         .build();
             }
@@ -141,9 +141,9 @@ public class ClassPrototypeParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parseAfter(ParserData data) {
-        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        ClassPrototypeScope scope = data.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
+    void parseAfter(Context context) {
+        ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        ClassPrototypeScope scope = context.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
         if (prototype.getConstructors().getAmountOfConstructors() > 0) {
             return;

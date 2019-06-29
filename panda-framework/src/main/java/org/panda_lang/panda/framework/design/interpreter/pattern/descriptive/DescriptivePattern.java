@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.TokenExtractor;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionFactory;
@@ -55,12 +55,12 @@ public class DescriptivePattern {
         this.patternContent = builder.patternContent;
     }
 
-    public ExtractorResult extract(ParserData data, Snippet source) {
-        return extractor().extract(data, new PandaSourceStream(source));
+    public ExtractorResult extract(Context context, Snippet source) {
+        return extractor().extract(context, new PandaSourceStream(source));
     }
 
-    public ExtractorResult extract(ParserData data, SourceStream source) {
-        return extractor().extract(data, source);
+    public ExtractorResult extract(Context context, SourceStream source) {
+        return extractor().extract(context, source);
     }
 
     public TokenExtractor extractor() {

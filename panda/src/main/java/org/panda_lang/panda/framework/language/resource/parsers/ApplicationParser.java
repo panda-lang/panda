@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.resource.Resources;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModuleLoader;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserDebug;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.PandaGeneration;
@@ -64,16 +64,16 @@ public class ApplicationParser implements Parser {
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationCycles.getValues());
 
-        ParserData baseData = new PandaParserData()
-                .setComponent(UniversalComponents.APPLICATION, application)
-                .setComponent(UniversalComponents.ENVIRONMENT, environment)
-                .setComponent(UniversalComponents.INTERPRETATION, interpretation)
-                .setComponent(UniversalComponents.GENERATION, generation)
-                .setComponent(UniversalComponents.MODULE_LOADER, loader)
-                .setComponent(UniversalComponents.PIPELINE, resources.getPipelinePath())
-                .setComponent(UniversalComponents.PARSER_DEBUG, new PandaParserDebug(true))
-                .setComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser())
-                .setComponent(UniversalComponents.SOURCES, sources);
+        Context context = new PandaContext()
+                .withComponent(UniversalComponents.APPLICATION, application)
+                .withComponent(UniversalComponents.ENVIRONMENT, environment)
+                .withComponent(UniversalComponents.INTERPRETATION, interpretation)
+                .withComponent(UniversalComponents.GENERATION, generation)
+                .withComponent(UniversalComponents.MODULE_LOADER, loader)
+                .withComponent(UniversalComponents.PIPELINE, resources.getPipelinePath())
+                .withComponent(UniversalComponents.PARSER_DEBUG, new PandaParserDebug(true))
+                .withComponent(UniversalComponents.EXPRESSION, resources.getExpressionSubparsers().toExpressionParser())
+                .withComponent(UniversalComponents.SOURCES, sources);
 
         Lexer lexer = PandaLexer.of(interpretation.getLanguage().getSyntax())
                 .enableSections()
@@ -87,16 +87,16 @@ public class ApplicationParser implements Parser {
                 Snippet snippet = lexer.convert(current);
                 SourceStream sourceStream = new PandaSourceStream(snippet);
 
-                ParserData delegatedData = baseData.fork()
-                        .setComponent(UniversalComponents.SOURCE, snippet)
-                        .setComponent(UniversalComponents.SOURCE_STREAM, sourceStream)
-                        .setComponent(UniversalComponents.SCRIPT, pandaScript)
-                        .setComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
+                Context delegatedContext = context.fork()
+                        .withComponent(UniversalComponents.SOURCE, snippet)
+                        .withComponent(UniversalComponents.SOURCE_STREAM, sourceStream)
+                        .withComponent(UniversalComponents.SCRIPT, pandaScript)
+                        .withComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
 
-                OverallParser overallParser = new OverallParser(delegatedData);
+                OverallParser overallParser = new OverallParser(delegatedContext);
 
                 while (interpretation.isHealthy() && overallParser.hasNext()) {
-                    interpretation.execute(() -> overallParser.parseNext(delegatedData));
+                    interpretation.execute(() -> overallParser.parseNext(delegatedContext));
                 }
             });
         }

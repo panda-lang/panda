@@ -74,7 +74,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
                 instance = context.peekExpression();
             }
             else if (context.getDiffusedSource().getIndex() == 1) {
-                instance = ThisExpressionCallback.of(context.getData());
+                instance = ThisExpressionCallback.of(context.getContext());
             }
             else {
                 return null;
@@ -85,7 +85,7 @@ public class MethodExpressionSubparser implements ExpressionSubparser {
             }
 
             MethodInvokerExpressionParser methodParser = new MethodInvokerExpressionParser();
-            methodParser.parse(context.getData(), instance, methodName, context.getDiffusedSource().next().toToken(Section.class).getContent());
+            methodParser.parse(context.getContext(), instance, methodName, context.getDiffusedSource().next().toToken(Section.class).getContent());
 
             if (context.hasResults()) {
                 context.popExpression();

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
@@ -52,20 +52,20 @@ public class MethodInvokerExpressionParser {
         this(null, (String) null, null);
     }
 
-    public void parse(@Nullable Snippet source, ParserData data) {
-        Expression instance = instanceSource != null ? data.getComponent(UniversalComponents.EXPRESSION).parse(data, instanceSource) : ThisExpressionCallback.of(data);
-        parse(data, instance, methodName, argumentsSource);
+    public void parse(@Nullable Snippet source, Context context) {
+        Expression instance = instanceSource != null ? context.getComponent(UniversalComponents.EXPRESSION).parse(context, instanceSource) : ThisExpressionCallback.of(context);
+        parse(context, instance, methodName, argumentsSource);
     }
 
-    public void parse(ParserData data, Expression instance, String methodName, Snippet argumentsSource) {
+    public void parse(Context context, Expression instance, String methodName, Snippet argumentsSource) {
         ClassPrototype prototype = instance.getReturnType();
 
-        Expression[] arguments = ARGUMENT_PARSER.parse(data, argumentsSource);
+        Expression[] arguments = ARGUMENT_PARSER.parse(context, argumentsSource);
         ClassPrototype[] argumentTypes = ExpressionUtils.toTypes(arguments);
         PrototypeMethod prototypeMethod = prototype.getMethods().getMethod(methodName, argumentTypes);
 
         if (prototypeMethod == null) {
-            throw PandaParserFailure.builder("Class " + prototype.getClassName() + " does not have method with these parameters" + methodName, data)
+            throw PandaParserFailure.builder("Class " + prototype.getClassName() + " does not have method with these parameters" + methodName, context)
                     .withStreamOrigin(argumentsSource)
                     .withNote("Change parameters or add a new method with provided parameters")
                     .build();

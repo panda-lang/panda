@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 
 /**
- * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.ParserData} for components
+ * Default list of names used by {@link org.panda_lang.panda.framework.design.interpreter.parser.Context} for components
  */
 public class PandaComponents {
 

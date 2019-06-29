@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.branc
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ReturnParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.RETURN))
                 .interceptor(new LinearPatternInterceptor())

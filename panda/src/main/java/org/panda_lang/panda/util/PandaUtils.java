@@ -22,7 +22,7 @@ public final class PandaUtils {
 
     private PandaUtils() { }
 
-    public static <T> T eval(Map<String, Object> data, String expression) {
+    public static <T> T eval(Map<String, Object> context, String expression) {
         return null;
     }
 

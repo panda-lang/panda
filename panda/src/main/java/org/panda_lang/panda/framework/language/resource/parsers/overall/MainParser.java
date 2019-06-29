@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.Script;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -40,7 +40,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public final class MainParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MAIN))
                 .interceptor(new LinearPatternInterceptor())
@@ -49,12 +49,12 @@ public final class MainParser extends ParserBootstrap {
 
     @Autowired(order = 1, delegation = Delegation.NEXT_DEFAULT)
     void createScope(LocalData localData, @Component Script script) {
-        script.getStatements().add(localData.allocated(new MainScope()));
+        script.addStatement(localData.allocated(new MainScope()));
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_AFTER)
-    void parseScope(ParserData data, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
-        ScopeParserUtils.parse(main, data.fork(), body);
+    void parseScope(Context context, @Local MainScope main, @Src("body") @Nullable Snippet body) throws Exception {
+        ScopeParserUtils.parse(main, context.fork(), body);
     }
 
 }

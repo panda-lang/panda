@@ -34,7 +34,7 @@ public final class MicroTemplateRequest {
     }
 
     protected Map<String, Object> getData() {
-        return builder.data;
+        return builder.context;
     }
 
     protected MessengerFormatter getFormatter() {
@@ -53,7 +53,7 @@ public final class MicroTemplateRequest {
 
         private Source source;
         private MessengerFormatter formatter;
-        private Map<String, Object> data;
+        private Map<String, Object> context;
         private String prefix;
 
         public MicroTemplateRequestBuilder withSource(Source source) {
@@ -66,8 +66,8 @@ public final class MicroTemplateRequest {
             return this;
         }
 
-        public MicroTemplateRequestBuilder withData(Map<String, Object> data) {
-            this.data = data;
+        public MicroTemplateRequestBuilder withData(Map<String, Object> context) {
+            this.context = context;
             return this;
         }
 

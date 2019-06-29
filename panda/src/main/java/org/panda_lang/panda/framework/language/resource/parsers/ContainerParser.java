@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -33,44 +33,44 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class ContainerParser implements Parser {
 
-    public Container parse(Container container, Snippet body, ParserData data) throws Exception {
-        ParserData delegatedData = data.fork();
-        PipelinePath pipelinePath = delegatedData.getComponent(UniversalComponents.PIPELINE);
+    public Container parse(Container container, Snippet body, Context context) throws Exception {
+        Context delegatedContext = context.fork();
+        PipelinePath pipelinePath = delegatedContext.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.CONTAINER);
 
         SourceStream source = new PandaSourceStream(body);
-        delegatedData.setComponent(UniversalComponents.SOURCE_STREAM, source);
+        delegatedContext.withComponent(UniversalComponents.SOURCE_STREAM, source);
 
-        Container previousContainer = delegatedData.getComponent(PandaComponents.CONTAINER);
-        delegatedData.setComponent(PandaComponents.CONTAINER, container);
+        Container previousContainer = delegatedContext.getComponent(PandaComponents.CONTAINER);
+        delegatedContext.withComponent(PandaComponents.CONTAINER, container);
 
         while (source.hasUnreadSource()) {
             Snippet currentSource = source.toSnippet();
-            UnifiedParser parser = pipeline.handle(delegatedData.fork(), source.toSnippet());
+            UnifiedParser parser = pipeline.handle(delegatedContext.fork(), source.toSnippet());
             int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
-                throw PandaParserFailure.builder("Unrecognized syntax", data)
+                throw PandaParserFailure.builder("Unrecognized syntax", context)
                         .withSource(body, currentSource)
                         .build();
             }
 
-            parser.parse(delegatedData);
+            parser.parse(delegatedContext);
 
             if (sourceLength == source.getUnreadLength()) {
-                throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with source", delegatedData)
+                throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with source", delegatedContext)
                         .withSource(body, currentSource)
                         .build();
             }
 
-            delegatedData.setComponent(PandaComponents.CONTAINER, container);
+            delegatedContext.withComponent(PandaComponents.CONTAINER, container);
 
             if (source.hasUnreadSource() && source.getCurrent().contentEquals(Separators.SEMICOLON)) {
                 source.read();
             }
         }
 
-        delegatedData.setComponent(PandaComponents.CONTAINER, previousContainer);
+        delegatedContext.withComponent(PandaComponents.CONTAINER, previousContainer);
         return container;
     }
 

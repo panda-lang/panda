@@ -16,11 +16,11 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface OperationSubparser {
 
-    Expression parse(OperationParser parser, ParserData data, Operation operation);
+    Expression parse(OperationParser parser, Context context, Operation operation);
 
 }

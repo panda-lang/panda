@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container.block;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -25,8 +25,8 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 public abstract class BlockSubparserBootstrap extends ParserBootstrap<BlockData> implements BlockSubparser {
 
     @Override
-    public final BlockData parse(ParserData data, Snippet declaration) throws Exception {
-        return super.parse(data.setComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(declaration)));
+    public final BlockData parse(Context context, Snippet declaration) throws Exception {
+        return super.parse(context.withComponent(UniversalComponents.SOURCE_STREAM, new PandaSourceStream(declaration)));
     }
 
 }

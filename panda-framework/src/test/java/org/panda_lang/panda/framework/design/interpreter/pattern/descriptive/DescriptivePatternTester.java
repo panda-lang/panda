@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.ext
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexer;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserData;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaContext;
 import org.panda_lang.panda.framework.language.interpreter.source.PandaSource;
 import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 
@@ -38,7 +38,7 @@ class DescriptivePatternTester {
         Assertions.assertNotNull(content);
 
         Snippet tokenizedSource = PandaLexer.of(SYNTAX).build().convert(new PandaSource("Test", source));
-        ExtractorResult result = pattern.extract(new PandaParserData(), tokenizedSource);
+        ExtractorResult result = pattern.extract(new PandaContext(), tokenizedSource);
         Assertions.assertNotNull(result);
 
         if (result.hasErrorMessage()) {

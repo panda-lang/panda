@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 import java.util.Optional;
@@ -50,7 +50,7 @@ public interface BootstrapContent {
      *
      * @return
      */
-    ParserData getData();
+    Context getData();
 
     /**
      * Get instance of class used by bootstrap

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -29,15 +29,15 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.subpa
 
 public class OperationParser implements Parser {
 
-    public Expression parse(ParserData data, Snippet source) {
-        return parse(data, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));
+    public Expression parse(Context context, Snippet source) {
+        return parse(context, source, OperationExpressionUtils.OPERATION_PATTERN.extract(source));
     }
 
-    public Expression parse(ParserData data, Snippet source, ProgressivePatternResult result) {
-        Expression expression = parse(data, Operation.of(data.getComponent(UniversalComponents.EXPRESSION), data, result));
+    public Expression parse(Context context, Snippet source, ProgressivePatternResult result) {
+        Expression expression = parse(context, Operation.of(context.getComponent(UniversalComponents.EXPRESSION), context, result));
 
         if (expression == null) {
-            throw PandaParserFailure.builder("Unknown operation", data)
+            throw PandaParserFailure.builder("Unknown operation", context)
                     .withStreamOrigin(source)
                     .build();
         }
@@ -45,17 +45,17 @@ public class OperationParser implements Parser {
         return expression;
     }
 
-    public Expression parse(ParserData data, Operation operation) {
+    public Expression parse(Context context, Operation operation) {
         if (OperationUtils.isNumeric(operation)) {
-            return new MathOperationSubparser().parse(this, data, operation);
+            return new MathOperationSubparser().parse(this, context, operation);
         }
 
         if (OperationUtils.isLogical(operation)) {
-            return new LogicalOperatorSubparser().parse(this, data, operation);
+            return new LogicalOperatorSubparser().parse(this, context, operation);
         }
 
         if (OperationUtils.isConcatenation(operation)) {
-            return new ConcatenationOperatorSubparser().parse(this, data, operation);
+            return new ConcatenationOperatorSubparser().parse(this, context, operation);
         }
 
         return null;

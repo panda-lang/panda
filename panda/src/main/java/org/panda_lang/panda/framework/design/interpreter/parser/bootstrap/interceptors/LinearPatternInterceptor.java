@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapContent;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
@@ -46,16 +46,16 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
     }
 
     @Override
-    public InterceptorData handle(InterceptorData interceptorData, ParserData data) {
+    public InterceptorData handle(InterceptorData interceptorData, Context context) {
         if (pattern != null) {
-            SourceStream stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+            SourceStream stream = context.getComponent(UniversalComponents.SOURCE_STREAM);
             Snippet currentSource = stream.toSnippet();
 
-            ExpressionParser expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
-            LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(data, source));
+            ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
+            LinearPatternResult result = pattern.match(stream, source -> expressionParser.parse(context, source));
 
             if (!result.isMatched()) {
-                throw PandaParserFailure.builder("Interceptor could not match pattern '" + content.getPattern().orElse("<pattern is null>") + "'", data)
+                throw PandaParserFailure.builder("Interceptor could not match pattern '" + content.getPattern().orElse("<pattern is null>") + "'", context)
                         .withStreamOrigin(currentSource)
                         .build();
             }

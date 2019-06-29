@@ -26,16 +26,16 @@ public interface MessengerFormatter {
      * Format message using registered placeholders and with provided data
      *
      * @param message the message to format
-     * @param data the values to use as data for placeholders
+     * @param context the values to use as data for placeholders
      * @return formatted message
      */
-    String format(String message, Collection<Object> data);
+    String format(String message, Collection<Object> context);
 
     /**
      * Register new placeholder
      *
      * @param placeholder the name of the placeholder
-     * @param requiredData the required type of data to use that placeholder (if null, it means that placeholder does not require provided data)
+     * @param requiredData the required type of data to use that placeholder (if null, it means that placeholder does not require provided context)
      * @param replacementFunction the value to replace with
      * @param <T> type of required data
      * @return the instance of formatter

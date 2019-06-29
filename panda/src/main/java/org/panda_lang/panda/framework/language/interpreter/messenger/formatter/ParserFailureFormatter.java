@@ -32,7 +32,7 @@ public final class ParserFailureFormatter implements MessengerDataFormatter<Pand
         typeFormatter
                 .register("{{note}}", (formatter, failure) -> failure.getNote())
                 .register("{{cycle}}", (formatter, failure) -> {
-                    Generation generation = failure.getData().getComponent(UniversalComponents.GENERATION);
+                    Generation generation = failure.getContext().getComponent(UniversalComponents.GENERATION);
                     Optional<GenerationCycle> cycleValue = generation.getCurrentCycle();
 
                     if (!cycleValue.isPresent()) {

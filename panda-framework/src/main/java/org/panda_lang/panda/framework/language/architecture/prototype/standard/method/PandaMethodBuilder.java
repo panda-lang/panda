@@ -42,14 +42,14 @@ public class PandaMethodBuilder {
     }
 
     /*
-    public PandaMethodBuilder parameterTypes(ParserData data, ModuleLoader moduleLoader, String... parameterTypes) {
+    public PandaMethodBuilder parameterTypes(ParserData context, ModuleLoader moduleLoader, String... parameterTypes) {
         ClassPrototypeReference[] prototypes = new ClassPrototypeReference[parameterTypes.length];
 
         for (int i = 0; i < prototypes.length; i++) {
             Optional<ClassPrototypeReference> reference = moduleLoader.forClass(parameterTypes[i]);
 
             if (!reference.isPresent()) {
-                throw new PandaParserFailure("Unknown type " + parameterTypes[i], data);
+                throw new PandaParserFailure("Unknown type " + parameterTypes[i], context);
             }
 
             prototypes[i] = reference.get();

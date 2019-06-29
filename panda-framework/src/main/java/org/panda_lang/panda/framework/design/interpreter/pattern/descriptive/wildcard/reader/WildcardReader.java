@@ -17,13 +17,13 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.TokenDistributor;
 
 public interface WildcardReader<T> {
 
-    boolean match(String data);
+    boolean match(String context);
 
-    @Nullable T read(ParserData data, String content, TokenDistributor distributor);
+    @Nullable T read(Context context, String content, TokenDistributor distributor);
 
 }

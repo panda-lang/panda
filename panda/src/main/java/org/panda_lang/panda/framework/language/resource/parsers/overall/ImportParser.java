@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -39,18 +39,18 @@ import java.util.Optional;
 public final class ImportParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IMPORT))
                 .pattern("import <class:condition token {type:unknown}, token {value:_}, token {value:.}>");
     }
 
     @Autowired
-    void parseImport(ParserData data, @Component PandaScript script, @Src("class") Snippet clazz) {
+    void parseImport(Context context, @Component PandaScript script, @Src("class") Snippet clazz) {
         Optional<Class<?>> importedClass = ClassUtils.forName(clazz.asString());
 
         if (!importedClass.isPresent()) {
-            throw PandaParserFailure.builder("Class " + clazz.asString() + " does not exist", data)
+            throw PandaParserFailure.builder("Class " + clazz.asString() + " does not exist", context)
                     .withStreamOrigin(clazz)
                     .build();
         }

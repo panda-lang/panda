@@ -52,7 +52,7 @@ final class PandaMessengerFormatter implements MessengerFormatter {
         return placeholders.entrySet().stream()
                 .map(entry -> toEntry(entry, values))
                 .filter(Objects::nonNull)
-                .flatMap(data -> Stream.concat(createFunction(data), createFunction(Maps.immutableEntryOf(placeholders.get(null), null))))
+                .flatMap(context -> Stream.concat(createFunction(context), createFunction(Maps.immutableEntryOf(placeholders.get(null), null))))
                 .reduce(message, (content, function) -> function.apply(content), StreamUtils.emptyBinaryOperator());
     }
 
@@ -64,16 +64,16 @@ final class PandaMessengerFormatter implements MessengerFormatter {
                 .orElse(null);
     }
 
-    private Stream<Function<String, String>> createFunction(Map.Entry<Map<String, FormatterFunction>, Object> data) {
-        return data.getKey()
+    private Stream<Function<String, String>> createFunction(Map.Entry<Map<String, FormatterFunction>, Object> context) {
+        return context.getKey()
                 .entrySet().stream()
-                .map(entry -> createFormatterFunction(entry, data.getValue()));
+                .map(entry -> createFormatterFunction(entry, context.getValue()));
     }
 
     @SuppressWarnings("unchecked")
-    private Function<String, String> createFormatterFunction(Map.Entry<String, FormatterFunction> entry, Object data) {
+    private Function<String, String> createFormatterFunction(Map.Entry<String, FormatterFunction> entry, Object context) {
         return message -> {
-            Object value = entry.getValue().apply(this, data);
+            Object value = entry.getValue().apply(this, context);
 
             if (value == null) {
                 value = "<placeholder error: " + entry.getKey() + " == null>";

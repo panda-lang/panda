@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.common;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
@@ -36,13 +36,13 @@ import java.util.List;
 public class CommentParser implements UnifiedParser<CommentStatement>, ParserHandler {
 
     @Override
-    public boolean handle(ParserData data, Snippet source) {
+    public boolean handle(Context context, Snippet source) {
         return isComment(source.getFirst().getToken());
     }
 
     @Override
-    public CommentStatement parse(ParserData data) {
-        return new CommentStatement(data.getComponent(UniversalComponents.SOURCE_STREAM).read().getValue());
+    public CommentStatement parse(Context context) {
+        return new CommentStatement(context.getComponent(UniversalComponents.SOURCE_STREAM).read().getValue());
     }
 
     public static Snippet uncomment(Snippet source) {

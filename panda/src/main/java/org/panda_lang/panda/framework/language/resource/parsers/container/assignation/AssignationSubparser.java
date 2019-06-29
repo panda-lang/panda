@@ -19,12 +19,12 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.assig
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public interface AssignationSubparser extends Parser {
 
-    @Nullable Statement parseAssignment(ParserData data, Snippet source, Expression expression) throws Exception;
+    @Nullable Statement parseAssignment(Context context, Snippet source, Expression expression) throws Exception;
 
 }

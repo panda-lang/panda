@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
@@ -34,7 +34,7 @@ class RPNOperationTransformer {
         this.suppliers = builder.suppliers;
     }
 
-    public RPNOperation parse(ParserData data, Operation operation) {
+    public RPNOperation parse(Context context, Operation operation) {
         Stack<Object> values = new Stack<>();
         Stack<Operator> operators = new Stack<>();
 
@@ -47,7 +47,7 @@ class RPNOperationTransformer {
             Operator operator = element.getOperator();
 
             if (!priorities.containsKey(operator)) {
-                throw PandaParserFailure.builder("Unexpected or unsupported operator " + operator, data)
+                throw PandaParserFailure.builder("Unexpected or unsupported operator " + operator, context)
                         .withStreamOrigin(element.getOperatorRepresentation())
                         .build();
             }
@@ -63,7 +63,7 @@ class RPNOperationTransformer {
             values.push(operators.pop());
         }
 
-        return new RPNOperation(data, suppliers, values);
+        return new RPNOperation(context, suppliers, values);
     }
 
     private boolean compare(Operator a, Operator b) {

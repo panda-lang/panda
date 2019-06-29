@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapContent;
 import org.panda_lang.panda.framework.design.interpreter.pattern.linear.LinearPattern;
@@ -36,7 +36,7 @@ public class LinearPatternHandler implements BootstrapHandler {
     }
 
     @Override
-    public boolean handle(ParserData data, Snippet source) {
+    public boolean handle(Context context, Snippet source) {
         return pattern.match(source).isMatched();
     }
 

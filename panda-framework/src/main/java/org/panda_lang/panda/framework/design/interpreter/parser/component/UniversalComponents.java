@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.Script;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserDebug;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.Generation;
@@ -61,6 +61,6 @@ public final class UniversalComponents {
 
     public static final Component<ParserDebug> PARSER_DEBUG = Component.of("parser-debug", ParserDebug.class);
 
-    public static final Component<ParserData> PARENT_DATA = Component.of("parent-data", ParserData.class);
+    public static final Component<Context> PARENT_DATA = Component.of("parent-data", Context.class);
 
 }

@@ -32,8 +32,8 @@ public class ExceptionTranslatorLayout implements PandaTranslatorLayout<Throwabl
     private SourceStream source;
 
     @Override
-    public void onHandle(MessengerFormatter formatter, Throwable element, Map<String, Object> data) {
-        data.put("stacktrace", element.getStackTrace());
+    public void onHandle(MessengerFormatter formatter, Throwable element, Map<String, Object> context) {
+        context.put("stacktrace", element.getStackTrace());
 
         formatter.getTypeFormatter(Throwable.class)
                 .register("{{message}}", (f, e) -> {

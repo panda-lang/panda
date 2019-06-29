@@ -24,7 +24,7 @@ import java.util.Map;
 
 public interface PandaTranslatorLayout<T extends Object> {
 
-    default void onHandle(MessengerFormatter formatter, T element, Map<String, Object> data) { }
+    default void onHandle(MessengerFormatter formatter, T element, Map<String, Object> context) { }
 
     boolean isInterrupting();
 

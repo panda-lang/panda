@@ -4,6 +4,7 @@ class Required {
 
     method hello() {
         Console.print("Required print")
+        Console.print(PandaConstants.VERSION)
     }
 
 }

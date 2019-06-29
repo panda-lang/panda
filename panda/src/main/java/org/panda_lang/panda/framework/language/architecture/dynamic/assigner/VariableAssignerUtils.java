@@ -18,18 +18,18 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.VariableAccessor;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
 public class VariableAssignerUtils {
 
-    public static Assigner<Variable> of(ParserData data, Scope scope, Variable variable, Expression expression) {
+    public static Assigner<Variable> of(Context context, Scope scope, Variable variable, Expression expression) {
         if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
             String message = "Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable";
 
-            throw PandaParserFailure.builder(message, data)
+            throw PandaParserFailure.builder(message, context)
                     .withNote("Change variable type or ensure the expression has compatible return type")
                     .build();
         }

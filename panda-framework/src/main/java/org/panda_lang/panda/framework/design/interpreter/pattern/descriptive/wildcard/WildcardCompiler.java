@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.condition.WildcardConditionCompiler;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReaderCompiler;
@@ -34,7 +34,7 @@ public class WildcardCompiler {
         this.readerCompiler = new WildcardReaderCompiler(pattern);
     }
 
-    public @Nullable Object compile(ParserData data, String content, TokenDistributor distributor) {
+    public @Nullable Object compile(Context context, String content, TokenDistributor distributor) {
         String[] entry = StringUtils.splitFirst(content, " ");
         String type = entry[0];
         String value = entry[1];
@@ -44,7 +44,7 @@ public class WildcardCompiler {
         }
 
         if (type.equals("reader")) {
-            return readerCompiler.extract(data, value, distributor);
+            return readerCompiler.extract(context, value, distributor);
         }
 
         throw new DescriptivePatternWildcardException("Unknown condition: " + type);

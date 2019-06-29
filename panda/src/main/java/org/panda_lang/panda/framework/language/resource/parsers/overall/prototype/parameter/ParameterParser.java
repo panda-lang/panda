@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall.prototy
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -35,7 +35,7 @@ import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(ParserData data, @Nullable Snippet snippet) {
+    public List<Parameter> parse(Context context, @Nullable Snippet snippet) {
         if (SnippetUtils.isEmpty(snippet)) {
             return Collections.emptyList();
         }
@@ -54,7 +54,7 @@ public class ParameterParser implements Parser {
             String parameterType = parameterTypeRepresentation.getToken().getValue();
             String parameterName = parameterNameRepresentation.getToken().getValue();
 
-            Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(data, parameterType, snippet), parameterName);
+            Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(context, parameterType, snippet), parameterName);
             parameters.add(parameter);
 
             if (i + 2 < tokenRepresentations.length) {

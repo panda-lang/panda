@@ -69,7 +69,7 @@ public class CreaseExpressionSubparser implements ExpressionSubparser {
                 expression = context.popExpression();
             }
             else {
-                expression = context.getParser().parse(context.getData(), context.getDiffusedSource());
+                expression = context.getParser().parse(context.getContext(), context.getDiffusedSource());
             }
 
             if (!(expression instanceof AccessorExpression)) {

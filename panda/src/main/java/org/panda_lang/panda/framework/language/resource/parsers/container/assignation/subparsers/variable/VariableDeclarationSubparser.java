@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -41,21 +41,21 @@ public class VariableDeclarationSubparser extends AssignationSubparserBootstrap 
     private static final VariableParser INITIALIZER = new VariableParser();
 
     @Override
-    public BootstrapInitializer<@Nullable Statement> initialize(ParserData data, BootstrapInitializer<@Nullable Statement> initializer) {
+    public BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
         return initializer.pattern(VariableParser.DECLARATION_PARSER);
     }
 
     @Autowired
-    public @Nullable Statement parse(ParserData data, @Component Scope scope, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
+    public @Nullable Statement parse(Context context, @Component Scope scope, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
         if (!result.isMatched()) {
             return null;
         }
 
         boolean mutable = result.hasIdentifier("mutable");
         boolean nullable = result.hasIdentifier("nullable");
-        Variable variable = INITIALIZER.createVariable(data, scope, mutable, nullable, type, name);
+        Variable variable = INITIALIZER.createVariable(context, scope, mutable, nullable, type, name);
 
-        return VariableAssignerUtils.of(data, scope, variable, data.getComponent(AssignationComponents.EXPRESSION)).toExecutableStatement();
+        return VariableAssignerUtils.of(context, scope, variable, context.getComponent(AssignationComponents.EXPRESSION)).toExecutableStatement();
     }
 
 }
