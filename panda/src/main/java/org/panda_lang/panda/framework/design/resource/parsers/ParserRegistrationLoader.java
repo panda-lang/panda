@@ -64,7 +64,7 @@ public class ParserRegistrationLoader {
             ParserHandler handler = createHandlerInstance(parser, parserRegistration.handlerClass());
             ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, parserRegistration.priority());
 
-            for (String target : parserRegistration.target()) {
+            for (String target : parserRegistration.pipeline()) {
                 PipelineComponent<Parser> component = PipelineComponent.get(target);
 
                 if (component == null) {

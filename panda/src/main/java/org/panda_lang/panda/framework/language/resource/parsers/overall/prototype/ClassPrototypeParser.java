@@ -59,7 +59,7 @@ import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-@ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
 public class ClassPrototypeParser extends ParserBootstrap {
 
     private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();

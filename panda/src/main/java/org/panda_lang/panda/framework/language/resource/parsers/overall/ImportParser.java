@@ -14,40 +14,49 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.container.branching;
+package org.panda_lang.panda.framework.language.resource.parsers.overall;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
+import org.panda_lang.panda.framework.design.architecture.PandaScript;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.LinearPatternInterceptor;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Return;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGeneratorManager;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
 
-@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL)
-public class ReturnParser extends ParserBootstrap {
+import java.util.Optional;
+
+@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+public final class ImportParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
         return initializer
-                .handler(new TokenHandler(Keywords.RETURN))
-                .interceptor(new LinearPatternInterceptor())
-                .pattern("return &value:*=expression");
+                .handler(new TokenHandler(Keywords.IMPORT))
+                .pattern("import <class:condition token {type:unknown}, token {value:_}, token {value:.}>");
     }
 
     @Autowired
-    void parse(@Component Container container, @Component(BootstrapComponents.CURRENT_SOURCE_LABEL) Snippet source, @Src("value") @Nullable Expression value) {
-        BranchingUtils.parseBranchingStatement(source, container, () -> new Return(value));
+    void parseImport(ParserData data, @Component PandaScript script, @Src("class") Snippet clazz) {
+        Optional<Class<?>> importedClass = ClassUtils.forName(clazz.asString());
+
+        if (!importedClass.isPresent()) {
+            throw PandaParserFailure.builder("Class " + clazz.asString() + " does not exist", data)
+                    .withStreamOrigin(clazz)
+                    .build();
+        }
+
+        ClassPrototypeReference reference = ClassPrototypeGeneratorManager.getInstance().generate(script.getModule(), importedClass.get());
+        script.getModule().add(reference);
     }
 
 }

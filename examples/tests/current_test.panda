@@ -2,6 +2,8 @@ module example-test
 
 require 'current_test_required'
 
+import org.panda_lang.panda.PandaConstants
+
 class Foo extends Test {
 
     static method anotherEcho(String message1) {
@@ -120,6 +122,8 @@ main {
     } catch (Exception e) {
         Console.print(e.getMessage())
     }
+
+    Console.print(PandaConstants.VERSION)
 }
 
 class TestArray {

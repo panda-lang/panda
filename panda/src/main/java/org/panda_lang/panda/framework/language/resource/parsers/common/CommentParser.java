@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import java.util.ArrayList;
 import java.util.List;
 
-@ParserRegistration(target = UniversalPipelines.ALL_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.ALL_LABEL)
 public class CommentParser implements UnifiedParser<CommentStatement>, ParserHandler {
 
     @Override

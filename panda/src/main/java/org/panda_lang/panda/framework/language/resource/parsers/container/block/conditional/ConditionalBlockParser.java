@@ -37,7 +37,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.block.
 import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.BLOCK_LABEL)
+@ParserRegistration(pipeline = PandaPipelines.BLOCK_LABEL)
 public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     @Override

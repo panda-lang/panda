@@ -38,14 +38,14 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.Optional;
 
-@ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
-public class ModuleParser extends ParserBootstrap {
+@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+public final class ModuleParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.MODULE))
-                .pattern("module <module:condition token {type:unknown}, token {value:-}, token {value:.}>[;]");
+                .pattern("module <module:condition token {type:unknown}, token {value:-}, token {value:.}>");
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)

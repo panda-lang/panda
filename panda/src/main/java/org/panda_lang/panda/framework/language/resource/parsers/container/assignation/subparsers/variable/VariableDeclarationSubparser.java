@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.assign
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationSubparserBootstrap;
 
-@ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
+@ParserRegistration(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class VariableDeclarationSubparser extends AssignationSubparserBootstrap {
 
     private static final VariableParser INITIALIZER = new VariableParser();

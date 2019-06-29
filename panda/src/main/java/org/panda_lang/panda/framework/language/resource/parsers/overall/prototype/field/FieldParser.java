@@ -41,7 +41,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPrioritie
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
 
-@ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
+@ParserRegistration(pipeline = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_FIELD)
 public class FieldParser extends ParserBootstrap {
 
     @Override

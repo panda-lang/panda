@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPrioritie
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
+@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
 public class LateDeclarationParser extends ParserBootstrap {
 
     private static final VariableParser INITIALIZER = new VariableParser();
