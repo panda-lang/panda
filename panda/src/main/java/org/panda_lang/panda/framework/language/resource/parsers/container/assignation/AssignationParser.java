@@ -40,7 +40,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPrioritie
 
 import java.util.Optional;
 
-@ParserRegistration(target = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_ASSIGNATION)
+@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_ASSIGNATION)
 public class AssignationParser extends ParserBootstrap {
 
     private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]"; // slow

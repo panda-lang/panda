@@ -42,7 +42,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.List;
 
-@ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL)
+@ParserRegistration(pipeline = PandaPipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends ParserBootstrap {
 
     private final ParameterParser parameterParser = new ParameterParser();

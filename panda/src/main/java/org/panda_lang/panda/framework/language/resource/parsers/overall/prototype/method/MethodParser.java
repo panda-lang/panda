@@ -52,7 +52,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.overall.prototyp
 import java.util.List;
 import java.util.Optional;
 
-@ParserRegistration(target = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
+@ParserRegistration(pipeline = PandaPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public class MethodParser extends ParserBootstrap {
 
     private static final String VISIBILITY = "v";

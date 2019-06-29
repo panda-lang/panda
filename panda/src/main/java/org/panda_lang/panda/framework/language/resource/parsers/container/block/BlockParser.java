@@ -39,7 +39,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSou
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
-@ParserRegistration(target = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
+@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends ParserBootstrap {
 
     private final ContainerParser containerParser = new ContainerParser();

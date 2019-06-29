@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Br
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.CONTAINER_LABEL)
+@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL)
 public class BreakParser extends ParserBootstrap {
 
     @Override

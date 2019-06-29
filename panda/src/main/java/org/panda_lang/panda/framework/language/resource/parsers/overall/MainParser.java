@@ -36,8 +36,8 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParserUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = UniversalPipelines.OVERALL_LABEL)
-public class MainParser extends ParserBootstrap {
+@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+public final class MainParser extends ParserBootstrap {
 
     @Override
     protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {

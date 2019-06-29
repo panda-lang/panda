@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.architecture.dynamic.branching.Co
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.CONTAINER_LABEL)
+@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL)
 public class ContinueParser extends ParserBootstrap {
 
     @Override

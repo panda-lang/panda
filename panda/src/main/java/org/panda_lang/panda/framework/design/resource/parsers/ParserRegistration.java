@@ -33,7 +33,7 @@ public @interface ParserRegistration {
      *
      * @return the array of pipelines
      */
-    String[] target();
+    String[] pipeline();
 
     /**
      * Default priorities {@link org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities}

@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.assign
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-@ParserRegistration(target = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
+@ParserRegistration(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
 
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();

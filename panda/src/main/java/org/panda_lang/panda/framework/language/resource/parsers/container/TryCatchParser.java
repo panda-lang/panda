@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(target = PandaPipelines.CONTAINER_LABEL)
+@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL)
 public final class TryCatchParser extends ParserBootstrap {
 
     private final ContainerParser containerParser = new ContainerParser();
