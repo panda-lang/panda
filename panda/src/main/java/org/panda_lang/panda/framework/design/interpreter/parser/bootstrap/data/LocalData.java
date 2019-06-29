@@ -23,10 +23,10 @@ import java.util.Map;
 
 public class LocalData {
 
-    private final Map<String, Object> data;
+    private final Map<String, Object> context;
 
     public LocalData() {
-        this.data = new HashMap<>();
+        this.context = new HashMap<>();
     }
 
     public <T> T allocated(T element) {
@@ -38,18 +38,18 @@ public class LocalData {
     }
 
     public <T> T allocated(String name, T element) {
-        data.put(name, element);
+        context.put(name, element);
         return element;
     }
 
     @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(String name) {
-        return (T) data.get(name);
+        return (T) context.get(name);
     }
 
     @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(Class<T> type) {
-        for (Object datum : data.values()) {
+        for (Object datum : context.values()) {
             if (datum == null) {
                 continue;
             }

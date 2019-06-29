@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.array;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
@@ -26,9 +26,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFai
 
 public class ArrayValueAccessorUtils {
 
-    public static ArrayValueAccessor of(ParserData data, Snippet source, Expression instance, Expression index, ArrayValueAccessor.ArrayValueAccessorAction action) {
+    public static ArrayValueAccessor of(Context context, Snippet source, Expression instance, Expression index, ArrayValueAccessor.ArrayValueAccessorAction action) {
         if (!instance.getReturnType().isArray()) {
-            throw PandaParserFailure.builder("Cannot use index on non-array type (" + instance.getReturnType() + ")", data)
+            throw PandaParserFailure.builder("Cannot use index on non-array type (" + instance.getReturnType() + ")", context)
                     .withStreamOrigin(source)
                     .build();
         }
@@ -36,12 +36,12 @@ public class ArrayValueAccessorUtils {
         ArrayClassPrototype arrayPrototype = (ArrayClassPrototype) instance.getReturnType();
 
         if (arrayPrototype == null) {
-            throw PandaParserFailure.builder("Cannot locate array class", data)
+            throw PandaParserFailure.builder("Cannot locate array class", context)
                     .withStreamOrigin(source)
                     .build();
         }
 
-        ClassPrototypeReference type = ModuleLoaderUtils.getReferenceOrThrow(data, arrayPrototype.getType(), "Cannot locate type of the array", source);
+        ClassPrototypeReference type = ModuleLoaderUtils.getReferenceOrThrow(context, arrayPrototype.getType(), "Cannot locate type of the array", source);
         return new ArrayValueAccessor(arrayPrototype, type.fetch(), instance, index, action);
     }
 

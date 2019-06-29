@@ -78,7 +78,7 @@ public class NumberExpressionSubparser implements ExpressionSubparser {
             }
 
             content.addToken(context.getCurrentRepresentation());
-            Value numericValue = PARSER.parse(context.getData(), content);
+            Value numericValue = PARSER.parse(context.getContext(), content);
 
             if (numericValue == null) {
                 return dispose();

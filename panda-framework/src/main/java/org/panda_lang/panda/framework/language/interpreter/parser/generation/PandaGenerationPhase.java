@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationCycle;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationPhase;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationTask;
@@ -59,7 +59,7 @@ public class PandaGenerationPhase implements GenerationPhase {
     }
 
     @Override
-    public GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask task, ParserData delegated) {
+    public GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask task, Context delegated) {
         tasks.computeIfAbsent(priority, (key) -> new ArrayList<>(2)).add(new GenerationUnit(task, delegated));
         return this;
     }

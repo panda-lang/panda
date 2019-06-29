@@ -16,34 +16,34 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PandaParserData implements ParserData {
+public class PandaContext implements Context {
 
     private final Map<Component<?>, Object> components;
 
-    public PandaParserData() {
+    public PandaContext() {
         this(new HashMap<>());
     }
 
-    private PandaParserData(Map<Component<?>, Object> components) {
+    private PandaContext(Map<Component<?>, Object> components) {
         this.components = components;
     }
 
     @Override
-    public PandaParserData fork() {
-        PandaParserData parserInfo = new PandaParserData(new HashMap<>(components));
-        parserInfo.setComponent(UniversalComponents.PARENT_DATA, this);
+    public PandaContext fork() {
+        PandaContext parserInfo = new PandaContext(new HashMap<>(components));
+        parserInfo.withComponent(UniversalComponents.PARENT_DATA, this);
         return parserInfo;
     }
 
     @Override
-    public <T> PandaParserData setComponent(Component<T> component, T value) {
+    public <T> PandaContext withComponent(Component<T> component, T value) {
         this.components.put(component, value);
         return this;
     }

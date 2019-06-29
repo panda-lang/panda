@@ -18,13 +18,11 @@ package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
@@ -51,30 +49,30 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     }
 
     @Override
-    public P handle(ParserData data, Snippet source) {
+    public P handle(Context context, Snippet source) {
         if (count > 100) {
             count = 0;
             sort();
         }
 
         if (parentPipeline != null) {
-            P parser = handle(data, source, parentPipeline.getRepresentations());
+            P parser = handle(context, source, parentPipeline.getRepresentations());
 
             if (parser != null) {
                 return parser;
             }
         }
 
-        return handle(data, source, representations);
+        return handle(context, source, representations);
     }
 
-    private @Nullable P handle(ParserData data, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
+    private @Nullable P handle(Context context, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
 
-            if (handler.handle(data, source)) {
+            if (handler.handle(context, source)) {
                 representation.increaseUsages();
 
                 long time = System.nanoTime() - currentTime;

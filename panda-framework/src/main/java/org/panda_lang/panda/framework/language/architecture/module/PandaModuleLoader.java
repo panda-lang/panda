@@ -38,6 +38,20 @@ public class PandaModuleLoader implements ModuleLoader {
     private final ModulePath path;
     private final Map<String, LivingModule> loadedModules;
 
+    public PandaModuleLoader(ModuleLoader loader) {
+        this(loader.getPath());
+
+        loader.names().forEach(name -> {
+            Optional<LivingModule> livingModule = loader.get(name);
+
+            if(!livingModule.isPresent()) {
+                throw new PandaFrameworkException("LivingModule is null");
+            }
+
+            loadedModules.put(name, livingModule.get());
+        });
+    }
+
     public PandaModuleLoader(ModulePath path) {
         this.path = path;
         this.loadedModules = new HashMap<>(2);

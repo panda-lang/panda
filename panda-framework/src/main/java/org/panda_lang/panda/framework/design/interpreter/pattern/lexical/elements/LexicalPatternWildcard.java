@@ -20,12 +20,12 @@ import org.panda_lang.panda.utilities.commons.StringUtils;
 
 public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
 
-    private final String data;
+    private final String context;
     private String name;
     private String condition;
 
     public LexicalPatternWildcard(String condition) {
-        this.data = condition;
+        this.context = condition;
         this.initialize();
     }
 
@@ -34,16 +34,16 @@ public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
     }
 
     private void initialize() {
-        if (StringUtils.isEmpty(data)) {
+        if (StringUtils.isEmpty(context)) {
             return;
         }
 
-        if (!data.contains(":")) {
-            this.name = data;
+        if (!context.contains(":")) {
+            this.name = context;
             return;
         }
 
-        String[] elements = StringUtils.splitFirst(data, ":");
+        String[] elements = StringUtils.splitFirst(context, ":");
         this.name = elements[0];
         this.condition = elements[1];
     }
@@ -65,7 +65,7 @@ public class LexicalPatternWildcard extends DefaultLexicalPatternElement {
     }
 
     public String getData() {
-        return data;
+        return context;
     }
 
     @Override

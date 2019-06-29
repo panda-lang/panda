@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.rpn;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
 
@@ -25,18 +25,18 @@ import java.util.Stack;
 
 public class RPNOperation {
 
-    private final ParserData data;
+    private final Context context;
     private final Map<Operator, RPNOperationSupplier> actions;
     private final Stack<Object> values;
 
-    RPNOperation(ParserData data, Map<Operator, RPNOperationSupplier> actions, Stack<Object> values) {
-        this.data = data;
+    RPNOperation(Context context, Map<Operator, RPNOperationSupplier> actions, Stack<Object> values) {
+        this.context = context;
         this.actions = actions;
         this.values = values;
     }
 
     public Expression rectify() {
-        return RPNOperationRectifier.getInstance().rectify(data, actions, values);
+        return RPNOperationRectifier.getInstance().rectify(context, actions, values);
     }
 
     public static RPNOperationBuilder builder() {

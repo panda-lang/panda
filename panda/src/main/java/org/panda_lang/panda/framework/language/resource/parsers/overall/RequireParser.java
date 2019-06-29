@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -48,62 +48,62 @@ import java.util.Optional;
 public final class RequireParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.REQUIRE))
                 .pattern("require (<require:condition token {type:unknown}, token {value:-}, token {value:.}>|<requiredFile>)");
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
-    void parse(ParserData data, @Src("require") @Nullable Snippet require, @Src("requiredFile") @Nullable Snippet requiredFile) {
+    void parse(Context context, @Src("require") @Nullable Snippet require, @Src("requiredFile") @Nullable Snippet requiredFile) {
         if (require != null) {
-            parseModule(data, require);
+            parseModule(context, require);
             return;
         }
 
-        parseFile(data, Objects.requireNonNull(requiredFile));
+        parseFile(context, Objects.requireNonNull(requiredFile));
     }
 
-    private void parseModule(ParserData data, Snippet require) {
-        Environment environment = data.getComponent(UniversalComponents.ENVIRONMENT);
+    private void parseModule(Context context, Snippet require) {
+        Environment environment = context.getComponent(UniversalComponents.ENVIRONMENT);
 
         String moduleName = require.asString();
         Optional<Module> module = environment.getModulePath().get(moduleName);
 
         if (!module.isPresent()) {
-            throw PandaParserFailure.builder("Unknown module " + moduleName, data)
+            throw PandaParserFailure.builder("Unknown module " + moduleName, context)
                     .withStreamOrigin(require)
                     .withNote("Make sure that the name does not have a typo and module is added to the module path")
                     .build();
         }
 
-        ModuleLoader loader = data.getComponent(UniversalComponents.MODULE_LOADER);
+        ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
         loader.include(module.get());
 
-        PandaScript script = data.getComponent(PandaComponents.PANDA_SCRIPT);
+        PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
         script.addStatement(new ImportStatement(module.get()));
     }
 
-    private void parseFile(ParserData data, Snippet requiredFile) {
+    private void parseFile(Context context, Snippet requiredFile) {
         TokenRepresentation token = requiredFile.getFirst();
 
         if (!TokenUtils.hasName(token, "String")) {
-            throw PandaParserFailure.builder("Invalid token ", data)
+            throw PandaParserFailure.builder("Invalid token ", context)
                     .withStreamOrigin(token)
                     .withNote("You should use string sequence to import file")
                     .build();
         }
 
-        File file = new File(data.getComponent(UniversalComponents.ENVIRONMENT).getDirectory(), token.getValue() + ".panda");
+        File file = new File(context.getComponent(UniversalComponents.ENVIRONMENT).getDirectory(), token.getValue() + ".panda");
 
         if (!file.exists()) {
-            throw PandaParserFailure.builder("File " + file + " does not exist", data)
+            throw PandaParserFailure.builder("File " + file + " does not exist", context)
                     .withStreamOrigin(token)
                     .withNote("Make sure that the path does not have a typo")
                     .build();
         }
 
-        data.getComponent(UniversalComponents.SOURCES).addSource(PandaURLSource.fromFile(file));
+        context.getComponent(UniversalComponents.SOURCES).addSource(PandaURLSource.fromFile(file));
     }
 
 }

@@ -20,17 +20,17 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Compon
 
 import java.util.Map;
 
-public interface ParserData {
+public interface Context {
 
     /**
      * Clone ParserData to a new instance with old components
      */
-    ParserData fork();
+    Context fork();
 
     /**
      * @param componentName a name of the specified component
      */
-    <T> ParserData setComponent(Component<T> componentName, T component);
+    <T> Context withComponent(Component<T> componentName, T component);
 
     /***
      * @param componentName a name of the specified component

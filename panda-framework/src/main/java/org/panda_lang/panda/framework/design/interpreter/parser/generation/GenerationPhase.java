@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 
 public interface GenerationPhase {
 
@@ -35,32 +35,32 @@ public interface GenerationPhase {
      * @param delegated the data to associate with task
      * @return current phase
      */
-    GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask task, ParserData delegated);
+    GenerationPhase delegate(GenerationTaskPriority priority, GenerationTask task, Context delegated);
 
     /**
      * Delegate task using {@link GenerationTaskPriority#DEFAULT}
      *
-     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.panda.framework.design.interpreter.parser.ParserData)
+     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.panda.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegate(GenerationTask task, ParserData delegated) {
+    default GenerationPhase delegate(GenerationTask task, Context delegated) {
         return delegate(GenerationTaskPriority.DEFAULT, task, delegated);
     }
 
     /**
      * Delegate task using {@link GenerationTaskPriority#BEFORE}
      *
-     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.panda.framework.design.interpreter.parser.ParserData)
+     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.panda.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegateBefore(GenerationTask task, ParserData delegated) {
+    default GenerationPhase delegateBefore(GenerationTask task, Context delegated) {
         return delegate(GenerationTaskPriority.BEFORE, task, delegated);
     }
 
     /**
      * Delegate task using {@link GenerationTaskPriority#AFTER}
      *
-     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.panda.framework.design.interpreter.parser.ParserData)
+     * @see #delegate(GenerationTaskPriority, GenerationTask, org.panda_lang.panda.framework.design.interpreter.parser.Context)
      */
-    default GenerationPhase delegateAfter(GenerationTask task, ParserData delegated) {
+    default GenerationPhase delegateAfter(GenerationTask task, Context delegated) {
         return delegate(GenerationTaskPriority.AFTER, task, delegated);
     }
 

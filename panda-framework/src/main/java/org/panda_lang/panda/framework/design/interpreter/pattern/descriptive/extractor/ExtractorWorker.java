@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor;
 
 import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.lexical.elements.LexicalPatternElement;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -33,7 +33,7 @@ public class ExtractorWorker {
     public static Map<String, Long> timeMap = new HashMap<>();
 
     protected final DescriptivePattern pattern;
-    protected final ParserData data;
+    protected final Context context;
     protected final SourceStream source;
 
     protected final UnitExtractor unitExtractor = new UnitExtractor(this);
@@ -42,9 +42,9 @@ public class ExtractorWorker {
     protected final VariantExtractor variantExtractor = new VariantExtractor(this);
     protected final NodeExtractor nodeExtractor = new NodeExtractor(this);
 
-    ExtractorWorker(DescriptivePattern pattern, ParserData data, SourceStream source) {
+    ExtractorWorker(DescriptivePattern pattern, Context context, SourceStream source) {
         this.pattern = pattern;
-        this.data = data;
+        this.context = context;
         this.source = source;
 
         this.wildcardExtractor.initialize();

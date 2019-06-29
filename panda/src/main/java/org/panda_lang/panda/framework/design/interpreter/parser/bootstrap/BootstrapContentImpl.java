@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 import java.util.Optional;
@@ -25,15 +25,15 @@ class BootstrapContentImpl implements BootstrapContent {
 
     private final String name;
     private final Object instance;
-    private final ParserData data;
+    private final Context context;
     private final ParserHandler handler;
     private final BootstrapInterceptor interceptor;
     private final Object pattern;
 
-    BootstrapContentImpl(String name, Object instance, ParserData data, ParserHandler handler, BootstrapInterceptor interceptor, Object pattern) {
+    BootstrapContentImpl(String name, Object instance, Context context, ParserHandler handler, BootstrapInterceptor interceptor, Object pattern) {
         this.name = name;
         this.instance = instance;
-        this.data = data;
+        this.context = context;
         this.handler = handler;
         this.interceptor = interceptor;
         this.pattern = pattern;
@@ -56,8 +56,8 @@ class BootstrapContentImpl implements BootstrapContent {
     }
 
     @Override
-    public ParserData getData() {
-        return data;
+    public Context getData() {
+        return context;
     }
 
     @Override

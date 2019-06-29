@@ -32,17 +32,17 @@ import java.util.Optional;
 public class ParserFailureTranslatorLayout implements PandaTranslatorLayout<PandaParserFailure> {
 
     @Override
-    public void onHandle(MessengerFormatter formatter, PandaParserFailure element, Map<String, Object> data) {
-        data.put("stacktrace", element.getStackTrace());
-        data.put("source", element.getSourceFragment());
-        data.put("data", element.getData());
-        data.put("note", element.getNote());
+    public void onHandle(MessengerFormatter formatter, PandaParserFailure element, Map<String, Object> context) {
+        context.put("stacktrace", element.getStackTrace());
+        context.put("source", element.getSourceFragment());
+        context.put("data", element.getContext());
+        context.put("note", element.getNote());
 
-        Optional<GenerationCycle> pipeline = element.getData()
+        Optional<GenerationCycle> pipeline = element.getContext()
                 .getComponent(UniversalComponents.GENERATION)
                 .getCurrentCycle();
 
-        pipeline.ifPresent(cycle -> data.put("cycle", cycle));
+        pipeline.ifPresent(cycle -> context.put("cycle", cycle));
     }
 
     @Override

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -30,7 +30,7 @@ public class TokenHandler implements ParserHandler {
     }
 
     @Override
-    public boolean handle(ParserData data, Snippet source) {
+    public boolean handle(Context context, Snippet source) {
         Token currentToken = source.getFirst().getToken();
 
         for (Token token : tokens) {

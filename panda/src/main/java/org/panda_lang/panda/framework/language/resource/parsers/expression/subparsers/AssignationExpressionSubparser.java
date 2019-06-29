@@ -24,10 +24,10 @@ public class AssignationExpressionSubparser { /*implements ExpressionSubparser {
     private ParserPipeline<AssignationSubparser> pipelinePath;
 
     @Override
-    public void initialize(ParserData data) {
+    public void initialize(ParserData context) {
         this.pattern = PandaTokenPattern.builder()
                 .compile(PATTERN)
-                .build(data);
+                .build(context);
     }
 
     @Override
@@ -47,22 +47,22 @@ public class AssignationExpressionSubparser { /*implements ExpressionSubparser {
     }
 
     @Override
-    public @Nullable Expression parse(ExpressionParserOld parent, ParserData data, Snippet source) {
+    public @Nullable Expression parse(ExpressionParserOld parent, ParserData context, Snippet source) {
         System.out.println(":O -> " + source);
         ExtractorResult result = pattern.extract(source);
 
-        ParserData delegatedData = data.fork();
-        delegatedData.setComponent(AssignationComponents.SCOPE, delegatedData.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
+        ParserData delegatedContext = context.fork();
+        delegatedContext.setComponent(AssignationComponents.SCOPE, delegatedContext.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
 
         Snippet assignation = result.getWildcard("assignation");
-        Expression assignationExpression = delegatedData.getComponent(PandaComponents.EXPRESSION).parse(delegatedData, assignation);
+        Expression assignationExpression = delegatedContext.getComponent(PandaComponents.EXPRESSION).parse(delegatedContext, assignation);
 
-        PipelinePath path = data.getComponent(UniversalComponents.PIPELINE);
+        PipelinePath path = context.getComponent(UniversalComponents.PIPELINE);
         Snippet declaration = result.getWildcard("*declaration");
-        AssignationSubparser subparser = path.getPipeline(PandaPipelines.ASSIGNER).handle(data, declaration);
+        AssignationSubparser subparser = path.getPipeline(PandaPipelines.ASSIGNER).handle(context, declaration);
 
         try {
-            Statement statement = subparser.parseAssignment(delegatedData, declaration, assignationExpression); // TODO
+            Statement statement = subparser.parseAssignment(delegatedContext, declaration, assignationExpression); // TODO
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

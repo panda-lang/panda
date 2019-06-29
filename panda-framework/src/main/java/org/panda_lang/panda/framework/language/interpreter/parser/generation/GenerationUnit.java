@@ -16,20 +16,20 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.generation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.generation.GenerationTask;
 
 class GenerationUnit {
 
     private final GenerationTask task;
-    private final ParserData delegated;
+    private final Context delegated;
 
-    GenerationUnit(GenerationTask task, ParserData delegated) {
+    GenerationUnit(GenerationTask task, Context delegated) {
         this.task = task;
         this.delegated = delegated;
     }
 
-    public ParserData getDelegated() {
+    public Context getDelegated() {
         return delegated;
     }
 

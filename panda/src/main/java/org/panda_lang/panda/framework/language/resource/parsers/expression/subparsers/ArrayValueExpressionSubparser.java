@@ -76,14 +76,14 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
                 ExpressionResult.error("Cannot use array index on non-array return type", section.getContent());
             }
 
-            Expression indexExpression = context.getParser().parse(context.getData(), section.getContent());
+            Expression indexExpression = context.getParser().parse(context.getContext(), section.getContent());
 
             if (!PandaTypes.INT.isAssignableFrom(indexExpression.getReturnType())) {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 
             ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaValue(type, array[index]);
-            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getData(), section.getContent(), instanceExpression, indexExpression, action);
+            ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instanceExpression, indexExpression, action);
 
             return ExpressionResult.of(accessor.toCallback().toExpression());
         }

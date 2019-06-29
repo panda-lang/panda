@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -45,7 +45,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.overall.prototyp
 public class FieldParser extends ParserBootstrap {
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .pattern(DescriptiveContentBuilder.create()
                         .element("(p:public|l:local|h:hidden)")
@@ -60,8 +60,8 @@ public class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    void parse(ParserData data, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
-        ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(data, type.asString(), type);
+    void parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
+        ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asString(), type);
 
         FieldVisibility visibility = FieldVisibility.LOCAL;
         visibility = result.hasIdentifier("p") ? FieldVisibility.PUBLIC : visibility;
@@ -71,7 +71,7 @@ public class FieldParser extends ParserBootstrap {
         boolean mutable = result.hasIdentifier("mutable");
         boolean nullable = result.hasIdentifier("nullable");
 
-        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         int fieldIndex = prototype.getFields().getAmountOfFields();
 
         PrototypeField field = PandaPrototypeField.builder()
@@ -90,9 +90,9 @@ public class FieldParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2)
-    void parseAssignation(ParserData data, @Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
+    void parseAssignation(Context context, @Local PrototypeField field, @Src("assignation") @Nullable Expression assignationValue) {
         if (assignationValue == null) {
-            //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", data, name);
+            //throw new PandaParserFailure("Cannot parse expression '" + assignationValue + "'", context, name);
             return;
         }
 

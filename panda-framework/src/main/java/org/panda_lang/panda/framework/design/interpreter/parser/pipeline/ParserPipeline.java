@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
 import java.util.Collection;
@@ -30,7 +30,7 @@ public interface ParserPipeline<P extends Parser> {
      * @param source the source
      * @return parser which fits to the source
      */
-    P handle(ParserData data, Snippet source);
+    P handle(Context context, Snippet source);
 
     /**
      * @param parserRepresentation specified parser representation which will be registered in the pipeline

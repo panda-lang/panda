@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -45,11 +45,11 @@ final class BootstrapTaskScheduler<T> {
         this.methods = methods;
     }
 
-    protected T schedule(ParserData data, InterceptorData interceptorData, LocalData localData) throws Exception {
-        return schedule(data, new BootstrapInjectorController(data, interceptorData, localData));
+    protected T schedule(Context context, InterceptorData interceptorData, LocalData localData) throws Exception {
+        return schedule(context, new BootstrapInjectorController(context, interceptorData, localData));
     }
 
-    private T schedule(ParserData data, InjectorController controller) throws Exception {
+    private T schedule(Context context, InjectorController controller) throws Exception {
         Injector injector = DependencyInjection.createInjector(controller);
         int currentOrder = methods.peek().getOrder();
 
@@ -57,7 +57,7 @@ final class BootstrapTaskScheduler<T> {
             BootstrapMethod currentMethod = methods.pop();
             boolean last = !hasNext(currentOrder);
 
-            T value = delegateNext(data, controller, injector, currentMethod, last);
+            T value = delegateNext(context, controller, injector, currentMethod, last);
 
             if (last) {
                 return value;
@@ -67,8 +67,8 @@ final class BootstrapTaskScheduler<T> {
         return null;
     }
 
-    private T delegateNext(ParserData data, InjectorController controller, Injector injector, BootstrapMethod method, boolean last) throws Exception {
-        GenerationTask<T> callback = (cycle, delegatedData) -> {
+    private T delegateNext(Context context, InjectorController controller, Injector injector, BootstrapMethod method, boolean last) throws Exception {
+        GenerationTask<T> callback = (cycle, delegatedContext) -> {
             T value;
 
             try {
@@ -83,17 +83,17 @@ final class BootstrapTaskScheduler<T> {
             }
 
             if (last && !methods.isEmpty()) {
-                schedule(delegatedData.fork(), controller);
+                schedule(delegatedContext.fork(), controller);
             }
 
             return value;
         };
 
-        return delegateMethod(data, callback, method);
+        return delegateMethod(context, callback, method);
     }
 
-    private T delegateMethod(ParserData data, GenerationTask<T> callback, BootstrapMethod method) throws Exception {
-        Generation generation = data.getComponent(UniversalComponents.GENERATION);
+    private T delegateMethod(Context context, GenerationTask<T> callback, BootstrapMethod method) throws Exception {
+        Generation generation = context.getComponent(UniversalComponents.GENERATION);
 
         GenerationCycle cycle = generation.getCycle(method.getCycle());
         GenerationPhase phase = cycle.currentPhase();
@@ -101,24 +101,24 @@ final class BootstrapTaskScheduler<T> {
 
         switch (method.getDelegation()) {
             case IMMEDIATELY:
-                return callback.call(cycle, data);
+                return callback.call(cycle, context);
             case CURRENT_BEFORE:
-                phase.delegateBefore(callback, data);
+                phase.delegateBefore(callback, context);
                 break;
             case CURRENT_DEFAULT:
-                phase.delegate(callback, data);
+                phase.delegate(callback, context);
                 break;
             case CURRENT_AFTER:
-                phase.delegateAfter(callback, data);
+                phase.delegateAfter(callback, context);
                 break;
             case NEXT_BEFORE:
-                nextPhase.delegateBefore(callback, data);
+                nextPhase.delegateBefore(callback, context);
                 break;
             case NEXT_DEFAULT:
-                nextPhase.delegate(callback, data);
+                nextPhase.delegate(callback, context);
                 break;
             case NEXT_AFTER:
-                nextPhase.delegateAfter(callback, data);
+                nextPhase.delegateAfter(callback, context);
                 break;
             default:
                 throw new BootstrapException("Unknown delegation: " + method.getDelegation());

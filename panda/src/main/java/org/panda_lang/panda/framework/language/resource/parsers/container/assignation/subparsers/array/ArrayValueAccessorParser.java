@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.assig
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 
 public class ArrayValueAccessorParser implements Parser {
 
-    public @Nullable ArrayValueAccessor parse(ParserData data, Snippet source, ArrayValueAccessor.ArrayValueAccessorAction action) {
+    public @Nullable ArrayValueAccessor parse(Context context, Snippet source, ArrayValueAccessor.ArrayValueAccessorAction action) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
         if (sectionRepresentation.getType() != TokenType.SECTION) {
@@ -48,18 +48,18 @@ public class ArrayValueAccessorParser implements Parser {
         Snippet instanceSource = source.subSource(0, source.size() - 1);
         Snippet indexSource = section.getContent();
 
-        ExpressionParser parser = data.getComponent(UniversalComponents.EXPRESSION);
-        Expression instance = parser.parse(data, instanceSource);
-        Expression index = parser.parse(data, indexSource);
+        ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
+        Expression instance = parser.parse(context, instanceSource);
+        Expression index = parser.parse(context, indexSource);
 
         if (!PandaTypes.INT.isAssignableFrom(index.getReturnType())) {
-            throw PandaParserFailure.builder("The specified index is not an integer", data)
+            throw PandaParserFailure.builder("The specified index is not an integer", context)
                     .withStreamOrigin(source)
                     .withNote("Change array index to expression that returns int")
                     .build();
         }
 
-        return ArrayValueAccessorUtils.of(data, source, instance, index, action);
+        return ArrayValueAccessorUtils.of(context, source, instance, index, action);
     }
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
@@ -26,28 +26,28 @@ public abstract class ParserBootstrap<T> implements UnifiedParser<T>, ParserHand
 
     protected ParserRepresentation<UnifiedParser<T>> parser;
 
-    protected abstract BootstrapInitializer<T> initialize(ParserData data, BootstrapInitializer<T> initializer);
+    protected abstract BootstrapInitializer<T> initialize(Context context, BootstrapInitializer<T> initializer);
 
-    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
-        return handler.handle(data, source);
+    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+        return handler.handle(context, source);
     }
 
     @Override
-    public final boolean handle(ParserData data, Snippet source) {
-        return customHandle(get(data).getHandler(), data, source);
+    public final boolean handle(Context context, Snippet source) {
+        return customHandle(get(context).getHandler(), context, source);
     }
 
     @Override
-    public final T parse(ParserData data) throws Exception {
-        return get(data).getParser().parse(data);
+    public final T parse(Context context) throws Exception {
+        return get(context).getParser().parse(context);
     }
 
-    protected ParserRepresentation<UnifiedParser<T>> get(ParserData data) {
+    protected ParserRepresentation<UnifiedParser<T>> get(Context context) {
         if (parser != null) {
             return parser;
         }
 
-        this.parser = initialize(data, new BootstrapInitializer<T>().instance(this)).build(data);
+        this.parser = initialize(context, new BootstrapInitializer<T>().instance(this)).build(context);
         return parser;
     }
 

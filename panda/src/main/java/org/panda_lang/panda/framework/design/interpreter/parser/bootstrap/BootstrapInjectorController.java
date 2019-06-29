@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Inter;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
@@ -34,19 +34,19 @@ import java.util.Map;
 
 final class BootstrapInjectorController implements InjectorController {
 
-    private ParserData data;
+    private Context context;
     private InterceptorData interceptorData;
     private LocalData localData;
 
-    BootstrapInjectorController(ParserData data, InterceptorData interceptorData, LocalData localData) {
-        this.data = data;
+    BootstrapInjectorController(Context context, InterceptorData interceptorData, LocalData localData) {
+        this.context = context;
         this.interceptorData = interceptorData;
         this.localData = localData;
     }
 
     @Override
     public void initialize(InjectorResources resources) {
-        resources.on(ParserData.class).assignInstance(() -> data);
+        resources.on(Context.class).assignInstance(() -> context);
         resources.on(InterceptorData.class).assignInstance(() -> interceptorData);
         resources.on(LocalData.class).assignInstance(() -> localData);
 
@@ -68,7 +68,7 @@ final class BootstrapInjectorController implements InjectorController {
     }
 
     private @Nullable Object findComponent(InjectorAnnotation<?> annotation, Class<?> type) {
-        return data.getComponents().entrySet().stream()
+        return context.getComponents().entrySet().stream()
                 .filter(entry -> {
                     String value = annotation.getMetadata().getValue();
 

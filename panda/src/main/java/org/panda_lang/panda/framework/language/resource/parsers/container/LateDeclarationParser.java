@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -39,15 +39,15 @@ public class LateDeclarationParser extends ParserBootstrap {
     private static final VariableParser INITIALIZER = new VariableParser();
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.LATE))
                 .pattern("late " + VariableParser.DECLARATION_PARSER);
     }
 
     @Autowired
-    void parse(ParserData data, @Inter ExtractorResult result, @Component ScopeLinker linker, @Src("type") Snippet type, @Src("name") Snippet name) {
-        INITIALIZER.createVariable(data, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
+    void parse(Context context, @Inter ExtractorResult result, @Component ScopeLinker linker, @Src("type") Snippet type, @Src("name") Snippet name) {
+        INITIALIZER.createVariable(context, linker.getCurrentScope(), result.hasIdentifier("mutable"), result.hasIdentifier("nullable"), type, name);
     }
 
 }

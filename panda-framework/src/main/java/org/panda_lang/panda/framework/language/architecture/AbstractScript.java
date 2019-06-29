@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture;
 
 import org.panda_lang.panda.framework.design.architecture.Script;
+import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public abstract class AbstractScript implements Script {
 
     protected final String scriptName;
     protected final List<Statement> statements;
+    protected Module associatedModule;
 
     public AbstractScript(String scriptName) {
         this.scriptName = scriptName;
@@ -49,8 +51,13 @@ public abstract class AbstractScript implements Script {
         return selectedStatements;
     }
 
+    @Override
     public void addStatement(Statement statement) {
         this.statements.add(statement);
+    }
+
+    public void setModule(Module module) {
+        this.associatedModule = module;
     }
 
     @Override
@@ -59,29 +66,13 @@ public abstract class AbstractScript implements Script {
     }
 
     @Override
-    public String getScriptName() {
-        return scriptName;
+    public Module getModule() {
+        return associatedModule;
     }
 
     @Override
-    public String toString() {
-        StringBuilder node = new StringBuilder();
-
-        node.append("'");
-        node.append(getScriptName());
-        node.append("': {");
-
-        for (Statement statement : statements) {
-            node.append(System.lineSeparator());
-            node.append("  ");
-            node.append(statement);
-            node.append(",");
-        }
-
-        node.append(System.lineSeparator());
-        node.append("}");
-
-        return node.toString();
+    public String getScriptName() {
+        return scriptName;
     }
 
 }

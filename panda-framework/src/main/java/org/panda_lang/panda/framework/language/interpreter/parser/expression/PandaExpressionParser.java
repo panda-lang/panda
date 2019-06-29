@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -53,90 +53,90 @@ public class PandaExpressionParser implements ExpressionParser {
     }
 
     @Override
-    public Optional<Expression> parseSilently(ParserData data, Snippet source) {
-        return parseSilently(data, new PandaSourceStream(source));
+    public Optional<Expression> parseSilently(Context context, Snippet source) {
+        return parseSilently(context, new PandaSourceStream(source));
     }
 
     @Override
-    public Optional<Expression> parseSilently(ParserData data, SourceStream source) {
-        return parseSilently(data, source, ExpressionParserSettings.COMBINED);
+    public Optional<Expression> parseSilently(Context context, SourceStream source) {
+        return parseSilently(context, source, ExpressionParserSettings.COMBINED);
     }
 
     @Override
-    public Optional<Expression> parseSilently(ParserData data, SourceStream source, ExpressionParserSettings settings) {
+    public Optional<Expression> parseSilently(Context context, SourceStream source, ExpressionParserSettings settings) {
         try {
-            return Optional.of(parse(data, source, settings));
+            return Optional.of(parse(context, source, settings));
         } catch (Exception e) {
             return Optional.empty();
         }
     }
 
     @Override
-    public Expression parse(ParserData data, Snippet source) {
-        return parse(data, new PandaSourceStream(source));
+    public Expression parse(Context context, Snippet source) {
+        return parse(context, new PandaSourceStream(source));
     }
 
     @Override
-    public Expression parse(ParserData data, DiffusedSource source) {
-        return parse(data, source, ExpressionParserSettings.DEFAULT);
+    public Expression parse(Context context, DiffusedSource source) {
+        return parse(context, source, ExpressionParserSettings.DEFAULT);
     }
 
     @Override
-    public Expression parse(ParserData data, DiffusedSource source, ExpressionParserSettings settings) {
+    public Expression parse(Context context, DiffusedSource source, ExpressionParserSettings settings) {
         SourceStream stream = new PandaSourceStream(source.getAvailableSource());
 
-        Expression expression = parse(data, stream, settings);
+        Expression expression = parse(context, stream, settings);
         source.setIndex(source.getIndex() + stream.getReadLength());
 
         return expression;
     }
 
     @Override
-    public Expression parse(ParserData data, SourceStream source) {
-        return parse(data, source, ExpressionParserSettings.COMBINED);
+    public Expression parse(Context context, SourceStream source) {
+        return parse(context, source, ExpressionParserSettings.COMBINED);
     }
 
     @Override
-    public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings) {
-        return parse(data, source, settings, null);
+    public Expression parse(Context context, SourceStream source, ExpressionParserSettings settings) {
+        return parse(context, source, settings, null);
     }
 
-    public Expression parse(ParserData data, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, ExpressionParserWorker> visitor) {
+    public Expression parse(Context context, SourceStream source, ExpressionParserSettings settings, @Nullable BiConsumer<ExpressionContext, ExpressionParserWorker> visitor) {
         long uptime = System.nanoTime();
 
-        ExpressionContext context = new ExpressionContext(this, data, source);
-        ExpressionParserWorker worker = new ExpressionParserWorker(this, context, source, subparsers, settings);
+        ExpressionContext expressionContext = new ExpressionContext(this, context, source);
+        ExpressionParserWorker worker = new ExpressionParserWorker(this, expressionContext, source, subparsers, settings);
 
         if (!source.hasUnreadSource()) {
-            throw new ExpressionParserException("Expression expected", context, source);
+            throw new ExpressionParserException("Expression expected", expressionContext, source);
         }
 
-        for (TokenRepresentation representation : context.getDiffusedSource()) {
-            if (!worker.next(context.withUpdatedToken(representation))) {
+        for (TokenRepresentation representation : expressionContext.getDiffusedSource()) {
+            if (!worker.next(expressionContext.withUpdatedToken(representation))) {
                 break;
             }
         }
-        worker.finish(context);
+        worker.finish(expressionContext);
 
         // if something went wrong
         if (worker.hasError()) {
-            throw new ExpressionParserException(worker.getError().getErrorMessage(), context, worker.getError().getSource());
+            throw new ExpressionParserException(worker.getError().getErrorMessage(), expressionContext, worker.getError().getSource());
         }
 
         // if context does not contain any results
-        if (!context.hasResults()) {
-            throw new ExpressionParserException("Unknown expression", context, source.toSnippet());
+        if (!expressionContext.hasResults()) {
+            throw new ExpressionParserException("Unknown expression", expressionContext, source.toSnippet());
         }
 
         // if worker couldn't prepare the final result
-        if (context.getResults().size() > 1) {
-            throw new ExpressionParserException("Source contains " + context.getResults().size() + " expressions", context, source.toSnippet());
+        if (expressionContext.getResults().size() > 1) {
+            throw new ExpressionParserException("Source contains " + expressionContext.getResults().size() + " expressions", expressionContext, source.toSnippet());
         }
 
         source.read(worker.getLastSucceededRead());
 
         if (visitor != null) {
-            visitor.accept(context, worker);
+            visitor.accept(expressionContext, worker);
         }
 
         uptime = System.nanoTime() - uptime;
@@ -149,10 +149,10 @@ public class PandaExpressionParser implements ExpressionParser {
         }
 
         if (settings.isStandaloneOnly() && worker.getLastCategory() != ExpressionCategory.STANDALONE) {
-            throw new ExpressionParserException("Invalid category of expression", context, source.toSnippet());
+            throw new ExpressionParserException("Invalid category of expression", expressionContext, source.toSnippet());
         }
 
-        return context.getResults().pop();
+        return expressionContext.getResults().pop();
     }
 
 }

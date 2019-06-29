@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.container;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -47,15 +47,15 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     private int read;
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
-        this.expressionParser = data.getComponent(UniversalComponents.EXPRESSION);
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
+        this.expressionParser = context.getComponent(UniversalComponents.EXPRESSION);
         return initializer;
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
+    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
-        Optional<Expression> expression = expressionParser.parseSilently(data, stream, SETTINGS);
+        Optional<Expression> expression = expressionParser.parseSilently(context, stream, SETTINGS);
 
         if (!expression.isPresent()) {
             return false;

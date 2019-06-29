@@ -92,7 +92,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
             }
 
             source.backup();
-            ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getData(), typeSource.asString(), typeSource).fetch();
+            ClassPrototype type = ModuleLoaderUtils.getReferenceOrThrow(context.getContext(), typeSource.asString(), typeSource).fetch();
 
             if (section.getSeparator().equals(Separators.PARENTHESIS_LEFT)) {
                 return parseDefault(context, source, type, section.getContent());
@@ -102,7 +102,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         }
 
         private ExpressionResult parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {
-            Expression[] arguments = ARGUMENT_PARSER.parse(context.getData(), argumentsSource);
+            Expression[] arguments = ARGUMENT_PARSER.parse(context.getContext(), argumentsSource);
             PrototypeConstructor constructor = ConstructorUtils.matchConstructor(type, arguments);
 
             if (constructor == null) {
@@ -113,7 +113,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         }
 
         private ExpressionResult parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Section capacitySourceSection) {
-            Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getData(), type.getClassName() + "[]");
+            Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getContext(), type.getClassName() + "[]");
 
             if (!reference.isPresent()) {
                 return ExpressionResult.error("Cannot fetch type: " + type.getClassName() + "[]", source.getLastReadSource());
@@ -125,7 +125,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Array requires specified capacity", capacitySourceSection.getOpeningSeparator());
             }
 
-            Expression capacity = context.getParser().parse(context.getData(), capacitySource);
+            Expression capacity = context.getParser().parse(context.getContext(), capacitySource);
 
             if (!PandaTypes.INT.isAssignableFrom(capacity.getReturnType())) {
                 return ExpressionResult.error("Capacity has to be Int", capacitySource);

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternElement;
 import org.panda_lang.panda.framework.design.interpreter.pattern.progressive.ProgressivePatternResult;
@@ -44,22 +44,22 @@ public class Operation {
         return elements;
     }
 
-    private static OperationElement asOperatorElement(ExpressionParser parser, ParserData data, ProgressivePatternElement element) {
+    private static OperationElement asOperatorElement(ExpressionParser parser, Context context, ProgressivePatternElement element) {
         if (element.isOperator()) {
             return new OperationElement(element.getOperator());
         }
 
         Snippet source = element.getExpression();
-        Expression expression = parser.parse(data, source);
+        Expression expression = parser.parse(context, source);
 
         return new OperationElement(expression);
     }
 
-    public static Operation of(ExpressionParser parser, ParserData data, ProgressivePatternResult result) {
+    public static Operation of(ExpressionParser parser, Context context, ProgressivePatternResult result) {
         List<OperationElement> elements = new ArrayList<>(result.size());
 
         for (ProgressivePatternElement element : result.getElements()) {
-            elements.add(asOperatorElement(parser, data, element));
+            elements.add(asOperatorElement(parser, context, element));
         }
 
         return new Operation(elements);

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.common;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -35,31 +35,31 @@ public class ArgumentsParser implements Parser {
 
     private static final Expression[] EMPTY = new Expression[0];
 
-    public Expression[] parse(ParserData data, Snippet snippet) {
+    public Expression[] parse(Context context, Snippet snippet) {
         if (snippet.isEmpty()) {
             return EMPTY;
         }
 
-        ExpressionParser parser = data.getComponent(UniversalComponents.EXPRESSION);
+        ExpressionParser parser = context.getComponent(UniversalComponents.EXPRESSION);
         List<Expression> expressions = new ArrayList<>((snippet.size() - 1) / 2);
         SourceStream source = new PandaSourceStream(snippet);
 
         while (source.hasUnreadSource()) {
-            Expression expression = parser.parse(data, source);
+            Expression expression = parser.parse(context, source);
             expressions.add(expression);
 
             if (source.hasUnreadSource()) {
                 TokenRepresentation comma = source.read();
 
                 if (!Separators.COMMA.equals(comma.getToken())) {
-                    throw PandaParserFailure.builder("Illegal token", data)
+                    throw PandaParserFailure.builder("Illegal token", context)
                             .withSource(snippet, comma)
                             .withNote("Remove highlighted comma")
                             .build();
                 }
 
                 if (!source.hasUnreadSource()) {
-                    throw PandaParserFailure.builder("Arguments cannot end with a comma", data)
+                    throw PandaParserFailure.builder("Arguments cannot end with a comma", context)
                             .withSource(source, comma)
                             .build();
                 }

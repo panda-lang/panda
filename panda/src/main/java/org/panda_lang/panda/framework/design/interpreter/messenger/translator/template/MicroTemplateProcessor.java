@@ -29,7 +29,7 @@ final class MicroTemplateProcessor {
 
     private static final Pattern CONDITION = Pattern.compile("(?:%([^%]+)%)\\r?\\n((?:.+\\s*)*?)(?:% end %)\\r?\\n");
 
-    protected String processContent(String content, Map<String, Object> data) {
+    protected String processContent(String content, Map<String, Object> context) {
         StringBuilder contentBuilder = new StringBuilder();
 
         Matcher matcher = CONDITION.matcher(content);
@@ -42,7 +42,7 @@ final class MicroTemplateProcessor {
             contentBuilder.append(content, previousIndex, matcher.start());
             previousIndex = matcher.end();
 
-            if (data.get(condition) == null) {
+            if (context.get(condition) == null) {
                 continue;
             }
 

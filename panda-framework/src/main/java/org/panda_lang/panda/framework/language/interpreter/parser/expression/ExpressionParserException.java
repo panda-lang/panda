@@ -27,7 +27,7 @@ public class ExpressionParserException extends PandaParserFailure {
     private final String expressionMessage;
 
     public ExpressionParserException(String prefix, String message, ExpressionContext context, Snippet source) {
-        super(builder(message, context.getData()).withStreamOrigin(source));
+        super(builder(message, context.getContext()).withStreamOrigin(source));
         this.expressionMessage = message;
     }
 

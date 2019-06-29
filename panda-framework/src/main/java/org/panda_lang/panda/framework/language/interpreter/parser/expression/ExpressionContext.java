@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
@@ -28,16 +28,16 @@ import java.util.Stack;
 public class ExpressionContext {
 
     private final ExpressionParser parser;
-    private final ParserData data;
+    private final Context context;
     private final SourceStream source;
 
     private final DiffusedSource diffusedSource;
     private final Stack<Expression> results = new Stack<>();
     private TokenRepresentation current;
 
-    public ExpressionContext(ExpressionParser parser, ParserData data, SourceStream source) {
+    public ExpressionContext(ExpressionParser parser, Context context, SourceStream source) {
         this.parser = parser;
-        this.data = data;
+        this.context = context;
         this.source = source;
         this.diffusedSource = new DiffusedSource(source.toSnippet());
     }
@@ -75,8 +75,8 @@ public class ExpressionContext {
         return results;
     }
 
-    public ParserData getData() {
-        return data;
+    public Context getContext() {
+        return context;
     }
 
     public ExpressionParser getParser() {

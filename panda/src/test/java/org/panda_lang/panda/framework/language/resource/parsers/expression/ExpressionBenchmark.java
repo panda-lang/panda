@@ -27,7 +27,7 @@ import org.openjdk.jmh.annotations.Warmup;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
@@ -43,20 +43,20 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
 
     @Benchmark
     public void testParser(Configuration configuration, Blackhole blackhole) {
-        blackhole.consume(configuration.expressionParser.parse(configuration.data, SOURCE));
+        blackhole.consume(configuration.expressionParser.parse(configuration.context, SOURCE));
     }
 
     @State(Scope.Thread)
     public static class Configuration {
 
-        protected ParserData data;
+        protected Context context;
         protected ExpressionParser expressionParser;
         protected NumberParser numberParser = new NumberParser();
 
         @Setup(Level.Trial)
         public void setup() throws Exception {
             this.expressionParser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
-            this.data = prepareData();
+            this.context = prepareData();
         }
 
         public static void main(String[] args) throws Exception {

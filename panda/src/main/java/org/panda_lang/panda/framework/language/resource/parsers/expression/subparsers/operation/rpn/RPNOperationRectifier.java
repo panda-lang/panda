@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
@@ -34,7 +34,7 @@ class RPNOperationRectifier {
 
     private static final RPNOperationRectifier RECTIFIER = new RPNOperationRectifier();
 
-    public Expression rectify(ParserData data, Map<Operator, RPNOperationSupplier> suppliers, Stack<Object> elements) {
+    public Expression rectify(Context context, Map<Operator, RPNOperationSupplier> suppliers, Stack<Object> elements) {
         Stack<Expression> values = new Stack<>();
 
         for (Object element : elements) {

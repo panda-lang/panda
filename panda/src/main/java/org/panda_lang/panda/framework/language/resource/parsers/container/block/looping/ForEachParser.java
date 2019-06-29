@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.block
 
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
@@ -48,7 +48,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
     private final VariableParser initializer = new VariableParser();
 
     @Override
-    protected BootstrapInitializer<BlockData> initialize(ParserData data, BootstrapInitializer<BlockData> initializer) {
+    protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.FOREACH))
                 .pattern("foreach content:~(");
@@ -56,20 +56,20 @@ public class ForEachParser extends BlockSubparserBootstrap {
 
     @Autowired
     @SuppressWarnings("OptionalGetWithoutIsPresent")
-    BlockData parseBlock(ParserData data, @Src("content") Snippet content) {
-        ExtractorResult result = CONTENT_PATTERN.extract(data, content);
+    BlockData parseBlock(Context context, @Src("content") Snippet content) {
+        ExtractorResult result = CONTENT_PATTERN.extract(context, content);
         Snippet name = result.getWildcard("name").get().getValue();
         Snippet type = result.getWildcard("type").get().getValue();
         Snippet iterable = result.getWildcard("*iterable").get().getValue();
 
-        Scope scope = data.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
-        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, iterable);
+        Scope scope = context.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
+        Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, iterable);
 
         if (expression == null) {
             throw new PandaParserException("Cannot parse expression: " + iterable);
         }
 
-        Variable variable = initializer.createVariable(data, scope, true, true, type, name);
+        Variable variable = initializer.createVariable(context, scope, true, true, type, name);
         int variableId = scope.indexOf(variable);
 
         if (!PandaTypes.ITERABLE.isAssignableFrom(expression.getReturnType())) {

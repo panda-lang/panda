@@ -23,19 +23,19 @@ import java.util.Collection;
 
 public class InterceptorData {
 
-    private final Collection<Object> data;
+    private final Collection<Object> context;
 
     public InterceptorData() {
-        this.data = new ArrayList<>();
+        this.context = new ArrayList<>();
     }
 
     public void addElement(Object element) {
-        data.add(element);
+        context.add(element);
     }
 
     @SuppressWarnings("unchecked")
     public @Nullable <T> T getValue(Class<T> type) {
-        for (Object datum : data) {
+        for (Object datum : context) {
             if (datum == null) {
                 continue;
             }

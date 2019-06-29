@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 
@@ -64,7 +64,7 @@ public class PandaClassPrototypeUtils {
         return false;
     }
 
-    public static ClassPrototype[] toTypes(ParserData data, ModuleLoader loader, Class<?>... types) {
+    public static ClassPrototype[] toTypes(Context context, ModuleLoader loader, Class<?>... types) {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
@@ -75,9 +75,9 @@ public class PandaClassPrototypeUtils {
                 continue;
             }
 
-            throw PandaParserFailure.builder("Unknown type " + types[i], data)
+            throw PandaParserFailure.builder("Unknown type " + types[i], context)
                     .withSourceFragment()
-                        .ofOriginals(data)
+                        .ofOriginals(context)
                         .create()
                     .build();
         }

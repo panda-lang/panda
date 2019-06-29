@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.OperationParser;
@@ -30,7 +30,7 @@ import java.util.List;
 public class ConcatenationOperatorSubparser implements OperationSubparser {
 
     @Override
-    public @Nullable Expression parse(OperationParser parser, ParserData data, Operation operation) {
+    public @Nullable Expression parse(OperationParser parser, Context context, Operation operation) {
         List<Expression> values = new ArrayList<>((operation.getElements().size() - 1) / 2);
         int lastIndex = 0;
 
@@ -41,28 +41,28 @@ public class ConcatenationOperatorSubparser implements OperationSubparser {
                 continue;
             }
 
-            if (!parseSubOperation(parser, data, values, operation, lastIndex, i)) {
+            if (!parseSubOperation(parser, context, values, operation, lastIndex, i)) {
                 return null;
             }
 
             lastIndex = i + 1;
         }
 
-        if (!parseSubOperation(parser, data, values, operation, lastIndex, operation.getElements().size())) {
+        if (!parseSubOperation(parser, context, values, operation, lastIndex, operation.getElements().size())) {
             return null;
         }
 
         return new ConcatenationExpressionCallback(values).toExpression();
     }
 
-    private boolean parseSubOperation(OperationParser parser, ParserData data, List<Expression> values, Operation operation, int start, int end) {
+    private boolean parseSubOperation(OperationParser parser, Context context, List<Expression> values, Operation operation, int start, int end) {
         if (end - start == 1) {
             values.add(operation.getElements().get(start).getExpression());
             return true;
         }
 
         Operation subOperation = new Operation(operation.getElements().subList(start, end));
-        Expression expression = parser.parse(data, subOperation);
+        Expression expression = parser.parse(context, subOperation);
 
         if (expression == null) {
             return false;

@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.block
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -41,20 +41,20 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     @Override
-    protected BootstrapInitializer<BlockData> initialize(ParserData data, BootstrapInitializer<BlockData> initializer) {
+    protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.IF, Keywords.ELSE))
                 .pattern("((if:if|elseif:else if) <condition:reader expression>|else:else)");
     }
 
     @Autowired
-    BlockData parse(ParserData data, @Inter ExtractorResult result, @Component ParserData parentData, @Src("condition") @Nullable Expression condition) {
+    BlockData parse(Context context, @Inter ExtractorResult result, @Component Context parentData, @Src("condition") @Nullable Expression condition) {
         if (result.hasIdentifier("else")) {
             ElseBlock elseBlock = new ElseBlock();
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
-                throw PandaParserFailure.builder("The Else-block without associated If-block", data)
+                throw PandaParserFailure.builder("The Else-block without associated If-block", context)
                         .withSourceFragment()
                             .ofIndicated(null)
                             .create()
@@ -68,7 +68,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
         }
 
         if (condition == null) {
-            throw PandaParserFailure.builder("Empty condition", data)
+            throw PandaParserFailure.builder("Empty condition", context)
                     .withSourceFragment()
                         .ofOriginals(parentData)
                         .create()
@@ -86,7 +86,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
             Block previousBlock = parentData.getComponent(BlockComponents.PREVIOUS_BLOCK);
 
             if (!(previousBlock instanceof ConditionalBlock)) {
-                //throw new PandaParserFailure("The If-Else-block without associated If-block", data);
+                //throw new PandaParserFailure("The If-Else-block without associated If-block", context);
             }
 
             ConditionalBlock previousConditionalBlock = (ConditionalBlock) previousBlock;
@@ -94,7 +94,7 @@ public class ConditionalBlockParser extends BlockSubparserBootstrap {
             return new BlockData(previousBlock, true);
         }
 
-       // throw new PandaParserFailure("Unrecognized condition type", data);
+       // throw new PandaParserFailure("Unrecognized condition type", context);
         return null;
     }
 

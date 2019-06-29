@@ -71,7 +71,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ScopeLinker scopeLinker = context.getData().getComponent(UniversalComponents.SCOPE_LINKER);
+            ScopeLinker scopeLinker = context.getContext().getComponent(UniversalComponents.SCOPE_LINKER);
             Scope scope = scopeLinker.getCurrentScope();
 
             String name = token.getValue();
@@ -92,7 +92,7 @@ public class VariableExpressionSubparser implements ExpressionSubparser {
                 return result;
             }
 
-            ClassPrototype prototype = context.getData().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+            ClassPrototype prototype = context.getContext().getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
             if (prototype != null) {
                 return fromInstance(ThisExpressionCallback.asExpression(prototype), name).orElseGet(() -> ExpressionResult.error("Cannot find variable '" + name + "'", token));

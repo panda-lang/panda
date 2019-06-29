@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.pattern.utils;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorWorker;
@@ -47,16 +47,16 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
     }
 
     @Override
-    public boolean match(String data) {
-        return data.startsWith("expression");
+    public boolean match(String context) {
+        return context.startsWith("expression");
     }
 
     @Override
-    public @Nullable Expression read(ParserData data, String content, TokenDistributor distributor) {
+    public @Nullable Expression read(Context context, String content, TokenDistributor distributor) {
         String[] datum = StringUtils.splitFirst(content, " ");
 
         if (ArrayUtils.isEmpty(datum)) {
-            return parse(expressionParser, null, data, distributor, distributor.currentSubSource());
+            return parse(expressionParser, null, context, distributor, distributor.currentSubSource());
         }
 
         String condition = datum[1];
@@ -65,7 +65,7 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
 
         ExpressionParserSettings settings = ExpressionParserSettings.create()
                 .withSelectedSubparsers(names);
-        Expression expression = parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), data, distributor, distributor.currentSubSource());
+        Expression expression = parse(expressionParser, condition.startsWith("exclude") ? settings.excludeSelected() : settings.includeSelected(), context, distributor, distributor.currentSubSource());
 
         uptime = System.nanoTime() - uptime;
         ExtractorWorker.fullTime -= uptime;
@@ -74,9 +74,9 @@ public class ExpressionWildcardReader implements WildcardReader<Expression> {
         return expression;
     }
 
-    private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, ParserData data, TokenDistributor distributor, Snippet content) {
+    private @Nullable Expression parse(ExpressionParser expressionParser, @Nullable ExpressionParserSettings settings, Context context, TokenDistributor distributor, Snippet content) {
         SourceStream source = new PandaSourceStream(content);
-        Expression expression = settings == null ? expressionParser.parse(data, source) : expressionParser.parse(data, source, settings);
+        Expression expression = settings == null ? expressionParser.parse(context, source) : expressionParser.parse(context, source, settings);
 
         distributor.next(source.getReadLength());
         return expression;

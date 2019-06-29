@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.assig
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.assign
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
     @Override
-    protected BootstrapInitializer<@Nullable Statement> initialize(ParserData data, BootstrapInitializer<@Nullable Statement> initializer) {
+    protected BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
         return initializer.pattern("<source:reader expression include field>");
     }
 

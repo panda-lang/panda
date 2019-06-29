@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.assig
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
@@ -49,14 +49,14 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();
 
     @Override
-    protected BootstrapInitializer<@Nullable Statement> initialize(ParserData data, BootstrapInitializer<@Nullable Statement> initializer) {
+    protected BootstrapInitializer<@Nullable Statement> initialize(Context context, BootstrapInitializer<@Nullable Statement> initializer) {
         return initializer
                 .interceptor(new EmptyInterceptor())
                 .handler(new EmptyHandler());
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
+    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
         TokenRepresentation sectionRepresentation = source.getLast();
 
         if (sectionRepresentation.getType() != TokenType.SECTION) {
@@ -68,8 +68,8 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     }
 
     @Autowired
-    Statement parse(ParserData data, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression expression) {
-        return PARSER.parse(data, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
+    Statement parse(Context context, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression expression) {
+        return PARSER.parse(context, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
             @Override
             public @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
                 array[index] = expression.evaluate(branch).getObject();

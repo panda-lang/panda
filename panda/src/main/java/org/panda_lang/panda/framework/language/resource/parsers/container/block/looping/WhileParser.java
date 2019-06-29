@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.container.block.looping;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
@@ -38,7 +38,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 public class WhileParser extends BlockSubparserBootstrap {
 
     @Override
-    protected BootstrapInitializer<BlockData> initialize(ParserData data, BootstrapInitializer<BlockData> initializer) {
+    protected BootstrapInitializer<BlockData> initialize(Context context, BootstrapInitializer<BlockData> initializer) {
         return initializer
                 .handler(new TokenHandler(Keywords.WHILE))
                 .interceptor(new LinearPatternInterceptor())
@@ -46,8 +46,8 @@ public class WhileParser extends BlockSubparserBootstrap {
     }
 
     @Autowired
-    BlockData parseWhile(ParserData data, @Src("content") Snippet content) {
-        Expression expression = data.getComponent(UniversalComponents.EXPRESSION).parse(data, content);
+    BlockData parseWhile(Context context, @Src("content") Snippet content) {
+        Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, content);
 
         if (!PandaTypes.BOOLEAN.isAssignableFrom(expression.getReturnType())) {
             throw new PandaParserException("Loop requires boolean as an argument");

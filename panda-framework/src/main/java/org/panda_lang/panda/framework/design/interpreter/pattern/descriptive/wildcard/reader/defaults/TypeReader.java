@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wi
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.wildcard.reader.WildcardReader;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
@@ -32,12 +32,12 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 class TypeReader implements WildcardReader<Snippet> {
 
     @Override
-    public boolean match(String data) {
-        return data.startsWith("type");
+    public boolean match(String context) {
+        return context.startsWith("type");
     }
 
     @Override
-    public @Nullable Snippet read(ParserData data, String content, TokenDistributor distributor) {
+    public @Nullable Snippet read(Context context, String content, TokenDistributor distributor) {
         TokenRepresentation type = distributor.next();
 
         if (type.getToken().getType() != TokenType.UNKNOWN) {

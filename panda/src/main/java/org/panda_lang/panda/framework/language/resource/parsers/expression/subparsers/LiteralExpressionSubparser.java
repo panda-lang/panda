@@ -66,7 +66,7 @@ public class LiteralExpressionSubparser implements ExpressionSubparser {
                 case "false":
                     return ExpressionUtils.toExpressionResult(PandaTypes.BOOLEAN, false);
                 case "this":
-                    return ExpressionResult.of(ThisExpressionCallback.of(context.getData()));
+                    return ExpressionResult.of(ThisExpressionCallback.of(context.getContext()));
                 default:
                     throw new PandaParserException("Unknown literal: " + token);
             }

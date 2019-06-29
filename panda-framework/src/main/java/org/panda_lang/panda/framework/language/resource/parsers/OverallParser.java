@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
@@ -34,31 +34,31 @@ public class OverallParser implements Parser {
     private final ParserPipeline<UnifiedParser> pipeline;
     private final SourceStream stream;
 
-    public OverallParser(ParserData data) {
-        this.interpretation = data.getComponent(UniversalComponents.INTERPRETATION);
-        this.pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(UniversalPipelines.OVERALL);
-        this.stream = data.getComponent(UniversalComponents.SOURCE_STREAM);
+    public OverallParser(Context context) {
+        this.interpretation = context.getComponent(UniversalComponents.INTERPRETATION);
+        this.pipeline = context.getComponent(UniversalComponents.PIPELINE).getPipeline(UniversalPipelines.OVERALL);
+        this.stream = context.getComponent(UniversalComponents.SOURCE_STREAM);
     }
 
-    public void parseNext(ParserData data) throws Exception {
+    public void parseNext(Context context) throws Exception {
         if (!interpretation.isHealthy() || !hasNext()) {
             return;
         }
 
         Snippet source = stream.toSnippet();
-        UnifiedParser parser = pipeline.handle(data, source);
+        UnifiedParser parser = pipeline.handle(context, source);
         int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {
-            throw PandaParserFailure.builder("Unrecognized syntax", data)
+            throw PandaParserFailure.builder("Unrecognized syntax", context)
                     .withSource(stream.getOriginalSource(), source)
                     .build();
         }
 
-        parser.parse(data.fork());
+        parser.parse(context.fork());
 
         if (sourceLength == stream.getUnreadLength()) {
-            throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", data)
+            throw PandaParserFailure.builder(parser.getClass().getSimpleName() + " did nothing with the current source", context)
                     .withSource(stream.getOriginalSource(), source)
                     .build();
         }

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall.prototy
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -32,8 +32,8 @@ import java.util.Optional;
 
 public class ClassPrototypeParserUtils {
 
-    public static void readDeclaration(ParserData data, Snippet classDeclaration) {
-        ClassPrototype classPrototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+    public static void readDeclaration(Context context, Snippet classDeclaration) {
+        ClassPrototype classPrototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         Token next = classDeclaration.getToken(1);
 
         if (next == null || next.getType() != TokenType.KEYWORD) {
@@ -43,21 +43,21 @@ public class ClassPrototypeParserUtils {
         switch (next.getValue()) {
             case "implements": //temp
             case "extends":
-                readExtends(data, classDeclaration, classPrototype);
+                readExtends(context, classDeclaration, classPrototype);
                 break;
             default:
                 throw new PandaParserException("Illegal keyword " + next);
         }
     }
 
-    private static void readExtends(ParserData data, Snippet classDeclaration, ClassPrototype prototype) {
-        ModuleLoader loader = data.getComponent(UniversalComponents.MODULE_LOADER);
+    private static void readExtends(Context context, Snippet classDeclaration, ClassPrototype prototype) {
+        ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
 
         for (int i = 2; i < classDeclaration.size(); i++) {
             TokenRepresentation classNameToken = classDeclaration.get(i);
 
             if (classNameToken == null) {
-                throw PandaParserFailure.builder("Declaration token not found", data)
+                throw PandaParserFailure.builder("Declaration token not found", context)
                         .withSource(classDeclaration, classDeclaration)
                         .build();
             }
@@ -68,7 +68,7 @@ public class ClassPrototypeParserUtils {
                 Optional<ClassPrototypeReference> extendedPrototype = loader.forClass(classNameToken.getValue());
 
                 if (!extendedPrototype.isPresent()) {
-                    throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", data)
+                    throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", context)
                             .withSource(classDeclaration, classDeclaration)
                             .withNote("Make sure that the name does not have a typo and module which should contain that class is imported")
                             .build();

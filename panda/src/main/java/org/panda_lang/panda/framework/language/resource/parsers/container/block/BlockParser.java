@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.block
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -45,36 +45,35 @@ public class BlockParser extends ParserBootstrap {
     private final ContainerParser containerParser = new ContainerParser();
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer.pattern("<*declaration> body:~{");
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, ParserData data, Snippet source) {
-        return ObjectUtils.isNotNull(data
-                .getComponent(UniversalComponents.PIPELINE)
+    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+        return ObjectUtils.isNotNull(context.getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(data, source));
+                .handle(context, source));
     }
 
     @Autowired(order = 1)
-    void parse(ParserData data, LocalData local, @Src("*declaration") Snippet declaration) throws Exception {
+    void parse(Context context, LocalData local, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
-        ParserPipeline<BlockSubparser> pipeline = data.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
-        BlockSubparser blockParser = pipeline.handle(data, declarationStream.toSnippet());
+        ParserPipeline<BlockSubparser> pipeline = context.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
+        BlockSubparser blockParser = pipeline.handle(context, declarationStream.toSnippet());
 
         if (blockParser == null) {
-            throw PandaParserFailure.builder("Unknown block", data)
+            throw PandaParserFailure.builder("Unknown block", context)
                     .withStreamOrigin(declaration)
                     .build();
         }
 
-        ParserData delegatedData = local.allocated(data.fork());
-        BlockData blockData = blockParser.parse(delegatedData, declaration);
+        Context delegatedContext = local.allocated(context.fork());
+        BlockData blockData = blockParser.parse(delegatedContext, declaration);
 
         if (blockData == null || blockData.getBlock() == null) {
-            throw PandaParserFailure.builder(blockParser.getClass().getSimpleName() + " cannot parse current block", data)
+            throw PandaParserFailure.builder(blockParser.getClass().getSimpleName() + " cannot parse current block", context)
                     .withStreamOrigin(declaration)
                     .build();
         }
@@ -85,12 +84,12 @@ public class BlockParser extends ParserBootstrap {
             return;
         }
 
-        data.getComponent(PandaComponents.CONTAINER).addStatement(blockData.getBlock());
-        data.setComponent(BlockComponents.PREVIOUS_BLOCK, blockData.getBlock());
+        context.getComponent(PandaComponents.CONTAINER).addStatement(blockData.getBlock());
+        context.withComponent(BlockComponents.PREVIOUS_BLOCK, blockData.getBlock());
     }
 
     @Autowired(order = 2)
-    void parseContent(@Local ParserData blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
+    void parseContent(@Local Context blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
         if (body != null) {
             containerParser.parse(block, body, blockData);
         }

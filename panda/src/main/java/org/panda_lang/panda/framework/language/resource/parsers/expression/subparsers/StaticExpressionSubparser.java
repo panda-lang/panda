@@ -53,7 +53,7 @@ public class StaticExpressionSubparser implements ExpressionSubparser {
                 return null;
             }
 
-            ModuleLoader loader = context.getData().getComponent(UniversalComponents.MODULE_LOADER);
+            ModuleLoader loader = context.getContext().getComponent(UniversalComponents.MODULE_LOADER);
             Optional<ClassPrototypeReference> reference = loader.forClass(token.getValue());
 
             if (!reference.isPresent()) {

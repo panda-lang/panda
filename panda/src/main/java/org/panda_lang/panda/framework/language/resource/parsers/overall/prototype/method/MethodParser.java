@@ -22,7 +22,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -60,12 +60,12 @@ public class MethodParser extends ParserBootstrap {
     private static final String STATIC = "s";
 
     @Override
-    protected BootstrapInitializer initialize(ParserData data, BootstrapInitializer initializer) {
+    protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
         return initializer.pattern("v:[(l:local|h:hidden)] s:[static] method <*signature> parameters:~( body:~{");
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
-    boolean parse(ParserData data, LocalData local, @Inter ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
+    boolean parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
         MethodVisibility visibility = MethodVisibility.PUBLIC;
 
         if (result.hasIdentifier(VISIBILITY)) {
@@ -75,11 +75,11 @@ public class MethodParser extends ParserBootstrap {
         ClassPrototypeReference returnType = PandaTypes.VOID.getReference();
 
         if (signature.size() > 1) {
-            ModuleLoader registry = data.getComponent(UniversalComponents.MODULE_LOADER);
+            ModuleLoader registry = context.getComponent(UniversalComponents.MODULE_LOADER);
             Optional<ClassPrototypeReference> reference = registry.forClass(signature.subSource(0, signature.size() - 1).asString());
 
             if (!reference.isPresent()) {
-                throw PandaParserFailure.builder("Unknown type", data)
+                throw PandaParserFailure.builder("Unknown type", context)
                         .withStreamOrigin(signature)
                         .withNote("Make sure that the name does not have a typo and module which should contain that class is imported")
                         .build();
@@ -88,15 +88,15 @@ public class MethodParser extends ParserBootstrap {
             returnType = reference.get();
         }
 
-        List<Parameter> parameters = new ParameterParser().parse(data, parametersSource);
+        List<Parameter> parameters = new ParameterParser().parse(context, parametersSource);
         ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
 
         String method = signature.getLast().getValue();
         MethodScope methodScope = local.allocated(new MethodScope(method, parameters));
         ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
 
-        data.setComponent(PandaComponents.SCOPE, methodScope);
-        ClassPrototype prototype = data.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
+        context.withComponent(PandaComponents.SCOPE, methodScope);
+        ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype.getReference())
@@ -113,8 +113,8 @@ public class MethodParser extends ParserBootstrap {
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
-    void parse(ParserData delegatedData, @Local MethodScope methodScope, @Src("body") Snippet body) throws Exception {
-        ScopeParserUtils.parse(delegatedData.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope, delegatedData, body);
+    void parse(Context delegatedContext, @Local MethodScope methodScope, @Src("body") Snippet body) throws Exception {
+        ScopeParserUtils.parse(delegatedContext.getComponent(ClassPrototypeComponents.CLASS_SCOPE), methodScope, delegatedContext, body);
     }
 
 }

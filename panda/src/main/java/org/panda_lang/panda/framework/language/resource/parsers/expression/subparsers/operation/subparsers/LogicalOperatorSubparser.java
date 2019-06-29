@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ParserData;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.Operation;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.OperationParser;
@@ -71,9 +71,9 @@ public class LogicalOperatorSubparser implements OperationSubparser {
     );
 
     @Override
-    public Expression parse(OperationParser parser, ParserData data, Operation operation) {
+    public Expression parse(OperationParser parser, Context context, Operation operation) {
         RPNOperation rpn = RPNOperation.builder()
-                .withData(data)
+                .withData(context)
                 .withOperation(operation)
                 .withPriorities(PRIORITIES)
                 .withActions(ACTIONS)
