@@ -90,7 +90,7 @@ final class InjectorProcessor {
         try {
             return fetchParameter(annotation, type);
         } catch (Exception e) {
-            throw new InjectorException("Failed to fetch values for " + executable + ": " + e.getMessage(), e);
+            throw new InjectorException("Failed to fetch values for " + executable + ", " + e.getClass() + ": " + e.getMessage(), e);
         }
     }
 
