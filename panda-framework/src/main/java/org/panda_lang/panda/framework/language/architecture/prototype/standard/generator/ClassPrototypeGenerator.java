@@ -33,7 +33,7 @@ final class ClassPrototypeGenerator {
 
     protected static boolean locked;
 
-    protected ClassPrototypeReference generate(Module module, Class<?> type) {
+    protected ClassPrototypeReference generate(Module module, Class<?> type, String name) {
         boolean bypass = !locked;
 
         if (bypass) {
@@ -42,6 +42,7 @@ final class ClassPrototypeGenerator {
 
         ClassPrototype prototype = PandaClassPrototype.builder()
                 .module(module)
+                .name(name)
                 .associated(type)
                 .build();
 
@@ -73,10 +74,9 @@ final class ClassPrototypeGenerator {
     }
 
     protected ClassPrototypeReference computeIfAbsent(Module module, Class<?> type) {
-        //noinspection OptionalGetWithoutIsPresent
-        ClassPrototypeReference reference = (module == null || !module.hasClass(type))
-                ? generate(module, type)
-                : module.getAssociatedWith(type).get();
+        ClassPrototypeReference reference = (module == null || !module.hasPrototype(type))
+                ? generate(module, type, type.getCanonicalName())
+                : module.getAssociatedWith(type).orElse(null);
 
         if (reference == null) {
             throw new PandaRuntimeException("Cannot prepare class: " + type);
@@ -86,7 +86,7 @@ final class ClassPrototypeGenerator {
             throw new PandaRuntimeException("Cannot find module of prototype: " + reference);
         }
 
-        if (!module.hasClass(type)) {
+        if (!module.hasPrototype(type)) {
             module.add(reference);
         }
 

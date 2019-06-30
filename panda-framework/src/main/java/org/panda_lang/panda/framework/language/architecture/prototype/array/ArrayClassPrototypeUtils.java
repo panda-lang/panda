@@ -46,7 +46,7 @@ public class ArrayClassPrototypeUtils {
             return Optional.of(cached);
         }
 
-        Optional<ClassPrototypeReference> baseReference = loader.forClass(StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY));
+        Optional<ClassPrototypeReference> baseReference = loader.forName(StringUtils.replace(type, PandaArray.IDENTIFIER, StringUtils.EMPTY));
 
         if (!baseReference.isPresent()) {
             return Optional.empty();
@@ -55,7 +55,7 @@ public class ArrayClassPrototypeUtils {
         int dimensions = StringUtils.countOccurrences(type, PandaArray.IDENTIFIER);
         ClassPrototypeReference array = getArrayOf(baseReference.get(), dimensions);
 
-        return Optional.ofNullable(loader.getDefaultModule().add(array));
+        return Optional.ofNullable(loader.getLocalModule().add(array));
     }
 
     public static ClassPrototypeReference getArrayOf(ClassPrototypeReference prototype, int dimensions) {

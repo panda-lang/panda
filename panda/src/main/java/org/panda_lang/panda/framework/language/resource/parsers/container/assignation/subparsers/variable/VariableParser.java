@@ -66,7 +66,7 @@ public class VariableParser {
         }
 
         ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
-        Optional<ClassPrototypeReference> prototype = loader.forClass(type.toSnippet().asString());
+        Optional<ClassPrototypeReference> prototype = loader.forName(type.toSnippet().asString());
 
         if (!prototype.isPresent()) {
             throw PandaParserFailure.builder("Cannot recognize variable type: " + type, context)

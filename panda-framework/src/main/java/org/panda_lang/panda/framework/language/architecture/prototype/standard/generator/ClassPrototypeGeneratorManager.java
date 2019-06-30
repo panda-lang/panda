@@ -24,8 +24,8 @@ public class ClassPrototypeGeneratorManager {
     private static final ClassPrototypeGeneratorManager INSTANCE = new ClassPrototypeGeneratorManager();
     private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
 
-    public ClassPrototypeReference generate(Module module, Class<?> clazz) {
-        return GENERATOR.generate(module, clazz);
+    public ClassPrototypeReference generate(Module module, Class<?> clazz, String name) {
+        return GENERATOR.generate(module, clazz, name);
     }
 
     public static ClassPrototypeGeneratorManager getInstance() {

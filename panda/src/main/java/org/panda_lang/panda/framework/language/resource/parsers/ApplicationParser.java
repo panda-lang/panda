@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
@@ -57,9 +58,8 @@ public class ApplicationParser implements Parser {
         Environment environment = interpretation.getEnvironment();
         Resources resources = environment.getResources();
 
-        ModuleLoader loader = new PandaModuleLoader(environment.getModulePath())
-                .include(environment.getModulePath().getDefaultModule())
-                .include(environment.getModulePath(), "panda-lang");
+        ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());
+        ModuleLoaderUtils.load(loader, environment.getModulePath(), "panda-lang");
 
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationCycles.getValues());
@@ -80,8 +80,8 @@ public class ApplicationParser implements Parser {
                 .build();
 
         for (Source current : sources) {
-            PandaScript pandaScript = new PandaScript(current.getTitle());
-            application.addScript(pandaScript);
+            PandaScript script = new PandaScript(current.getTitle(), new PandaModuleLoader(loader));
+            application.addScript(script);
 
             interpretation.execute(() -> {
                 Snippet snippet = lexer.convert(current);
@@ -90,8 +90,9 @@ public class ApplicationParser implements Parser {
                 Context delegatedContext = context.fork()
                         .withComponent(UniversalComponents.SOURCE, snippet)
                         .withComponent(UniversalComponents.SOURCE_STREAM, sourceStream)
-                        .withComponent(UniversalComponents.SCRIPT, pandaScript)
-                        .withComponent(PandaComponents.PANDA_SCRIPT, pandaScript);
+                        .withComponent(UniversalComponents.MODULE_LOADER, script.getModuleLoader())
+                        .withComponent(UniversalComponents.SCRIPT, script)
+                        .withComponent(PandaComponents.PANDA_SCRIPT, script);
 
                 OverallParser overallParser = new OverallParser(delegatedContext);
 

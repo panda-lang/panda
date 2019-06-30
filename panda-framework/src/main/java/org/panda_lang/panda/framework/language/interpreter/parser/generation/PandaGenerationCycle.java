@@ -89,7 +89,7 @@ public class PandaGenerationCycle implements GenerationCycle {
             return name + " { <empty> }";
         }
 
-        return name + " { c: " + currentPhase + " | n: " + nextPhase + " }";
+        return name + " { current: " + currentPhase + " | next: " + nextPhase + " }";
     }
 
 }

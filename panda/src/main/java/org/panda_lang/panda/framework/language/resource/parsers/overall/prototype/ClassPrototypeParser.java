@@ -96,7 +96,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
         context.withComponent(ClassPrototypeComponents.CLASS_SCOPE, scope);
 
         ClassPrototypeReferenceStatement referenceStatement = new ClassPrototypeReferenceStatement(prototype, scope);
-        script.getStatements().add(referenceStatement);
+        script.addStatement(referenceStatement);
 
         ScopeLinker linker = new PandaScopeLinker(scope);
         context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
@@ -118,13 +118,13 @@ public class ClassPrototypeParser extends ParserBootstrap {
         PipelinePath pipelinePath = context.getComponent(UniversalComponents.PIPELINE);
         ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.PROTOTYPE);
 
-        Context bodyInfo = context.fork();
+        Context bodyContext = context.fork();
         SourceStream stream = new PandaSourceStream(body);
-        bodyInfo.withComponent(UniversalComponents.SOURCE_STREAM, stream);
+        bodyContext.withComponent(UniversalComponents.SOURCE_STREAM, stream);
 
         while (stream.hasUnreadSource()) {
             Snippet currentSource = stream.toSnippet();
-            UnifiedParser parser = pipeline.handle(bodyInfo, currentSource);
+            UnifiedParser parser = pipeline.handle(bodyContext, currentSource);
 
             if (parser == null) {
                 throw PandaParserFailure.builder("Cannot parse the element of the prototype", context)
@@ -132,7 +132,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
                         .build();
             }
 
-            parser.parse(bodyInfo);
+            parser.parse(bodyContext);
 
             if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {
                 stream.read();

@@ -4,7 +4,9 @@ class Required {
 
     method hello() {
         Console.print("Required print")
-        Console.print(PandaConstants.VERSION)
+
+        // Imported by current_test.panda java class should not be visible
+        // Console.print(PandaConstants.VERSION)
     }
 
 }

@@ -16,20 +16,30 @@
 
 package org.panda_lang.panda.framework.design.architecture.module;
 
-public interface LivingModule extends Module {
+import org.panda_lang.panda.framework.PandaFrameworkException;
+
+import java.util.Optional;
+
+public final class ModuleLoaderUtils {
+
+    private ModuleLoaderUtils() { }
 
     /**
-     * Get the loader used to load this living module
+     * Load module using the name and path
      *
-     * @return the loader
+     * @param loader the loader to use
+     * @param path the path to search in
+     * @param name the name to search for
      */
-    ModuleLoader getModuleLoader();
+    public static void load(ModuleLoader loader, ModulePath path, String name) {
+        Optional<Module> module = path.get(name);
 
-    /**
-     * Get the primary module
-     *
-     * @return the primary module
-     */
-    Module getModule();
+        if (!module.isPresent()) {
+            throw new PandaFrameworkException("Module " + name + " does not exist in the provided path");
+        }
+
+        loader.load(module.get());
+    }
+
 
 }

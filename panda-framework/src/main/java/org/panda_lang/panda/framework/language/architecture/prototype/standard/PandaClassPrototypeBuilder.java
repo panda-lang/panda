@@ -42,7 +42,7 @@ public class PandaClassPrototypeBuilder<BUILDER extends PandaClassPrototypeBuild
         this.associated = associated;
 
         if (name == null) {
-            this.name = associated.getSimpleName();
+            this.name = associated.getCanonicalName();
         }
 
         return getThis();

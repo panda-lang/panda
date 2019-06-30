@@ -60,12 +60,15 @@ public class PandaTypes {
     }
 
     public ModulePath fill(ModulePath modulePath) {
-        modulePath.addModule(MODULE);
+        MODULE.getReferences().forEach(reference -> {
+            modulePath.getDefaultModule().add(reference);
+        });
+
         return modulePath;
     }
 
     private static ClassPrototypeReference of(Class<?> clazz) {
-        return ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz);
+        return ClassPrototypeGeneratorManager.getInstance().generate(MODULE, clazz, clazz.getSimpleName());
     }
 
 }
