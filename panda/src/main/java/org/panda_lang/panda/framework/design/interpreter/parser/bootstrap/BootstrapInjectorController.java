@@ -31,6 +31,7 @@ import org.panda_lang.panda.utilities.inject.InjectorController;
 import org.panda_lang.panda.utilities.inject.InjectorResources;
 
 import java.util.Map;
+import java.util.Objects;
 
 final class BootstrapInjectorController implements InjectorController {
 
@@ -72,13 +73,14 @@ final class BootstrapInjectorController implements InjectorController {
                 .filter(entry -> {
                     String value = annotation.getMetadata().getValue();
 
-                    if (!StringUtils.isEmpty(value) && entry.getKey().getName().equals(value)) {
+                    if (!StringUtils.isEmpty(value) && Objects.equals(entry.getKey().getName(), value)) {
                         return true;
                     }
 
                     return type == entry.getKey().getType();
                 })
                 .map(Map.Entry::getValue)
+                .filter(Objects::nonNull)
                 .findFirst()
                 .orElse(null);
     }
