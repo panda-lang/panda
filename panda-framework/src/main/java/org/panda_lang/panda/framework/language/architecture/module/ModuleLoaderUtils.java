@@ -34,7 +34,7 @@ public class ModuleLoaderUtils {
     }
 
     public static Optional<ClassPrototypeReference> getReferenceOrOptional(Context context, String className) {
-        return context.getComponent(UniversalComponents.MODULE_LOADER).forClass(className);
+        return context.getComponent(UniversalComponents.MODULE_LOADER).forName(className);
     }
 
     public static ClassPrototypeReference getReferenceOrThrow(Context context, String className, @Nullable Snippet source) {
@@ -42,7 +42,7 @@ public class ModuleLoaderUtils {
     }
 
     public static ClassPrototypeReference getReferenceOrThrow(Context context, String className, String message, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, loader -> loader.forClass(className), "Unknown type " + className, source);
+        return getReferenceOrThrow(context, loader -> loader.forName(className), "Unknown type " + className, source);
     }
 
     public static ClassPrototypeReference getReferenceOrThrow(Context context, Class<?> type, @Nullable Snippet source) {
@@ -50,7 +50,7 @@ public class ModuleLoaderUtils {
     }
 
     public static ClassPrototypeReference getReferenceOrThrow(Context context, Class<?> type, String message, @Nullable Snippet source) {
-        return getReferenceOrThrow(context, loader -> loader.forClass(type), message, source);
+        return getReferenceOrThrow(context, loader -> loader.forName(type.getCanonicalName()), message, source);
     }
 
     static ClassPrototypeReference getReferenceOrThrow(Context context, Function<ModuleLoader, Optional<ClassPrototypeReference>> mapper, String message, Snippet source) {

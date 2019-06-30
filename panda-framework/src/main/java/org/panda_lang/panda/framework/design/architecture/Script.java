@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 
 import java.util.List;
@@ -43,6 +44,13 @@ public interface Script {
      * @return list of the statement declarations
      */
     List<? extends Statement> getStatements();
+
+    /**
+     * Get module loader used by script
+     *
+     * @return the module loader
+     */
+    ModuleLoader getModuleLoader();
 
     /**
      * Get associated module

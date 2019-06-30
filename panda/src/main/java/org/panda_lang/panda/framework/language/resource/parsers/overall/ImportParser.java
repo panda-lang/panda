@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.overall;
 
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
@@ -46,17 +46,17 @@ public final class ImportParser extends ParserBootstrap {
     }
 
     @Autowired
-    void parseImport(Context context, @Component PandaScript script, @Src("class") Snippet clazz) {
-        Optional<Class<?>> importedClass = ClassUtils.forName(clazz.asString());
+    void parseImport(Context context, @Component PandaScript script, @Component ModuleLoader loader, @Src("class") Snippet clazzSource) {
+        Optional<Class<?>> importedClass = ClassUtils.forName(clazzSource.asString());
 
         if (!importedClass.isPresent()) {
-            throw PandaParserFailure.builder("Class " + clazz.asString() + " does not exist", context)
-                    .withStreamOrigin(clazz)
+            throw PandaParserFailure.builder("Class " + clazzSource.asString() + " does not exist", context)
+                    .withStreamOrigin(clazzSource)
                     .build();
         }
 
-        ClassPrototypeReference reference = ClassPrototypeGeneratorManager.getInstance().generate(script.getModule(), importedClass.get());
-        script.getModule().add(reference);
+        Class<?> clazz = importedClass.get();
+        ClassPrototypeGeneratorManager.getInstance().generate(loader.getLocalModule(), clazz, clazz.getSimpleName());
     }
 
 }

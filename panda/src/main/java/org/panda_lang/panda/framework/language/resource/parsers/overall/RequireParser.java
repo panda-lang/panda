@@ -78,7 +78,7 @@ public final class RequireParser extends ParserBootstrap {
         }
 
         ModuleLoader loader = context.getComponent(UniversalComponents.MODULE_LOADER);
-        loader.include(module.get());
+        loader.load(module.get());
 
         PandaScript script = context.getComponent(PandaComponents.PANDA_SCRIPT);
         script.addStatement(new ImportStatement(module.get()));

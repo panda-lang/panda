@@ -16,34 +16,18 @@
 
 package org.panda_lang.panda.framework.design.architecture;
 
-import org.panda_lang.panda.framework.design.architecture.statement.Statement;
+import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.language.architecture.AbstractScript;
 
 public class PandaScript extends AbstractScript {
 
-    public PandaScript(String scriptName) {
-        super(scriptName);
+    public PandaScript(String scriptName, ModuleLoader loader) {
+        super(scriptName, loader);
     }
 
     @Override
     public String toString() {
-        StringBuilder node = new StringBuilder();
-
-        node.append("'");
-        node.append(getScriptName());
-        node.append("': {");
-
-        for (Statement statement : statements) {
-            node.append(System.lineSeparator());
-            node.append("  ");
-            node.append(statement);
-            node.append(",");
-        }
-
-        node.append(System.lineSeparator());
-        node.append("}");
-
-        return node.toString();
+        return getScriptName();
     }
 
 }

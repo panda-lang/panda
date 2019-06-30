@@ -76,7 +76,7 @@ public class MethodParser extends ParserBootstrap {
 
         if (signature.size() > 1) {
             ModuleLoader registry = context.getComponent(UniversalComponents.MODULE_LOADER);
-            Optional<ClassPrototypeReference> reference = registry.forClass(signature.subSource(0, signature.size() - 1).asString());
+            Optional<ClassPrototypeReference> reference = registry.forName(signature.subSource(0, signature.size() - 1).asString());
 
             if (!reference.isPresent()) {
                 throw PandaParserFailure.builder("Unknown type", context)

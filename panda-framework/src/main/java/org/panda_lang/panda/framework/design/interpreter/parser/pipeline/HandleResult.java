@@ -14,22 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.module;
+package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-public interface LivingModule extends Module {
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 
-    /**
-     * Get the loader used to load this living module
-     *
-     * @return the loader
-     */
-    ModuleLoader getModuleLoader();
+import java.util.Optional;
 
-    /**
-     * Get the primary module
-     *
-     * @return the primary module
-     */
-    Module getModule();
+public interface HandleResult {
+
+    Optional<Parser> getParser();
 
 }

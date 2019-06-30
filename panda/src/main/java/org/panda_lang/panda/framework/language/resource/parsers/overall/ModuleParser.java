@@ -28,15 +28,13 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.language.architecture.module.PandaModule;
 import org.panda_lang.panda.framework.language.architecture.statement.ModuleStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
-
-import java.util.Optional;
 
 @ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
 public final class ModuleParser extends ParserBootstrap {
@@ -50,33 +48,21 @@ public final class ModuleParser extends ParserBootstrap {
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL)
     void parse(@Component Environment environment, @Component ModuleLoader loader, @Component PandaScript script, @Src("module") Snippet moduleSource) {
-        StringBuilder nameBuilder = new StringBuilder();
-
-        for (TokenRepresentation representation : moduleSource.getTokensRepresentations()) {
-            nameBuilder.append(representation.getValue());
-        }
-
-        String moduleName = nameBuilder.toString();
-
-        if (!environment.getModulePath().hasModule(moduleName)) {
-            environment.getModulePath().create(moduleName);
-        }
-
         if (script.select(ModuleStatement.class).size() > 0) {
             throw new PandaParserException("Script contains more than one declaration of the group");
         }
 
-        Optional<Module> module = environment.getModulePath().get(moduleName);
+        String moduleName = moduleSource.asString();
 
-        if (!module.isPresent()) {
-            throw new PandaParserException("Module '" + moduleName + "' does not exist");
-        }
+        Module module = environment.getModulePath().get(moduleName).orElseGet(() -> {
+            return environment.getModulePath().include(new PandaModule(moduleName));
+        });
 
-        ModuleStatement moduleStatement = new ModuleStatement(module.get());
-        script.getStatements().add(moduleStatement);
-
-        loader.include(moduleStatement.getModule());
+        ModuleStatement moduleStatement = new ModuleStatement(module);
+        script.addStatement(moduleStatement);
         script.setModule(moduleStatement.getModule());
+
+        loader.load(moduleStatement.getModule());
     }
 
 }

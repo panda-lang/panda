@@ -24,9 +24,8 @@ import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.PandaArray;
-import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.utilities.commons.StreamUtils;
-import org.panda_lang.panda.utilities.commons.StringUtils;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -36,54 +35,49 @@ import java.util.Optional;
 public class PandaModuleLoader implements ModuleLoader {
 
     private final ModulePath path;
-    private final Map<String, LivingModule> loadedModules;
+    private final ModuleLoader parent;
+    private final Map<String, LivingModule> loadedModules = new HashMap<>(2);
 
     public PandaModuleLoader(ModuleLoader loader) {
-        this(loader.getPath());
+        this(loader.getPath(), loader);
+    }
 
-        loader.names().forEach(name -> {
-            Optional<LivingModule> livingModule = loader.get(name);
+    public PandaModuleLoader(ModulePath path) {
+        this(path, null);
+    }
+
+    public PandaModuleLoader(ModulePath path, ModuleLoader parent) {
+        this.path = path;
+        this.parent = parent;
+        this.initialize();
+    }
+
+    private void initialize() {
+        load(path.getDefaultModule());
+
+        if (parent == null) {
+            return;
+        }
+
+        parent.getNames().forEach(name -> {
+            Optional<LivingModule> livingModule = parent.get(name);
 
             if(!livingModule.isPresent()) {
                 throw new PandaFrameworkException("LivingModule is null");
             }
 
-            loadedModules.put(name, livingModule.get());
+            load(livingModule.get());
         });
     }
 
-    public PandaModuleLoader(ModulePath path) {
-        this.path = path;
-        this.loadedModules = new HashMap<>(2);
-    }
-
     @Override
-    public PandaModuleLoader include(Module module) {
+    public PandaModuleLoader load(Module module) {
         this.loadedModules.put(module.getName(), new PandaLivingModule(this, module));
         return this;
     }
 
     @Override
-    public ModuleLoader include(ModulePath path, String name) {
-        Optional<Module> module = path.get(name);
-
-        if (!module.isPresent()) {
-            throw new PandaFrameworkException("Module " + name + " does not exist in the provided path");
-        }
-
-        return this.include(module.get());
-    }
-
-    @Override
-    public Optional<ClassPrototypeReference> forClass(String name) {
-        if (StringUtils.isEmpty(name)) {
-            return Optional.empty();
-        }
-
-        if (name.contains(":")) {
-            throw new PandaRuntimeException("Not implemented");
-        }
-
+    public Optional<ClassPrototypeReference> forName(String name) {
         if (name.endsWith(PandaArray.IDENTIFIER)) {
             return ArrayClassPrototypeUtils.obtain(this, name);
         }
@@ -105,8 +99,18 @@ public class PandaModuleLoader implements ModuleLoader {
     }
 
     @Override
-    public Collection<String> names() {
+    public Collection<String> getNames() {
         return StreamUtils.map(loadedModules.values(), Module::getName);
+    }
+
+    @Override
+    public LivingModule getLocalModule() {
+        return get(ModulePath.DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have local module"));
+    }
+
+    @Override
+    public Optional<ModuleLoader> getParent() {
+        return Optional.ofNullable(parent);
     }
 
     @Override

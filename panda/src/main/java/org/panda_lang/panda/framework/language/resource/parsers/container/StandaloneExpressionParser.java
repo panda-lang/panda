@@ -33,9 +33,8 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.ExpressionExecutable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
-
-import java.util.Optional;
 
 @ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
 public class StandaloneExpressionParser extends ParserBootstrap {
@@ -55,15 +54,15 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     @Override
     public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
-        Optional<Expression> expression = expressionParser.parseSilently(context, stream, SETTINGS);
 
-        if (!expression.isPresent()) {
+        try {
+            this.expression = expressionParser.parse(context, stream, SETTINGS);
+            this.read = stream.getReadLength();
+            return true;
+        } catch (ExpressionParserException e) {
+            // PandaFramework.getLogger().debug("Expression: " + e.getExpressionMessage());
             return false;
         }
-
-        this.expression = expression.get();
-        this.read = stream.getReadLength();
-        return true;
     }
 
     @Autowired

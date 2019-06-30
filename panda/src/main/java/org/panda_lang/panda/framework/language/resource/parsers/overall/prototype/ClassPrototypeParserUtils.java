@@ -65,7 +65,7 @@ public class ClassPrototypeParserUtils {
                 continue;
             }
             else if (classNameToken.getType() == TokenType.UNKNOWN) {
-                Optional<ClassPrototypeReference> extendedPrototype = loader.forClass(classNameToken.getValue());
+                Optional<ClassPrototypeReference> extendedPrototype = loader.forName(classNameToken.getValue());
 
                 if (!extendedPrototype.isPresent()) {
                     throw PandaParserFailure.builder("Class " + classNameToken.getValue() + " not found", context)

@@ -54,7 +54,7 @@ public class PandaParserDataUtils {
 
         ModulePath path = new PandaModulePath();
         ModuleLoader loader = new PandaModuleLoader(new PandaTypes().fill(path));
-        loader.include(path.getDefaultModule());
+        loader.load(path.getDefaultModule());
         context.withComponent(UniversalComponents.MODULE_LOADER, loader);
 
         Scope scope = new StaticScope(variables);

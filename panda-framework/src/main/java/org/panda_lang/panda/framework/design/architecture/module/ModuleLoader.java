@@ -17,31 +17,75 @@
 package org.panda_lang.panda.framework.design.architecture.module;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 
 import java.util.Collection;
 import java.util.Optional;
 
+/**
+ * ModuleLoader stores all imported modules wrapped into {@link org.panda_lang.panda.framework.design.architecture.module.LivingModule}. Content:
+ *
+ * <ul>
+ *     <li>creates local module - associated with loader module for local imports</li>
+ *     <li>includes default module by default into local module</li>
+ *     <li>keeps imported modules as living modules</li>
+ * </ul>
+ *
+ */
 public interface ModuleLoader {
 
-    ModuleLoader include(Module module);
+    /**
+     * Include module
+     *
+     * @param module the module to include
+     * @return the loader instance
+     */
+    ModuleLoader load(Module module);
 
-    ModuleLoader include(ModulePath path, String name);
+    /**
+     * Get reference using the given name
+     *
+     * @param name the name to search
+     * @return the found (or not) prototype reference wrapped into optional
+     */
+    Optional<ClassPrototypeReference> forName(String name);
 
-    Optional<ClassPrototypeReference> forClass(String name);
-
-    default Optional<ClassPrototypeReference> forClass(Class<?> clazz) {
-        return this.forClass(clazz.getSimpleName());
-    }
-
-    default LivingModule getDefaultModule() {
-        return get(ModulePath.DEFAULT_MODULE).orElseThrow(() -> new PandaParserException(getClass() + " does not have default module"));
-    }
-
+    /**
+     * Get living module using the given name
+     *
+     * @param name the name to search for
+     * @return the found (or not) living module
+     */
     Optional<LivingModule> get(String name);
 
-    Collection<String> names();
+    /**
+     * Collect all names of imported modules
+     *
+     * @return the collection of names
+     */
+    Collection<String> getNames();
 
+    /**
+     * Get local module. The local module contains loaded {@link ModulePath#getDefaultModule()} by default,
+     * it's also intended for non-exposed module metadata like local imports.
+     *
+     * @return the default module
+     *
+     * @see org.panda_lang.panda.framework.design.architecture.module.ModulePath#DEFAULT_MODULE
+     */
+    LivingModule getLocalModule();
+
+    /**
+     * Get parent loader
+     *
+     * @return the parent loader
+     */
+    Optional<ModuleLoader> getParent();
+
+    /**
+     * Get the path used by loader
+     *
+     * @return the path
+     */
     ModulePath getPath();
 
 }

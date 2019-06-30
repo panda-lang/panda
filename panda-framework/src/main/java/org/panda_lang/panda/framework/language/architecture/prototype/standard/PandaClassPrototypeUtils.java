@@ -68,7 +68,7 @@ public class PandaClassPrototypeUtils {
         ClassPrototype[] prototypes = new ClassPrototype[types.length];
 
         for (int i = 0; i < types.length; i++) {
-            Optional<ClassPrototypeReference> reference = loader.forClass(types[i]);
+            Optional<ClassPrototypeReference> reference = loader.forName(types[i].getCanonicalName());
 
             if (reference.isPresent()) {
                 prototypes[i] = reference.get().fetch();
