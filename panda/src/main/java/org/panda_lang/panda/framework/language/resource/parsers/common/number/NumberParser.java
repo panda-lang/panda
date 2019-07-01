@@ -18,14 +18,14 @@ package org.panda_lang.panda.framework.language.resource.parsers.common.number;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.ParticularParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.SourceParser;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
-public class NumberParser implements ParticularParser<Value> {
+public class NumberParser implements SourceParser<Value> {
 
     @Override
     public Value parse(Context context, Snippet source) {
