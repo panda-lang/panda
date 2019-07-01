@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.PandaParserRepresentation;
 
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 final class BootstrapGenerator {
 
-    protected <T> ParserRepresentation<UnifiedParser<T>> generate(BootstrapInitializer<T> initializer, BootstrapContent content) {
+    protected <T> ParserRepresentation<ContextParser<T>> generate(BootstrapInitializer<T> initializer, BootstrapContent content) {
         List<BootstrapMethod> methods = initializer.layers.stream()
                                 .map(BootstrapMethod::new)
                                 .sorted(Comparator.comparingInt(BootstrapMethod::getOrder))
@@ -40,7 +40,7 @@ final class BootstrapGenerator {
                 .map(handler -> (BootstrapHandler) handler)
                 .ifPresent(handler -> handler.initialize(content));
 
-        return new PandaParserRepresentation<>(new BootstrapUnifiedParser<>(content, methods), initializer.handler, initializer.priority);
+        return new PandaParserRepresentation<>(new BootstrapContextParser<>(content, methods), initializer.handler, initializer.priority);
     }
 
 }

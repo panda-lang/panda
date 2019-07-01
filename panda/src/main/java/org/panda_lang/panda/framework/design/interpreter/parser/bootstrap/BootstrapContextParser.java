@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.InterceptorData;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
@@ -27,12 +27,12 @@ import org.panda_lang.panda.utilities.commons.StackUtils;
 
 import java.util.List;
 
-final class BootstrapUnifiedParser<T> implements UnifiedParser<T> {
+final class BootstrapContextParser<T> implements ContextParser<T> {
 
     protected final BootstrapContent content;
     protected final List<? extends BootstrapMethod> methods;
 
-    BootstrapUnifiedParser(BootstrapContent content, List<BootstrapMethod> methods) {
+    BootstrapContextParser(BootstrapContent content, List<BootstrapMethod> methods) {
         this.content = content;
         this.methods = methods;
     }

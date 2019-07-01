@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.DescriptivePatternHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.DescriptivePatternInterceptor;
@@ -88,7 +88,7 @@ public class BootstrapInitializer<T> {
         return this;
     }
 
-    protected ParserRepresentation<UnifiedParser<T>> build(Context context) {
+    protected ParserRepresentation<ContextParser<T>> build(Context context) {
         if (name == null && instance != null) {
             name(instance.getClass().getSimpleName());
         }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.resource.parsers;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 
 import java.lang.annotation.ElementType;
@@ -42,7 +42,7 @@ public @interface ParserRegistration {
      */
     double priority() default 0;
 
-    Class<? extends UnifiedParser> parserClass() default UnifiedParser.class;
+    Class<? extends ContextParser> parserClass() default ContextParser.class;
 
     Class<? extends ParserHandler> handlerClass() default ParserHandler.class;
 

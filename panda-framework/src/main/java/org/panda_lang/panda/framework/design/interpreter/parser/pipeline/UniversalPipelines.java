@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 
 public final class UniversalPipelines implements Pipelines {
 
@@ -27,7 +27,7 @@ public final class UniversalPipelines implements Pipelines {
     /**
      * All pipelines
      */
-    public static final PipelineComponent<UnifiedParser> ALL = PipelineComponent.of(UniversalPipelines.class, ALL_LABEL, UnifiedParser.class);
+    public static final PipelineComponent<ContextParser> ALL = PipelineComponent.of(UniversalPipelines.class, ALL_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#OVERALL}
@@ -36,6 +36,6 @@ public final class UniversalPipelines implements Pipelines {
     /**
      * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.OverallParser}
      */
-    public static final PipelineComponent<UnifiedParser> OVERALL = PipelineComponent.of(UniversalPipelines.class, OVERALL_LABEL, UnifiedParser.class);
+    public static final PipelineComponent<ContextParser> OVERALL = PipelineComponent.of(UniversalPipelines.class, OVERALL_LABEL, ContextParser.class);
 
 }

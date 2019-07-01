@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 public final class ParserBootstrapUtils {
 
     private static final Class<?>[] INTERNAL = new Class<?>[] {
-        BootstrapUnifiedParser.class,
+        BootstrapContextParser.class,
         BootstrapTaskScheduler.class
     };
 

@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser;
 
-public interface UnifiedParser<T> extends Parser {
+public interface ContextParser<T> extends Parser {
 
     /**
+     * Parse context
+     *
      * @param context set of information about source and interpretation process
      */
     T parse(Context context) throws Exception;

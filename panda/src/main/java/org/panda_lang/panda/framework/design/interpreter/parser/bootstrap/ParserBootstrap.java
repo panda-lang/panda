@@ -17,14 +17,14 @@
 package org.panda_lang.panda.framework.design.interpreter.parser.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
-public abstract class ParserBootstrap<T> implements UnifiedParser<T>, ParserHandler {
+public abstract class ParserBootstrap<T> implements ContextParser<T>, ParserHandler {
 
-    protected ParserRepresentation<UnifiedParser<T>> parser;
+    protected ParserRepresentation<ContextParser<T>> parser;
 
     protected abstract BootstrapInitializer<T> initialize(Context context, BootstrapInitializer<T> initializer);
 
@@ -42,7 +42,7 @@ public abstract class ParserBootstrap<T> implements UnifiedParser<T>, ParserHand
         return get(context).getParser().parse(context);
     }
 
-    protected ParserRepresentation<UnifiedParser<T>> get(Context context) {
+    protected ParserRepresentation<ContextParser<T>> get(Context context) {
         if (parser != null) {
             return parser;
         }

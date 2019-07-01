@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.design.resource.parsers;
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
@@ -83,12 +83,12 @@ public class ParserRegistrationLoader {
         return path;
     }
 
-    private UnifiedParser createParserInstance(Class<?> currentClass, Class<? extends UnifiedParser> parserClass) throws IllegalAccessException, InstantiationException {
-        if (parserClass != UnifiedParser.class) {
+    private ContextParser createParserInstance(Class<?> currentClass, Class<? extends ContextParser> parserClass) throws IllegalAccessException, InstantiationException {
+        if (parserClass != ContextParser.class) {
             return parserClass.newInstance();
         }
-        else if (UnifiedParser.class.isAssignableFrom(currentClass)) {
-            return (UnifiedParser) currentClass.newInstance();
+        else if (ContextParser.class.isAssignableFrom(currentClass)) {
+            return (ContextParser) currentClass.newInstance();
         }
 
         throw new PandaException("Cannot create parser instance (source: " + currentClass + ")");
