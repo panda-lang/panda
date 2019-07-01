@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.language.resource.syntax.separator.Separat
 public class OverallParser implements Parser {
 
     private final Interpretation interpretation;
-    private final ParserPipeline<UnifiedParser> pipeline;
+    private final ParserPipeline<ContextParser> pipeline;
     private final SourceStream stream;
 
     public OverallParser(Context context) {
@@ -46,7 +46,7 @@ public class OverallParser implements Parser {
         }
 
         Snippet source = stream.toSnippet();
-        UnifiedParser parser = pipeline.handle(context, source);
+        ContextParser parser = pipeline.handle(context, source);
         int sourceLength = stream.getUnreadLength();
 
         if (parser == null) {

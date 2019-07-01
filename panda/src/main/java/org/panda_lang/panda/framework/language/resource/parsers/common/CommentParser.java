@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.common;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ParserRegistration(pipeline = UniversalPipelines.ALL_LABEL)
-public class CommentParser implements UnifiedParser<CommentStatement>, ParserHandler {
+public class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
 
     @Override
     public boolean handle(Context context, Snippet source) {

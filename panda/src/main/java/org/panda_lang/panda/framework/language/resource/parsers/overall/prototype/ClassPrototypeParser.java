@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.constructor.
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
@@ -116,7 +116,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
         }
 
         PipelinePath pipelinePath = context.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.PROTOTYPE);
+        ParserPipeline<ContextParser> pipeline = pipelinePath.getPipeline(PandaPipelines.PROTOTYPE);
 
         Context bodyContext = context.fork();
         SourceStream stream = new PandaSourceStream(body);
@@ -124,7 +124,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
 
         while (stream.hasUnreadSource()) {
             Snippet currentSource = stream.toSnippet();
-            UnifiedParser parser = pipeline.handle(bodyContext, currentSource);
+            ContextParser parser = pipeline.handle(bodyContext, currentSource);
 
             if (parser == null) {
                 throw PandaParserFailure.builder("Cannot parse the element of the prototype", context)

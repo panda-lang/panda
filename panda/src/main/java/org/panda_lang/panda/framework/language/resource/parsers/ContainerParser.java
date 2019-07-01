@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.UnifiedParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
@@ -36,7 +36,7 @@ public class ContainerParser implements Parser {
     public Container parse(Container container, Snippet body, Context context) throws Exception {
         Context delegatedContext = context.fork();
         PipelinePath pipelinePath = delegatedContext.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline<UnifiedParser> pipeline = pipelinePath.getPipeline(PandaPipelines.CONTAINER);
+        ParserPipeline<ContextParser> pipeline = pipelinePath.getPipeline(PandaPipelines.CONTAINER);
 
         SourceStream source = new PandaSourceStream(body);
         delegatedContext.withComponent(UniversalComponents.SOURCE_STREAM, source);
@@ -46,7 +46,7 @@ public class ContainerParser implements Parser {
 
         while (source.hasUnreadSource()) {
             Snippet currentSource = source.toSnippet();
-            UnifiedParser parser = pipeline.handle(delegatedContext.fork(), source.toSnippet());
+            ContextParser parser = pipeline.handle(delegatedContext.fork(), source.toSnippet());
             int sourceLength = source.getUnreadLength();
 
             if (parser == null) {
