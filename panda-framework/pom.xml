@@ -74,9 +74,9 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <Implementation-Title>Panda-Core</Implementation-Title>
+                            <Specification-Title>panda-framework</Specification-Title>
+                            <Implementation-Title>panda-framework</Implementation-Title>
                             <Implementation-Version>${panda.version}</Implementation-Version>
-                            <Specification-Title>Panda-Core</Specification-Title>
                         </manifestEntries>
                     </archive>
                 </configuration>

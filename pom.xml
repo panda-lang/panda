@@ -30,9 +30,9 @@
     </modules>
 
     <scm>
-        <connection>scm:git:https://github.com/Panda-Programming-Language/Panda.git</connection>
-        <developerConnection>scm:git:https://github.com/Panda-Programming-Language/Panda.git</developerConnection>
-        <url>https://github.com/Panda-Programming-Language/Panda</url>
+        <connection>scm:git:https://github.com/panda-lang/panda.git</connection>
+        <developerConnection>scm:git:https://github.com/panda-lang/panda..git</developerConnection>
+        <url>https://github.com/panda-lang/panda</url>
     </scm>
     <licenses>
         <license>
