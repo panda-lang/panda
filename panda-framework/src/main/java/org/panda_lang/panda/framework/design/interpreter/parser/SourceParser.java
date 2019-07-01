@@ -18,9 +18,11 @@ package org.panda_lang.panda.framework.design.interpreter.parser;
 
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 
-public interface ParticularParser<T> extends Parser {
+public interface SourceParser<T> extends Parser {
 
     /**
+     * Parse custom source
+     *
      * @param source matched and checked before tokenized source for parser
      * @param context   set of information about source and interpretation process
      */
