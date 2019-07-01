@@ -80,8 +80,8 @@
                     <archive>
                         <manifestEntries>
                             <Main-Class>org.panda_lang.panda.PandaLauncher</Main-Class>
-                            <Specification-Title>Panda</Specification-Title>
-                            <Implementation-Title>Panda</Implementation-Title>
+                            <Specification-Title>panda</Specification-Title>
+                            <Implementation-Title>panda</Implementation-Title>
                             <Implementation-Version>${panda.version}</Implementation-Version>
                         </manifestEntries>
                     </archive>
