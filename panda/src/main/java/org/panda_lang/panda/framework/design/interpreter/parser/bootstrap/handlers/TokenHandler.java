@@ -20,6 +20,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 public class TokenHandler implements ParserHandler {
 
@@ -30,16 +31,8 @@ public class TokenHandler implements ParserHandler {
     }
 
     @Override
-    public boolean handle(Context context, Snippet source) {
-        Token currentToken = source.getFirst().getToken();
-
-        for (Token token : tokens) {
-            if (currentToken.equals(token)) {
-                return true;
-            }
-        }
-
-        return false;
+    public Boolean handle(Context context, Snippet source) {
+        return ArrayUtils.contains(tokens, source.getFirst().getToken());
     }
 
 }

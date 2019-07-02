@@ -30,7 +30,6 @@ import org.panda_lang.panda.framework.language.interpreter.messenger.layouts.Par
 import org.panda_lang.panda.framework.language.interpreter.messenger.mappers.StacktraceMapper;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaParsers;
-import org.panda_lang.panda.framework.language.resource.parsers.PandaFrameworkParsers;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationParsers;
 import org.panda_lang.panda.framework.language.resource.syntax.PandaSyntax;
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerConfiguration;
@@ -68,7 +67,7 @@ public class PandaFactory {
 
                 // load parsers and expressions subparsers
                 .initializeParsers()
-                    .loadParsersClasses(PandaFrameworkParsers.PARSERS, PandaParsers.PARSERS, AssignationParsers.SUBPARSERS)
+                    .loadParsersClasses(PandaParsers.PARSERS, AssignationParsers.SUBPARSERS)
                     .loadDefaultExpressionSubparsers()
                     .collect()
 

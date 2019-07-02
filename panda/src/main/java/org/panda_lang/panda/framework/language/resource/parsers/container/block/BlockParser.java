@@ -26,20 +26,21 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
-import org.panda_lang.panda.utilities.commons.ObjectUtils;
 
-@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
+import java.util.function.Supplier;
+
+@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends ParserBootstrap {
 
     private final ContainerParser containerParser = new ContainerParser();
@@ -50,24 +51,32 @@ public class BlockParser extends ParserBootstrap {
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
-        return ObjectUtils.isNotNull(context.getComponent(UniversalComponents.PIPELINE)
+    public Boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+        HandleResult<BlockSubparser> result = context.getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.BLOCK)
-                .handle(context, source));
+                .handle(context, source);
+
+        return result.isFound();
     }
 
     @Autowired(order = 1)
     void parse(Context context, LocalData local, @Src("*declaration") Snippet declaration) throws Exception {
         SourceStream declarationStream = new PandaSourceStream(declaration);
 
-        ParserPipeline<BlockSubparser> pipeline = context.getComponent(UniversalComponents.PIPELINE).getPipeline(PandaPipelines.BLOCK);
-        BlockSubparser blockParser = pipeline.handle(context, declarationStream.toSnippet());
+        HandleResult<BlockSubparser> handleResult = context
+                .getComponent(UniversalComponents.PIPELINE)
+                .getPipeline(PandaPipelines.BLOCK)
+                .handle(context, declarationStream.toSnippet());
 
-        if (blockParser == null) {
+        BlockSubparser blockParser = handleResult.getParser().orElseThrow((Supplier<? extends Exception>) () -> {
+            if (handleResult.getFailure().isPresent()) {
+                throw handleResult.getFailure().get();
+            }
+
             throw PandaParserFailure.builder("Unknown block", context)
                     .withStreamOrigin(declaration)
                     .build();
-        }
+        });
 
         Context delegatedContext = local.allocated(context.fork());
         BlockData blockData = blockParser.parse(delegatedContext, declaration);
@@ -84,14 +93,14 @@ public class BlockParser extends ParserBootstrap {
             return;
         }
 
-        context.getComponent(PandaComponents.CONTAINER).addStatement(blockData.getBlock());
+        context.getComponent(UniversalComponents.CONTAINER).addStatement(blockData.getBlock());
         context.withComponent(BlockComponents.PREVIOUS_BLOCK, blockData.getBlock());
     }
 
     @Autowired(order = 2)
-    void parseContent(@Local Context blockData, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
+    void parseContent(@Local Context blockContext, @Local Block block, @Nullable @Src("body") Snippet body) throws Exception {
         if (body != null) {
-            containerParser.parse(block, body, blockData);
+            containerParser.parse(blockContext, block, body);
         }
     }
 

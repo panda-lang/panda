@@ -23,9 +23,10 @@ import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.source.Source;
 import org.panda_lang.panda.framework.design.interpreter.source.SourceSet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
@@ -89,16 +90,13 @@ public class ApplicationParser implements Parser {
 
                 Context delegatedContext = context.fork()
                         .withComponent(UniversalComponents.SOURCE, snippet)
-                        .withComponent(UniversalComponents.SOURCE_STREAM, sourceStream)
+                        .withComponent(UniversalComponents.STREAM, sourceStream)
                         .withComponent(UniversalComponents.MODULE_LOADER, script.getModuleLoader())
                         .withComponent(UniversalComponents.SCRIPT, script)
                         .withComponent(PandaComponents.PANDA_SCRIPT, script);
 
-                OverallParser overallParser = new OverallParser(delegatedContext);
-
-                while (interpretation.isHealthy() && overallParser.hasNext()) {
-                    interpretation.execute(() -> overallParser.parseNext(delegatedContext));
-                }
+                PipelineParser<?> parser = new PipelineParser<>(UniversalPipelines.HEAD, delegatedContext);
+                interpretation.execute(() -> parser.parse(delegatedContext, true));
             });
         }
 

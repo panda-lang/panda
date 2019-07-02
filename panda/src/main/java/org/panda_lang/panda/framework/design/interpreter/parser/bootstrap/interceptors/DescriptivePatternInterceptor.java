@@ -50,16 +50,16 @@ public class DescriptivePatternInterceptor implements BootstrapInterceptor {
     @Override
     public InterceptorData handle(InterceptorData interceptorData, Context context) {
         if (pattern != null) {
-            Snippet currentSource = context.getComponent(UniversalComponents.SOURCE_STREAM).toSnippet();
-            ExtractorResult result = pattern.extract(context, context.getComponent(UniversalComponents.SOURCE_STREAM));
+            Snippet currentSource = context.getComponent(UniversalComponents.STREAM).toSnippet();
+            ExtractorResult result = pattern.extract(context, context.getComponent(UniversalComponents.STREAM));
 
             if (!result.isMatched()) {
-                PandaFramework.getLogger().error("Bootstrap parser: " + bootstrap.getPattern().toString());
+                PandaFramework.getLogger().error("Bootstrap parser: " + bootstrap.getPattern().orElse("<null pattern>").toString());
                 PandaFramework.getLogger().error("Source: " + currentSource.toString());
 
                 throw PandaParserFailure.builder("Interceptor could not match token pattern, error: " + result.getErrorMessage(), context)
                         .withStreamOrigin(currentSource)
-                        .withNote("Compare your source with required pattern: " + bootstrap.getPattern().toString())
+                        .withNote("Compare your source with required pattern: " + bootstrap.getPattern().orElse("<null pattern>").toString())
                         .build();
             }
 

@@ -28,15 +28,15 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.architecture.dynamic.TryCatchExecutable;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL)
 public final class TryCatchParser extends ParserBootstrap {
 
     private final ContainerParser containerParser = new ContainerParser();
@@ -51,9 +51,9 @@ public final class TryCatchParser extends ParserBootstrap {
 
     @Autowired
     void parse(Context context, @Component Container container, @Src("try-body") Snippet tryBody, @Src("catch-what") Snippet catchWhat, @Src("catch-body") Snippet catchBody) throws Exception {
-        Container tryContainer = containerParser.parse(new PandaContainer(), tryBody, context);
+        Container tryContainer = containerParser.parse(context, new PandaContainer(), tryBody);
 
-        Scope scope = context.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
+        Scope scope = context.getComponent(UniversalComponents.LINKER).getCurrentScope();
         Variable variable = initializer.parseVariable(context, scope, true, true, catchWhat);
         int variablePointer = scope.indexOf(variable);
 
@@ -64,7 +64,7 @@ public final class TryCatchParser extends ParserBootstrap {
 
         if (Throwable.class.isAssignableFrom(type)) {
             //noinspection unchecked
-            tryCatch.addHandler((Class<? extends Throwable>) type, variable, variablePointer, containerParser.parse(new PandaContainer(), catchBody, context));
+            tryCatch.addHandler((Class<? extends Throwable>) type, variable, variablePointer, containerParser.parse(context, new PandaContainer(), catchBody));
         }
     }
 

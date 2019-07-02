@@ -28,12 +28,12 @@ public abstract class ParserBootstrap<T> implements ContextParser<T>, ParserHand
 
     protected abstract BootstrapInitializer<T> initialize(Context context, BootstrapInitializer<T> initializer);
 
-    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+    public Object customHandle(ParserHandler handler, Context context, Snippet source) {
         return handler.handle(context, source);
     }
 
     @Override
-    public final boolean handle(Context context, Snippet source) {
+    public final Object handle(Context context, Snippet source) {
         return customHandle(get(context).getHandler(), context, source);
     }
 

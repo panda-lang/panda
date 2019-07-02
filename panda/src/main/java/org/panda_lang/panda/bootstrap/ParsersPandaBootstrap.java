@@ -37,7 +37,8 @@ public class ParsersPandaBootstrap implements PandaBootstrapElement {
         this.bootstrap = bootstrap;
     }
 
-    public ParsersPandaBootstrap loadExpressionSubparsers(Class<? extends ExpressionSubparser>... subparserClasses) {
+    @SafeVarargs
+    public final ParsersPandaBootstrap loadExpressionSubparsers(Class<? extends ExpressionSubparser>... subparserClasses) {
         this.expressionSubparsers.addAll(PandaExpressionUtils.collectSubparsers(subparserClasses).getSubparsers());
         return this;
     }

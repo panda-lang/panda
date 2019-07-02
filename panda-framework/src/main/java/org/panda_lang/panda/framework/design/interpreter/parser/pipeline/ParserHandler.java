@@ -22,9 +22,11 @@ import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 public interface ParserHandler {
 
     /**
+     * Handle source
+     *
      * @param source source
      * @return returns true if parsers fits to source
      */
-    boolean handle(Context context, Snippet source);
+    Object handle(Context context, Snippet source);
 
 }

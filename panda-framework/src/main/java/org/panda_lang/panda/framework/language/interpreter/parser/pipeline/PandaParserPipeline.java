@@ -16,14 +16,15 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser.pipeline;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.PandaFrameworkException;
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,63 +33,72 @@ import java.util.List;
 
 public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> {
 
+    private final String name;
     private final ParserPipeline<P> parentPipeline;
     private final List<ParserRepresentation<P>> representations;
     private final Comparator<ParserRepresentation> comparator;
     private long handleTime;
     private int count;
 
-    public PandaParserPipeline() {
-        this(null);
+    public PandaParserPipeline(String name) {
+        this(null, name);
     }
 
-    public PandaParserPipeline(ParserPipeline<P> parentPipeline) {
+    public PandaParserPipeline(ParserPipeline<P> parentPipeline, String name) {
+        this.name = name;
         this.parentPipeline = parentPipeline;
         this.representations = new ArrayList<>();
         this.comparator = new ParserRepresentationComparator();
     }
 
     @Override
-    public P handle(Context context, Snippet source) {
-        if (count > 100) {
+    public HandleResult<P> handle(Context context, Snippet source) {
+        if (count > 1000) {
             count = 0;
             sort();
         }
 
         if (parentPipeline != null) {
-            P parser = handle(context, source, parentPipeline.getRepresentations());
+            HandleResult<P> result = handle(context, source, parentPipeline.getRepresentations());
 
-            if (parser != null) {
-                return parser;
+            if (result.isFound()) {
+                return result;
             }
         }
 
         return handle(context, source, representations);
     }
 
-    private @Nullable P handle(Context context, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
+    private HandleResult<P> handle(Context context, Snippet source, Collection<? extends ParserRepresentation<P>> representations) {
         long currentTime = System.nanoTime();
+        InterpreterFailure failure = null;
 
         for (ParserRepresentation<P> representation : representations) {
             ParserHandler handler = representation.getHandler();
+            Object value = handler.handle(context, source);
 
-            if (handler.handle(context, source)) {
+            if (value instanceof InterpreterFailure) {
+                failure = (InterpreterFailure) value;
+                continue;
+            }
+
+            if (!(value instanceof Boolean)) {
+                throw new PandaFrameworkException("Illegal result type from handler " + handler.getClass() + ": returned " + value.getClass());
+            }
+
+            if ((Boolean) value) {
                 representation.increaseUsages();
 
                 long time = System.nanoTime() - currentTime;
                 handleTime += time;
-
-                if (TimeUtils.NANOSECOND * 10 < time) {
-                    // System.out.println(TimeUtils.toMilliseconds(time) + "/" + TimeUtils.toMilliseconds(handleTime) + " by " + representation.getParser().getClass().getSimpleName());
-                }
-
                 count++;
-                return representation.getParser();
+
+                return new PandaHandleResult<>(representation.getParser());
             }
         }
 
         handleTime += (System.nanoTime() - currentTime);
-        return null;
+        return new PandaHandleResult<>(failure);
     }
 
     protected void sort() {
@@ -96,7 +106,7 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     }
 
     @Override
-    public void registerParserRepresentation(ParserRepresentation<P> parserRepresentation) {
+    public void register(ParserRepresentation<P> parserRepresentation) {
         representations.add(parserRepresentation);
         sort();
     }
@@ -109,6 +119,11 @@ public class PandaParserPipeline<P extends Parser> implements ParserPipeline<P> 
     @Override
     public List<? extends ParserRepresentation<P>> getRepresentations() {
         return representations;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
 }

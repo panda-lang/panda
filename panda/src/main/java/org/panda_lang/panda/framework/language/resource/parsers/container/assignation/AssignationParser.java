@@ -25,7 +25,9 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Parser
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.HandleResult;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.pattern.PandaDescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.DescriptivePattern;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
@@ -33,14 +35,13 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.ext
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 
 import java.util.Optional;
 
-@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_ASSIGNATION)
+@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_ASSIGNATION)
 public class AssignationParser extends ParserBootstrap {
 
     private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]"; // slow
@@ -58,7 +59,7 @@ public class AssignationParser extends ParserBootstrap {
     }
 
     @Override
-    public boolean customHandle(@Nullable ParserHandler handler, Context context, Snippet source) {
+    public Boolean customHandle(@Nullable ParserHandler handler, Context context, Snippet source) {
         ExtractorResult result = pattern.extract(context, source);
 
         if (!result.isMatched()) {
@@ -71,19 +72,20 @@ public class AssignationParser extends ParserBootstrap {
             return false;
         }
 
-        this.subparser = context.getComponent(UniversalComponents.PIPELINE)
+        HandleResult<AssignationSubparser> handleResult = context.getComponent(UniversalComponents.PIPELINE)
                 .getPipeline(PandaPipelines.ASSIGNER)
                 .handle(context, declaration.get().getValue());
 
-        return subparser != null;
+        handleResult.getParser().ifPresent(parser -> this.subparser = parser);
+        return handleResult.isFound();
     }
 
     @Autowired
     void parse(Context context, @Src("*declaration") Snippet declaration, @Src("assignation") Expression assignation) throws Exception {
         Context delegatedContext = context.fork();
-        delegatedContext.withComponent(AssignationComponents.SCOPE, delegatedContext.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope());
+        delegatedContext.withComponent(AssignationComponents.SCOPE, delegatedContext.getComponent(UniversalComponents.LINKER).getCurrentScope());
 
-        StatementCell cell = delegatedContext.getComponent(PandaComponents.CONTAINER).reserveCell();
+        StatementCell cell = delegatedContext.getComponent(UniversalComponents.CONTAINER).reserveCell();
         Statement statement = subparser.parseAssignment(delegatedContext, declaration, assignation);
         subparser = null;
 

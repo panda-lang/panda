@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.framework.language.interpreter.parser;
 
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Pipelines;
 import org.panda_lang.panda.framework.design.resource.Autoload;
@@ -28,24 +27,6 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.block.
  */
 @Autoload
 public class PandaPipelines implements Pipelines {
-
-    /**
-     * Text representation of {@link PandaPipelines#PROTOTYPE}
-     */
-    public static final String PROTOTYPE_LABEL = "prototype";
-    /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeParser}
-     */
-    public static final PipelineComponent<ContextParser> PROTOTYPE = PipelineComponent.of(PandaPipelines.class, PROTOTYPE_LABEL, ContextParser.class);
-
-    /**
-     * Text representation of {@link PandaPipelines#CONTAINER}
-     */
-    public static final String CONTAINER_LABEL = "container";
-    /**
-     * Class prototype parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ContainerParser}
-     */
-    public static final PipelineComponent<ContextParser> CONTAINER = PipelineComponent.of(PandaPipelines.class, CONTAINER_LABEL, ContextParser.class);
 
     /**
      * Text representation of {@link PandaPipelines#BLOCK}
