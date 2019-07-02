@@ -59,7 +59,7 @@ public class PandaParserDataUtils {
 
         Scope scope = new StaticScope(variables);
         ScopeLinker linker = new PandaScopeLinker(scope);
-        context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
+        context.withComponent(UniversalComponents.LINKER, linker);
 
         return context;
     }

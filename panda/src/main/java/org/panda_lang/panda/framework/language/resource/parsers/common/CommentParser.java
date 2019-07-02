@@ -36,13 +36,13 @@ import java.util.List;
 public class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
 
     @Override
-    public boolean handle(Context context, Snippet source) {
+    public Boolean handle(Context context, Snippet source) {
         return isComment(source.getFirst().getToken());
     }
 
     @Override
     public CommentStatement parse(Context context) {
-        return new CommentStatement(context.getComponent(UniversalComponents.SOURCE_STREAM).read().getValue());
+        return new CommentStatement(context.getComponent(UniversalComponents.STREAM).read().getValue());
     }
 
     public static Snippet uncomment(Snippet source) {

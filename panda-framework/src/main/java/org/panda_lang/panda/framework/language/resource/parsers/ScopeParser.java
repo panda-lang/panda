@@ -18,43 +18,67 @@ package org.panda_lang.panda.framework.language.resource.parsers;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
 
+import java.util.Optional;
+
 public class ScopeParser implements Parser {
 
     private final ContainerParser containerParser = new ContainerParser();
 
-    public void parse(@Nullable Scope parent, Scope current, Context context, @Nullable Snippet body) throws Exception {
-        if (SnippetUtils.isEmpty(body)) {
+    /**
+     * Parse the specified source as scope
+     *
+     * @param context the context to use
+     * @param scope the scope to use
+     * @param source the source to parse
+     * @throws Exception if something happen
+     */
+    public void parse(Context context, Scope scope, Snippet source) throws Exception {
+        parse(context, null, scope, source);
+    }
+
+    /**
+     * Parse the specified source as scope
+     *
+     * @param scope the current scope
+     * @param parent the parent scope
+     * @param context the context to use
+     * @param source the source to parse
+     * @throws Exception if something happen
+     */
+    public void parse(Context context, @Nullable Scope parent, Scope scope, Snippet source) throws Exception {
+        if (SnippetUtils.isEmpty(source)) {
             return;
         }
 
-        ScopeLinker parentLinker = context.getComponent(UniversalComponents.SCOPE_LINKER);
-        ScopeLinker linker = parentLinker;
+        ScopeLinker parentLinker = context.getComponent(UniversalComponents.LINKER);
 
-        if (linker == null) {
-            linker = new PandaScopeLinker(parent != null ? parent : current);
+        if (parentLinker != null) {
+            parentLinker.pushScope(scope);
+        }
+
+        ScopeLinker linker = Optional.ofNullable(parentLinker).orElseGet(() -> {
+            ScopeLinker temp = new PandaScopeLinker(parent != null ? parent : scope);
 
             if (parent != null) {
-                linker.pushScope(current);
+                temp.pushScope(scope);
             }
 
-            context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
-        }
-        else {
-            linker.pushScope(current);
-        }
+            context.withComponent(UniversalComponents.LINKER, temp);
+            return temp;
+        });
 
-        containerParser.parse(current, body, context);
+        containerParser.parse(context, scope, source);
 
+        context.withComponent(UniversalComponents.LINKER, parentLinker);
         linker.popScope();
-        context.withComponent(UniversalComponents.SCOPE_LINKER, parentLinker);
     }
 
 }

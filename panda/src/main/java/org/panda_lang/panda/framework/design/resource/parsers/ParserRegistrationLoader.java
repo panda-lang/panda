@@ -76,7 +76,7 @@ public class ParserRegistrationLoader {
                     path.createPipeline(component);
                 }
 
-                path.getPipeline(component).registerParserRepresentation(representation);
+                path.getPipeline(component).register(representation);
             }
         }
 

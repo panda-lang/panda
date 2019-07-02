@@ -25,21 +25,17 @@ import org.panda_lang.panda.framework.design.architecture.prototype.constructor.
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLinker;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserPipeline;
-import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelinePath;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
-import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
@@ -50,16 +46,14 @@ import org.panda_lang.panda.framework.language.architecture.prototype.standard.s
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
+import org.panda_lang.panda.framework.language.resource.parsers.PipelineParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
-import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
 public class ClassPrototypeParser extends ParserBootstrap {
 
     private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();
@@ -99,7 +93,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
         script.addStatement(referenceStatement);
 
         ScopeLinker linker = new PandaScopeLinker(scope);
-        context.withComponent(UniversalComponents.SCOPE_LINKER, linker);
+        context.withComponent(UniversalComponents.LINKER, linker);
     }
 
     @Autowired(cycle = GenerationCycles.TYPES_LABEL, delegation = Delegation.CURRENT_AFTER)
@@ -115,29 +109,11 @@ public class ClassPrototypeParser extends ParserBootstrap {
             return;
         }
 
-        PipelinePath pipelinePath = context.getComponent(UniversalComponents.PIPELINE);
-        ParserPipeline<ContextParser> pipeline = pipelinePath.getPipeline(PandaPipelines.PROTOTYPE);
+        Context bodyContext = context.fork()
+                .withComponent(UniversalComponents.STREAM, new PandaSourceStream(body));
 
-        Context bodyContext = context.fork();
-        SourceStream stream = new PandaSourceStream(body);
-        bodyContext.withComponent(UniversalComponents.SOURCE_STREAM, stream);
-
-        while (stream.hasUnreadSource()) {
-            Snippet currentSource = stream.toSnippet();
-            ContextParser parser = pipeline.handle(bodyContext, currentSource);
-
-            if (parser == null) {
-                throw PandaParserFailure.builder("Cannot parse the element of the prototype", context)
-                        .withSource(body, currentSource)
-                        .build();
-            }
-
-            parser.parse(bodyContext);
-
-            if (stream.hasUnreadSource() && stream.getCurrent().contentEquals(Separators.SEMICOLON)) {
-                stream.read();
-            }
-        }
+        PipelineParser<?> parser = new PipelineParser<>(UniversalPipelines.PROTOTYPE, bodyContext);
+        parser.parse(bodyContext, false);
     }
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)

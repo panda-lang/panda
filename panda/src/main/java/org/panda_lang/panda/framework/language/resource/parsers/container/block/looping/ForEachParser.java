@@ -62,7 +62,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
         Snippet type = result.getWildcard("type").get().getValue();
         Snippet iterable = result.getWildcard("*iterable").get().getValue();
 
-        Scope scope = context.getComponent(UniversalComponents.SCOPE_LINKER).getCurrentScope();
+        Scope scope = context.getComponent(UniversalComponents.LINKER).getCurrentScope();
         Expression expression = context.getComponent(UniversalComponents.EXPRESSION).parse(context, iterable);
 
         if (expression == null) {

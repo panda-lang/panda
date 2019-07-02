@@ -35,7 +35,7 @@ import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Optional;
 
-@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class ImportParser extends ParserBootstrap {
 
     @Override

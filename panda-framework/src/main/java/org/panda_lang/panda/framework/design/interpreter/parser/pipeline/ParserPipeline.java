@@ -30,12 +30,14 @@ public interface ParserPipeline<P extends Parser> {
      * @param source the source
      * @return parser which fits to the source
      */
-    P handle(Context context, Snippet source);
+    HandleResult<P> handle(Context context, Snippet source);
 
     /**
+     * Register the specified parser to
+     *
      * @param parserRepresentation specified parser representation which will be registered in the pipeline
      */
-    void registerParserRepresentation(ParserRepresentation<P> parserRepresentation);
+    void register(ParserRepresentation<P> parserRepresentation);
 
     /**
      * @return a collection of registered parser
@@ -43,8 +45,17 @@ public interface ParserPipeline<P extends Parser> {
     Collection<? extends ParserRepresentation<P>> getRepresentations();
 
     /**
-     * @return total handle nano time
+     * Get total time of data handling
+     *
+     * @return total handle time in nanoseconds
      */
     long getHandleTime();
+
+    /**
+     * Get name of pipeline
+     *
+     * @return the name
+     */
+    String getName();
 
 }

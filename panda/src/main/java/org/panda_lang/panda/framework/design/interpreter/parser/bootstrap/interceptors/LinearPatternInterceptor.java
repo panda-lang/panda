@@ -48,7 +48,7 @@ public class LinearPatternInterceptor implements BootstrapInterceptor {
     @Override
     public InterceptorData handle(InterceptorData interceptorData, Context context) {
         if (pattern != null) {
-            SourceStream stream = context.getComponent(UniversalComponents.SOURCE_STREAM);
+            SourceStream stream = context.getComponent(UniversalComponents.STREAM);
             Snippet currentSource = stream.toSnippet();
 
             ExpressionParser expressionParser = context.getComponent(UniversalComponents.EXPRESSION);

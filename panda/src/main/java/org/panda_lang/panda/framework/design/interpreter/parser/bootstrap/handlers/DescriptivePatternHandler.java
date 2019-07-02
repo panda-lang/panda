@@ -42,7 +42,7 @@ public class DescriptivePatternHandler implements BootstrapHandler, ParserHandle
     }
 
     @Override
-    public boolean handle(Context context, Snippet source) {
+    public Boolean handle(Context context, Snippet source) {
         return pattern.extract(context, source).isMatched();
     }
 

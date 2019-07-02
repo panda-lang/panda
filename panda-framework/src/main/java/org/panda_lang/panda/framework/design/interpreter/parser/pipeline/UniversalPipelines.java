@@ -30,12 +30,30 @@ public final class UniversalPipelines implements Pipelines {
     public static final PipelineComponent<ContextParser> ALL = PipelineComponent.of(UniversalPipelines.class, ALL_LABEL, ContextParser.class);
 
     /**
-     * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#OVERALL}
+     * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#HEAD}
      */
-    public static final String OVERALL_LABEL = "overall";
+    public static final String HEAD_LABEL = "head";
     /**
-     * Used by {@link org.panda_lang.panda.framework.language.resource.parsers.OverallParser}
+     * Head pipeline
      */
-    public static final PipelineComponent<ContextParser> OVERALL = PipelineComponent.of(UniversalPipelines.class, OVERALL_LABEL, ContextParser.class);
+    public static final PipelineComponent<ContextParser> HEAD = PipelineComponent.of(UniversalPipelines.class, HEAD_LABEL, ContextParser.class);
+
+    /**
+     * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#PROTOTYPE}
+     */
+    public static final String PROTOTYPE_LABEL = "prototype";
+    /**
+     * Class prototype parsers, used by prototype parser
+     */
+    public static final PipelineComponent<ContextParser> PROTOTYPE = PipelineComponent.of(UniversalPipelines.class, PROTOTYPE_LABEL, ContextParser.class);
+
+    /**
+     * Text representation of {@link org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines#CONTAINER}
+     */
+    public static final String CONTAINER_LABEL = "container";
+    /**
+     * Container parsers, used by {@link org.panda_lang.panda.framework.language.resource.parsers.ContainerParser}
+     */
+    public static final PipelineComponent<ContextParser> CONTAINER = PipelineComponent.of(UniversalPipelines.class, CONTAINER_LABEL, ContextParser.class);
 
 }

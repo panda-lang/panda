@@ -26,26 +26,27 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Local;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.Delegation;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.LocalData;
+import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
-import org.panda_lang.panda.framework.language.resource.parsers.ScopeParserUtils;
+import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 import java.util.List;
 
-@ParserRegistration(pipeline = PandaPipelines.PROTOTYPE_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends ParserBootstrap {
 
     private final ParameterParser parameterParser = new ParameterParser();
+    private final ScopeParser scopeParser = new ScopeParser();
 
     @Override
     protected BootstrapInitializer initialize(Context context, BootstrapInitializer initializer) {
@@ -67,7 +68,7 @@ public class ConstructorParser extends ParserBootstrap {
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)
     void parseBody(Context context, @Local ConstructorScope constructorScope, @Component ClassPrototypeScope classScope, @Src("body") @Nullable Snippet body) throws Exception {
-        ScopeParserUtils.parse(classScope, constructorScope, context, body);
+        scopeParser.parse(context, classScope, constructorScope, body);
     }
 
 }

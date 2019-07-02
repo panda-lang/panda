@@ -35,11 +35,11 @@ public final class PandaSourceFragmentCreator<T> {
     }
 
     public PandaSourceFragmentCreator<T> ofStreamOrigin(Context context, Snippetable indicated) {
-        return of(context.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource(), indicated);
+        return of(context.getComponent(UniversalComponents.STREAM).getOriginalSource(), indicated);
     }
 
     public PandaSourceFragmentCreator<T> ofOriginals(Context context) {
-        return ofOriginalSource(context, context.getComponent(UniversalComponents.SOURCE_STREAM).getOriginalSource());
+        return ofOriginalSource(context, context.getComponent(UniversalComponents.STREAM).getOriginalSource());
     }
 
     public PandaSourceFragmentCreator<T> ofOriginalSource(Context context, Snippetable indicated) {
@@ -47,7 +47,7 @@ public final class PandaSourceFragmentCreator<T> {
     }
 
     public PandaSourceFragmentCreator<T> ofCurrentStream(Context context, Snippetable indicated) {
-        return of(context.getComponent(UniversalComponents.SOURCE_STREAM), indicated);
+        return of(context.getComponent(UniversalComponents.STREAM), indicated);
     }
 
     public PandaSourceFragmentCreator<T> ofIndicated(@NotNull Snippetable indicatedFragment) {

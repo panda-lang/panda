@@ -26,17 +26,17 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParser;
 import org.panda_lang.panda.framework.design.interpreter.parser.expression.ExpressionParserSettings;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
+import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.ExpressionExecutable;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
-@ParserRegistration(pipeline = PandaPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
+@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
 public class StandaloneExpressionParser extends ParserBootstrap {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();
@@ -52,7 +52,7 @@ public class StandaloneExpressionParser extends ParserBootstrap {
     }
 
     @Override
-    public boolean customHandle(ParserHandler handler, Context context, Snippet source) {
+    public Object customHandle(ParserHandler handler, Context context, Snippet source) {
         SourceStream stream = new PandaSourceStream(source);
 
         try {
@@ -60,8 +60,7 @@ public class StandaloneExpressionParser extends ParserBootstrap {
             this.read = stream.getReadLength();
             return true;
         } catch (ExpressionParserException e) {
-            // PandaFramework.getLogger().debug("Expression: " + e.getExpressionMessage());
-            return false;
+            return e;
         }
     }
 

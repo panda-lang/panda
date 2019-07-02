@@ -36,7 +36,7 @@ public class LinearPatternHandler implements BootstrapHandler {
     }
 
     @Override
-    public boolean handle(Context context, Snippet source) {
+    public Boolean handle(Context context, Snippet source) {
         return pattern.match(source).isMatched();
     }
 

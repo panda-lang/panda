@@ -18,8 +18,6 @@ package org.panda_lang.panda.framework.language.interpreter.parser;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
-import org.panda_lang.panda.framework.design.architecture.statement.Container;
-import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.Component;
 
 /**
@@ -30,9 +28,5 @@ public class PandaComponents {
     public static final Component<Panda> PANDA = Component.of("panda", Panda.class);
 
     public static final Component<PandaScript> PANDA_SCRIPT = Component.of("panda-script", PandaScript.class);
-
-    public static final Component<Container> CONTAINER = Component.of("panda-container", Container.class);
-
-    public static final Component<Scope> SCOPE = Component.of("panda-scope", Scope.class);
 
 }

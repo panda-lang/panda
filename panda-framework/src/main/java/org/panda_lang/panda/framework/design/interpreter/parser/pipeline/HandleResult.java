@@ -16,12 +16,34 @@
 
 package org.panda_lang.panda.framework.design.interpreter.parser.pipeline;
 
+import org.panda_lang.panda.framework.design.interpreter.InterpreterFailure;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 
 import java.util.Optional;
 
-public interface HandleResult {
+public interface HandleResult<T extends Parser> {
 
-    Optional<Parser> getParser();
+    /**
+     * Check if result was found
+     *
+     * @return true if found, otherwise false
+     */
+    default boolean isFound() {
+        return getParser().isPresent();
+    }
+
+    /**
+     * Get failure that could occur while handling
+     *
+     * @return the failure
+     */
+    Optional<InterpreterFailure> getFailure();
+
+    /**
+     * Get matched parser
+     *
+     * @return the found parser
+     */
+    Optional<T> getParser();
 
 }

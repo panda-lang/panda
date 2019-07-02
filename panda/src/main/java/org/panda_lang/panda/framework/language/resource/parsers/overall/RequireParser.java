@@ -44,7 +44,7 @@ import java.io.File;
 import java.util.Objects;
 import java.util.Optional;
 
-@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class RequireParser extends ParserBootstrap {
 
     @Override

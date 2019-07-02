@@ -33,7 +33,7 @@ public class PandaPipelinePath implements PipelinePath {
     private final Map<PipelineComponent<?>, ParserPipeline<?>> pipelines = new HashMap<>(3);
 
     public PandaPipelinePath() {
-        pipelines.put(UniversalPipelines.ALL, new PandaParserPipeline<>());
+        pipelines.put(UniversalPipelines.ALL, new PandaParserPipeline<>(UniversalPipelines.ALL.getName()));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PandaPipelinePath implements PipelinePath {
         ParserPipeline<P> pipeline = getPipeline(component);
 
         if (pipeline == null) {
-            pipelines.put(component, new PandaParserPipeline<>(pipelines.get(UniversalPipelines.ALL)));
+            pipelines.put(component, new PandaParserPipeline<>(pipelines.get(UniversalPipelines.ALL), component.getName()));
             pipeline = getPipeline(component);
         }
 

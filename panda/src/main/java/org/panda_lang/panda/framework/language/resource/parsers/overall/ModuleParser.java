@@ -36,7 +36,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserExc
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = UniversalPipelines.OVERALL_LABEL)
+@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class ModuleParser extends ParserBootstrap {
 
     @Override
