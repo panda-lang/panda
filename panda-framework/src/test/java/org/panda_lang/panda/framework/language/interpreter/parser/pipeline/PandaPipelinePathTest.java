@@ -61,7 +61,10 @@ class PandaPipelinePathTest implements Pipelines {
 
     @Test
     void getTotalHandleTime() {
-        Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT).handle(new PandaContext(), PandaTokenRepresentation.of(TokenType.UNKNOWN, "test").toSnippet()));
+        Assertions.assertNull(defaultPath.getPipeline(TEST_COMPONENT)
+                .handle(new PandaContext(), PandaTokenRepresentation.of(TokenType.UNKNOWN, "test").toSnippet())
+                .getParser().orElse(null));
+
         Assertions.assertTrue(defaultPath.getTotalHandleTime() > 0);
     }
 
