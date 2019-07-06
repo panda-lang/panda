@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.SourceParser;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
@@ -56,17 +56,17 @@ public class NumberParser implements SourceParser<Value> {
 
         switch (numberType) {
             case BYTE:
-                return new PandaValue(PandaTypes.BYTE, Byte.parseByte(number, radix));
+                return new PandaStaticValue(PandaTypes.BYTE, Byte.parseByte(number, radix));
             case SHORT:
-                return new PandaValue(PandaTypes.SHORT, Short.parseShort(number, radix));
+                return new PandaStaticValue(PandaTypes.SHORT, Short.parseShort(number, radix));
             case INT:
-                return new PandaValue(PandaTypes.INT, Integer.parseInt(number, radix));
+                return new PandaStaticValue(PandaTypes.INT, Integer.parseInt(number, radix));
             case LONG:
-                return new PandaValue(PandaTypes.LONG, Long.parseLong(number, radix));
+                return new PandaStaticValue(PandaTypes.LONG, Long.parseLong(number, radix));
             case FLOAT:
-                return new PandaValue(PandaTypes.FLOAT, Float.parseFloat(number));
+                return new PandaStaticValue(PandaTypes.FLOAT, Float.parseFloat(number));
             case DOUBLE:
-                return new PandaValue(PandaTypes.DOUBLE, Double.parseDouble(number));
+                return new PandaStaticValue(PandaTypes.DOUBLE, Double.parseDouble(number));
             default:
                 throw new PandaParserException("Unknown number type: " + numberType);
         }

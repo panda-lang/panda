@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
 public interface Executable {
 
     /**
      * Execute current executable
      *
-     * @param branch the parent branch of current executable
+     * @param frame the parent frame of current executable
      */
-    void execute(ExecutableBranch branch);
+    void execute(Frame frame);
 
 }

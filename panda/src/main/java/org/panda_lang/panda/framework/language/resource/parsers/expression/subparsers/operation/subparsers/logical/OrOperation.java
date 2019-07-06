@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.rpn.RPNOperationAction;
@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.expression.subpa
 public class OrOperation implements RPNOperationSupplier, RPNOperationAction {
 
     @Override
-    public Object get(ExecutableBranch branch, Value aValue, Value bValue) {
+    public Object get(Frame frame, Value aValue, Value bValue) {
         return (boolean) aValue.getValue() || (boolean) bValue.getValue();
     }
 

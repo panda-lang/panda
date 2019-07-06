@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class ExpressionExecutable extends AbstractExecutableStatement {
@@ -28,8 +28,8 @@ public class ExpressionExecutable extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        expression.evaluate(branch);
+    public void execute(Frame frame) {
+        expression.evaluate(frame);
     }
 
     public Expression getExpression() {

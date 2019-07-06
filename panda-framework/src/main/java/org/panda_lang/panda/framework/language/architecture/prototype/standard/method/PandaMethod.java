@@ -16,50 +16,33 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameterizedExecutable;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
-public class PandaMethod implements PrototypeMethod {
+public class PandaMethod extends PandaParameterizedExecutable implements PrototypeMethod {
 
-    private final ClassPrototypeReference prototype;
-    private final String methodName;
-    private final ClassPrototypeReference[] parameterTypes;
-    private final ClassPrototypeReference returnType;
-    private final MethodCallback methodBody;
-    private MethodVisibility visibility;
+    private final ParametrizedExecutableCallback methodBody;
     private final boolean isStatic;
-    private final boolean catchAllParameters;
 
     protected PandaMethod(PandaMethodBuilder builder) {
-        this.prototype = builder.reference;
-        this.methodName = builder.methodName;
-        this.returnType = builder.returnType;
+        super(builder);
         this.methodBody = builder.methodBody;
         this.isStatic = builder.isStatic;
-        this.visibility = builder.visibility;
-        this.catchAllParameters = builder.catchAllParameters;
-        this.parameterTypes = builder.parameterTypes != null ? builder.parameterTypes : new ClassPrototypeReference[0];
     }
 
     @Override
     @SuppressWarnings({ "unchecked" })
-    public void invoke(ExecutableBranch branch, Object instance, Value... parameters) {
-        methodBody.invoke(branch, instance, parameters);
-    }
-
-    @Override
-    public boolean isCatchingAllParameters() {
-        return catchAllParameters;
+    public Value invoke(Frame frame, Object instance, Value... parameters) throws Exception {
+        return methodBody.invoke(frame, instance, parameters);
     }
 
     @Override
     public boolean isVoid() {
-        return PandaTypes.VOID.isAssignableFrom(returnType);
+        return PandaTypes.VOID.isAssignableFrom(getReturnType());
     }
 
     @Override
@@ -67,33 +50,31 @@ public class PandaMethod implements PrototypeMethod {
         return isStatic;
     }
 
-    @Override
-    public MethodVisibility getVisibility() {
-        return visibility;
-    }
-
-    @Override
-    public ClassPrototypeReference getReturnType() {
-        return returnType;
-    }
-
-    @Override
-    public ClassPrototypeReference[] getParameterTypes() {
-        return parameterTypes;
-    }
-
-    @Override
-    public String getMethodName() {
-        return methodName;
-    }
-
-    @Override
-    public ClassPrototypeReference getClassPrototype() {
-        return prototype;
-    }
-
     public static PandaMethodBuilder builder() {
         return new PandaMethodBuilder();
+    }
+
+    public static class PandaMethodBuilder extends PandaParameterizedExecutable.PandaParametrizedExecutableBuilder<PandaMethodBuilder> {
+
+        protected ParametrizedExecutableCallback methodBody;
+        protected boolean isStatic;
+
+        private PandaMethodBuilder() { }
+
+        public PandaMethodBuilder methodBody(ParametrizedExecutableCallback callback) {
+            this.methodBody = callback;
+            return this;
+        }
+
+        public PandaMethodBuilder isStatic(boolean isStatic) {
+            this.isStatic = isStatic;
+            return this;
+        }
+
+        public PandaMethod build() {
+            return new PandaMethod(this);
+        }
+
     }
 
 }

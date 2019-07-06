@@ -16,32 +16,31 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.field;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameterizedExecutable;
 
-public class PandaPrototypeField extends PandaVariable implements PrototypeField {
+public class PandaPrototypeField extends PandaParameterizedExecutable implements PrototypeField {
 
-    private final ClassPrototypeReference prototype;
     private final int fieldIndex;
-    private final FieldVisibility visibility;
     private final boolean isStatic;
     private final boolean isNative;
+    private final boolean mutable;
+    private final boolean nullable;
 
     private Expression defaultValue;
-    private StaticValue staticValue;
+    private Value staticValue;
 
     protected PandaPrototypeField(PandaPrototypeFieldBuilder builder) {
-        super(builder.type, builder.name, 0, builder.mutable, builder.nullable);
+        // super(builder.type, builder.name, 0, builder.mutable, builder.nullable);
+        super(builder);
 
-        this.prototype = builder.prototype;
         this.fieldIndex = builder.fieldIndex;
-        this.visibility = builder.visibility;
         this.isStatic = builder.isStatic;
         this.isNative = builder.isNative;
+        this.mutable = builder.mutable;
+        this.nullable = builder.nullable;
     }
 
     @Override
@@ -50,8 +49,18 @@ public class PandaPrototypeField extends PandaVariable implements PrototypeField
     }
 
     @Override
-    public void setStaticValue(StaticValue staticValue) {
+    public void setStaticValue(Value staticValue) {
         this.staticValue = staticValue;
+    }
+
+    @Override
+    public boolean isNullable() {
+        return nullable;
+    }
+
+    @Override
+    public boolean isMutable() {
+        return mutable;
     }
 
     @Override
@@ -70,7 +79,7 @@ public class PandaPrototypeField extends PandaVariable implements PrototypeField
     }
 
     @Override
-    public StaticValue getStaticValue() {
+    public Value getStaticValue() {
         return staticValue;
     }
 
@@ -80,22 +89,53 @@ public class PandaPrototypeField extends PandaVariable implements PrototypeField
     }
 
     @Override
-    public FieldVisibility getVisibility() {
-        return visibility;
-    }
-
-    @Override
     public int getFieldIndex() {
         return fieldIndex;
     }
 
-    @Override
-    public ClassPrototypeReference getPrototype() {
-        return prototype;
-    }
-
     public static PandaPrototypeFieldBuilder builder() {
         return new PandaPrototypeFieldBuilder();
+    }
+
+    public static class PandaPrototypeFieldBuilder extends PandaParameterizedExecutable.PandaParametrizedExecutableBuilder<PandaPrototypeFieldBuilder> {
+
+        protected int fieldIndex;
+        protected boolean isStatic;
+        protected boolean isNative;
+        protected boolean mutable;
+        protected boolean nullable;
+
+        private PandaPrototypeFieldBuilder() { }
+
+        public PandaPrototypeFieldBuilder fieldIndex(int fieldIndex) {
+            this.fieldIndex = fieldIndex;
+            return this;
+        }
+
+        public PandaPrototypeFieldBuilder mutable(boolean mutable) {
+            this.mutable = mutable;
+            return this;
+        }
+
+        public PandaPrototypeFieldBuilder nullable(boolean nullable) {
+            this.nullable = nullable;
+            return this;
+        }
+
+        public PandaPrototypeFieldBuilder isStatic(boolean isStatic) {
+            this.isStatic = isStatic;
+            return this;
+        }
+
+        public PandaPrototypeFieldBuilder isNative(boolean isNative) {
+            this.isNative = isNative;
+            return this;
+        }
+
+        public PandaPrototypeField build() {
+            return new PandaPrototypeField(this);
+        }
+
     }
 
 }

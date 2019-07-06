@@ -18,8 +18,24 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
+
+import java.lang.reflect.Parameter;
 
 public class ClassPrototypeGeneratorUtils {
+
+    private static final ClassPrototypeGenerator GENERATOR = new ClassPrototypeGenerator();
+
+    public static PandaParameter[] toParameters(Module module, Parameter[] parameters) {
+        PandaParameter[] mappedParameters = new PandaParameter[parameters.length];
+
+        for (int index = 0; index < parameters.length; index++) {
+            Parameter parameter = parameters[index];
+            mappedParameters[index] = new PandaParameter(GENERATOR.computeIfAbsent(module, parameter.getType()), parameter.getName(), parameter.isVarArgs());
+        }
+
+        return mappedParameters;
+    }
 
     public static ClassPrototypeReference[] toTypes(Module module, Class<?>... types) {
         ClassPrototypeGenerator generator = new ClassPrototypeGenerator();

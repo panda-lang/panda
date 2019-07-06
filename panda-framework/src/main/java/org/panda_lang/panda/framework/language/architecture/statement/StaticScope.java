@@ -18,9 +18,9 @@ package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.Map;
 
@@ -34,7 +34,7 @@ public final class StaticScope extends AbstractScope {
     }
 
     @Override
-    public final ScopeFrame createInstance(ExecutableBranch branch) {
+    public final ScopeFrame createFrame(Frame parentFrame) {
         ScopeFrame frame = new StaticFrame(this);
 
         for (int pointer = 0; pointer < getVariables().size(); pointer++) {
@@ -44,7 +44,7 @@ public final class StaticScope extends AbstractScope {
                 continue;
             }
 
-            frame.set(pointer, new PandaValue(variable.getType(), variables.get(variable)));
+            frame.set(pointer, new PandaStaticValue(variable.getType(), variables.get(variable)));
         }
 
         return frame;
@@ -57,8 +57,8 @@ public final class StaticScope extends AbstractScope {
         }
 
         @Override
-        public void execute(ExecutableBranch branch) {
-            branch.call(this);
+        public void execute(Frame frame) {
+            frame.call(this);
         }
 
     }

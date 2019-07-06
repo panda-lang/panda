@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.looping;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
@@ -31,17 +31,17 @@ public class WhileBlock extends AbstractBlock implements ControlFlowCaller {
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        branch.callFlow(super.getStatementCells(), this);
+    public void execute(Frame frame) {
+        frame.callFlow(super.getStatementCells(), this);
     }
 
     @Override
-    public void call(ExecutableBranch branch, ControlFlow flow) {
-        while (expression.evaluate(branch).getValue()) {
+    public void call(Frame frame, ControlFlow flow) {
+        while (expression.evaluate(frame).getValue()) {
             flow.reset();
             flow.call();
 
-            if (flow.isEscaped() || branch.isInterrupted()) {
+            if (flow.isEscaped() || frame.isInterrupted()) {
                 break;
             }
         }

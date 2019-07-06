@@ -14,17 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
+package org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
-public interface Parameter {
+public interface ParametrizedExecutableCallback<T> {
 
-    Variable toVariable(int nestingLevel);
-
-    ClassPrototypeReference getParameterType();
-
-    String getParameterName();
+    Value invoke(Frame frame, T instance, Value... arguments) throws Exception;
 
 }

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
@@ -27,7 +27,7 @@ import java.util.function.Function;
 
 public class FieldAccessor extends DefaultAccessor<PrototypeField> {
 
-    public FieldAccessor(Function<ExecutableBranch, MemoryContainer> memory, PrototypeField field, int internalPointer) {
+    public FieldAccessor(Function<Frame, MemoryContainer> memory, PrototypeField field, int internalPointer) {
         super(memory, field, internalPointer);
     }
 

@@ -17,14 +17,15 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.array;
 
 import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
 public class ArrayClassPrototype extends PandaClassPrototype {
 
-    private final Class<?> type;
+    private final ClassPrototypeReference type;
 
-    public ArrayClassPrototype(Module module, Class<?> associated, Class<?> type) {
+    public ArrayClassPrototype(Module module, Class<?> associated, ClassPrototypeReference type) {
         super(module, associated.getSimpleName(), associated);
 
         this.type = type;
@@ -36,7 +37,7 @@ public class ArrayClassPrototype extends PandaClassPrototype {
         return true;
     }
 
-    public Class<?> getType() {
+    public ClassPrototypeReference getType() {
         return type;
     }
 

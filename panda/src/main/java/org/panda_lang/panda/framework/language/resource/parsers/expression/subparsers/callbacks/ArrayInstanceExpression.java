@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.lang.reflect.Array;
 
@@ -37,8 +37,8 @@ public class ArrayInstanceExpression implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
-        return new PandaValue(prototype, Array.newInstance(prototype.getType(), new int[] { capacity.evaluate(branch).getValue() }));
+    public Value call(Expression expression, Frame frame) {
+        return new PandaStaticValue(prototype, Array.newInstance(prototype.getType().getAssociatedClass(), new int[] { capacity.evaluate(frame).getValue() }));
     }
 
     @Override

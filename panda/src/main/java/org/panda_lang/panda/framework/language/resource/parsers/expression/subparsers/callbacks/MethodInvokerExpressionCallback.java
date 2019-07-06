@@ -14,40 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
-import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.invoker.MethodInvoker;
 
-import java.util.List;
+public class MethodInvokerExpressionCallback implements ExpressionCallback {
 
-public class ConcatenationExpressionCallback implements ExpressionCallback {
+    private final MethodInvoker invoker;
 
-    private final List<Expression> values;
-
-    public ConcatenationExpressionCallback(List<Expression> values) {
-        this.values = values;
+    public MethodInvokerExpressionCallback(MethodInvoker invoker) {
+        this.invoker = invoker;
     }
 
     @Override
     public Value call(Expression expression, Frame frame) {
-        StringBuilder content = new StringBuilder();
-
-        for (Expression value : values) {
-            content.append(value.evaluate(frame).getObject());
-        }
-
-        return new PandaStaticValue(PandaTypes.STRING, content);
+        invoker.execute(frame);
+        return frame.getReturnedValue();
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return PandaTypes.STRING;
+        return invoker.getMethod().getReturnType().fetch();
     }
 
 }

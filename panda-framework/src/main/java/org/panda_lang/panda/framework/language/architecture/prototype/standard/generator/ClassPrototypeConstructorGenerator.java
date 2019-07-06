@@ -16,15 +16,16 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.generator;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Parameter;
 
 final class ClassPrototypeConstructorGenerator {
 
@@ -39,40 +40,35 @@ final class ClassPrototypeConstructorGenerator {
     }
 
     protected PrototypeConstructor generate() {
-        ClassPrototypeReference[] parameters = new ClassPrototypeReference[constructor.getParameterCount()];
+        PrototypeParameter[] prototypeParameters = new PrototypeParameter[constructor.getParameterCount()];
+        Parameter[] parameters = constructor.getParameters();
 
-        for (int i = 0; i < parameters.length; i++) {
-            parameters[i] = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[i]);
+        for (int index = 0; index < parameters.length; index++) {
+            ClassPrototypeReference reference = generator.computeIfAbsent(prototype.getModule(), constructor.getParameterTypes()[index]);
+            Parameter parameter = parameters[index];
+
+            prototypeParameters[index] = new PandaParameter(reference, parameter.getName(), parameter.isVarArgs());
         }
 
         // TODO: Generate bytecode
         constructor.setAccessible(true);
 
-        return new PrototypeConstructor() {
-            @Override
-            public @Nullable Object createInstance(ExecutableBranch bridge, Value... values) {
-                long start = System.nanoTime();
+        return PandaConstructor.builder()
+                .name("constructor " + prototype.getClassName())
+                .parameters(prototypeParameters)
+                .prototype(prototype.getReference())
+                .returnType(prototype.getReference())
+                .parameters()
+                .callback((frame, instance, arguments) -> {
+                    Object[] args = new Object[arguments.length];
 
-                try {
-                    Object[] args = new Object[values.length];
-
-                    for (int i = 0; i < values.length; i++) {
-                        args[i] = values[i].getValue();
+                    for (int i = 0; i < arguments.length; i++) {
+                        args[i] = arguments[i].getValue();
                     }
 
-                    return constructor.newInstance(args);
-                } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }
-
-            @Override
-            public ClassPrototypeReference[] getParameterTypes() {
-                return parameters;
-            }
-        };
+                    return new PandaStaticValue(prototype, constructor.newInstance(args));
+                })
+                .build();
     }
 
 }

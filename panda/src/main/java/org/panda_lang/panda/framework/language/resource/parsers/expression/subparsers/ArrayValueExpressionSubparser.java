@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
@@ -82,7 +82,7 @@ public class ArrayValueExpressionSubparser implements ExpressionSubparser {
                 return ExpressionResult.error("Index of array has to be Integer", section.getContent());
             }
 
-            ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaValue(type, array[index]);
+            ArrayValueAccessor.ArrayValueAccessorAction action = (branch, prototype, type, array, index) -> new PandaStaticValue(type, array[index]);
             ArrayValueAccessor accessor = ArrayValueAccessorUtils.of(context.getContext(), section.getContent(), instanceExpression, indexExpression, action);
 
             return ExpressionResult.of(accessor.toCallback().toExpression());

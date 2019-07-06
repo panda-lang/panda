@@ -18,7 +18,8 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 
 public class ConstructorScopeFrame extends AbstractScopeFrame<ConstructorScope> {
@@ -28,14 +29,17 @@ public class ConstructorScopeFrame extends AbstractScopeFrame<ConstructorScope> 
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        for (StatementCell statementCell : super.getScope().getStatementCells()) {
-            if (!statementCell.isExecutable()) {
+    public void execute(Frame frame) {
+        Value instance = frame.getInstance();
+
+        for (StatementCell cell : super.getScope().getStatementCells()) {
+            if (!cell.isExecutable()) {
                 continue;
             }
 
-            Executable executable = (Executable) statementCell.getStatement();
-            branch.call(executable);
+            Executable executable = (Executable) cell.getStatement();
+            frame.call(executable);
+            frame.instance(instance);
         }
     }
 

@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
 
 import java.util.Collection;
 
-public interface ExecutableBranch {
+public interface Frame {
 
     /**
      * Define `this` for execution process
@@ -55,12 +55,12 @@ public interface ExecutableBranch {
     ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCaller caller);
 
     /**
-     * Call single executable by {@link ExecutableProcess}
+     * Call single executable by {@link Process}
      *
      * @param executable an executable to call
      * @return the parent branch of called executable
      */
-    ExecutableBranch call(Executable executable);
+    Frame call(Executable executable);
 
     /**
      * Call single executable in dedicated branch
@@ -68,12 +68,12 @@ public interface ExecutableBranch {
      * @param executable an executable to call
      * @return the parent branch of called executable
      */
-    ExecutableBranch callStandalone(Executable executable);
+    Frame callStandalone(Executable executable);
 
     /**
      * @return an independent duplicate of branch
      */
-    ExecutableBranch duplicate();
+    Frame duplicate();
 
     /**
      * Interrupt the execution process
@@ -91,8 +91,9 @@ public interface ExecutableBranch {
      * Return value without breaking a flow
      *
      * @param value result
+     * @return the passed value
      */
-    void setReturnValue(Value value);
+    Value setReturnValue(Value value);
 
     /**
      * @return true if branch has been interrupted

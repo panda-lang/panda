@@ -17,10 +17,11 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method.invoker;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
@@ -42,19 +43,25 @@ public class MethodInvoker extends AbstractExecutableStatement implements Standa
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
+    public void execute(Frame frame) {
         Value instance = null;
 
         if (instanceExpression != null) {
-            instance = instanceExpression.evaluate(branch);
+            instance = instanceExpression.evaluate(frame);
 
-            if (!instance.isNull()) {
-                branch.instance(instance);
+            // exclude static and null values
+            if (instance != null && !instance.isNull()) {
+                frame.instance(instance);
             }
         }
 
-        Value[] values = ExpressionUtils.getValues(branch, arguments);
-        method.invoke(branch, instance != null ? instance.getObject() : null, values);
+        Value[] values = ExpressionUtils.getValues(frame, arguments);
+
+        try {
+            method.invoke(frame, instance != null ? instance.getObject() : null, values);
+        } catch (Exception e) {
+            throw new PandaFrameworkException("Internal error: " + e.getMessage(), e);
+        }
     }
 
     public PrototypeMethod getMethod() {

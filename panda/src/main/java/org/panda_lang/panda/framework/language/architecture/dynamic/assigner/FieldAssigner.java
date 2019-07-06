@@ -17,13 +17,11 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 public class FieldAssigner extends AbstractAssigner<PrototypeField> {
@@ -36,13 +34,13 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
+    public void execute(Frame frame) {
         PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
-            StaticValue staticValue = PandaStaticValue.of(valueExpression.evaluate(branch));
+            Value staticValue = valueExpression.evaluate(frame);
 
-            if (!field.isNullable() && (staticValue.getValue() == null || staticValue.getValue().isNull())) {
+            if (!field.isNullable() && (staticValue == null || staticValue.isNull())) {
                 throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nullable modifier");
             }
 
@@ -54,8 +52,8 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
             return;
         }
 
-        MemoryContainer memory = accessor.fetchMemoryContainer(branch);
-        Value value = valueExpression.evaluate(branch);
+        MemoryContainer memory = accessor.fetchMemoryContainer(frame);
+        Value value = valueExpression.evaluate(frame);
 
         if (value.isNull() && !field.isNullable()) {
             throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nullable modifier");

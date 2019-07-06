@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
@@ -25,7 +25,7 @@ import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
 import java.util.function.Function;
 
-public class FieldAccessorFunction implements Function<ExecutableBranch, MemoryContainer> {
+public class FieldAccessorFunction implements Function<Frame, MemoryContainer> {
 
     private final Expression instanceExpression;
 
@@ -34,8 +34,8 @@ public class FieldAccessorFunction implements Function<ExecutableBranch, MemoryC
     }
 
     @Override
-    public MemoryContainer apply(ExecutableBranch branch) {
-        Value instance = instanceExpression.evaluate(branch);
+    public MemoryContainer apply(Frame frame) {
+        Value instance = instanceExpression.evaluate(frame);
 
         if (instance == null) {
             throw new PandaRuntimeException("Instance is not defined");

@@ -19,12 +19,12 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.block.loopi
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 public class ForEachBlock extends AbstractBlock implements ControlFlowCaller {
 
@@ -39,23 +39,23 @@ public class ForEachBlock extends AbstractBlock implements ControlFlowCaller {
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        branch.callFlow(super.getStatementCells(), this);
+    public void execute(Frame frame) {
+        frame.callFlow(super.getStatementCells(), this);
     }
 
     @Override
-    public void call(ExecutableBranch branch, ControlFlow flow) {
-        ScopeFrame currentScope = branch.getCurrentScope();
-        Value iterableValue = expression.evaluate(branch);
+    public void call(Frame frame, ControlFlow flow) {
+        ScopeFrame currentScope = frame.getCurrentScope();
+        Value iterableValue = expression.evaluate(frame);
         Iterable iterable = iterableValue.getValue();
 
         for (Object value : iterable) {
-            currentScope.set(variablePointer, new PandaValue(variableType, value));
+            currentScope.set(variablePointer, new PandaStaticValue(variableType, value));
 
             flow.reset();
             flow.call();
 
-            if (flow.isEscaped() || branch.isInterrupted()) {
+            if (flow.isEscaped() || frame.isInterrupted()) {
                 break;
             }
         }

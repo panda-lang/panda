@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.rpn.RPNOperationAction;
@@ -29,7 +29,7 @@ import java.util.Objects;
 public class EqualsToOperation implements RPNOperationSupplier, RPNOperationAction {
 
     @Override
-    public Boolean get(ExecutableBranch branch, Value a, Value b) {
+    public Boolean get(Frame frame, Value a, Value b) {
         return Objects.equals(a.getObject(), b.getObject());
     }
 

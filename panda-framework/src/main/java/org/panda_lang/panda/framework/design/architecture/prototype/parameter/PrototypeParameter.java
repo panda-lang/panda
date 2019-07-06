@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.value;
+package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
-public interface StaticValue {
+public interface PrototypeParameter {
 
-    Value getValue();
+    Variable toVariable();
 
-    ClassPrototype getReturnType();
+    boolean isVarargs();
+
+    ClassPrototypeReference getType();
+
+    String getName();
 
 }

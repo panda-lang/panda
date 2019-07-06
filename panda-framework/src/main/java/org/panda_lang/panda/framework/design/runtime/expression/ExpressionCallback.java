@@ -18,12 +18,12 @@ package org.panda_lang.panda.framework.design.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public interface ExpressionCallback {
 
-    Value call(Expression expression, ExecutableBranch branch);
+    Value call(Expression expression, Frame frame);
 
     ClassPrototype getReturnType();
 

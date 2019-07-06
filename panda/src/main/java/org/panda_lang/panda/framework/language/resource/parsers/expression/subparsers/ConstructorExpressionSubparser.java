@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
@@ -27,12 +28,13 @@ import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionCategory;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 import org.panda_lang.panda.framework.language.interpreter.token.distributors.DiffusedSource;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
@@ -103,7 +105,8 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
 
         private ExpressionResult parseDefault(ExpressionContext context, DiffusedSource source, ClassPrototype type, Snippet argumentsSource) {
             Expression[] arguments = ARGUMENT_PARSER.parse(context.getContext(), argumentsSource);
-            PrototypeConstructor constructor = ConstructorUtils.matchConstructor(type, arguments);
+            ClassPrototypeMetadata[] requiredTypes = ExpressionUtils.toTypes(arguments);
+            PrototypeConstructor constructor = ParameterUtils.match(type.getConstructors().getCollectionOfConstructors(), requiredTypes);
 
             if (constructor == null) {
                 return ExpressionResult.error(type.getClassName() + " does not have constructor with the required parameters: " + Arrays.toString(arguments), argumentsSource);
@@ -113,7 +116,7 @@ public class ConstructorExpressionSubparser implements ExpressionSubparser {
         }
 
         private ExpressionResult parseArray(ExpressionContext context, DiffusedSource source, ClassPrototype type, Section capacitySourceSection) {
-            Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.obtain(context.getContext(), type.getClassName() + "[]");
+            Optional<ClassPrototypeReference> reference = ArrayClassPrototypeUtils.fetch(context.getContext(), type.getClassName() + "[]");
 
             if (!reference.isPresent()) {
                 return ExpressionResult.error("Cannot fetch type: " + type.getClassName() + "[]", source.getLastReadSource());

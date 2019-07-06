@@ -17,13 +17,13 @@
 package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.operation.subparsers.logical;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
 public class NotEqualsToOperation extends EqualsToOperation {
 
     @Override
-    public Boolean get(ExecutableBranch branch, Value a, Value b) {
-        return !super.get(branch, a, b);
+    public Boolean get(Frame frame, Value a, Value b) {
+        return !super.get(frame, a, b);
     }
 
 }

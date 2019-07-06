@@ -16,51 +16,40 @@
 
 package org.panda_lang.panda.framework.language.architecture.value;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class PandaStaticValue implements StaticValue {
+public class PandaStaticValue implements Value {
 
-    private final boolean external;
-    private final Value value;
-    private final Expression expression;
-    private final ExecutableBranch copyOfBranch;
+    public static final Value NULL = new PandaStaticValue(null, null);
 
-    private PandaStaticValue(Value value) {
-        this(false, value, null, null);
-    }
+    private final Object value;
+    private final ClassPrototype type;
 
-    private PandaStaticValue(Expression expression, ExecutableBranch copyOfBranch) {
-        this(true, null, expression, copyOfBranch);
-    }
-
-    private PandaStaticValue(boolean external, Value value, Expression expression, ExecutableBranch copyOfBranch) {
-        this.external = external;
+    public PandaStaticValue(ClassPrototype type, Object value) {
+        this.type = type;
         this.value = value;
-        this.expression = expression;
-        this.copyOfBranch = copyOfBranch;
     }
 
     @Override
-    public Value getValue() {
-        return external ? expression.evaluate(copyOfBranch) : value;
+    @SuppressWarnings("unchecked")
+    public <T> T getValue() {
+        return (T) getObject();
     }
 
     @Override
-    public ClassPrototype getReturnType() {
-        return external ? expression.getReturnType() : value.getType();
+    public Object getObject() {
+        return value;
     }
 
-    public static StaticValue of(Expression expression, @Nullable ExecutableBranch branch) {
-        return new PandaStaticValue(expression, branch != null ? branch.duplicate() : null);
+    @Override
+    public ClassPrototype getType() {
+        return type;
     }
 
-    public static StaticValue of(Value value) {
-        return new PandaStaticValue(value);
+    @Override
+    public String toString() {
+        return "PandaValue[" + type.getClassName() + ":" + value + "]";
     }
 
 }

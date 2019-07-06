@@ -22,6 +22,8 @@ import java.util.Collection;
 
 public interface ClassPrototypeMetadata {
 
+    ClassPrototypeReference toArray();
+
     ClassPrototypeMetadata addExtended(ClassPrototypeReference reference);
 
     boolean isClassOf(String className);

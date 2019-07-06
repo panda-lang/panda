@@ -14,34 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.field;
+package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
-public interface PrototypeField extends ParameterizedExecutable, Variable {
+public interface ParameterizedExecutable {
 
-    void setDefaultValue(Expression defaultValue);
+    Value invoke(Frame frame, Object instance, Value... arguments) throws Exception;
 
-    void setStaticValue(Value staticValue);
+    ClassPrototypeReference getPrototype();
 
-    boolean isStatic();
+    PrototypeVisibility getVisibility();
 
-    boolean isNative();
+    ClassPrototypeReference[] getParameterTypes();
 
-    boolean hasDefaultValue();
+    PrototypeParameter[] getParameters();
 
-    Value getStaticValue();
+    ClassPrototypeReference getReturnType();
 
-    Expression getDefaultValue();
-
-    int getFieldIndex();
-
-    default ClassPrototypeReference getTypeReference() {
-        return getReturnType();
-    }
+    String getName();
 
 }

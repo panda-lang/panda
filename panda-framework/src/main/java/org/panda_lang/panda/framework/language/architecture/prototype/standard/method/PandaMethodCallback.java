@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 
-public class PandaMethodCallback implements MethodCallback<ClassPrototypeScopeFrame> {
+public class PandaMethodCallback implements ParametrizedExecutableCallback<ClassPrototypeScopeFrame> {
 
     private final MethodScope scope;
 
@@ -31,14 +31,16 @@ public class PandaMethodCallback implements MethodCallback<ClassPrototypeScopeFr
     }
 
     @Override
-    public void invoke(ExecutableBranch branch, ClassPrototypeScopeFrame instance, Value... parameters) {
-        branch.instance(instance != null ? instance.toValue() : null);
+    public Value invoke(Frame frame, ClassPrototypeScopeFrame instance, Value... parameters) {
+        frame.instance(instance != null ? instance.toValue() : null);
 
-        MethodScopeFrame scopeInstance = scope.createInstance(branch);
+        MethodScopeFrame scopeInstance = scope.createFrame(frame);
         ParameterUtils.assignValues(scopeInstance, parameters);
 
-        ExecutableBranch methodBranch = branch.call(scopeInstance);
-        branch.setReturnValue(methodBranch.getReturnedValue());
+        Frame methodBranch = frame.call(scopeInstance);
+        frame.setReturnValue(methodBranch.getReturnedValue());
+
+        return methodBranch.getReturnedValue();
     }
 
 }

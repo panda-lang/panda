@@ -31,10 +31,10 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationComponents;
@@ -71,8 +71,8 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     Statement parse(Context context, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression expression) {
         return PARSER.parse(context, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
             @Override
-            public @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
-                array[index] = expression.evaluate(branch).getObject();
+            public @Nullable PandaStaticValue perform(Frame frame, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
+                array[index] = expression.evaluate(frame).getObject();
                 return null;
             }
 

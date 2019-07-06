@@ -50,6 +50,14 @@ public interface ModuleLoader {
     Optional<ClassPrototypeReference> forName(String name);
 
     /**
+     * Get reference using the associated class
+     *
+     * @param associated the associated class to compare
+     * @return the found (or not) prototype reference wrapped into optional
+     */
+    Optional<ClassPrototypeReference> forAssociated(Class<?> associated);
+
+    /**
      * Get living module using the given name
      *
      * @param name the name to search for

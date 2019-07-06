@@ -19,9 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.StaticValue;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 public class PandaClassPrototype extends AbstractClassPrototype {
 
@@ -48,8 +46,7 @@ public class PandaClassPrototype extends AbstractClassPrototype {
             }
 
             Expression expression = field.getDefaultValue();
-            StaticValue staticValue = PandaStaticValue.of(expression.evaluate(null));
-            field.setStaticValue(staticValue);
+            field.setStaticValue(expression.evaluate(null));
         }
     }
 

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall.prototy
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
@@ -63,9 +63,9 @@ public class FieldParser extends ParserBootstrap {
     void parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("type") Snippet type, @Src("name") Snippet name) {
         ClassPrototypeReference returnType = ModuleLoaderUtils.getReferenceOrThrow(context, type.asString(), type);
 
-        FieldVisibility visibility = FieldVisibility.LOCAL;
-        visibility = result.hasIdentifier("p") ? FieldVisibility.PUBLIC : visibility;
-        visibility = result.hasIdentifier("h") ? FieldVisibility.HIDDEN : visibility;
+        PrototypeVisibility visibility = PrototypeVisibility.LOCAL;
+        visibility = result.hasIdentifier("p") ? PrototypeVisibility.PUBLIC : visibility;
+        visibility = result.hasIdentifier("h") ? PrototypeVisibility.HIDDEN : visibility;
 
         boolean isStatic = result.hasIdentifier("static");
         boolean mutable = result.hasIdentifier("mutable");
@@ -76,8 +76,8 @@ public class FieldParser extends ParserBootstrap {
 
         PrototypeField field = PandaPrototypeField.builder()
                 .prototype(prototype.getReference())
+                .returnType(returnType)
                 .fieldIndex(fieldIndex)
-                .type(returnType)
                 .name(name.asString())
                 .visibility(visibility)
                 .isStatic(isStatic)

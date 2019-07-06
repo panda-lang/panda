@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.method;
+package org.panda_lang.panda.framework.design.architecture.prototype;
 
-public enum MethodVisibility {
+public enum PrototypeVisibility {
 
     PUBLIC,
     LOCAL,

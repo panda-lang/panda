@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
@@ -27,12 +27,12 @@ import java.util.function.Function;
 
 public class VariableAccessor extends DefaultAccessor<Variable> {
 
-    public VariableAccessor(Function<ExecutableBranch, MemoryContainer> memory, Variable variable, int internalPointer) {
+    public VariableAccessor(Function<Frame, MemoryContainer> memory, Variable variable, int internalPointer) {
         super(memory, variable, internalPointer);
     }
 
     public VariableAccessor(Variable variable, int internalPointer) {
-        this(ExecutableBranch::getCurrentScope, variable, internalPointer);
+        this(Frame::getCurrentScope, variable, internalPointer);
     }
 
     @Override

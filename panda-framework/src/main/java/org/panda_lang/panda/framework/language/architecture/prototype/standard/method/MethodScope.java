@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 
 import java.util.List;
@@ -25,19 +25,19 @@ import java.util.List;
 public class MethodScope extends AbstractScope {
 
     private final String methodName;
-    private final List<Parameter> parameters;
+    private final List<PrototypeParameter> parameters;
 
-    public MethodScope(String methodName, List<Parameter> parameters) {
+    public MethodScope(String methodName, List<PrototypeParameter> parameters) {
         this.methodName = methodName;
         this.parameters = parameters;
     }
 
     @Override
-    public MethodScopeFrame createInstance(ExecutableBranch branch) {
+    public MethodScopeFrame createFrame(Frame frame) {
         return new MethodScopeFrame(this);
     }
 
-    public List<Parameter> getParameters() {
+    public List<PrototypeParameter> getParameters() {
         return parameters;
     }
 

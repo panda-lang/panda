@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.dynamic.PandaBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
 
-class ExecutableBranchComponentTest {
+class FrameComponentTest {
 
     @Test
     void testStackLimit() {
@@ -37,7 +37,7 @@ class ExecutableBranchComponentTest {
             block = subBlock;
         }
 
-        PandaExecutableProcess process = new PandaExecutableProcess(null, main);
+        PandaProcess process = new PandaProcess(null, main);
         process.execute();
     }
 

@@ -19,6 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,6 +63,11 @@ public class AbstractClassPrototypeMetadata implements ClassPrototypeMetadata {
         return prototype.equals(this)
                 || PandaClassPrototypeUtils.isAssignableFrom(associated, prototype.getAssociatedClass())
                 || PandaClassPrototypeUtils.hasCommonPrototypes(extended, prototype.getExtended());
+    }
+
+    @Override
+    public ClassPrototypeReference toArray() {
+        return ArrayClassPrototypeUtils.getArrayOf(this, 1);
     }
 
     @Override

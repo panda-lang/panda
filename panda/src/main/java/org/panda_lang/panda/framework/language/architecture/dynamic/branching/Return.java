@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
@@ -30,13 +30,13 @@ public class Return extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
+    public void execute(Frame frame) {
         if (value != null) {
-            Value returnValue = value.evaluate(branch);
-            branch.returnValue(returnValue);
+            Value returnValue = value.evaluate(frame);
+            frame.returnValue(returnValue);
         }
 
-        branch.interrupt();
+        frame.interrupt();
     }
 
 }

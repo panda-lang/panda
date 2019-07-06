@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,7 +37,7 @@ public class PandaMethods implements PrototypeMethods {
 
     @Override
     public void registerMethod(PrototypeMethod method) {
-        Collection<PrototypeMethod> methods = methodsMap.computeIfAbsent(method.getMethodName(), methodsContainer -> new ArrayList<>());
+        Collection<PrototypeMethod> methods = methodsMap.computeIfAbsent(method.getName(), methodsContainer -> new ArrayList<>());
         methods.add(method);
     }
 
@@ -58,7 +59,7 @@ public class PandaMethods implements PrototypeMethods {
             return null;
         }
 
-        return MethodUtils.matchMethod(methods, parameterTypes);
+        return ParameterUtils.match(methods, parameterTypes);
     }
 
     @Override

@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype.method;
+package org.panda_lang.panda.framework.design.runtime;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 
-public interface MethodCallback<T> {
+public interface Process {
 
-    void invoke(ExecutableBranch branch, T instance, Value... parameters);
+    /**
+     * Execute the process
+     *
+     * @return a result of the execution process
+     */
+    Value execute();
 
 }

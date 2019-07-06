@@ -27,7 +27,10 @@ public interface Value {
         return getObject() == null;
     }
 
-    <T> T getValue();
+    @SuppressWarnings("unchecked")
+    default <T> T getValue() {
+        return (T) getObject();
+    }
 
     Object getObject();
 

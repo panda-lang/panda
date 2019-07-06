@@ -16,20 +16,25 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrameUtils;
 
+import java.util.Collection;
 import java.util.List;
 
 public class ParameterUtils {
 
-    public static void addAll(List<Variable> variables, List<? extends Parameter> parameters, int nestingLevel) {
-        for (Parameter parameter : parameters) {
-            Variable variable = parameter.toVariable(nestingLevel);
+    public static final PrototypeParameter[] PARAMETERLESS = new PrototypeParameter[0];
+
+    public static void addAll(List<Variable> variables, List<? extends PrototypeParameter> parameters) {
+        for (PrototypeParameter parameter : parameters) {
+            Variable variable = parameter.toVariable();
             variables.add(variable);
         }
     }
@@ -42,15 +47,42 @@ public class ParameterUtils {
         System.arraycopy(parameterValues, 0, AbstractScopeFrameUtils.extractMemory(instance), 0, parameterValues.length);
     }
 
-    public static ClassPrototypeReference[] toTypes(List<? extends Parameter> parameters) {
-        ClassPrototypeReference[] references = new ClassPrototypeReference[parameters.size()];
-
-        for (int i = 0; i < references.length; i++) {
-            Parameter parameter = parameters.get(i);
-            references[i] = parameter.getParameterType();
+    public static <T extends ParameterizedExecutable> @Nullable T match(Collection<T> collection, ClassPrototypeMetadata... requiredTypes) {
+        for (T executable : collection) {
+            if (matchParameters(executable, requiredTypes)) {
+                return executable;
+            }
         }
 
-        return references;
+        return null;
+    }
+
+    public static boolean matchParameters(ParameterizedExecutable executable, ClassPrototypeMetadata... requiredTypes) {
+        PrototypeParameter[] parameters = executable.getParameters();
+
+        for (int required = 0, index = 0; required < requiredTypes.length; required++) {
+            if (index >= parameters.length) {
+                return false;
+            }
+
+            PrototypeParameter parameter = parameters[index++];
+            ClassPrototypeMetadata requiredType = requiredTypes[required];
+
+            if (parameter.isVarargs()) {
+                while (required < requiredTypes.length) {
+                    if (!parameter.getType().isAssignableFrom(requiredType)) {
+                        break;
+                    }
+
+                    required++;
+                }
+            }
+            else if (!parameter.getType().isAssignableFrom(requiredType)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

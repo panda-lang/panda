@@ -20,16 +20,16 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 
 public interface Accessor<T extends Variable> {
 
-    @Nullable Value perform(ExecutableBranch branch, AccessorCallback callback);
+    @Nullable Value perform(Frame frame, AccessorCallback callback);
 
-    MemoryContainer fetchMemoryContainer(ExecutableBranch branch);
+    MemoryContainer fetchMemoryContainer(Frame frame);
 
     Assigner<T> toAssigner(Expression expression);
 
@@ -37,7 +37,7 @@ public interface Accessor<T extends Variable> {
         return getVariable().getTypeReference();
     }
 
-    @Nullable Value getValue(ExecutableBranch branch);
+    @Nullable Value getValue(Frame frame);
 
     int getMemoryPointer();
 
