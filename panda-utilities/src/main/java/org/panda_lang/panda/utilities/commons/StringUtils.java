@@ -17,6 +17,7 @@
 package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -452,6 +453,24 @@ public class StringUtils {
         }
 
         return false;
+    }
+
+    /**
+     * Object to string with array support
+     *
+     * @param object the object to stringify
+     * @return object represented by string
+     */
+    public static String toString(@Nullable Object object) {
+        if (object == null) {
+            return "null";
+        }
+
+        if (object.getClass().isArray()) {
+            return ContentJoiner.on(", ").join((Object[]) object).toString();
+        }
+
+        return object.toString();
     }
 
     /**

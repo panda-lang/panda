@@ -17,17 +17,17 @@
 package org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter;
 
 import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameter;
-import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
+import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,36 +35,35 @@ import java.util.List;
 
 public class ParameterParser implements Parser {
 
-    public List<Parameter> parse(Context context, @Nullable Snippet snippet) {
+    public List<PrototypeParameter> parse(Context context, @Nullable Snippet snippet) {
         if (SnippetUtils.isEmpty(snippet)) {
             return Collections.emptyList();
         }
 
-        TokenRepresentation[] tokenRepresentations = snippet.toArray();
-        List<Parameter> parameters = new ArrayList<>(tokenRepresentations.length / 3 + 1);
+        Snippet[] parametersSource = snippet.split(Separators.COMMA);
+        List<PrototypeParameter> parameters = new ArrayList<>(parametersSource.length);
 
-        if (snippet.size() == 0) {
+        if (ArrayUtils.isEmpty(parametersSource)) {
             return parameters;
         }
 
-        for (int i = 0; i + 1 < tokenRepresentations.length; i += 3) {
-            TokenRepresentation parameterTypeRepresentation = tokenRepresentations[i];
-            TokenRepresentation parameterNameRepresentation = tokenRepresentations[i + 1];
+        for (Snippet source : parametersSource) {
+            Token name = source.getLast();
+            int end = source.size() - 1;
 
-            String parameterType = parameterTypeRepresentation.getToken().getValue();
-            String parameterName = parameterNameRepresentation.getToken().getValue();
-
-            Parameter parameter = new PandaParameter(ModuleLoaderUtils.getReferenceOrThrow(context, parameterType, snippet), parameterName);
-            parameters.add(parameter);
-
-            if (i + 2 < tokenRepresentations.length) {
-                TokenRepresentation separatorRepresentation = tokenRepresentations[i + 2];
-                Token separator = separatorRepresentation.getToken();
-
-                if (separator.getType() != TokenType.SEPARATOR) {
-                    throw new PandaParserException("Unexpected token " + separatorRepresentation);
-                }
+            if (source.contains(Separators.PERIOD)) {
+                end -= 3;
             }
+
+            ClassPrototypeReference reference = ModuleLoaderUtils.getReferenceOrThrow(context, source.subSource(0, end).asString(), source);
+            boolean varargs = end + 1 < source.size();
+
+            if (varargs) {
+                reference = reference.toArray();
+            }
+
+            PrototypeParameter parameter = new PandaParameter(reference, name.getValue(), varargs);
+            parameters.add(parameter);
         }
 
         return parameters;

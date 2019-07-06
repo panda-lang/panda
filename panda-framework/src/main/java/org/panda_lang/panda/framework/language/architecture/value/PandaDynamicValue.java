@@ -16,40 +16,34 @@
 
 package org.panda_lang.panda.framework.language.architecture.value;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public class PandaValue implements Value {
+public class PandaDynamicValue implements Value {
 
-    public static final Value NULL = new PandaValue(null, null);
+    private final Expression expression;
+    private final Frame copyOfBranch;
 
-    private final Object value;
-    private final ClassPrototype type;
-
-    public PandaValue(ClassPrototype type, Object value) {
-        this.type = type;
-        this.value = value;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getValue() {
-        return (T) getObject();
+    private PandaDynamicValue(Expression expression, Frame copyOfBranch) {
+        this.expression = expression;
+        this.copyOfBranch = copyOfBranch;
     }
 
     @Override
     public Object getObject() {
-        return value;
+        return expression.evaluate(copyOfBranch).getObject();
     }
 
     @Override
     public ClassPrototype getType() {
-        return type;
+        return expression.getReturnType();
     }
 
-    @Override
-    public String toString() {
-        return "PandaValue[" + type.getClassName() + ":" + value + "]";
+    public static Value of(Expression expression, @Nullable Frame frame) {
+        return new PandaDynamicValue(expression, frame != null ? frame.duplicate() : null);
     }
 
 }

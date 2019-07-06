@@ -19,9 +19,9 @@ package org.panda_lang.panda.framework.language.resource.parsers.overall.prototy
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Parameter;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
@@ -58,6 +58,7 @@ public class MethodParser extends ParserBootstrap {
     private static final String LOCAL = "l";
     private static final String STATIC = "s";
 
+    private final ParameterParser parameterParser = new ParameterParser();
     private final ScopeParser scopeParser = new ScopeParser();
 
     @Override
@@ -67,10 +68,10 @@ public class MethodParser extends ParserBootstrap {
 
     @Autowired(order = 1, cycle = GenerationCycles.TYPES_LABEL)
     boolean parse(Context context, LocalData local, @Inter ExtractorResult result, @Src("*signature") Snippet signature, @Src("parameters") Snippet parametersSource) {
-        MethodVisibility visibility = MethodVisibility.PUBLIC;
+        PrototypeVisibility visibility = PrototypeVisibility.PUBLIC;
 
         if (result.hasIdentifier(VISIBILITY)) {
-            visibility = result.hasIdentifier(LOCAL) ? MethodVisibility.LOCAL : MethodVisibility.HIDDEN;
+            visibility = result.hasIdentifier(LOCAL) ? PrototypeVisibility.LOCAL : PrototypeVisibility.HIDDEN;
         }
 
         ClassPrototypeReference returnType = PandaTypes.VOID.getReference();
@@ -89,20 +90,19 @@ public class MethodParser extends ParserBootstrap {
             returnType = reference.get();
         }
 
-        List<Parameter> parameters = new ParameterParser().parse(context, parametersSource);
-        ClassPrototypeReference[] parameterTypes = ParameterUtils.toTypes(parameters);
-
         String method = signature.getLast().getValue();
+        List<PrototypeParameter> parameters = parameterParser.parse(context, parametersSource);
+
         MethodScope methodScope = local.allocated(new MethodScope(method, parameters));
-        ParameterUtils.addAll(methodScope.getVariables(), parameters, 0);
+        ParameterUtils.addAll(methodScope.getVariables(), parameters);
 
         context.withComponent(UniversalComponents.SCOPE, methodScope);
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
 
         PrototypeMethod prototypeMethod = PandaMethod.builder()
                 .prototype(prototype.getReference())
-                .parameterTypes(parameterTypes)
-                .methodName(method)
+                .parameters(parameters.toArray(new PrototypeParameter[0]))
+                .name(method)
                 .visibility(visibility)
                 .returnType(returnType)
                 .isStatic(result.hasIdentifier(STATIC))

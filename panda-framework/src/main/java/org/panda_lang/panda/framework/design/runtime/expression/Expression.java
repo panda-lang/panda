@@ -18,18 +18,39 @@ package org.panda_lang.panda.framework.design.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
 public interface Expression {
 
+    /**
+     * Evaluate expression using the specified branch
+     *
+     * @param frame the frame to use
+     * @return nullable value
+     */
+    Value evaluate(Frame frame);
+
+    /**
+     * Check if the expression returns null value
+     *
+     * @return true if expression returns null
+     */
     default boolean isNull() {
         return getReturnType() == null;
     }
 
-    Value evaluate(ExecutableBranch branch);
-
+    /**
+     * Get return type
+     *
+     * @return the return type
+     */
     ClassPrototype getReturnType();
 
+    /**
+     * Get expression type
+     *
+     * @return the type
+     */
     ExpressionType getType();
 
 }

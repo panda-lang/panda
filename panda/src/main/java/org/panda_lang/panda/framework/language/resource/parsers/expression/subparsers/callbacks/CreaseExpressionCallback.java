@@ -18,12 +18,12 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberPriorities;
 
@@ -40,9 +40,9 @@ public class CreaseExpressionCallback extends NumberPriorities implements Expres
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
-        Value before = accessor.fetchMemoryContainer(branch).get(accessor.getMemoryPointer());
-        Value after = accessor.perform(branch, (accessor, currentBranch, currentValue) -> new PandaValue(currentValue.getType(), of(currentValue)));
+    public Value call(Expression expression, Frame frame) {
+        Value before = accessor.fetchMemoryContainer(frame).get(accessor.getMemoryPointer());
+        Value after = accessor.perform(frame, (accessor, currentBranch, currentValue) -> new PandaStaticValue(currentValue.getType(), of(currentValue)));
         return post ? after : before;
     }
 

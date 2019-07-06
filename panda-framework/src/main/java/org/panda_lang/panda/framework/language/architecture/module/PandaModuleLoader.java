@@ -30,7 +30,9 @@ import org.panda_lang.panda.utilities.commons.StreamUtils;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 public class PandaModuleLoader implements ModuleLoader {
 
@@ -79,18 +81,26 @@ public class PandaModuleLoader implements ModuleLoader {
     @Override
     public Optional<ClassPrototypeReference> forName(String name) {
         if (name.endsWith(PandaArray.IDENTIFIER)) {
-            return ArrayClassPrototypeUtils.obtain(this, name);
+            return ArrayClassPrototypeUtils.fetch(this, name);
         }
 
-        for (Module module : loadedModules.values()) {
-            Optional<ClassPrototypeReference> reference = module.get(name);
+        return forPredicate(module -> module.get(name));
+    }
 
-            if (reference.isPresent()) {
-                return reference;
-            }
+    @Override
+    public Optional<ClassPrototypeReference> forAssociated(Class<?> associated) {
+        if (associated.isArray()) {
+            return ArrayClassPrototypeUtils.fetch(this, associated);
         }
 
-        return Optional.empty();
+        return forPredicate(module -> module.getAssociatedWith(associated));
+    }
+
+    private Optional<ClassPrototypeReference> forPredicate(Function<Module, Optional<ClassPrototypeReference>> mapper) {
+        return loadedModules.values().stream()
+                .map(module -> mapper.apply(module).orElse(null))
+                .filter(Objects::nonNull)
+                .findAny();
     }
 
     @Override

@@ -18,10 +18,10 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.security.InvalidParameterException;
 
@@ -38,11 +38,11 @@ public class NegateLogicalExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
-        Value value = logicalExpression.evaluate(branch);
+    public Value call(Expression expression, Frame frame) {
+        Value value = logicalExpression.evaluate(frame);
         boolean val = value.getValue(); // TODO: Handle null?
 
-        return new PandaValue(expression.getReturnType(), !val);
+        return new PandaStaticValue(expression.getReturnType(), !val);
     }
 
     @Override

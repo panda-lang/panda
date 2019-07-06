@@ -18,9 +18,9 @@ package org.panda_lang.panda.framework.design.architecture;
 
 import org.panda_lang.panda.framework.PandaFramework;
 import org.panda_lang.panda.framework.PandaFrameworkException;
-import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
+import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
-import org.panda_lang.panda.framework.language.runtime.PandaExecutableProcess;
+import org.panda_lang.panda.framework.language.runtime.PandaProcess;
 import org.panda_lang.panda.utilities.commons.TimeUtils;
 
 import java.util.ArrayList;
@@ -52,7 +52,7 @@ public class PandaApplication implements Application {
         }
 
         PandaFramework.getLogger().debug("[PandaApp] Launching application...");
-        ExecutableProcess process = new PandaExecutableProcess(this, mains.get(0), args);
+        Process process = new PandaProcess(this, mains.get(0), args);
 
         long initTime = System.nanoTime();
         process.execute();

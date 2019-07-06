@@ -18,11 +18,11 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
 public interface RPNOperationAction {
 
-    Object get(ExecutableBranch branch, Value aValue, Value bValue);
+    Object get(Frame frame, Value aValue, Value bValue);
 
     ClassPrototype returnType();
 

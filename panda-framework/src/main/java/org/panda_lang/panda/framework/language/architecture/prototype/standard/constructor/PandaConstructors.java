@@ -20,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,7 +36,7 @@ public class PandaConstructors implements PrototypeConstructors {
 
     @Override
     public @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types) {
-        return ConstructorUtils.matchConstructor(prototype, types);
+        return ParameterUtils.match(constructors, types);
     }
 
     @Override

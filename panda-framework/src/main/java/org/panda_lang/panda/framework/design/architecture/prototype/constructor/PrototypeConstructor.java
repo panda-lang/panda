@@ -16,14 +16,8 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.constructor;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 
-public interface PrototypeConstructor {
-
-    Object createInstance(ExecutableBranch bridge, Value... values);
-
-    ClassPrototypeReference[] getParameterTypes();
+public interface PrototypeConstructor extends ParameterizedExecutable {
 
 }

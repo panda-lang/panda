@@ -18,14 +18,13 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.field.FieldVisibility;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
+import org.panda_lang.panda.framework.language.architecture.value.PandaDynamicValue;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressionCallback;
@@ -50,10 +49,9 @@ final class ClassPrototypeFieldGenerator {
 
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .prototype(prototype.getReference())
+                .returnType(returnType)
                 .fieldIndex(prototype.getFields().getAmountOfFields())
-                .type(returnType)
                 .name(field.getName())
-                .visibility(FieldVisibility.PUBLIC)
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .mutable(true)
                 .nullable(true)
@@ -64,13 +62,12 @@ final class ClassPrototypeFieldGenerator {
 
         Expression fieldExpression = new PandaExpression(new PandaExpressionCallback(returnType.fetch()) {
             @Override
-            public Value call(Expression expression, ExecutableBranch branch) {
-                long start = System.nanoTime();
-                Object instance = branch != null ? branch.getInstance().getValue() : null;
+            public Value call(Expression expression, Frame frame) {
+                Object instance = frame != null ? frame.getInstance().getValue() : null;
 
                 try {
                     Object value = field.get(instance);
-                    return new PandaValue(returnType.fetch(), value);
+                    return new PandaStaticValue(returnType.fetch(), value);
                 } catch (IllegalAccessException e) {
                     throw new PandaRuntimeException(e);
                 }
@@ -78,7 +75,7 @@ final class ClassPrototypeFieldGenerator {
         });
 
         prototypeField.setDefaultValue(fieldExpression);
-        prototypeField.setStaticValue(PandaStaticValue.of(fieldExpression, null));
+        prototypeField.setStaticValue(PandaDynamicValue.of(fieldExpression, null));
         return prototypeField;
     }
 

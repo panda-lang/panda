@@ -21,25 +21,25 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
 import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlow;
 
 import java.util.Collection;
 
-public class PandaExecutableBranch implements ExecutableBranch {
+public class PandaFrame implements Frame {
 
     private static long fullUptime;
 
-    private final PandaExecutableProcess process;
+    private final PandaProcess process;
     private final ScopeFrame currentScope;
     private PandaControlFlow currentFlow;
     private Value returnedValue;
     private boolean interrupted;
     private Value instance;
 
-    public PandaExecutableBranch(PandaExecutableProcess process, ScopeFrame currentScope) {
+    public PandaFrame(PandaProcess process, ScopeFrame currentScope) {
         this.process = process;
         this.currentScope = currentScope;
     }
@@ -82,7 +82,7 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public ExecutableBranch call(Executable executable) {
+    public Frame call(Executable executable) {
         if (isInterrupted()) {
             return this;
         }
@@ -96,30 +96,30 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public ExecutableBranch callStandalone(Executable executable) {
+    public Frame callStandalone(Executable executable) {
         boolean standaloneScope = executable instanceof ScopeFrame;
         ScopeFrame scope = standaloneScope ? (ScopeFrame) executable : currentScope;
 
-        ExecutableBranch branch = new PandaExecutableBranch(process, scope);
-        branch.instance(instance);
+        Frame frame = new PandaFrame(process, scope);
+        frame.instance(instance);
 
         if (isInterrupted()) {
-            return branch;
+            return frame;
         }
 
         if (standaloneScope) {
-            branch.call();
+            frame.call();
         }
         else {
-            executable.execute(branch);
+            executable.execute(frame);
         }
 
-        return branch;
+        return frame;
     }
 
     @Override
-    public ExecutableBranch duplicate() {
-        PandaExecutableBranch duplicatedBranch = new PandaExecutableBranch(process, currentScope);
+    public Frame duplicate() {
+        PandaFrame duplicatedBranch = new PandaFrame(process, currentScope);
         duplicatedBranch.currentFlow = this.currentFlow;
         duplicatedBranch.instance = this.instance;
         duplicatedBranch.returnedValue = this.returnedValue;
@@ -144,8 +144,8 @@ public class PandaExecutableBranch implements ExecutableBranch {
     }
 
     @Override
-    public void setReturnValue(Value value) {
-        this.returnedValue = value;
+    public Value setReturnValue(Value value) {
+        return (this.returnedValue = value);
     }
 
     @Override

@@ -16,21 +16,21 @@
 
 package org.panda_lang.panda.framework.language.resource.prototypes;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
 import java.security.InvalidParameterException;
 
-@ClassDeclaration("Console")
+@ClassDeclaration("Consolex")
 @ModuleDeclaration("panda-lang")
 public class ConsolePrototype implements ClassPrototypeModel {
 
-    @MethodDeclaration(visibility = MethodVisibility.PUBLIC, isStatic = true, catchAllParameters = true)
-    public static void print(ExecutableBranch branch, System instance, @TypeDeclaration("panda-lang:Array<Object>") Value[] parameters) {
+    @MethodDeclaration(visibility = PrototypeVisibility.PUBLIC, isStatic = true, catchAllParameters = true)
+    public static void print(Frame frame, System instance, @TypeDeclaration("panda-lang:Array<Object>") Value[] parameters) {
         StringBuilder node = new StringBuilder();
 
         if (parameters.length == 0) {

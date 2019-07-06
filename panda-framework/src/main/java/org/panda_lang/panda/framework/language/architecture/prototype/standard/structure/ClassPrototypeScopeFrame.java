@@ -18,9 +18,9 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -39,12 +39,12 @@ public class ClassPrototypeScopeFrame extends AbstractScopeFrame<ClassPrototypeS
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
+    public void execute(Frame frame) {
         throw new RuntimeException("Cannot execute instance");
     }
 
     public Value toValue() {
-        return new PandaValue(prototype, this);
+        return new PandaStaticValue(prototype, this);
     }
 
     @Override

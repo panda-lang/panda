@@ -20,15 +20,16 @@ import org.panda_lang.panda.framework.design.architecture.Application;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableProcess;
+import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.Process;
 
-public class PandaExecutableProcess implements ExecutableProcess {
+public class PandaProcess implements Process {
 
     private final Application application;
     private final Scope mainScope;
     private final String[] parameters;
 
-    public PandaExecutableProcess(Application application, Scope mainScope, String... parameters) {
+    public PandaProcess(Application application, Scope mainScope, String... parameters) {
         this.application = application;
         this.mainScope = mainScope;
         this.parameters = parameters;
@@ -36,12 +37,12 @@ public class PandaExecutableProcess implements ExecutableProcess {
 
     @Override
     public Value execute() {
-        ScopeFrame instance = mainScope.createInstance(null); // TODO: check behaviour of branch after applying the 'null' value
+        ScopeFrame instance = mainScope.createFrame(null); // TODO: check behaviour of branch after applying the 'null' value
 
-        PandaExecutableBranch branch = new PandaExecutableBranch(this, instance);
-        branch.call();
+        Frame frame = new PandaFrame(this, instance);
+        frame.call();
 
-        return branch.getReturnedValue();
+        return frame.getReturnedValue();
     }
 
     public String[] getParameters() {

@@ -18,18 +18,14 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionContext;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionResult;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
-import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
-
-import java.util.Optional;
+import org.panda_lang.panda.framework.language.runtime.expression.StaticExpression;
 
 public class StaticExpressionSubparser implements ExpressionSubparser {
 
@@ -54,14 +50,10 @@ public class StaticExpressionSubparser implements ExpressionSubparser {
             }
 
             ModuleLoader loader = context.getContext().getComponent(UniversalComponents.MODULE_LOADER);
-            Optional<ClassPrototypeReference> reference = loader.forName(token.getValue());
 
-            if (!reference.isPresent()) {
-                return null;
-            }
-
-            PandaValue value = new PandaValue(reference.get().fetch(), null);
-            return ExpressionResult.of(new PandaExpression(value));
+            return loader.forName(token.getValue())
+                    .map(reference -> ExpressionResult.of(new StaticExpression(reference)))
+                    .orElse(null);
         }
 
     }

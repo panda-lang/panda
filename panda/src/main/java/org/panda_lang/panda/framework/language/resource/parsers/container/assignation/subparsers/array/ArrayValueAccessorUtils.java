@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.language.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 
@@ -41,7 +40,7 @@ public class ArrayValueAccessorUtils {
                     .build();
         }
 
-        ClassPrototypeReference type = ModuleLoaderUtils.getReferenceOrThrow(context, arrayPrototype.getType(), "Cannot locate type of the array", source);
+        ClassPrototypeReference type = arrayPrototype.getType();
         return new ArrayValueAccessor(arrayPrototype, type.fetch(), instance, index, action);
     }
 

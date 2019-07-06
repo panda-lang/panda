@@ -74,7 +74,7 @@ public class VariableParser {
                     .build();
         }
 
-        Variable variable = new PandaVariable(prototype.get(), nameSource.asString(), 0, mutable, nullable);
+        Variable variable = new PandaVariable(prototype.get(), nameSource.asString(), mutable, nullable);
         scope.addVariable(variable);
 
         return variable;

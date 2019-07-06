@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
@@ -27,11 +27,11 @@ import java.util.function.Function;
 
 abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
 
-    private final Function<ExecutableBranch, MemoryContainer> memory;
+    private final Function<Frame, MemoryContainer> memory;
     private final T variable;
     private final int pointer;
 
-    public DefaultAccessor(Function<ExecutableBranch, MemoryContainer> memory, T variable, int internalPointer) {
+    public DefaultAccessor(Function<Frame, MemoryContainer> memory, T variable, int internalPointer) {
         if (internalPointer == -1) {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
@@ -42,23 +42,23 @@ abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
     }
 
     @Override
-    public Value perform(ExecutableBranch branch, AccessorCallback callback) {
-        MemoryContainer memory = fetchMemoryContainer(branch);
-        return memory.set(pointer, callback.visit(this, branch, memory.get(pointer)));
+    public Value perform(Frame frame, AccessorCallback callback) {
+        MemoryContainer memory = fetchMemoryContainer(frame);
+        return memory.set(pointer, callback.visit(this, frame, memory.get(pointer)));
     }
 
     @Override
-    public MemoryContainer fetchMemoryContainer(ExecutableBranch branch) {
-        return memory.apply(branch);
+    public MemoryContainer fetchMemoryContainer(Frame frame) {
+        return memory.apply(frame);
     }
 
-    protected Function<ExecutableBranch, MemoryContainer> getMemoryFunction() {
+    protected Function<Frame, MemoryContainer> getMemoryFunction() {
         return memory;
     }
 
     @Override
-    public @Nullable Value getValue(ExecutableBranch branch) {
-        return fetchMemoryContainer(branch).get(pointer);
+    public @Nullable Value getValue(Frame frame) {
+        return fetchMemoryContainer(frame).get(pointer);
     }
 
     @Override

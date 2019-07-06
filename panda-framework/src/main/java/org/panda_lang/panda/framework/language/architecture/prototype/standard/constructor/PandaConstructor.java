@@ -16,51 +16,53 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.PandaParameterizedExecutable;
 
-public class PandaConstructor implements PrototypeConstructor {
+import java.lang.reflect.Constructor;
 
-    private final ClassPrototype classPrototype;
-    private final ClassPrototypeScope classScope;
-    private final ConstructorScope constructorScope;
-    private final ClassPrototypeReference[] types;
+public class PandaConstructor extends PandaParameterizedExecutable implements PrototypeConstructor {
 
-    public PandaConstructor(ClassPrototype classPrototype, ClassPrototypeScope classScope, ConstructorScope constructorScope) {
-        this.classPrototype = classPrototype;
-        this.classScope = classScope;
-        this.constructorScope = constructorScope;
-        this.types = ParameterUtils.toTypes(constructorScope.getParameters());
+    // private final ClassPrototypeScope classScope;
+    // private final ConstructorScope constructorScope;
+
+    private PandaConstructor(PandaConstructorBuilder builder) {
+        super(builder);
     }
 
+    /*
     @Override
-    public ClassPrototypeScopeFrame createInstance(ExecutableBranch branch, Value... values) {
-        ClassPrototypeScopeFrame classInstance = classScope.createInstance(branch);
-        Value instance = new PandaValue(classPrototype, classInstance);
+    public ClassPrototypeScopeFrame createInstance(Frame frame, Value... values) {
+        ClassPrototypeScopeFrame classInstance = classScope.createInstance(frame);
+        Value instance = new PandaStaticValue(classPrototype, classInstance);
 
-        ConstructorScopeFrame constructorInstance = constructorScope.createInstance(branch);
+        ConstructorScopeFrame constructorInstance = constructorScope.createInstance(frame);
         ParameterUtils.assignValues(constructorInstance, values);
 
-        branch.instance(instance);
-        branch.call(constructorInstance);
+        frame.instance(instance);
+        frame.call(constructorInstance);
 
         return classInstance;
     }
+    */
 
-    @Override
-    public ClassPrototypeReference[] getParameterTypes() {
-        return types;
+    public static PandaConstructorBuilder builder() {
+        return new PandaConstructorBuilder();
     }
 
-    public ClassPrototype getClassPrototype() {
-        return classPrototype;
+    public static class PandaConstructorBuilder extends PandaParametrizedExecutableBuilder<PandaConstructorBuilder> {
+
+        private PandaConstructorBuilder() { }
+
+        public PandaConstructorBuilder constructor(ClassPrototypeReference reference, Constructor<?> constructor) {
+            return type(reference).name("constructor " + reference.getClassName());
+        }
+
+        public PandaConstructor build() {
+            return new PandaConstructor(this);
+        }
+
     }
 
 }

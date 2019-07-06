@@ -20,10 +20,8 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.Module;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
-import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.BootstrapInitializer;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.ParserBootstrap;
@@ -37,20 +35,19 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.Univers
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorUtils;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeTypeGenerator;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeReferenceStatement;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.interpreter.parser.linker.PandaScopeLinker;
-import org.panda_lang.panda.framework.language.resource.parsers.PipelineParser;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
+import org.panda_lang.panda.framework.language.resource.parsers.PipelineParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
 @ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
@@ -131,17 +128,12 @@ public class ClassPrototypeParser extends ParserBootstrap {
             }
         }
 
-        PrototypeConstructor defaultConstructor = new PrototypeConstructor() {
-            @Override
-            public ClassPrototypeScopeFrame createInstance(ExecutableBranch branch, Value... values) {
-                return scope.createInstance(branch);
-            }
-
-            @Override
-            public ClassPrototypeReference[] getParameterTypes() {
-                return ConstructorUtils.PARAMETERLESS;
-            }
-        };
+        PrototypeConstructor defaultConstructor = PandaConstructor.builder()
+                .type(prototype.getReference())
+                .callback((frame, instance, arguments) -> {
+                    return new PandaStaticValue(prototype, scope.createFrame(frame));
+                })
+                .build();
 
         prototype.getConstructors().addConstructor(defaultConstructor);
     }

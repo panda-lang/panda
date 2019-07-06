@@ -32,6 +32,4 @@ public interface ClassPrototype extends ClassPrototypeMetadata {
 
     ClassPrototypeReference getReference();
 
-    ClassPrototypeReference toArray();
-
 }

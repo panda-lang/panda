@@ -4,6 +4,17 @@ require 'current_test_required'
 
 import org.panda_lang.panda.PandaConstants
 
+import java.lang.System
+import org.panda_lang.panda.utilities.commons.StringUtils
+
+class Console {
+
+    static method print(Object... values) {
+        System.out.println(StringUtils.toString(values));
+    }
+
+}
+
 class Foo extends Test {
 
     static method anotherEcho(String message1) {

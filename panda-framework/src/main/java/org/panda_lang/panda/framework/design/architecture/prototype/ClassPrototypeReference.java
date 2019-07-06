@@ -24,4 +24,6 @@ public interface ClassPrototypeReference extends ClassPrototypeMetadata {
 
     boolean isInitialized();
 
+    ClassPrototypeReference toArray();
+
 }

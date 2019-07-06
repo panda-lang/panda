@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.bootstrap.application;
+package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.Application;

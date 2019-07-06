@@ -17,13 +17,13 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 
 public class MainScope extends AbstractScope {
 
     @Override
-    public ScopeFrame createInstance(ExecutableBranch branch) {
+    public ScopeFrame createFrame(Frame frame) {
         return new MainFrame(this);
     }
 
@@ -39,8 +39,8 @@ public class MainScope extends AbstractScope {
         }
 
         @Override
-        public void execute(ExecutableBranch branch) {
-            branch.call(super.getScope().getStatementCells());
+        public void execute(Frame frame) {
+            frame.call(super.getScope().getStatementCells());
         }
 
     }

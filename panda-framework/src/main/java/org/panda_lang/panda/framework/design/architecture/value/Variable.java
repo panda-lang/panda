@@ -25,8 +25,6 @@ public interface Variable {
 
     boolean isMutable();
 
-    int getLevel();
-
     default ClassPrototype getType() {
         return getTypeReference().fetch();
     }

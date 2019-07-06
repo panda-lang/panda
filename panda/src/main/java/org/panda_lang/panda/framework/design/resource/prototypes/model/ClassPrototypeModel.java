@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.design.resource.prototypes.model;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodVisibility;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -51,7 +51,7 @@ public interface ClassPrototypeModel {
     @Retention(RetentionPolicy.RUNTIME)
     @interface MethodDeclaration {
 
-        MethodVisibility visibility() default MethodVisibility.PUBLIC;
+        PrototypeVisibility visibility() default PrototypeVisibility.PUBLIC;
 
         String returnType() default "void";
 

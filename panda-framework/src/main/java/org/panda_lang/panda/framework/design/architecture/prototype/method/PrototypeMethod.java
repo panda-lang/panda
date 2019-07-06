@@ -16,24 +16,12 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 
-public interface PrototypeMethod extends MethodCallback<Object> {
+public interface PrototypeMethod extends ParameterizedExecutable {
 
     boolean isVoid();
 
-    boolean isCatchingAllParameters();
-
     boolean isStatic();
-
-    MethodVisibility getVisibility();
-
-    ClassPrototypeReference getReturnType();
-
-    ClassPrototypeReference[] getParameterTypes();
-
-    String getMethodName();
-
-    ClassPrototypeReference getClassPrototype();
 
 }

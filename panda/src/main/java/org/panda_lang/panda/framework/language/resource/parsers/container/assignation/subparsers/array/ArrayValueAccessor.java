@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.language.resource.parsers.container.assig
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
-import org.panda_lang.panda.framework.language.architecture.value.PandaValue;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.runtime.expression.FunctionalExpressionCallback;
 
@@ -52,14 +52,14 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        perform(branch);
+    public void execute(Frame frame) {
+        perform(frame);
     }
 
-    public @Nullable PandaValue perform(ExecutableBranch branch) {
-        Object[] array = instance.evaluate(branch).getValue();
-        Integer i = index.evaluate(branch).getValue();
-        return action.perform(branch, prototype, type, array, i);
+    public @Nullable PandaStaticValue perform(Frame frame) {
+        Object[] array = instance.evaluate(frame).getValue();
+        Integer i = index.evaluate(frame).getValue();
+        return action.perform(frame, prototype, type, array, i);
     }
 
     public FunctionalExpressionCallback toCallback() {
@@ -72,7 +72,7 @@ public class ArrayValueAccessor extends AbstractStatement implements Executable 
             return this;
         }
 
-        @Nullable PandaValue perform(ExecutableBranch branch, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index);
+        @Nullable PandaStaticValue perform(Frame frame, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index);
 
         default @Nullable ClassPrototype getType() {
             return null;

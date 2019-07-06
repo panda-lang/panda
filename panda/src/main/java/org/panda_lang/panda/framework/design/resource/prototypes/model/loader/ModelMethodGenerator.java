@@ -22,11 +22,12 @@ import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGeneratorUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.utilities.commons.StringUtils;
 
@@ -96,23 +97,22 @@ class ModelMethodGenerator {
         generatedMethodCallbackClass.addMethod(callbackImplementation);
         Class<?> methodCallbackClass = generatedMethodCallbackClass.toClass();
 
-        if (!MethodCallback.class.isAssignableFrom(methodCallbackClass)) {
+        if (!ParametrizedExecutableCallback.class.isAssignableFrom(methodCallbackClass)) {
             throw new PandaException("Cannot load prototype, internal error - generated class is not MethodCallback");
         }
 
-        MethodCallback<?> methodCallback = (MethodCallback<?>) methodCallbackClass.newInstance();
+        ParametrizedExecutableCallback<?> methodCallback = (ParametrizedExecutableCallback<?>) methodCallbackClass.newInstance();
         ClassPrototypeReference returnType = prototype.getModule().getAssociatedWith(method.getReturnType()).orElse(PandaTypes.VOID.getReference());
-        ClassPrototypeReference[] parameterTypes = ClassPrototypeGeneratorUtils.toTypes(prototype.getModule(), method.getParameterTypes());
+        PrototypeParameter[] parameters = ClassPrototypeGeneratorUtils.toParameters(prototype.getModule(), method.getParameters());
 
         PandaMethod pandaMethod = PandaMethod.builder()
-                .methodName(method.getName())
+                .name(method.getName())
                 .prototype(prototype.getReference())
                 .returnType(returnType) // TODO: Proxy or sth
                 .isStatic(methodDeclaration.isStatic())
                 .visibility(methodDeclaration.visibility())
                 .methodBody(methodCallback)
-                .parameterTypes(parameterTypes)
-                .catchAllParameters(methodDeclaration.catchAllParameters())
+                .parameters(parameters)
                 .build();
 
         prototype.getMethods().registerMethod(pandaMethod);

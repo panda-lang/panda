@@ -18,23 +18,23 @@ package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.function.Function;
 
 public class FunctionalExpressionCallback extends PandaExpressionCallback {
 
-    private final Function<ExecutableBranch, Value> function;
+    private final Function<Frame, Value> function;
 
-    public FunctionalExpressionCallback(ClassPrototype returnType, Function<ExecutableBranch, Value> function) {
+    public FunctionalExpressionCallback(ClassPrototype returnType, Function<Frame, Value> function) {
         super(returnType);
         this.function = function;
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
-        return function.apply(branch);
+    public Value call(Expression expression, Frame frame) {
+        return function.apply(frame);
     }
 
 }

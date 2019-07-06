@@ -18,6 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 
 import java.util.ArrayList;
 import java.util.List;

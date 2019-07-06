@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.framework.design.resource.prototypes.model.loader;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.method.MethodCallback;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedExecutableCallback;
 
-public abstract class CPMMethodCallback implements MethodCallback<Object> {
+public abstract class CPMMethodCallback implements ParametrizedExecutableCallback<Object> {
 
 }

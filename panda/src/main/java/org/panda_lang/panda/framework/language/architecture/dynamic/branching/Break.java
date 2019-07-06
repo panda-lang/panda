@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 public class Break extends AbstractExecutableStatement {
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        branch.getCurrentControlFlow().escape();
+    public void execute(Frame frame) {
+        frame.getCurrentControlFlow().escape();
     }
 
 }

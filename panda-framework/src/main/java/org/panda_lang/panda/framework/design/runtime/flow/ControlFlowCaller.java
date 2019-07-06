@@ -16,10 +16,10 @@
 
 package org.panda_lang.panda.framework.design.runtime.flow;
 
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 
 public interface ControlFlowCaller {
 
-    void call(ExecutableBranch branch, ControlFlow flow);
+    void call(Frame frame, ControlFlow flow);
 
 }

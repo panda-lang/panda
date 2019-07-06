@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.looping;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
@@ -32,20 +32,20 @@ public class LoopBlock extends AbstractBlock implements ControlFlowCaller {
     }
 
     @Override
-    public void execute(ExecutableBranch branch) {
-        branch.callFlow(getStatementCells(), this);
+    public void execute(Frame frame) {
+        frame.callFlow(getStatementCells(), this);
     }
 
     @Override
-    public void call(ExecutableBranch branch, ControlFlow flow) {
-        Value value = expression.evaluate(branch);
+    public void call(Frame frame, ControlFlow flow) {
+        Value value = expression.evaluate(frame);
         int times = value.getValue();
 
         for (int i = 0; i < times; i++) {
             flow.reset();
             flow.call();
 
-            if (flow.isEscaped() || branch.isInterrupted()) {
+            if (flow.isEscaped() || frame.isInterrupted()) {
                 break;
             }
         }

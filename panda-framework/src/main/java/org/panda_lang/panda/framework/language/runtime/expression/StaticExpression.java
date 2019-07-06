@@ -14,32 +14,36 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.invoker;
+package org.panda_lang.panda.framework.language.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
-import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.invoker.MethodInvoker;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
 
-public class MethodInvokerExpressionCallback implements ExpressionCallback {
+public final class StaticExpression implements Expression {
 
-    private final MethodInvoker invoker;
+    private final ClassPrototypeReference reference;
 
-    public MethodInvokerExpressionCallback(MethodInvoker invoker) {
-        this.invoker = invoker;
+    public StaticExpression(ClassPrototypeReference reference) {
+        this.reference = reference;
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
-        invoker.execute(branch);
-        return branch.getReturnedValue();
+    public Value evaluate(Frame frame) {
+        return null;
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return invoker.getMethod().getReturnType().fetch();
+        return reference.fetch();
+    }
+
+    @Override
+    public ExpressionType getType() {
+        return ExpressionType.KNOWN;
     }
 
 }

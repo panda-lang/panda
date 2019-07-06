@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.ExecutableBranch;
+import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
@@ -40,18 +40,18 @@ public class FieldExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, ExecutableBranch branch) {
+    public Value call(Expression expression, Frame frame) {
         PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
-            return field.getStaticValue().getValue();
+            return field.getStaticValue();
         }
 
         if (field.isNative()) {
-            return field.getDefaultValue().evaluate(branch);
+            return field.getDefaultValue().evaluate(frame);
         }
 
-        Value value = accessor.getValue(branch);
+        Value value = accessor.getValue(frame);
 
         if (value == null) {
             throw new PandaRuntimeException("Field '" + field.getName() + "' have not been initialized");

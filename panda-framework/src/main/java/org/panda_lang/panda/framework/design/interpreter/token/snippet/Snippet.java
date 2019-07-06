@@ -42,19 +42,23 @@ public interface Snippet extends Snippetable, Iterable<TokenRepresentation>{
     }
 
     default Snippet[] split(Token token) {
-        List<Snippet> tokens = new ArrayList<>();
+        List<Snippet> snippets = new ArrayList<>();
         int previousIndex = 0;
 
         for (int i = 0; i < size(); i++) {
             TokenRepresentation current = get(i);
 
             if (current.contentEquals(token)) {
-                tokens.add(subSource(previousIndex, i - 1));
+                snippets.add(subSource(previousIndex, i - 1));
                 previousIndex = i;
             }
         }
 
-        return tokens.toArray(new Snippet[0]);
+        if (snippets.isEmpty()) {
+            snippets.add(this);
+        }
+
+        return snippets.toArray(new Snippet[0]);
     }
 
     default Snippet subSource(int fromIndex, int toIndex) {
