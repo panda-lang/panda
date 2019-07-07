@@ -32,7 +32,7 @@ public class ClassPrototypeScopeFrame extends AbstractScopeFrame<ClassPrototypeS
     private final ClassPrototype prototype;
 
     public ClassPrototypeScopeFrame(ClassPrototypeScope scope, ClassPrototype classPrototype) {
-        super(scope, classPrototype.getFields().getAmountOfFields());
+        super(scope, classPrototype.getFields().getProperties().size());
 
         this.id = idAssigner.getAndIncrement();
         this.prototype = classPrototype;
@@ -49,7 +49,7 @@ public class ClassPrototypeScopeFrame extends AbstractScopeFrame<ClassPrototypeS
 
     @Override
     public String toString() {
-        return prototype.getClassName() + "#" + String.format("%06X", id & 0xFFFFF);
+        return prototype.getName() + "#" + String.format("%06X", id & 0xFFFFF);
     }
 
 }

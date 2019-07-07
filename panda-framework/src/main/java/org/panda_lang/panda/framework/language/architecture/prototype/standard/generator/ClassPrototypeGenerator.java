@@ -50,19 +50,19 @@ final class ClassPrototypeGenerator {
             for (Field field : type.getFields()) {
                 ClassPrototypeFieldGenerator generator = new ClassPrototypeFieldGenerator(this, prototype, field);
                 PrototypeField prototypeField = generator.generate();
-                prototype.getFields().addField(prototypeField);
+                prototype.getFields().declare(prototypeField);
             }
 
             for (Constructor<?> constructor : type.getConstructors()) {
                 ClassPrototypeConstructorGenerator generator = new ClassPrototypeConstructorGenerator(this, prototype, constructor);
                 PrototypeConstructor prototypeField = generator.generate();
-                prototype.getConstructors().addConstructor(prototypeField);
+                prototype.getConstructors().declare(prototypeField);
             }
 
             for (Method method : type.getMethods()) {
                 ClassPrototypeMethodGenerator generator = new ClassPrototypeMethodGenerator(this, prototype, method);
                 PrototypeMethod prototypeMethod = generator.generate();
-                prototype.getMethods().registerMethod(prototypeMethod);
+                prototype.getMethods().declare(prototypeMethod);
             }
 
             if (bypass) {

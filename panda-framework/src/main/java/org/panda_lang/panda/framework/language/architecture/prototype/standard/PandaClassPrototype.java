@@ -40,7 +40,7 @@ public class PandaClassPrototype extends AbstractClassPrototype {
 
         this.initialized = true;
 
-        for (PrototypeField field : fields.getListOfFields()) {
+        for (PrototypeField field : fields.getProperties()) {
             if (!field.hasDefaultValue() || !field.isStatic()) {
                 continue;
             }

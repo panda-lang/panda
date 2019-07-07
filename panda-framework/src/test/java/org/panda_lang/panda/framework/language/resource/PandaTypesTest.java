@@ -23,23 +23,23 @@ class PandaTypesTest {
 
     @Test
     void testConstants() {
-        Assertions.assertEquals("void", PandaTypes.VOID.getClassName());
-        Assertions.assertEquals("Boolean", PandaTypes.BOOLEAN.getClassName());
-        Assertions.assertEquals("Char", PandaTypes.CHAR.getClassName());
-        Assertions.assertEquals("Byte", PandaTypes.BYTE.getClassName());
-        Assertions.assertEquals("Short", PandaTypes.SHORT.getClassName());
-        Assertions.assertEquals("Int", PandaTypes.INT.getClassName());
-        Assertions.assertEquals("Long", PandaTypes.LONG.getClassName());
-        Assertions.assertEquals("Float", PandaTypes.FLOAT.getClassName());
-        Assertions.assertEquals("Double", PandaTypes.DOUBLE.getClassName());
+        Assertions.assertEquals("void", PandaTypes.VOID.getName());
+        Assertions.assertEquals("Boolean", PandaTypes.BOOLEAN.getName());
+        Assertions.assertEquals("Char", PandaTypes.CHAR.getName());
+        Assertions.assertEquals("Byte", PandaTypes.BYTE.getName());
+        Assertions.assertEquals("Short", PandaTypes.SHORT.getName());
+        Assertions.assertEquals("Int", PandaTypes.INT.getName());
+        Assertions.assertEquals("Long", PandaTypes.LONG.getName());
+        Assertions.assertEquals("Float", PandaTypes.FLOAT.getName());
+        Assertions.assertEquals("Double", PandaTypes.DOUBLE.getName());
 
-        Assertions.assertEquals("Object", PandaTypes.OBJECT.getClassName());
-        Assertions.assertEquals("Array", PandaTypes.ARRAY.getClassName());
+        Assertions.assertEquals("Object", PandaTypes.OBJECT.getName());
+        Assertions.assertEquals("Array", PandaTypes.ARRAY.getName());
 
-        Assertions.assertEquals("String", PandaTypes.STRING.getClassName());
-        Assertions.assertEquals("Number", PandaTypes.NUMBER.getClassName());
-        Assertions.assertEquals("Iterable", PandaTypes.ITERABLE.getClassName());
-        Assertions.assertEquals("List", PandaTypes.LIST.getClassName());
+        Assertions.assertEquals("String", PandaTypes.STRING.getName());
+        Assertions.assertEquals("Number", PandaTypes.NUMBER.getName());
+        Assertions.assertEquals("Iterable", PandaTypes.ITERABLE.getName());
+        Assertions.assertEquals("List", PandaTypes.LIST.getName());
     }
 
 }

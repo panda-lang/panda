@@ -55,7 +55,7 @@ final class ClassPrototypeMethodGenerator {
             throw new PandaRuntimeException("Cannot generate method for 'null' return type");
         }
 
-        boolean isVoid = returnType.getClassName().equals("void");
+        boolean isVoid = returnType.getName().equals("void");
 
         // TODO: Generate bytecode
         method.setAccessible(true);

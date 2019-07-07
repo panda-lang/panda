@@ -46,7 +46,7 @@ public class AbstractClassPrototypeMetadata implements ClassPrototypeMetadata {
 
     @Override
     public boolean isClassOf(String className) {
-        if (this.getClassName().equals(className)) {
+        if (this.getName().equals(className)) {
             return true;
         }
 
@@ -86,7 +86,7 @@ public class AbstractClassPrototypeMetadata implements ClassPrototypeMetadata {
     }
 
     @Override
-    public String getClassName() {
+    public String getName() {
         return name;
     }
 

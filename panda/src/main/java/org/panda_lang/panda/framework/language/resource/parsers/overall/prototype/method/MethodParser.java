@@ -109,7 +109,7 @@ public class MethodParser extends ParserBootstrap {
                 .methodBody(new PandaMethodCallback(methodScope))
                 .build();
 
-        prototype.getMethods().registerMethod(prototypeMethod);
+        prototype.getMethods().declare(prototypeMethod);
         return true;
     }
 

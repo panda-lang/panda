@@ -16,18 +16,26 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedPropertiesMatcher;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PandaMethods implements PrototypeMethods {
+
+    private static final ParametrizedPropertiesMatcher<PrototypeMethod> MATCHER = new ParametrizedPropertiesMatcher<>();
 
     private final Map<String, Collection<PrototypeMethod>> methodsMap;
 
@@ -36,30 +44,43 @@ public class PandaMethods implements PrototypeMethods {
     }
 
     @Override
-    public void registerMethod(PrototypeMethod method) {
+    public void declare(PrototypeMethod method) {
         Collection<PrototypeMethod> methods = methodsMap.computeIfAbsent(method.getName(), methodsContainer -> new ArrayList<>());
         methods.add(method);
     }
 
     @Override
-    public boolean hasMethodLike(String name) {
-        return methodsMap.containsKey(name);
+    public Collection<PrototypeMethod> getMethodsLike(String name) {
+        return methodsMap.getOrDefault(name, Collections.emptyList());
     }
 
     @Override
-    public boolean hasMethod(String name, ClassPrototype... parameterTypes) {
-        return getMethod(name, parameterTypes) != null;
-    }
-
-    @Override
-    public @Nullable PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes) {
+    public Optional<PrototypeMethod> getMethod(String name, ClassPrototype... parameterTypes) {
         Collection<PrototypeMethod> methods = methodsMap.get(name);
 
         if (methods == null) {
-            return null;
+            return Optional.empty();
         }
 
-        return ParameterUtils.match(methods, parameterTypes);
+        return MATCHER.match(methods, parameterTypes, null).map(AdjustedParametrizedExecutable::getExecutable);
+    }
+
+    @Override
+    public Optional<AdjustedParametrizedExecutable<PrototypeMethod>> getAdjustedMethod(String name, Expression[] arguments) {
+        Collection<PrototypeMethod> methods = methodsMap.get(name);
+
+        if (methods == null) {
+            return Optional.empty();
+        }
+
+        return MATCHER.match(methods, ExpressionUtils.toTypes(arguments), arguments);
+    }
+
+    @Override
+    public List<? extends PrototypeMethod> getProperties() {
+        return methodsMap.values().stream()
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     @Override

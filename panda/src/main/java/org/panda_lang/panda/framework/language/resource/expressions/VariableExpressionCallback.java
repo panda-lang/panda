@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks;
+package org.panda_lang.panda.framework.language.resource.expressions;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;

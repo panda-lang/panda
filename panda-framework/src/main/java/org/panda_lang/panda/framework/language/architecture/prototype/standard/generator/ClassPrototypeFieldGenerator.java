@@ -50,7 +50,7 @@ final class ClassPrototypeFieldGenerator {
         PrototypeField prototypeField = PandaPrototypeField.builder()
                 .prototype(prototype.getReference())
                 .returnType(returnType)
-                .fieldIndex(prototype.getFields().getAmountOfFields())
+                .fieldIndex(prototype.getFields().getProperties().size())
                 .name(field.getName())
                 .isStatic(Modifier.isStatic(field.getModifiers()))
                 .mutable(true)

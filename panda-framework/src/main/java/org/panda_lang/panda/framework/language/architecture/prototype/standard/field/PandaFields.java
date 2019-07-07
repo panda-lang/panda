@@ -28,7 +28,7 @@ public class PandaFields implements PrototypeFields {
     private final List<PrototypeField> fields = new ArrayList<>();
 
     @Override
-    public void addField(PrototypeField field) {
+    public void declare(PrototypeField field) {
         fields.add(field);
     }
 
@@ -60,12 +60,7 @@ public class PandaFields implements PrototypeFields {
     }
 
     @Override
-    public int getAmountOfFields() {
-        return fields.size();
-    }
-
-    @Override
-    public List<? extends PrototypeField> getListOfFields() {
+    public List<? extends PrototypeField> getProperties() {
         return fields;
     }
 

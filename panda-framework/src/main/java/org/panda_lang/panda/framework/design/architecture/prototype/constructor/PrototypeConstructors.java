@@ -16,19 +16,23 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.constructor;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeProperties;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-import java.util.Collection;
+import java.util.Optional;
 
-public interface PrototypeConstructors {
+public interface PrototypeConstructors extends PrototypeProperties<PrototypeConstructor> {
 
-    void addConstructor(PrototypeConstructor constructor);
+    /**
+     * Adjust property to the given arguments
+     *
+     * @param arguments arguments to match and adjust
+     * @return the adjusted executable
+     */
+    Optional<AdjustedParametrizedExecutable<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
 
-    @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types);
-
-    int getAmountOfConstructors();
-
-    Collection<? extends PrototypeConstructor> getCollectionOfConstructors();
+    Optional<PrototypeConstructor> getConstructor(ClassPrototype[] types);
 
 }

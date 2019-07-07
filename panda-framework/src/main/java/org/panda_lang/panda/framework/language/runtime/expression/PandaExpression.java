@@ -41,7 +41,7 @@ public class PandaExpression implements Expression {
         this(ExpressionType.UNKNOWN, callback.getReturnType(), callback, null);
     }
 
-    private PandaExpression(ExpressionType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
+    protected PandaExpression(ExpressionType type, ClassPrototype returnType, ExpressionCallback callback, Value value) {
         if (type == null) {
             throw new InvalidParameterException("ExpressionType cannot be null");
         }
@@ -81,7 +81,7 @@ public class PandaExpression implements Expression {
 
     @Override
     public String toString() {
-        String s = type.name() + ":" + (returnType != null ? returnType.getClassName() : "any");
+        String s = type.name() + ":" + (returnType != null ? returnType.getName() : "any");
         return ExpressionType.KNOWN == type ? s + ":" + value.getValue() : s;
     }
 

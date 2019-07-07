@@ -14,36 +14,40 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks;
+package org.panda_lang.panda.framework.language.resource.expressions;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
-import java.lang.reflect.Array;
+import java.security.InvalidParameterException;
 
-public class ArrayInstanceExpression implements ExpressionCallback {
+public class NegateLogicalExpressionCallback implements ExpressionCallback {
 
-    private final ArrayClassPrototype prototype;
-    private final Expression capacity;
+    private final Expression logicalExpression;
 
-    public ArrayInstanceExpression(ArrayClassPrototype prototype, Expression capacity) {
-        this.prototype = prototype;
-        this.capacity = capacity;
+    public NegateLogicalExpressionCallback(Expression logicalExpression) {
+        if (!logicalExpression.getReturnType().isClassOf("Boolean")) {
+            throw new InvalidParameterException("Cannot reverse non logical value");
+        }
+
+        this.logicalExpression = logicalExpression;
     }
 
     @Override
     public Value call(Expression expression, Frame frame) {
-        return new PandaStaticValue(prototype, Array.newInstance(prototype.getType().getAssociatedClass(), new int[] { capacity.evaluate(frame).getValue() }));
+        Value value = logicalExpression.evaluate(frame);
+        boolean val = value.getValue(); // TODO: Handle null?
+
+        return new PandaStaticValue(expression.getReturnType(), !val);
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return prototype;
+        return logicalExpression.getReturnType();
     }
 
 }

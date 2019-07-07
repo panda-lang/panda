@@ -56,7 +56,7 @@ public class PandaConstructor extends PandaParameterizedExecutable implements Pr
         private PandaConstructorBuilder() { }
 
         public PandaConstructorBuilder constructor(ClassPrototypeReference reference, Constructor<?> constructor) {
-            return type(reference).name("constructor " + reference.getClassName());
+            return type(reference).name("constructor " + reference.getName());
         }
 
         public PandaConstructor build() {

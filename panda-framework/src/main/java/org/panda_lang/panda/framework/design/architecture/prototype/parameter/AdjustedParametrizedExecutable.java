@@ -14,28 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.architecture.prototype;
+package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-import java.util.Collection;
+public interface AdjustedParametrizedExecutable<T extends ParameterizedExecutable> {
 
-public interface ClassPrototypeMetadata {
+    Expression getMappedExecutable();
 
-    ClassPrototypeReference toArray();
-
-    ClassPrototypeMetadata addExtended(ClassPrototypeReference reference);
-
-    boolean isClassOf(String className);
-
-    boolean isAssignableFrom(ClassPrototypeMetadata prototype);
-
-    Collection<? extends ClassPrototypeReference> getExtended();
-
-    Class<?> getAssociatedClass();
-
-    Module getModule();
-
-    String getName();
+    T getExecutable();
 
 }

@@ -17,21 +17,14 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.field;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeProperties;
 
-import java.util.List;
-
-public interface PrototypeFields {
-
-    void addField(PrototypeField field);
+public interface PrototypeFields extends PrototypeProperties<PrototypeField> {
 
     int getIndexOfField(PrototypeField field);
 
     @Nullable PrototypeField getField(int fieldId);
 
     @Nullable PrototypeField getField(String fieldName);
-
-    int getAmountOfFields();
-
-    List<? extends PrototypeField> getListOfFields();
 
 }

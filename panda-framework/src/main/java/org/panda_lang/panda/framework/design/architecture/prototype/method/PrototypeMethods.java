@@ -17,15 +17,38 @@
 package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeProperties;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public interface PrototypeMethods {
+import java.util.Collection;
+import java.util.Optional;
 
-    void registerMethod(PrototypeMethod method);
+public interface PrototypeMethods extends PrototypeProperties<PrototypeMethod> {
 
-    boolean hasMethodLike(String name);
+    /**
+     * Get all methods with the given name
+     *
+     * @param name the name to search for
+     * @return collection of methods with the requested name
+     */
+    Collection<? extends PrototypeMethod> getMethodsLike(String name);
 
-    boolean hasMethod(String name, ClassPrototype... parameterTypes);
+    /**
+     * Adjust property to the given arguments
+     *
+     * @param arguments arguments to match and adjust
+     * @return the adjusted executable
+     */
+    Optional<AdjustedParametrizedExecutable<PrototypeMethod>> getAdjustedMethod(String name, Expression[] arguments);
 
-    PrototypeMethod getMethod(String name, ClassPrototype... parameterTypes);
+    /**
+     * Get method with the given name and types
+     *
+     * @param name the name to search for
+     * @param parameterTypes the parameter types to search for
+     * @return the found method
+     */
+    Optional<PrototypeMethod> getMethod(String name, ClassPrototype... parameterTypes);
 
 }

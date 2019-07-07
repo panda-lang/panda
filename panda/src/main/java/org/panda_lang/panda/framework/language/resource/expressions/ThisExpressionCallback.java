@@ -14,40 +14,41 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks;
+package org.panda_lang.panda.framework.language.resource.expressions;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
+import org.panda_lang.panda.framework.design.interpreter.parser.Context;
 import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
+import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
-import java.security.InvalidParameterException;
+public class ThisExpressionCallback implements ExpressionCallback {
 
-public class NegateLogicalExpressionCallback implements ExpressionCallback {
+    private final ClassPrototype type;
 
-    private final Expression logicalExpression;
-
-    public NegateLogicalExpressionCallback(Expression logicalExpression) {
-        if (!logicalExpression.getReturnType().isClassOf("Boolean")) {
-            throw new InvalidParameterException("Cannot reverse non logical value");
-        }
-
-        this.logicalExpression = logicalExpression;
+    public ThisExpressionCallback(ClassPrototype type) {
+        this.type = type;
     }
 
     @Override
     public Value call(Expression expression, Frame frame) {
-        Value value = logicalExpression.evaluate(frame);
-        boolean val = value.getValue(); // TODO: Handle null?
-
-        return new PandaStaticValue(expression.getReturnType(), !val);
+        return frame.getInstance();
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return logicalExpression.getReturnType();
+        return type;
+    }
+
+    public static Expression asExpression(ClassPrototype type) {
+        return new PandaExpression(new ThisExpressionCallback(type));
+    }
+
+    public static Expression of(Context context) {
+        return asExpression(context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE));
     }
 
 }
