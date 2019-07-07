@@ -16,36 +16,41 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructors;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedPropertiesMatcher;
+import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 public class PandaConstructors implements PrototypeConstructors {
 
-    private final Collection<PrototypeConstructor> constructors = new ArrayList<>(1);
+    private static final ParametrizedPropertiesMatcher<PrototypeConstructor> MATCHER = new ParametrizedPropertiesMatcher<>();
+
+    private final List<PrototypeConstructor> constructors = new ArrayList<>(1);
 
     @Override
-    public void addConstructor(PrototypeConstructor constructor) {
+    public void declare(PrototypeConstructor constructor) {
         constructors.add(constructor);
     }
 
     @Override
-    public @Nullable PrototypeConstructor getConstructor(ClassPrototype prototype, ClassPrototype... types) {
-        return ParameterUtils.match(constructors, types);
+    public Optional<PrototypeConstructor> getConstructor(ClassPrototype[] types) {
+        return MATCHER.match(constructors, types, null).map(AdjustedParametrizedExecutable::getExecutable);
     }
 
     @Override
-    public int getAmountOfConstructors() {
-        return constructors.size();
+    public Optional<AdjustedParametrizedExecutable<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments) {
+        return MATCHER.match(constructors, ExpressionUtils.toTypes(arguments), arguments);
     }
 
     @Override
-    public Collection<? extends PrototypeConstructor> getCollectionOfConstructors() {
+    public List<? extends PrototypeConstructor> getProperties() {
         return constructors;
     }
 

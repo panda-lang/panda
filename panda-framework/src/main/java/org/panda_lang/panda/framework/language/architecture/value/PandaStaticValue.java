@@ -49,7 +49,7 @@ public class PandaStaticValue implements Value {
 
     @Override
     public String toString() {
-        return "PandaValue[" + type.getClassName() + ":" + value + "]";
+        return "PandaValue[" + type.getName() + ":" + value + "]";
     }
 
 }

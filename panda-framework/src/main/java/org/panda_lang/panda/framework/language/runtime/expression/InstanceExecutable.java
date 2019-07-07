@@ -14,58 +14,60 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.architecture.prototype.standard.method.invoker;
+package org.panda_lang.panda.framework.language.runtime.expression;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
-import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
+import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
+import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
 
-public class MethodInvoker extends AbstractExecutableStatement implements StandaloneExecutable {
+public class InstanceExecutable extends AbstractExecutableStatement implements StandaloneExecutable, ExpressionCallback {
 
-    private final PrototypeMethod method;
     private final Expression instanceExpression;
-    private final Expression[] arguments;
+    private final Expression expression;
 
-    public MethodInvoker(PrototypeMethod method, @Nullable Expression instance, Expression[] arguments) {
-        if (method == null) {
-            throw new IllegalArgumentException("PrototypeMethod cannot be null");
+    public InstanceExecutable(Expression instance, Expression expression) {
+        if (expression == null) {
+            throw new IllegalArgumentException("Expression cannot be null");
         }
 
-        this.method = method;
         this.instanceExpression = instance;
-        this.arguments = arguments;
+        this.expression = expression;
+    }
+
+    @Override
+    public Value call(Expression expression, Frame frame) {
+        execute(frame);
+        return frame.getReturnedValue();
     }
 
     @Override
     public void execute(Frame frame) {
-        Value instance = null;
-
+        /*
         if (instanceExpression != null) {
-            instance = instanceExpression.evaluate(frame);
+            Value instance = instanceExpression.evaluate(frame);
 
             // exclude static and null values
             if (instance != null && !instance.isNull()) {
                 frame.instance(instance);
             }
         }
+        */
 
-        Value[] values = ExpressionUtils.getValues(frame, arguments);
 
-        try {
-            method.invoke(frame, instance != null ? instance.getObject() : null, values);
-        } catch (Exception e) {
-            throw new PandaFrameworkException("Internal error: " + e.getMessage(), e);
-        }
+        Value previousInstance = frame.getInstance();
+        frame.instance(instanceExpression.evaluate(frame));
+
+        expression.evaluate(frame);
+        frame.instance(previousInstance);
     }
 
-    public PrototypeMethod getMethod() {
-        return method;
+    @Override
+    public ClassPrototype getReturnType() {
+        return expression.getReturnType();
     }
 
 }

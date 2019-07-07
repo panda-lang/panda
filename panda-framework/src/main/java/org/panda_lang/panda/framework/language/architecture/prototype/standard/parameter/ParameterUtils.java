@@ -16,16 +16,13 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeMetadata;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrameUtils;
+import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-import java.util.Collection;
 import java.util.List;
 
 public class ParameterUtils {
@@ -41,48 +38,10 @@ public class ParameterUtils {
 
     public static void assignValues(AbstractScopeFrame<?> instance, Value[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {
-            throw new RuntimeException("Incompatible number of parameters");
+            throw new PandaRuntimeException("Incompatible number of parameters");
         }
 
         System.arraycopy(parameterValues, 0, AbstractScopeFrameUtils.extractMemory(instance), 0, parameterValues.length);
-    }
-
-    public static <T extends ParameterizedExecutable> @Nullable T match(Collection<T> collection, ClassPrototypeMetadata... requiredTypes) {
-        for (T executable : collection) {
-            if (matchParameters(executable, requiredTypes)) {
-                return executable;
-            }
-        }
-
-        return null;
-    }
-
-    public static boolean matchParameters(ParameterizedExecutable executable, ClassPrototypeMetadata... requiredTypes) {
-        PrototypeParameter[] parameters = executable.getParameters();
-
-        for (int required = 0, index = 0; required < requiredTypes.length; required++) {
-            if (index >= parameters.length) {
-                return false;
-            }
-
-            PrototypeParameter parameter = parameters[index++];
-            ClassPrototypeMetadata requiredType = requiredTypes[required];
-
-            if (parameter.isVarargs()) {
-                while (required < requiredTypes.length) {
-                    if (!parameter.getType().isAssignableFrom(requiredType)) {
-                        break;
-                    }
-
-                    required++;
-                }
-            }
-            else if (!parameter.getType().isAssignableFrom(requiredType)) {
-                return false;
-            }
-        }
-
-        return true;
     }
 
 }

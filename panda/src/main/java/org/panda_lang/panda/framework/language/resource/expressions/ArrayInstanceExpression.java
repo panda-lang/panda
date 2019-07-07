@@ -14,43 +14,36 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.callbacks;
+package org.panda_lang.panda.framework.language.resource.expressions;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
-import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Frame;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
-import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
-import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
+import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
-public class InstanceExpressionCallback implements ExpressionCallback {
+import java.lang.reflect.Array;
 
-    private final ClassPrototype returnType;
-    private final PrototypeConstructor constructor;
-    private final Expression[] arguments;
+public class ArrayInstanceExpression implements ExpressionCallback {
 
-    public InstanceExpressionCallback(ClassPrototype returnType, PrototypeConstructor constructor, Expression... arguments) {
-        this.returnType = returnType;
-        this.constructor = constructor;
-        this.arguments = arguments;
+    private final ArrayClassPrototype prototype;
+    private final Expression capacity;
+
+    public ArrayInstanceExpression(ArrayClassPrototype prototype, Expression capacity) {
+        this.prototype = prototype;
+        this.capacity = capacity;
     }
 
     @Override
     public Value call(Expression expression, Frame frame) {
-        Value[] values = ExpressionUtils.getValues(frame, arguments);
-
-        try {
-            return constructor.invoke(frame, null, values);
-        } catch (Exception e) {
-            throw new PandaRuntimeException("Cannot create instance: " + e.getMessage(), e);
-        }
+        return new PandaStaticValue(prototype, Array.newInstance(prototype.getType().getAssociatedClass(), capacity.evaluate(frame).getValue()));
     }
 
     @Override
     public ClassPrototype getReturnType() {
-        return returnType;
+        return prototype;
     }
 
 }

@@ -39,7 +39,7 @@ public class AnnotatedModelsLoader {
         ModelLoader loader = new ModelLoader(path);
         Collection<ClassPrototype> loaded = loader.load(models);
 
-        PandaFramework.getLogger().debug("Models: (" + loaded.size() + ") " + StreamUtils.map(loaded, ClassPrototypeMetadata::getClassName));
+        PandaFramework.getLogger().debug("Models: (" + loaded.size() + ") " + StreamUtils.map(loaded, ClassPrototypeMetadata::getName));
     }
 
 }

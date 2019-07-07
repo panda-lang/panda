@@ -46,7 +46,7 @@ public class ClassPrototypeScope extends AbstractStatement implements Scope {
 
         ClassPrototypeScopeFrame instance = new ClassPrototypeScopeFrame(this, prototype);
 
-        for (PrototypeField field : prototype.getFields().getListOfFields()) {
+        for (PrototypeField field : prototype.getFields().getProperties()) {
             if (!field.hasDefaultValue() || field.isStatic()) {
                 continue;
             }

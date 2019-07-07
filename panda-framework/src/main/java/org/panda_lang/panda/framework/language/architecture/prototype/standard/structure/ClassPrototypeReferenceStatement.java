@@ -39,7 +39,7 @@ public class ClassPrototypeReferenceStatement extends AbstractStatement {
 
     @Override
     public String toString() {
-        return "'class-reference': '" + classPrototype.getClassName() + "': { " + classPrototype + " }";
+        return "'class-reference': '" + classPrototype.getName() + "': { " + classPrototype + " }";
     }
 
 }

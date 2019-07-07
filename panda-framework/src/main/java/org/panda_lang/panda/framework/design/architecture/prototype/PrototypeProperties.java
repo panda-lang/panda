@@ -16,26 +16,24 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype;
 
-import org.panda_lang.panda.framework.design.architecture.module.Module;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 
-import java.util.Collection;
+import java.util.List;
 
-public interface ClassPrototypeMetadata {
+public interface PrototypeProperties<T extends ParameterizedExecutable> {
 
-    ClassPrototypeReference toArray();
+    /**
+     * Declare a new property
+     *
+     * @param property the property to add
+     */
+    void declare(T property);
 
-    ClassPrototypeMetadata addExtended(ClassPrototypeReference reference);
-
-    boolean isClassOf(String className);
-
-    boolean isAssignableFrom(ClassPrototypeMetadata prototype);
-
-    Collection<? extends ClassPrototypeReference> getExtended();
-
-    Class<?> getAssociatedClass();
-
-    Module getModule();
-
-    String getName();
+    /**
+     * Get all properties of the T type
+     *
+     * @return list of properties
+     */
+    List<? extends T> getProperties();
 
 }

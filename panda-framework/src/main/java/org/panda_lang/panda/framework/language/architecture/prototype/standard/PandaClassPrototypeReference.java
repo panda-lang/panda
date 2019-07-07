@@ -18,7 +18,6 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototypeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class PandaClassPrototypeReference extends AbstractClassPrototypeMetadata
     private boolean initialized;
 
     protected PandaClassPrototypeReference(ClassPrototype prototype) {
-        super(prototype.getClassName(), prototype.getModule(), prototype.getAssociatedClass());
+        super(prototype.getName(), prototype.getModule(), prototype.getAssociatedClass());
         this.prototype = prototype;
     }
 
@@ -61,8 +60,8 @@ public class PandaClassPrototypeReference extends AbstractClassPrototypeMetadata
     }
 
     @Override
-    public String getClassName() {
-        return prototype.getClassName();
+    public String getName() {
+        return prototype.getName();
     }
 
 }

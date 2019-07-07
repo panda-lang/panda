@@ -72,7 +72,7 @@ public class FieldParser extends ParserBootstrap {
         boolean nullable = result.hasIdentifier("nullable");
 
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
-        int fieldIndex = prototype.getFields().getAmountOfFields();
+        int fieldIndex = prototype.getFields().getProperties().size();
 
         PrototypeField field = PandaPrototypeField.builder()
                 .prototype(prototype.getReference())
@@ -85,7 +85,7 @@ public class FieldParser extends ParserBootstrap {
                 .nullable(nullable)
                 .build();
 
-        prototype.getFields().addField(field);
+        prototype.getFields().declare(field);
         local.allocated(field);
     }
 

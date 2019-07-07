@@ -115,7 +115,7 @@ class ModelMethodGenerator {
                 .parameters(parameters)
                 .build();
 
-        prototype.getMethods().registerMethod(pandaMethod);
+        prototype.getMethods().declare(pandaMethod);
     }
 
 }

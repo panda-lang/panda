@@ -27,7 +27,7 @@ public class VariableAssignerUtils {
 
     public static Assigner<Variable> of(Context context, Scope scope, Variable variable, Expression expression) {
         if (!variable.getType().isAssignableFrom(expression.getReturnType())) {
-            String message = "Cannot assign " + expression.getReturnType().getClassName() + " to " + variable.getType().getClassName() + " variable";
+            String message = "Cannot assign " + expression.getReturnType().getName() + " to " + variable.getType().getName() + " variable";
 
             throw PandaParserFailure.builder(message, context)
                     .withNote("Change variable type or ensure the expression has compatible return type")

@@ -118,11 +118,11 @@ public class ClassPrototypeParser extends ParserBootstrap {
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);
         ClassPrototypeScope scope = context.getComponent(ClassPrototypeComponents.CLASS_SCOPE);
 
-        if (prototype.getConstructors().getAmountOfConstructors() > 0) {
+        if (!prototype.getConstructors().getProperties().isEmpty()) {
             return;
         }
 
-        for (PrototypeField field : prototype.getFields().getListOfFields()) {
+        for (PrototypeField field : prototype.getFields().getProperties()) {
             if (!field.hasDefaultValue()) {
                 // assign
             }
@@ -135,7 +135,7 @@ public class ClassPrototypeParser extends ParserBootstrap {
                 })
                 .build();
 
-        prototype.getConstructors().addConstructor(defaultConstructor);
+        prototype.getConstructors().declare(defaultConstructor);
     }
 
 }

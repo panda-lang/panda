@@ -54,11 +54,10 @@ final class ClassPrototypeConstructorGenerator {
         constructor.setAccessible(true);
 
         return PandaConstructor.builder()
-                .name("constructor " + prototype.getClassName())
+                .name("constructor " + prototype.getName())
                 .parameters(prototypeParameters)
                 .prototype(prototype.getReference())
                 .returnType(prototype.getReference())
-                .parameters()
                 .callback((frame, instance, arguments) -> {
                     Object[] args = new Object[arguments.length];
 

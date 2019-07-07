@@ -88,9 +88,9 @@ public class ArrayClassPrototypeUtils {
                 });
 
         ArrayClassPrototype arrayPrototype = new ArrayClassPrototype(prototype.getModule(), arrayClass, type);
-        ARRAY_PROTOTYPES.put(prototype.getClassName() + dimensions, arrayPrototype.getReference());
+        ARRAY_PROTOTYPES.put(prototype.getName() + dimensions, arrayPrototype.getReference());
 
-        arrayPrototype.getMethods().registerMethod(TO_STRING);
+        arrayPrototype.getMethods().declare(TO_STRING);
         return arrayPrototype.getReference();
     }
 

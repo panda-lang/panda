@@ -68,7 +68,7 @@ public interface Module {
      * @return the reference with the given name
      */
     default Optional<ClassPrototypeReference> get(String className) {
-        return StreamUtils.findFirst(getReferences(), reference -> className.equals(reference.getClassName()));
+        return StreamUtils.findFirst(getReferences(), reference -> className.equals(reference.getName()));
     }
 
     /**

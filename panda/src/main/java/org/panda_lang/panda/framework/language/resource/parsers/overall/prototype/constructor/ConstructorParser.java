@@ -70,6 +70,7 @@ public class ConstructorParser extends ParserBootstrap {
 
         PrototypeConstructor constructor = PandaConstructor.builder()
                 .type(prototype.getReference())
+                .parameters(parameters)
                 .callback((frame, instance, arguments) -> {
                     ClassPrototypeScopeFrame classFrame = classScope.createFrame(frame);
                     Value classInstance = new PandaStaticValue(prototype, classFrame);
@@ -84,7 +85,7 @@ public class ConstructorParser extends ParserBootstrap {
                 })
                 .build();
 
-        classScope.getPrototype().getConstructors().addConstructor(constructor);
+        classScope.getPrototype().getConstructors().declare(constructor);
     }
 
     @Autowired(order = 2, delegation = Delegation.NEXT_DEFAULT)

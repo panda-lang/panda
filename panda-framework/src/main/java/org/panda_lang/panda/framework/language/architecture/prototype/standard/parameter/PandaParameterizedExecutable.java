@@ -24,6 +24,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.runtime.Frame;
 
 import java.util.Arrays;
+import java.util.List;
 
 public abstract class PandaParameterizedExecutable implements ParameterizedExecutable {
 
@@ -107,6 +108,11 @@ public abstract class PandaParameterizedExecutable implements ParameterizedExecu
 
         public T parameters(PrototypeParameter... parameters) {
             this.parameters = parameters;
+            return returnThis();
+        }
+
+        public T parameters(List<PrototypeParameter> parameters) {
+            this.parameters = parameters.toArray(new PrototypeParameter[0]);
             return returnThis();
         }
 
