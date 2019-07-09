@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
@@ -40,7 +40,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.ContainerParser;
 
 import java.util.function.Supplier;
 
-@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
+@Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_BLOCK)
 public class BlockParser extends ParserBootstrap {
 
     private final ContainerParser containerParser = new ContainerParser();

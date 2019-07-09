@@ -18,8 +18,8 @@ package org.panda_lang.panda.framework.design.resource.parsers;
 
 import org.panda_lang.panda.PandaException;
 import org.panda_lang.panda.framework.PandaFramework;
-import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.ContextParser;
+import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.PipelineComponent;
@@ -29,8 +29,9 @@ import org.panda_lang.panda.framework.language.interpreter.parser.pipeline.Panda
 import org.panda_lang.panda.utilities.annotations.AnnotationsScannerProcess;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
-public class ParserRegistrationLoader {
+public class RegistrableLoader {
 
     public PipelinePath load(AnnotationsScannerProcess scannerProcess) {
         return load(new PandaPipelinePath(), scannerProcess);
@@ -40,8 +41,26 @@ public class ParserRegistrationLoader {
         return loadPipelines(path, scannerProcess);
     }
 
+    @SuppressWarnings("unchecked")
     private PipelinePath loadPipelines(PipelinePath path, AnnotationsScannerProcess scannerProcess) {
-        return loadParsers(path, new ParserRegistrationScannerLoader().load(scannerProcess));
+        PandaFramework.getLogger().debug("");
+        PandaFramework.getLogger().debug("--- Loading pipelines ");
+
+        Collection<Class<? extends Parser>> loaded = scannerProcess.createSelector()
+                .selectTypesAnnotatedWith(Registrable.class)
+                .stream()
+                .filter(clazz -> {
+                    if (Parser.class.isAssignableFrom(clazz)) {
+                        return true;
+                    }
+
+                    PandaFramework.getLogger().error(clazz + " is annotated with ParserRegistration and does not implement Parser");
+                    return true;
+                })
+                .map(clazz -> (Class<? extends Parser>) clazz)
+                .collect(Collectors.toList());
+
+        return loadParsers(path, loaded);
     }
 
     public PipelinePath loadParsers(PipelinePath path, Collection<Class<? extends Parser>> parsers) {
@@ -54,17 +73,17 @@ public class ParserRegistrationLoader {
 
     private PipelinePath loadParsersInternal(PipelinePath path, Collection<Class<? extends Parser>> parsers) throws InstantiationException, IllegalAccessException {
         for (Class<?> clazz : parsers) {
-            ParserRegistration parserRegistration = clazz.getAnnotation(ParserRegistration.class);
+            Registrable registrable = clazz.getAnnotation(Registrable.class);
 
-            if (parserRegistration == null) {
+            if (registrable == null) {
                 continue;
             }
 
-            Parser parser = createParserInstance(clazz, parserRegistration.parserClass());
-            ParserHandler handler = createHandlerInstance(parser, parserRegistration.handlerClass());
-            ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, parserRegistration.priority());
+            Parser parser = createParserInstance(clazz, registrable.parserClass());
+            ParserHandler handler = createHandlerInstance(parser, registrable.handlerClass());
+            ParserRepresentation<Parser> representation = new PandaParserRepresentation<>(parser, handler, registrable.priority());
 
-            for (String target : parserRegistration.pipeline()) {
+            for (String target : registrable.pipeline()) {
                 PipelineComponent<Parser> component = PipelineComponent.get(target);
 
                 if (component == null) {

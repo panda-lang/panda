@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.data.L
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorScope;
@@ -49,7 +49,7 @@ import org.panda_lang.panda.framework.language.runtime.PandaFlow;
 
 import java.util.List;
 
-@ParserRegistration(pipeline = UniversalPipelines.PROTOTYPE_LABEL)
+@Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL)
 public class ConstructorParser extends ParserBootstrap {
 
     private final ParameterParser parameterParser = new ParameterParser();

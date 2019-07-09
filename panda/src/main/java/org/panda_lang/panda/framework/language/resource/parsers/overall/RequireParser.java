@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.statement.ImportStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaComponents;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
@@ -44,7 +44,7 @@ import java.io.File;
 import java.util.Objects;
 import java.util.Optional;
 
-@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class RequireParser extends ParserBootstrap {
 
     @Override

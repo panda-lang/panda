@@ -18,7 +18,7 @@ package org.panda_lang.panda.bootstrap;
 
 import org.panda_lang.panda.framework.design.interpreter.parser.Parser;
 import org.panda_lang.panda.framework.design.interpreter.parser.Parsers;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistrationLoader;
+import org.panda_lang.panda.framework.design.resource.parsers.RegistrableLoader;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionSubparsers;
 import org.panda_lang.panda.framework.language.resource.parsers.expression.PandaExpressionUtils;
@@ -30,7 +30,7 @@ import java.util.Collection;
 public class ParsersPandaBootstrap implements PandaBootstrapElement {
 
     private final PandaBootstrap bootstrap;
-    private final ParserRegistrationLoader registrationLoader = new ParserRegistrationLoader();
+    private final RegistrableLoader registrationLoader = new RegistrableLoader();
     private final Collection<ExpressionSubparser> expressionSubparsers = new ArrayList<>();
 
     public ParsersPandaBootstrap(PandaBootstrap bootstrap) {

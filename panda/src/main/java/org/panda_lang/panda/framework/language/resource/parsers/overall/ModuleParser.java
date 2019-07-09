@@ -29,14 +29,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModule;
 import org.panda_lang.panda.framework.language.architecture.statement.ModuleStatement;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class ModuleParser extends ParserBootstrap {
 
     @Override

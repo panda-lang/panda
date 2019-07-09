@@ -31,12 +31,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class MainParser extends ParserBootstrap {
 
     private final ScopeParser scopeParser = new ScopeParser();

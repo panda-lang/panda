@@ -26,7 +26,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ConditionalBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional.ElseBlock;
@@ -37,7 +37,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.block.
 import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = PandaPipelines.BLOCK_LABEL)
+@Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
 public class ConditionalBlockParser extends BlockSubparserBootstrap {
 
     @Override

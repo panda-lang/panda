@@ -33,7 +33,7 @@ import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.Des
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResultElement;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines;
@@ -41,7 +41,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPrioritie
 
 import java.util.Optional;
 
-@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_ASSIGNATION)
+@Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_ASSIGNATION)
 public class AssignationParser extends ParserBootstrap {
 
     private static final String PATTERN = "<*declaration> (=|+=|-=|`*=|/=) <assignation:reader expression> [;]"; // slow

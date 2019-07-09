@@ -28,12 +28,12 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.subparsers.variable.VariableParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
+@Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_LATE_DECLARATION)
 public class LateDeclarationParser extends ParserBootstrap {
 
     private static final VariableParser INITIALIZER = new VariableParser();

@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ParserRegistration {
+public @interface Registrable {
 
     /**
      * Default pipelines: {@link org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines}

@@ -24,7 +24,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.interceptors.LinearPatternInterceptor;
 import org.panda_lang.panda.framework.design.interpreter.parser.component.UniversalComponents;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.block.looping.LoopBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.block.
 import org.panda_lang.panda.framework.language.resource.parsers.container.block.BlockSubparserBootstrap;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = PandaPipelines.BLOCK_LABEL)
+@Registrable(pipeline = PandaPipelines.BLOCK_LABEL)
 public class LoopParser extends BlockSubparserBootstrap {
 
     @Override

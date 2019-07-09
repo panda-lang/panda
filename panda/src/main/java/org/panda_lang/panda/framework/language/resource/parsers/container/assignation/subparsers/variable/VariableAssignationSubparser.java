@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.Bootst
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Autowired;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Component;
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annotations.Src;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.AccessorExpression;
@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.language.interpreter.parser.PandaPipelines
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationPriorities;
 import org.panda_lang.panda.framework.language.resource.parsers.container.assignation.AssignationSubparserBootstrap;
 
-@ParserRegistration(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
+@Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_ASSIGNATION)
 public class VariableAssignationSubparser extends AssignationSubparserBootstrap {
 
     @Override
