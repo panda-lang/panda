@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
@@ -34,11 +34,11 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
     }
 
     @Override
-    public void execute(Frame frame) {
+    public void execute(Flow flow) {
         PrototypeField field = accessor.getVariable();
 
         if (field.isStatic()) {
-            Value staticValue = valueExpression.evaluate(frame);
+            Value staticValue = valueExpression.evaluate(flow);
 
             if (!field.isNullable() && (staticValue == null || staticValue.isNull())) {
                 throw new PandaRuntimeException("Cannot assign null to static field '" + field.getName() + "' without nullable modifier");
@@ -52,8 +52,8 @@ public class FieldAssigner extends AbstractAssigner<PrototypeField> {
             return;
         }
 
-        MemoryContainer memory = accessor.fetchMemoryContainer(frame);
-        Value value = valueExpression.evaluate(frame);
+        MemoryContainer memory = accessor.fetchMemoryContainer(flow);
+        Value value = valueExpression.evaluate(flow);
 
         if (value.isNull() && !field.isNullable()) {
             throw new PandaRuntimeException("Cannot assign null to field  '" + field.getName() + "' without nullable modifier");

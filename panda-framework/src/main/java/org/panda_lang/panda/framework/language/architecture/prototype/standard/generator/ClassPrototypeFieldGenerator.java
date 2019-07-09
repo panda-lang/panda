@@ -20,7 +20,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototy
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.field.PrototypeField;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.field.PandaPrototypeField;
 import org.panda_lang.panda.framework.language.architecture.value.PandaDynamicValue;
@@ -62,7 +62,7 @@ final class ClassPrototypeFieldGenerator {
 
         Expression fieldExpression = new PandaExpression(new PandaExpressionCallback(returnType.fetch()) {
             @Override
-            public Value call(Expression expression, Frame frame) {
+            public Value call(Expression expression, Flow frame) {
                 Object instance = frame != null ? frame.getInstance().getValue() : null;
 
                 try {

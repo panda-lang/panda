@@ -14,25 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.design.runtime;
+package org.panda_lang.panda.framework.design.runtime.flow;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
+import org.panda_lang.panda.framework.design.runtime.Process;
 
 import java.util.Collection;
 
-public interface Frame {
-
-    /**
-     * Define `this` for execution process
-     *
-     * @param instance current object
-     */
-    void instance(Value instance);
+public interface Flow {
 
     /**
      * Call the current scope
@@ -52,15 +44,15 @@ public interface Frame {
      * @param cells  a collection of statement cells
      * @param caller a flow caller
      */
-    ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCaller caller);
+    ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCallback caller);
 
     /**
-     * Call single executable by {@link Process}
+     * Call single executable by {@link org.panda_lang.panda.framework.design.runtime.Process}
      *
      * @param executable an executable to call
      * @return the parent branch of called executable
      */
-    Frame call(Executable executable);
+    Flow call(Executable executable);
 
     /**
      * Call single executable in dedicated branch
@@ -68,12 +60,12 @@ public interface Frame {
      * @param executable an executable to call
      * @return the parent branch of called executable
      */
-    Frame callStandalone(Executable executable);
+    Flow callStandalone(Executable executable);
 
     /**
      * @return an independent duplicate of branch
      */
-    Frame duplicate();
+    Flow duplicate();
 
     /**
      * Interrupt the execution process
@@ -121,5 +113,12 @@ public interface Frame {
      * @return current object
      */
     Value getInstance();
+
+    /**
+     * Get associated process
+     *
+     * @return the process
+     */
+    Process getProcess();
 
 }

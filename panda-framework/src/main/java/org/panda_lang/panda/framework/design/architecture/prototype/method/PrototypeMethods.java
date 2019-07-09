@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.method;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeProperties;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.Collection;
@@ -40,7 +40,7 @@ public interface PrototypeMethods extends PrototypeProperties<PrototypeMethod> {
      * @param arguments arguments to match and adjust
      * @return the adjusted executable
      */
-    Optional<AdjustedParametrizedExecutable<PrototypeMethod>> getAdjustedMethod(String name, Expression[] arguments);
+    Optional<Arguments<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments);
 
     /**
      * Get method with the given name and types

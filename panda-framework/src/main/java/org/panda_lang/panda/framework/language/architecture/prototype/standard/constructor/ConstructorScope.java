@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 
 import java.util.List;
@@ -31,7 +31,7 @@ public class ConstructorScope extends AbstractScope {
     }
 
     @Override
-    public ConstructorScopeFrame createFrame(Frame frame) {
+    public ConstructorScopeFrame createFrame(Flow flow) {
         return new ConstructorScopeFrame(this);
     }
 

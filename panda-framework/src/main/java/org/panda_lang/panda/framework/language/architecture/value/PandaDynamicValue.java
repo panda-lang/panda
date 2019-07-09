@@ -19,15 +19,15 @@ package org.panda_lang.panda.framework.language.architecture.value;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 public class PandaDynamicValue implements Value {
 
     private final Expression expression;
-    private final Frame copyOfBranch;
+    private final Flow copyOfBranch;
 
-    private PandaDynamicValue(Expression expression, Frame copyOfBranch) {
+    private PandaDynamicValue(Expression expression, Flow copyOfBranch) {
         this.expression = expression;
         this.copyOfBranch = copyOfBranch;
     }
@@ -42,8 +42,8 @@ public class PandaDynamicValue implements Value {
         return expression.getReturnType();
     }
 
-    public static Value of(Expression expression, @Nullable Frame frame) {
-        return new PandaDynamicValue(expression, frame != null ? frame.duplicate() : null);
+    public static Value of(Expression expression, @Nullable Flow flow) {
+        return new PandaDynamicValue(expression, flow != null ? flow.duplicate() : null);
     }
 
 }

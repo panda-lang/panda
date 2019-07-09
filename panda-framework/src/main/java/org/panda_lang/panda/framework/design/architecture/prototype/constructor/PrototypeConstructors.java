@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.prototype.constructor
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeProperties;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
 import java.util.Optional;
@@ -31,7 +31,7 @@ public interface PrototypeConstructors extends PrototypeProperties<PrototypeCons
      * @param arguments arguments to match and adjust
      * @return the adjusted executable
      */
-    Optional<AdjustedParametrizedExecutable<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
+    Optional<Arguments<PrototypeConstructor>> getAdjustedConstructor(Expression[] arguments);
 
     Optional<PrototypeConstructor> getConstructor(ClassPrototype[] types);
 

@@ -17,7 +17,7 @@
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.method;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 
 import java.util.List;
@@ -33,7 +33,7 @@ public class MethodScope extends AbstractScope {
     }
 
     @Override
-    public MethodScopeFrame createFrame(Frame frame) {
+    public MethodScopeFrame createFrame(Flow flow) {
         return new MethodScopeFrame(this);
     }
 

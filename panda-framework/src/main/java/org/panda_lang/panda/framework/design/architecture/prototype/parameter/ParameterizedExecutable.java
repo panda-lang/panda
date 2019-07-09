@@ -19,22 +19,52 @@ package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVisibility;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface ParameterizedExecutable {
 
-    Value invoke(Frame frame, Object instance, Value... arguments) throws Exception;
+    Value invoke(Flow flow, Object instance, Value... arguments) throws Exception;
 
+    /**
+     * Get associated prototype
+     *
+     * @return the associated prototype
+     */
     ClassPrototypeReference getPrototype();
 
+    /**
+     * Get visibility of executable
+     *
+     * @return the visibility
+     */
     PrototypeVisibility getVisibility();
 
+    /**
+     * Get type references of executable's parameters
+     *
+     * @return array of used by parameter types
+     */
     ClassPrototypeReference[] getParameterTypes();
 
+    /**
+     * Get parameters used by executable
+     *
+     * @return array of used parameters
+     */
     PrototypeParameter[] getParameters();
 
+    /**
+     * Get return type of executable
+     *
+     * @return the return type reference
+     */
     ClassPrototypeReference getReturnType();
 
+    /**
+     * Get name of prototype
+     *
+     * @return the name
+     */
     String getName();
 
 }

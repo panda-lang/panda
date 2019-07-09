@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
 
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 import org.panda_lang.panda.utilities.commons.UnsafeUtils;
@@ -30,8 +30,8 @@ public final class Throw extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(Frame frame) {
-        UnsafeUtils.getUnsafe().throwException(value.evaluate(frame).getValue());
+    public void execute(Flow flow) {
+        UnsafeUtils.getUnsafe().throwException(value.evaluate(flow).getValue());
     }
 
 }

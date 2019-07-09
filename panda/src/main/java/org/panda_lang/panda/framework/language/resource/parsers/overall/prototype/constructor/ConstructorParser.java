@@ -17,6 +17,7 @@
 package org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.constructor;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.constructor.PrototypeConstructor;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
@@ -34,16 +35,17 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handle
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.ConstructorScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScope;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.structure.ClassPrototypeScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.resource.parsers.ScopeParser;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.parameter.ParameterParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
+import org.panda_lang.panda.framework.language.runtime.PandaFlow;
 
 import java.util.List;
 
@@ -66,20 +68,20 @@ public class ConstructorParser extends ParserBootstrap {
         List<PrototypeParameter> parameters = parameterParser.parse(context, parametersSource);
 
         ConstructorScope constructorScope = local.allocated(new ConstructorScope(parameters));
-        ParameterUtils.addAll(constructorScope.getVariables(), parameters);
+        constructorScope.getVariables().addAll(parameters);
 
         PrototypeConstructor constructor = PandaConstructor.builder()
                 .type(prototype.getReference())
                 .parameters(parameters)
                 .callback((frame, instance, arguments) -> {
-                    ClassPrototypeScopeFrame classFrame = classScope.createFrame(frame);
+                    ScopeFrame classFrame = classScope.createFrame(frame);
                     Value classInstance = new PandaStaticValue(prototype, classFrame);
 
-                    ConstructorScopeFrame constructorInstance = constructorScope.createFrame(frame);
+                    AbstractScopeFrame constructorInstance = constructorScope.createFrame(frame);
                     ParameterUtils.assignValues(constructorInstance, arguments);
 
-                    frame.instance(classInstance);
-                    frame.call(constructorInstance);
+                    Flow subFlow = new PandaFlow(frame, classInstance);
+                    subFlow.call(constructorInstance);
 
                     return classInstance;
                 })

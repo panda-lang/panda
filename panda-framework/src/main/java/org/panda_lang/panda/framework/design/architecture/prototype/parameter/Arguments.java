@@ -18,10 +18,20 @@ package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 
-public interface AdjustedParametrizedExecutable<T extends ParameterizedExecutable> {
+public interface Arguments<T extends ParameterizedExecutable> {
 
-    Expression getMappedExecutable();
+    /**
+     * Get adjusted arguments
+     *
+     * @return the array of arguments
+     */
+    Expression[] getArguments();
 
+    /**
+     * Get associated parametrized executable
+     *
+     * @return the executable
+     */
     T getExecutable();
 
 }

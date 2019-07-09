@@ -16,14 +16,14 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.branching;
 
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
 
 public class Continue extends AbstractExecutableStatement {
 
     @Override
-    public void execute(Frame frame) {
-        frame.getCurrentControlFlow().skip();
+    public void execute(Flow flow) {
+        flow.getCurrentControlFlow().skip();
     }
 
 }

@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.statement.Container;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
 import java.util.HashMap;
@@ -36,9 +36,9 @@ public final class TryCatchExecutable extends AbstractExecutableStatement {
     }
 
     @Override
-    public void execute(Frame frame) {
+    public void execute(Flow flow) {
         try {
-            frame.call(tryContainer.getStatementCells());
+            flow.call(tryContainer.getStatementCells());
         } catch (Throwable throwable) {
             Data catchData = catchContainers.get(throwable.getClass());
 
@@ -54,10 +54,10 @@ public final class TryCatchExecutable extends AbstractExecutableStatement {
                 throw throwable;
             }
 
-            frame.getCurrentScope().set(catchData.pointer, new PandaStaticValue(catchData.variable.getType(), throwable));
-            frame.call(catchData.container.getStatementCells());
+            flow.getCurrentScope().set(catchData.pointer, new PandaStaticValue(catchData.variable.getType().fetch(), throwable));
+            flow.call(catchData.container.getStatementCells());
         } finally {
-            frame.call(finallyContainer.getStatementCells());
+            flow.call(finallyContainer.getStatementCells());
         }
     }
 

@@ -19,10 +19,12 @@ package org.panda_lang.panda.framework.language.runtime.expression;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractExecutableStatement;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
+import org.panda_lang.panda.framework.language.runtime.PandaFlow;
 
 public class InstanceExecutable extends AbstractExecutableStatement implements StandaloneExecutable, ExpressionCallback {
 
@@ -39,13 +41,13 @@ public class InstanceExecutable extends AbstractExecutableStatement implements S
     }
 
     @Override
-    public Value call(Expression expression, Frame frame) {
-        execute(frame);
-        return frame.getReturnedValue();
+    public Value call(Expression expression, Flow flow) {
+        execute(flow);
+        return flow.getReturnedValue();
     }
 
     @Override
-    public void execute(Frame frame) {
+    public void execute(Flow flow) {
         /*
         if (instanceExpression != null) {
             Value instance = instanceExpression.evaluate(frame);
@@ -57,12 +59,14 @@ public class InstanceExecutable extends AbstractExecutableStatement implements S
         }
         */
 
+        Value instance = instanceExpression.evaluate(flow);
 
-        Value previousInstance = frame.getInstance();
-        frame.instance(instanceExpression.evaluate(frame));
+        if (instance == null) {
+            instance = PandaStaticValue.NULL;
+        }
 
-        expression.evaluate(frame);
-        frame.instance(previousInstance);
+        Flow subFlow = new PandaFlow(flow, instance);
+        expression.evaluate(subFlow);
     }
 
     @Override

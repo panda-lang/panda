@@ -16,32 +16,52 @@
 
 package org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
+import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
+import org.panda_lang.panda.framework.language.runtime.PandaFlow;
 
 public final class ParametrizedExpression implements Expression {
 
     private final ParameterizedExecutable executable;
+    private final Expression instanceExpression;
     private final Expression[] arguments;
 
-    public ParametrizedExpression(ParameterizedExecutable executable, Expression[] arguments) {
+    public ParametrizedExpression(@Nullable Expression instance, Arguments<?> arguments) {
+        this(instance, arguments.getExecutable(), arguments.getArguments());
+    }
+
+    public ParametrizedExpression(@Nullable Expression instance, ParameterizedExecutable executable, Expression[] arguments) {
         this.executable = executable;
+        this.instanceExpression = instance;
         this.arguments = arguments;
     }
 
     @Override
-    public Value evaluate(Frame frame) {
-        Value[] values = ExpressionUtils.getValues(frame, arguments);
-        Value instance = frame.getInstance();
+    public Value evaluate(Flow flow) {
+        Value[] values = ExpressionUtils.getValues(flow, arguments);
+        Value instance = flow.getInstance();
+
+        if (instanceExpression != null) {
+            instance = instanceExpression.evaluate(flow);
+
+            if (instance == null) {
+                instance = PandaStaticValue.NULL;
+            }
+        }
+
+        Flow executableFlow = new PandaFlow(flow, instance);
 
         try {
-            return executable.invoke(frame, instance != null ? instance.getObject() : null, values);
+            return executable.invoke(executableFlow, instance != null ? instance.getObject() : null, values);
         } catch (Exception e) {
             throw new PandaFrameworkException("Internal error: " + e.getMessage(), e);
         }

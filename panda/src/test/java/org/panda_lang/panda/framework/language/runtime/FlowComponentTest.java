@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.dynamic.PandaBlock;
 import org.panda_lang.panda.framework.language.architecture.dynamic.MainScope;
 
-class FrameComponentTest {
+class FlowComponentTest {
 
     @Test
     void testStackLimit() {

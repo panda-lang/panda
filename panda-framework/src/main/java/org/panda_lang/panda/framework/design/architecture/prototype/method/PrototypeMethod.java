@@ -20,8 +20,18 @@ import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Pa
 
 public interface PrototypeMethod extends ParameterizedExecutable {
 
+    /**
+     * Check if method is void
+     *
+     * @return true if method is void
+     */
     boolean isVoid();
 
+    /**
+     * Check if method is static
+     *
+     * @return true if method is static
+     */
     boolean isStatic();
 
 }

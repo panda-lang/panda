@@ -56,7 +56,7 @@ public class PandaVariable implements Variable {
     }
 
     @Override
-    public ClassPrototypeReference getTypeReference() {
+    public ClassPrototypeReference getType() {
         return type;
     }
 

@@ -16,21 +16,36 @@
 
 package org.panda_lang.panda.framework.design.architecture.value;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 
 public interface Variable {
 
+    /**
+     * Check if variable is nullable
+     *
+     * @return true if variable is nullable
+     */
     boolean isNullable();
 
+    /**
+     * Check if variable is mutable
+     *
+     * @return true if variable is mutable
+     */
     boolean isMutable();
 
-    default ClassPrototype getType() {
-        return getTypeReference().fetch();
-    }
+    /**
+     * Get type of variable
+     *
+     * @return the type reference
+     */
+    ClassPrototypeReference getType();
 
-    ClassPrototypeReference getTypeReference();
-
+    /**
+     * Get name of parameter
+     *
+     * @return the name
+     */
     String getName();
 
 }

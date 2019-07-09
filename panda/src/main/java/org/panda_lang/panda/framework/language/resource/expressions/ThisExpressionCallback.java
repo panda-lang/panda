@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.expressions;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
@@ -34,8 +34,8 @@ public class ThisExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, Frame frame) {
-        return frame.getInstance();
+    public Value call(Expression expression, Flow flow) {
+        return flow.getInstance();
     }
 
     @Override

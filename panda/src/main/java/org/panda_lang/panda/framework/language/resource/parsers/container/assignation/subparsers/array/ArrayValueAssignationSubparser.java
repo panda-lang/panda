@@ -31,7 +31,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
 import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
@@ -71,8 +71,8 @@ public class ArrayValueAssignationSubparser extends AssignationSubparserBootstra
     Statement parse(Context context, @Component SourceStream source, @Component(AssignationComponents.EXPRESSION_LABEL) Expression expression) {
         return PARSER.parse(context, source.toSnippet(), new ArrayValueAccessor.ArrayValueAccessorAction() {
             @Override
-            public @Nullable PandaStaticValue perform(Frame frame, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
-                array[index] = expression.evaluate(frame).getObject();
+            public @Nullable PandaStaticValue perform(Flow flow, ArrayClassPrototype prototype, ClassPrototype type, Object[] array, int index) {
+                array[index] = expression.evaluate(flow).getObject();
                 return null;
             }
 

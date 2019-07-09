@@ -17,13 +17,13 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.looping;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
-public class LoopBlock extends AbstractBlock implements ControlFlowCaller {
+public class LoopBlock extends AbstractBlock implements ControlFlowCallback {
 
     private final Expression expression;
 
@@ -32,12 +32,12 @@ public class LoopBlock extends AbstractBlock implements ControlFlowCaller {
     }
 
     @Override
-    public void execute(Frame frame) {
-        frame.callFlow(getStatementCells(), this);
+    public void execute(Flow flow) {
+        flow.callFlow(getStatementCells(), this);
     }
 
     @Override
-    public void call(Frame frame, ControlFlow flow) {
+    public void call(Flow frame, ControlFlow flow) {
         Value value = expression.evaluate(frame);
         int times = value.getValue();
 

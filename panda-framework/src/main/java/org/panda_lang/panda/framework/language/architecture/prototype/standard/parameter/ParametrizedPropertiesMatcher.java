@@ -19,11 +19,11 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
@@ -32,28 +32,24 @@ import org.panda_lang.panda.framework.language.runtime.expression.PandaExpressio
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutable> {
 
-    public Optional<AdjustedParametrizedExecutable<T>> match(Collection<T> collection, ClassPrototype[] requiredTypes, @Nullable Expression[] arguments) {
-        for (T executable : collection) {
-            AdjustedParametrizedExecutable<T> result = match(executable, requiredTypes, arguments);
-
-            if (result != null) {
-                return Optional.of(result);
-            }
-        }
-
-        return Optional.empty();
+    public Optional<Arguments<T>> match(Collection<T> collection, ClassPrototype[] requiredTypes, @Nullable Expression[] arguments) {
+        return collection.stream()
+                .map(executable -> match(executable, requiredTypes, arguments))
+                .filter(Objects::nonNull)
+                .findFirst();
     }
 
-    private @Nullable AdjustedParametrizedExecutable<T> match(T executable, ClassPrototype[] requiredTypes, @Nullable Expression[] arguments) {
+    private @Nullable Arguments<T> match(T executable, ClassPrototype[] requiredTypes, @Nullable Expression[] arguments) {
         PrototypeParameter[] parameters = executable.getParameters();
 
         // return result for parameterless executables
         if (parameters.length == 0) {
-            return requiredTypes.length == 0 ? new Result<>(executable, of(executable, arguments)) : null;
+            return requiredTypes.length == 0 ? new ResultArguments<>(executable, arguments) : null;
         }
 
         // map arguments into parameters
@@ -98,12 +94,12 @@ public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutab
 
         // return executable if only types was requested
         if (arguments == null) {
-            return new Result<>(executable, null);
+            return new ResultArguments<>(executable, null);
         }
 
         // return result without varargs mappings
         if (varArgs == 0) {
-            return new Result<>(executable, of(executable, arguments));
+            return new ResultArguments<>(executable, arguments);
         }
 
         @SuppressWarnings("unchecked")
@@ -136,9 +132,9 @@ public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutab
             // generate varargs array expression
             fixedArguments[argumentIndex] = new PandaExpressionCallback(((ArrayClassPrototype) parameters[argumentIndex].getType().fetch()).getType().fetch()) {
                 @Override
-                public Value call(Expression expression, Frame frame) {
+                public Value call(Expression expression, Flow flow) {
                     Object[] array = expressions.stream()
-                            .map(expr -> expr.evaluate(frame).getValue())
+                            .map(expr -> expr.evaluate(flow).getValue())
                             .toArray(Object[]::new);
 
                     return new PandaStaticValue(getReturnType(), array);
@@ -146,26 +142,22 @@ public final class ParametrizedPropertiesMatcher<T extends ParameterizedExecutab
             }.toExpression();
         }
 
-        return new Result<>(executable, of(executable, fixedArguments));
+        return new ResultArguments<>(executable, fixedArguments);
     }
 
-    private @Nullable Expression of(ParameterizedExecutable executable, @Nullable Expression[] arguments) {
-        return arguments != null ? new ParametrizedExpression(executable, arguments) : null;
-    }
-
-    public static final class Result<R extends ParameterizedExecutable> implements AdjustedParametrizedExecutable<R> {
+    public static final class ResultArguments<R extends ParameterizedExecutable> implements Arguments<R> {
 
         private final R executable;
-        private final Expression mappedExecutable;
+        private final Expression[] arguments;
 
-        private Result(R executable, @Nullable Expression mappedExecutable) {
+        private ResultArguments(R executable, @Nullable Expression[] arguments) {
             this.executable = executable;
-            this.mappedExecutable = mappedExecutable;
+            this.arguments = arguments;
         }
 
         @Override
-        public @Nullable Expression getMappedExecutable() {
-            return mappedExecutable;
+        public @Nullable Expression[] getArguments() {
+            return arguments;
         }
 
         @Override

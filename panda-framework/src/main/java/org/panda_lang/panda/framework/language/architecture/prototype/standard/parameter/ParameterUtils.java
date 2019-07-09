@@ -18,23 +18,13 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrameUtils;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
-import java.util.List;
-
 public class ParameterUtils {
 
     public static final PrototypeParameter[] PARAMETERLESS = new PrototypeParameter[0];
-
-    public static void addAll(List<Variable> variables, List<? extends PrototypeParameter> parameters) {
-        for (PrototypeParameter parameter : parameters) {
-            Variable variable = parameter.toVariable();
-            variables.add(variable);
-        }
-    }
 
     public static void assignValues(AbstractScopeFrame<?> instance, Value[] parameterValues) {
         if (instance.getAmountOfVariables() < parameterValues.length) {

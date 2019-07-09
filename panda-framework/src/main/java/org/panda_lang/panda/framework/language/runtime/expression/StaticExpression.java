@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.runtime.expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
 
@@ -32,7 +32,7 @@ public final class StaticExpression implements Expression {
     }
 
     @Override
-    public Value evaluate(Frame frame) {
+    public Value evaluate(Flow flow) {
         return null;
     }
 

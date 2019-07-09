@@ -17,10 +17,10 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface AccessorCallback {
 
-    Value visit(Accessor<?> accessor, Frame frame, Value currentValue);
+    Value visit(Accessor<?> accessor, Flow flow, Value currentValue);
 
 }

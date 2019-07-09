@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.accessor;
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.runtime.PandaRuntimeException;
 
@@ -27,11 +27,11 @@ import java.util.function.Function;
 
 abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
 
-    private final Function<Frame, MemoryContainer> memory;
+    private final Function<Flow, MemoryContainer> memory;
     private final T variable;
     private final int pointer;
 
-    public DefaultAccessor(Function<Frame, MemoryContainer> memory, T variable, int internalPointer) {
+    public DefaultAccessor(Function<Flow, MemoryContainer> memory, T variable, int internalPointer) {
         if (internalPointer == -1) {
             throw new PandaRuntimeException("Invalid memory pointer, variable may not exist");
         }
@@ -42,23 +42,23 @@ abstract class DefaultAccessor<T extends Variable> implements Accessor<T> {
     }
 
     @Override
-    public Value perform(Frame frame, AccessorCallback callback) {
-        MemoryContainer memory = fetchMemoryContainer(frame);
-        return memory.set(pointer, callback.visit(this, frame, memory.get(pointer)));
+    public Value perform(Flow flow, AccessorCallback callback) {
+        MemoryContainer memory = fetchMemoryContainer(flow);
+        return memory.set(pointer, callback.visit(this, flow, memory.get(pointer)));
     }
 
     @Override
-    public MemoryContainer fetchMemoryContainer(Frame frame) {
-        return memory.apply(frame);
+    public MemoryContainer fetchMemoryContainer(Flow flow) {
+        return memory.apply(flow);
     }
 
-    protected Function<Frame, MemoryContainer> getMemoryFunction() {
+    protected Function<Flow, MemoryContainer> getMemoryFunction() {
         return memory;
     }
 
     @Override
-    public @Nullable Value getValue(Frame frame) {
-        return fetchMemoryContainer(frame).get(pointer);
+    public @Nullable Value getValue(Flow flow) {
+        return fetchMemoryContainer(flow).get(pointer);
     }
 
     @Override

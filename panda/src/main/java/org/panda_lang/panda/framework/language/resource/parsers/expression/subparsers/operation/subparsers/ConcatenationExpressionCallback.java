@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
@@ -35,11 +35,11 @@ public class ConcatenationExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, Frame frame) {
+    public Value call(Expression expression, Flow flow) {
         StringBuilder content = new StringBuilder();
 
         for (Expression value : values) {
-            content.append(value.evaluate(frame).getObject());
+            content.append(value.evaluate(flow).getObject());
         }
 
         return new PandaStaticValue(PandaTypes.STRING, content);

@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethod;
 import org.panda_lang.panda.framework.design.architecture.prototype.method.PrototypeMethods;
-import org.panda_lang.panda.framework.design.architecture.prototype.parameter.AdjustedParametrizedExecutable;
+import org.panda_lang.panda.framework.design.architecture.prototype.parameter.Arguments;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParametrizedPropertiesMatcher;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionUtils;
@@ -62,11 +62,11 @@ public class PandaMethods implements PrototypeMethods {
             return Optional.empty();
         }
 
-        return MATCHER.match(methods, parameterTypes, null).map(AdjustedParametrizedExecutable::getExecutable);
+        return MATCHER.match(methods, parameterTypes, null).map(Arguments::getExecutable);
     }
 
     @Override
-    public Optional<AdjustedParametrizedExecutable<PrototypeMethod>> getAdjustedMethod(String name, Expression[] arguments) {
+    public Optional<Arguments<PrototypeMethod>> getAdjustedArguments(String name, Expression[] arguments) {
         Collection<PrototypeMethod> methods = methodsMap.get(name);
 
         if (methods == null) {

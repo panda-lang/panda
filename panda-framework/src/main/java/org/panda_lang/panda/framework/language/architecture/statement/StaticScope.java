@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractScopeFrame;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 
@@ -34,7 +34,7 @@ public final class StaticScope extends AbstractScope {
     }
 
     @Override
-    public final ScopeFrame createFrame(Frame parentFrame) {
+    public final ScopeFrame createFrame(Flow parentFlow) {
         ScopeFrame frame = new StaticFrame(this);
 
         for (int pointer = 0; pointer < getVariables().size(); pointer++) {
@@ -44,7 +44,7 @@ public final class StaticScope extends AbstractScope {
                 continue;
             }
 
-            frame.set(pointer, new PandaStaticValue(variable.getType(), variables.get(variable)));
+            frame.set(pointer, new PandaStaticValue(variable.getType().fetch(), variables.get(variable)));
         }
 
         return frame;
@@ -57,8 +57,8 @@ public final class StaticScope extends AbstractScope {
         }
 
         @Override
-        public void execute(Frame frame) {
-            frame.call(this);
+        public void execute(Flow flow) {
+            flow.call(this);
         }
 
     }

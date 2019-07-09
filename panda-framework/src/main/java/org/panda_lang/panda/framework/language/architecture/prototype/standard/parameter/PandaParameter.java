@@ -18,39 +18,20 @@ package org.panda_lang.panda.framework.language.architecture.prototype.standard.
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
-import org.panda_lang.panda.framework.design.architecture.value.Variable;
 import org.panda_lang.panda.framework.language.architecture.value.PandaVariable;
 
-public class PandaParameter implements PrototypeParameter {
+public class PandaParameter extends PandaVariable implements PrototypeParameter {
 
-    private final String name;
-    private final ClassPrototypeReference reference;
     private final boolean varargs;
 
-    public PandaParameter(ClassPrototypeReference reference, String name, boolean varargs) {
-        this.name = name;
-        this.reference = reference;
+    public PandaParameter(ClassPrototypeReference reference, String name, boolean varargs, boolean nullable) {
+        super(reference, name, false, nullable);
         this.varargs = varargs;
-    }
-
-    @Override
-    public Variable toVariable() {
-        return new PandaVariable(reference, name, false, false);
     }
 
     @Override
     public boolean isVarargs() {
         return varargs;
-    }
-
-    @Override
-    public ClassPrototypeReference getType() {
-        return reference;
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
 }

@@ -17,14 +17,14 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractContainer;
 
 public abstract class AbstractBlock extends AbstractContainer implements Block {
 
     @Override
-    public void execute(Frame frame) {
-        frame.call(super.getStatementCells());
+    public void execute(Flow flow) {
+        flow.call(super.getStatementCells());
     }
 
 }

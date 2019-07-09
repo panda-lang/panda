@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.assigner;
 
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
@@ -34,9 +34,9 @@ public class VariableAssigner extends AbstractAssigner<Variable> {
     }
 
     @Override
-    public void execute(Frame frame) {
+    public void execute(Flow flow) {
         Variable variable = accessor.getVariable();
-        Value value = expression.evaluate(frame);
+        Value value = expression.evaluate(flow);
 
         if (value == null) {
             throw new PandaRuntimeException("Cannot assign not existing value to variable '" + variable.getName() + "'");
@@ -46,7 +46,7 @@ public class VariableAssigner extends AbstractAssigner<Variable> {
             throw new PandaRuntimeException("Cannot assign null to variable '" + variable.getName() + "' without nullable modifier");
         }
 
-        MemoryContainer memory = accessor.fetchMemoryContainer(frame);
+        MemoryContainer memory = accessor.fetchMemoryContainer(flow);
 
         if (!variable.isMutable() && memory.get(accessor.getMemoryPointer()) != null) {
             throw new PandaRuntimeException("Cannot change value of immutable variable '" + variable.getName() + "'");

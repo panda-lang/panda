@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.prototype.PrototypeVis
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.ParameterizedExecutable;
 import org.panda_lang.panda.framework.design.architecture.prototype.parameter.PrototypeParameter;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 import java.util.Arrays;
 import java.util.List;
@@ -46,8 +46,8 @@ public abstract class PandaParameterizedExecutable implements ParameterizedExecu
 
     @Override
     @SuppressWarnings("unchecked")
-    public Value invoke(Frame frame, Object instance, Value... arguments) throws Exception {
-        return callback.invoke(frame, instance, arguments);
+    public Value invoke(Flow flow, Object instance, Value... arguments) throws Exception {
+        return callback.invoke(flow, instance, arguments);
     }
 
     @Override

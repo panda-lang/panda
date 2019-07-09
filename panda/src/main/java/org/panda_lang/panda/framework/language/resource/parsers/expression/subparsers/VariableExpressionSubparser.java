@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.language.interpreter.token.TokenUtils;
 import org.panda_lang.panda.framework.language.resource.expressions.FieldExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.expressions.ThisExpressionCallback;
 import org.panda_lang.panda.framework.language.resource.expressions.VariableExpressionCallback;
-import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberUtils;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.parsers.overall.prototype.ClassPrototypeComponents;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
