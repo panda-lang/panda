@@ -27,7 +27,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.annota
 import org.panda_lang.panda.framework.design.interpreter.parser.bootstrap.handlers.TokenHandler;
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeGeneratorManager;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
@@ -35,7 +35,7 @@ import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Optional;
 
-@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public final class ImportParser extends ParserBootstrap {
 
     @Override

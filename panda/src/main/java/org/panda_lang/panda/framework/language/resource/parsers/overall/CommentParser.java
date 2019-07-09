@@ -25,14 +25,14 @@ import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentation;
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.statement.CommentStatement;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@ParserRegistration(pipeline = UniversalPipelines.ALL_LABEL)
+@Registrable(pipeline = UniversalPipelines.ALL_LABEL)
 public class CommentParser implements ContextParser<CommentStatement>, ParserHandler {
 
     @Override

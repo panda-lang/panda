@@ -29,14 +29,14 @@ import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.ParserH
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.ExpressionExecutable;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionParserException;
 import org.panda_lang.panda.framework.language.interpreter.token.stream.PandaSourceStream;
 
-@ParserRegistration(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
+@Registrable(pipeline = UniversalPipelines.CONTAINER_LABEL, priority = PandaPriorities.CONTAINER_EXPRESSION)
 public class StandaloneExpressionParser extends ParserBootstrap {
 
     private static final ExpressionParserSettings SETTINGS = ExpressionParserSettings.create().onlyStandalone();

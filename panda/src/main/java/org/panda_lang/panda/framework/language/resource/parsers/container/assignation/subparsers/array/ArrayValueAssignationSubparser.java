@@ -30,7 +30,7 @@ import org.panda_lang.panda.framework.design.interpreter.token.TokenRepresentati
 import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.stream.SourceStream;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
@@ -43,7 +43,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.container.assign
 import org.panda_lang.panda.framework.language.resource.syntax.auxiliary.Section;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 
-@ParserRegistration(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
+@Registrable(pipeline = PandaPipelines.ASSIGNER_LABEL, priority = AssignationPriorities.VARIABLE_DECLARATION)
 public class ArrayValueAssignationSubparser extends AssignationSubparserBootstrap {
 
     private static final ArrayValueAccessorParser PARSER = new ArrayValueAccessorParser();

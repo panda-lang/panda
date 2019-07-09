@@ -34,7 +34,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.linker.ScopeLink
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.SnippetUtils;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.constructor.PandaConstructor;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.generator.ClassPrototypeTypeGenerator;
@@ -50,7 +50,7 @@ import org.panda_lang.panda.framework.language.resource.PandaTypes;
 import org.panda_lang.panda.framework.language.resource.parsers.PipelineParser;
 import org.panda_lang.panda.framework.language.resource.syntax.keyword.Keywords;
 
-@ParserRegistration(pipeline = UniversalPipelines.HEAD_LABEL)
+@Registrable(pipeline = UniversalPipelines.HEAD_LABEL)
 public class ClassPrototypeParser extends ParserBootstrap {
 
     private static final ClassPrototypeTypeGenerator GENERATOR = new ClassPrototypeTypeGenerator();

@@ -35,7 +35,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.component.Univer
 import org.panda_lang.panda.framework.design.interpreter.parser.pipeline.UniversalPipelines;
 import org.panda_lang.panda.framework.design.interpreter.pattern.descriptive.extractor.ExtractorResult;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
-import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration;
+import org.panda_lang.panda.framework.design.resource.parsers.Registrable;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.MethodScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethodCallback;
@@ -50,7 +50,7 @@ import org.panda_lang.panda.framework.language.resource.parsers.overall.prototyp
 import java.util.List;
 import java.util.Optional;
 
-@ParserRegistration(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
+@Registrable(pipeline = UniversalPipelines.PROTOTYPE_LABEL, priority = PandaPriorities.PROTOTYPE_METHOD)
 public class MethodParser extends ParserBootstrap {
 
     private static final String VISIBILITY = "v";
