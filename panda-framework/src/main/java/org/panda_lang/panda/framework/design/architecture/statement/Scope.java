@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.design.architecture.statement;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface Scope extends Container {
      *
      * @return instance of the current wrapper
      */
-    ScopeFrame createFrame(Frame frame);
+    ScopeFrame createFrame(Flow flow);
 
     default int indexOf(Variable variable) {
         return getVariables().indexOf(variable);

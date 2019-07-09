@@ -31,7 +31,7 @@ public class ClassPrototypeGeneratorUtils {
 
         for (int index = 0; index < parameters.length; index++) {
             Parameter parameter = parameters[index];
-            mappedParameters[index] = new PandaParameter(GENERATOR.computeIfAbsent(module, parameter.getType()), parameter.getName(), parameter.isVarArgs());
+            mappedParameters[index] = new PandaParameter(GENERATOR.computeIfAbsent(module, parameter.getType()), parameter.getName(), parameter.isVarArgs(), false);
         }
 
         return mappedParameters;

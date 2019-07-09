@@ -18,29 +18,29 @@ package org.panda_lang.panda.framework.language.runtime.flow;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Executable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCallback;
 
 import java.util.Collection;
 
 public class PandaControlFlow implements Executable, ControlFlow {
 
-    private final Frame frame;
+    private final Flow flow;
     private final Collection<? extends StatementCell> cells;
-    private final ControlFlowCaller caller;
+    private final ControlFlowCallback caller;
     private boolean skipped;
     private boolean escaped;
 
-    public PandaControlFlow(Frame frame, Collection<? extends StatementCell> cells, ControlFlowCaller caller) {
-        this.frame = frame;
+    public PandaControlFlow(Flow flow, Collection<? extends StatementCell> cells, ControlFlowCallback caller) {
+        this.flow = flow;
         this.cells = cells;
         this.caller = caller;
     }
 
     @Override
-    public void execute(Frame frame) {
-        caller.call(frame, this);
+    public void execute(Flow flow) {
+        caller.call(flow, this);
     }
 
     @Override
@@ -48,12 +48,12 @@ public class PandaControlFlow implements Executable, ControlFlow {
         reset();
 
         for (StatementCell cell : cells) {
-            if (frame.isInterrupted() || isEscaped() || isSkipped()) {
+            if (flow.isInterrupted() || isEscaped() || isSkipped()) {
                 break;
             }
 
             if (cell.isExecutable()) {
-                frame.call((Executable) cell.getStatement());
+                flow.call((Executable) cell.getStatement());
             }
         }
     }

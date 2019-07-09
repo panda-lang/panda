@@ -18,19 +18,19 @@ package org.panda_lang.panda.framework.language.interpreter.parser.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 
 public class ExpressionUtils {
 
-    public static Value[] getValues(Frame frame, Expression... expressions) {
+    public static Value[] getValues(Flow flow, Expression... expressions) {
         Value[] values = new Value[expressions.length];
 
         for (int i = 0; i < values.length; i++) {
             Expression expression = expressions[i];
-            values[i] = expression.evaluate(frame);
+            values[i] = expression.evaluate(flow);
         }
 
         return values;

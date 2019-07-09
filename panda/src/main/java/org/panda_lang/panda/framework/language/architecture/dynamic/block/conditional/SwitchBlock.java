@@ -16,13 +16,13 @@
 
 package org.panda_lang.panda.framework.language.architecture.dynamic.block.conditional;
 
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 
 public class SwitchBlock extends AbstractBlock {
 
     @Override
-    public void execute(Frame frame) {
+    public void execute(Flow flow) {
 
     }
 

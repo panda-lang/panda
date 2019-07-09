@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.expressions;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.dynamic.accessor.Accessor;
@@ -39,8 +39,8 @@ public class VariableExpressionCallback implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, Frame frame) {
-        return accessor.getValue(frame);
+    public Value call(Expression expression, Flow flow) {
+        return accessor.getValue(flow);
     }
 
     @Override

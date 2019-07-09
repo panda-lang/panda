@@ -20,7 +20,7 @@ import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 class ModelLoaderUtils {
 
@@ -30,7 +30,7 @@ class ModelLoaderUtils {
     protected static CtClass VALUE = getCtClass(Value.class);
     protected static CtClass VALUE_ARRAY = getCtClass(Value[].class);
 
-    protected static CtClass EXECUTABLE_BRANCH = getCtClass(Frame.class);
+    protected static CtClass EXECUTABLE_BRANCH = getCtClass(Flow.class);
     protected static final CtClass CPM_METHOD_CALLBACK = getCtClass(CPMMethodCallback.class);
     protected static CtClass[] IMPLEMENTATION = new CtClass[] { EXECUTABLE_BRANCH, OBJECT, VALUE_ARRAY };
 

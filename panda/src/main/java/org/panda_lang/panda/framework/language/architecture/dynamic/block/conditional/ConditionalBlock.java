@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.architecture.dynamic.block.condi
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.Block;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.dynamic.AbstractBlock;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserException;
@@ -37,17 +37,17 @@ public class ConditionalBlock extends AbstractBlock {
     }
 
     @Override
-    public void execute(Frame frame) {
-        Value value = condition.evaluate(frame);
+    public void execute(Flow flow) {
+        Value value = condition.evaluate(flow);
         boolean flag = value.getValue();
 
         if (flag) {
-            frame.call(super.getStatementCells());
+            flow.call(super.getStatementCells());
             return;
         }
 
         if (elseBlock != null) {
-            frame.call(elseBlock);
+            flow.call(elseBlock);
         }
     }
 

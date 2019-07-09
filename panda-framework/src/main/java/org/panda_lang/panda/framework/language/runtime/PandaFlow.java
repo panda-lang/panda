@@ -21,26 +21,31 @@ import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
 import org.panda_lang.panda.framework.design.architecture.dynamic.StandaloneExecutable;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
+import org.panda_lang.panda.framework.design.runtime.Process;
 import org.panda_lang.panda.framework.design.runtime.flow.ControlFlow;
-import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCaller;
+import org.panda_lang.panda.framework.design.runtime.flow.ControlFlowCallback;
 import org.panda_lang.panda.framework.language.runtime.flow.PandaControlFlow;
 
 import java.util.Collection;
 
-public class PandaFrame implements Frame {
+public class PandaFlow implements Flow {
 
-    private static long fullUptime;
-
-    private final PandaProcess process;
+    private final Process process;
+    private final Value instance;
     private final ScopeFrame currentScope;
+
     private PandaControlFlow currentFlow;
     private Value returnedValue;
     private boolean interrupted;
-    private Value instance;
 
-    public PandaFrame(PandaProcess process, ScopeFrame currentScope) {
+    public PandaFlow(Flow flow, Value instance) {
+        this(flow.getProcess(), instance, flow.getCurrentScope());
+    }
+
+    public PandaFlow(Process process, Value instance, ScopeFrame currentScope) {
         this.process = process;
+        this.instance = instance;
         this.currentScope = currentScope;
     }
 
@@ -68,7 +73,7 @@ public class PandaFrame implements Frame {
     }
 
     @Override
-    public ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCaller caller) {
+    public ControlFlow callFlow(Collection<? extends StatementCell> cells, ControlFlowCallback caller) {
         if (isInterrupted()) {
             return currentFlow;
         }
@@ -82,7 +87,7 @@ public class PandaFrame implements Frame {
     }
 
     @Override
-    public Frame call(Executable executable) {
+    public Flow call(Executable executable) {
         if (isInterrupted()) {
             return this;
         }
@@ -96,40 +101,33 @@ public class PandaFrame implements Frame {
     }
 
     @Override
-    public Frame callStandalone(Executable executable) {
+    public Flow callStandalone(Executable executable) {
         boolean standaloneScope = executable instanceof ScopeFrame;
         ScopeFrame scope = standaloneScope ? (ScopeFrame) executable : currentScope;
 
-        Frame frame = new PandaFrame(process, scope);
-        frame.instance(instance);
+        Flow flow = new PandaFlow(process, instance, scope);
 
         if (isInterrupted()) {
-            return frame;
+            return flow;
         }
 
         if (standaloneScope) {
-            frame.call();
+            flow.call();
         }
         else {
-            executable.execute(frame);
+            executable.execute(flow);
         }
 
-        return frame;
+        return flow;
     }
 
     @Override
-    public Frame duplicate() {
-        PandaFrame duplicatedBranch = new PandaFrame(process, currentScope);
+    public Flow duplicate() {
+        PandaFlow duplicatedBranch = new PandaFlow(process, instance, currentScope);
         duplicatedBranch.currentFlow = this.currentFlow;
-        duplicatedBranch.instance = this.instance;
         duplicatedBranch.returnedValue = this.returnedValue;
         duplicatedBranch.interrupted = this.interrupted;
         return duplicatedBranch;
-    }
-
-    @Override
-    public void instance(Value instance) {
-        this.instance = instance;
     }
 
     @Override
@@ -171,6 +169,11 @@ public class PandaFrame implements Frame {
     @Override
     public Value getInstance() {
         return instance;
+    }
+
+    @Override
+    public Process getProcess() {
+        return process;
     }
 
 }

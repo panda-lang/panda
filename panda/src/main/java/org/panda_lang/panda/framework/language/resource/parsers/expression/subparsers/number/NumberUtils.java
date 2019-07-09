@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.common.number;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number;
 
 import org.panda_lang.panda.framework.design.interpreter.token.Token;
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;

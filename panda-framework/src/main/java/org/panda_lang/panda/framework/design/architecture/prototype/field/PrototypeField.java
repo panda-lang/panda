@@ -40,7 +40,7 @@ public interface PrototypeField extends ParameterizedExecutable, Variable {
 
     int getFieldIndex();
 
-    default ClassPrototypeReference getTypeReference() {
+    default ClassPrototypeReference getType() {
         return getReturnType();
     }
 

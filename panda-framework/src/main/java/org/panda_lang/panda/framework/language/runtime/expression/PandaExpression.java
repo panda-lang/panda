@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.runtime.expression;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeUtils;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionType;
@@ -61,9 +61,9 @@ public class PandaExpression implements Expression {
     }
 
     @Override
-    public Value evaluate(Frame frame) {
+    public Value evaluate(Flow flow) {
         if (type == ExpressionType.UNKNOWN || type == ExpressionType.BOTH) {
-            return callback.call(this, frame);
+            return callback.call(this, flow);
         }
 
         return value;

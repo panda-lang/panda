@@ -16,15 +16,15 @@
 
 package org.panda_lang.panda.framework.design.architecture.dynamic;
 
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface Executable {
 
     /**
      * Execute current executable
      *
-     * @param frame the parent frame of current executable
+     * @param flow the parent frame of current executable
      */
-    void execute(Frame frame);
+    void execute(Flow flow);
 
 }

@@ -28,8 +28,8 @@ import org.panda_lang.panda.framework.language.interpreter.parser.expression.Exp
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparser;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.ExpressionSubparserWorker;
 import org.panda_lang.panda.framework.language.interpreter.token.PandaSnippet;
-import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberParser;
-import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberUtils;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberUtils;
 import org.panda_lang.panda.framework.language.resource.syntax.separator.Separators;
 import org.panda_lang.panda.framework.language.runtime.expression.PandaExpression;
 

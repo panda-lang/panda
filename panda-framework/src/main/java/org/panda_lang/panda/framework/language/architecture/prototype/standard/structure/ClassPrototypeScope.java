@@ -23,7 +23,7 @@ import org.panda_lang.panda.framework.design.architecture.statement.Scope;
 import org.panda_lang.panda.framework.design.architecture.statement.Statement;
 import org.panda_lang.panda.framework.design.architecture.statement.StatementCell;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.PandaClassPrototype;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractStatement;
@@ -39,7 +39,7 @@ public class ClassPrototypeScope extends AbstractStatement implements Scope {
     }
 
     @Override
-    public ClassPrototypeScopeFrame createFrame(Frame frame) {
+    public ClassPrototypeScopeFrame createFrame(Flow flow) {
         if (prototype instanceof PandaClassPrototype) {
             ((PandaClassPrototype) prototype).initialize();
         }
@@ -52,7 +52,7 @@ public class ClassPrototypeScope extends AbstractStatement implements Scope {
             }
 
             Expression expression = field.getDefaultValue();
-            instance.set(field.getFieldIndex(), expression.evaluate(frame));
+            instance.set(field.getFieldIndex(), expression.evaluate(flow));
         }
 
         return instance;

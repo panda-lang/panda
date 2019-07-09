@@ -17,13 +17,13 @@
 package org.panda_lang.panda.framework.language.architecture.dynamic;
 
 import org.panda_lang.panda.framework.design.architecture.dynamic.ScopeFrame;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.language.architecture.statement.AbstractScope;
 
 public class MainScope extends AbstractScope {
 
     @Override
-    public ScopeFrame createFrame(Frame frame) {
+    public ScopeFrame createFrame(Flow flow) {
         return new MainFrame(this);
     }
 
@@ -39,8 +39,8 @@ public class MainScope extends AbstractScope {
         }
 
         @Override
-        public void execute(Frame frame) {
-            frame.call(super.getScope().getStatementCells());
+        public void execute(Flow flow) {
+            flow.call(super.getScope().getStatementCells());
         }
 
     }

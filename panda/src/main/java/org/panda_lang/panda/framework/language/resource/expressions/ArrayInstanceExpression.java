@@ -18,7 +18,7 @@ package org.panda_lang.panda.framework.language.resource.expressions;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.expression.ExpressionCallback;
 import org.panda_lang.panda.framework.language.architecture.prototype.array.ArrayClassPrototype;
@@ -37,8 +37,9 @@ public class ArrayInstanceExpression implements ExpressionCallback {
     }
 
     @Override
-    public Value call(Expression expression, Frame frame) {
-        return new PandaStaticValue(prototype, Array.newInstance(prototype.getType().getAssociatedClass(), capacity.evaluate(frame).getValue()));
+    public Value call(Expression expression, Flow flow) {
+        int capacityValue = capacity.evaluate(flow).getValue();
+        return new PandaStaticValue(prototype, Array.newInstance(prototype.getType().getAssociatedClass(), capacityValue));
     }
 
     @Override

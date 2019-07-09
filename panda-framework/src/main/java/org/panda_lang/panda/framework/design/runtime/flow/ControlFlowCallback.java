@@ -16,10 +16,8 @@
 
 package org.panda_lang.panda.framework.design.runtime.flow;
 
-import org.panda_lang.panda.framework.design.runtime.Frame;
+public interface ControlFlowCallback {
 
-public interface ControlFlowCaller {
-
-    void call(Frame frame, ControlFlow flow);
+    void call(Flow frame, ControlFlow flow);
 
 }

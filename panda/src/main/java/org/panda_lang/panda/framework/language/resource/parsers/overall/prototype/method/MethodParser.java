@@ -39,7 +39,6 @@ import org.panda_lang.panda.framework.design.resource.parsers.ParserRegistration
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.MethodScope;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethod;
 import org.panda_lang.panda.framework.language.architecture.prototype.standard.method.PandaMethodCallback;
-import org.panda_lang.panda.framework.language.architecture.prototype.standard.parameter.ParameterUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaParserFailure;
 import org.panda_lang.panda.framework.language.interpreter.parser.PandaPriorities;
 import org.panda_lang.panda.framework.language.interpreter.parser.generation.GenerationCycles;
@@ -94,7 +93,7 @@ public class MethodParser extends ParserBootstrap {
         List<PrototypeParameter> parameters = parameterParser.parse(context, parametersSource);
 
         MethodScope methodScope = local.allocated(new MethodScope(method, parameters));
-        ParameterUtils.addAll(methodScope.getVariables(), parameters);
+        methodScope.getVariables().addAll(parameters);
 
         context.withComponent(UniversalComponents.SCOPE, methodScope);
         ClassPrototype prototype = context.getComponent(ClassPrototypeComponents.CLASS_PROTOTYPE);

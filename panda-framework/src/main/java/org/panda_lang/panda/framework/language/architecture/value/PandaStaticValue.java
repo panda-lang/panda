@@ -32,6 +32,11 @@ public class PandaStaticValue implements Value {
     }
 
     @Override
+    public ClassPrototype getType() {
+        return type;
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public <T> T getValue() {
         return (T) getObject();
@@ -43,13 +48,8 @@ public class PandaStaticValue implements Value {
     }
 
     @Override
-    public ClassPrototype getType() {
-        return type;
-    }
-
-    @Override
     public String toString() {
-        return "PandaValue[" + type.getName() + ":" + value + "]";
+        return isNull() ? "Value:NULL" : "PandaValue[" + type.getName() + ":" + value + "]";
     }
 
 }

@@ -20,24 +20,24 @@ import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.design.runtime.memory.MemoryContainer;
 import org.panda_lang.panda.framework.language.architecture.dynamic.assigner.Assigner;
 
 public interface Accessor<T extends Variable> {
 
-    @Nullable Value perform(Frame frame, AccessorCallback callback);
+    @Nullable Value perform(Flow flow, AccessorCallback callback);
 
-    MemoryContainer fetchMemoryContainer(Frame frame);
+    MemoryContainer fetchMemoryContainer(Flow flow);
 
     Assigner<T> toAssigner(Expression expression);
 
     default ClassPrototypeReference getTypeReference() {
-        return getVariable().getTypeReference();
+        return getVariable().getType();
     }
 
-    @Nullable Value getValue(Frame frame);
+    @Nullable Value getValue(Flow flow);
 
     int getMemoryPointer();
 

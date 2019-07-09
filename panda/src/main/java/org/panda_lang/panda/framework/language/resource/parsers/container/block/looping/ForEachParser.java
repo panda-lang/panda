@@ -76,7 +76,7 @@ public class ForEachParser extends BlockSubparserBootstrap {
             throw new PandaParserException("ForEach requires Iterable value");
         }
 
-        return new BlockData(new ForEachBlock(variableId, variable.getType(), expression));
+        return new BlockData(new ForEachBlock(variableId, variable.getType().fetch(), expression));
     }
 
 }

@@ -18,8 +18,19 @@ package org.panda_lang.panda.framework.design.architecture.prototype;
 
 public enum PrototypeVisibility {
 
-    PUBLIC,
-    LOCAL,
-    HIDDEN
+    PUBLIC(0),
+    LOCAL(1),
+    PROTECTED(2),
+    HIDDEN(3);
+
+    private final int modifier;
+
+    PrototypeVisibility(int modifier) {
+        this.modifier = modifier;
+    }
+
+    public int getModifier() {
+        return modifier;
+    }
 
 }

@@ -18,17 +18,17 @@ package org.panda_lang.panda.framework.design.runtime.expression;
 
 import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototype;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 public interface Expression {
 
     /**
      * Evaluate expression using the specified branch
      *
-     * @param frame the frame to use
+     * @param flow the frame to use
      * @return nullable value
      */
-    Value evaluate(Frame frame);
+    Value evaluate(Flow flow);
 
     /**
      * Check if the expression returns null value

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.framework.language.resource.parsers.common.number;
+package org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number;
 
 import org.jetbrains.annotations.Nullable;
 

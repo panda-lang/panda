@@ -16,17 +16,15 @@
 
 package org.panda_lang.panda.framework.design.architecture.prototype.parameter;
 
-import org.panda_lang.panda.framework.design.architecture.prototype.ClassPrototypeReference;
 import org.panda_lang.panda.framework.design.architecture.value.Variable;
 
-public interface PrototypeParameter {
+public interface PrototypeParameter extends Variable {
 
-    Variable toVariable();
-
+    /**
+     * Check if parameter is VarArgs
+     *
+     * @return true if parameter accepts varargs parameters
+     */
     boolean isVarargs();
-
-    ClassPrototypeReference getType();
-
-    String getName();
 
 }

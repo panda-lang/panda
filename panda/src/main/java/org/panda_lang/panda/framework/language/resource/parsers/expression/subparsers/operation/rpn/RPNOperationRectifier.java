@@ -19,7 +19,7 @@ package org.panda_lang.panda.framework.language.resource.parsers.expression.subp
 import org.panda_lang.panda.framework.PandaFrameworkException;
 import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 import org.panda_lang.panda.framework.design.runtime.expression.Expression;
 import org.panda_lang.panda.framework.language.architecture.value.PandaStaticValue;
 import org.panda_lang.panda.framework.language.resource.syntax.operator.Operator;
@@ -56,7 +56,7 @@ class RPNOperationRectifier {
 
             Expression expression = new PandaExpression(new PandaExpressionCallback(action.returnType()) {
                 @Override
-                public Value call(Expression expression, Frame frame) {
+                public Value call(Expression expression, Flow frame) {
                     return new PandaStaticValue(getReturnType(), action.get(frame, a.evaluate(frame), b.evaluate(frame)));
                 }
             });

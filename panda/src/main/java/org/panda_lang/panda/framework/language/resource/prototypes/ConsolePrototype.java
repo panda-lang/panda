@@ -21,7 +21,7 @@ import org.panda_lang.panda.framework.design.architecture.value.Value;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel.ClassDeclaration;
 import org.panda_lang.panda.framework.design.resource.prototypes.model.ClassPrototypeModel.ModuleDeclaration;
-import org.panda_lang.panda.framework.design.runtime.Frame;
+import org.panda_lang.panda.framework.design.runtime.flow.Flow;
 
 import java.security.InvalidParameterException;
 
@@ -30,7 +30,7 @@ import java.security.InvalidParameterException;
 public class ConsolePrototype implements ClassPrototypeModel {
 
     @MethodDeclaration(visibility = PrototypeVisibility.PUBLIC, isStatic = true, catchAllParameters = true)
-    public static void print(Frame frame, System instance, @TypeDeclaration("panda-lang:Array<Object>") Value[] parameters) {
+    public static void print(Flow flow, System instance, @TypeDeclaration("panda-lang:Array<Object>") Value[] parameters) {
         StringBuilder node = new StringBuilder();
 
         if (parameters.length == 0) {

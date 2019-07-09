@@ -32,7 +32,7 @@ import org.panda_lang.panda.framework.design.interpreter.parser.expression.Expre
 import org.panda_lang.panda.framework.design.interpreter.token.snippet.Snippet;
 import org.panda_lang.panda.framework.language.interpreter.lexer.PandaLexerUtils;
 import org.panda_lang.panda.framework.language.interpreter.parser.expression.PandaExpressionParser;
-import org.panda_lang.panda.framework.language.resource.parsers.common.number.NumberParser;
+import org.panda_lang.panda.framework.language.resource.parsers.expression.subparsers.number.NumberParser;
 
 @Fork(value = 1)
 @Warmup(iterations = 1)
@@ -54,7 +54,7 @@ public class ExpressionBenchmark extends ExpressionParserTestBootstrap {
         protected NumberParser numberParser = new NumberParser();
 
         @Setup(Level.Trial)
-        public void setup() throws Exception {
+        public void setup() {
             this.expressionParser = new PandaExpressionParser(PandaExpressionUtils.collectSubparsers());
             this.context = prepareData();
         }

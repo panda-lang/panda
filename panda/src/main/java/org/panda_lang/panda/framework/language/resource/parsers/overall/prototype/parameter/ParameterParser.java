@@ -62,7 +62,7 @@ public class ParameterParser implements Parser {
                 reference = reference.toArray();
             }
 
-            PrototypeParameter parameter = new PandaParameter(reference, name.getValue(), varargs);
+            PrototypeParameter parameter = new PandaParameter(reference, name.getValue(), varargs, false);
             parameters.add(parameter);
         }
 
