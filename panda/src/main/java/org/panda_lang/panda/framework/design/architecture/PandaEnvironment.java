@@ -20,7 +20,6 @@ import org.panda_lang.panda.Panda;
 import org.panda_lang.panda.framework.design.architecture.module.ModulePath;
 import org.panda_lang.panda.framework.design.interpreter.PandaInterpreter;
 import org.panda_lang.panda.framework.design.resource.Resources;
-import org.panda_lang.panda.framework.design.resource.prototypes.model.loader.AnnotatedModelsLoader;
 import org.panda_lang.panda.framework.language.architecture.module.PandaModulePath;
 import org.panda_lang.panda.framework.language.resource.PandaTypes;
 
@@ -43,9 +42,6 @@ public class PandaEnvironment implements Environment {
 
         PandaTypes types = new PandaTypes();
         types.fill(modulePath);
-
-        AnnotatedModelsLoader modelLoader = new AnnotatedModelsLoader();
-        modelLoader.load(modulePath, panda.getResources().getScannerProcess());
 
         this.interpreter = PandaInterpreter.builder()
                 .environment(this)

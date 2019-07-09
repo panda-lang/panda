@@ -20,7 +20,6 @@ import org.panda_lang.panda.framework.design.architecture.Environment;
 import org.panda_lang.panda.framework.design.architecture.PandaApplication;
 import org.panda_lang.panda.framework.design.architecture.PandaScript;
 import org.panda_lang.panda.framework.design.architecture.module.ModuleLoader;
-import org.panda_lang.panda.framework.design.architecture.module.ModuleLoaderUtils;
 import org.panda_lang.panda.framework.design.interpreter.Interpretation;
 import org.panda_lang.panda.framework.design.interpreter.lexer.Lexer;
 import org.panda_lang.panda.framework.design.interpreter.parser.Context;
@@ -60,7 +59,7 @@ public class ApplicationParser implements Parser {
         Resources resources = environment.getResources();
 
         ModuleLoader loader = new PandaModuleLoader(environment.getModulePath());
-        ModuleLoaderUtils.load(loader, environment.getModulePath(), "panda-lang");
+        // ModuleLoaderUtils.load(loader, environment.getModulePath(), "panda-lang");
 
         PandaGeneration generation = new PandaGeneration();
         generation.initialize(GenerationCycles.getValues());
