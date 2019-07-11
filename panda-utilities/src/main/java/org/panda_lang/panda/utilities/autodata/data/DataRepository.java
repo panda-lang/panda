@@ -14,24 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.database;
+package org.panda_lang.panda.utilities.autodata.data;
 
-public class ADSDatabase {
-
-    private final String name;
-    private final ADSDatabaseRepository repository;
-
-    protected ADSDatabase(ADSDatabaseBuilder builder) {
-        this.name = builder.name;
-        this.repository = builder.repository;
-    }
-
-    public ADSDatabaseRepository getRepository() {
-        return repository;
-    }
-
-    public String getName() {
-        return name;
-    }
+public interface DataRepository<T> {
 
 }

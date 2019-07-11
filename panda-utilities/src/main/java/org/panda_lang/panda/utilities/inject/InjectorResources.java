@@ -51,9 +51,9 @@ public interface InjectorResources {
     /**
      * Get bind for the specified type or annotation
      *
-     * @param associatedType the associated class with bind to search for
+     * @param requestedType the associated class with bind to search for
      * @return the wrapped bind
      */
-    Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> associatedType);
+    Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType);
 
 }

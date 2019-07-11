@@ -14,8 +14,19 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.database;
+package org.panda_lang.panda.utilities.autodata.orm;
 
-public interface ADSResult {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Property {
+
+    String name() default "";
+
+    boolean nullable() default false;
 
 }

@@ -14,18 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata;
+package org.panda_lang.panda.utilities.autodata.data;
 
-public interface AutomatedDataRest<T> {
-
-    void post(Object element);
-
-    void patch(Object element);
-
-    T put(Object element);
-
-    T delete(Object query);
-
-    T get(Object query);
+public interface DataService {
 
 }

@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.database;
+package org.panda_lang.panda.utilities.autodata.data;
 
-public interface ADSDatabaseRepository<T> {
+public interface DataCollection {
+
+    <T> T getService(Class<T> service);
+
+    String getName();
 
 }

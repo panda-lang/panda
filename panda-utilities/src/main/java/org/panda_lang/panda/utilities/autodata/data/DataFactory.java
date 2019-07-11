@@ -14,8 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.serialization;
+package org.panda_lang.panda.utilities.autodata.data;
 
-public class SerializationResult {
+public final class DataFactory {
+
+    public DataCollection createCollection(String name, Object service) {
+        return new DataCollectionImpl(name, service);
+    }
 
 }

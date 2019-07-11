@@ -14,8 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.collection;
+package org.panda_lang.panda.utilities.autodata.orm;
 
-public interface ADSCollectionService<T> {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ ElementType.TYPE })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Association {
+
+    String name();
+
+    Type type();
+
+    enum Type {
+
+        DIRECT,
+        MANY
+
+    }
 
 }
