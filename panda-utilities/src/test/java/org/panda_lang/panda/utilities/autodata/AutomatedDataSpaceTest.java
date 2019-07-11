@@ -16,75 +16,88 @@
 
 package org.panda_lang.panda.utilities.autodata;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionHandler;
-import org.panda_lang.panda.utilities.autodata.collection.ADSCollectionService;
-import org.panda_lang.panda.utilities.autodata.database.ADSDatabaseRepository;
+import org.panda_lang.panda.utilities.autodata.data.DataCollection;
+import org.panda_lang.panda.utilities.autodata.data.repositories.InMemoryDataRepository;
+import org.panda_lang.panda.utilities.autodata.orm.Berry;
+import org.panda_lang.panda.utilities.autodata.orm.GeneratedId;
+import org.panda_lang.panda.utilities.autodata.orm.Property;
+import org.panda_lang.panda.utilities.autodata.stereotype.Entity;
+import org.panda_lang.panda.utilities.autodata.stereotype.Repository;
+import org.panda_lang.panda.utilities.autodata.stereotype.Service;
+import org.panda_lang.panda.utilities.inject.annotations.Autowired;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
+import java.util.UUID;
 
 class AutomatedDataSpaceTest {
 
     @Test
     public void test() {
-        AutomatedDataSpace pde = AutomatedDataSpace.builder()
+        AutomatedDataSpace space = AutomatedDataSpace.initialize()
                 .createCollection()
-                .name("strings")
-                .type(String.class)
-                .service(new StringCollectionService())
-                .handler(new ADSCollectionHandler<StringCollectionService, String, Integer>() {
-                    @Override
-                    public void save(StringCollectionService service, String element) {
-                        service.put(element);
-                    }
+                    .name("users")
+                    .type(User.class)
+                    .service(UserService.class)
+                    .repository(UserRepository.class)
+                    .append()
+                .createCollection()
+                    .name("special-users")
+                    .type(User.class)
+                    .service(SpecialUserService.class)
+                    .append()
+                .collect();
 
-                    @Override
-                    public String get(StringCollectionService service, Integer query) {
-                        return service.get(query);
-                    }
+        DataCollection collection = space.getCollection("users");
+        UserService service = collection.getService(UserService.class);
 
-                    @Override
-                    public Class<Integer> getQueryType() {
-                        return Integer.class;
-                    }
-
-                    @Override
-                    public Class<String> getDataType() {
-                        return String.class;
-                    }
-                })
-                .append()
-                .createDatabase()
-                .name("strings")
-                .repository(new StringDatabaseRepository())
-                .append()
-                .build();
-
-        AutomatedDataInterface dataInterface = pde.createInterface();
-        dataInterface.post("strings", "var");
-        dataInterface.loadAll();
-
-        Assertions.assertNull(dataInterface.get("strings", String.class, "var"));
-        Assertions.assertEquals(dataInterface.get("strings", String.class, "var".hashCode()), "var");
+        User user = service.createUser("onlypanda");
+        System.out.println(user);
     }
 
-    public static class StringCollectionService implements ADSCollectionService<String> {
+    @Service
+    static class SpecialUserService {
 
-        private final Map<Integer, String> strings = new HashMap<>();
+    }
 
-        public void put(String element) {
-            strings.put(element.hashCode(), element);
+    @Service
+    static class UserService {
+
+        private final UserRepository repository;
+
+        @Autowired
+        public UserService(@Berry(collection = "users") UserRepository repository) {
+            this.repository = repository;
         }
 
-        public String get(int hashCode) {
-            return strings.get(hashCode);
+        public User createUser(String name) {
+            return repository.createUser(name);
+        }
+
+        public Optional<User> findUserByName(String name) {
+            return repository.findUserByName(name);
         }
 
     }
 
-    public static class StringDatabaseRepository implements ADSDatabaseRepository<String> {
+    @Repository
+    interface UserRepository extends InMemoryDataRepository<User> {
+
+        User createUser(String name);
+
+        Optional<User> findUserByName(String name);
+
+    }
+
+    @Entity
+    interface User {
+
+        @Property
+        @GeneratedId
+        String getName();
+
+        @Property
+        UUID getId();
 
     }
 

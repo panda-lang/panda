@@ -31,7 +31,7 @@ final class ConstructorInjection {
     @SuppressWarnings("unchecked")
     public <T> T invoke(Class<T> type) throws InstantiationException, IllegalAccessException, InvocationTargetException, InjectorException {
         if (type.getDeclaredConstructors().length != 1) {
-            throw new InvalidParameterException("Class has to contain only one constructor");
+            throw new InvalidParameterException("Class has to contain one and only constructor");
         }
 
         Constructor<?> constructor = type.getDeclaredConstructors()[0];

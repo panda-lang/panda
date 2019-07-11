@@ -16,36 +16,27 @@
 
 package org.panda_lang.panda.utilities.autodata;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.utilities.autodata.collection.ADSCollection;
-import org.panda_lang.panda.utilities.autodata.database.ADSDatabase;
+import org.panda_lang.panda.utilities.autodata.data.DataCollection;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class AutomatedDataSpace {
+public final class AutomatedDataSpace {
 
-    private final Map<String, ADSCollection> collections;
-    private final Map<String, ADSDatabase> databases;
+    private final Map<String, DataCollection> collections = new HashMap<>();
 
-    public AutomatedDataSpace(AutomatedDataSpaceBuilder builder) {
-        this.collections = builder.collections;
-        this.databases = builder.databases;
+    AutomatedDataSpace() { }
+
+    protected void addCollection(DataCollection collection) {
+        collections.put(collection.getName(), collection);
     }
 
-    public AutomatedDataInterface createInterface() {
-        return new AutomatedDataInterface(this);
-    }
-
-    public @Nullable ADSDatabase getDatabase(String databaseName) {
-        return this.databases.get(databaseName);
-    }
-
-    public @Nullable ADSCollection getCollection(String collectionName) {
+    public DataCollection getCollection(String collectionName) {
         return this.collections.get(collectionName);
     }
 
-    public static AutomatedDataSpaceBuilder builder() {
-        return new AutomatedDataSpaceBuilder();
+    public static SpaceCreator initialize() {
+        return new SpaceCreator();
     }
 
 }

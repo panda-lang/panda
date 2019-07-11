@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.collection;
+package org.panda_lang.panda.utilities.autodata.data.repositories;
 
-public interface ADSCollectionHandler<Service extends ADSCollectionService, DataType, QueryType> {
+import org.panda_lang.panda.utilities.autodata.data.DataRepository;
 
-    void save(Service service, DataType element);
-
-    DataType get(Service service, QueryType query);
-
-    Class<QueryType> getQueryType();
-
-    Class<DataType> getDataType();
+public interface InMemoryDataRepository<T> extends DataRepository<T> {
 
 }

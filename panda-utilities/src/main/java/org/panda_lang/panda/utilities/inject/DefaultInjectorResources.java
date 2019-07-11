@@ -20,8 +20,10 @@ import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.lang.annotation.Annotation;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 final class DefaultInjectorResources implements InjectorResources {
 
@@ -49,8 +51,23 @@ final class DefaultInjectorResources implements InjectorResources {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> associatedType) {
-        return ClassUtils.selectMostRelated(binds.keySet(), associatedType).map(binds::get);
+    public Optional<InjectorResourceBind<?, ? super Object>> getBind(Class<?> requestedType) {
+        Optional<InjectorResourceBind<?, ? super Object>> mostRelated = ClassUtils.selectMostRelated(binds.keySet(), requestedType).map(binds::get);
+
+        if (mostRelated.isPresent()) {
+            return mostRelated;
+        }
+
+        List<InjectorResourceBind> associated = binds.keySet().stream()
+                .filter(requestedType::isAssignableFrom)
+                .map(binds::get)
+                .collect(Collectors.toList());
+
+        if (associated.size() != 1) {
+            return Optional.empty();
+        }
+
+        return Optional.ofNullable(associated.get(0));
     }
 
 }

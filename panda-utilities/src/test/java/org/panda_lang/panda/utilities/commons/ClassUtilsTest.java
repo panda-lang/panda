@@ -51,9 +51,10 @@ class ClassUtilsTest {
 
     @Test
     void selectMostRelated() {
-        Collection<Class<?>> classes = Arrays.asList(A.class, B.class, C.class);
+        Collection<Class<?>> classes = Arrays.asList(A.class, C.class);
 
         Assertions.assertEquals(A.class, ClassUtils.selectMostRelated(classes, A.class).orElse(null));
+        Assertions.assertEquals(A.class, ClassUtils.selectMostRelated(classes, B.class).orElse(null));
         Assertions.assertEquals(C.class, ClassUtils.selectMostRelated(classes, C.class).orElse(null));
     }
 
