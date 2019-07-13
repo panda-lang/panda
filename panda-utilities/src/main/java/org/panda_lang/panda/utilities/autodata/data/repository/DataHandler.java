@@ -14,12 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data;
+package org.panda_lang.panda.utilities.autodata.data.repository;
 
-public interface DataCollection {
+import java.util.Map;
 
-    <T> T getService(Class<T> service);
+public interface DataHandler<ENTITY> {
 
-    String getName();
+    ENTITY create(Object[] values) throws Exception;
+
+    void delete(ENTITY entity) throws Exception;
+
+    void save(ENTITY entity, Map<String, Object> changes) throws Exception;
+
+    Object find(DataStream stream) throws Exception;
 
 }

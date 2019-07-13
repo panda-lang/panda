@@ -20,11 +20,11 @@ import org.panda_lang.panda.utilities.autodata.orm.Berry;
 import org.panda_lang.panda.utilities.inject.InjectorController;
 import org.panda_lang.panda.utilities.inject.InjectorResources;
 
-final class SpaceInjectionController implements InjectorController {
+final class AutomatedDataSpaceInjectionController implements InjectorController {
 
-    private final SpaceCreator creator;
+    private final AutomatedDataSpaceCreator creator;
 
-    public SpaceInjectionController(SpaceCreator creator) {
+    AutomatedDataSpaceInjectionController(AutomatedDataSpaceCreator creator) {
         this.creator = creator;
     }
 
