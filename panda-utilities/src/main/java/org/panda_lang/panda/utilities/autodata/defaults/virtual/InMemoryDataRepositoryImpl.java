@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data;
+package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
-public interface DataService {
+abstract class InMemoryDataRepositoryImpl<T> implements InMemoryDataRepository<T> {
 
 }

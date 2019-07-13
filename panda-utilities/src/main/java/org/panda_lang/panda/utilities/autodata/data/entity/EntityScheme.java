@@ -14,12 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data;
+package org.panda_lang.panda.utilities.autodata.data.entity;
 
-public final class DataFactory {
+import java.util.Collection;
 
-    public DataCollection createCollection(String name, Object service) {
-        return new DataCollectionImpl(name, service);
+public class EntityScheme {
+
+    private final Class<?> rootClass;
+    private final Collection<EntitySchemeElement> elements;
+
+    EntityScheme(Class<?> rootClass, Collection<EntitySchemeElement> elements) {
+        this.rootClass = rootClass;
+        this.elements = elements;
+    }
+
+    public Collection<EntitySchemeElement> getElements() {
+        return elements;
+    }
+
+    public Class<?> getRootClass() {
+        return rootClass;
     }
 
 }

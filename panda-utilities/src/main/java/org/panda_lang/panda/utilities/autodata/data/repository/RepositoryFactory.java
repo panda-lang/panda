@@ -14,8 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data;
+package org.panda_lang.panda.utilities.autodata.data.repository;
 
-public interface DataRepository<T> {
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+
+public final class RepositoryFactory {
+
+    public DataRepository<?> createRepository(DataController<?> controller, CollectionScheme collectionScheme, Class<? extends DataRepository> repositoryClass) {
+        RepositoryGenerator repositoryGenerator = new RepositoryGenerator(repositoryClass);
+        return repositoryGenerator.generate(controller, collectionScheme);
+    }
 
 }

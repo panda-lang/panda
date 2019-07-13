@@ -14,27 +14,30 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data;
+package org.panda_lang.panda.utilities.autodata.data.collection;
 
-final class DataCollectionImpl implements DataCollection {
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
+
+public class CollectionScheme {
 
     private final String name;
-    private final Object service;
+    private final EntityScheme entityScheme;
 
-    protected DataCollectionImpl(String name, Object service) {
+    CollectionScheme(String name, EntityScheme entityScheme) {
         this.name = name;
-        this.service = service;
+        this.entityScheme = entityScheme;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getService(Class<T> serviceClass) {
-        return (T) service;
+    public EntityScheme getEntityScheme() {
+        return entityScheme;
     }
 
-    @Override
     public String getName() {
         return name;
+    }
+
+    public static CollectionScheme of(DataCollectionStereotype collectionStereotype) {
+        return new CollectionSchemeLoader().load(collectionStereotype);
     }
 
 }

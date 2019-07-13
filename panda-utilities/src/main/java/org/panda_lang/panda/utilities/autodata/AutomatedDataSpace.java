@@ -16,27 +16,37 @@
 
 package org.panda_lang.panda.utilities.autodata;
 
-import org.panda_lang.panda.utilities.autodata.data.DataCollection;
+import org.panda_lang.panda.utilities.autodata.data.DataSpace;
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public final class AutomatedDataSpace {
+public final class AutomatedDataSpace implements DataSpace {
 
+    private final DataController<?> controller;
     private final Map<String, DataCollection> collections = new HashMap<>();
 
-    AutomatedDataSpace() { }
+    AutomatedDataSpace(DataController<?> controller) {
+        this.controller = controller;
+    }
 
     protected void addCollection(DataCollection collection) {
         collections.put(collection.getName(), collection);
     }
 
+    @Override
     public DataCollection getCollection(String collectionName) {
         return this.collections.get(collectionName);
     }
 
-    public static SpaceCreator initialize() {
-        return new SpaceCreator();
+    protected DataController<?> getController() {
+        return controller;
+    }
+
+    public static AutomatedDataSpaceCreator initialize(Class<? extends DataController> controller) {
+        return new AutomatedDataSpaceCreator(controller);
     }
 
 }

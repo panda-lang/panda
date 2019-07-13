@@ -17,8 +17,10 @@
 package org.panda_lang.panda.utilities.autodata;
 
 import org.junit.jupiter.api.Test;
-import org.panda_lang.panda.utilities.autodata.data.DataCollection;
-import org.panda_lang.panda.utilities.autodata.data.repositories.InMemoryDataRepository;
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
+import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
+import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataController;
+import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataRepository;
 import org.panda_lang.panda.utilities.autodata.orm.Berry;
 import org.panda_lang.panda.utilities.autodata.orm.GeneratedId;
 import org.panda_lang.panda.utilities.autodata.orm.Property;
@@ -34,24 +36,57 @@ class AutomatedDataSpaceTest {
 
     @Test
     public void test() {
-        AutomatedDataSpace space = AutomatedDataSpace.initialize()
+        AutomatedDataSpace space = AutomatedDataSpace.initialize(InMemoryDataController.class)
                 .createCollection()
                     .name("users")
-                    .type(User.class)
+                    .entity(User.class)
                     .service(UserService.class)
                     .repository(UserRepository.class)
                     .append()
                 .createCollection()
                     .name("special-users")
-                    .type(User.class)
+                    .entity(User.class)
                     .service(SpecialUserService.class)
+                    .repository(UserRepository.class)
                     .append()
                 .collect();
 
         DataCollection collection = space.getCollection("users");
         UserService service = collection.getService(UserService.class);
 
+        /*
+        // Sposób pierwszy
         User user = service.createUser("onlypanda");
+        user.setName("xxx"); // <-- samo pod spodem wykona task od razu task żeby zapdejtować nazwe usera
+
+        user.syncTransaction(() -> {
+                    user.setName("xxx");
+                    user.setName("yyy");
+                })
+                .retry((attempt, time) -> attempt < 10)
+                .success((attempt, time) -> System.out.println("Udalo sie po " + attempt + " probach :0")
+                .orElse((attempt, time) -> {
+                    thr new Exception("Unlucky w chuj");
+                });
+
+        // Sposób drugi
+        User user = service.createUser("onlypanda");
+        user.setName("xxx"); // <-- zmieni nazwe, doda "name" do jakiejś listy zmienionych wartości
+        service.save(user); // dopiero teraz robi taska i wysyła zmienione wartości
+        */
+
+        User user = service.createUser("onlypanda");
+
+        user.transaction(() -> {
+                    // [...]
+                })
+                .retry((attempt, time) -> attempt < 10)
+                .success((attempt, time) -> System.out.println("Udalo sie po " + attempt + " probach :0"))
+                .orElse((attempt, time) -> {
+                    throw new AutomatedDataException("Unlucky");
+                })
+                .commit();
+
         System.out.println(user);
     }
 
@@ -90,7 +125,7 @@ class AutomatedDataSpaceTest {
     }
 
     @Entity
-    interface User {
+    interface User extends DataEntity {
 
         @Property
         @GeneratedId

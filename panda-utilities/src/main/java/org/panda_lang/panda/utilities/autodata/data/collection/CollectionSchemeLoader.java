@@ -14,10 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repositories;
+package org.panda_lang.panda.utilities.autodata.data.collection;
 
-import org.panda_lang.panda.utilities.autodata.data.DataRepository;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
 
-public interface InMemoryDataRepository<T> extends DataRepository<T> {
+final class CollectionSchemeLoader {
+
+    private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
+
+    public CollectionScheme load(DataCollectionStereotype collection) {
+        return new CollectionScheme(collection.getName(), ENTITY_FACTORY.createEntityScheme(collection.getEntityClass()));
+    }
 
 }
