@@ -48,7 +48,7 @@ final class EntityGenerator {
         }
 
         String name = clazz.getPackage().getName() + ".Controlled" + clazz.getSimpleName();
-        Optional<Class<? extends DataEntity>> loadedEntityClass = ClassUtils.forName(CLASS_POOL.getClassLoader(), name);
+        Optional<Class<? extends DataEntity>> loadedEntityClass = ClassUtils.forName(name);
 
         if (loadedEntityClass.isPresent()) {
             return loadedEntityClass.get();

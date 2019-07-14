@@ -17,7 +17,6 @@
 package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
-import sun.reflect.Reflection;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -112,21 +111,10 @@ public class ClassUtils {
      * @param name the name of class
      * @return optional with class (with null instead of {@link java.lang.ClassNotFoundException})
      */
-    public static <T> Optional<Class<? extends T>> forName(String name) {
-        return forName(Reflection.getCallerClass().getClassLoader(), name);
-    }
-
-    /**
-     * Get class using {@link java.lang.Class#forName(String, boolean, java.lang.ClassLoader)} as {@link java.util.Optional}
-     *
-     * @param  classLoader the classloader to use
-     * @param name the name of class
-     * @return optional with class (with null instead of {@link java.lang.ClassNotFoundException})
-     */
     @SuppressWarnings("unchecked")
-    public static <T> Optional<Class<? extends T>> forName(ClassLoader classLoader, String name) {
+    public static <T> Optional<Class<? extends T>> forName(String name) {
         try {
-            Class<T> clazz = (Class<T>) Class.forName(name, true, classLoader);
+            Class<T> clazz = (Class<T>) Class.forName(name);
             return Optional.of(clazz);
         } catch (ClassNotFoundException e) {
             return Optional.empty();
