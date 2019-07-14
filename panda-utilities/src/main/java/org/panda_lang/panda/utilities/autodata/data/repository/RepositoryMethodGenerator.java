@@ -34,7 +34,7 @@ final class RepositoryMethodGenerator {
                 .map(String::toLowerCase)
                 .collect(Collectors.toList());
 
-        System.out.println(elements.toString());
+        // System.out.println(elements.toString());
 
         String operation = elements.get(0);
         List<String> specification = elements.subList(1, elements.size());

@@ -16,10 +16,15 @@
 
 package org.panda_lang.panda.utilities.autodata.data.collection;
 
+import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
+
 public final class CollectionFactory {
 
-    public DataCollection createCollection(DataCollectionStereotype stereotype, Object service) {
-        return new DataCollectionImpl(stereotype.getName(), stereotype.getEntityClass(), service);
+    private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
+
+    public DataCollection createCollection(CollectionScheme scheme, Class<? extends DataEntity> entityClass, Object service) {
+        return new DataCollectionImpl(scheme.getName(), entityClass , service);
     }
 
 }

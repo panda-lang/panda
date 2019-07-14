@@ -16,12 +16,30 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
+import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+
 public final class EntityFactory {
 
     private static final EntitySchemeLoader ENTITY_SCHEME_LOADER = new EntitySchemeLoader();
+    private static final EntityGenerator ENTITY_GENERATOR = new EntityGenerator();
+
+    static {
+        try {
+            ENTITY_GENERATOR.initialize();
+        } catch (NotFoundException e) {
+            throw new AutomatedDataException("Class not found: " + e.getMessage());
+        }
+    }
 
     public EntityScheme createEntityScheme(Class<?> entityClass) {
         return ENTITY_SCHEME_LOADER.load(entityClass);
+    }
+
+    public Class<? extends DataEntity> generateEntityClass(EntityScheme scheme, DataHandler<?> dataHandler) throws CannotCompileException, NotFoundException {
+        return ENTITY_GENERATOR.generate(scheme, dataHandler);
     }
 
 }

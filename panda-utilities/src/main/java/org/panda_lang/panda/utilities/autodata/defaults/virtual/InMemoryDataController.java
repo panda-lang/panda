@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
@@ -31,8 +32,13 @@ public final class InMemoryDataController<T> implements DataController<T> {
     private final Map<String, InMemoryDataHandler<T>> handlers = new HashMap<>();
 
     @Override
-    public void initialize(Collection<CollectionScheme> schemes) {
-        schemes.forEach(scheme -> handlers.put(scheme.getName(), new InMemoryDataHandler<>(this, scheme.getEntityScheme())));
+    public void initializeSchemes(Collection<? extends CollectionScheme> schemes) {
+        schemes.forEach(scheme -> handlers.put(scheme.getName(), new InMemoryDataHandler<>(this)));
+    }
+
+    @Override
+    public void initializeCollections(Collection<? extends DataCollection> dataCollections) {
+        dataCollections.forEach(dataCollection -> handlers.get(dataCollection.getName()).setCollection(dataCollection));
     }
 
     @Override
@@ -42,6 +48,11 @@ public final class InMemoryDataController<T> implements DataController<T> {
 
     protected Collection<T> getValues() {
         return values;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return "InMemory";
     }
 
 }

@@ -23,7 +23,6 @@ import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataCont
 import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataRepository;
 import org.panda_lang.panda.utilities.autodata.orm.Berry;
 import org.panda_lang.panda.utilities.autodata.orm.GeneratedId;
-import org.panda_lang.panda.utilities.autodata.orm.Property;
 import org.panda_lang.panda.utilities.autodata.stereotype.Entity;
 import org.panda_lang.panda.utilities.autodata.stereotype.Repository;
 import org.panda_lang.panda.utilities.autodata.stereotype.Service;
@@ -59,24 +58,6 @@ class AutomatedDataSpaceTest {
         User user = service.createUser("onlypanda");
         user.setName("xxx"); // <-- samo pod spodem wykona task od razu task żeby zapdejtować nazwe usera
 
-        user.syncTransaction(() -> {
-                    user.setName("xxx");
-                    user.setName("yyy");
-                })
-                .retry((attempt, time) -> attempt < 10)
-                .success((attempt, time) -> System.out.println("Udalo sie po " + attempt + " probach :0")
-                .orElse((attempt, time) -> {
-                    thr new Exception("Unlucky w chuj");
-                });
-
-        // Sposób drugi
-        User user = service.createUser("onlypanda");
-        user.setName("xxx"); // <-- zmieni nazwe, doda "name" do jakiejś listy zmienionych wartości
-        service.save(user); // dopiero teraz robi taska i wysyła zmienione wartości
-        */
-
-        User user = service.createUser("onlypanda");
-
         user.transaction(() -> {
                     // [...]
                 })
@@ -87,6 +68,13 @@ class AutomatedDataSpaceTest {
                 })
                 .commit();
 
+        // Sposób drugi
+        User user = service.createUser("onlypanda");
+        user.setName("xxx"); // <-- zmieni nazwe, doda "name" do jakiejś listy zmienionych wartości
+        service.save(user); // dopiero teraz robi taska i wysyła zmienione wartości
+        */
+
+        User user = service.createUser("onlypanda");
         System.out.println(user);
     }
 
@@ -125,13 +113,13 @@ class AutomatedDataSpaceTest {
     }
 
     @Entity
-    interface User extends DataEntity {
+    public interface User extends DataEntity {
 
-        @Property
-        @GeneratedId
+        void setName(String name);
+
         String getName();
 
-        @Property
+        @GeneratedId
         UUID getId();
 
     }

@@ -25,17 +25,13 @@ import java.util.Map;
 
 final class RepositoryGenerator {
 
-    private final Class<? extends DataRepository> repositoryClass;
     private final RepositoryMethodGenerator methodGenerator = new RepositoryMethodGenerator();
-
-    RepositoryGenerator(Class<? extends DataRepository> repositoryClass) {
-        this.repositoryClass = repositoryClass;
-    }
 
     protected DataRepository<?> generate(DataController<?> controller, CollectionScheme collectionScheme) {
         Map<String, RepositoryGeneratorFunction> generatedFunctions = new HashMap<>();
+        Class<? extends DataRepository> repositoryClass = collectionScheme.getRepositoryClass();
 
-        for (Method method : repositoryClass.getMethods()) {
+        for (Method method : repositoryClass.getDeclaredMethods()) {
             generatedFunctions.put(method.getName(), methodGenerator.generateMethod(controller, collectionScheme, method));
         }
 
