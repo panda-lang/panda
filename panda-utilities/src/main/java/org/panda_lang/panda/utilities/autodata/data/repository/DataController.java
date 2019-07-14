@@ -17,13 +17,18 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 
 import java.util.Collection;
 
 public interface DataController<ENTITY> {
 
-    void initialize(Collection<CollectionScheme> schemes);
+    void initializeSchemes(Collection<? extends CollectionScheme> schemes);
+
+    void initializeCollections(Collection<? extends DataCollection> dataCollections);
 
     DataHandler<ENTITY> getHandler(String collection);
+
+    String getIdentifier();
 
 }

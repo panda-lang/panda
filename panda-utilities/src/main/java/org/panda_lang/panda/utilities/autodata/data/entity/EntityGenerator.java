@@ -19,31 +19,62 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 import javassist.CannotCompileException;
 import javassist.ClassPool;
 import javassist.CtClass;
+import javassist.CtConstructor;
+import javassist.CtField;
+import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 final class EntityGenerator {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
 
+    private CtClass ctDataHandler;
+
+    protected void initialize() throws NotFoundException {
+        ctDataHandler = CLASS_POOL.get(DataHandler.class.getName());
+    }
+
     @SuppressWarnings("unchecked")
-    protected Class<? extends DataEntity> generate(Class<?> clazz) {
+    protected Class<? extends DataEntity> generate(EntityScheme scheme, DataHandler<?> dataHandler) throws NotFoundException, CannotCompileException {
+        Class<?> clazz = scheme.getRootClass();
+
         if (!clazz.isInterface()) {
             throw new AutomatedDataException("Entity class is not an interface (source: " + clazz.toGenericString() + ")");
         }
 
-        CtClass entityClass = CLASS_POOL.makeClass(clazz.getName() + "ADS");
+        String name = clazz.getPackage().getName() + ".Controlled" + clazz.getSimpleName();
+        Optional<Class<? extends DataEntity>> loadedEntityClass = ClassUtils.forName(CLASS_POOL.getClassLoader(), name);
 
-        for (Method method : clazz.getMethods()) {
+        if (loadedEntityClass.isPresent()) {
+            return loadedEntityClass.get();
+        }
+
+        CtClass entityClass = CLASS_POOL.makeClass(name);
+        generateConstructor(entityClass);
+
+        CtClass entityInterface = CLASS_POOL.get(clazz.getName());
+        entityClass.addInterface(entityInterface);
+
+        for (Method method : clazz.getDeclaredMethods()) {
             generate(entityClass, method);
         }
 
-        try {
-            return (Class<? extends DataEntity>) entityClass.toClass();
-        } catch (CannotCompileException e) {
-            throw new AutomatedDataException("Cannot compile generated class: " + e.getMessage());
-        }
+        return (Class<? extends DataEntity>) entityClass.toClass();
+    }
+
+    private void generateConstructor(CtClass entityClass) throws CannotCompileException {
+        CtField field = new CtField(ctDataHandler, "dataHandler", entityClass);
+        entityClass.addField(field);
+
+        CtConstructor constructor = new CtConstructor(new CtClass[]{ ctDataHandler }, entityClass);
+        constructor.setBody("this.dataHandler = $1;");
+        entityClass.addConstructor(constructor);
+
     }
 
     private void generate(CtClass entityClass, Method method) {

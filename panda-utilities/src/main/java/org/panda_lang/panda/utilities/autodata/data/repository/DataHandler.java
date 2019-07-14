@@ -28,4 +28,6 @@ public interface DataHandler<ENTITY> {
 
     Object find(DataStream stream) throws Exception;
 
+    String getIdentifier();
+
 }

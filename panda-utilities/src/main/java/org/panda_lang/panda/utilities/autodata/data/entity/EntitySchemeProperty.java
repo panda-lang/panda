@@ -16,23 +16,30 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
-public final class EntitySchemeElement {
+import java.lang.reflect.Method;
 
-    private final Type type;
+public final class EntitySchemeProperty {
 
-    public EntitySchemeElement(Type type) {
+    private final String name;
+    private final Class<?> type;
+    private final Method associatedMethod;
+
+    public EntitySchemeProperty(String name, Class<?> type, Method associatedMethod) {
+        this.name = name;
         this.type = type;
+        this.associatedMethod = associatedMethod;
     }
 
-    public Type getType() {
+    public Method getAssociatedMethod() {
+        return associatedMethod;
+    }
+
+    public Class<?> getType() {
         return type;
     }
 
-    enum Type {
-
-        FIELD,
-        METHOD
-
+    public String getName() {
+        return name;
     }
 
 }

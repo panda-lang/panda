@@ -18,12 +18,22 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 
-public final class RepositoryFactory {
+public final class RepositoryScheme {
 
-    private static final RepositoryGenerator REPOSITORY_GENERATOR = new RepositoryGenerator();
+    private final DataRepository<?> repository;
+    private final CollectionScheme collectionScheme;
 
-    public DataRepository<?> createRepository(DataController<?> controller, CollectionScheme collectionScheme) {
-        return REPOSITORY_GENERATOR.generate(controller, collectionScheme);
+    public RepositoryScheme(DataRepository<?> repository, CollectionScheme collectionScheme) {
+        this.repository = repository;
+        this.collectionScheme = collectionScheme;
+    }
+
+    public CollectionScheme getCollectionScheme() {
+        return collectionScheme;
+    }
+
+    public DataRepository<?> getRepository() {
+        return repository;
     }
 
 }

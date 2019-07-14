@@ -22,8 +22,8 @@ final class CollectionSchemeLoader {
 
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
-    public CollectionScheme load(DataCollectionStereotype collection) {
-        return new CollectionScheme(collection.getName(), ENTITY_FACTORY.createEntityScheme(collection.getEntityClass()));
+    public CollectionScheme load(DataCollectionStereotype stereotype) {
+        return new CollectionScheme(stereotype, ENTITY_FACTORY.createEntityScheme(stereotype.getEntityClass()));
     }
 
 }

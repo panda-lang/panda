@@ -16,23 +16,30 @@
 
 package org.panda_lang.panda.utilities.autodata;
 
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionFactory;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionFactory;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollectionStereotype;
+import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryFactory;
+import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
 import org.panda_lang.panda.utilities.inject.Injector;
 import org.panda_lang.panda.utilities.inject.InjectorException;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.Collectors;
 
 final class AutomatedDataSpaceInitializer {
 
-    private static final RepositoryFactory REPOSITORY_FACTORY = new RepositoryFactory();
     private static final CollectionFactory COLLECTION_FACTORY = new CollectionFactory();
+    private static final RepositoryFactory REPOSITORY_FACTORY = new RepositoryFactory();
+    private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
     private final AutomatedDataSpace automatedDataSpace;
     private final Injector injector;
@@ -42,36 +49,68 @@ final class AutomatedDataSpaceInitializer {
         this.injector = injector;
     }
 
-    protected Collection<? extends DataCollection> initialize(Collection<? extends DataCollectionStereotype> stereotypes) {
-        initializeRepositories(stereotypes);
+    /*
 
-        Collection<? extends DataCollection> collections = createCollections(stereotypes);
-        initializeController(stereotypes);
+    Initialize:
+        1 -> collection scheme:
+           - name
+          -> entity scheme:
+             - name
+             - class
+             - properties & annotations
+        2 -> initialize scheme
+        3 -> repositories
+        4 -> generate entity
+        5 -> services & collections
+        6 -> initialize controller collections
+
+     */
+    protected Collection<? extends DataCollection> initialize(Collection<? extends DataCollectionStereotype> stereotypes) {
+        Collection<CollectionScheme> collectionSchemes = initializeSchemes(stereotypes);
+        automatedDataSpace.getController().initializeSchemes(collectionSchemes);
+
+        Collection<RepositoryScheme> repositorySchemes = initializeRepositories(collectionSchemes);
+        Collection<? extends DataCollection> collections = createCollections(repositorySchemes);
+        automatedDataSpace.getController().initializeCollections(collections);
 
         return collections;
     }
 
-    private void initializeController(Collection<? extends DataCollectionStereotype> stereotypes) {
-        List<CollectionScheme> schemes = stereotypes.stream()
+    private Collection<CollectionScheme> initializeSchemes(Collection<? extends DataCollectionStereotype> stereotypes) {
+        return stereotypes.stream()
                 .map(CollectionScheme::of)
                 .collect(Collectors.toList());
-
-        automatedDataSpace.getController().initialize(schemes);
     }
 
-    private void initializeRepositories(Collection<? extends DataCollectionStereotype> stereotypes) {
-        stereotypes.stream()
-                .map(stereotype -> REPOSITORY_FACTORY.createRepository(automatedDataSpace.getController(), CollectionScheme.of(stereotype), stereotype.getRepositoryClass()))
-                .forEach(repository -> injector.getResources().on(repository.getClass()).assignInstance(repository));
+    private Collection<RepositoryScheme> initializeRepositories(Collection<? extends CollectionScheme> schemes) {
+        return schemes.stream()
+                .map(scheme -> {
+                    DataRepository<?> repository = REPOSITORY_FACTORY.createRepository(automatedDataSpace.getController(), scheme);
+
+                    injector.getResources()
+                            .on(repository.getClass())
+                            .assignInstance(repository);
+
+                    return new RepositoryScheme(repository, scheme);
+                })
+                .collect(Collectors.toList());
     }
 
-    private Collection<? extends DataCollection> createCollections(Collection<? extends DataCollectionStereotype> stereotypes) {
-        return stereotypes.stream()
-                .map(stereotype -> {
+    private Collection<? extends DataCollection> createCollections(Collection<RepositoryScheme> schemes) {
+        return schemes.stream()
+                .map(scheme -> {
                     try {
-                        return COLLECTION_FACTORY.createCollection(stereotype, injector.newInstance((stereotype.getServiceClass())));
+                        CollectionScheme collectionScheme = scheme.getCollectionScheme();
+                        DataHandler<?> dataHandler = automatedDataSpace.getController().getHandler(collectionScheme.getName());
+
+                        Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(collectionScheme.getEntityScheme(), dataHandler);
+                        Object service = injector.newInstance(scheme.getCollectionScheme().getServiceClass());
+
+                        return COLLECTION_FACTORY.createCollection(collectionScheme, entityClass, service);
                     } catch (InstantiationException | IllegalAccessException | InvocationTargetException | InjectorException e) {
-                        throw new AutomatedDataException("Cannot create service instance: " + e.getMessage());
+                        throw new AutomatedDataException("Cannot create service instance", e);
+                    } catch (CannotCompileException | NotFoundException e) {
+                        throw new AutomatedDataException("Cannot generate entity class", e);
                     }
                 })
                 .collect(Collectors.toList());

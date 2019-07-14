@@ -17,15 +17,24 @@
 package org.panda_lang.panda.utilities.autodata.data.collection;
 
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
 
 public class CollectionScheme {
 
-    private final String name;
+    private final DataCollectionStereotype stereotype;
     private final EntityScheme entityScheme;
 
-    CollectionScheme(String name, EntityScheme entityScheme) {
-        this.name = name;
+    CollectionScheme(DataCollectionStereotype stereotype, EntityScheme entityScheme) {
+        this.stereotype = stereotype;
         this.entityScheme = entityScheme;
+    }
+
+    public Class<?> getServiceClass() {
+        return stereotype.getServiceClass();
+    }
+
+    public Class<? extends DataRepository> getRepositoryClass() {
+        return stereotype.getRepositoryClass();
     }
 
     public EntityScheme getEntityScheme() {
@@ -33,7 +42,7 @@ public class CollectionScheme {
     }
 
     public String getName() {
-        return name;
+        return stereotype.getName();
     }
 
     public static CollectionScheme of(DataCollectionStereotype collectionStereotype) {

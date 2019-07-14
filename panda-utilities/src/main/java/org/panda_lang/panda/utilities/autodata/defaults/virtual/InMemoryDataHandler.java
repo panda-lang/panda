@@ -16,20 +16,24 @@
 
 package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataStream;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 final class InMemoryDataHandler<T> implements DataHandler<T> {
 
-    private final InMemoryDataController<T> controller;
-    private final EntityScheme entityScheme;
+    private static final AtomicInteger ID = new AtomicInteger();
 
-    InMemoryDataHandler(InMemoryDataController<T> controller, EntityScheme entityScheme) {
+    private final int id;
+    private final InMemoryDataController<T> controller;
+    private DataCollection collection;
+
+    InMemoryDataHandler(InMemoryDataController<T> controller) {
+        this.id = ID.incrementAndGet();
         this.controller = controller;
-        this.entityScheme = entityScheme;
     }
 
     @Override
@@ -41,7 +45,7 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
             types[index] = values[index].getClass(); // todo: null check
         }
 
-        T value = (T) entityScheme.getRootClass().getConstructor(types).newInstance(values); // todo: xxx
+        T value = (T) collection.getEntityClass().getConstructor(DataHandler.class).newInstance(this);
         controller.getValues().add(value);
 
         return value;
@@ -60,6 +64,15 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     @Override
     public Object find(DataStream stream) {
         return null;
+    }
+
+    public void setCollection(DataCollection collection) {
+        this.collection = collection;
+    }
+
+    @Override
+    public String getIdentifier() {
+        return controller.getIdentifier() + id;
     }
 
 }

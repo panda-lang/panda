@@ -16,31 +16,71 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
+import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 final class EntitySchemeLoader {
+
+    private static final String CAMEL_CASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
 
     protected EntityScheme load(Class<?> entityClass) {
         if (!entityClass.isInterface()) {
             throw new AutomatedDataException("Entity class is not an interface (source: " + entityClass.toGenericString() + ")");
         }
 
-        Collection<EntitySchemeElement> elements = new ArrayList<>();
+        Map<String, EntitySchemeProperty> properties = new HashMap<>();
 
-        for (Method method : entityClass.getMethods()) {
-            elements.add(load(method));
+        for (Method method : entityClass.getDeclaredMethods()) {
+            EntitySchemeProperty property = load(method);
+
+            if (properties.containsKey(property.getName())) {
+                EntitySchemeProperty cachedProperty = properties.get(property.getName());
+
+                if (cachedProperty.getType().equals(property.getType())) {
+                    continue;
+                }
+
+                throw new AutomatedDataException("Methods associated with the same property cannot have different return type (" + method + " != " + cachedProperty.getAssociatedMethod() + ")");
+            }
+
+            properties.put(property.getName(), property);
         }
 
-        return new EntityScheme(entityClass, elements);
+        return new EntityScheme(entityClass, properties);
     }
 
-    private EntitySchemeElement load(Method method) {
-        return null;
+    private EntitySchemeProperty load(Method method) {
+        List<String> elements = Arrays.stream(method.getName().split(CAMEL_CASE_PATTERN))
+                .map(String::toLowerCase)
+                .collect(Collectors.toList());
+
+        String propertyName = ContentJoiner.on("_").join(elements.subList(1, elements.size( ))).toString();
+        Class<?> type = getType(elements.get(0), method);
+
+        if (type == null) {
+            throw new AutomatedDataException("Unknown operation '" + elements.get(0) + "'");
+        }
+
+        return new EntitySchemeProperty(propertyName, type, method);
     }
 
+    private @Nullable Class<?> getType(String operation, Method method) {
+        switch (operation) {
+            case "get":
+                return method.getReturnType();
+            case "set":
+                return method.getParameterTypes()[0];
+            default:
+                return null;
+        }
+    }
 
 }

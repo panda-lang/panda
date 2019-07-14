@@ -16,20 +16,20 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import java.util.Collection;
+import java.util.Map;
 
 public class EntityScheme {
 
     private final Class<?> rootClass;
-    private final Collection<EntitySchemeElement> elements;
+    private final Map<String, EntitySchemeProperty> properties;
 
-    EntityScheme(Class<?> rootClass, Collection<EntitySchemeElement> elements) {
+    EntityScheme(Class<?> rootClass, Map<String, EntitySchemeProperty> properties) {
         this.rootClass = rootClass;
-        this.elements = elements;
+        this.properties = properties;
     }
 
-    public Collection<EntitySchemeElement> getElements() {
-        return elements;
+    public Map<String, EntitySchemeProperty> getProperties() {
+        return properties;
     }
 
     public Class<?> getRootClass() {
