@@ -28,8 +28,11 @@ import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryOperationType;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
 import org.panda_lang.panda.utilities.autodata.orm.As;
+import org.panda_lang.panda.utilities.autodata.orm.Generated;
+import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
+import org.panda_lang.panda.utilities.commons.collection.Maps;
 
 import java.lang.reflect.Parameter;
 import java.util.Collections;
@@ -69,22 +72,35 @@ final class EntityGenerator {
         CtClass entityClass = CLASS_POOL.makeClass(name);
         entityClass.addInterface(CLASS_POOL.get(clazz.getName()));
 
-        generateDefaultConstructor(entityClass);
         generateFields(entityScheme, entityClass);
+        generateDefaultConstructor(entityScheme, entityClass);
         generateConstructors(repositoryScheme, entityClass);
         generateMethods(entityScheme, entityClass);
 
         return (Class<? extends DataEntity>) entityClass.toClass();
     }
 
-    private void generateDefaultConstructor(CtClass entityClass) throws CannotCompileException {
+    private void generateDefaultConstructor(EntityScheme scheme, CtClass entityClass) throws CannotCompileException {
         CtField field = new CtField(ctDataHandler, "dataHandler", entityClass);
         entityClass.addField(field);
 
         CtConstructor constructor = new CtConstructor(new CtClass[]{ ctDataHandler }, entityClass);
-        constructor.setBody("this.dataHandler = $1;");
-        entityClass.addConstructor(constructor);
+        StringBuilder bodyBuilder = new StringBuilder("{ this.dataHandler = $1;");
 
+        scheme.getProperties().values().stream()
+                .map(property -> Maps.immutableEntryOf(property, property.getAnnotations().getAnnotation(Generated.class)))
+                .filter(entry -> entry.getValue().isPresent())
+                .forEach(entry -> {
+                    EntitySchemeProperty property = entry.getKey();
+                    GenerationStrategy strategy = entry.getValue().get().strategy();
+
+                    bodyBuilder.append("this.").append(property.getName()).append(" = (").append(property.getType().getName()).append(")dataHandler.generate(")
+                            .append(property.getType().getName()).append(".class, ")
+                            .append(GenerationStrategy.class.getName()).append(".").append(strategy.name()).append(");");
+                });
+
+        constructor.setBody(bodyBuilder.append("}").toString());
+        entityClass.addConstructor(constructor);
     }
 
     private void generateFields(EntityScheme scheme, CtClass entityClass) throws CannotCompileException, NotFoundException {

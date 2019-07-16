@@ -19,10 +19,12 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataStream;
+import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 final class InMemoryDataHandler<T> implements DataHandler<T> {
@@ -69,8 +71,13 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
+    public Object generate(Class<?> type, GenerationStrategy strategy) {
+        return UUID.randomUUID();
+    }
+
+    @Override
     public String getIdentifier() {
-        return controller.getIdentifier() + id;
+        return controller.getIdentifier() + "::" + getClass().getSimpleName() + "-" + id;
     }
 
 }

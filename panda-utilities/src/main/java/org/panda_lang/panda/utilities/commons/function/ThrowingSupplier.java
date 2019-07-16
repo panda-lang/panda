@@ -17,8 +17,8 @@
 package org.panda_lang.panda.utilities.commons.function;
 
 @FunctionalInterface
-public interface ThrowingSupplier<T> {
+public interface ThrowingSupplier<T, E extends Exception> {
 
-    T get() throws Exception;
+    T get() throws E;
 
 }

@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
+import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+
 import java.util.Map;
 
 public interface DataHandler<ENTITY> {
@@ -27,6 +29,8 @@ public interface DataHandler<ENTITY> {
     void save(ENTITY entity, Map<String, Object> changes) throws Exception;
 
     Object find(DataStream stream) throws Exception;
+
+    Object generate(Class<?> type, GenerationStrategy strategy);
 
     String getIdentifier();
 

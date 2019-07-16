@@ -47,14 +47,14 @@ public class BenchmarkUtils {
      * @param <T>      generic type of the value to return
      * @return the resulting value
      */
-    public static <T> T execute(String title, ThrowingSupplier<T> supplier) {
+    public static <T> T execute(String title, ThrowingSupplier<T, Exception> supplier) {
         long time = System.nanoTime();
 
         T value;
 
         try {
             value = supplier.get();
-        } catch (Throwable e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
 

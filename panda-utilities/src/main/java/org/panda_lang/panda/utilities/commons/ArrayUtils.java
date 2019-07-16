@@ -17,15 +17,45 @@
 package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.commons.function.ThrowingConsumer;
 
 import java.lang.reflect.Array;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public final class ArrayUtils {
 
     private ArrayUtils() { }
+
+    /**
+     * {@link java.lang.Iterable#forEach(java.util.function.Consumer)} for arrays
+     *
+     * @param array the array to iterate
+     * @param consumer array values consumer
+     * @param <T> type of array
+     */
+    public static <T> void forEach(T[] array, Consumer<T> consumer) {
+        for (T element : array) {
+            consumer.accept(element);
+        }
+    }
+
+    /**
+     * {@link java.lang.Iterable#forEach(java.util.function.Consumer)} for arrays using {@link org.panda_lang.panda.utilities.commons.function.ThrowingConsumer}
+     *
+     * @param array the array to iterate
+     * @param consumer array values consumer with exceptions support
+     * @param <T> type of array
+     * @param <E> type of exception
+     * @throws E if consumer will throw exception
+     */
+    public static <T, E extends Exception> void forEachThrowing(T[] array, ThrowingConsumer<T, E> consumer) throws E {
+        for (T element : array) {
+            consumer.accept(element);
+        }
+    }
 
     /**
      * Merge several arrays

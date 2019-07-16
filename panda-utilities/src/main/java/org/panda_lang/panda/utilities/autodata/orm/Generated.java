@@ -25,4 +25,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Generated {
 
+    GenerationStrategy strategy() default GenerationStrategy.AUTO;
+
 }
