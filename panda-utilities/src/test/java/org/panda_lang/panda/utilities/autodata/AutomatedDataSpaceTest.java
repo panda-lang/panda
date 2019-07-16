@@ -56,10 +56,11 @@ class AutomatedDataSpaceTest {
         UserService service = collection.getService(UserService.class);
 
         User user = service.createUser("onlypanda");
-        System.out.println(user.getName());
+        System.out.println("id: " + user.getId());
+        System.out.println("name: " + user.getName());
 
         user.setName("updated onlypanda");
-        System.out.println(user.getName());
+        System.out.println("setter: " + user.getName());
     }
 
     @Service

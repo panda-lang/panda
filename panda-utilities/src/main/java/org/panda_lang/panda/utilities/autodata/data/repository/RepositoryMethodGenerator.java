@@ -18,6 +18,9 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.utilities.commons.function.ThrowingConsumer;
 import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
 import java.lang.reflect.Method;
@@ -40,24 +43,46 @@ final class RepositoryMethodGenerator {
             throw new AutomatedDataException("Unknown operation: '" + operation + "' (source: " + method.toGenericString() + ")");
         }
 
-        List<String> specification = elements.subList(1, elements.size());
-
-        return new RepositoryGeneratorFunction(operation, generate(controller, collectionScheme, operation, specification));
+        return new RepositoryGeneratorFunction(operation, generate(controller, collectionScheme, operation, elements.subList(1, elements.size())));
     }
 
-    private ThrowingFunction<Object[], Object, Exception> generate(DataController<?> controller, CollectionScheme scheme, RepositoryOperationType operation, List<String> specification) {
+    private MethodFunction generate(DataController<?> controller, CollectionScheme scheme, RepositoryOperationType operation, List<String> specification) {
+        DataHandler handler = controller.getHandler(scheme.getName());
+
         switch (operation) {
             case CREATE:
-                return parameters -> controller.getHandler(scheme.getName()).create(parameters);
+                return createFunction(handler, scheme.getEntityScheme());
             case DELETE:
-                return null;
+                return deleteFunction(handler);
             case UPDATE:
-                return null;
+                return updateFunction(handler);
             case FIND:
-                return null;
+                return findFunction(handler, specification);
             default:
-                return null;
+                throw new AutomatedDataException("Unsupported operation: " + operation);
         }
     }
+
+    private MethodFunction createFunction(DataHandler handler, EntityScheme entityScheme) {
+        return handler::create;
+    }
+
+    @SuppressWarnings("unchecked")
+    private MethodFunction deleteFunction(DataHandler handler) {
+        return parameters -> {
+            ArrayUtils.forEachThrowing(parameters, (ThrowingConsumer<Object, Exception>) handler::delete);
+            return null;
+        };
+    }
+
+    private MethodFunction updateFunction(DataHandler handler) {
+        return parameters -> null;
+    }
+
+    private MethodFunction findFunction(DataHandler handler, List<String> specification) {
+        return parameters -> null;
+    }
+
+    private interface MethodFunction extends ThrowingFunction<Object[], Object, Exception> { }
 
 }

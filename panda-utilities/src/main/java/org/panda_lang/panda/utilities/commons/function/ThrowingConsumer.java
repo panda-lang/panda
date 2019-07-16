@@ -17,8 +17,8 @@
 package org.panda_lang.panda.utilities.commons.function;
 
 @FunctionalInterface
-public interface ThrowingRunnable<E extends Exception> {
+public interface ThrowingConsumer<T, E extends Exception> {
 
-    void run() throws E;
+    void accept(T value) throws E;
 
 }

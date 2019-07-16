@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.commons.function;
+package org.panda_lang.panda.utilities.autodata.orm;
 
-@FunctionalInterface
-public interface ThrowingRunnable<E extends Exception> {
+public enum GenerationStrategy {
 
-    void run() throws E;
+    AUTO,
+    IDENTITY
 
 }

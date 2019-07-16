@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.commons.annotations.Annotations;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.lang.reflect.Method;
@@ -41,7 +42,7 @@ final class EntitySchemeMethodLoader {
             throw new AutomatedDataException("Unknown operation '" + elements.get(0) + "'");
         }
 
-        EntitySchemeProperty property = new EntitySchemeProperty(propertyName, getType(operationType, method), method);
+        EntitySchemeProperty property = new EntitySchemeProperty(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
         return new EntitySchemeMethod(method, property, operationType);
     }
 
