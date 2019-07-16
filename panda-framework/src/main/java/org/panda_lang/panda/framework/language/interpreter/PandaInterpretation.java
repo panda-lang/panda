@@ -35,7 +35,7 @@ public class PandaInterpretation implements Interpretation {
     private final Environment environment;
     private final Interpreter interpreter;
     private final Messenger messenger;
-    private final Collection<Throwable> failures = new ArrayList<>(1);
+    private final Collection<Exception> failures = new ArrayList<>(1);
     private boolean healthy = true;
 
     public PandaInterpretation(Language language, Environment environment, Interpreter interpreter) {
@@ -48,7 +48,7 @@ public class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public Interpretation execute(ThrowingRunnable runnable) {
+    public <E extends Exception> Interpretation execute(ThrowingRunnable<E> runnable) {
         execute(() -> {
             runnable.run();
             return null;
@@ -58,10 +58,10 @@ public class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public @Nullable <T> T execute(ThrowingSupplier<T> callback) {
+    public @Nullable <T, E extends Exception> T execute(ThrowingSupplier<T, E> callback) {
         try {
             return isHealthy() ? callback.get() : null;
-        } catch (Throwable exception) {
+        } catch (Exception exception) {
             this.healthy = !this.getMessenger().send(exception);
             return null;
         }
@@ -73,7 +73,7 @@ public class PandaInterpretation implements Interpretation {
     }
 
     @Override
-    public Collection<Throwable> getFailures() {
+    public Collection<? extends Exception> getFailures() {
         return failures;
     }
 

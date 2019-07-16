@@ -26,13 +26,13 @@ import java.util.Collection;
 
 public interface Interpretation {
 
-    Interpretation execute(ThrowingRunnable runnable);
+    <E extends Exception> Interpretation execute(ThrowingRunnable<E> runnable);
 
-    <T> T execute(ThrowingSupplier<T> callback);
+    <T, E extends Exception> T execute(ThrowingSupplier<T, E> callback);
 
     boolean isHealthy();
 
-    Collection<Throwable> getFailures();
+    Collection<? extends Exception> getFailures();
 
     Messenger getMessenger();
 
