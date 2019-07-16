@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.orm;
 
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
-import org.panda_lang.panda.utilities.inject.Injector;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-public final class RepositoryFactory {
-
-    private static final RepositorySchemeLoader REPOSITORY_SCHEME_LOADER = new RepositorySchemeLoader();
-
-    public RepositoryScheme createRepositoryScheme(DataController<?> controller, Injector injector, CollectionScheme collectionScheme) {
-        return REPOSITORY_SCHEME_LOADER.load(controller, injector, collectionScheme);
-    }
+@Target({ ElementType.METHOD })
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Generated {
 
 }

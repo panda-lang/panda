@@ -16,9 +16,24 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
-@FunctionalInterface
-public interface RepositoryGeneratorFunction {
+import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
-    Object apply(Object[] values) throws Exception;
+final class RepositoryGeneratorFunction {
+
+    private final RepositoryOperationType operationType;
+    private final ThrowingFunction<Object[], Object, Exception> function;
+
+    RepositoryGeneratorFunction(RepositoryOperationType operationType, ThrowingFunction<Object[], Object, Exception> function) {
+        this.operationType = operationType;
+        this.function = function;
+    }
+
+    public Object apply(Object[] values) throws Exception {
+        return function.apply(values);
+    }
+
+    public RepositoryOperationType getOperationType() {
+        return operationType;
+    }
 
 }

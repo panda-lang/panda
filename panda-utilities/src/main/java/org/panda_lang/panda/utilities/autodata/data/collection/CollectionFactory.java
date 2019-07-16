@@ -16,12 +16,38 @@
 
 package org.panda_lang.panda.utilities.autodata.data.collection;
 
+import javassist.CannotCompileException;
+import javassist.NotFoundException;
+import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
+import org.panda_lang.panda.utilities.inject.Injector;
+import org.panda_lang.panda.utilities.inject.InjectorException;
+
+import java.lang.reflect.InvocationTargetException;
 
 public final class CollectionFactory {
 
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
+
+    public DataCollection createCollection(DataController<?> controller, Injector injector, RepositoryScheme repositoryScheme) {
+        try {
+            CollectionScheme collectionScheme = repositoryScheme.getCollectionScheme();
+            DataHandler<?> dataHandler = controller.getHandler(collectionScheme.getName());
+
+            Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(repositoryScheme, dataHandler);
+            Object service = injector.newInstance(repositoryScheme.getCollectionScheme().getServiceClass());
+
+            return createCollection(collectionScheme, entityClass, service);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | InjectorException e) {
+            throw new AutomatedDataException("Cannot create service instance", e);
+        } catch (CannotCompileException | NotFoundException e) {
+            throw new AutomatedDataException("Cannot generate entity class", e);
+        }
+    }
 
     public DataCollection createCollection(CollectionScheme scheme, Class<? extends DataEntity> entityClass, Object service) {
         return new DataCollectionImpl(scheme.getName(), entityClass , service);

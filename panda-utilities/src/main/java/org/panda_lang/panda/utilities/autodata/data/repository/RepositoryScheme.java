@@ -17,19 +17,29 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeMethod;
+
+import java.util.Collection;
+import java.util.Map;
 
 public final class RepositoryScheme {
 
     private final DataRepository<?> repository;
+    private final Map<RepositoryOperationType, Collection<EntitySchemeMethod>> methods;
     private final CollectionScheme collectionScheme;
 
-    public RepositoryScheme(DataRepository<?> repository, CollectionScheme collectionScheme) {
+    RepositoryScheme(DataRepository<?> repository, Map<RepositoryOperationType, Collection<EntitySchemeMethod>> methods, CollectionScheme collectionScheme) {
         this.repository = repository;
+        this.methods = methods;
         this.collectionScheme = collectionScheme;
     }
 
     public CollectionScheme getCollectionScheme() {
         return collectionScheme;
+    }
+
+    public Map<RepositoryOperationType, Collection<EntitySchemeMethod>> getMethods() {
+        return methods;
     }
 
     public DataRepository<?> getRepository() {

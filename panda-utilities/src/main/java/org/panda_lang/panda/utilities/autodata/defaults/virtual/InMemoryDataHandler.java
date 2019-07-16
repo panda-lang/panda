@@ -19,6 +19,8 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataStream;
+import org.panda_lang.panda.utilities.commons.ArrayUtils;
+import org.panda_lang.panda.utilities.commons.ClassUtils;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -39,15 +41,11 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     @Override
     @SuppressWarnings("unchecked")
     public T create(Object[] values) throws Exception {
-        Class<?>[] types = new Class<?>[values.length];
+        T value = (T) collection.getEntityClass()
+                .getConstructor(ArrayUtils.mergeArrays(ArrayUtils.of(DataHandler.class), ClassUtils.getClasses(values)))
+                .newInstance(ArrayUtils.mergeArrays(new Object[] { this }, values));
 
-        for (int index = 0; index < values.length; index++) {
-            types[index] = values[index].getClass(); // todo: null check
-        }
-
-        T value = (T) collection.getEntityClass().getConstructor(DataHandler.class).newInstance(this);
         controller.getValues().add(value);
-
         return value;
     }
 
@@ -58,7 +56,7 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
 
     @Override
     public void save(T o, Map<String, Object> changes) {
-
+        System.out.println("xxx");
     }
 
     @Override

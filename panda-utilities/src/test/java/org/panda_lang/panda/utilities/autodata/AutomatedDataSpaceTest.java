@@ -21,8 +21,10 @@ import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
 import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataController;
 import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataRepository;
+import org.panda_lang.panda.utilities.autodata.orm.As;
 import org.panda_lang.panda.utilities.autodata.orm.Berry;
-import org.panda_lang.panda.utilities.autodata.orm.GeneratedId;
+import org.panda_lang.panda.utilities.autodata.orm.Generated;
+import org.panda_lang.panda.utilities.autodata.orm.Id;
 import org.panda_lang.panda.utilities.autodata.stereotype.Entity;
 import org.panda_lang.panda.utilities.autodata.stereotype.Repository;
 import org.panda_lang.panda.utilities.autodata.stereotype.Service;
@@ -53,29 +55,11 @@ class AutomatedDataSpaceTest {
         DataCollection collection = space.getCollection("users");
         UserService service = collection.getService(UserService.class);
 
-        /*
-        // Sposób pierwszy
         User user = service.createUser("onlypanda");
-        user.setName("xxx"); // <-- samo pod spodem wykona task od razu task żeby zapdejtować nazwe usera
+        System.out.println(user.getName());
 
-        user.transaction(() -> {
-                    // [...]
-                })
-                .retry((attempt, time) -> attempt < 10)
-                .success((attempt, time) -> System.out.println("Udalo sie po " + attempt + " probach :0"))
-                .orElse((attempt, time) -> {
-                    throw new AutomatedDataException("Unlucky");
-                })
-                .commit();
-
-        // Sposób drugi
-        User user = service.createUser("onlypanda");
-        user.setName("xxx"); // <-- zmieni nazwe, doda "name" do jakiejś listy zmienionych wartości
-        service.save(user); // dopiero teraz robi taska i wysyła zmienione wartości
-        */
-
-        User user = service.createUser("onlypanda");
-        System.out.println(user);
+        user.setName("updated onlypanda");
+        System.out.println(user.getName());
     }
 
     @Service
@@ -106,7 +90,7 @@ class AutomatedDataSpaceTest {
     @Repository
     interface UserRepository extends InMemoryDataRepository<User> {
 
-        User createUser(String name);
+        User createUser(@As("name") String name);
 
         Optional<User> findUserByName(String name);
 
@@ -119,7 +103,8 @@ class AutomatedDataSpaceTest {
 
         String getName();
 
-        @GeneratedId
+        @Id
+        @Generated
         UUID getId();
 
     }

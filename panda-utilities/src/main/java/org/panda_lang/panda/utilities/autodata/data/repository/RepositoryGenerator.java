@@ -17,26 +17,38 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeMethod;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 final class RepositoryGenerator {
 
-    private final RepositoryMethodGenerator methodGenerator = new RepositoryMethodGenerator();
+    private static final RepositoryMethodGenerator REPOSITORY_METHOD_GENERATOR =  new RepositoryMethodGenerator();
+    private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
-    protected DataRepository<?> generate(DataController<?> controller, CollectionScheme collectionScheme) {
-        Map<String, RepositoryGeneratorFunction> generatedFunctions = new HashMap<>();
+    protected RepositoryScheme generate(DataController<?> controller, CollectionScheme collectionScheme) {
         Class<? extends DataRepository> repositoryClass = collectionScheme.getRepositoryClass();
 
+        Map<String, RepositoryGeneratorFunction> generatedFunctions = new HashMap<>();
+        Map<RepositoryOperationType, Collection<EntitySchemeMethod>> methods = new HashMap<>();
+
         for (Method method : repositoryClass.getDeclaredMethods()) {
-            generatedFunctions.put(method.getName(), methodGenerator.generateMethod(controller, collectionScheme, method));
+            RepositoryGeneratorFunction function = REPOSITORY_METHOD_GENERATOR.generateMethod(controller, collectionScheme, method);
+
+            generatedFunctions.put(method.getName(), function);
+            methods.computeIfAbsent(function.getOperationType(), (key) -> new ArrayList<>()).add(ENTITY_FACTORY.createEntitySchemeMethod(method));
         }
 
         RepositoryInvocationHandler handler = new RepositoryInvocationHandler(generatedFunctions);
-        return (DataRepository<?>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { repositoryClass }, handler);
+        DataRepository<?> repository = (DataRepository<?>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { repositoryClass }, handler);
+
+        return new RepositoryScheme(repository, methods, collectionScheme);
     }
 
 }
