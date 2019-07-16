@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.commons;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,6 +38,12 @@ public class ClassUtils {
         put(boolean.class, Boolean.class);
         put(char.class, Character.class);
     }};
+
+    public static Class<?>[] getClasses(Object... values) {
+        return Arrays.stream(values)
+                .map(object -> object != null ? object.getClass() : null)
+                .toArray(Class[]::new);
+    }
 
     /**
      * Select the most related class from the specified collection

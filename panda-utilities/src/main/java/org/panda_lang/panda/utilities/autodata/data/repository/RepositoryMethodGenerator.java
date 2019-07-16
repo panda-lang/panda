@@ -16,9 +16,9 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
-import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -29,27 +29,34 @@ final class RepositoryMethodGenerator {
 
     private static final String CAMEL_CASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
 
-    protected @Nullable RepositoryGeneratorFunction generateMethod(DataController<?> controller, CollectionScheme collectionScheme, Method method) {
+    protected RepositoryGeneratorFunction generateMethod(DataController<?> controller, CollectionScheme collectionScheme, Method method) {
         List<String> elements = Arrays.stream(method.getName().split(CAMEL_CASE_PATTERN))
                 .map(String::toLowerCase)
                 .collect(Collectors.toList());
 
-        // System.out.println(elements.toString());
+        RepositoryOperationType operation = RepositoryOperationType.of(elements.get(0));
 
-        String operation = elements.get(0);
+        if (operation == null) {
+            throw new AutomatedDataException("Unknown operation: '" + operation + "' (source: " + method.toGenericString() + ")");
+        }
+
         List<String> specification = elements.subList(1, elements.size());
 
+        return new RepositoryGeneratorFunction(operation, generate(controller, collectionScheme, operation, specification));
+    }
+
+    private ThrowingFunction<Object[], Object, Exception> generate(DataController<?> controller, CollectionScheme scheme, RepositoryOperationType operation, List<String> specification) {
         switch (operation) {
-            case "create":
-                return parameters -> controller.getHandler(collectionScheme.getName()).create(parameters);
-            case "delete":
+            case CREATE:
+                return parameters -> controller.getHandler(scheme.getName()).create(parameters);
+            case DELETE:
                 return null;
-            case "update":
+            case UPDATE:
                 return null;
-            case "find":
+            case FIND:
                 return null;
             default:
-                throw new AutomatedDataException("Unknown operation: '" + operation + "' (source: " + method.toGenericString() + ")");
+                return null;
         }
     }
 

@@ -16,22 +16,14 @@
 
 package org.panda_lang.panda.utilities.autodata;
 
-import javassist.CannotCompileException;
-import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionFactory;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollectionStereotype;
-import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryFactory;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
 import org.panda_lang.panda.utilities.inject.Injector;
-import org.panda_lang.panda.utilities.inject.InjectorException;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -39,7 +31,6 @@ final class AutomatedDataSpaceInitializer {
 
     private static final CollectionFactory COLLECTION_FACTORY = new CollectionFactory();
     private static final RepositoryFactory REPOSITORY_FACTORY = new RepositoryFactory();
-    private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
     private final AutomatedDataSpace automatedDataSpace;
     private final Injector injector;
@@ -84,35 +75,13 @@ final class AutomatedDataSpaceInitializer {
 
     private Collection<RepositoryScheme> initializeRepositories(Collection<? extends CollectionScheme> schemes) {
         return schemes.stream()
-                .map(scheme -> {
-                    DataRepository<?> repository = REPOSITORY_FACTORY.createRepository(automatedDataSpace.getController(), scheme);
-
-                    injector.getResources()
-                            .on(repository.getClass())
-                            .assignInstance(repository);
-
-                    return new RepositoryScheme(repository, scheme);
-                })
+                .map(scheme -> REPOSITORY_FACTORY.createRepositoryScheme(automatedDataSpace.getController(), injector, scheme))
                 .collect(Collectors.toList());
     }
 
     private Collection<? extends DataCollection> createCollections(Collection<RepositoryScheme> schemes) {
         return schemes.stream()
-                .map(scheme -> {
-                    try {
-                        CollectionScheme collectionScheme = scheme.getCollectionScheme();
-                        DataHandler<?> dataHandler = automatedDataSpace.getController().getHandler(collectionScheme.getName());
-
-                        Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(collectionScheme.getEntityScheme(), dataHandler);
-                        Object service = injector.newInstance(scheme.getCollectionScheme().getServiceClass());
-
-                        return COLLECTION_FACTORY.createCollection(collectionScheme, entityClass, service);
-                    } catch (InstantiationException | IllegalAccessException | InvocationTargetException | InjectorException e) {
-                        throw new AutomatedDataException("Cannot create service instance", e);
-                    } catch (CannotCompileException | NotFoundException e) {
-                        throw new AutomatedDataException("Cannot generate entity class", e);
-                    }
-                })
+                .map(scheme -> COLLECTION_FACTORY.createCollection(automatedDataSpace.getController(), injector, scheme))
                 .collect(Collectors.toList());
     }
 

@@ -19,12 +19,18 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 import org.panda_lang.panda.utilities.inject.Injector;
 
-public final class RepositoryFactory {
+final class RepositorySchemeLoader {
 
-    private static final RepositorySchemeLoader REPOSITORY_SCHEME_LOADER = new RepositorySchemeLoader();
+    private static final RepositoryGenerator REPOSITORY_GENERATOR = new RepositoryGenerator();
 
-    public RepositoryScheme createRepositoryScheme(DataController<?> controller, Injector injector, CollectionScheme collectionScheme) {
-        return REPOSITORY_SCHEME_LOADER.load(controller, injector, collectionScheme);
+    public RepositoryScheme load(DataController<?> controller, Injector injector, CollectionScheme collectionScheme) {
+        RepositoryScheme repositoryScheme = REPOSITORY_GENERATOR.generate(controller, collectionScheme);
+
+        injector.getResources()
+                .on(repositoryScheme.getRepository().getClass())
+                .assignInstance(repositoryScheme.getRepository());
+
+        return repositoryScheme;
     }
 
 }

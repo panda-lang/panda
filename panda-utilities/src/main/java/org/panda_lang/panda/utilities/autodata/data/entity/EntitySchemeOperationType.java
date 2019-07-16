@@ -14,17 +14,34 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
-import org.panda_lang.panda.utilities.inject.Injector;
+public enum EntitySchemeOperationType {
 
-public final class RepositoryFactory {
+    GET,
+    SET,
 
-    private static final RepositorySchemeLoader REPOSITORY_SCHEME_LOADER = new RepositorySchemeLoader();
+    ADD,
+    REMOVE,
 
-    public RepositoryScheme createRepositoryScheme(DataController<?> controller, Injector injector, CollectionScheme collectionScheme) {
-        return REPOSITORY_SCHEME_LOADER.load(controller, injector, collectionScheme);
+    IS,
+    HAS,
+    CONTAINS,
+
+    CREATE,
+    DELETE,
+
+    UPDATE,
+    FIND;
+
+    public static EntitySchemeOperationType of(String name) {
+        for (EntitySchemeOperationType value : values()) {
+            if (value.name().equalsIgnoreCase(name)) {
+                return value;
+            }
+        }
+
+        return null;
     }
 
 }
