@@ -61,6 +61,9 @@ class AutomatedDataSpaceTest {
 
         user.setName("updated onlypanda");
         System.out.println("setter: " + user.getName());
+
+        Optional<User> foundUser = service.findUserByName("updated onlypanda");
+        System.out.println(foundUser);
     }
 
     @Service
@@ -94,6 +97,8 @@ class AutomatedDataSpaceTest {
         User createUser(@As("name") String name);
 
         Optional<User> findUserByName(String name);
+
+        User findUserByIdAndAndId(String name, UUID id);
 
     }
 

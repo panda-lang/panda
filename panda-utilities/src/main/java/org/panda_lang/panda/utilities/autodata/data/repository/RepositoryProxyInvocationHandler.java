@@ -20,17 +20,17 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-final class RepositoryInvocationHandler implements InvocationHandler {
+final class RepositoryProxyInvocationHandler implements InvocationHandler {
 
-    private final Map<String, RepositoryGeneratorFunction> generatedFunctions;
+    private final Map<String, RepositoryProxyMethod> generatedFunctions;
 
-    RepositoryInvocationHandler(Map<String, RepositoryGeneratorFunction> generatedFunctions) {
+    RepositoryProxyInvocationHandler(Map<String, RepositoryProxyMethod> generatedFunctions) {
         this.generatedFunctions = generatedFunctions;
     }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
-        RepositoryGeneratorFunction function = generatedFunctions.get(method.getName());
+        RepositoryProxyMethod function = generatedFunctions.get(method.getName());
 
         if (function == null) {
             return null; // or throw?

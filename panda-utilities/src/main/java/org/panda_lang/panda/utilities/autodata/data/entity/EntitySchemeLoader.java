@@ -26,7 +26,7 @@ import java.util.Map;
 
 final class EntitySchemeLoader {
 
-    private static final EntitySchemeMethodLoader METHOD_LOADER = new EntitySchemeMethodLoader();
+    private static final EntityMethodSchemeLoader METHOD_LOADER = new EntityMethodSchemeLoader();
 
     protected EntityScheme load(Class<?> entityClass) {
         if (!entityClass.isInterface()) {
@@ -34,7 +34,7 @@ final class EntitySchemeLoader {
         }
 
         Map<String, EntitySchemeProperty> properties = new HashMap<>();
-        Collection<EntitySchemeMethod> methods = new ArrayList<>();
+        Collection<EntityMethodScheme> methods = new ArrayList<>();
 
         for (Method method : entityClass.getDeclaredMethods()) {
             load(properties, methods, method);
@@ -44,8 +44,8 @@ final class EntitySchemeLoader {
         return new EntityScheme(entityClass, properties, methods);
     }
 
-    private void load(Map<String, EntitySchemeProperty> properties, Collection<EntitySchemeMethod> methods, Method method) {
-        EntitySchemeMethod schemeMethod = METHOD_LOADER.load(method);
+    private void load(Map<String, EntitySchemeProperty> properties, Collection<EntityMethodScheme> methods, Method method) {
+        EntityMethodScheme schemeMethod = METHOD_LOADER.load(method);
         methods.add(schemeMethod);
 
         EntitySchemeProperty property = schemeMethod.getProperty();

@@ -14,29 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeOperationType;
+public enum EntityMethodType {
 
-public enum RepositoryOperationType {
+    GET,
+    SET,
 
-    CREATE(EntitySchemeOperationType.CREATE),
-    DELETE(EntitySchemeOperationType.DELETE),
-    UPDATE(EntitySchemeOperationType.UPDATE),
-    FIND(EntitySchemeOperationType.FIND);
+    ADD,
+    REMOVE,
 
-    private final EntitySchemeOperationType type;
+    IS,
+    HAS,
+    CONTAINS,
 
-    RepositoryOperationType(EntitySchemeOperationType type) {
-        this.type = type;
-    }
+    CREATE,
+    DELETE,
 
-    public EntitySchemeOperationType getType() {
-        return type;
-    }
+    UPDATE,
+    FIND;
 
-    public static RepositoryOperationType of(String name) {
-        for (RepositoryOperationType value : values()) {
+    public static EntityMethodType of(String name) {
+        for (EntityMethodType value : values()) {
             if (value.name().equalsIgnoreCase(name)) {
                 return value;
             }

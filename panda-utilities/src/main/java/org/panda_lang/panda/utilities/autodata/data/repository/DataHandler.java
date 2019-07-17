@@ -16,6 +16,7 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
+import org.panda_lang.panda.utilities.autodata.data.stream.DataStream;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 
 import java.util.Map;

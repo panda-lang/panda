@@ -21,7 +21,7 @@ import org.panda_lang.panda.utilities.inject.Injector;
 
 final class RepositorySchemeLoader {
 
-    private static final RepositoryGenerator REPOSITORY_GENERATOR = new RepositoryGenerator();
+    private static final RepositoryProxyGenerator REPOSITORY_GENERATOR = new RepositoryProxyGenerator();
 
     public RepositoryScheme load(DataController<?> controller, Injector injector, CollectionScheme collectionScheme) {
         RepositoryScheme repositoryScheme = REPOSITORY_GENERATOR.generate(controller, collectionScheme);
