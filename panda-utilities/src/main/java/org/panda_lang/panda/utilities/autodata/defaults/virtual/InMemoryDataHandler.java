@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataStream;
+import org.panda_lang.panda.utilities.autodata.data.stream.DataStream;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;

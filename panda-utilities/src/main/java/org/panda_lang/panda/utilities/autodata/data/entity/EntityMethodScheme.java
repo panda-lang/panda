@@ -18,19 +18,19 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 
 import java.lang.reflect.Method;
 
-public final class EntitySchemeMethod {
+public final class EntityMethodScheme {
 
     private final Method method;
     private final EntitySchemeProperty property;
-    private final EntitySchemeOperationType type;
+    private final EntityMethodType type;
 
-    EntitySchemeMethod(Method method, EntitySchemeProperty property, EntitySchemeOperationType type) {
+    EntityMethodScheme(Method method, EntitySchemeProperty property, EntityMethodType type) {
         this.method = method;
         this.property = property;
         this.type = type;
     }
 
-    public EntitySchemeOperationType getType() {
+    public EntityMethodType getType() {
         return type;
     }
 

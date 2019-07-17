@@ -18,35 +18,30 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 
 import org.jetbrains.annotations.Nullable;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 import org.panda_lang.panda.utilities.commons.annotations.Annotations;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-final class EntitySchemeMethodLoader {
+final class EntityMethodSchemeLoader {
 
-    private static final String CAMEL_CASE_PATTERN = "(?<!(^|[A-Z]))(?=[A-Z])|(?<!^)(?=[A-Z][a-z])";
-
-    protected EntitySchemeMethod load(Method method) {
-        List<String> elements = Arrays.stream(method.getName().split(CAMEL_CASE_PATTERN))
-                .map(String::toLowerCase)
-                .collect(Collectors.toList());
+    protected EntityMethodScheme load(Method method) {
+        List<String> elements = CamelCaseUtils.split(method.getName(), String::toLowerCase);
 
         String propertyName = ContentJoiner.on("_").join(elements.subList(1, elements.size())).toString();
-        EntitySchemeOperationType operationType = EntitySchemeOperationType.of(elements.get(0));
+        EntityMethodType operationType = EntityMethodType.of(elements.get(0));
 
         if (operationType == null) {
             throw new AutomatedDataException("Unknown operation '" + elements.get(0) + "'");
         }
 
         EntitySchemeProperty property = new EntitySchemeProperty(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
-        return new EntitySchemeMethod(method, property, operationType);
+        return new EntityMethodScheme(method, property, operationType);
     }
 
-    private @Nullable Class<?> getType(EntitySchemeOperationType operationType, Method method) {
+    private @Nullable Class<?> getType(EntityMethodType operationType, Method method) {
         switch (operationType) {
             case GET:
             case CREATE:

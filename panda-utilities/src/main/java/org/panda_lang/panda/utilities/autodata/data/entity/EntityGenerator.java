@@ -25,7 +25,7 @@ import javassist.CtMethod;
 import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
-import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryOperationType;
+import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryOperation;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
 import org.panda_lang.panda.utilities.autodata.orm.As;
 import org.panda_lang.panda.utilities.autodata.orm.Generated;
@@ -111,13 +111,13 @@ final class EntityGenerator {
     }
 
     private void generateConstructors(RepositoryScheme repositoryScheme, CtClass entityClass) throws CannotCompileException, NotFoundException {
-        for (EntitySchemeMethod method : repositoryScheme.getMethods().getOrDefault(RepositoryOperationType.CREATE, Collections.emptyList())) {
+        for (EntityMethodScheme method : repositoryScheme.getMethods().getOrDefault(RepositoryOperation.CREATE, Collections.emptyList())) {
             CtConstructor constructor = generateConstructor(entityClass, method);
             entityClass.addConstructor(constructor);
         }
     }
 
-    private CtConstructor generateConstructor(CtClass entityClass, EntitySchemeMethod method) throws CannotCompileException, NotFoundException {
+    private CtConstructor generateConstructor(CtClass entityClass, EntityMethodScheme method) throws CannotCompileException, NotFoundException {
         Parameter[] parameters = method.getMethod().getParameters();
         Class<?>[] types = method.getMethod().getParameterTypes();
         CtClass[] ctTypes = new CtClass[types.length];
@@ -141,13 +141,13 @@ final class EntityGenerator {
     }
 
     private void generateMethods(EntityScheme entityScheme, CtClass entityClass) throws CannotCompileException, NotFoundException {
-        for (EntitySchemeMethod method : entityScheme.getMethods()) {
+        for (EntityMethodScheme method : entityScheme.getMethods()) {
             CtMethod generatedMethod = generateMethod(entityClass, method);
             entityClass.addMethod(generatedMethod);
         }
     }
 
-    private CtMethod generateMethod(CtClass entityClass, EntitySchemeMethod method) throws CannotCompileException, NotFoundException {
+    private CtMethod generateMethod(CtClass entityClass, EntityMethodScheme method) throws CannotCompileException, NotFoundException {
         CtClass type = CLASS_POOL.get(method.getProperty().getType().getName());
         String name = method.getProperty().getAssociatedMethod().getName();
 

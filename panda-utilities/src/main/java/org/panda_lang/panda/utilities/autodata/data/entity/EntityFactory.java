@@ -26,14 +26,14 @@ import java.lang.reflect.Method;
 public final class EntityFactory {
 
     private static final EntitySchemeLoader ENTITY_SCHEME_LOADER = new EntitySchemeLoader();
-    private static final EntitySchemeMethodLoader ENTITY_SCHEME_METHOD_LOADER = new EntitySchemeMethodLoader();
+    private static final EntityMethodSchemeLoader ENTITY_SCHEME_METHOD_LOADER = new EntityMethodSchemeLoader();
     private static final EntityGenerator ENTITY_GENERATOR = new EntityGenerator();
 
     public EntityScheme createEntityScheme(Class<?> entityClass) {
         return ENTITY_SCHEME_LOADER.load(entityClass);
     }
 
-    public EntitySchemeMethod createEntitySchemeMethod(Method method) {
+    public EntityMethodScheme createEntitySchemeMethod(Method method) {
         return ENTITY_SCHEME_METHOD_LOADER.load(method);
     }
 

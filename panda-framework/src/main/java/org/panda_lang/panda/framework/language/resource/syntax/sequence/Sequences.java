@@ -16,9 +16,6 @@
 
 package org.panda_lang.panda.framework.language.resource.syntax.sequence;
 
-import org.jetbrains.annotations.Nullable;
-import org.panda_lang.panda.framework.design.interpreter.token.Token;
-import org.panda_lang.panda.framework.design.interpreter.token.TokenType;
 import org.panda_lang.panda.utilities.commons.ReflectionUtils;
 
 import java.util.Collection;
@@ -42,28 +39,6 @@ public class Sequences {
 
     static {
         VALUES = ReflectionUtils.getStaticFieldValues(Sequences.class, Sequence.class);
-    }
-
-    public static @Nullable Sequence valueOf(Token token) {
-        if (token.getType() != TokenType.SEQUENCE) {
-            return null;
-        }
-
-        String value = token.getValue();
-
-        for (Sequence sequence : values()) {
-            if (!sequence.getName().equals(token.getName())) {
-                continue;
-            }
-
-            if (!sequence.getSequenceStart().equals(value) && !sequence.getSequenceEnd().equals(value)) {
-                continue;
-            }
-
-            return sequence;
-        }
-
-        return null;
     }
 
     public static Sequence[] values() {

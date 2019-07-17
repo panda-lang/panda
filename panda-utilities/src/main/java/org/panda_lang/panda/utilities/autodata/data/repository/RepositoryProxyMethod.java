@@ -18,21 +18,21 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
-final class RepositoryGeneratorFunction {
+final class RepositoryProxyMethod {
 
-    private final RepositoryOperationType operationType;
+    private final RepositoryOperation operationType;
     private final ThrowingFunction<Object[], Object, Exception> function;
 
-    RepositoryGeneratorFunction(RepositoryOperationType operationType, ThrowingFunction<Object[], Object, Exception> function) {
+    RepositoryProxyMethod(RepositoryOperation operationType, ThrowingFunction<Object[], Object, Exception> function) {
         this.operationType = operationType;
         this.function = function;
     }
 
-    public Object apply(Object[] values) throws Exception {
+    protected Object apply(Object[] values) throws Exception {
         return function.apply(values);
     }
 
-    public RepositoryOperationType getOperationType() {
+    protected RepositoryOperation getOperationType() {
         return operationType;
     }
 

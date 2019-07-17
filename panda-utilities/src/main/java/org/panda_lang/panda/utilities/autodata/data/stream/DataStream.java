@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.stream;
 
 public interface DataStream {
+
+
+
 }
