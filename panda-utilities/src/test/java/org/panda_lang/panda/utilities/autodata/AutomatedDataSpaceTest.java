@@ -98,7 +98,7 @@ class AutomatedDataSpaceTest {
 
         Optional<User> findUserByName(String name);
 
-        User findUserByIdAndAndId(String name, UUID id);
+        User findUserByNameAndDisplayName(String name, UUID id);
 
     }
 

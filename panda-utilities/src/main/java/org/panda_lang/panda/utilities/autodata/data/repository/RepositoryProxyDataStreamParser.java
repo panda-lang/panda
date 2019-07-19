@@ -18,12 +18,16 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
 import org.panda_lang.panda.utilities.autodata.data.stream.DataStream;
+import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Predicate;
 
 final class RepositoryProxyDataStreamParser {
 
@@ -33,18 +37,26 @@ final class RepositoryProxyDataStreamParser {
         Map<String, List<String>> data = mapQueryToCategories(categories, query);
         Map<String, List<String>> convertedData = convertData(entityScheme, data);
 
+        System.out.println("converted:");
+        convertedData.forEach((key, value) -> {
+            System.out.println(key + ": " + value);
+        });
+
+
         return null;
     }
 
     private Map<String, List<String>> convertData(EntityScheme entityScheme, Map<String, List<String>> data) {
         Map<String, List<String>> convertedData = new HashMap<>(data.size());
+        Set<String> properties = entityScheme.getProperties().keySet();
 
         data.forEach((key, value) -> {
-            List<String> convertedValue = new ArrayList<>(value.size());
+            List<String> convertedValues = new ArrayList<>(value.size());
 
-            // todo
+            List<List<String>> prepared = split(value, element -> element.equals("and") || element.equals("or"));
+            prepared.forEach(list -> convertedValues.add(ContentJoiner.on("_").join(list).toString()));
 
-            convertedData.put(key, convertedValue);
+            convertedData.put(key, convertedValues);
         });
 
         return convertedData;
@@ -76,6 +88,33 @@ final class RepositoryProxyDataStreamParser {
 
         System.out.println("all: " + values.get("what").contains("all"));
         return values;
+    }
+
+    private <T> List<List<T>> split(List<T> list, Predicate<T> by) {
+        List<List<T>> result = new ArrayList<>(list.size() / 2);
+        int previousIndex = -1;
+
+        for (int index = 0; index < list.size(); index++) {
+            T element = list.get(index);
+
+            if (!by.test(element)) {
+                continue;
+            }
+
+            result.add(list.subList(previousIndex + 1, index));
+            result.add(Collections.singletonList(element));
+            previousIndex = index;
+        }
+
+        if (previousIndex > 0) {
+            result.add(list.subList(previousIndex + 1, list.size()));
+        }
+
+        if (result.isEmpty()) {
+            result.add(list);
+        }
+
+        return result;
     }
 
 }
