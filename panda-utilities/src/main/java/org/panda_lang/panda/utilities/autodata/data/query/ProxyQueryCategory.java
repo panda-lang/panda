@@ -20,16 +20,16 @@ import java.util.List;
 
 final class ProxyQueryCategory implements DataQueryCategory {
 
-    private final ProxyQueryCategoryType type;
-    private final List<DataQueryElement> elements;
+    private final DataQueryCategoryType type;
+    private final List<? extends DataQueryRuleScheme> elements;
 
-    ProxyQueryCategory(ProxyQueryCategoryType type, List<DataQueryElement> elements) {
+    ProxyQueryCategory(DataQueryCategoryType type, List<? extends DataQueryRuleScheme> elements) {
         this.type = type;
         this.elements = elements;
     }
 
     @Override
-    public List<? extends DataQueryElement> getElements() {
+    public List<? extends DataQueryRuleScheme> getElements() {
         return elements;
     }
 

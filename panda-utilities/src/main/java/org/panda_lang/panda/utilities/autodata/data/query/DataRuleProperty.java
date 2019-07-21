@@ -16,30 +16,14 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-enum ProxyQueryCategoryType {
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
 
-    WHAT("what"),
-    BY("by"),
-    ORDER("order");
+public interface DataRuleProperty {
 
-    private final String name;
-
-    ProxyQueryCategoryType(String name) {
-        this.name = name;
+    default boolean isEntityProperty() {
+        return getValue() instanceof EntitySchemeProperty;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public static ProxyQueryCategoryType of(String name) {
-        for (ProxyQueryCategoryType value : values()) {
-            if (name.equals(value.getName())) {
-                return value;
-            }
-        }
-
-        return null;
-    }
+    <T> T getValue();
 
 }

@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.commons.collection;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+public final class Pair<K, V> {
 
-public interface DataHandler<ENTITY> {
+    private final K key;
+    private final V value;
 
-    ENTITY create(Object[] values) throws Exception;
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    public V getValue() {
+        return value;
+    }
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
-
-    Object find(DataQuery query, Object[] values) throws Exception;
-
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+    public K getKey() {
+        return key;
+    }
 
 }

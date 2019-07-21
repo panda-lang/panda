@@ -16,32 +16,18 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import java.util.Collection;
-import java.util.Map;
+final class ProxyQueryRuleProperty implements DataRuleProperty {
 
-final class ProxyQuery implements DataQuery {
+    private final Object property;
 
-    private final Class<?> expectedReturnType;
-    private final Map<String, DataQueryCategory> data;
-
-    ProxyQuery(Class<?> expectedReturnType, Map<String, DataQueryCategory> data) {
-        this.expectedReturnType = expectedReturnType;
-        this.data = data;
+    public ProxyQueryRuleProperty(Object property) {
+        this.property = property;
     }
 
     @Override
-    public DataQueryCategory getCategory(String category) {
-        return data.get(category);
-    }
-
-    @Override
-    public Collection<? extends DataQueryCategory> getCategories() {
-        return data.values();
-    }
-
-    @Override
-    public Class<?> getExpectedReturnType() {
-        return expectedReturnType;
+    @SuppressWarnings("unchecked")
+    public <T> T getValue() {
+        return (T) property;
     }
 
 }

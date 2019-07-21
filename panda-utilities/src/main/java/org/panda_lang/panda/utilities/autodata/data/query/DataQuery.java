@@ -20,8 +20,14 @@ import java.util.Collection;
 
 public interface DataQuery {
 
+    default DataQueryCategory getCategory(DataQueryCategoryType category) {
+        return getCategory(category.getName());
+    }
+
     DataQueryCategory getCategory(String category);
 
     Collection<? extends DataQueryCategory> getCategories();
+
+    Class<?> getExpectedReturnType();
 
 }

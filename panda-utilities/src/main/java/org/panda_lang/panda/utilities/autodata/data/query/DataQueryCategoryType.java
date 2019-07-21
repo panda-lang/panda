@@ -16,32 +16,30 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import java.util.Collection;
-import java.util.Map;
+public enum DataQueryCategoryType {
 
-final class ProxyQuery implements DataQuery {
+    WHAT("what"),
+    BY("by"),
+    ORDER("order");
 
-    private final Class<?> expectedReturnType;
-    private final Map<String, DataQueryCategory> data;
+    private final String name;
 
-    ProxyQuery(Class<?> expectedReturnType, Map<String, DataQueryCategory> data) {
-        this.expectedReturnType = expectedReturnType;
-        this.data = data;
+    DataQueryCategoryType(String name) {
+        this.name = name;
     }
 
-    @Override
-    public DataQueryCategory getCategory(String category) {
-        return data.get(category);
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public Collection<? extends DataQueryCategory> getCategories() {
-        return data.values();
-    }
+    public static DataQueryCategoryType of(String name) {
+        for (DataQueryCategoryType value : values()) {
+            if (name.equals(value.getName())) {
+                return value;
+            }
+        }
 
-    @Override
-    public Class<?> getExpectedReturnType() {
-        return expectedReturnType;
+        return null;
     }
 
 }

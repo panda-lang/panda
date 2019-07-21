@@ -16,21 +16,28 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
+import org.panda_lang.panda.utilities.commons.collection.Pair;
 
+import java.util.ArrayList;
 import java.util.List;
 
-final class ProxyQueryElement implements DataQueryElement {
+final class ProxyQueryRuleScheme implements DataQueryRuleScheme {
 
-    private final List<EntitySchemeProperty> properties;
+    private final List<Pair<? extends DataRuleProperty, Integer>> properties;
 
-    public ProxyQueryElement(List<EntitySchemeProperty> properties) {
+    ProxyQueryRuleScheme(List<Pair<? extends DataRuleProperty, Integer>> properties) {
         this.properties = properties;
     }
 
     @Override
-    public List<EntitySchemeProperty> getProperties() {
-        return properties;
+    public ProxyQueryRule toRule(Object[] values) {
+        List<Pair<DataRuleProperty, Object>> mappedProperties = new ArrayList<>();
+
+        for (Pair<? extends DataRuleProperty, Integer> property : properties) {
+            mappedProperties.add(new Pair<>(property.getKey(), values[property.getValue()]));
+        }
+
+        return new ProxyQueryRule(mappedProperties);
     }
 
 }

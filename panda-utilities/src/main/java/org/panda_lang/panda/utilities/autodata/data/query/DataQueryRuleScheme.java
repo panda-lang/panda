@@ -16,12 +16,8 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
+public interface DataQueryRuleScheme {
 
-import java.util.List;
-
-public interface DataQueryElement {
-
-    List<EntitySchemeProperty> getProperties();
+    DataQueryRule toRule(Object[] values);
 
 }

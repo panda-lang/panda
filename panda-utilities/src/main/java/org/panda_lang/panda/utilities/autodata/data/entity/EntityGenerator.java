@@ -22,6 +22,7 @@ import javassist.CtClass;
 import javassist.CtConstructor;
 import javassist.CtField;
 import javassist.CtMethod;
+import javassist.Modifier;
 import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
@@ -106,6 +107,7 @@ final class EntityGenerator {
     private void generateFields(EntityScheme scheme, CtClass entityClass) throws CannotCompileException, NotFoundException {
         for (EntitySchemeProperty property : scheme.getProperties().values()) {
             CtField field = new CtField(CLASS_POOL.get(property.getType().getName()), property.getName(), entityClass);
+            field.setModifiers(Modifier.PUBLIC);
             entityClass.addField(field);
         }
     }

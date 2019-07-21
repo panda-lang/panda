@@ -16,15 +16,28 @@
 
 package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
+import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
+import org.panda_lang.panda.utilities.autodata.data.query.DataQueryCategoryType;
+import org.panda_lang.panda.utilities.autodata.data.query.DataQueryRule;
+import org.panda_lang.panda.utilities.autodata.data.query.DataQueryRuleScheme;
+import org.panda_lang.panda.utilities.autodata.data.query.DataRuleProperty;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
+import org.panda_lang.panda.utilities.commons.collection.Lists;
+import org.panda_lang.panda.utilities.commons.collection.Pair;
 
+import java.lang.reflect.Field;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 final class InMemoryDataHandler<T> implements DataHandler<T> {
 
@@ -61,9 +74,54 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
-    public Object find(DataQuery query) throws Exception {
-        System.out.println(query);
-        return null;
+    public Object find(DataQuery query, Object[] values) throws Exception {
+        List<T> data = null;
+
+        for (DataQueryRuleScheme scheme : query.getCategory(DataQueryCategoryType.BY).getElements()) {
+            DataQueryRule rule = scheme.toRule(values);
+
+            data = controller.getValues().stream()
+                    .filter(value -> {
+                        for (Pair<? extends DataRuleProperty, Object> property : rule.getProperties()) {
+                            if (!property.getKey().isEntityProperty()) {
+                                continue;
+                            }
+
+                            EntitySchemeProperty schemeProperty = property.getKey().getValue();
+
+                            try {
+                                Field field = value.getClass().getDeclaredField(schemeProperty.getName());
+
+                                if (!Objects.equals(property.getValue(), field.get(value))) {
+                                    return false;
+                                }
+                            } catch (NoSuchFieldException | IllegalAccessException e) {
+                                throw new AutomatedDataException("Cannot invoke", e);
+                            }
+                        }
+
+                        return true;
+                    })
+                    .collect(Collectors.toList());
+
+            if (!data.isEmpty()) {
+                break;
+            }
+        }
+
+        if (data == null) {
+            return null;
+        }
+
+        if (query.getExpectedReturnType().isAssignableFrom(data.getClass())) {
+            return data;
+        }
+
+        if (Optional.class.isAssignableFrom(query.getExpectedReturnType())) {
+            return Optional.ofNullable(Lists.get(data, 0));
+        }
+
+        return data.get(0);
     }
 
     @Override
