@@ -14,20 +14,13 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.orm;
+package org.panda_lang.panda.utilities.inject;
 
-import org.panda_lang.panda.utilities.inject.annotations.Injectable;
+final class DefaultInjectorController implements InjectorController {
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+    @Override
+    public void initialize(InjectorResources resources) {
 
-@Injectable
-@Target({ ElementType.PARAMETER })
-@Retention(RetentionPolicy.RUNTIME)
-public @interface Berry {
-
-    String value();
+    }
 
 }

@@ -30,4 +30,13 @@ public final class DependencyInjection {
         return INJECTOR_FACTORY.createInjector(controller);
     }
 
+    /**
+     * Create injector
+     *
+     * @return injector instance
+     */
+    public static Injector createInjector() {
+        return INJECTOR_FACTORY.createInjector(new DefaultInjectorController());
+    }
+
 }

@@ -32,7 +32,7 @@ public final class AutomatedDataSpaceCreator {
 
     AutomatedDataSpaceCreator(Class<? extends DataController> controller) {
         this.controller = controller;
-        this.injector = DependencyInjection.createInjector(new AutomatedDataSpaceInjectionController(this));
+        this.injector = DependencyInjection.createInjector();
     }
 
     public AutomatedDataSpaceCreator withStereotype(DataCollectionStereotype stereotype) {

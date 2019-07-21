@@ -20,11 +20,15 @@ import org.panda_lang.panda.utilities.autodata.data.collection.CollectionFactory
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollectionStereotype;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryFactory;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
+import org.panda_lang.panda.utilities.autodata.orm.Berry;
 import org.panda_lang.panda.utilities.inject.Injector;
 
 import java.util.Collection;
+import java.util.Optional;
+import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
 final class AutomatedDataSpaceInitializer {
@@ -61,6 +65,8 @@ final class AutomatedDataSpaceInitializer {
         automatedDataSpace.getController().initializeSchemes(collectionSchemes);
 
         Collection<RepositoryScheme> repositorySchemes = initializeRepositories(collectionSchemes);
+        injector.getResources().annotatedWith(Berry.class).assignHandler(initializeBerry(repositorySchemes));
+
         Collection<? extends DataCollection> collections = createCollections(repositorySchemes);
         automatedDataSpace.getController().initializeCollections(collections);
 
@@ -77,6 +83,25 @@ final class AutomatedDataSpaceInitializer {
         return schemes.stream()
                 .map(scheme -> REPOSITORY_FACTORY.createRepositoryScheme(injector, scheme))
                 .collect(Collectors.toList());
+    }
+
+    private BiFunction<Class<?>, Berry, ?> initializeBerry(Collection<RepositoryScheme> repositorySchemes) {
+        return (type, berry) -> {
+            if (DataRepository.class.isAssignableFrom(type)) {
+                Optional<? extends DataRepository<?>> dataRepository = repositorySchemes.stream()
+                        .filter(repositoryScheme -> repositoryScheme.getCollectionScheme().getName().equals(berry.value()))
+                        .findFirst()
+                        .map(RepositoryScheme::getRepository);
+
+                if (!dataRepository.isPresent()) {
+                    throw new AutomatedDataException("Cannot resolve collection '" + berry.value() + "'");
+                }
+
+                return dataRepository.get();
+            }
+
+            return new AutomatedDataException("Unsupported by berry type: " + type);
+        };
     }
 
     private Collection<? extends DataCollection> createCollections(Collection<RepositoryScheme> schemes) {
