@@ -20,7 +20,7 @@ import java.util.List;
 
 public interface DataQueryCategory {
 
-    List<? extends DataQueryElement> getElements();
+    List<? extends DataQueryRuleScheme> getElements();
 
     String getName();
 

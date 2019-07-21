@@ -14,10 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.entity;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-final class EntityInvoker {
+import org.panda_lang.panda.utilities.commons.collection.Pair;
 
+import java.util.List;
 
+public interface DataQueryRule {
+
+    List<Pair<DataRuleProperty, Object>> getProperties();
 
 }

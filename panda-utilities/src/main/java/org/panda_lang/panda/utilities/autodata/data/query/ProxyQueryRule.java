@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.entity;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-import java.lang.reflect.Field;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
+import org.panda_lang.panda.utilities.commons.collection.Pair;
 
-public final class EntityProperty {
+import java.util.List;
 
-    private final EntitySchemeProperty property;
-    private final Field field;
+final class ProxyQueryRule implements DataQueryRule {
 
-    public EntityProperty(EntitySchemeProperty property, Field field) {
-        this.property = property;
-        this.field = field;
+    private final List<Pair<DataRuleProperty, Object>> properties;
+
+    public ProxyQueryRule(List<Pair<DataRuleProperty, Object>> properties) {
+        this.properties = properties;
     }
 
-    public Object getValue(Object instance) throws IllegalAccessException {
-        return field.get(instance);
-    }
-
-    public EntitySchemeProperty getPropertyScheme() {
-        return property;
+    @Override
+    public List<Pair<DataRuleProperty, Object>> getProperties() {
+        return properties;
     }
 
 }

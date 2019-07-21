@@ -16,67 +16,76 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
 import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 import org.panda_lang.panda.utilities.commons.collection.Lists;
+import org.panda_lang.panda.utilities.commons.collection.Pair;
 import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
+import java.util.Optional;
+import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 final class ProxyQueryParser {
 
-    private static final List<ProxyQueryCategoryType> CATEGORIES = Arrays.asList(ProxyQueryCategoryType.values());
+    private static final List<DataQueryCategoryType> CATEGORIES = Arrays.asList(DataQueryCategoryType.values());
+
+    private static final String AND = "and";
+    private static final String OR = "or";
 
     protected DataQuery parse(EntityScheme scheme, Method method) {
         List<String> query = Lists.subList(CamelCaseUtils.split(method.getName(), String::toLowerCase), 1);
+        Parameter[] parameters = method.getParameters();
 
-        Map<ProxyQueryCategoryType, List<String>> data = toCategories(query);
+        Map<DataQueryCategoryType, List<String>> data = toCategories(query);
         Map<String, DataQueryCategory> queryData = toQueryData(scheme, data);
 
-        return new ProxyQuery(queryData);
+        return new ProxyQuery(method.getReturnType(), queryData);
     }
 
-    private Map<String, DataQueryCategory> toQueryData(EntityScheme scheme, Map<ProxyQueryCategoryType, List<String>> data) {
+    private Map<String, DataQueryCategory> toQueryData(EntityScheme scheme, Map<DataQueryCategoryType, List<String>> data) {
         Map<String, DataQueryCategory> queryData = new HashMap<>();
+        AtomicInteger index = new AtomicInteger();
 
         data.forEach((key, value) -> {
-            DataQueryCategory category = new ProxyQueryCategory(key, Arrays.stream(Lists.split(value, "or"))
-                    .map(elementSource -> elementSource.stream()
-                            .filter(property -> !property.equals("and"))
-                            .map(scheme::getProperty)
-                            .map(property -> {
-                                if (!property.isPresent()) {
-                                    throw new AutomatedDataException("Unknown property: " + property);
-                                }
+            List<DataQueryRuleScheme> rules = Arrays.stream(Lists.split(value, OR))
+                    .map(elementSource -> toRule(scheme, elementSource, index))
+                    .collect(Collectors.toList());
 
-                                return property.get();
-                            })
-                            .collect(Collectors.toList()))
-                    .map(ProxyQueryElement::new)
-                    .collect(Collectors.toList()));
-
-            queryData.put(key.getName(), category);
+            queryData.put(key.getName(), new ProxyQueryCategory(key, rules));
         });
 
         return queryData;
     }
 
-    private Map<ProxyQueryCategoryType, List<String>> toCategories(List<String> query) {
-        Map<ProxyQueryCategoryType, List<String>> values = new HashMap<>(CATEGORIES.size());
-        ProxyQueryCategoryType currentCategory = CATEGORIES.get(0);
+    private ProxyQueryRuleScheme toRule(EntityScheme scheme, List<String> rules, AtomicInteger index) {
+        return new ProxyQueryRuleScheme(rules.stream()
+                .filter(property -> !property.equals(AND))
+                .map(property -> {
+                    Optional<EntitySchemeProperty> propertyValue = scheme.getProperty(property);
+                    return new ProxyQueryRuleProperty(propertyValue.isPresent() ? propertyValue.get() : property);
+                })
+                .map(property -> new Pair<>(property, property.isEntityProperty() ? index.getAndIncrement() : -1))
+                .collect(Collectors.toList()));
+    }
+
+    private Map<DataQueryCategoryType, List<String>> toCategories(List<String> query) {
+        Map<DataQueryCategoryType, List<String>> data = new TreeMap<>(Comparator.comparingInt(Enum::ordinal));
+        DataQueryCategoryType currentCategory = CATEGORIES.get(0);
         int amount = 1;
 
         for (String element : query) {
-            ProxyQueryCategoryType category = ProxyQueryCategoryType.of(element);
+            DataQueryCategoryType category = DataQueryCategoryType.of(element);
             int index = CATEGORIES.indexOf(category);
 
             if (index > 0 && index > CATEGORIES.indexOf(currentCategory) && amount > 0) {
@@ -85,53 +94,22 @@ final class ProxyQueryParser {
                 continue;
             }
 
-            values.computeIfAbsent(currentCategory, key -> new ArrayList<>(4)).add(element);
+            data.computeIfAbsent(currentCategory, key -> new ArrayList<>(4)).add(element);
             amount++;
         }
 
-        return convertData(values);
-    }
-
-    private Map<ProxyQueryCategoryType, List<String>> convertData(Map<ProxyQueryCategoryType, List<String>> data) {
-        Map<ProxyQueryCategoryType, List<String>> convertedData = new HashMap<>(data.size());
+        Map<DataQueryCategoryType, List<String>> convertedData = new HashMap<>(data.size());
 
         data.forEach((key, value) -> {
             List<String> convertedValues = new ArrayList<>(value.size());
 
-            List<List<String>> prepared = split(value, element -> element.equals("and") || element.equals("or"));
+            List<List<String>> prepared = ProxyQueryParserUtils.split(value, element -> element.equals(AND) || element.equals(OR));
             prepared.forEach(list -> convertedValues.add(ContentJoiner.on("_").join(list).toString()));
 
             convertedData.put(key, convertedValues);
         });
 
         return convertedData;
-    }
-
-    private <T> List<List<T>> split(List<T> list, Predicate<T> by) {
-        List<List<T>> result = new ArrayList<>(list.size() / 2);
-        int previousIndex = -1;
-
-        for (int index = 0; index < list.size(); index++) {
-            T element = list.get(index);
-
-            if (!by.test(element)) {
-                continue;
-            }
-
-            result.add(list.subList(previousIndex + 1, index));
-            result.add(Collections.singletonList(element));
-            previousIndex = index;
-        }
-
-        if (previousIndex > 0) {
-            result.add(list.subList(previousIndex + 1, list.size()));
-        }
-
-        if (result.isEmpty()) {
-            result.add(list);
-        }
-
-        return result;
     }
 
 }

@@ -80,7 +80,7 @@ final class RepositoryProxyMethodGenerator {
 
     private MethodFunction findFunction(DataHandler handler, EntityScheme scheme, Method method) {
         DataQuery query = QUERY_FACTORY.create(scheme, method);
-        return parameters -> handler.find(query);
+        return parameters -> handler.find(query, parameters);
     }
 
     private interface MethodFunction extends ThrowingFunction<Object[], Object, Exception> { }

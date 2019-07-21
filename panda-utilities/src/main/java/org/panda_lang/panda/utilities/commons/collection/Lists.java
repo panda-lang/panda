@@ -85,6 +85,14 @@ public class Lists {
             previousIndex = index;
         }
 
+        if (previousIndex > -1) {
+            elements.add(subList(list, ++previousIndex));
+        }
+
+        if (elements.isEmpty()) {
+            elements.add(list);
+        }
+
         //noinspection unchecked
         return elements.toArray(new List[0]);
     }
