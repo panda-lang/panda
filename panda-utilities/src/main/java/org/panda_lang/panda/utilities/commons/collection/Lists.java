@@ -27,6 +27,18 @@ import java.util.List;
 public class Lists {
 
     /**
+     * Returns a view of the portion of the given list
+     *
+     * @param list the list to use
+     * @param startIndex low endpoint (inclusive) of the subList
+     * @param <T> type of list
+     * @return a view of the specified range within this list
+     */
+    public static <T> List<T> subList(List<T> list, int startIndex) {
+        return list.subList(startIndex, list.size());
+    }
+
+    /**
      * Sort similar lists using the same comparator
      *
      * @param comparator the comparator to use
@@ -50,6 +62,31 @@ public class Lists {
     public static <T> List<T> reverse(List<T> list) {
         Collections.reverse(list);
         return list;
+    }
+
+    /**
+     * Split list by the given delimiter
+     *
+     * @param list the list to split
+     * @param delimiter the object to use as delimiter
+     * @param <T> type of list
+     * @return the array of lists
+     */
+    public static <T> List<T>[] split(List<T> list, T delimiter) {
+        List<List<T>> elements = new ArrayList<>();
+        int previousIndex = -1;
+
+        for (int index = 0; index < list.size(); index++) {
+            if (!list.get(index).equals(delimiter)) {
+                continue;
+            }
+
+            elements.add(list.subList(++previousIndex, index));
+            previousIndex = index;
+        }
+
+        //noinspection unchecked
+        return elements.toArray(new List[0]);
     }
 
     /**

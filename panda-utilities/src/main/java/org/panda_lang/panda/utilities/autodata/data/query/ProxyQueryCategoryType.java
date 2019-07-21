@@ -14,23 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+enum ProxyQueryCategoryType {
 
-public interface DataHandler<ENTITY> {
+    WHAT("what"),
+    BY("by"),
+    ORDER("order");
 
-    ENTITY create(Object[] values) throws Exception;
+    private final String name;
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    ProxyQueryCategoryType(String name) {
+        this.name = name;
+    }
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
+    public String getName() {
+        return name;
+    }
 
-    Object find(DataQuery query) throws Exception;
+    public static ProxyQueryCategoryType of(String name) {
+        for (ProxyQueryCategoryType value : values()) {
+            if (name.equals(value.getName())) {
+                return value;
+            }
+        }
 
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+        return null;
+    }
 
 }

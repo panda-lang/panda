@@ -18,12 +18,11 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
-import org.panda_lang.panda.utilities.autodata.data.stream.DataStream;
+import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
 
-import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -41,8 +40,8 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public T create(Object[] values) throws Exception {
+        @SuppressWarnings("unchecked")
         T value = (T) collection.getEntityClass()
                 .getConstructor(ArrayUtils.mergeArrays(ArrayUtils.of(DataHandler.class), ClassUtils.getClasses(values)))
                 .newInstance(ArrayUtils.mergeArrays(new Object[] { this }, values));
@@ -52,27 +51,28 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
+    public Object generate(Class<?> type, GenerationStrategy strategy) {
+        return UUID.randomUUID();
+    }
+
+    @Override
+    public void save(T t, Object changes) throws Exception {
+
+    }
+
+    @Override
+    public Object find(DataQuery query) throws Exception {
+        System.out.println(query);
+        return null;
+    }
+
+    @Override
     public void delete(Object o) {
 
     }
 
-    @Override
-    public void save(T o, Map<String, Object> changes) {
-        System.out.println("xxx");
-    }
-
-    @Override
-    public Object find(DataStream stream) {
-        return null;
-    }
-
     public void setCollection(DataCollection collection) {
         this.collection = collection;
-    }
-
-    @Override
-    public Object generate(Class<?> type, GenerationStrategy strategy) {
-        return UUID.randomUUID();
     }
 
     @Override

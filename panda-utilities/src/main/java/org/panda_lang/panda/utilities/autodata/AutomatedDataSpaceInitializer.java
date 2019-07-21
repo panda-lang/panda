@@ -75,7 +75,7 @@ final class AutomatedDataSpaceInitializer {
 
     private Collection<RepositoryScheme> initializeRepositories(Collection<? extends CollectionScheme> schemes) {
         return schemes.stream()
-                .map(scheme -> REPOSITORY_FACTORY.createRepositoryScheme(automatedDataSpace.getController(), injector, scheme))
+                .map(scheme -> REPOSITORY_FACTORY.createRepositoryScheme(injector, scheme))
                 .collect(Collectors.toList());
     }
 

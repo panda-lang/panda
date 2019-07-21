@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+import java.util.List;
 
-public interface DataHandler<ENTITY> {
+public interface DataQueryCategory {
 
-    ENTITY create(Object[] values) throws Exception;
+    List<? extends DataQueryElement> getElements();
 
-    void save(ENTITY entity, Object changes) throws Exception;
-
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
-
-    Object find(DataQuery query) throws Exception;
-
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+    String getName();
 
 }

@@ -18,15 +18,12 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 
 final class RepositoryProxyInvocationHandler implements InvocationHandler {
 
-    private final Map<String, RepositoryProxyMethod> generatedFunctions;
-
-    RepositoryProxyInvocationHandler(Map<String, RepositoryProxyMethod> generatedFunctions) {
-        this.generatedFunctions = generatedFunctions;
-    }
+    private final Map<String, RepositoryProxyMethod> generatedFunctions = new HashMap<>();
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
@@ -37,6 +34,10 @@ final class RepositoryProxyInvocationHandler implements InvocationHandler {
         }
 
         return function.apply(args);
+    }
+
+    protected void addFunctions(Map<String, RepositoryProxyMethod> functions) {
+        generatedFunctions.putAll(functions);
     }
 
 }

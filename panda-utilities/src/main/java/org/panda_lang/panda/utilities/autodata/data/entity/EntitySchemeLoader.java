@@ -28,7 +28,13 @@ final class EntitySchemeLoader {
 
     private static final EntityMethodSchemeLoader METHOD_LOADER = new EntityMethodSchemeLoader();
 
+    private final Map<Class<?>, EntityScheme> cached = new HashMap<>();
+
     protected EntityScheme load(Class<?> entityClass) {
+        if (cached.containsKey(entityClass)) {
+            return cached.get(entityClass);
+        }
+
         if (!entityClass.isInterface()) {
             throw new AutomatedDataException("Entity class is not an interface (source: " + entityClass.toGenericString() + ")");
         }
@@ -38,10 +44,12 @@ final class EntitySchemeLoader {
 
         for (Method method : entityClass.getDeclaredMethods()) {
             load(properties, methods, method);
-
         }
 
-        return new EntityScheme(entityClass, properties, methods);
+        EntityScheme scheme = new EntityScheme(entityClass, properties, methods);
+        cached.put(entityClass, scheme);
+
+        return scheme;
     }
 
     private void load(Map<String, EntitySchemeProperty> properties, Collection<EntityMethodScheme> methods, Method method) {

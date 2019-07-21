@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
 
-public interface DataHandler<ENTITY> {
+import java.lang.reflect.Method;
 
-    ENTITY create(Object[] values) throws Exception;
+public final class DataQueryFactory {
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    private static final ProxyQueryParser PROXY_QUERY_PARSER = new ProxyQueryParser();
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
-
-    Object find(DataQuery query) throws Exception;
-
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+    public DataQuery create(EntityScheme scheme, Method method) {
+        return PROXY_QUERY_PARSER.parse(scheme, method);
+    }
 
 }

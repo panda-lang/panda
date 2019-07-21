@@ -94,7 +94,7 @@ final class EntityGenerator {
                     EntitySchemeProperty property = entry.getKey();
                     GenerationStrategy strategy = entry.getValue().get().strategy();
 
-                    bodyBuilder.append("this.").append(property.getName()).append(" = (").append(property.getType().getName()).append(")dataHandler.generate(")
+                    bodyBuilder.append("this.").append(property.getName()).append(" = (").append(property.getType().getName()).append(") dataHandler.generate(")
                             .append(property.getType().getName()).append(".class, ")
                             .append(GenerationStrategy.class.getName()).append(".").append(strategy.name()).append(");");
                 });

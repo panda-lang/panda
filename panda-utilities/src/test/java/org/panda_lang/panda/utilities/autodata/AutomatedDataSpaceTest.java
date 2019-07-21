@@ -77,7 +77,7 @@ class AutomatedDataSpaceTest {
         private final UserRepository repository;
 
         @Autowired
-        public UserService(@Berry(collection = "users") UserRepository repository) {
+        public UserService(@Berry("users") UserRepository repository) {
             this.repository = repository;
         }
 

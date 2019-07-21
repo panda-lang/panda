@@ -14,10 +14,28 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.stream;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-public interface DataStream {
+import java.util.List;
 
+final class ProxyQueryCategory implements DataQueryCategory {
 
+    private final ProxyQueryCategoryType type;
+    private final List<DataQueryElement> elements;
+
+    ProxyQueryCategory(ProxyQueryCategoryType type, List<DataQueryElement> elements) {
+        this.type = type;
+        this.elements = elements;
+    }
+
+    @Override
+    public List<? extends DataQueryElement> getElements() {
+        return elements;
+    }
+
+    @Override
+    public String getName() {
+        return type.getName();
+    }
 
 }

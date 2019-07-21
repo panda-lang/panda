@@ -18,6 +18,7 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 public class EntityScheme {
 
@@ -29,6 +30,10 @@ public class EntityScheme {
         this.rootClass = rootClass;
         this.properties = properties;
         this.methods = methods;
+    }
+
+    public Optional<EntitySchemeProperty> getProperty(String name) {
+        return Optional.ofNullable(properties.get(name));
     }
 
     public Collection<EntityMethodScheme> getMethods() {

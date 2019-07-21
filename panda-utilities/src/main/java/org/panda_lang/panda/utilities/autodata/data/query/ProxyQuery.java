@@ -14,23 +14,27 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+import java.util.Collection;
+import java.util.Map;
 
-public interface DataHandler<ENTITY> {
+final class ProxyQuery implements DataQuery {
 
-    ENTITY create(Object[] values) throws Exception;
+    private final Map<String, DataQueryCategory> data;
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    ProxyQuery(Map<String, DataQueryCategory> data) {
+        this.data = data;
+    }
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
+    @Override
+    public DataQueryCategory getCategory(String category) {
+        return data.get(category);
+    }
 
-    Object find(DataQuery query) throws Exception;
-
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+    @Override
+    public Collection<? extends DataQueryCategory> getCategories() {
+        return data.values();
+    }
 
 }
