@@ -24,18 +24,24 @@ import java.util.Map;
 
 public final class RepositoryScheme {
 
+    private final CollectionScheme scheme;
     private final DataRepository<?> repository;
     private final Map<RepositoryOperation, Collection<EntityMethodScheme>> methods;
-    private final CollectionScheme collectionScheme;
+    private final RepositoryProxyInvocationHandler handler;
 
-    RepositoryScheme(DataRepository<?> repository, Map<RepositoryOperation, Collection<EntityMethodScheme>> methods, CollectionScheme collectionScheme) {
+    RepositoryScheme(CollectionScheme scheme, DataRepository<?> repository, Map<RepositoryOperation, Collection<EntityMethodScheme>> methods, RepositoryProxyInvocationHandler handler) {
         this.repository = repository;
         this.methods = methods;
-        this.collectionScheme = collectionScheme;
+        this.scheme = scheme;
+        this.handler = handler;
+    }
+
+    public RepositoryProxyInvocationHandler getHandler() {
+        return handler;
     }
 
     public CollectionScheme getCollectionScheme() {
-        return collectionScheme;
+        return scheme;
     }
 
     public Map<RepositoryOperation, Collection<EntityMethodScheme>> getMethods() {

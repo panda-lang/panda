@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
 
-public interface DataHandler<ENTITY> {
+import java.util.List;
 
-    ENTITY create(Object[] values) throws Exception;
+final class ProxyQueryElement implements DataQueryElement {
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    private final List<EntitySchemeProperty> properties;
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
+    public ProxyQueryElement(List<EntitySchemeProperty> properties) {
+        this.properties = properties;
+    }
 
-    Object find(DataQuery query) throws Exception;
-
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+    @Override
+    public List<EntitySchemeProperty> getProperties() {
+        return properties;
+    }
 
 }

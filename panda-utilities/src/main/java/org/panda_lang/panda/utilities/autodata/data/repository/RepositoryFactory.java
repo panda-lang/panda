@@ -17,14 +17,19 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.inject.Injector;
 
 public final class RepositoryFactory {
 
     private static final RepositorySchemeLoader REPOSITORY_SCHEME_LOADER = new RepositorySchemeLoader();
 
-    public RepositoryScheme createRepositoryScheme(DataController<?> controller, Injector injector, CollectionScheme collectionScheme) {
-        return REPOSITORY_SCHEME_LOADER.load(controller, injector, collectionScheme);
+    public RepositoryScheme createRepositoryScheme(Injector injector, CollectionScheme collectionScheme) {
+        return REPOSITORY_SCHEME_LOADER.load(injector, collectionScheme);
+    }
+
+    public void createRepositoryImplementation(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme) {
+        REPOSITORY_SCHEME_LOADER.generateMethods(controller, collection, repositoryScheme);
     }
 
 }

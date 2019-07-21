@@ -17,8 +17,10 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityMethodScheme;
+import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -32,23 +34,32 @@ final class RepositoryProxyGenerator {
     private static final RepositoryProxyMethodGenerator REPOSITORY_METHOD_GENERATOR =  new RepositoryProxyMethodGenerator();
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
-    protected RepositoryScheme generate(DataController<?> controller, CollectionScheme collectionScheme) {
+    protected RepositoryScheme generate(CollectionScheme collectionScheme) {
         Class<? extends DataRepository> repositoryClass = collectionScheme.getRepositoryClass();
 
-        Map<String, RepositoryProxyMethod> generatedFunctions = new HashMap<>();
         Map<RepositoryOperation, Collection<EntityMethodScheme>> methods = new HashMap<>();
 
         for (Method method : repositoryClass.getDeclaredMethods()) {
-            RepositoryProxyMethod function = REPOSITORY_METHOD_GENERATOR.generateMethod(controller, collectionScheme, method);
-
-            generatedFunctions.put(method.getName(), function);
-            methods.computeIfAbsent(function.getOperationType(), (key) -> new ArrayList<>()).add(ENTITY_FACTORY.createEntitySchemeMethod(method));
+            RepositoryOperation operation = RepositoryOperation.of(CamelCaseUtils.split(method.getName()).get(0));
+            methods.computeIfAbsent(operation, (key) -> new ArrayList<>()).add(ENTITY_FACTORY.createEntitySchemeMethod(method));
         }
 
-        RepositoryProxyInvocationHandler handler = new RepositoryProxyInvocationHandler(generatedFunctions);
+        RepositoryProxyInvocationHandler handler = new RepositoryProxyInvocationHandler();
         DataRepository<?> repository = (DataRepository<?>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { repositoryClass }, handler);
 
-        return new RepositoryScheme(repository, methods, collectionScheme);
+        return new RepositoryScheme(collectionScheme, repository, methods, handler);
+    }
+
+    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme) {
+        Class<? extends DataRepository> repositoryClass = repositoryScheme.getCollectionScheme().getRepositoryClass();
+        Map<String, RepositoryProxyMethod> generatedFunctions = new HashMap<>();
+
+        for (Method method : repositoryClass.getDeclaredMethods()) {
+            RepositoryProxyMethod function = REPOSITORY_METHOD_GENERATOR.generateMethod(controller, collection, repositoryScheme, method);
+            generatedFunctions.put(method.getName(), function);
+        }
+
+        repositoryScheme.getHandler().addFunctions(generatedFunctions);
     }
 
 }

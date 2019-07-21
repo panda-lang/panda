@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
-import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
+import java.lang.reflect.Field;
 
-public interface DataHandler<ENTITY> {
+public final class EntityProperty {
 
-    ENTITY create(Object[] values) throws Exception;
+    private final EntitySchemeProperty property;
+    private final Field field;
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    public EntityProperty(EntitySchemeProperty property, Field field) {
+        this.property = property;
+        this.field = field;
+    }
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
+    public Object getValue(Object instance) throws IllegalAccessException {
+        return field.get(instance);
+    }
 
-    Object find(DataQuery query) throws Exception;
-
-    void delete(ENTITY entity) throws Exception;
-
-    String getIdentifier();
+    public EntitySchemeProperty getPropertyScheme() {
+        return property;
+    }
 
 }
