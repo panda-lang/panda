@@ -44,7 +44,7 @@ final class RepositoryProxyGenerator {
             methods.computeIfAbsent(operation, (key) -> new ArrayList<>()).add(ENTITY_FACTORY.createEntitySchemeMethod(method));
         }
 
-        RepositoryProxyInvocationHandler handler = new RepositoryProxyInvocationHandler();
+        RepositoryProxyInvocationHandler handler = new RepositoryProxyInvocationHandler(collectionScheme);
         DataRepository<?> repository = (DataRepository<?>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { repositoryClass }, handler);
 
         return new RepositoryScheme(collectionScheme, repository, methods, handler);

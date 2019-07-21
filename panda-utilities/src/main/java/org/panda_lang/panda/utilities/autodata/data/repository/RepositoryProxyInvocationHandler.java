@@ -16,6 +16,8 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,10 +25,19 @@ import java.util.Map;
 
 final class RepositoryProxyInvocationHandler implements InvocationHandler {
 
+    private final CollectionScheme collectionScheme;
     private final Map<String, RepositoryProxyMethod> generatedFunctions = new HashMap<>();
+
+    RepositoryProxyInvocationHandler(CollectionScheme collectionScheme) {
+        this.collectionScheme = collectionScheme;
+    }
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Exception {
+        if (method.getName().equals("toString")) {
+            return collectionScheme.getRepositoryClass() + "::" + collectionScheme.getName();
+        }
+
         RepositoryProxyMethod function = generatedFunctions.get(method.getName());
 
         if (function == null) {

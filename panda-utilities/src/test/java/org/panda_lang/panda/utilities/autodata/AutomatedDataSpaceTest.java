@@ -72,6 +72,11 @@ class AutomatedDataSpaceTest {
     @Service
     static class SpecialUserService {
 
+        @Autowired
+        public SpecialUserService(@Berry("special-users") UserRepository repository) {
+            System.out.println(repository);
+        }
+
     }
 
     @Service
@@ -82,6 +87,7 @@ class AutomatedDataSpaceTest {
         @Autowired
         public UserService(@Berry("users") UserRepository repository) {
             this.repository = repository;
+            System.out.println(repository);
         }
 
         public User createUser(String name) {
