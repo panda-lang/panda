@@ -20,14 +20,14 @@ import org.panda_lang.panda.utilities.commons.annotations.Annotations;
 
 import java.lang.reflect.Method;
 
-public final class EntityProperty {
+public final class Property {
 
     private final String name;
     private final Class<?> type;
     private final Annotations annotations;
     private final Method associatedMethod;
 
-    EntityProperty(String name, Class<?> type, Annotations annotations, Method associatedMethod) {
+    Property(String name, Class<?> type, Annotations annotations, Method associatedMethod) {
         this.name = name;
         this.type = type;
         this.annotations = annotations;

@@ -14,28 +14,17 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.entity;
+package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-import org.panda_lang.panda.utilities.autodata.data.repository.DataModification;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 
-public final class GeneratedEntityModification implements DataModification {
+import java.util.Collections;
 
-    private final String property;
-    private final Object value;
+public final class DefaultTransaction {
 
-    public GeneratedEntityModification(String property, Object value) {
-        this.property = property;
-        this.value = value;
-    }
-
-    @Override
-    public Object getValue() {
-        return value;
-    }
-
-    @Override
-    public String getProperty() {
-        return property;
+    public static <T> DataTransaction of(DataHandler<T> handler, T entity, DataModification modification) {
+        return new Transaction<>(handler, entity, null, () -> Collections.singletonList(modification))
+                .retry((attempt, time) -> attempt < 10 && time < 5000);
     }
 
 }

@@ -16,23 +16,26 @@
 
 package org.panda_lang.panda.utilities.commons;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import javassist.ClassPool;
+import javassist.CtClass;
+import javassist.NotFoundException;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+public final class ClassPoolUtils {
 
-class BenchmarkUtilsTest {
+    private static final ClassPool CLASS_POOL = ClassPool.getDefault();
 
-    @Test
-    public void testExecuteRunnable() {
-        AtomicBoolean test = new AtomicBoolean(false);
-        BenchmarkUtils.execute("Test::Runnable", () -> test.set(true));
-        Assertions.assertTrue(test.get());
+    public static CtClass[] toCtClasses(Class<?>[] classes) throws NotFoundException {
+        CtClass[] ctClasses = new CtClass[classes.length];
+
+        for (int index = 0; index < classes.length; index++) {
+            ctClasses[index] = get(classes[index]);
+        }
+
+        return ctClasses;
     }
 
-    @Test
-    public void testExecuteSupplier() {
-        Assertions.assertTrue(BenchmarkUtils.execute("Test::Supplier", () -> true));
+    public static CtClass get(Class<?> clazz) throws NotFoundException {
+        return CLASS_POOL.get(clazz.getName());
     }
 
 }

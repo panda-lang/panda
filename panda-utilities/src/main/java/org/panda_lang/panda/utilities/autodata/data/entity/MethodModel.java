@@ -14,16 +14,32 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.Property;
+import java.lang.reflect.Method;
 
-public interface DataRuleProperty {
+public final class MethodModel {
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof Property;
+    private final Method method;
+    private final Property property;
+    private final MethodType type;
+
+    MethodModel(Method method, Property property, MethodType type) {
+        this.method = method;
+        this.property = property;
+        this.type = type;
     }
 
-    <T> T getValue();
+    public MethodType getType() {
+        return type;
+    }
+
+    public Property getProperty() {
+        return property;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
 
 }

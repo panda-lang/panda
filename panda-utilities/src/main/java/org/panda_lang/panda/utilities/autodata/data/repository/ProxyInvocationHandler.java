@@ -23,12 +23,12 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
-final class RepositoryProxyInvocationHandler implements InvocationHandler {
+final class ProxyInvocationHandler implements InvocationHandler {
 
     private final CollectionScheme collectionScheme;
-    private final Map<String, RepositoryProxyMethod> generatedFunctions = new HashMap<>();
+    private final Map<String, ProxyMethod> generatedFunctions = new HashMap<>();
 
-    RepositoryProxyInvocationHandler(CollectionScheme collectionScheme) {
+    ProxyInvocationHandler(CollectionScheme collectionScheme) {
         this.collectionScheme = collectionScheme;
     }
 
@@ -38,7 +38,11 @@ final class RepositoryProxyInvocationHandler implements InvocationHandler {
             return collectionScheme.getRepositoryClass() + "::" + collectionScheme.getName();
         }
 
-        RepositoryProxyMethod function = generatedFunctions.get(method.getName());
+        if (method.getName().equals("equals") && args.length == 1){
+            return proxy == args[0];
+        }
+
+        ProxyMethod function = generatedFunctions.get(method.getName());
 
         if (function == null) {
             return null; // or throw?
@@ -47,7 +51,7 @@ final class RepositoryProxyInvocationHandler implements InvocationHandler {
         return function.apply(args);
     }
 
-    protected void addFunctions(Map<String, RepositoryProxyMethod> functions) {
+    protected void addFunctions(Map<String, ProxyMethod> functions) {
         generatedFunctions.putAll(functions);
     }
 

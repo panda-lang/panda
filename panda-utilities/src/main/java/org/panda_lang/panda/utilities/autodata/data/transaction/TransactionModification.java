@@ -14,16 +14,26 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.Property;
+public final class TransactionModification implements DataModification {
 
-public interface DataRuleProperty {
+    private final String property;
+    private final Object value;
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof Property;
+    public TransactionModification(String property, Object value) {
+        this.property = property;
+        this.value = value;
     }
 
-    <T> T getValue();
+    @Override
+    public Object getValue() {
+        return value;
+    }
+
+    @Override
+    public String getProperty() {
+        return property;
+    }
 
 }

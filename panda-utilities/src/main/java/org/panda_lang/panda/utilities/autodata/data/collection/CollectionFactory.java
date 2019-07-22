@@ -24,7 +24,7 @@ import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryFactory;
-import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryScheme;
+import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryModel;
 import org.panda_lang.panda.utilities.inject.Injector;
 import org.panda_lang.panda.utilities.inject.InjectorException;
 
@@ -35,16 +35,17 @@ public final class CollectionFactory {
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
     private static final RepositoryFactory REPOSITORY_FACTORY = new RepositoryFactory();
 
-    public DataCollection createCollection(DataController<?> controller, Injector injector, RepositoryScheme repositoryScheme) {
+    public DataCollection createCollection(DataController<?> controller, Injector injector, RepositoryModel repositoryModel) {
         try {
-            CollectionScheme collectionScheme = repositoryScheme.getCollectionScheme();
+            CollectionScheme collectionScheme = repositoryModel.getCollectionScheme();
             DataHandler<?> dataHandler = controller.getHandler(collectionScheme.getName());
 
-            Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(repositoryScheme, dataHandler);
-            Object service = injector.newInstance(repositoryScheme.getCollectionScheme().getServiceClass());
+            Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(repositoryModel, dataHandler);
+            Object service = injector.newInstance(repositoryModel.getCollectionScheme().getServiceClass());
+            injector.getResources().on(service.getClass()).assignInstance(service);
 
             DataCollection collection = createCollection(collectionScheme, entityClass, service);
-            REPOSITORY_FACTORY.createRepositoryImplementation(controller, collection, repositoryScheme);
+            REPOSITORY_FACTORY.createRepositoryImplementation(controller, collection, repositoryModel);
 
             return collection;
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException | InjectorException e) {

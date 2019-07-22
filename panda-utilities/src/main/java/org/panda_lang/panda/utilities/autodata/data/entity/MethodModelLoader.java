@@ -25,23 +25,23 @@ import org.panda_lang.panda.utilities.commons.text.ContentJoiner;
 import java.lang.reflect.Method;
 import java.util.List;
 
-final class EntityMethodSchemeLoader {
+final class MethodModelLoader {
 
-    protected EntityMethodScheme load(Method method) {
+    protected MethodModel load(Method method) {
         List<String> elements = CamelCaseUtils.split(method.getName(), String::toLowerCase);
 
         String propertyName = ContentJoiner.on("_").join(elements.subList(1, elements.size())).toString();
-        EntityMethodType operationType = EntityMethodType.of(elements.get(0));
+        MethodType operationType = MethodType.of(elements.get(0));
 
         if (operationType == null) {
             throw new AutomatedDataException("Unknown operation '" + elements.get(0) + "'");
         }
 
-        EntityProperty property = new EntityProperty(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
-        return new EntityMethodScheme(method, property, operationType);
+        Property property = new Property(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
+        return new MethodModel(method, property, operationType);
     }
 
-    private @Nullable Class<?> getType(EntityMethodType operationType, Method method) {
+    private @Nullable Class<?> getType(MethodType operationType, Method method) {
         switch (operationType) {
             case GET:
             case CREATE:

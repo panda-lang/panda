@@ -19,7 +19,7 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityMethodScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.MethodModel;
 import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 
 import java.lang.reflect.Method;
@@ -29,37 +29,37 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-final class RepositoryProxyGenerator {
+final class ProxyGenerator {
 
-    private static final RepositoryProxyMethodGenerator REPOSITORY_METHOD_GENERATOR =  new RepositoryProxyMethodGenerator();
+    private static final ProxyMethodGenerator REPOSITORY_METHOD_GENERATOR =  new ProxyMethodGenerator();
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
-    protected RepositoryScheme generate(CollectionScheme collectionScheme) {
+    protected RepositoryModel generate(CollectionScheme collectionScheme) {
         Class<? extends DataRepository> repositoryClass = collectionScheme.getRepositoryClass();
 
-        Map<RepositoryOperation, Collection<EntityMethodScheme>> methods = new HashMap<>();
+        Map<RepositoryOperation, Collection<MethodModel>> methods = new HashMap<>();
 
         for (Method method : repositoryClass.getDeclaredMethods()) {
             RepositoryOperation operation = RepositoryOperation.of(CamelCaseUtils.split(method.getName()).get(0));
             methods.computeIfAbsent(operation, (key) -> new ArrayList<>()).add(ENTITY_FACTORY.createEntitySchemeMethod(method));
         }
 
-        RepositoryProxyInvocationHandler handler = new RepositoryProxyInvocationHandler(collectionScheme);
+        ProxyInvocationHandler handler = new ProxyInvocationHandler(collectionScheme);
         DataRepository<?> repository = (DataRepository<?>) Proxy.newProxyInstance(getClass().getClassLoader(), new Class[] { repositoryClass }, handler);
 
-        return new RepositoryScheme(collectionScheme, repository, methods, handler);
+        return new RepositoryModel(collectionScheme, repository, methods, handler);
     }
 
-    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme) {
-        Class<? extends DataRepository> repositoryClass = repositoryScheme.getCollectionScheme().getRepositoryClass();
-        Map<String, RepositoryProxyMethod> generatedFunctions = new HashMap<>();
+    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel) {
+        Class<? extends DataRepository> repositoryClass = repositoryModel.getCollectionScheme().getRepositoryClass();
+        Map<String, ProxyMethod> generatedFunctions = new HashMap<>();
 
         for (Method method : repositoryClass.getDeclaredMethods()) {
-            RepositoryProxyMethod function = REPOSITORY_METHOD_GENERATOR.generateMethod(controller, collection, repositoryScheme, method);
+            ProxyMethod function = REPOSITORY_METHOD_GENERATOR.generateMethod(controller, collection, repositoryModel, method);
             generatedFunctions.put(method.getName(), function);
         }
 
-        repositoryScheme.getHandler().addFunctions(generatedFunctions);
+        repositoryModel.getHandler().addFunctions(generatedFunctions);
     }
 
 }

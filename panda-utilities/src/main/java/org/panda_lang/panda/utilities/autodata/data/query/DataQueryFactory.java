@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityModel;
 
 import java.lang.reflect.Method;
 
@@ -24,7 +24,7 @@ public final class DataQueryFactory {
 
     private static final ProxyQueryParser PROXY_QUERY_PARSER = new ProxyQueryParser();
 
-    public DataQuery create(EntityScheme scheme, Method method) {
+    public DataQuery create(EntityModel scheme, Method method) {
         return PROXY_QUERY_PARSER.parse(scheme, method);
     }
 

@@ -17,19 +17,22 @@
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
+import org.panda_lang.panda.utilities.autodata.data.transaction.DataTransactionResult;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 
 public interface DataHandler<ENTITY> {
 
     ENTITY create(Object[] constructorArguments) throws Exception;
 
-    void save(ENTITY entity, DataModification[] modifications) throws Exception;
-
     <GENERATED> GENERATED generate(Class<GENERATED> requestedType, GenerationStrategy strategy) throws Exception;
+
+    void save(DataTransactionResult<ENTITY> transaction) throws Exception;
 
     <QUERY> QUERY find(DataQuery<QUERY> query, Object[] queryValues) throws Exception;
 
     void delete(ENTITY entity) throws Exception;
+
+    void handleException(Exception e);
 
     String getIdentifier();
 

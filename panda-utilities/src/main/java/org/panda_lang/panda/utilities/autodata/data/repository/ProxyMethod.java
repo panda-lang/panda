@@ -16,14 +16,15 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
+import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryOperation;
 import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
-final class RepositoryProxyMethod {
+final class ProxyMethod {
 
     private final RepositoryOperation operationType;
     private final ThrowingFunction<Object[], Object, Exception> function;
 
-    RepositoryProxyMethod(RepositoryOperation operationType, ThrowingFunction<Object[], Object, Exception> function) {
+    ProxyMethod(RepositoryOperation operationType, ThrowingFunction<Object[], Object, Exception> function) {
         this.operationType = operationType;
         this.function = function;
     }

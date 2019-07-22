@@ -24,13 +24,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-final class EntitySchemeLoader {
+final class EntityModelLoader {
 
-    private static final EntityMethodSchemeLoader METHOD_LOADER = new EntityMethodSchemeLoader();
+    private static final MethodModelLoader METHOD_LOADER = new MethodModelLoader();
 
-    private final Map<Class<?>, EntityScheme> cached = new HashMap<>();
+    private final Map<Class<?>, EntityModel> cached = new HashMap<>();
 
-    protected EntityScheme load(Class<?> entityClass) {
+    protected EntityModel load(Class<?> entityClass) {
         if (cached.containsKey(entityClass)) {
             return cached.get(entityClass);
         }
@@ -39,31 +39,31 @@ final class EntitySchemeLoader {
             throw new AutomatedDataException("Entity class is not an interface (source: " + entityClass.toGenericString() + ")");
         }
 
-        Map<String, EntityProperty> properties = new HashMap<>();
-        Collection<EntityMethodScheme> methods = new ArrayList<>();
+        Map<String, Property> properties = new HashMap<>();
+        Collection<MethodModel> methods = new ArrayList<>();
 
         for (Method method : entityClass.getDeclaredMethods()) {
             load(properties, methods, method);
         }
 
-        EntityScheme scheme = new EntityScheme(entityClass, properties, methods);
+        EntityModel scheme = new EntityModel(entityClass, properties, methods);
         cached.put(entityClass, scheme);
 
         return scheme;
     }
 
-    private void load(Map<String, EntityProperty> properties, Collection<EntityMethodScheme> methods, Method method) {
-        EntityMethodScheme schemeMethod = METHOD_LOADER.load(method);
+    private void load(Map<String, Property> properties, Collection<MethodModel> methods, Method method) {
+        MethodModel schemeMethod = METHOD_LOADER.load(method);
         methods.add(schemeMethod);
 
-        EntityProperty property = schemeMethod.getProperty();
+        Property property = schemeMethod.getProperty();
 
         if (!properties.containsKey(property.getName())) {
             properties.put(property.getName(), property);
             return;
         }
 
-        EntityProperty cachedProperty = properties.get(property.getName());
+        Property cachedProperty = properties.get(property.getName());
 
         if (cachedProperty.getType().equals(property.getType())) {
             return;

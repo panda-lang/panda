@@ -14,34 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.entity;
+package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-public enum EntityMethodType {
+public interface DataModification {
 
-    GET,
-    SET,
+    Object getValue();
 
-    ADD,
-    REMOVE,
-
-    IS,
-    HAS,
-    CONTAINS,
-
-    CREATE,
-    DELETE,
-
-    UPDATE,
-    FIND;
-
-    public static EntityMethodType of(String name) {
-        for (EntityMethodType value : values()) {
-            if (value.name().equalsIgnoreCase(name)) {
-                return value;
-            }
-        }
-
-        return null;
-    }
+    String getProperty();
 
 }

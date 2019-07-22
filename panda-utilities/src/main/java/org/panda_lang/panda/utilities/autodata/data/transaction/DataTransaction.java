@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.Property;
+public interface DataTransaction {
 
-public interface DataRuleProperty {
+    DataTransaction retry(DataTransactionCondition retry);
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof Property;
-    }
+    DataTransaction success(DataTransactionAction success);
 
-    <T> T getValue();
+    DataTransaction orElse(DataTransactionAction orElse);
+
+    void commit();
 
 }

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.Property;
+import java.util.function.BiPredicate;
 
-public interface DataRuleProperty {
+@FunctionalInterface
+public interface DataTransactionCondition extends BiPredicate<Integer, Integer> {
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof Property;
-    }
-
-    <T> T getValue();
+    @Override
+    boolean test(Integer attempt, Integer time);
 
 }

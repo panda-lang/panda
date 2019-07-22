@@ -16,10 +16,12 @@
 
 package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-public interface Transactionable {
+import java.util.function.BiConsumer;
 
-    Transaction transaction(Runnable transaction);
+@FunctionalInterface
+public interface DataTransactionAction extends BiConsumer<Integer, Integer> {
 
-    Transaction syncTransaction(Runnable runnable);
+    @Override
+    void accept(Integer attempt, Integer time);
 
 }

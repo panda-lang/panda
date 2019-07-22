@@ -18,14 +18,14 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityProperty;
+import org.panda_lang.panda.utilities.autodata.data.entity.Property;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryCategoryType;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryRule;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryRuleScheme;
 import org.panda_lang.panda.utilities.autodata.data.query.DataRuleProperty;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataModification;
+import org.panda_lang.panda.utilities.autodata.data.transaction.DataTransactionResult;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
@@ -71,8 +71,8 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
-    public void save(T t, DataModification[] modifications) throws Exception {
-
+    public void save(DataTransactionResult<T> transaction) throws Exception {
+        transaction.getSuccessAction().ifPresent(action -> action.accept(0, 0));
     }
 
     @Override
@@ -90,7 +90,7 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
                                 continue;
                             }
 
-                            EntityProperty schemeProperty = property.getKey().getValue();
+                            Property schemeProperty = property.getKey().getValue();
 
                             try {
                                 Field field = value.getClass().getDeclaredField(schemeProperty.getName());
@@ -128,8 +128,14 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
-    public void delete(Object o) {
+    public void delete(T entity) {
+        controller.getValues().remove(entity);
+    }
 
+    @Override
+    public void handleException(Exception e) {
+        System.out.println("HANDLED EXCEPTION");
+        e.printStackTrace();
     }
 
     public void setCollection(DataCollection collection) {

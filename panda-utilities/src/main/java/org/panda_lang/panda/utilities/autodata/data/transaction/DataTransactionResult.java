@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.repository;
+package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-public interface DataModification {
+import java.util.List;
+import java.util.Optional;
 
-    Object getValue();
+public interface DataTransactionResult<T> {
 
-    String getProperty();
+    Optional<DataTransactionCondition> getRetryAction();
+
+    Optional<DataTransactionAction> getSuccessAction();
+
+    Optional<DataTransactionAction> getElseAction();
+
+    List<? extends DataModification> getModifications();
+
+    T getEntity();
 
 }

@@ -20,22 +20,22 @@ import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.inject.Injector;
 
-final class RepositorySchemeLoader {
+final class RepositoryModelLoader {
 
-    private static final RepositoryProxyGenerator REPOSITORY_GENERATOR = new RepositoryProxyGenerator();
+    private static final ProxyGenerator REPOSITORY_GENERATOR = new ProxyGenerator();
 
-    protected RepositoryScheme load(Injector injector, CollectionScheme collectionScheme) {
-        RepositoryScheme repositoryScheme = REPOSITORY_GENERATOR.generate(collectionScheme);
+    protected RepositoryModel load(Injector injector, CollectionScheme collectionScheme) {
+        RepositoryModel repositoryModel = REPOSITORY_GENERATOR.generate(collectionScheme);
 
         injector.getResources()
-                .on(repositoryScheme.getRepository().getClass())
-                .assignInstance(repositoryScheme.getRepository());
+                .on(repositoryModel.getRepository().getClass())
+                .assignInstance(repositoryModel.getRepository());
 
-        return repositoryScheme;
+        return repositoryModel;
     }
 
-    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme) {
-        REPOSITORY_GENERATOR.generateMethods(controller, collection, repositoryScheme);
+    protected void generateMethods(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel) {
+        REPOSITORY_GENERATOR.generateMethods(controller, collection, repositoryModel);
     }
 
 }
