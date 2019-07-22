@@ -27,6 +27,7 @@ import org.panda_lang.panda.utilities.commons.function.ThrowingConsumer;
 import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.List;
 
 final class RepositoryProxyMethodGenerator {
@@ -50,7 +51,7 @@ final class RepositoryProxyMethodGenerator {
 
         switch (operation) {
             case CREATE:
-                return createFunction(handler, entityScheme);
+                return createFunction(handler);
             case DELETE:
                 return deleteFunction(handler);
             case UPDATE:
@@ -62,7 +63,7 @@ final class RepositoryProxyMethodGenerator {
         }
     }
 
-    private MethodFunction createFunction(DataHandler handler, EntityScheme entityScheme) {
+    private MethodFunction createFunction(DataHandler handler) {
         return handler::create;
     }
 
@@ -74,8 +75,12 @@ final class RepositoryProxyMethodGenerator {
         };
     }
 
+    @SuppressWarnings("unchecked")
     private MethodFunction updateFunction(DataHandler handler) {
-        return parameters -> null;
+        return parameters -> {
+            handler.save(parameters[0], (DataModification[]) Arrays.copyOfRange(parameters, 1, parameters.length));
+            return null;
+        };
     }
 
     private MethodFunction findFunction(DataHandler handler, EntityScheme scheme, Method method) {

@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.autodata.data.repository;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityProperty;
+public interface DataModification {
 
-public interface DataRuleProperty {
+    Object getValue();
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof EntityProperty;
-    }
-
-    <T> T getValue();
+    String getProperty();
 
 }

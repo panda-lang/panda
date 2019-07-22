@@ -37,7 +37,7 @@ final class EntityMethodSchemeLoader {
             throw new AutomatedDataException("Unknown operation '" + elements.get(0) + "'");
         }
 
-        EntitySchemeProperty property = new EntitySchemeProperty(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
+        EntityProperty property = new EntityProperty(propertyName, getType(operationType, method), new Annotations(method.getAnnotations()), method);
         return new EntityMethodScheme(method, property, operationType);
     }
 

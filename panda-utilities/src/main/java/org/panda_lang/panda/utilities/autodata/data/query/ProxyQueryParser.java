@@ -17,7 +17,7 @@
 package org.panda_lang.panda.utilities.autodata.data.query;
 
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityProperty;
 import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 import org.panda_lang.panda.utilities.commons.collection.Lists;
 import org.panda_lang.panda.utilities.commons.collection.Pair;
@@ -72,7 +72,7 @@ final class ProxyQueryParser {
         return new ProxyQueryRuleScheme(rules.stream()
                 .filter(property -> !property.equals(AND))
                 .map(property -> {
-                    Optional<EntitySchemeProperty> propertyValue = scheme.getProperty(property);
+                    Optional<EntityProperty> propertyValue = scheme.getProperty(property);
                     return new ProxyQueryRuleProperty(propertyValue.isPresent() ? propertyValue.get() : property);
                 })
                 .map(property -> new Pair<>(property, property.isEntityProperty() ? index.getAndIncrement() : -1))

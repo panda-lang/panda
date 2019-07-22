@@ -16,7 +16,6 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
 import org.panda_lang.panda.utilities.commons.collection.Pair;
 
 import java.util.List;

@@ -21,13 +21,13 @@ import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 
 public interface DataHandler<ENTITY> {
 
-    ENTITY create(Object[] values) throws Exception;
+    ENTITY create(Object[] constructorArguments) throws Exception;
 
-    void save(ENTITY entity, Object changes) throws Exception;
+    void save(ENTITY entity, DataModification[] modifications) throws Exception;
 
-    Object generate(Class<?> type, GenerationStrategy strategy) throws Exception;
+    <GENERATED> GENERATED generate(Class<GENERATED> requestedType, GenerationStrategy strategy) throws Exception;
 
-    Object find(DataQuery query, Object[] values) throws Exception;
+    <QUERY> QUERY find(DataQuery<QUERY> query, Object[] queryValues) throws Exception;
 
     void delete(ENTITY entity) throws Exception;
 

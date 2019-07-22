@@ -18,13 +18,14 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntitySchemeProperty;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityProperty;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryCategoryType;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryRule;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryRuleScheme;
 import org.panda_lang.panda.utilities.autodata.data.query.DataRuleProperty;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataModification;
 import org.panda_lang.panda.utilities.autodata.orm.GenerationStrategy;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
 import org.panda_lang.panda.utilities.commons.ClassUtils;
@@ -53,27 +54,29 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
     }
 
     @Override
-    public T create(Object[] values) throws Exception {
+    public T create(Object[] constructorArguments) throws Exception {
         @SuppressWarnings("unchecked")
         T value = (T) collection.getEntityClass()
-                .getConstructor(ArrayUtils.mergeArrays(ArrayUtils.of(DataHandler.class), ClassUtils.getClasses(values)))
-                .newInstance(ArrayUtils.mergeArrays(new Object[] { this }, values));
+                .getConstructor(ArrayUtils.mergeArrays(ArrayUtils.of(DataHandler.class), ClassUtils.getClasses(constructorArguments)))
+                .newInstance(ArrayUtils.mergeArrays(new Object[] { this }, constructorArguments));
 
         controller.getValues().add(value);
         return value;
     }
 
     @Override
-    public Object generate(Class<?> type, GenerationStrategy strategy) {
+    @SuppressWarnings("unchecked")
+    public Object generate(Class requestedType, GenerationStrategy strategy) {
         return UUID.randomUUID();
     }
 
     @Override
-    public void save(T t, Object changes) throws Exception {
+    public void save(T t, DataModification[] modifications) throws Exception {
 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object find(DataQuery query, Object[] values) throws Exception {
         List<T> data = null;
 
@@ -87,7 +90,7 @@ final class InMemoryDataHandler<T> implements DataHandler<T> {
                                 continue;
                             }
 
-                            EntitySchemeProperty schemeProperty = property.getKey().getValue();
+                            EntityProperty schemeProperty = property.getKey().getValue();
 
                             try {
                                 Field field = value.getClass().getDeclaredField(schemeProperty.getName());

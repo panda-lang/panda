@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.autodata.data.query;
 
 import java.util.Collection;
 
-public interface DataQuery {
+public interface DataQuery<TYPE> {
 
     default DataQueryCategory getCategory(DataQueryCategoryType category) {
         return getCategory(category.getName());
@@ -28,6 +28,6 @@ public interface DataQuery {
 
     Collection<? extends DataQueryCategory> getCategories();
 
-    Class<?> getExpectedReturnType();
+    Class<TYPE> getExpectedReturnType();
 
 }

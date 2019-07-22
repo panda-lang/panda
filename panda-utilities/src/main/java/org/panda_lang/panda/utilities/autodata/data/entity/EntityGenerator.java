@@ -43,10 +43,12 @@ final class EntityGenerator {
 
     private static final ClassPool CLASS_POOL = ClassPool.getDefault();
 
+    private final CtClass ctObject;
     private final CtClass ctDataHandler;
 
     {
         try {
+            ctObject = CLASS_POOL.get(Object.class.getName());
             ctDataHandler = CLASS_POOL.get(DataHandler.class.getName());
         } catch (NotFoundException e) {
             throw new AutomatedDataException("Class not found: " + e.getMessage());
@@ -73,6 +75,7 @@ final class EntityGenerator {
         CtClass entityClass = CLASS_POOL.makeClass(name);
         entityClass.addInterface(CLASS_POOL.get(clazz.getName()));
 
+        generateDefaultFields(entityClass);
         generateFields(entityScheme, entityClass);
         generateDefaultConstructor(entityScheme, entityClass);
         generateConstructors(repositoryScheme, entityClass);
@@ -81,21 +84,29 @@ final class EntityGenerator {
         return (Class<? extends DataEntity>) entityClass.toClass();
     }
 
-    private void generateDefaultConstructor(EntityScheme scheme, CtClass entityClass) throws CannotCompileException {
-        CtField field = new CtField(ctDataHandler, "dataHandler", entityClass);
-        entityClass.addField(field);
+    private void generateDefaultFields(CtClass entityClass) throws CannotCompileException {
+        CtField lock = new CtField(ctObject, "_lock", entityClass);
+        entityClass.addField(lock);
 
+        CtField dataHandler = new CtField(ctDataHandler, "_dataHandler", entityClass);
+        entityClass.addField(dataHandler);
+    }
+
+    private void generateDefaultConstructor(EntityScheme scheme, CtClass entityClass) throws CannotCompileException {
         CtConstructor constructor = new CtConstructor(new CtClass[]{ ctDataHandler }, entityClass);
-        StringBuilder bodyBuilder = new StringBuilder("{ this.dataHandler = $1;");
+
+        StringBuilder bodyBuilder = new StringBuilder("{");
+        bodyBuilder.append("this._lock = new ").append(Object.class.getName()).append("();");
+        bodyBuilder.append("this._dataHandler = $1;");
 
         scheme.getProperties().values().stream()
                 .map(property -> Maps.immutableEntryOf(property, property.getAnnotations().getAnnotation(Generated.class)))
                 .filter(entry -> entry.getValue().isPresent())
                 .forEach(entry -> {
-                    EntitySchemeProperty property = entry.getKey();
+                    EntityProperty property = entry.getKey();
                     GenerationStrategy strategy = entry.getValue().get().strategy();
 
-                    bodyBuilder.append("this.").append(property.getName()).append(" = (").append(property.getType().getName()).append(") dataHandler.generate(")
+                    bodyBuilder.append("this.").append(property.getName()).append(" = (").append(property.getType().getName()).append(") this._dataHandler.generate(")
                             .append(property.getType().getName()).append(".class, ")
                             .append(GenerationStrategy.class.getName()).append(".").append(strategy.name()).append(");");
                 });
@@ -105,7 +116,7 @@ final class EntityGenerator {
     }
 
     private void generateFields(EntityScheme scheme, CtClass entityClass) throws CannotCompileException, NotFoundException {
-        for (EntitySchemeProperty property : scheme.getProperties().values()) {
+        for (EntityProperty property : scheme.getProperties().values()) {
             CtField field = new CtField(CLASS_POOL.get(property.getType().getName()), property.getName(), entityClass);
             field.setModifiers(Modifier.PUBLIC);
             entityClass.addField(field);

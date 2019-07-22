@@ -63,10 +63,13 @@ class AutomatedDataSpaceTest {
         user.setName("updated onlypanda");
         System.out.println("setter: " + user.getName());
 
-        Optional<User> foundUser = service.findUserByName("updated onlypanda");
-        System.out.println("result: " + foundUser.isPresent());
-        System.out.println("value: " + foundUser.get());
-        System.out.println("value name: " + foundUser.get().getName());
+        Optional<User> foundByUser = service.findUserByName("updated onlypanda");
+        System.out.println("found opt by name instance: " + foundByUser.orElse(null));
+        System.out.println("found opt by name username: " + foundByUser.map(User::getName).orElse(null));
+
+        User foundById = service.findUserByNameOrId("fake username", user.getId());
+        System.out.println("found by id: " + foundById);
+        System.out.println("found by id username: " + foundById.getName());
     }
 
     @Service
@@ -98,6 +101,10 @@ class AutomatedDataSpaceTest {
             return repository.findUserByName(name);
         }
 
+        public User findUserByNameOrId(String name, UUID id) {
+            return repository.findByNameOrId(name, id);
+        }
+
     }
 
     @Repository
@@ -107,7 +114,7 @@ class AutomatedDataSpaceTest {
 
         Optional<User> findUserByName(String name);
 
-        User findUserByNameAndDisplayName(String name, UUID id);
+        User findByNameOrId(String name, UUID id);
 
     }
 
