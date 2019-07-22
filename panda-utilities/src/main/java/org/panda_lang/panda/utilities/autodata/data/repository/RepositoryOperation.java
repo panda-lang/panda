@@ -16,22 +16,22 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityMethodType;
+import org.panda_lang.panda.utilities.autodata.data.entity.MethodType;
 
 public enum RepositoryOperation {
 
-    CREATE(EntityMethodType.CREATE),
-    DELETE(EntityMethodType.DELETE),
-    UPDATE(EntityMethodType.UPDATE),
-    FIND(EntityMethodType.FIND);
+    CREATE(MethodType.CREATE),
+    DELETE(MethodType.DELETE),
+    UPDATE(MethodType.UPDATE),
+    FIND(MethodType.FIND);
 
-    private final EntityMethodType type;
+    private final MethodType type;
 
-    RepositoryOperation(EntityMethodType type) {
+    RepositoryOperation(MethodType type) {
         this.type = type;
     }
 
-    public EntityMethodType getType() {
+    public MethodType getType() {
         return type;
     }
 

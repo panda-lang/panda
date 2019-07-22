@@ -18,7 +18,7 @@ package org.panda_lang.panda.utilities.autodata.data.repository;
 
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityModel;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQuery;
 import org.panda_lang.panda.utilities.autodata.data.query.DataQueryFactory;
 import org.panda_lang.panda.utilities.commons.ArrayUtils;
@@ -27,14 +27,13 @@ import org.panda_lang.panda.utilities.commons.function.ThrowingConsumer;
 import org.panda_lang.panda.utilities.commons.function.ThrowingFunction;
 
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.List;
 
-final class RepositoryProxyMethodGenerator {
+final class ProxyMethodGenerator {
 
     private static final DataQueryFactory QUERY_FACTORY = new DataQueryFactory();
 
-    protected RepositoryProxyMethod generateMethod(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme, Method method) {
+    protected ProxyMethod generateMethod(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel, Method method) {
         List<String> elements = CamelCaseUtils.split(method.getName(), String::toLowerCase);
         RepositoryOperation operation = RepositoryOperation.of(elements.get(0));
 
@@ -42,22 +41,20 @@ final class RepositoryProxyMethodGenerator {
             throw new AutomatedDataException("Unknown operation: '" + elements.get(0) + "' (source: " + method.toGenericString() + ")");
         }
 
-        return new RepositoryProxyMethod(operation, generate(controller, collection, repositoryScheme, method, operation));
+        return new ProxyMethod(operation, generate(controller, collection, repositoryModel, method, operation));
     }
 
-    private MethodFunction generate(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme, Method method, RepositoryOperation operation) {
+    private MethodFunction generate(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel, Method method, RepositoryOperation operation) {
         DataHandler handler = controller.getHandler(collection.getName());
-        EntityScheme entityScheme = repositoryScheme.getCollectionScheme().getEntityScheme();
+        EntityModel entityModel = repositoryModel.getCollectionScheme().getEntityModel();
 
         switch (operation) {
             case CREATE:
                 return createFunction(handler);
             case DELETE:
                 return deleteFunction(handler);
-            case UPDATE:
-                return updateFunction(handler);
             case FIND:
-                return findFunction(handler, entityScheme, method);
+                return findFunction(handler, entityModel, method);
             default:
                 throw new AutomatedDataException("Unsupported operation: " + operation);
         }
@@ -75,15 +72,7 @@ final class RepositoryProxyMethodGenerator {
         };
     }
 
-    @SuppressWarnings("unchecked")
-    private MethodFunction updateFunction(DataHandler handler) {
-        return parameters -> {
-            handler.save(parameters[0], (DataModification[]) Arrays.copyOfRange(parameters, 1, parameters.length));
-            return null;
-        };
-    }
-
-    private MethodFunction findFunction(DataHandler handler, EntityScheme scheme, Method method) {
+    private MethodFunction findFunction(DataHandler handler, EntityModel scheme, Method method) {
         DataQuery query = QUERY_FACTORY.create(scheme, method);
         return parameters -> handler.find(query, parameters);
     }

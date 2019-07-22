@@ -16,8 +16,10 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import org.panda_lang.panda.utilities.autodata.data.transaction.Transactionable;
+import org.panda_lang.panda.utilities.autodata.data.transaction.DataTransaction;
 
-public interface DataEntity extends Transactionable {
+public interface DataEntity {
+
+    DataTransaction transaction(Runnable transaction);
 
 }

@@ -22,14 +22,14 @@ import org.panda_lang.panda.utilities.inject.Injector;
 
 public final class RepositoryFactory {
 
-    private static final RepositorySchemeLoader REPOSITORY_SCHEME_LOADER = new RepositorySchemeLoader();
+    private static final RepositoryModelLoader REPOSITORY_SCHEME_LOADER = new RepositoryModelLoader();
 
-    public RepositoryScheme createRepositoryScheme(Injector injector, CollectionScheme collectionScheme) {
+    public RepositoryModel createRepositoryScheme(Injector injector, CollectionScheme collectionScheme) {
         return REPOSITORY_SCHEME_LOADER.load(injector, collectionScheme);
     }
 
-    public void createRepositoryImplementation(DataController<?> controller, DataCollection collection, RepositoryScheme repositoryScheme) {
-        REPOSITORY_SCHEME_LOADER.generateMethods(controller, collection, repositoryScheme);
+    public void createRepositoryImplementation(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel) {
+        REPOSITORY_SCHEME_LOADER.generateMethods(controller, collection, repositoryModel);
     }
 
 }

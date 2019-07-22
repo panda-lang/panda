@@ -16,30 +16,32 @@
 
 package org.panda_lang.panda.utilities.autodata.data.entity;
 
-import java.lang.reflect.Method;
+public enum MethodType {
 
-public final class EntityMethodScheme {
+    GET,
+    SET,
 
-    private final Method method;
-    private final EntityProperty property;
-    private final EntityMethodType type;
+    ADD,
+    REMOVE,
 
-    EntityMethodScheme(Method method, EntityProperty property, EntityMethodType type) {
-        this.method = method;
-        this.property = property;
-        this.type = type;
-    }
+    IS,
+    HAS,
+    CONTAINS,
 
-    public EntityMethodType getType() {
-        return type;
-    }
+    CREATE,
+    DELETE,
 
-    public EntityProperty getProperty() {
-        return property;
-    }
+    UPDATE,
+    FIND;
 
-    public Method getMethod() {
-        return method;
+    public static MethodType of(String name) {
+        for (MethodType value : values()) {
+            if (value.name().equalsIgnoreCase(name)) {
+                return value;
+            }
+        }
+
+        return null;
     }
 
 }

@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.commons;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.Property;
+import java.util.function.Supplier;
 
-public interface DataRuleProperty {
+public final class FunctionUtils {
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof Property;
+    public static <T> Supplier<T> toSupplier(T value) {
+        return () -> value;
     }
-
-    <T> T getValue();
 
 }

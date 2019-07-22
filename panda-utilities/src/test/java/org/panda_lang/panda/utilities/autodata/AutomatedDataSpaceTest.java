@@ -16,9 +16,11 @@
 
 package org.panda_lang.panda.utilities.autodata;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.entity.DataEntity;
+import org.panda_lang.panda.utilities.autodata.data.transaction.DataTransaction;
 import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataController;
 import org.panda_lang.panda.utilities.autodata.defaults.virtual.InMemoryDataRepository;
 import org.panda_lang.panda.utilities.autodata.orm.As;
@@ -32,6 +34,7 @@ import org.panda_lang.panda.utilities.inject.annotations.Autowired;
 
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 class AutomatedDataSpaceTest {
 
@@ -56,28 +59,41 @@ class AutomatedDataSpaceTest {
         UserService service = collection.getService(UserService.class);
 
         User user = service.createUser("onlypanda");
-        System.out.println("user: " + user);
-        System.out.println("id: " + user.getId());
-        System.out.println("name: " + user.getName());
+        Assertions.assertNotNull(user.getId());
+        Assertions.assertEquals("onlypanda", user.getName());
 
-        user.setName("updated onlypanda");
-        System.out.println("setter: " + user.getName());
+        user.setName("updated panda");
+        Assertions.assertEquals("updated panda", user.getName());
 
-        Optional<User> foundByUser = service.findUserByName("updated onlypanda");
-        System.out.println("found opt by name instance: " + foundByUser.orElse(null));
-        System.out.println("found opt by name username: " + foundByUser.map(User::getName).orElse(null));
+        Optional<User> foundByUser = service.findUserByName("updated panda");
+        Assertions.assertTrue(foundByUser.isPresent());
+        Assertions.assertEquals("updated panda", foundByUser.get().getName());
+        Assertions.assertEquals(user.getId(), foundByUser.get().getId());
 
         User foundById = service.findUserByNameOrId("fake username", user.getId());
-        System.out.println("found by id: " + foundById);
-        System.out.println("found by id username: " + foundById.getName());
+        Assertions.assertEquals(user.getId(), foundById.getId());
+
+        AtomicBoolean succeed = new AtomicBoolean(false);
+        DataTransaction transaction = user.transaction(() -> {
+                    user.setName("variant panda");
+                    user.setName("transactional panda");
+                })
+                .success((attempt, time) -> {
+                    succeed.set(true);
+                });
+        Assertions.assertEquals("updated panda", user.getName());
+
+        transaction.commit();
+        Assertions.assertEquals("transactional panda", user.getName());
+        Assertions.assertTrue(succeed.get());
     }
 
     @Service
     static class SpecialUserService {
 
         @Autowired
-        public SpecialUserService(@Berry("special-users") UserRepository repository) {
-            System.out.println(repository);
+        public SpecialUserService(UserService service, @Berry("special-users") UserRepository repository) {
+            Assertions.assertNotEquals(repository, service.repository);
         }
 
     }
@@ -90,7 +106,6 @@ class AutomatedDataSpaceTest {
         @Autowired
         public UserService(@Berry("users") UserRepository repository) {
             this.repository = repository;
-            System.out.println(repository);
         }
 
         public User createUser(String name) {

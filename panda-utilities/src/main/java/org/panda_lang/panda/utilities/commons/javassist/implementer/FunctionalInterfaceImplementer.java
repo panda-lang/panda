@@ -14,16 +14,18 @@
  * limitations under the License.
  */
 
-package org.panda_lang.panda.utilities.autodata.data.query;
+package org.panda_lang.panda.utilities.commons.javassist.implementer;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.Property;
+import javassist.CannotCompileException;
+import javassist.CtClass;
+import javassist.NotFoundException;
 
-public interface DataRuleProperty {
+import java.util.LinkedHashMap;
 
-    default boolean isEntityProperty() {
-        return getValue() instanceof Property;
+public final class FunctionalInterfaceImplementer {
+
+    public Class<?> generate(String className, Class<?> anInterface, LinkedHashMap<String, CtClass> parameters, CharSequence body) throws CannotCompileException, NotFoundException {
+        return new FunctionalInterfaceImplementerGenerator(className, anInterface, parameters, body.toString()).generate();
     }
-
-    <T> T getValue();
 
 }

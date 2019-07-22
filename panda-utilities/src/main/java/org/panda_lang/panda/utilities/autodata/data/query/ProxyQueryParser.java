@@ -16,8 +16,8 @@
 
 package org.panda_lang.panda.utilities.autodata.data.query;
 
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityScheme;
-import org.panda_lang.panda.utilities.autodata.data.entity.EntityProperty;
+import org.panda_lang.panda.utilities.autodata.data.entity.EntityModel;
+import org.panda_lang.panda.utilities.autodata.data.entity.Property;
 import org.panda_lang.panda.utilities.commons.CamelCaseUtils;
 import org.panda_lang.panda.utilities.commons.collection.Lists;
 import org.panda_lang.panda.utilities.commons.collection.Pair;
@@ -43,7 +43,7 @@ final class ProxyQueryParser {
     private static final String AND = "and";
     private static final String OR = "or";
 
-    protected DataQuery parse(EntityScheme scheme, Method method) {
+    protected DataQuery parse(EntityModel scheme, Method method) {
         List<String> query = Lists.subList(CamelCaseUtils.split(method.getName(), String::toLowerCase), 1);
         Parameter[] parameters = method.getParameters();
 
@@ -53,7 +53,7 @@ final class ProxyQueryParser {
         return new ProxyQuery(method.getReturnType(), queryData);
     }
 
-    private Map<String, DataQueryCategory> toQueryData(EntityScheme scheme, Map<DataQueryCategoryType, List<String>> data) {
+    private Map<String, DataQueryCategory> toQueryData(EntityModel scheme, Map<DataQueryCategoryType, List<String>> data) {
         Map<String, DataQueryCategory> queryData = new HashMap<>();
         AtomicInteger index = new AtomicInteger();
 
@@ -68,11 +68,11 @@ final class ProxyQueryParser {
         return queryData;
     }
 
-    private ProxyQueryRuleScheme toRule(EntityScheme scheme, List<String> rules, AtomicInteger index) {
+    private ProxyQueryRuleScheme toRule(EntityModel scheme, List<String> rules, AtomicInteger index) {
         return new ProxyQueryRuleScheme(rules.stream()
                 .filter(property -> !property.equals(AND))
                 .map(property -> {
-                    Optional<EntityProperty> propertyValue = scheme.getProperty(property);
+                    Optional<Property> propertyValue = scheme.getProperty(property);
                     return new ProxyQueryRuleProperty(propertyValue.isPresent() ? propertyValue.get() : property);
                 })
                 .map(property -> new Pair<>(property, property.isEntityProperty() ? index.getAndIncrement() : -1))

@@ -16,37 +16,60 @@
 
 package org.panda_lang.panda.utilities.autodata.data.transaction;
 
-import java.util.function.BiConsumer;
-import java.util.function.BiPredicate;
+import org.jetbrains.annotations.Nullable;
+import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
+import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 
-public class Transaction {
+import java.util.List;
+import java.util.function.Supplier;
 
-    private final Runnable transaction;
-    private BiPredicate<Integer, Integer> retry;
-    private BiConsumer<Integer, Integer> success;
-    private BiConsumer<Integer, Integer> orElse;
+public class Transaction<T> implements DataTransaction {
 
-    public Transaction(Runnable transaction) {
-        this.transaction = transaction;
+    private final DataHandler<T> handler;
+
+    protected final T entity;
+    protected final Runnable transactionContent;
+    protected final Supplier<List<DataModification>> modificationSupplier;
+    protected DataTransactionCondition retry;
+    protected DataTransactionAction success;
+    protected DataTransactionAction orElse;
+
+    public Transaction(DataHandler<T> handler, T entity, @Nullable Runnable transactionContent, Supplier<List<DataModification>> modificationSupplier) {
+        this.entity = entity;
+        this.handler = handler;
+        this.transactionContent = transactionContent;
+        this.modificationSupplier = modificationSupplier;
     }
 
-    public Transaction retry(BiPredicate<Integer, Integer> retry) {
+    @Override
+    public DataTransaction retry(DataTransactionCondition retry) {
         this.retry = retry;
         return this;
     }
 
-    public Transaction success(BiConsumer<Integer, Integer> success) {
+    @Override
+    public DataTransaction success(DataTransactionAction success) {
         this.success = success;
         return this;
     }
 
-    public Transaction orElse(BiConsumer<Integer, Integer> orElse) {
+    @Override
+    public DataTransaction orElse(DataTransactionAction orElse) {
         this.orElse = orElse;
         return this;
     }
 
+    @Override
     public void commit() {
-        // eee
+        if (transactionContent != null) {
+            transactionContent.run();
+        }
+
+        try {
+            handler.save(new TransactionResult<>(this));
+        } catch (Exception e) {
+            throw new AutomatedDataException("Cannot commit transaction", e);
+        }
     }
 
 }

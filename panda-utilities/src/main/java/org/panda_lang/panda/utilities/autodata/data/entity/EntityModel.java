@@ -20,27 +20,27 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 
-public class EntityScheme {
+public class EntityModel {
 
     private final Class<?> rootClass;
-    private final Map<String, EntityProperty> properties;
-    private final Collection<EntityMethodScheme> methods;
+    private final Map<String, Property> properties;
+    private final Collection<MethodModel> methods;
 
-    EntityScheme(Class<?> rootClass, Map<String, EntityProperty> properties, Collection<EntityMethodScheme> methods) {
+    EntityModel(Class<?> rootClass, Map<String, Property> properties, Collection<MethodModel> methods) {
         this.rootClass = rootClass;
         this.properties = properties;
         this.methods = methods;
     }
 
-    public Optional<EntityProperty> getProperty(String name) {
+    public Optional<Property> getProperty(String name) {
         return Optional.ofNullable(properties.get(name));
     }
 
-    public Collection<EntityMethodScheme> getMethods() {
+    public Collection<MethodModel> getMethods() {
         return methods;
     }
 
-    public Map<String, EntityProperty> getProperties() {
+    public Map<String, Property> getProperties() {
         return properties;
     }
 
