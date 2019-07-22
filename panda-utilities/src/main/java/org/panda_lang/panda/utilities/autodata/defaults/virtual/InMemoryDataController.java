@@ -19,7 +19,7 @@ package org.panda_lang.panda.utilities.autodata.defaults.virtual;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataController;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,7 +32,7 @@ public final class InMemoryDataController<T> implements DataController<T> {
     private final Map<String, InMemoryDataHandler<T>> handlers = new HashMap<>();
 
     @Override
-    public void initializeSchemes(Collection<? extends CollectionScheme> schemes) {
+    public void initializeSchemes(Collection<? extends CollectionModel> schemes) {
         schemes.forEach(scheme -> handlers.put(scheme.getName(), new InMemoryDataHandler<>(this)));
     }
 

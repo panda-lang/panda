@@ -18,12 +18,12 @@ package org.panda_lang.panda.utilities.autodata.data.collection;
 
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityFactory;
 
-final class CollectionSchemeLoader {
+final class CollectionModelLoader {
 
     private static final EntityFactory ENTITY_FACTORY = new EntityFactory();
 
-    public CollectionScheme load(DataCollectionStereotype stereotype) {
-        return new CollectionScheme(stereotype, ENTITY_FACTORY.createEntityScheme(stereotype.getEntityClass()));
+    public CollectionModel load(DataCollectionStereotype stereotype) {
+        return new CollectionModel(stereotype, ENTITY_FACTORY.createEntityScheme(stereotype.getEntityClass()));
     }
 
 }

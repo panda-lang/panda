@@ -17,7 +17,7 @@
 package org.panda_lang.panda.utilities.autodata;
 
 import org.panda_lang.panda.utilities.autodata.data.collection.CollectionFactory;
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollectionStereotype;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
@@ -61,10 +61,10 @@ final class AutomatedDataSpaceInitializer {
 
      */
     protected Collection<? extends DataCollection> initialize(Collection<? extends DataCollectionStereotype> stereotypes) {
-        Collection<CollectionScheme> collectionSchemes = initializeSchemes(stereotypes);
-        automatedDataSpace.getController().initializeSchemes(collectionSchemes);
+        Collection<CollectionModel> collectionModels = initializeSchemes(stereotypes);
+        automatedDataSpace.getController().initializeSchemes(collectionModels);
 
-        Collection<RepositoryModel> repositoryModels = initializeRepositories(collectionSchemes);
+        Collection<RepositoryModel> repositoryModels = initializeRepositories(collectionModels);
         injector.getResources().annotatedWith(Berry.class).assignHandler(initializeBerry(repositoryModels));
 
         Collection<? extends DataCollection> collections = createCollections(repositoryModels);
@@ -73,13 +73,13 @@ final class AutomatedDataSpaceInitializer {
         return collections;
     }
 
-    private Collection<CollectionScheme> initializeSchemes(Collection<? extends DataCollectionStereotype> stereotypes) {
+    private Collection<CollectionModel> initializeSchemes(Collection<? extends DataCollectionStereotype> stereotypes) {
         return stereotypes.stream()
-                .map(CollectionScheme::of)
+                .map(CollectionModel::of)
                 .collect(Collectors.toList());
     }
 
-    private Collection<RepositoryModel> initializeRepositories(Collection<? extends CollectionScheme> schemes) {
+    private Collection<RepositoryModel> initializeRepositories(Collection<? extends CollectionModel> schemes) {
         return schemes.stream()
                 .map(scheme -> REPOSITORY_FACTORY.createRepositoryScheme(injector, scheme))
                 .collect(Collectors.toList());

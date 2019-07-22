@@ -37,14 +37,14 @@ public final class CollectionFactory {
 
     public DataCollection createCollection(DataController<?> controller, Injector injector, RepositoryModel repositoryModel) {
         try {
-            CollectionScheme collectionScheme = repositoryModel.getCollectionScheme();
-            DataHandler<?> dataHandler = controller.getHandler(collectionScheme.getName());
+            CollectionModel collectionModel = repositoryModel.getCollectionScheme();
+            DataHandler<?> dataHandler = controller.getHandler(collectionModel.getName());
 
             Class<? extends DataEntity> entityClass = ENTITY_FACTORY.generateEntityClass(repositoryModel, dataHandler);
             Object service = injector.newInstance(repositoryModel.getCollectionScheme().getServiceClass());
             injector.getResources().on(service.getClass()).assignInstance(service);
 
-            DataCollection collection = createCollection(collectionScheme, entityClass, service);
+            DataCollection collection = createCollection(collectionModel, entityClass, service);
             REPOSITORY_FACTORY.createRepositoryImplementation(controller, collection, repositoryModel);
 
             return collection;
@@ -55,7 +55,7 @@ public final class CollectionFactory {
         }
     }
 
-    public DataCollection createCollection(CollectionScheme scheme, Class<? extends DataEntity> entityClass, Object service) {
+    public DataCollection createCollection(CollectionModel scheme, Class<? extends DataEntity> entityClass, Object service) {
         return new DataCollectionImpl(scheme.getName(), entityClass , service);
     }
 
