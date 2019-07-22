@@ -19,12 +19,12 @@ package org.panda_lang.panda.utilities.autodata.data.collection;
 import org.panda_lang.panda.utilities.autodata.data.entity.EntityModel;
 import org.panda_lang.panda.utilities.autodata.data.repository.DataRepository;
 
-public class CollectionScheme {
+public class CollectionModel {
 
     private final DataCollectionStereotype stereotype;
     private final EntityModel entityModel;
 
-    CollectionScheme(DataCollectionStereotype stereotype, EntityModel entityModel) {
+    CollectionModel(DataCollectionStereotype stereotype, EntityModel entityModel) {
         this.stereotype = stereotype;
         this.entityModel = entityModel;
     }
@@ -45,8 +45,8 @@ public class CollectionScheme {
         return stereotype.getName();
     }
 
-    public static CollectionScheme of(DataCollectionStereotype collectionStereotype) {
-        return new CollectionSchemeLoader().load(collectionStereotype);
+    public static CollectionModel of(DataCollectionStereotype collectionStereotype) {
+        return new CollectionModelLoader().load(collectionStereotype);
     }
 
 }

@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.inject.Injector;
 
@@ -24,8 +24,8 @@ final class RepositoryModelLoader {
 
     private static final ProxyGenerator REPOSITORY_GENERATOR = new ProxyGenerator();
 
-    protected RepositoryModel load(Injector injector, CollectionScheme collectionScheme) {
-        RepositoryModel repositoryModel = REPOSITORY_GENERATOR.generate(collectionScheme);
+    protected RepositoryModel load(Injector injector, CollectionModel collectionModel) {
+        RepositoryModel repositoryModel = REPOSITORY_GENERATOR.generate(collectionModel);
 
         injector.getResources()
                 .on(repositoryModel.getRepository().getClass())

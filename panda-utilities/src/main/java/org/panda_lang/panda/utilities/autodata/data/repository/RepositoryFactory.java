@@ -16,7 +16,7 @@
 
 package org.panda_lang.panda.utilities.autodata.data.repository;
 
-import org.panda_lang.panda.utilities.autodata.data.collection.CollectionScheme;
+import org.panda_lang.panda.utilities.autodata.data.collection.CollectionModel;
 import org.panda_lang.panda.utilities.autodata.data.collection.DataCollection;
 import org.panda_lang.panda.utilities.inject.Injector;
 
@@ -24,8 +24,8 @@ public final class RepositoryFactory {
 
     private static final RepositoryModelLoader REPOSITORY_SCHEME_LOADER = new RepositoryModelLoader();
 
-    public RepositoryModel createRepositoryScheme(Injector injector, CollectionScheme collectionScheme) {
-        return REPOSITORY_SCHEME_LOADER.load(injector, collectionScheme);
+    public RepositoryModel createRepositoryScheme(Injector injector, CollectionModel collectionModel) {
+        return REPOSITORY_SCHEME_LOADER.load(injector, collectionModel);
     }
 
     public void createRepositoryImplementation(DataController<?> controller, DataCollection collection, RepositoryModel repositoryModel) {
