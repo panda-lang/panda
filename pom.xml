@@ -82,7 +82,7 @@
             <dependency>
                 <groupId>info.picocli</groupId>
                 <artifactId>picocli</artifactId>
-                <version>4.0.0</version>
+                <version>4.0.1</version>
             </dependency>
 
             <!-- Reflections -->
@@ -139,13 +139,13 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.5.0</version>
+                <version>5.5.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.5.0</version>
+                <version>5.5.1</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
