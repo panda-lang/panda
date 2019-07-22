@@ -39,7 +39,7 @@ final class EntitySchemeLoader {
             throw new AutomatedDataException("Entity class is not an interface (source: " + entityClass.toGenericString() + ")");
         }
 
-        Map<String, EntitySchemeProperty> properties = new HashMap<>();
+        Map<String, EntityProperty> properties = new HashMap<>();
         Collection<EntityMethodScheme> methods = new ArrayList<>();
 
         for (Method method : entityClass.getDeclaredMethods()) {
@@ -52,18 +52,18 @@ final class EntitySchemeLoader {
         return scheme;
     }
 
-    private void load(Map<String, EntitySchemeProperty> properties, Collection<EntityMethodScheme> methods, Method method) {
+    private void load(Map<String, EntityProperty> properties, Collection<EntityMethodScheme> methods, Method method) {
         EntityMethodScheme schemeMethod = METHOD_LOADER.load(method);
         methods.add(schemeMethod);
 
-        EntitySchemeProperty property = schemeMethod.getProperty();
+        EntityProperty property = schemeMethod.getProperty();
 
         if (!properties.containsKey(property.getName())) {
             properties.put(property.getName(), property);
             return;
         }
 
-        EntitySchemeProperty cachedProperty = properties.get(property.getName());
+        EntityProperty cachedProperty = properties.get(property.getName());
 
         if (cachedProperty.getType().equals(property.getType())) {
             return;

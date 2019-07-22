@@ -23,16 +23,16 @@ import java.util.Optional;
 public class EntityScheme {
 
     private final Class<?> rootClass;
-    private final Map<String, EntitySchemeProperty> properties;
+    private final Map<String, EntityProperty> properties;
     private final Collection<EntityMethodScheme> methods;
 
-    EntityScheme(Class<?> rootClass, Map<String, EntitySchemeProperty> properties, Collection<EntityMethodScheme> methods) {
+    EntityScheme(Class<?> rootClass, Map<String, EntityProperty> properties, Collection<EntityMethodScheme> methods) {
         this.rootClass = rootClass;
         this.properties = properties;
         this.methods = methods;
     }
 
-    public Optional<EntitySchemeProperty> getProperty(String name) {
+    public Optional<EntityProperty> getProperty(String name) {
         return Optional.ofNullable(properties.get(name));
     }
 
@@ -40,7 +40,7 @@ public class EntityScheme {
         return methods;
     }
 
-    public Map<String, EntitySchemeProperty> getProperties() {
+    public Map<String, EntityProperty> getProperties() {
         return properties;
     }
 

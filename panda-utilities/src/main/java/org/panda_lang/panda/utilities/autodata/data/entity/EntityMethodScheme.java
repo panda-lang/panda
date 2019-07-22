@@ -21,10 +21,10 @@ import java.lang.reflect.Method;
 public final class EntityMethodScheme {
 
     private final Method method;
-    private final EntitySchemeProperty property;
+    private final EntityProperty property;
     private final EntityMethodType type;
 
-    EntityMethodScheme(Method method, EntitySchemeProperty property, EntityMethodType type) {
+    EntityMethodScheme(Method method, EntityProperty property, EntityMethodType type) {
         this.method = method;
         this.property = property;
         this.type = type;
@@ -34,7 +34,7 @@ public final class EntityMethodScheme {
         return type;
     }
 
-    public EntitySchemeProperty getProperty() {
+    public EntityProperty getProperty() {
         return property;
     }
 
