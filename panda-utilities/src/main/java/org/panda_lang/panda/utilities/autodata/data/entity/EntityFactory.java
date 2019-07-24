@@ -18,7 +18,6 @@ package org.panda_lang.panda.utilities.autodata.data.entity;
 
 import javassist.CannotCompileException;
 import javassist.NotFoundException;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryModel;
 
 import java.lang.reflect.Method;
@@ -37,8 +36,8 @@ public final class EntityFactory {
         return ENTITY_SCHEME_METHOD_LOADER.load(method);
     }
 
-    public Class<? extends DataEntity> generateEntityClass(RepositoryModel scheme, DataHandler<?> dataHandler) throws CannotCompileException, NotFoundException {
-        return ENTITY_GENERATOR.generate(scheme, dataHandler);
+    public Class<? extends DataEntity> generateEntityClass(RepositoryModel scheme) throws CannotCompileException, NotFoundException {
+        return ENTITY_GENERATOR.generate(scheme);
     }
 
 }

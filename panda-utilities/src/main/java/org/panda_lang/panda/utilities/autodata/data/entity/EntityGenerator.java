@@ -25,7 +25,6 @@ import javassist.CtMethod;
 import javassist.Modifier;
 import javassist.NotFoundException;
 import org.panda_lang.panda.utilities.autodata.AutomatedDataException;
-import org.panda_lang.panda.utilities.autodata.data.repository.DataHandler;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryModel;
 import org.panda_lang.panda.utilities.autodata.data.repository.RepositoryOperation;
 import org.panda_lang.panda.utilities.autodata.data.transaction.DefaultTransaction;
@@ -54,15 +53,15 @@ final class EntityGenerator {
     private static final CtClass[] TRANSACTION_RUN_TYPES = new CtClass[] { EntityGeneratorConstants.CT_RUNNABLE, EntityGeneratorConstants.CT_ARRAY_LIST };
 
     @SuppressWarnings("unchecked")
-    protected Class<? extends DataEntity> generate(RepositoryModel repositoryModel, DataHandler<?> dataHandler) throws NotFoundException, CannotCompileException {
+    protected Class<? extends DataEntity> generate(RepositoryModel repositoryModel) throws NotFoundException, CannotCompileException {
         EntityModel entityModel = repositoryModel.getCollectionScheme().getEntityModel();
-        Class<?> clazz = entityModel.getRootClass();
+        Class<?> entityInterface = entityModel.getRootClass();
 
-        if (!clazz.isInterface()) {
-            throw new AutomatedDataException("Entity class is not an interface (source: " + clazz.toGenericString() + ")");
+        if (!entityInterface.isInterface()) {
+            throw new AutomatedDataException("Entity class is not an interface (source: " + entityInterface.toGenericString() + ")");
         }
 
-        String name = clazz.getPackage().getName() + ".Controlled" + clazz.getSimpleName();
+        String name = entityInterface.getPackage().getName() + ".Controlled" + entityInterface.getSimpleName();
         Optional<Class<? extends DataEntity>> loadedEntityClass = ClassUtils.forName(name);
 
         if (loadedEntityClass.isPresent()) {
@@ -70,7 +69,7 @@ final class EntityGenerator {
         }
 
         CtClass entityClass = ClassPool.getDefault().makeClass(name);
-        entityClass.addInterface(ClassPoolUtils.get(clazz));
+        entityClass.addInterface(ClassPoolUtils.get(entityInterface));
         entityClass.setModifiers(Modifier.PUBLIC);
 
         generateDefaultFields(entityClass);
